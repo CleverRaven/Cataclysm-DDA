@@ -77,6 +77,9 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
                          const std::string &ammo_type = "" )
 {
     shooter.remove_weapon();
+    if( !shooter.is_wearing( "backpack" ) ) {
+        shooter.worn.push_back( item( "backpack" ) );
+    }
 
     const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
@@ -97,7 +100,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
         gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity() );
     }
     for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ) );
+        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
     }
     shooter.wield( gun );
 }
@@ -240,9 +243,9 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 
 static void assert_encumbrance( npc &shooter, int encumbrance )
 {
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : shooter.get_all_body_parts() ) {
         INFO( "Body Part: " << body_part_name( bp ) );
-        REQUIRE( shooter.encumb( bp ) == encumbrance );
+        REQUIRE( shooter.encumb( bp->token ) == encumbrance );
     }
 }
 
@@ -252,6 +255,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
+    shooter.worn.push_back( item( "backpack" ) );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
 

@@ -48,6 +48,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -102,6 +103,336 @@ static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+
+class target_ui
+{
+    public:
+        /* None of the public members (except ammo and range) should be modified during execution */
+
+        enum class TargetMode {
+            Fire,
+            Throw,
+            ThrowBlind,
+            Turrets,
+            TurretManual,
+            Reach,
+            Spell
+        };
+
+        // Interface mode
+        TargetMode mode = TargetMode::Fire;
+        // Weapon being fired/thrown
+        item *relevant = nullptr;
+        // Cached selection range from player's position
+        int range = 0;
+        // Cached current ammo to display
+        const itype *ammo = nullptr;
+        // Turret being manually fired
+        turret_data *turret = nullptr;
+        // Turrets being fired (via vehicle controls)
+        const std::vector<vehicle_part *> *vturrets = nullptr;
+        // Vehicle that turrets belong to
+        vehicle *veh = nullptr;
+        // Spell being cast
+        spell *casting = nullptr;
+        // Spell cannot fail
+        bool no_fail = false;
+        // Spell does not require mana
+        bool no_mana = false;
+
+        enum class ExitCode {
+            Abort,
+            Fire,
+            Timeout,
+            Reload
+        };
+
+        // Initialize UI and run the event loop.
+        // Uses public members to determine UI contents
+        // If exit_code != nullptr, exit code will be written into provided address
+        target_handler::trajectory run( player &pc, ExitCode *exit_code = nullptr );
+
+    private:
+        enum class Status {
+            Good, // All UI elements are enabled
+            BadTarget, // Bad 'dst' selected; forbid aiming/firing
+            OutOfAmmo, // Selected gun mode is out of ammo; forbid moving cursor,aiming and firing
+            OutOfRange // Selected target is out of range of current gun mode; forbid aiming/firing
+        };
+
+        // Ui status (affects which UI controls are temporarily disabled)
+        Status status;
+
+        // Current trajectory
+        std::vector<tripoint> traj;
+        // Aiming source (player's position)
+        tripoint src;
+        // Aiming destination (cursor position)
+        // Use set_cursor_pos() to modify
+        tripoint dst;
+        // Creature currently under cursor. nullptr if aiming at empty tile,
+        // yourself or a creature you cannot see
+        Creature *dst_critter = nullptr;
+        // List of visible hostile targets
+        std::vector<Creature *> targets;
+
+        // 'true' if map has z levels and 3D fov is on
+        bool allow_zlevel_shift;
+        // Snap camera to cursor. Can be permanently toggled in settings
+        // or temporarily in this window
+        bool snap_to_target;
+        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
+        // responsible for moving cursor will shift view instead.
+        bool shifting_view = false;
+
+        // Compact layout
+        bool compact;
+        // Tiny layout - when extremely short on space
+        bool tiny;
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
+        bool narrow;
+        // Window
+        catacurses::window w_target;
+        // Input context
+        input_context ctxt;
+
+        /* These members are relevant for TargetMode::Fire */
+        // Weapon sight dispersion
+        int sight_dispersion = 0;
+        // List of available weapon aim types
+        std::vector<aim_type> aim_types;
+        // Currently selected aim mode
+        std::vector<aim_type>::iterator aim_mode;
+        // 'Recoil' value the player will reach if they
+        // start aiming at cursor position. Equals player's
+        // 'recoil' while they are actively spending moves to aim,
+        // but increases the further away the new aim point will be
+        // relative to the current one.
+        double predicted_recoil;
+
+        // For AOE spells, list of tiles affected by the spell
+        // relevant for TargetMode::Spell
+        std::set<tripoint> spell_aoe;
+
+        // Represents a turret and a straight line from that turret to target
+        struct turret_with_lof {
+            vehicle_part *turret;
+            std::vector<tripoint> line;
+        };
+
+        // List of vehicle turrets in range (out of those listed in 'vturrets')
+        std::vector<turret_with_lof> turrets_in_range;
+
+        // If true, draws turret lines
+        // relevant for TargetMode::Turrets
+        bool draw_turret_lines = false;
+
+        // Create window and set up input context
+        void init_window_and_input( player &pc );
+
+        // Handle input related to cursor movement.
+        // Returns 'true' if action was recognized and processed.
+        // 'skip_redraw' is set to 'true' if there is no need to redraw the UI.
+        bool handle_cursor_movement( player &pc, const std::string &action, bool &skip_redraw );
+
+        // Set cursor position. If new position is out of range,
+        // selects closest position in range.
+        // Returns 'false' if cursor position did not change
+        bool set_cursor_pos( player &pc, const tripoint &new_pos );
+
+        // Called when range/ammo changes (or may have changed)
+        void on_range_ammo_changed( player &pc );
+
+        // Updates 'targets' for current range
+        void update_target_list( player &pc );
+
+        // Tries to find something to aim at.
+        // reentered - true if UI was re-entered (e.g. during multi-turn aiming)
+        // Validates pc.last_target and pc.last_target_pos.
+        // Sets 'new_dst' as the initial aiming point.
+        // Returns 'true' if we can proceed with aim-and-shoot.
+        bool choose_initial_target( player &pc, bool reentered, tripoint &new_dst );
+
+        // Update 'status' variable
+        void update_status();
+
+        // Calculates distance from 'src'. For consistency, prefer using this over rl_dist.
+        int dist_fn( const tripoint &p );
+
+        // Checks if player can see target. For consistency, prefer using this over pc.sees()
+        bool pl_can_target( const player &pc, const Creature *cr );
+
+        // Set creature (or tile) under cursor as player's last target
+        void set_last_target( player &pc );
+
+        // Prompts player to confirm attack on neutral NPC
+        bool confirm_non_enemy_target();
+
+        // Toggle snap-to-target
+        void toggle_snap_to_target( player &pc );
+
+        // Cycle targets. 'direction' is either 1 or -1
+        void cycle_targets( player &pc, int direction );
+
+        // Set new view offset. Updates map cache if necessary
+        void set_view_offset( player &pc, const tripoint &new_offset );
+
+        // Updates 'turrets_in_range'
+        void update_turrets_in_range();
+
+        // Recalculate 'recoil' penalty. This should be called if
+        // player's 'recoil' value has been modified
+        // Relevant for TargetMode::Fire
+        void recalc_aim_turning_penalty( player &pc );
+
+        // Apply penalty to player's 'recoil' value based on
+        // how much they moved their aim point.
+        // Relevant for TargetMode::Fire
+        void apply_aim_turning_penalty( player &pc );
+
+        // Switch firing mode.
+        void action_switch_mode( player &pc );
+
+        // Switch ammo. Returns 'false' if requires a reloading UI.
+        bool action_switch_ammo( player &pc );
+
+        // Aim for 10 turns. Returns 'false' if ran out of moves
+        bool action_aim( player &pc );
+
+        // Aim and shoot. Returns 'false' if ran out of moves
+        bool action_aim_and_shoot( player &pc, const std::string &action );
+
+        // Drawing routines
+        void draw( player &pc );
+
+        // Draw terrain with UI-specific overlays
+        void draw_terrain( player &pc );
+
+        // Draw aiming window
+        void draw_ui_window( player &pc );
+
+        // Generate ui window title
+        std::string uitext_title();
+
+        // Generate flavor text for 'Fire!' key
+        std::string uitext_fire();
+
+        void draw_window_title();
+        void draw_help_notice();
+
+        // Draw list of available controls at the bottom of the window.
+        // text_y - first free line counting from the top
+        void draw_controls_list( int text_y );
+
+        void panel_cursor_info( int &text_y );
+        void panel_gun_info( int &text_y );
+        void panel_recoil( player &pc, int &text_y );
+        void panel_spell_info( player &pc, int &text_y );
+        void panel_target_info( int &text_y, bool fill_with_blank_if_no_target );
+        void panel_fire_mode_aim( player &pc, int &text_y );
+        void panel_turret_list( int &text_y );
+
+        // On-selected-as-target checks that act as if they are on-hit checks.
+        // `harmful` is `false` if using a non-damaging spell
+        void on_target_accepted( player &pc, bool harmful );
+};
+
+target_handler::trajectory target_handler::mode_fire( player &pc, item &weapon,
+        bool &reload_requested )
+{
+    target_ui ui = target_ui();
+    ui.mode = target_ui::TargetMode::Fire;
+    ui.relevant = &weapon;
+    gun_mode gun = weapon.gun_current_mode();
+    ui.range = gun.target->gun_range( &pc );
+    ui.ammo = gun->ammo_data();
+
+    target_ui::ExitCode exit_code;
+    trajectory result = ui.run( pc, &exit_code );
+    reload_requested = exit_code == target_ui::ExitCode::Reload;
+    return result;
+}
+
+target_handler::trajectory target_handler::mode_throw( player &pc, item &relevant,
+        bool blind_throwing )
+{
+    target_ui ui = target_ui();
+    ui.mode = blind_throwing ? target_ui::TargetMode::ThrowBlind : target_ui::TargetMode::Throw;
+    ui.relevant = &relevant;
+    ui.range = pc.throw_range( relevant );
+
+    return ui.run( pc );
+}
+
+target_handler::trajectory target_handler::mode_reach( player &pc, item &weapon )
+{
+    target_ui ui = target_ui();
+    ui.mode = target_ui::TargetMode::Reach;
+    ui.relevant = &weapon;
+    ui.range = weapon.current_reach_range( pc );
+
+    return ui.run( pc );
+}
+
+target_handler::trajectory target_handler::mode_turret_manual( player &pc, turret_data &turret )
+{
+    target_ui ui = target_ui();
+    ui.mode = target_ui::TargetMode::TurretManual;
+    ui.turret = &turret;
+    ui.relevant = &*turret.base();
+    ui.range = turret.range();
+    ui.ammo = turret.ammo_data();
+
+    return ui.run( pc );
+}
+
+target_handler::trajectory target_handler::mode_turrets( player &pc, vehicle &veh,
+        const std::vector<vehicle_part *> &turrets )
+{
+    // Find radius of a circle centered at u encompassing all points turrets can aim at
+    // FIXME: this calculation is fine for square distances, but results in an underestimation
+    //        when used with real circles
+    int range_total = 0;
+    for( vehicle_part *t : turrets ) {
+        int range = veh.turret_query( *t ).range();
+        tripoint pos = veh.global_part_pos3( *t );
+
+        int res = 0;
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( range, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( -range, 0 ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, range ) ) );
+        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -range ) ) );
+        range_total = std::max( range_total, res );
+    }
+
+    target_ui ui = target_ui();
+    ui.mode = target_ui::TargetMode::Turrets;
+    ui.veh = &veh;
+    ui.vturrets = &turrets;
+    ui.range = range_total;
+
+    return ui.run( pc );
+}
+
+target_handler::trajectory target_handler::mode_spell( player &pc, spell &casting, bool no_fail,
+        bool no_mana )
+{
+    target_ui ui = target_ui();
+    ui.mode = target_ui::TargetMode::Spell;
+    ui.casting = &casting;
+    ui.range = casting.range();
+    ui.no_fail = no_fail;
+    ui.no_mana = no_mana;
+
+    return ui.run( pc );
+}
+
+target_handler::trajectory target_handler::mode_spell( player &pc, spell_id sp, bool no_fail,
+        bool no_mana )
+{
+    return mode_spell( pc, g->u.magic.get_spell( sp ), no_fail, no_mana );
+}
 
 bool targeting_data::is_valid() const
 {
@@ -525,21 +856,20 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     for( item *mod : gun.gunmods() ) {
         mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
     }
-    // apply delayed recoil
-    recoil += delay;
-    if( is_mech_weapon ) {
-        // mechs can handle recoil far better. they are built around their main gun.
-        recoil = recoil / 2;
-    }
-    // Reset aim for bows and other reload-and-shoot weapons.
     if( gun.has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        // Reset aim for bows and other reload-and-shoot weapons.
         recoil = MAX_RECOIL;
+    } else {
+        // apply delayed recoil
+        recoil += delay;
+        if( is_mech_weapon ) {
+            // mechs can handle recoil far better. they are built around their main gun.
+            // TODO: shouldn't this affect only recoil accumulated during this function?
+            recoil = recoil / 2;
+        }
+        // Cap
+        recoil = std::min( MAX_RECOIL, recoil );
     }
-    // Cap
-    recoil = std::min( MAX_RECOIL, recoil );
-
-    // Reset last target pos
-    last_target_pos = cata::nullopt;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_attack( *this, *gun.type );
@@ -653,11 +983,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const int move_cost = throw_cost( *this, to_throw );
     mod_moves( -move_cost );
 
+    const int throwing_skill = get_skill_level( skill_throw );
     units::volume volume = to_throw.volume();
     units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) )
-                               + ( weight / 10_gram ) + 200 ) * -1;
     bool throw_assist = false;
     int throw_assist_str = 0;
     if( is_mounted() ) {
@@ -669,7 +998,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         }
     }
     if( !throw_assist ) {
-        mod_stamina( stamina_cost );
+        const int stamina_cost = get_standard_stamina_cost( &thrown );
+        mod_stamina( stamina_cost + throwing_skill );
     }
 
     const skill_id &skill_used = skill_throw;
@@ -716,7 +1046,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
+                       ( thrown.contents.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
+                       100;
 
     // Add some flags to the projectile
     if( weight > 500_gram ) {
@@ -800,152 +1131,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
     // Reset last target pos
     last_target_pos = cata::nullopt;
+    recoil = MAX_RECOIL;
 
     return dealt_attack;
-}
-
-static std::string print_recoil( const player &p )
-{
-    if( p.weapon.is_gun() ) {
-        const int val = p.recoil_total();
-        const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
-        const int recoil_range = MAX_RECOIL - min_recoil;
-        std::string level;
-        if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
-            level = pgettext( "amount of backward momentum", "<color_red>High</color>" );
-        } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            level = pgettext( "amount of backward momentum", "<color_yellow>Medium</color>" );
-        } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
-            level = pgettext( "amount of backward momentum", "<color_light_green>Low</color>" );
-        } else {
-            level = pgettext( "amount of backward momentum", "<color_cyan>None</color>" );
-        }
-        return string_format( _( "Recoil: %s" ), level );
-    }
-    return std::string();
-}
-
-// Draws the static portions of the targeting menu,
-// returns the number of lines used to draw instructions.
-static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
-                                  target_mode mode, input_context &ctxt,
-                                  const std::vector<aim_type> &aim_types, bool tiny,
-                                  bool grey_out_firing_controls = false )
-{
-    draw_border( w_target );
-    // Draw the "title" of the window.
-    mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
-    std::string title;
-
-    switch( mode ) {
-        case TARGET_MODE_FIRE:
-        case TARGET_MODE_TURRET_MANUAL:
-            title = string_format( _( "Firing %s" ), name );
-            break;
-
-        case TARGET_MODE_THROW:
-            title = string_format( _( "Throwing %s" ), name );
-            break;
-
-        case TARGET_MODE_THROW_BLIND:
-            title = string_format( _( "Blind throwing %s" ), name );
-            break;
-
-        default:
-            title = _( "Set target" );
-    }
-
-    trim_and_print( w_target, point( 4, 0 ), getmaxx( w_target ) - 7, c_red, title );
-    wprintz( w_target, c_white, " >" );
-
-    // Draw the help contents at the bottom of the window, leaving room for monster description
-    // and aiming status to be drawn dynamically.
-    // The - 2 accounts for the window border.
-    // If tiny is set we're critically low on space, let the final line overwrite the border.
-    int text_y = getmaxy( w_target ) - ( tiny ? 1 : 2 );
-    if( is_mouse_enabled() ) {
-        // Reserve a line for mouse instructions.
-        --text_y;
-    }
-
-    // Reserve lines for aiming and firing instructions.
-    if( mode == TARGET_MODE_FIRE ) {
-        text_y -= ( 3 + aim_types.size() );
-    } else {
-        text_y -= 2;
-    }
-
-    // The -1 is the -2 from above, but adjusted since this is a total, not an index.
-    int lines_used = getmaxy( w_target ) - 1 - text_y;
-    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "Move cursor to target with directional keys" ) );
-
-    const auto front_or = [&]( const std::string & s, const char fallback ) {
-        const auto keys = ctxt.keys_bound_to( s );
-        return keys.empty() ? fallback : keys.front();
-    };
-
-    nc_color fire_color = grey_out_firing_controls ? c_light_gray : c_white;
-
-    std::string label_fire;
-    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
-        label_fire = to_translation( "[Hotkey] to throw", "to throw" ).translated();
-    } else if( mode == TARGET_MODE_REACH ) {
-        label_fire = to_translation( "[Hotkey] to attack", "to attack" ).translated();
-    } else if( mode == TARGET_MODE_SPELL ) {
-        label_fire = to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
-    } else {
-        label_fire = to_translation( "[Hotkey] to fire", "to fire" ).translated();
-    }
-
-    auto label_cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-    int text_x = utf8_width( label_cycle ) + 2; // '2' for border + space at the end
-    mvwprintz( w_target, point( 1, text_y ), c_white, label_cycle );
-    mvwprintz( w_target, point( text_x, text_y++ ), fire_color, "[%c] %s.", front_or( "FIRE", ' ' ),
-               label_fire );
-
-    mvwprintz( w_target, point( 1, text_y++ ), c_white,
-               _( "[%c] target self; [%c] toggle snap-to-target" ),
-               front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
-
-    if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "[%c] to steady your aim.  (10 moves)" ),
-                   front_or( "AIM", ' ' ) );
-        std::string aim_and_fire;
-        for( const auto &e : aim_types ) {
-            if( e.has_threshold ) {
-                aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
-            }
-        }
-        mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch aiming modes." ),
-                   front_or( "SWITCH_AIM", ' ' ) );
-    }
-
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch firing modes." ),
-                   front_or( "SWITCH_MODE", ' ' ) );
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
-                   front_or( "SWITCH_AMMO", ' ' ) );
-    }
-
-    if( is_mouse_enabled() ) {
-        const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
-        int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
-        mvwprintz( w_target, point( 1, text_y ), c_white, label_mouse );
-        mvwprintz( w_target, point( text_x, text_y ), fire_color, _( "RMB: Fire" ) );
-    }
-    return lines_used;
-}
-
-static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
-{
-    for( size_t i = 0; i < t.size(); ++i ) {
-        if( t[i]->pos() == tpos ) {
-            return static_cast<int>( i );
-        }
-    }
-    return -1;
 }
 
 static void do_aim( player &p, const item &relevant, const double min_recoil )
@@ -1043,17 +1231,26 @@ static std::string get_colored_bar( const double val, const int width, const std
 }
 
 static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number,
-                                target_mode mode, input_context &ctxt, const item &ranged_weapon,
+                                target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
 {
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+    int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    const int bars_pad = 3; // Padding for "bars" to fit moves_to_fire value.
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type != "numbers" ) {
+        window_width -= bars_pad;
+    }
+
+    std::string label_m = _( "Moves" );
+    std::vector<std::string> t_aims( 4 ), t_confidence( 16 );
+    int aim_iter = 0, conf_iter = 0;
 
     nc_color col = c_dark_gray;
 
     std::vector<aim_type> aim_types;
-    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+    if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
         aim_types = get_default_aim_type();
     } else {
         aim_types = p.get_aim_types( ranged_weapon );
@@ -1061,12 +1258,38 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
     if( display_type != "numbers" ) {
         std::string symbols;
-        for( const confidence_rating &cr : confidence_config ) {
-            symbols += string_format( " <color_%s>%s</color> = %s", cr.color, cr.symbol,
-                                      pgettext( "aim_confidence", cr.label.c_str() ) );
+        int column_number = 1;
+        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+            std::string label = _( "Symbols:" );
+            mvwprintw( w, point( column_number, line_number ), label );
+            column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
-        print_colored_text( w, point( 1, line_number++ ), col, col, string_format(
-                                _( "Symbols:%s" ), symbols ) );
+        for( const confidence_rating &cr : confidence_config ) {
+            std::string label = pgettext( "aim_confidence", cr.label.c_str() );
+            std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
+                                                 label );
+            int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
+            if( ( window_width + bars_pad - column_number ) < line_len ) {
+                column_number = 1;
+                line_number++;
+            }
+            print_colored_text( w, point( column_number, line_number ), col, col, symbols );
+            column_number += line_len;
+        }
+        line_number++;
+    }
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
+        std::string symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
+                                 " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
+        fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
+                        c_dark_gray, symbols );
+        int len = utf8_width( symbols ) - 96; // 96 to subtract color codes
+        if( len > window_width + bars_pad ) {
+            line_number++;
+        }
+        for( int i = 0; i < window_width; i++ ) {
+            mvwprintw( w, point( i + 1, line_number ), "-" );
+        }
     }
 
     const auto front_or = [&]( const std::string & s, const char fallback ) {
@@ -1077,7 +1300,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
         int threshold = MAX_RECOIL;
-        std::string label = _( "Current Aim" );
+        std::string label = _( "Current" );
+        std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
@@ -1087,7 +1311,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         int moves_to_fire;
-        if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+        if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
             moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
@@ -1095,24 +1319,51 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
 
         auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
-        print_colored_text( w, point( 1, line_number++ ), col, col,
-                            string_format( _( "<color_white>[%s]</color> %s: Moves to fire: <color_light_blue>%d</color>" ),
-                                           hotkey, label, moves_to_fire ) );
+        if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+            if( display_type == "numbers" ) {
+                t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
+                t_confidence[( aim_iter * 4 ) + 3] = string_format( "<color_light_blue>%d</color>", moves_to_fire );
+            } else {
+                print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+                                    aim_l ) );
+                right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
+                right_print( w, line_number, 1, c_light_blue, string_format( "%d", moves_to_fire ) );
+            }
+        } else {
+            print_colored_text( w, point( 1, line_number++ ), col, col,
+                                string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
+                                                  "<color_light_blue>%d</color>" ),
+                                               hotkey, label, aim_l, moves_to_fire ) );
+        }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
 
         if( display_type == "numbers" ) {
-            int last_chance = 0;
-            std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-            [&]( const confidence_rating & config ) {
-                // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-                int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
-                last_chance += chance;
-                return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
-                                      config.label.c_str() ), config.color, chance );
-            }, enumeration_conjunction::none );
-            line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
-                                                c_dark_gray, confidence_s );
+            if( panel_type == "compact" || panel_type == "labels-narrow" ) {
+                int last_chance = 0;
+                for( const confidence_rating &cr : confidence_config ) {
+                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
+                    last_chance += chance;
+                    t_confidence[conf_iter] = string_format( "<color_%s>%3d%%</color>", cr.color, chance );
+                    conf_iter++;
+                    if( conf_iter == ( aim_iter * 4 ) + 3 ) {
+                        conf_iter++;
+                    }
+                }
+                aim_iter++;
+            } else {
+                int last_chance = 0;
+                std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+                [&]( const confidence_rating & config ) {
+                    // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+                    int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
+                    last_chance += chance;
+                    return string_format( "%s: <color_%s>%3d%%</color>", pgettext( "aim_confidence",
+                                          config.label.c_str() ), config.color, chance );
+                }, enumeration_conjunction::none );
+                line_number += fold_and_print_from( w, point( 1, line_number ), window_width, 0,
+                                                    c_dark_gray, confidence_s );
+            }
         } else {
             std::vector<std::tuple<double, char, std::string>> confidence_ratings;
             std::transform( confidence_config.begin(), confidence_config.end(),
@@ -1129,6 +1380,15 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
     }
 
+    // Draw tables for compact Numbers display
+    if( ( panel_type == "compact" || panel_type == "labels-narrow" )
+        && display_type == "numbers" ) {
+        const std::string divider = "|";
+        int left_pad = 10, columns = 4;
+        insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
+        insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
+        line_number = line_number + 4; // 4 to account for the tables
+    }
     return line_number;
 }
 
@@ -1179,33 +1439,15 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, ctxt, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
+                                dispersion,
                                 confidence_config,
                                 range, target_size, predicted_recoil );
 }
 
-static int list_turrets_in_range( vehicle *veh, const std::vector<vehicle_part *> &turrets,
-                                  const catacurses::window &w, int line_number, const tripoint &target )
-{
-    std::vector<std::string> in_range;
-    for( vehicle_part *t : turrets ) {
-        if( veh->turret_query( *t ).in_range( target ) ) {
-            in_range.push_back( string_format( "*  %s", t->name() ) );
-        }
-    }
-
-    mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), in_range.size() );
-    for( const std::string &text : in_range ) {
-        nc_color col = c_white;
-        print_colored_text( w, point( 1, line_number++ ), col, c_white, text );
-    }
-
-    return line_number;
-}
-
-static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
-                           input_context &ctxt,
-                           const item &weapon, const tripoint &target_pos, bool is_blind_throw )
+static void draw_throw_aim( const player &p, const catacurses::window &w, int &text_y,
+                            input_context &ctxt,
+                            const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
@@ -1230,11 +1472,12 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
     const auto &confidence_config = target != nullptr ?
                                     confidence_config_critter : confidence_config_object;
 
-    const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
-            TARGET_MODE_THROW;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
-                                confidence_config,
-                                range, target_size );
+    const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
+            target_ui::TargetMode::ThrowBlind :
+            target_ui::TargetMode::Throw;
+    text_y = print_ranged_chance( p, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
+                                  confidence_config,
+                                  range, target_size );
 }
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
@@ -1259,1036 +1502,21 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
     }
     thresholds_it = thresholds.begin();
-    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
+    aim_types.push_back( aim_type { _( "Regular" ), "AIMED_SHOT", _( "[%c] to aim and fire." ),
                                     true, *thresholds_it } );
     thresholds_it++;
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
+        aim_types.push_back( aim_type { _( "Careful" ), "CAREFUL_SHOT",
                                         _( "[%c] to take careful aim and fire." ), true,
                                         *thresholds_it } );
         thresholds_it++;
     }
     if( thresholds_it != thresholds.end() ) {
-        aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
+        aim_types.push_back( aim_type { _( "Precise" ), "PRECISE_SHOT",
                                         _( "[%c] to take precise aim and fire." ), true,
                                         *thresholds_it } );
     }
     return aim_types;
-}
-
-static void update_targets( player &pc, int range, std::vector<Creature *> &targets, int &idx,
-                            const tripoint &src, tripoint &dst )
-{
-    targets = pc.get_targetable_creatures( range );
-
-    // Convert and check last_target_pos is a valid aim point
-    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
-    if( pc.last_target_pos ) {
-        local_last_tgt_pos = g->m.getlocal( *pc.last_target_pos );
-        if( rl_dist( src, *local_last_tgt_pos ) > range ) {
-            local_last_tgt_pos = cata::nullopt;
-        }
-    }
-
-    if( targets.empty() ) {
-        idx = -1;
-
-        if( pc.last_target_pos ) {
-
-            if( local_last_tgt_pos ) {
-                dst = *local_last_tgt_pos;
-            }
-            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
-                pc.has_activity( ACT_AIM ) ) {
-                //We lost our target. Stop auto aiming.
-                pc.cancel_activity();
-            }
-
-        } else {
-            const std::vector<tripoint> adjacent = closest_tripoints_first( dst, range );
-            const auto target_spot = std::find_if( adjacent.begin(), adjacent.end(),
-            [&pc]( const tripoint & pt ) {
-                return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
-            } );
-
-            if( target_spot != adjacent.end() ) {
-                dst = *target_spot;
-            }
-        }
-        return;
-    }
-
-    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
-    } );
-
-    // TODO: last_target should be member of target_handler
-    const auto iter = std::find( targets.begin(), targets.end(), pc.last_target.lock().get() );
-
-    if( iter != targets.end() ) {
-        idx = std::distance( targets.begin(), iter );
-        dst = targets[idx]->pos();
-        pc.last_target_pos = cata::nullopt;
-    } else {
-        idx = 0;
-        // No remembered target creature, if we have a remembered aim point, use that.
-        if( local_last_tgt_pos ) {
-            dst = *local_last_tgt_pos;
-        } else {
-            // If we don't have an aim point either, pick the nearest target.
-            dst = targets[0]->pos();
-            pc.recoil = MAX_RECOIL;
-        }
-        pc.last_target.reset();
-    }
-}
-
-// TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo, turret_data *turret, vehicle *veh,
-        const std::vector<vehicle_part *> &vturrets )
-{
-    // TODO: this should return a reference to a static vector which is cleared on each call.
-    static const std::vector<tripoint> empty_result{};
-    std::vector<tripoint> ret;
-
-    int sight_dispersion = 0;
-    if( relevant ) {
-        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
-    }
-
-    const bool allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
-
-    const tripoint src = pc.pos();
-    tripoint dst = pc.pos();
-
-    std::vector<Creature *> t;
-    int target = 0;
-
-    update_targets( pc, range, t, target, src, dst );
-
-    double recoil_pc = pc.recoil;
-    tripoint recoil_pos = dst;
-
-    bool compact = TERMY < 41;
-    bool tiny = TERMY < 31;
-
-    // Default to the maximum window size we can use.
-    int height = 31;
-    int width = 55;
-    int top = 0;
-    if( tiny ) {
-        // If we're extremely short on space, use the whole sidebar.
-        height = TERMY;
-    } else if( compact ) {
-        // Cover up more low-value ui elements if we're tight on space.
-        height = 25;
-    }
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
-
-    input_context ctxt( "TARGET" );
-    ctxt.set_iso( true );
-    // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be written on window border.
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_directions();
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "FIRE" );
-    ctxt.register_action( "NEXT_TARGET" );
-    ctxt.register_action( "PREV_TARGET" );
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
-    ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
-
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        ctxt.register_action( "SWITCH_MODE" );
-        ctxt.register_action( "SWITCH_AMMO" );
-    }
-    if( mode == TARGET_MODE_FIRE ) {
-        ctxt.register_action( "AIM" );
-        ctxt.register_action( "SWITCH_AIM" );
-    }
-
-    std::vector<aim_type> aim_types;
-    std::vector<aim_type>::iterator aim_mode;
-
-    if( mode == TARGET_MODE_FIRE ) {
-        // get_aim_types works for non-guns (null item)
-        aim_types = pc.get_aim_types( relevant ? *relevant : null_item_reference() );
-        for( aim_type &type : aim_types ) {
-            if( type.has_threshold ) {
-                ctxt.register_action( type.action );
-            }
-        }
-        aim_mode = aim_types.begin();
-    }
-
-    // TODO: this assumes that relevant == null means firing turrets, but that may not
-    // always be the case. Consider passing a name into this function.
-    int num_instruction_lines = draw_targeting_window( w_target,
-                                relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
-
-    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
-
-    const auto set_last_target = [&pc]( const tripoint & dst ) {
-        pc.last_target_pos = g->m.getabs( dst );
-        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
-            pc.last_target = g->shared_from( *critter_ptr );
-        } else {
-            pc.last_target.reset();
-        }
-    };
-
-    const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
-        if( dst == pc.pos() ) {
-            return true;
-        }
-        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
-            const npc &who = *who_;
-            if( who.guaranteed_hostile() ) {
-                return true;
-            }
-            if( g->u.sees( who ) ) {
-                return query_yn( _( "Really attack %s?" ), who.name );
-            }
-        }
-        return true;
-    };
-
-    auto recalc_recoil = [&recoil_pc, &recoil_pos, &pc]( tripoint & dst ) {
-        if( pc.pos() == dst || pc.pos() == recoil_pos ) {
-            return MAX_RECOIL;
-        }
-        static const double recoil_per_deg = MAX_RECOIL / 180;
-
-        const double phi = std::fmod( std::abs( coord_to_angle( pc.pos(), dst ) -
-                                                coord_to_angle( pc.pos(), recoil_pos ) ),
-                                      360.0 );
-        const double angle = phi > 180.0 ? 360.0 - phi : phi;
-
-        return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
-    };
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    bool redraw = true;
-    const tripoint old_offset = pc.view_offset;
-    do {
-        ret = g->m.find_clear_path( src, dst );
-
-        // This chunk of code handles shifting the aim point around
-        // at maximum range when using circular distance.
-        // The range > 1 check ensures that you can always at least hit adjacent squares.
-        if( trigdist && range > 1 && std::round( trig_dist( src, dst ) ) > range ) {
-            bool cont = true;
-            tripoint cp = dst;
-            for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( std::round( trig_dist( src, ret[i] ) ) > range ) {
-                    ret.resize( i );
-                    cont = false;
-                } else {
-                    cp = ret[i];
-                }
-            }
-            dst = cp;
-        }
-        tripoint center;
-        if( snap_to_target ) {
-            center = dst;
-        } else {
-            center = pc.pos() + pc.view_offset;
-        }
-        if( redraw ) {
-            // Clear the target window.
-            for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
-                // Clear width excluding borders.
-                for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
-                    mvwputch( w_target, point( j, i ), c_white, ' ' );
-                }
-            }
-            g->draw_ter( center, true );
-            int line_number = 1;
-            Creature *critter = g->critter_at( dst, true );
-            const int relative_elevation = dst.z - pc.pos().z;
-            if( dst != src ) {
-                // Only draw those tiles which are on current z-level
-                auto ret_this_zlevel = ret;
-                ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-                [&center]( const tripoint & pt ) {
-                    return pt.z != center.z;
-                } ), ret_this_zlevel.end() );
-                // Only draw a highlighted trajectory if we can see the endpoint.
-                // Provides feedback to the player, and avoids leaking information
-                // about tiles they can't see.
-                g->draw_line( dst, center, ret_this_zlevel );
-
-                // Print to target window
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                           rl_dist( src, dst ), range, relative_elevation, t.size() );
-
-            } else {
-                mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                           relative_elevation, t.size() );
-            }
-
-            // Skip blank lines if we're short on space.
-            if( !compact ) {
-                line_number++;
-            }
-            // Assumes that relevant == null means firing turrets (maybe even multiple at once),
-            // so printing their firing mode / ammo / ... of one of them is misleading.
-            if( relevant && ( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) ) {
-                auto m = relevant->gun_current_mode();
-                std::string str;
-                nc_color col = c_light_gray;
-                if( relevant != m.target ) {
-                    str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
-                                         m->tname(), m.tname(), m.qty );
-
-                    print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
-                } else {
-                    str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
-                                         m.tname(), m.qty );
-                    print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
-                }
-
-                const itype *cur = ammo ? ammo : m->ammo_data();
-                if( cur ) {
-                    auto str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                                              colorize( cur->nname( std::max( m->ammo_remaining(), 1 ) ), cur->color ),
-                                              m->ammo_remaining(), m->ammo_capacity() );
-
-                    print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
-                }
-
-                print_colored_text( w_target, point( 1, line_number++ ), col, col, string_format( _( "%s" ),
-                                    print_recoil( g->u ) ) );
-
-                // Skip blank lines if we're short on space.
-                if( !compact ) {
-                    line_number++;
-                }
-            }
-
-            if( critter && critter != &pc && pc.sees( *critter ) ) {
-                // The 12 is 2 for the border and 10 for aim bars.
-                // Just print the monster name if we're short on space.
-                int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
-                line_number = critter->print_info( w_target, line_number, available_lines, 1 );
-            } else {
-                mvwputch( g->w_terrain, -center.xy() + dst.xy() + point( POSX, POSY ),
-                          c_red, '*' );
-            }
-
-            // Assumes that relevant == null means firing turrets (maybe even multiple at once),
-            // so printing their firing mode / ammo / ... of one of them is misleading.
-            if( relevant && mode == TARGET_MODE_FIRE && src != dst ) {
-                double predicted_recoil = pc.recoil;
-                int predicted_delay = 0;
-                if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
-                    do {
-                        const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
-                        if( aim_amount > 0 ) {
-                            predicted_delay++;
-                            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
-                        }
-                    } while( predicted_recoil > aim_mode->threshold &&
-                             predicted_recoil - sight_dispersion > 0 );
-                } else {
-                    predicted_recoil = pc.recoil;
-                }
-
-                const double target_size = critter != nullptr ? critter->ranged_target_size() :
-                                           occupied_tile_fraction( MS_MEDIUM );
-
-                line_number = print_aim( pc, w_target, line_number, ctxt, &*relevant->gun_current_mode(),
-                                         target_size, dst, predicted_recoil );
-
-                if( aim_mode->has_threshold ) {
-                    mvwprintw( w_target, point( 1, line_number++ ), _( "%s Delay: %i" ), aim_mode->name,
-                               predicted_delay );
-                }
-            } else if( mode == TARGET_MODE_TURRET ) {
-                list_turrets_in_range( veh, vturrets, w_target, line_number, dst );
-            } else if( mode == TARGET_MODE_THROW && relevant ) {
-                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
-            } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
-                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
-            }
-
-            wrefresh( g->w_terrain );
-            g->draw_panels();
-            draw_targeting_window( w_target, relevant ? relevant->tname() : _( "turrets" ),
-                                   mode, ctxt, aim_types, tiny, src == dst );
-            wrefresh( w_target );
-
-            catacurses::refresh();
-        }
-        redraw = true;
-        std::string action;
-        if( pc.activity.id() == ACT_AIM && pc.activity.str_values[0] != "AIM" ) {
-            // If we're in 'aim and shoot' mode,
-            // skip retrieving input and go straight to the action.
-            action = pc.activity.str_values[0];
-        } else {
-            action = ctxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
-        }
-        // Clear the activity if any, we'll re-set it later if we need to.
-        pc.cancel_activity();
-
-        tripoint targ;
-        cata::optional<tripoint> mouse_pos;
-        // Our coordinates will either be determined by coordinate input(mouse),
-        // by a direction key, or by the previous value.
-        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
-            targ = *mouse_pos;
-            targ.x -= dst.x;
-            targ.y -= dst.y;
-            targ.z -= dst.z;
-        } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            targ.x = vec->x;
-            targ.y = vec->y;
-        } else {
-            targ.x = 0;
-            targ.y = 0;
-        }
-        if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
-            action = aim_mode->action;
-        }
-
-        if( allow_zlevel_shift && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
-            // Just determine our delta-z.
-            const int dz = action == "LEVEL_UP" ? 1 : -1;
-
-            // Shift the view up or down accordingly.
-            // We need to clamp the offset, but it needs to be clamped such that
-            // the player position plus the offset is still in range, since the player
-            // might be at Z+10 and looking down to Z-10, which is an offset greater than
-            // OVERMAP_DEPTH or OVERMAP_HEIGHT
-            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
-            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
-                pc.view_offset.z += dz;
-            }
-
-            // Set our cursor z to our view z. This accounts for cases where
-            // our view and our target are on different z-levels (e.g. when
-            // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
-            // enabled). This will ensure that we don't just chase the cursor up or
-            // down, never catching up.
-            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-
-            // We need to do a bunch of redrawing and cache updates since we're
-            // looking at a different z-level.
-            g->m.invalidate_map_cache( dst.z );
-            g->refresh_all();
-        }
-
-        /* More drawing to terrain */
-        if( targ != tripoint_zero ) {
-            const Creature *critter = g->critter_at( dst, true );
-            if( critter != nullptr ) {
-                g->draw_critter( *critter, center );
-            } else if( g->m.pl_sees( dst, -1 ) ) {
-                g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
-            } else {
-                mvwputch( g->w_terrain, point( POSX, POSY ), c_black, 'X' );
-            }
-
-            // constrain by range
-            dst.x = std::min( std::max( dst.x + targ.x, src.x - range ), src.x + range );
-            dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
-            dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
-
-            pc.recoil = recalc_recoil( dst );
-
-        } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) - 1;
-            if( newtarget < 0 ) {
-                newtarget = t.size() - 1;
-            }
-            dst = t[newtarget]->pos();
-            pc.recoil = recalc_recoil( dst );
-        } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) + 1;
-            if( newtarget == static_cast<int>( t.size() ) ) {
-                newtarget = 0;
-            }
-            dst = t[newtarget]->pos();
-            pc.recoil = recalc_recoil( dst );
-        } else if( action == "AIM" ) {
-            if( src == dst ) {
-                // Skip this action if no target selected
-                continue;
-            }
-
-            // No confirm_non_enemy_target here because we have not initiated the firing.
-            // Aiming can be stopped / aborted at any time.
-            recoil_pc = pc.recoil;
-            recoil_pos = dst;
-
-            set_last_target( dst );
-            const double min_recoil = calculate_aim_cap( pc, dst );
-            for( int i = 0; i < 10; ++i ) {
-                do_aim( pc, *relevant, min_recoil );
-            }
-            if( pc.moves <= 0 ) {
-                // We've run out of moves, clear target vector, but leave target selected.
-                pc.assign_activity( ACT_AIM, 0, 0 );
-                pc.activity.str_values.push_back( "AIM" );
-                pc.view_offset = old_offset;
-                return empty_result;
-            }
-        } else if( action == "SWITCH_MODE" ) {
-            if( relevant && relevant->is_gun() ) {
-                relevant->gun_cycle_mode();
-                if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
-                    relevant->gun_cycle_mode();
-                }
-                if( mode == TARGET_MODE_TURRET_MANUAL ) {
-                    itype_id ammo_current = turret->ammo_current();
-                    if( ammo_current == "null" ) {
-                        ammo = nullptr;
-                        range = 0;
-                    } else {
-                        ammo = item::find_type( ammo_current );
-                        range = turret->range();
-                    }
-                } else {
-                    ammo = relevant->gun_current_mode().target->ammo_data();
-                    range = relevant->gun_current_mode().target->gun_range( &pc );
-                }
-            }
-        } else if( action == "SWITCH_AMMO" ) {
-            if( !relevant ) {
-                // skip this action
-            } else if( mode == TARGET_MODE_TURRET_MANUAL ) {
-                // For turrets that use vehicle tanks & can fire multiple liquids
-                if( turret->ammo_options().size() > 1 ) {
-                    const auto opts = turret->ammo_options();
-                    auto iter = opts.find( turret->ammo_current() );
-                    turret->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                    ammo = item::find_type( turret->ammo_current() );
-                    range = turret->range();
-                }
-            } else if( !pc.has_item( *relevant ) ) {
-                add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
-            } else {
-                item_location loc( pc, relevant );
-                g->reload( loc, true );
-                ret.clear();
-                break;
-            }
-        } else if( action == "SWITCH_AIM" ) {
-            aim_mode++;
-            if( aim_mode == aim_types.end() ) {
-                aim_mode = aim_types.begin();
-            }
-        } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
-            if( src == dst ) {
-                // Skip this action if no target selected
-                continue;
-            }
-
-            // This action basically means "FIRE" as well, the actual firing may be delayed
-            // through aiming, but there is usually no means to stop it. Therefore we query here.
-            if( !confirm_non_enemy_target( dst ) ) {
-                continue;
-            }
-
-            recoil_pc = pc.recoil;
-            recoil_pos = dst;
-            std::vector<aim_type>::iterator it;
-            for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
-                if( action == it->action ) {
-                    break;
-                }
-            }
-            if( it == aim_types.end() ) {
-                debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
-                aim_mode = aim_types.begin();
-            }
-            int aim_threshold = it->threshold;
-            set_last_target( dst );
-            const double min_recoil = calculate_aim_cap( pc, dst );
-            do {
-                do_aim( pc, relevant ? *relevant : null_item_reference(), min_recoil );
-            } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > min_recoil );
-
-            if( pc.recoil <= aim_threshold ||
-                pc.recoil - sight_dispersion == min_recoil ||
-                // if no critter is at dst then sight dispersion does not apply,
-                // so it would lock into an infinite loop
-                ( !g->critter_at( dst ) && pc.recoil == min_recoil ) ) {
-                // If we made it under the aim threshold, go ahead and fire.
-                // Also fire if we're at our best aim level already.
-                pc.view_offset = old_offset;
-                return ret;
-
-            } else {
-                // We've run out of moves, set the activity to aim so we'll
-                // automatically re-enter the targeting menu next turn.
-                // Set the string value of the aim action to the right thing
-                // so we re-enter this loop.
-                // Also clear target vector, but leave target selected.
-                pc.assign_activity( ACT_AIM, 0, 0 );
-                pc.activity.str_values.push_back( action );
-                pc.view_offset = old_offset;
-                return empty_result;
-            }
-        } else if( action == "FIRE" ) {
-            if( src == dst ) {
-                // Skip this action if no target selected
-                // TODO: Consider allowing firing vehicle turret at yourself
-                continue;
-            }
-            if( !confirm_non_enemy_target( dst ) ) {
-                continue;
-            }
-            break;
-        } else if( action == "CENTER" ) {
-            pc.view_offset = tripoint_zero;
-            dst = src;
-            set_last_target( dst );
-            ret.clear();
-        } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
-            if( snap_to_target ) {
-                snap_to_target = false;
-                pc.view_offset = dst - pc.pos();
-            } else {
-                snap_to_target = true;
-            }
-        } else if( action == "QUIT" ) { // return empty vector (cancel)
-            ret.clear();
-            pc.last_target_pos = cata::nullopt;
-            break;
-        } else if( action == "zoom_in" ) {
-            g->zoom_in();
-        } else if( action == "zoom_out" ) {
-            g->zoom_out();
-        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
-            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
-            if( edge_scroll == tripoint_zero ) {
-                redraw = false;
-            } else {
-                if( action == "MOUSE_MOVE" ) {
-                    edge_scroll *= 2;
-                }
-                pc.view_offset += edge_scroll;
-                if( snap_to_target ) {
-                    dst += edge_scroll;
-                }
-            }
-        }
-
-        int new_dx = dst.x - src.x;
-        int new_dy = dst.y - src.y;
-
-        // Make player's sprite flip to face the current target
-        if( !tile_iso ) {
-            if( new_dx > 0 ) {
-                g->u.facing = FD_RIGHT;
-            } else if( new_dx < 0 ) {
-                g->u.facing = FD_LEFT;
-            }
-        } else {
-            if( new_dx >= 0 && new_dy >= 0 ) {
-                g->u.facing = FD_RIGHT;
-            }
-            if( new_dy <= 0 && new_dx <= 0 ) {
-                g->u.facing = FD_LEFT;
-            }
-        }
-    } while( true );
-
-    pc.view_offset = old_offset;
-
-    if( ret.empty() ) {
-        return ret;
-    }
-
-    set_last_target( ret.back() );
-
-    const auto lt_ptr = pc.last_target.lock();
-    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
-        if( !guy->guaranteed_hostile() ) {
-            // TODO: get rid of this. Or combine it with effect_hit_by_player
-            guy->hit_by_player = true; // used for morale penalty
-        }
-        // TODO: should probably go into the on-hit code?
-        guy->make_angry();
-
-    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
-        // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 10_minutes );
-    }
-    wrefresh( w_target );
-    return ret;
-}
-
-// magic mod
-std::vector<tripoint> target_handler::target_ui( spell_id sp, const bool no_fail,
-        const bool no_mana )
-{
-    return target_ui( g->u.magic.get_spell( sp ), no_fail, no_mana );
-}
-// does not have a targeting mode because we know this is the spellcasting version of this function
-std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_fail,
-        const bool no_mana )
-{
-    player &pc = g->u;
-    if( !no_mana && !casting.can_cast( pc ) ) {
-        pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
-                              casting.energy_string() );
-    }
-    bool compact = TERMY < 41;
-    bool tiny = TERMY < 31;
-
-    // Default to the maximum window size we can use.
-    int height = 31;
-    int width = 55;
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, 0 ) );
-
-    // TODO: this should return a reference to a static vector which is cleared on each call.
-    static const std::vector<tripoint> empty_result{};
-    std::vector<tripoint> ret;
-    std::set<tripoint> spell_aoe;
-
-    tripoint src = pc.pos();
-    tripoint dst = pc.pos();
-
-    std::vector<Creature *> t;
-    int target = 0;
-    int range = static_cast<int>( casting.range() );
-
-    update_targets( pc, range, t, target, src, dst );
-
-    input_context ctxt( "TARGET" );
-    ctxt.set_iso( true );
-    // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be written on window border.
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_directions();
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "FIRE" );
-    ctxt.register_action( "NEXT_TARGET" );
-    ctxt.register_action( "PREV_TARGET" );
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
-    ctxt.register_action( "CENTER" );
-    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-
-    std::vector<aim_type> aim_types;
-
-    int num_instruction_lines = draw_targeting_window( w_target, casting.name(),
-                                TARGET_MODE_SPELL, ctxt, aim_types, tiny );
-
-    bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
-
-    const auto set_last_target = [&pc]( const tripoint & dst ) {
-        pc.last_target_pos = g->m.getabs( dst );
-        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
-            pc.last_target = g->shared_from( *critter_ptr );
-        } else {
-            pc.last_target.reset();
-        }
-    };
-
-    const auto confirm_non_enemy_target = [&pc]( const tripoint & dst ) {
-        if( dst == pc.pos() ) {
-            return true;
-        }
-        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
-            const npc &who = *who_;
-            if( who.guaranteed_hostile() ) {
-                return true;
-            }
-            return query_yn( _( "Really attack %s?" ), who.name.c_str() );
-        }
-        return true;
-    };
-    const std::string fx = casting.effect();
-    const tripoint old_offset = pc.view_offset;
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    do {
-        ret = g->m.find_clear_path( src, dst );
-
-        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
-            spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
-        } else if( fx == "cone_attack" ) {
-            spell_aoe = spell_effect::spell_effect_cone( casting, src, ret.back(), casting.aoe(), true );
-        } else if( fx == "line_attack" ) {
-            spell_aoe = spell_effect::spell_effect_line( casting, src, ret.back(), casting.aoe(), true );
-        } else {
-            spell_aoe.clear();
-        }
-
-        // This chunk of code handles shifting the aim point around
-        // at maximum range when using circular distance.
-        // The range > 1 check ensures that you can always at least hit adjacent squares.
-        if( trigdist && range > 1 && std::round( trig_dist( src, dst ) ) > range ) {
-            bool cont = true;
-            tripoint cp = dst;
-            for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( std::round( trig_dist( src, ret[i] ) ) > range ) {
-                    ret.resize( i );
-                    cont = false;
-                } else {
-                    cp = ret[i];
-                }
-            }
-            dst = cp;
-        }
-        tripoint center;
-        if( snap_to_target ) {
-            center = dst;
-        } else {
-            center = pc.pos() + pc.view_offset;
-        }
-        // Clear the target window.
-        for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
-            // Clear width excluding borders.
-            for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
-                mvwputch( w_target, point( j, i ), c_white, ' ' );
-            }
-        }
-        g->draw_ter( center, true );
-        int line_number = 1;
-        Creature *critter = g->critter_at( dst, true );
-        const int relative_elevation = dst.z - pc.pos().z;
-        mvwprintz( w_target, point( 1, line_number++ ), c_light_green, _( "Casting: %s (Level %u)" ),
-                   casting.name(),
-                   casting.get_level() );
-        if( !no_mana || casting.energy_source() == none_energy ) {
-            if( casting.energy_source() == hp_energy ) {
-                line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2,
-                                               c_light_gray,
-                                               _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
-            } else {
-                line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2,
-                                               c_light_gray,
-                                               _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
-                                               casting.energy_cur_string( pc ) );
-            }
-        }
-        nc_color clr = c_light_gray;
-        if( !no_fail ) {
-            print_colored_text( w_target, point( 1, line_number++ ), clr, clr,
-                                casting.colorized_fail_percent( pc ) );
-        } else {
-            print_colored_text( w_target, point( 1, line_number++ ), clr, clr,
-                                colorize( _( "0.0 % Failure Chance" ),
-                                          c_light_green ) );
-        }
-        if( dst != src ) {
-            // Only draw those tiles which are on current z-level
-            auto ret_this_zlevel = ret;
-            ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-            [&center]( const tripoint & pt ) {
-                return pt.z != center.z;
-            } ), ret_this_zlevel.end() );
-            // Only draw a highlighted trajectory if we can see the endpoint.
-            // Provides feedback to the player, and avoids leaking information
-            // about tiles they can't see.
-            g->draw_line( dst, center, ret_this_zlevel );
-
-            // Print to target window
-            mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                       rl_dist( src, dst ), range, relative_elevation, t.size() );
-
-        } else {
-            mvwprintw( w_target, point( 1, line_number++ ), _( "Range: %d Elevation: %d Targets: %d" ), range,
-                       relative_elevation, t.size() );
-        }
-
-        g->draw_cursor( dst );
-        for( const tripoint &area : spell_aoe ) {
-            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
-        }
-
-        if( casting.aoe() > 0 ) {
-            nc_color color = c_light_gray;
-            if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ||
-                casting.effect() == "area_pull" || casting.effect() == "area_push" ||
-                casting.effect() == "ter_transform" ) {
-                line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                               _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
-                                               casting.in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
-            } else if( casting.effect() == "cone_attack" ) {
-                line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                               _( "Cone Arc: %s degrees" ), casting.aoe_string() );
-            } else if( casting.effect() == "line_attack" ) {
-                line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                               _( "Line width: %s" ), casting.aoe_string() );
-            }
-        }
-        mvwprintz( w_target, point( 1, line_number++ ), c_light_red, _( "Damage: %s" ),
-                   casting.damage_string() );
-        line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, clr,
-                                       casting.description() );
-        // Skip blank lines if we're short on space.
-        if( !compact ) {
-            line_number++;
-        }
-
-        if( critter && critter != &pc && pc.sees( *critter ) ) {
-            // The 12 is 2 for the border and 10 for aim bars.
-            // Just print the monster name if we're short on space.
-            int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
-            critter->print_info( w_target, line_number, available_lines, 1 );
-        }
-
-        wrefresh( g->w_terrain );
-        draw_targeting_window( w_target, casting.name(),
-                               TARGET_MODE_SPELL, ctxt, aim_types, tiny );
-        wrefresh( w_target );
-
-        catacurses::refresh();
-
-        std::string action;
-        if( pc.activity.id() == ACT_AIM && pc.activity.str_values[0] != "AIM" ) {
-            // If we're in 'aim and shoot' mode,
-            // skip retrieving input and go straight to the action.
-            action = pc.activity.str_values[0];
-        } else {
-            action = ctxt.handle_input();
-        }
-        // Clear the activity if any, we'll re-set it later if we need to.
-        pc.cancel_activity();
-
-        tripoint targ;
-        cata::optional<tripoint> mouse_pos;
-        // Our coordinates will either be determined by coordinate input(mouse),
-        // by a direction key, or by the previous value.
-        if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
-            targ = *mouse_pos;
-            targ.x -= dst.x;
-            targ.y -= dst.y;
-            targ.z -= dst.z;
-        } else if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            targ.x = vec->x;
-            targ.y = vec->y;
-        } else {
-            targ.x = 0;
-            targ.y = 0;
-        }
-
-        if( g->m.has_zlevels() && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
-            // Just determine our delta-z.
-            const int dz = action == "LEVEL_UP" ? 1 : -1;
-
-            // Shift the view up or down accordingly.
-            // We need to clamp the offset, but it needs to be clamped such that
-            // the player position plus the offset is still in range, since the player
-            // might be at Z+10 and looking down to Z-10, which is an offset greater than
-            // OVERMAP_DEPTH or OVERMAP_HEIGHT
-            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
-            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
-                pc.view_offset.z += dz;
-            }
-
-            // Set our cursor z to our view z. This accounts for cases where
-            // our view and our target are on different z-levels (e.g. when
-            // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
-            // enabled). This will ensure that we don't just chase the cursor up or
-            // down, never catching up.
-            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-
-            // We need to do a bunch of redrawing and cache updates since we're
-            // looking at a different z-level.
-            g->refresh_all();
-        }
-
-        /* More drawing to terrain */
-        if( targ != tripoint_zero ) {
-            const Creature *critter = g->critter_at( dst, true );
-            if( critter != nullptr ) {
-                g->draw_critter( *critter, center );
-            } else if( g->m.pl_sees( dst, -1 ) ) {
-                g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
-            }
-
-            // constrain by range
-            dst.x = std::min( std::max( dst.x + targ.x, src.x - range ), src.x + range );
-            dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
-            dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
-
-        } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) - 1;
-            if( newtarget < 0 ) {
-                newtarget = t.size() - 1;
-            }
-            dst = t[newtarget]->pos();
-        } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
-            int newtarget = find_target( t, dst ) + 1;
-            if( newtarget == static_cast<int>( t.size() ) ) {
-                newtarget = 0;
-            }
-            dst = t[newtarget]->pos();
-        } else if( action == "FIRE" ) {
-            if( casting.damage() > 0 && !confirm_non_enemy_target( dst ) ) {
-                continue;
-            }
-            find_target( t, dst );
-            break;
-        } else if( action == "CENTER" ) {
-            dst = src;
-            set_last_target( dst );
-            ret.clear();
-        } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
-            snap_to_target = !snap_to_target;
-        } else if( action == "QUIT" ) { // return empty vector (cancel)
-            ret.clear();
-            pc.last_target_pos = cata::nullopt;
-            break;
-        }
-
-        // Make player's sprite flip to face the current target
-        if( dst.x > src.x ) {
-            g->u.facing = FD_RIGHT;
-        } else if( dst.x < src.x ) {
-            g->u.facing = FD_LEFT;
-        }
-
-    } while( true );
-
-    pc.view_offset = old_offset;
-
-    if( ret.empty() || ret.back() == pc.pos() ) {
-        return ret;
-    }
-
-    set_last_target( ret.back() );
-
-    const auto lt_ptr = pc.last_target.lock();
-    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
-        if( casting.damage() > 0 ) {
-            if( !guy->guaranteed_hostile() ) {
-                // TODO: get rid of this. Or combine it with effect_hit_by_player
-                guy->hit_by_player = true; // used for morale penalty
-            }
-            // TODO: should probably go into the on-hit code?
-            guy->make_angry();
-        }
-    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
-        // TODO: get rid of this. Or move into the on-hit code?
-        mon->add_effect( effect_hit_by_player, 10_minutes );
-    }
-    wrefresh( w_target );
-    return ret;
 }
 
 static projectile make_gun_projectile( const item &gun )
@@ -2365,7 +1593,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ) );
+            weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
         } else {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( casing ) );
@@ -2384,7 +1612,7 @@ static void cycle_action( item &weap, const tripoint &pos )
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( "brass_catcher" ) ) {
             linkage.set_flag( "CASING" );
-            weap.put_in( linkage );
+            weap.put_in( linkage, item_pocket::pocket_type::CONTAINER );
         } else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );
         } else {
@@ -2662,4 +1890,1306 @@ double player::gun_value( const item &weap, int ammo ) const
              weap.type->get_id(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
+}
+
+target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
+{
+    if( mode == TargetMode::Spell && !no_mana && !casting->can_cast( pc ) ) {
+        pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
+                              casting->energy_string() );
+    } else if( mode == TargetMode::Fire ) {
+        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
+    }
+
+    // Load settings
+    allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
+    snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
+    if( mode == TargetMode::Turrets ) {
+        // Due to how cluttered the display would become, disable it by default
+        // unless aiming a single turret.
+        draw_turret_lines = vturrets->size() == 1;
+    }
+
+    // Create window
+    init_window_and_input( pc );
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
+    // Handle multi-turn aiming
+    std::string action;
+    bool attack_was_confirmed = false;
+    bool reentered = false;
+    tripoint manual_view_offset = pc.view_offset;
+    if( mode == TargetMode::Fire ) {
+        if( pc.activity.id() == ACT_AIM ) {
+            // We were in this UI during previous turn...
+            reentered = true;
+            std::string act_data = pc.activity.str_values[0];
+            if( act_data == "AIM" ) {
+                // ...and ran out of moves while aiming.
+            } else {
+                // ...and selected 'aim and shoot', but ran out of moves.
+                // So, skip retrieving input and go straight to the action.
+                action = act_data;
+                attack_was_confirmed = true;
+            }
+            // Load state to keep the ui consistent across turns
+            snap_to_target = pc.activity.str_values[1] == "snap";
+            shifting_view = pc.activity.values[0] == 1;
+            manual_view_offset = pc.activity.coords[0];
+            // Clear the activity, we'll re-set it later if we need to.
+            pc.cancel_activity();
+        }
+    }
+
+    // Restore view to how it was during previos turn in this ui
+    const tripoint saved_view_offset = pc.view_offset;
+    set_view_offset( pc, manual_view_offset );
+
+    // Initialize cursor position
+    src = pc.pos();
+    tripoint initial_dst = src;
+    update_target_list( pc );
+    if( !choose_initial_target( pc, reentered, initial_dst ) ) {
+        // We've lost our target from previous turn
+        action.clear();
+        attack_was_confirmed = false;
+        pc.last_target.reset();
+    }
+    set_cursor_pos( pc, initial_dst );
+    if( dst != initial_dst ) {
+        // Our target moved out of range
+        action.clear();
+        attack_was_confirmed = false;
+        pc.last_target.reset();
+    }
+
+    // Event loop!
+    ExitCode loop_exit_code;
+    std::string timed_out_action;
+    bool skip_redraw = false;
+    for( ;; action.clear() ) {
+        if( !skip_redraw ) {
+            draw( pc );
+        }
+        skip_redraw = false;
+
+        // Wait for user input (or use value retrieved from activity)
+        if( action.empty() ) {
+            int timeout = get_option<int>( "EDGE_SCROLL" );
+            action = ctxt.handle_input( timeout );
+        }
+
+        // If an aiming mode is selected, use "*_SHOT" instead of "FIRE"
+        if( mode == TargetMode::Fire && action == "FIRE" && aim_mode->has_threshold ) {
+            action = aim_mode->action;
+        }
+
+        // Handle received input
+        if( handle_cursor_movement( pc, action, skip_redraw ) ) {
+            continue;
+        } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
+            toggle_snap_to_target( pc );
+        } else if( action == "TOGGLE_TURRET_LINES" ) {
+            draw_turret_lines = !draw_turret_lines;
+        } else if( action == "TOGGLE_MOVE_CURSOR_VIEW" ) {
+            if( snap_to_target ) {
+                toggle_snap_to_target( pc );
+            }
+            shifting_view = !shifting_view;
+        } else if( action == "zoom_in" ) {
+            g->zoom_in();
+        } else if( action == "zoom_out" ) {
+            g->zoom_out();
+        } else if( action == "QUIT" ) {
+            loop_exit_code = ExitCode::Abort;
+            break;
+        } else if( action == "SWITCH_MODE" ) {
+            action_switch_mode( pc );
+        } else if( action == "SWITCH_AMMO" ) {
+            if( !action_switch_ammo( pc ) ) {
+                loop_exit_code = ExitCode::Reload;
+                break;
+            }
+        } else if( action == "SWITCH_AIM" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+            aim_mode++;
+            if( aim_mode == aim_types.end() ) {
+                aim_mode = aim_types.begin();
+            }
+        } else if( action == "FIRE" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+            bool can_skip_confirm = ( mode == TargetMode::Spell && casting->damage() <= 0 );
+            if( !can_skip_confirm && !confirm_non_enemy_target() ) {
+                continue;
+            }
+            set_last_target( pc );
+            loop_exit_code = ExitCode::Fire;
+            break;
+        } else if( action == "AIM" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+
+            // No confirm_non_enemy_target here because we have not initiated the firing.
+            // Aiming can be stopped / aborted at any time.
+
+            if( !action_aim( pc ) ) {
+                timed_out_action = "AIM";
+                loop_exit_code = ExitCode::Timeout;
+                break;
+            }
+        } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
+            if( status != Status::Good ) {
+                continue;
+            }
+
+            // This action basically means "Fire" as well; the actual firing may be delayed
+            // through aiming, but there is usually no means to abort it. Therefore we query now
+            if( !attack_was_confirmed && !confirm_non_enemy_target() ) {
+                continue;
+            }
+
+            if( action_aim_and_shoot( pc, action ) ) {
+                loop_exit_code = ExitCode::Fire;
+            } else {
+                timed_out_action = action;
+                loop_exit_code = ExitCode::Timeout;
+            }
+            break;
+        }
+    } // for(;;)
+
+    // Since the activity can be cancelled at any time, we restore the view now
+    // but save it if we need it in this ui on the next turn
+    manual_view_offset = pc.view_offset;
+    set_view_offset( pc, saved_view_offset );
+
+    switch( loop_exit_code ) {
+        case ExitCode::Abort: {
+            traj.clear();
+            break;
+        }
+        case ExitCode::Fire: {
+            bool harmful = !( mode == TargetMode::Spell && casting->damage() <= 0 );
+            on_target_accepted( pc, harmful );
+            break;
+        }
+        case ExitCode::Timeout: {
+            // We've ran out of moves. Set activity to ACT_AIM, so we'll
+            // automatically re-enter the aiming UI on the next turn.
+            // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
+            // we didn't have the time to finish.
+            traj.clear();
+            pc.assign_activity( ACT_AIM, 0, 0 );
+            pc.activity.str_values.push_back( timed_out_action );
+            // Save UI state
+            pc.activity.str_values.push_back( snap_to_target ? "snap" : "nosnap" );
+            pc.activity.values.push_back( shifting_view ? 1 : 0 );
+            pc.activity.coords.push_back( manual_view_offset );
+            break;
+        }
+        case ExitCode::Reload: {
+            // Calling function will handle reloading for us
+            traj.clear();
+            break;
+        }
+    }
+
+    if( exit_code ) {
+        *exit_code = loop_exit_code;
+    }
+    return traj;
+}
+
+void target_ui::init_window_and_input( player &pc )
+{
+    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
+
+    int top = 0;
+    int width;
+    int height;
+    if( narrow ) {
+        // Narrow layout removes the list of controls. This allows us
+        // to have small window size and not suffer from it.
+        width = 34;
+        height = 24;
+        compact = true;
+    } else {
+        width = 55;
+        compact = TERMY < 41;
+        tiny = TERMY < 28;
+        bool use_whole_sidebar = TERMY < 32;
+        if( use_whole_sidebar ) {
+            // If we're extremely short on space, use the whole sidebar.
+            height = TERMY;
+        } else if( compact ) {
+            // Cover up more low-value ui elements if we're tight on space.
+            height = 28;
+        } else {
+            // Go all out
+            height = 32;
+        }
+    }
+
+    w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
+
+    ctxt = input_context( "TARGET" );
+    ctxt.set_iso( true );
+    // "ANY_INPUT" should be added before any real help strings
+    // Or strings will be written on window border.
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_directions();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "FIRE" );
+    ctxt.register_action( "NEXT_TARGET" );
+    ctxt.register_action( "PREV_TARGET" );
+    ctxt.register_action( "CENTER" );
+    ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "TOGGLE_MOVE_CURSOR_VIEW" );
+    if( allow_zlevel_shift ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+        ctxt.register_action( "SWITCH_MODE" );
+        ctxt.register_action( "SWITCH_AMMO" );
+    }
+    if( mode == TargetMode::Fire ) {
+        ctxt.register_action( "AIM" );
+        ctxt.register_action( "SWITCH_AIM" );
+
+        aim_types = pc.get_aim_types( *relevant );
+        for( aim_type &type : aim_types ) {
+            if( type.has_threshold ) {
+                ctxt.register_action( type.action );
+            }
+        }
+        aim_mode = aim_types.begin();
+    }
+    if( mode == TargetMode::Turrets ) {
+        ctxt.register_action( "TOGGLE_TURRET_LINES" );
+    }
+}
+
+bool target_ui::handle_cursor_movement( player &pc, const std::string &action, bool &skip_redraw )
+{
+    cata::optional<tripoint> mouse_pos;
+    const auto shift_view_or_cursor = [&pc, this]( const tripoint & delta ) {
+        if( this->shifting_view ) {
+            this->set_view_offset( pc, pc.view_offset + delta );
+        } else {
+            this->set_cursor_pos( pc, dst + delta );
+        }
+    };
+
+    if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+        // Shift pos and/or view via edge scrolling
+        tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
+        if( edge_scroll == tripoint_zero ) {
+            skip_redraw = true;
+        } else {
+            if( action == "MOUSE_MOVE" ) {
+                edge_scroll *= 2;
+            }
+            if( snap_to_target ) {
+                set_cursor_pos( pc, dst + edge_scroll );
+            } else {
+                set_view_offset( pc, pc.view_offset + edge_scroll );
+            }
+        }
+    } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+        // Shift view/cursor with directional keys
+        shift_view_or_cursor( *delta );
+    } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+        // Set pos by clicking with mouse
+        mouse_pos->z = pc.pos().z + pc.view_offset.z;
+        set_cursor_pos( pc, *mouse_pos );
+    } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+        // Shift view/cursor up/down one z level
+        tripoint delta = tripoint(
+                             0,
+                             0,
+                             action == "LEVEL_UP" ? 1 : -1
+                         );
+        shift_view_or_cursor( delta );
+    } else if( action == "NEXT_TARGET" ) {
+        cycle_targets( pc, 1 );
+    } else if( action == "PREV_TARGET" ) {
+        cycle_targets( pc, -1 );
+    } else if( action == "CENTER" ) {
+        if( shifting_view ) {
+            set_view_offset( pc, tripoint_zero );
+        } else {
+            set_cursor_pos( pc, src );
+        }
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
+bool target_ui::set_cursor_pos( player &pc, const tripoint &new_pos )
+{
+    if( dst == new_pos ) {
+        return false;
+    }
+    if( status == Status::OutOfAmmo && new_pos != src ) {
+        // range == 0, no sense in moving cursor
+        return false;
+    }
+
+    // Make sure new position is valid or find a closest valid position
+    std::vector<tripoint> new_traj;
+    tripoint valid_pos = new_pos;
+    if( new_pos != src ) {
+        // On Z axis, make sure we do not exceed map boundaries
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        // Or current view range
+        valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
+
+        new_traj = g->m.find_clear_path( src, valid_pos );
+        if( range == 1 ) {
+            // We should always be able to hit adjacent squares
+            if( square_dist( src, valid_pos ) > 1 ) {
+                valid_pos = new_traj[0];
+            }
+        } else if( trigdist ) {
+            if( dist_fn( valid_pos ) > range ) {
+                // Find the farthest point that is still in range
+                for( size_t i = new_traj.size(); i > 0; i-- ) {
+                    if( dist_fn( new_traj[i - 1] ) <= range ) {
+                        valid_pos = new_traj[i - 1];
+                        break;
+                    }
+                }
+
+                // FIXME: due to a bug in map::find_clear_path (#39693),
+                //        returned trajectory is invalid in some cases.
+                //        This bandaid stops us from exceeding range,
+                //        but does not fix the issue.
+                if( dist_fn( valid_pos ) > range ) {
+                    debugmsg( "Exceeded allowed range!" );
+                    valid_pos = src;
+                }
+            }
+        } else {
+            tripoint delta = valid_pos - src;
+            valid_pos = src + tripoint(
+                            clamp( delta.x, -range, range ),
+                            clamp( delta.y, -range, range ),
+                            clamp( delta.z, -range, range )
+                        );
+        }
+    } else {
+        new_traj.push_back( src );
+    }
+
+    if( valid_pos == dst ) {
+        // We don't need to move the cursor after all
+        return false;
+    } else if( new_pos == valid_pos ) {
+        // We can reuse new_traj
+        dst = valid_pos;
+        traj = new_traj;
+    } else {
+        dst = valid_pos;
+        traj = g->m.find_clear_path( src, dst );
+    }
+
+    if( snap_to_target ) {
+        set_view_offset( pc, dst - src );
+    }
+
+    // Make player's sprite flip to face the current target
+    int dx = dst.x - src.x;
+    int dy = dst.y - src.y;
+    if( !tile_iso ) {
+        if( dx > 0 ) {
+            g->u.facing = FD_RIGHT;
+        } else if( dx < 0 ) {
+            g->u.facing = FD_LEFT;
+        }
+    } else {
+        if( dx >= 0 && dy >= 0 ) {
+            g->u.facing = FD_RIGHT;
+        }
+        if( dy <= 0 && dx <= 0 ) {
+            g->u.facing = FD_LEFT;
+        }
+    }
+
+    // Cache creature under cursor
+    if( src != dst ) {
+        Creature *cr = g->critter_at( dst, true );
+        if( cr && pl_can_target( pc, cr ) ) {
+            dst_critter = cr;
+        } else {
+            dst_critter = nullptr;
+        }
+    } else {
+        dst_critter = nullptr;
+    }
+
+    // Update mode-specific stuff
+    if( mode == TargetMode::Fire ) {
+        recalc_aim_turning_penalty( pc );
+    } else if( mode == TargetMode::Spell ) {
+        const std::string fx = casting->effect();
+        if( fx == "target_attack" || fx == "projectile_attack" || fx == "ter_transform" ) {
+            spell_aoe = spell_effect::spell_effect_blast( *casting, src, dst, casting->aoe(), true );
+        } else if( fx == "cone_attack" ) {
+            spell_aoe = spell_effect::spell_effect_cone( *casting, src, dst, casting->aoe(), true );
+        } else if( fx == "line_attack" ) {
+            spell_aoe = spell_effect::spell_effect_line( *casting, src, dst, casting->aoe(), true );
+        } else {
+            spell_aoe.clear();
+        }
+    } else if( mode == TargetMode::Turrets ) {
+        update_turrets_in_range();
+    }
+
+    // Update UI controls & colors
+    update_status();
+
+    return true;
+}
+
+void target_ui::on_range_ammo_changed( player &pc )
+{
+    update_status();
+    update_target_list( pc );
+}
+
+void target_ui::update_target_list( player &pc )
+{
+    if( range == 0 ) {
+        targets.clear();
+        return;
+    }
+
+    // Get targets in range and sort them by distance (targets[0] is the closest)
+    // FIXME: get_targetable_creatures does not consider some of the visible creatures
+    //        as targets (e.g. those behind fences), but you can still see and shoot them
+    targets = pc.get_targetable_creatures( range );
+    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
+    } );
+}
+
+bool target_ui::choose_initial_target( player &pc, bool reentered, tripoint &new_dst )
+{
+    // Determine if we had a target and it is still visible
+    if( !pc.last_target.expired() ) {
+        Creature *cr = pc.last_target.lock().get();
+        if( pl_can_target( pc, cr ) ) {
+            // There it is!
+            new_dst = cr->pos();
+            pc.last_target_pos = g->m.getabs( new_dst );
+            return true;
+        }
+    }
+
+    // Check if we were aiming at a tile or a (now missing) creature in a tile
+    // and still can aim at that tile.
+    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
+    if( pc.last_target_pos ) {
+        tripoint local = g->m.getlocal( *pc.last_target_pos );
+        if( dist_fn( local ) > range ) {
+            // No luck
+            pc.last_target_pos = cata::nullopt;
+        } else if( reentered ) {
+            local_last_tgt_pos = local;
+        }
+    }
+    if( mode == TargetMode::Fire && pc.recoil == MAX_RECOIL ) {
+        // We've either moved away, used a bow or a gun with MASSIVE recoil. It doesn't really matter
+        // where we were aiming at, might as well start from scratch.
+        pc.last_target_pos = cata::nullopt;
+        local_last_tgt_pos = cata::nullopt;
+    }
+    if( local_last_tgt_pos ) {
+        new_dst = *local_last_tgt_pos;
+        return false;
+    }
+
+    // Try to find at least something
+    if( targets.empty() ) {
+        // The closest practice target
+        const std::vector<tripoint> nearby = closest_tripoints_first( src, range );
+        const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
+        [&pc]( const tripoint & pt ) {
+            return g->m.tr_at( pt ).id == tr_practice_target && pc.sees( pt );
+        } );
+
+        if( target_spot != nearby.end() ) {
+            new_dst = *target_spot;
+            return false;
+        }
+    } else {
+        // The closest living target
+        new_dst = targets[0]->pos();
+        return false;
+    }
+
+    // We've got nothing.
+    new_dst = src;
+    return false;
+}
+
+void target_ui::update_status()
+{
+    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) {
+        // None of the turrets are in range
+        status = Status::OutOfRange;
+    } else if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) && range == 0 ) {
+        // Selected gun mode is empty
+        status = Status::OutOfAmmo;
+    } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
+                                    casting->is_valid_target( target_self ) ) ) {
+        // TODO: consider allowing targeting yourself with turrets
+        status = Status::BadTarget;
+    } else if( dist_fn( dst ) > range ) {
+        // We're out of range. This can happen if we switch from long-ranged
+        // gun mode to short-ranged. We can, of course, move the cursor into range automatically,
+        // but that would be rude. Instead, wait for directional keys/etc. and *then* move the cursor.
+        status = Status::OutOfRange;
+    } else {
+        status = Status::Good;
+    }
+}
+
+int target_ui::dist_fn( const tripoint &p )
+{
+    return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
+}
+
+bool target_ui::pl_can_target( const player &pc, const Creature *cr )
+{
+    return pc.sees( *cr ) || pc.sees_with_infrared( *cr );
+}
+
+void target_ui::set_last_target( player &pc )
+{
+    pc.last_target_pos = g->m.getabs( dst );
+    if( dst_critter ) {
+        pc.last_target = g->shared_from( *dst_critter );
+    } else {
+        pc.last_target.reset();
+    }
+}
+
+bool target_ui::confirm_non_enemy_target()
+{
+    npc *const who = dynamic_cast<npc *>( dst_critter );
+    if( who && !who->guaranteed_hostile() ) {
+        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+    }
+    return true;
+}
+
+void target_ui::toggle_snap_to_target( player &pc )
+{
+    shifting_view = false;
+    if( snap_to_target ) {
+        // Keep current view offset
+    } else {
+        set_view_offset( pc, dst - src );
+    }
+    snap_to_target = !snap_to_target;
+}
+
+void target_ui::cycle_targets( player &pc, int direction )
+{
+    if( targets.empty() ) {
+        // Nothing to cycle
+        return;
+    }
+
+    if( dst_critter ) {
+        auto t = std::find( targets.begin(), targets.end(), dst_critter );
+        size_t new_target = 0;
+        if( t != targets.end() ) {
+            size_t idx = std::distance( targets.begin(), t );
+            new_target = ( idx + targets.size() + direction ) % targets.size();
+            set_cursor_pos( pc, targets[new_target]->pos() );
+            return;
+        }
+    }
+
+    // There is either no creature under the cursor or the player can't see it.
+    // Use the closest/farthest target in this case
+    if( direction == 1 ) {
+        set_cursor_pos( pc, targets.front()->pos() );
+    } else {
+        set_cursor_pos( pc, targets.back()->pos() );
+    }
+}
+
+void target_ui::set_view_offset( player &pc, const tripoint &new_offset )
+{
+    int new_x = new_offset.x;
+    int new_y = new_offset.y;
+    int new_z = clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range );
+    new_z = clamp( new_z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+
+    bool changed_z = pc.view_offset.z != new_z;
+    pc.view_offset = tripoint( new_x, new_y, new_z );
+    if( changed_z ) {
+        // We need to do a bunch of cache updates since we're
+        // looking at a different z-level.
+        g->m.invalidate_map_cache( new_z );
+        g->refresh_all();
+    }
+}
+
+void target_ui::update_turrets_in_range()
+{
+    turrets_in_range.clear();
+    for( vehicle_part *t : *vturrets ) {
+        turret_data td = veh->turret_query( *t );
+        if( td.in_range( dst ) ) {
+            tripoint src = veh->global_part_pos3( *t );
+            turrets_in_range.push_back( {t, line_to( src, dst )} );
+        }
+    }
+}
+
+void target_ui::recalc_aim_turning_penalty( player &pc )
+{
+    if( status != Status::Good ) {
+        // We don't care about invalid situations
+        predicted_recoil = MAX_RECOIL;
+        return;
+    }
+
+    double curr_recoil = pc.recoil;
+    tripoint curr_recoil_pos;
+    const Creature *lt_ptr = pc.last_target.lock().get();
+    if( lt_ptr ) {
+        curr_recoil_pos = lt_ptr->pos();
+    } else if( pc.last_target_pos ) {
+        curr_recoil_pos = g->m.getlocal( *pc.last_target_pos );
+    } else {
+        curr_recoil_pos = src;
+    }
+
+    if( curr_recoil_pos == dst ) {
+        // We're aiming at that point right now, no penalty
+        predicted_recoil = curr_recoil;
+    } else if( curr_recoil_pos == src ) {
+        // The player wasn't aiming anywhere, max it out
+        predicted_recoil = MAX_RECOIL;
+    } else {
+        // Raise it proportionally to how much
+        // the player has to turn from previous aiming point
+        const double recoil_per_degree = MAX_RECOIL / 180.0;
+        const double angle_curr = coord_to_angle( src, curr_recoil_pos );
+        const double angle_desired = coord_to_angle( src, dst );
+        const double phi = std::fmod( std::abs( angle_curr - angle_desired ), 360.0 );
+        const double angle = phi > 180.0 ? 360.0 - phi : phi;
+        predicted_recoil = std::min( MAX_RECOIL, curr_recoil + angle * recoil_per_degree );
+    }
+}
+
+void target_ui::apply_aim_turning_penalty( player &pc )
+{
+    pc.recoil = predicted_recoil;
+}
+
+void target_ui::action_switch_mode( player &pc )
+{
+    relevant->gun_cycle_mode();
+    if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+        relevant->gun_cycle_mode();
+    }
+    if( mode == TargetMode::TurretManual ) {
+        itype_id ammo_current = turret->ammo_current();
+        if( ammo_current == "null" ) {
+            ammo = nullptr;
+            range = 0;
+        } else {
+            ammo = item::find_type( ammo_current );
+            range = turret->range();
+        }
+    } else {
+        ammo = relevant->gun_current_mode().target->ammo_data();
+        range = relevant->gun_current_mode().target->gun_range( &pc );
+    }
+    on_range_ammo_changed( pc );
+}
+
+bool target_ui::action_switch_ammo( player &pc )
+{
+    if( mode == TargetMode::TurretManual ) {
+        // For turrets that use vehicle tanks & can fire multiple liquids
+        if( turret->ammo_options().size() > 1 ) {
+            const auto opts = turret->ammo_options();
+            auto iter = opts.find( turret->ammo_current() );
+            turret->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+            ammo = item::find_type( turret->ammo_current() );
+            range = turret->range();
+        }
+    } else {
+        // Leave aiming UI and open reloading UI since
+        // reloading annihilates our aim anyway
+        return false;
+    }
+    on_range_ammo_changed( pc );
+    return true;
+}
+
+bool target_ui::action_aim( player &pc )
+{
+    set_last_target( pc );
+    apply_aim_turning_penalty( pc );
+    const double min_recoil = calculate_aim_cap( pc, dst );
+    for( int i = 0; i < 10; ++i ) {
+        do_aim( pc, *relevant, min_recoil );
+    }
+
+    // We've changed pc.recoil, update penalty
+    recalc_aim_turning_penalty( pc );
+
+    return pc.moves > 0;
+}
+
+bool target_ui::action_aim_and_shoot( player &pc, const std::string &action )
+{
+    std::vector<aim_type>::iterator it;
+    for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
+        if( action == it->action ) {
+            break;
+        }
+    }
+    if( it == aim_types.end() ) {
+        debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
+        aim_mode = aim_types.begin();
+    }
+    int aim_threshold = it->threshold;
+    set_last_target( pc );
+    apply_aim_turning_penalty( pc );
+    const double min_recoil = calculate_aim_cap( pc, dst );
+    do {
+        do_aim( pc, relevant ? *relevant : null_item_reference(), min_recoil );
+    } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > min_recoil );
+
+    // If we made it under the aim threshold, go ahead and fire.
+    // Also fire if we're at our best aim level already.
+    // If no critter is at dst then sight dispersion does not apply,
+    // so it would lock into an infinite loop.
+    bool done_aiming = pc.recoil <= aim_threshold || pc.recoil - sight_dispersion == min_recoil ||
+                       ( !g->critter_at( dst ) && pc.recoil == min_recoil );
+    return done_aiming;
+}
+
+void target_ui::draw( player &pc )
+{
+    draw_terrain( pc );
+    g->draw_panels();
+    draw_ui_window( pc );
+    catacurses::refresh();
+}
+
+void target_ui::draw_terrain( player &pc )
+{
+    tripoint center = pc.pos() + pc.view_offset;
+    g->draw_ter( center, true );
+
+    // Removes parts that don't belong to currently visible Z level
+    const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
+        std::vector<tripoint> this_z = traj;
+        this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
+        [&center]( const tripoint & p ) {
+            return p.z != center.z;
+        } ), this_z.end() );
+        return this_z;
+    };
+
+    // FIXME: TILES version of g->draw_line helpfully draws a cursor at last point.
+    //        This creates a fake cursor if 'dst' is on a z-level we cannot see.
+
+    // Draw approximate line of fire for each turret in range
+    if( mode == TargetMode::Turrets && draw_turret_lines ) {
+        // TODO: TILES version doesn't know how to draw more than 1 line at a time.
+        //       We merge all lines together and draw them as a big malformed one
+        std::set<tripoint> points;
+        for( const turret_with_lof &it : turrets_in_range ) {
+            std::vector<tripoint> this_z = filter_this_z( it.line );
+            for( const tripoint &p : this_z ) {
+                points.insert( p );
+            }
+        }
+        // Since "trajectory" for each turret is just a straight line,
+        // we can draw it even if the player can't see some parts
+        points.erase( dst ); // Workaround for fake cursor on TILES
+        std::vector<tripoint> l( points.begin(), points.end() );
+        if( dst.z == center.z ) {
+            // Workaround for fake cursor bug on TILES
+            l.push_back( dst );
+        }
+        g->draw_line( src, center, l, true );
+    }
+
+    // Draw trajectory
+    if( mode != TargetMode::Turrets && dst != src ) {
+        std::vector<tripoint> this_z = filter_this_z( traj );
+
+        // Draw a highlighted trajectory only if we can see the endpoint.
+        // Provides feedback to the player, but avoids leaking information
+        // about tiles they can't see.
+        g->draw_line( dst, center, this_z );
+    }
+
+    // Since draw_line does nothing if destination is not visible,
+    // cursor also disappears. Draw it explicitly.
+    if( dst.z == center.z ) {
+        g->draw_cursor( dst );
+    }
+
+    // Draw spell AOE
+    if( mode == TargetMode::Spell ) {
+        for( const tripoint &tile : spell_aoe ) {
+            if( tile.z != center.z ) {
+                continue;
+            }
+            g->m.drawsq( g->w_terrain, pc, tile, true, true, center );
+        }
+    }
+
+    wrefresh( g->w_terrain );
+}
+
+void target_ui::draw_ui_window( player &pc )
+{
+    // Clear target window and make it non-transparent.
+    int width = getmaxx( w_target );
+    int height = getmaxy( w_target );
+    for( int y = 0; y < height; y++ ) {
+        for( int x = 0; x < width; x++ ) {
+            mvwputch( w_target, point( x, y ), c_white, ' ' );
+        }
+    }
+
+    draw_border( w_target );
+    draw_window_title();
+    draw_help_notice();
+
+    int text_y = 1; // Skip top border
+
+    panel_cursor_info( text_y );
+    text_y += compact ? 0 : 1;
+
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+        panel_gun_info( text_y );
+        panel_recoil( pc, text_y );
+        text_y += compact ? 0 : 1;
+    } else if( mode == TargetMode::Spell ) {
+        panel_spell_info( pc, text_y );
+        text_y += compact ? 0 : 1;
+    }
+
+    bool fill_with_blank_if_no_target = !tiny;
+    panel_target_info( text_y, fill_with_blank_if_no_target );
+    text_y += compact ? 0 : 1;
+
+    if( mode == TargetMode::Turrets ) {
+        panel_turret_list( text_y );
+    } else if( status == Status::Good ) {
+        // TODO: these are old, consider refactoring
+        if( mode == TargetMode::Fire ) {
+            panel_fire_mode_aim( pc, text_y );
+        } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
+            bool blind = ( mode == TargetMode::ThrowBlind );
+            draw_throw_aim( pc, w_target, text_y, ctxt, *relevant, dst, blind );
+        }
+    }
+
+    if( !narrow ) {
+        draw_controls_list( text_y );
+    }
+
+    wrefresh( w_target );
+}
+
+std::string target_ui::uitext_title()
+{
+    switch( mode ) {
+        case TargetMode::Fire:
+        case TargetMode::TurretManual:
+            return string_format( _( "Firing %s" ), relevant->tname() );
+        case TargetMode::Throw:
+            return string_format( _( "Throwing %s" ), relevant->tname() );
+        case TargetMode::ThrowBlind:
+            return string_format( _( "Blind throwing %s" ), relevant->tname() );
+        default:
+            return _( "Set target" );
+    }
+}
+
+std::string target_ui::uitext_fire()
+{
+    if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
+        return to_translation( "[Hotkey] to throw", "to throw" ).translated();
+    } else if( mode == TargetMode::Reach ) {
+        return to_translation( "[Hotkey] to attack", "to attack" ).translated();
+    } else if( mode == TargetMode::Spell ) {
+        return to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
+    } else {
+        return to_translation( "[Hotkey] to fire", "to fire" ).translated();
+    }
+}
+
+void target_ui::draw_window_title()
+{
+    mvwprintz( w_target, point( 2, 0 ), c_white, "< " );
+    trim_and_print( w_target, point( 4, 0 ), getmaxx( w_target ) - 7, c_red, uitext_title() );
+    wprintz( w_target, c_white, " >" );
+}
+
+void target_ui::draw_help_notice()
+{
+    int text_y = getmaxy( w_target ) - 1;
+    int width = getmaxx( w_target );
+    const std::string label_help = narrow ? _( "[?] show help" ) : _( "[?] show all controls" );
+    int label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
+    int text_x = width - label_width - 6;
+    mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
+    trim_and_print( w_target, point( text_x + 3, text_y ), label_width, c_white, label_help );
+    wprintz( w_target, c_white, " >" );
+}
+
+void target_ui::draw_controls_list( int text_y )
+{
+    // Change UI colors for visual feedback
+    // TODO: Colorize keys inside brackets to be consistent with other UI windows
+    nc_color col_enabled = c_white;
+    nc_color col_disabled = c_light_gray;
+    nc_color col_move = ( status != Status::OutOfAmmo ? col_enabled : col_disabled );
+    nc_color col_fire = ( status == Status::Good ? col_enabled : col_disabled );
+
+    // Get first key bound to given action OR ' ' if there are none.
+    const auto bound_key = [this]( const std::string & s ) {
+        const std::vector<char> keys = this->ctxt.keys_bound_to( s );
+        return keys.empty() ? ' ' : keys.front();
+    };
+    const auto colored = [col_enabled]( nc_color color, const std::string & s ) {
+        if( color == col_enabled ) {
+            // col_enabled is the default one when printing
+            return s;
+        } else {
+            return colorize( s, color );
+        }
+    };
+
+    struct line {
+        size_t order; // Lines with highest 'order' are removed first
+        std::string str;
+    };
+    std::vector<line> lines;
+
+    // Compile full list
+    if( shifting_view ) {
+        lines.push_back( {8, colored( col_move, _( "Shift view with directional keys" ) )} );
+    } else {
+        lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
+    }
+    if( is_mouse_enabled() ) {
+        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
+        std::string fire = _( "RMB: Fire" );
+        lines.push_back( {7, colored( col_move, move ) + " " + colored( col_fire, fire )} );
+    }
+    {
+        std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
+        std::string fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
+        lines.push_back( {0, colored( col_move, cycle ) + " " + colored( col_fire, fire )} );
+    }
+    {
+        std::string text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
+                                          bound_key( "CENTER" ), bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
+        lines.push_back( {3, colored( col_enabled, text )} );
+    }
+    if( mode == TargetMode::Fire ) {
+        std::string aim_and_fire;
+        for( const auto &e : aim_types ) {
+            if( e.has_threshold ) {
+                aim_and_fire += string_format( "[%c] ", bound_key( e.action ) );
+            }
+        }
+        aim_and_fire += _( "to aim and fire." );
+
+        std::string aim = string_format( _( "[%c] to steady your aim.  (10 moves)" ),
+                                         bound_key( "AIM" ) );
+        std::string sw_aim = string_format( _( "[%c] to switch aiming modes." ),
+                                            bound_key( "SWITCH_AIM" ) );
+
+        lines.push_back( {2, colored( col_fire, aim )} );
+        lines.push_back( {1, colored( col_fire, sw_aim )} );
+        lines.push_back( {4, colored( col_fire, aim_and_fire )} );
+    }
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+        lines.push_back( {5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
+                                      bound_key( "SWITCH_MODE" ) ) )} );
+        lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
+                                      bound_key( "SWITCH_AMMO" ) ) )} );
+    }
+    if( mode == TargetMode::Turrets ) {
+        const std::string label = to_translation( "[Hotkey] Show/Hide turrets' lines of fire",
+                                  "[%c] %s lines of fire" ).translated();
+        const std::string showhide = draw_turret_lines ? "Hide" : "Show";
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ), showhide ) )} );
+    }
+
+    // Shrink the list until it fits
+    int height = getmaxy( w_target );
+    int available_lines = height - text_y - 1; // 1 for bottom border
+    if( available_lines <= 0 ) {
+        return;
+    }
+    while( lines.size() > static_cast<size_t>( available_lines ) ) {
+        lines.erase( std::max_element( lines.begin(), lines.end(), []( const line & l1, const line & l2 ) {
+            return l1.order < l2.order;
+        } ) );
+    }
+
+    text_y = height - lines.size() - 1;
+    for( const line &l : lines ) {
+        nc_color col = col_enabled;
+        print_colored_text( w_target, point( 1, text_y++ ), col, col, l.str );
+    }
+}
+
+void target_ui::panel_cursor_info( int &text_y )
+{
+    std::string label_range;
+    if( src == dst ) {
+        label_range = string_format( "Range: %d", range );
+    } else {
+        label_range = string_format( "Range: %d/%d", dist_fn( dst ), range );
+    }
+    if( status == Status::OutOfRange && mode != TargetMode::Turrets ) {
+        // Since each turret has its own range, highlighting cursor
+        // range with red would be misleading
+        label_range = colorize( label_range, c_red );
+    }
+
+    std::vector<std::string> labels;
+    labels.push_back( label_range );
+    if( allow_zlevel_shift ) {
+        labels.push_back( string_format( _( "Elevation: %d" ), dst.z - src.z ) );
+    }
+    labels.push_back( string_format( _( "Targets: %d" ), targets.size() ) );
+
+    nc_color col = c_light_gray;
+    int width = getmaxx( w_target );
+    int text_x = 1;
+    for( const std::string &s : labels ) {
+        int x_left = width - text_x - 1;
+        int len = utf8_width( s, true );
+        if( len > x_left ) {
+            text_x = 1;
+            text_y++;
+        }
+        print_colored_text( w_target, point( text_x, text_y ), col, col, s );
+        text_x += len + 1; // 1 for space
+    }
+    text_y++;
+}
+
+void target_ui::panel_gun_info( int &text_y )
+{
+    gun_mode m = relevant->gun_current_mode();
+    std::string mode_name = m.tname();
+    std::string gunmod_name;
+    if( m.target != relevant ) {
+        // Gun mode comes from a gunmod, not base gun. Add gunmod's name
+        gunmod_name = m->tname() + " ";
+    }
+    std::string str = string_format( _( "Firing mode: <color_cyan>%s%s (%d)</color>" ),
+                                     gunmod_name, mode_name, m.qty
+                                   );
+    nc_color clr = c_light_gray;
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+
+    if( status == Status::OutOfAmmo ) {
+        mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
+    } else if( ammo ) {
+        str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
+                             m->ammo_capacity() );
+        print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+    } else {
+        // Weapon doesn't use ammunition
+        text_y++;
+    }
+}
+
+void target_ui::panel_recoil( player &pc, int &text_y )
+{
+    const int val = pc.recoil_total();
+    const int min_recoil = pc.effective_dispersion( relevant->sight_dispersion() );
+    const int recoil_range = MAX_RECOIL - min_recoil;
+    std::string str;
+    if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
+        str = pgettext( "amount of backward momentum", "<color_red>High</color>" );
+    } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
+        str = pgettext( "amount of backward momentum", "<color_yellow>Medium</color>" );
+    } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
+        str = pgettext( "amount of backward momentum", "<color_light_green>Low</color>" );
+    } else {
+        str = pgettext( "amount of backward momentum", "<color_cyan>None</color>" );
+    }
+    str = string_format( _( "Recoil: %s" ), str );
+    nc_color clr = c_light_gray;
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+}
+
+void target_ui::panel_spell_info( player &pc, int &text_y )
+{
+    nc_color clr = c_light_gray;
+
+    mvwprintz( w_target, point( 1, text_y++ ), c_light_green, _( "Casting: %s (Level %u)" ),
+               casting->name(),
+               casting->get_level() );
+    if( !no_mana || casting->energy_source() == none_energy ) {
+        if( casting->energy_source() == hp_energy ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2,
+                                      clr,
+                                      _( "Cost: %s %s" ), casting->energy_cost_string( pc ), casting->energy_string() );
+        } else {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2,
+                                      clr,
+                                      _( "Cost: %s %s (Current: %s)" ), casting->energy_cost_string( pc ), casting->energy_string(),
+                                      casting->energy_cur_string( pc ) );
+        }
+    }
+
+    std::string fail_str;
+    if( no_fail ) {
+        fail_str = colorize( _( "0.0 % Failure Chance" ), c_light_green );
+    } else {
+        fail_str = casting->colorized_fail_percent( pc );
+    }
+    print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
+
+    if( casting->aoe() > 0 ) {
+        nc_color color = c_light_gray;
+        const std::string fx = casting->effect();
+        const std::string aoes = casting->aoe_string();
+        if( fx == "projectile_attack" || fx == "target_attack" ||
+            fx == "area_pull" || fx == "area_push" ||
+            fx == "ter_transform" ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                      _( "Effective Spell Radius: %s%s" ), aoes,
+                                      casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+        } else if( fx == "cone_attack" ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                      _( "Cone Arc: %s degrees" ), aoes );
+        } else if( fx == "line_attack" ) {
+            text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
+                                      _( "Line width: %s" ), aoes );
+        }
+    }
+
+    mvwprintz( w_target, point( 1, text_y++ ), c_light_red, _( "Damage: %s" ),
+               casting->damage_string() );
+
+    text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, clr,
+                              casting->description() );
+}
+
+void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_target )
+{
+    int max_lines = 4;
+    if( dst_critter ) {
+        // FIXME: print_info doesn't really care about line limit
+        //        and can always occupy up to 4 of them (or even more?).
+        //        To make things consistent, we ask it for 2 lines
+        //        and somewhat reliably get 4.
+        int fix_for_print_info = max_lines - 2;
+        dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
+        text_y += max_lines;
+    } else if( fill_with_blank_if_no_target ) {
+        // Fill with blank lines to prevent other panels from jumping around
+        // when the cursor moves.
+        text_y += max_lines;
+        // TODO: print info about tile?
+    }
+}
+
+void target_ui::panel_fire_mode_aim( player &pc, int &text_y )
+{
+    // TODO: saving & restoring pc.recoil may actually be unnecessary
+    double saved_pc_recoil = pc.recoil;
+    pc.recoil = predicted_recoil;
+
+    double predicted_recoil = pc.recoil;
+    int predicted_delay = 0;
+    if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
+        do {
+            const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
+            if( aim_amount > 0 ) {
+                predicted_delay++;
+                predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+            }
+        } while( predicted_recoil > aim_mode->threshold &&
+                 predicted_recoil - sight_dispersion > 0 );
+    } else {
+        predicted_recoil = pc.recoil;
+    }
+
+    const double target_size = dst_critter ? dst_critter->ranged_target_size() :
+                               occupied_tile_fraction( MS_MEDIUM );
+
+    text_y = print_aim( pc, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
+                        target_size, dst, predicted_recoil );
+
+    if( aim_mode->has_threshold ) {
+        mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,
+                   predicted_delay );
+    }
+
+    pc.recoil = saved_pc_recoil;
+}
+
+void target_ui::panel_turret_list( int &text_y )
+{
+    mvwprintw( w_target, point( 1, text_y++ ), _( "Turrets in range: %d/%d" ), turrets_in_range.size(),
+               vturrets->size() );
+
+    for( const turret_with_lof &it : turrets_in_range ) {
+        std::string str = string_format( "* %s", it.turret->name() );
+        nc_color clr = c_white;
+        print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
+    }
+}
+
+void target_ui::on_target_accepted( player &pc, bool harmful )
+{
+    // TODO: all of this should be moved into on-hit code
+    const auto lt_ptr = pc.last_target.lock();
+    if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
+        if( harmful ) {
+            if( !guy->guaranteed_hostile() ) {
+                // TODO: get rid of this. Or combine it with effect_hit_by_player
+                guy->hit_by_player = true; // used for morale penalty
+            }
+            guy->make_angry();
+        }
+    } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
+        mon->add_effect( effect_hit_by_player, 10_minutes );
+    }
 }

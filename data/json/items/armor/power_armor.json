@@ -19,7 +19,15 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 95,
     "encumbrance": 40,
-    "storage": "2500 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 50,
     "material_thickness": 8,
     "environmental_protection": 6,
@@ -62,17 +70,25 @@
     "price_postapoc": 30000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "hardsteel", "steel" ],
+    "material": [ "hardsteel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 50,
-    "storage": "2500 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 90,
     "power_armor": true,
-    "material_thickness": 11,
+    "material_thickness": 14,
     "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
@@ -95,7 +111,15 @@
     "color": "light_gray",
     "coverage": 100,
     "encumbrance": 40,
-    "storage": "30 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "150 kg",
+        "moves": 300
+      }
+    ],
     "power_armor": true,
     "material_thickness": 10,
     "flags": [ "WATERPROOF", "STURDY", "BELTED" ]
@@ -113,17 +137,25 @@
     "price_postapoc": 40000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "hardsteel", "steel" ],
+    "material": [ "hardsteel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_basic",
     "color": "dark_gray",
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 60,
-    "storage": "4 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "30 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 60,
     "power_armor": true,
-    "material_thickness": 12,
+    "material_thickness": 16,
     "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
@@ -140,7 +172,7 @@
     "price_postapoc": 7500,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "hardsteel", "steel" ],
+    "material": [ "hardsteel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_helmet",
     "color": "light_gray",
@@ -149,7 +181,7 @@
     "encumbrance": 50,
     "warmth": 90,
     "power_armor": true,
-    "material_thickness": 11,
+    "material_thickness": 14,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
@@ -166,7 +198,7 @@
     "price_postapoc": 10000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "hardsteel", "steel" ],
+    "material": [ "hardsteel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
     "color": "dark_gray",
@@ -175,7 +207,7 @@
     "encumbrance": 60,
     "warmth": 60,
     "power_armor": true,
-    "material_thickness": 12,
+    "material_thickness": 16,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
@@ -192,7 +224,7 @@
     "price_postapoc": 10000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "superalloy", "plastic" ],
+    "material": [ "hardsteel", "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
     "color": "dark_gray",
@@ -201,7 +233,7 @@
     "encumbrance": 40,
     "warmth": 60,
     "power_armor": true,
-    "material_thickness": 9,
+    "material_thickness": 8,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES" ]
@@ -218,17 +250,25 @@
     "price_postapoc": 40000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "superalloy", "plastic" ],
+    "material": [ "hardsteel", "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 40,
-    "storage": "4 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "30 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 60,
     "power_armor": true,
-    "material_thickness": 9,
+    "material_thickness": 8,
     "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]

@@ -5,12 +5,12 @@
     "type": "MAGAZINE",
     "name": { "str": "ammo belt" },
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  Holds rifle ammunition.",
-    "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle",
+    "ammo_type": [ "ammo_rifle" ],
     "capacity": 500,
     "count": 100,
     "default_ammo": "rifle_ball",
-    "linkage": "ammolinkrifle"
+    "linkage": "ammolinkrifle",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 500 } } ]
   },
   {
     "id": "rifle_mag",
@@ -19,8 +19,7 @@
     "material": "aluminum",
     "name": "standard rifle magazine",
     "description": "A 30 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
-    "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle"
+    "ammo_type": [ "ammo_rifle" ]
   },
   {
     "id": "rifle_sniper_mag",
@@ -28,7 +27,6 @@
     "type": "MAGAZINE",
     "name": { "str": "compact rifle magazine" },
     "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
-    "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle"
+    "ammo_type": [ "ammo_rifle" ]
   }
 ]

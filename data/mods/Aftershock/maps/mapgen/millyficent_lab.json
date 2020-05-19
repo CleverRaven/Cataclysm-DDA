@@ -200,7 +200,7 @@
     "method": "json",
     "om_terrain": [ "mortuary_2story_second" ],
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_floor",
       "rows": [
         "________________________",
         "________________________",

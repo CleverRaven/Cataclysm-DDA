@@ -61,6 +61,9 @@
 #  make AUTO_BUILD_PREFIX=1
 # Install to system directories.
 #  make install
+# Install to $DIR ($DIR will contain bin and share directories).
+#  make PREFIX=$DIR
+#  make PREFIX=$DIR install
 # Use user's XDG base directories for save files and configs.
 #  make USE_XDG_DIR=1
 # Use user's home directory for save files.
@@ -976,21 +979,21 @@ appclean:
 	rm -f data/auto_pickup.txt
 	rm -f data/fontlist.txt
 
-data/osx/AppIcon.icns: data/osx/AppIcon.iconset
+build-data/osx/AppIcon.icns: build-data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
 ifdef OSXCROSS
 app: appclean version $(APPTARGET)
 else
-app: appclean version data/osx/AppIcon.icns $(APPTARGET)
+app: appclean version build-data/osx/AppIcon.icns $(APPTARGET)
 endif
 	mkdir -p $(APPTARGETDIR)/Contents
-	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
+	cp build-data/osx/Info.plist $(APPTARGETDIR)/Contents/
 	mkdir -p $(APPTARGETDIR)/Contents/MacOS
-	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
+	cp build-data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
 	mkdir -p $(APPRESOURCESDIR)
 	cp $(APPTARGET) $(APPRESOURCESDIR)/
-	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
+	cp build-data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
 	cp -R data/core $(APPDATADIR)
@@ -1047,14 +1050,14 @@ dmgdist: dmgdistclean $(L10N) app
 ifdef OSXCROSS
 	mkdir Cataclysm
 	cp -a $(APPTARGETDIR) Cataclysm/$(APPTARGETDIR)
-	cp data/osx/DS_Store Cataclysm/.DS_Store
-	cp data/osx/dmgback.png Cataclysm/.background.png
+	cp build-data/osx/DS_Store Cataclysm/.DS_Store
+	cp build-data/osx/dmgback.png Cataclysm/.background.png
 	ln -s /Applications Cataclysm/Applications
 	genisoimage -quiet -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
 	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
 	rm Cataclysm-uncompressed.dmg
 else
-	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
+	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 endif
 
 endif  # ifeq ($(NATIVE), osx)

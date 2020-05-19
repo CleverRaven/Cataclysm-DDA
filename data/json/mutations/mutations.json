@@ -332,7 +332,8 @@
     "id": "TABLEMANNERS",
     "name": { "str": "Rigid Table Manners" },
     "points": -1,
-    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "consume_time_modifier": 1.5,
+    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table or not taking your time.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "valid": false
   },
@@ -393,6 +394,7 @@
     "id": "GOURMAND",
     "name": { "str": "Gourmand" },
     "points": 2,
+    "consume_time_modifier": 1.25,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
@@ -575,8 +577,19 @@
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRICT_HUMANITARIAN",
+    "name": { "str": "Strict Humanitarian" },
+    "points": 1,
+    "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
     "type": "mutation",
@@ -922,7 +935,8 @@
     "starting_trait": true,
     "valid": false,
     "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "CANNIBAL", "MEATARIAN", "ANTIFRUIT" ]
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE" ],
+    "changes_to": [ "HERBIVORE" ]
   },
   {
     "type": "mutation",
@@ -943,7 +957,7 @@
     "starting_trait": true,
     "valid": false,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "VEGETARIAN" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
   {
     "type": "mutation",
@@ -964,7 +978,7 @@
     "starting_trait": true,
     "valid": false,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
-    "cancels": [ "VEGETARIAN" ]
+    "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
   {
     "type": "mutation",
@@ -2882,7 +2896,6 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "cancels": [ "HERBIVORE", "RUMINANT" ],
     "category": [ "TROGLOBITE", "CHIMERA" ]
   },
   {
@@ -2896,7 +2909,7 @@
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
-    "cancels": [ "HERBIVORE", "CARNIVORE", "GRAZER" ],
+    "cancels": [ "GRAZER" ],
     "leads_to": [ "CHLOROMORPH" ],
     "category": [ "PLANT" ]
   },
@@ -2934,7 +2947,7 @@
     "description": "Your digestive system is capable of digesting cellulose and other rough plant material.  You can eat underbrush and shrubs by activating this, standing over your target, and pressing E.",
     "prereqs": [ "HERBIVORE" ],
     "changes_to": [ "GRAZER" ],
-    "cancels": [ "CARNIVORE", "SAPROVORE" ],
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
     "category": [ "CATTLE" ],
     "active": true,
     "cost": 0
@@ -2947,7 +2960,7 @@
     "description": "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush and shrubs.  Eat either one by activating this, standing over your target, and pressing E.",
     "prereqs": [ "RUMINANT" ],
     "threshreq": [ "THRESH_CATTLE" ],
-    "cancels": [ "CARNIVORE", "SAPROVORE" ],
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
     "category": [ "CATTLE" ],
     "active": true,
     "cost": 0
@@ -2974,6 +2987,7 @@
     "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
     "prereqs": [ "EATPOISON" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "RAT", "CHIMERA", "MOUSE" ],
     "valid": false
   },
@@ -2982,6 +2996,7 @@
     "id": "BURROW",
     "name": { "str": "Burrowing" },
     "points": 10,
+    "consume_time_modifier": 2.0,
     "valid": false,
     "purifiable": false,
     "description": "Between your claws and teeth, you can tunnel through just about anything.",
@@ -3566,6 +3581,7 @@
     "prereqs": [ "CARNIVORE" ],
     "prereqs2": [ "PRED3", "PRED4" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "CANNIBAL" ]
   },
@@ -3621,6 +3637,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
+    "consume_time_modifier": 0.5,
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
     "prereqs": [ "MOUTH_FLAPS" ],
     "cancels": [ "MANDIBLES" ],
@@ -3635,6 +3652,7 @@
     "visibility": 8,
     "ugliness": 6,
     "butchering_quality": 4,
+    "consume_time_modifier": 0.5,
     "mixed_effect": true,
     "description": "A set of insect-like mandibles have grown around your mouth.  They allow you to eat faster and provide a slicing unarmed attack, but prevent wearing mouthwear.  Slightly reduces wet effects.",
     "types": [ "TEETH", "MUZZLE" ],
@@ -3668,6 +3686,7 @@
     "prereqs2": [ "POISONOUS", "POISONOUS2" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
+    "consume_time_modifier": 2.0,
     "wet_protection": [ { "part": "MOUTH", "ignored": 1 } ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs",
@@ -4978,6 +4997,7 @@
     "points": -2,
     "visibility": 10,
     "ugliness": 5,
+    "consume_time_modifier": 1.8,
     "description": "Though your beak's not suitable for pecking, those flowers out there are a good source of energy.  Examine them to feed.",
     "valid": false,
     "purifiable": false,
@@ -5098,6 +5118,7 @@
     "points": -2,
     "visibility": 10,
     "ugliness": 10,
+    "consume_time_modifier": 1.1,
     "description": "Your flesh is a pleasing gel-like consistency.  Your bodily functions seem to be moving around, and your leg-equivalents flow comfortably - if a little slower than your old meat-legs.",
     "purifiable": false,
     "leads_to": [ "INT_SLIME", "PER_SLIME" ],
@@ -5133,7 +5154,8 @@
     "name": { "str": "Herbivore" },
     "points": -3,
     "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
-    "cancels": [ "CARNIVORE", "SAPROVORE", "ANTIFRUIT", "MEATARIAN" ],
+    "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE", "ANTIFRUIT", "MEATARIAN" ],
+    "prereqs": [ "VEGETARIAN" ],
     "leads_to": [ "RUMINANT" ]
   },
   {
@@ -6069,6 +6091,7 @@
     "points": 3,
     "visibility": 10,
     "ugliness": 8,
+    "consume_time_modifier": 0.3,
     "description": "Your teeth have grown incredibly sharp and are formed of very dense calcium material.  In addition to making you eat much faster, you can use them as a lethal natural weapon, as long as your anatomy favors it.  They also grow very fast, and you harmlessly shed them more or less at random.",
     "prereqs": [ "FANGS" ],
     "types": [ "TEETH" ],
@@ -6100,10 +6123,11 @@
     "id": "PROF_HELI_PILOT",
     "name": "Helicopter Pilot",
     "points": 0,
-    "description": "You are a trained pilot, you wonder if you will ever have the chance to fly again.",
+    "description": "You are a trained helicopter pilot.  This makes you one of the few living people who can operate a helicopter after the Cataclysm.",
     "valid": false,
     "purifiable": false,
-    "profession": true
+    "profession": true,
+    "cancels": [ "WAYFARER" ]
   },
   {
     "type": "mutation",
@@ -6180,11 +6204,10 @@
     "type": "mutation",
     "id": "PROF_SKATER",
     "name": { "str": "Skater" },
-    "points": 0,
-    "description": "You spent a lot of time actively maneuvering on skates before the Cataclysm, and are better at staying on your feet when checked or blocked.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
+    "points": 1,
+    "description": "You are skilled in maneuvering on skates.  You suffer less dodging penalties and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
+    "starting_trait": true,
+    "valid": false
   },
   {
     "type": "mutation",
@@ -6559,6 +6582,7 @@
     "points": -8,
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "cancels": [ "PROF_HELI_PILOT" ]
   }
 ]

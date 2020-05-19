@@ -419,42 +419,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_33",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_34",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_35",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_36",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_37",
     "copy-from": "generic_city_building",
     "name": "house",

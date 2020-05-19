@@ -8,7 +8,6 @@
     "volume": "2 L",
     "price": 3900,
     "price_postapoc": 500,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -17,7 +16,7 @@
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 15,
-    "storage": "15 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -31,7 +30,6 @@
     "volume": "14 L",
     "price": 10000,
     "price_postapoc": 1000,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -40,19 +38,31 @@
     "coverage": 50,
     "encumbrance": 10,
     "max_encumbrance": 40,
-    "storage": "55 L",
     "warmth": 10,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath blade",
-      "holster_msg": "You sheath your %s",
-      "min_volume": "250ml",
-      "max_volume": "2500ml",
-      "multi": 2,
-      "draw_cost": 3,
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "50 L", "max_contains_weight": "50 kg", "moves": 450 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 450 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "moves": 450 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "moves": 450 },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
   {
@@ -65,7 +75,6 @@
     "volume": "8750 ml",
     "price": 4500,
     "price_postapoc": 750,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -74,7 +83,7 @@
     "coverage": 75,
     "encumbrance": 10,
     "max_encumbrance": 40,
-    "storage": "45 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "80 L", "max_contains_weight": "40 kg", "moves": 300 } ],
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -88,7 +97,6 @@
     "volume": "2 L",
     "price": 11900,
     "price_postapoc": 500,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -97,7 +105,7 @@
     "coverage": 30,
     "encumbrance": 4,
     "max_encumbrance": 17,
-    "storage": "15 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "warmth": 9,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -111,7 +119,6 @@
     "volume": "15 L",
     "price": 9000,
     "price_postapoc": 1250,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -120,7 +127,12 @@
     "coverage": 50,
     "encumbrance": 10,
     "max_encumbrance": 55,
-    "storage": "65 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "55 L", "max_contains_weight": "70 kg", "moves": 300 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "10 kg", "moves": 200 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -143,7 +155,15 @@
     "covers": [ "ARMS", "HANDS" ],
     "coverage": 5,
     "encumbrance": 50,
-    "storage": "25 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "50 kg",
+        "moves": 300
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
@@ -156,7 +176,6 @@
     "volume": "21 L",
     "price": 20000,
     "price_postapoc": 2500,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -165,7 +184,12 @@
     "coverage": 50,
     "encumbrance": 16,
     "max_encumbrance": 65,
-    "storage": "80 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "70 L", "max_contains_weight": "70 kg", "moves": 300 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "10 kg", "moves": 200 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -187,8 +211,9 @@
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
-    "encumbrance": 40,
-    "storage": "5 L",
+    "encumbrance": 20,
+    "max_encumbrance": 40,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -205,10 +230,11 @@
     "material": [ "wood", "cotton" ],
     "volume": "15 L",
     "price_postapoc": 50,
-    "storage": "15 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "60 kg", "moves": 300 } ],
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 30,
+    "encumbrance": 15,
+    "max_encumbrance": 30,
     "warmth": 5,
     "bashing": 16,
     "cutting": 4,
@@ -234,7 +260,15 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 30,
-    "storage": "15 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "30 kg",
+        "moves": 200
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -257,7 +291,6 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 50,
-    "storage": "3500 ml",
     "material_thickness": 5,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -275,14 +308,13 @@
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
     "price": 5500,
     "price_postapoc": 500,
-    "rigid": false,
     "material": [ "cotton", "plastic" ],
     "covers": [ "TORSO" ],
     "coverage": 50,
     "material_thickness": 1,
     "encumbrance": 2,
     "max_encumbrance": 18,
-    "storage": "24 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "24 L", "max_contains_weight": "32 kg", "moves": 300 } ],
     "warmth": 5,
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ]
   },
@@ -296,7 +328,6 @@
     "volume": "1500 ml",
     "price": 10900,
     "price_postapoc": 500,
-    "rigid": false,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -305,7 +336,7 @@
     "coverage": 40,
     "encumbrance": 2,
     "max_encumbrance": 12,
-    "storage": "12 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "12 L", "max_contains_weight": "24 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
@@ -318,7 +349,6 @@
     "volume": "6 L",
     "price": 12000,
     "price_postapoc": 500,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -327,7 +357,7 @@
     "coverage": 50,
     "encumbrance": 5,
     "max_encumbrance": 35,
-    "storage": "35 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "35 L", "max_contains_weight": "50 kg", "moves": 300 } ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -349,8 +379,9 @@
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 3,
-    "storage": "2 L",
+    "encumbrance": 1,
+    "max_encumbrance": 3,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 } ],
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -371,8 +402,9 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 2,
-    "storage": "1500 ml",
+    "encumbrance": 1,
+    "max_encumbrance": 2,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "5 kg", "moves": 80 } ],
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -381,12 +413,11 @@
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": { "str": "golf bag" },
-    "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back.",
+    "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back and a slot for an umbrella.",
     "weight": "1900 g",
-    "volume": "15 L",
+    "volume": "45 L",
     "price": 800,
     "price_postapoc": 750,
-    "rigid": false,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "quiver_large",
@@ -395,18 +426,28 @@
     "coverage": 35,
     "encumbrance": 2,
     "max_encumbrance": 15,
-    "storage": "18 L",
+    "longest_side": "900 cm",
+    "//": "The main section of the golf bag actually assumes things will stick out of it, but specifically contains them, so some extra wiggle room was added.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "42 L",
+        "max_contains_weight": "200 kg",
+        "moves": 300,
+        "rigid": true,
+        "max_item_length": "120 cm"
+      },
+      { "max_contains_volume": "90 ml", "max_contains_weight": "750 g", "moves": 200 },
+      { "max_contains_volume": "90 ml", "max_contains_weight": "750 g", "moves": 200 },
+      { "max_contains_volume": "1350 ml", "max_contains_weight": "4 kg", "moves": 300 },
+      { "max_contains_volume": "675 ml", "max_contains_weight": "2 kg", "moves": 300 },
+      { "max_contains_volume": "675 ml", "max_contains_weight": "2 kg", "moves": 300 },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "300 g", "moves": 100 }
+    ],
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath golf club",
-      "holster_msg": "You awkwardly sheath your %s",
-      "max_volume": "1 L",
-      "draw_cost": 40,
-      "flags": [ "SHEATH_GOLF" ]
-    }
+    "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" }
   },
   {
     "id": "hide_bag",
@@ -419,13 +460,8 @@
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": {
-      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
-      "coverage": 5,
-      "encumbrance": 100,
-      "storage": "15 L",
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 100, "material_thickness": 1 },
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
@@ -440,13 +476,8 @@
     "color": "pink",
     "price_postapoc": 10,
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": {
-      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
-      "coverage": 5,
-      "encumbrance": 100,
-      "storage": "15 L",
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 100, "material_thickness": 1 },
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
@@ -457,7 +488,7 @@
     "looks_like": "briefcase",
     "name": { "str": "H&K operational briefcase (empty)", "str_pl": "H&K operational briefcases (empty)" },
     "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
-    "storage": "14500 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "14500 ml", "max_contains_weight": "30 kg", "moves": 300 } ],
     "price": 2000,
     "price_postapoc": 1250,
     "weight": "950 g"
@@ -481,7 +512,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 2,
-    "container_data": { "contains": "10 L", "seals": true, "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "10 L", "max_contains_weight": "10 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -501,8 +532,9 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 15,
-    "encumbrance": 3,
-    "storage": "1500 ml",
+    "encumbrance": 1,
+    "max_encumbrance": 3,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "5 kg", "moves": 80 } ],
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -520,8 +552,12 @@
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 20,
-    "encumbrance": 5,
-    "storage": "2 L",
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2250 ml", "max_contains_weight": "2 kg", "moves": 200 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2250 ml", "max_contains_weight": "2 kg", "moves": 200 }
+    ],
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
@@ -534,7 +570,6 @@
     "volume": "2 L",
     "price": 1000,
     "price_postapoc": 10,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -543,7 +578,7 @@
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 9,
-    "storage": "5 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "10 kg", "moves": 300 } ],
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -557,7 +592,6 @@
     "volume": "5 L",
     "price": 100,
     "price_postapoc": 10,
-    "rigid": false,
     "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -567,7 +601,7 @@
     "coverage": 40,
     "encumbrance": 4,
     "max_encumbrance": 15,
-    "storage": "10 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
@@ -583,7 +617,6 @@
     "volume": "1 L",
     "price": 7900,
     "price_postapoc": 250,
-    "rigid": false,
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -594,7 +627,7 @@
     "coverage": 30,
     "encumbrance": 1,
     "max_encumbrance": 6,
-    "storage": "6 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "18 kg", "moves": 150 } ],
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -608,7 +641,6 @@
     "volume": "2500 ml",
     "price": 6700,
     "price_postapoc": 1500,
-    "rigid": false,
     "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -616,8 +648,13 @@
     "covers": [ "TORSO" ],
     "coverage": 35,
     "encumbrance": 2,
-    "max_encumbrance": 9,
-    "storage": "12 L",
+    "max_encumbrance": 20,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "35 kg", "moves": 300 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 200 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -637,8 +674,9 @@
     "color": "blue",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 10,
-    "storage": "4 L",
+    "encumbrance": 5,
+    "max_encumbrance": 10,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "16 kg", "moves": 300 } ],
     "warmth": 8,
     "material_thickness": 2,
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
@@ -660,8 +698,9 @@
     "color": "white",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
-    "encumbrance": 60,
-    "storage": "5 L",
+    "encumbrance": 40,
+    "max_encumbrance": 60,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -675,7 +714,6 @@
     "volume": "1 L",
     "price": 7500,
     "price_postapoc": 100,
-    "rigid": false,
     "to_hit": 2,
     "bashing": 2,
     "material": [ "leather" ],
@@ -686,7 +724,7 @@
     "coverage": 10,
     "encumbrance": 2,
     "max_encumbrance": 7,
-    "storage": "5 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "10 kg", "moves": 150 } ],
     "material_thickness": 2,
     "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
@@ -706,8 +744,9 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 15,
-    "encumbrance": 10,
-    "storage": "2250 ml",
+    "encumbrance": 5,
+    "max_encumbrance": 10,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2250 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -721,16 +760,20 @@
     "volume": "4 L",
     "price": 9200,
     "price_postapoc": 1250,
-    "rigid": false,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 2,
-    "max_encumbrance": 20,
-    "storage": "22 L",
+    "encumbrance": 8,
+    "max_encumbrance": 50,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "40 L", "max_contains_weight": "60 kg", "moves": 300 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "10 kg", "moves": 200 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -744,7 +787,6 @@
     "volume": "1500 ml",
     "price": 24000,
     "price_postapoc": 500,
-    "rigid": false,
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -755,7 +797,7 @@
     "coverage": 20,
     "encumbrance": 1,
     "max_encumbrance": 6,
-    "storage": "7 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "7 L", "max_contains_weight": "14 kg", "moves": 250 } ],
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -771,7 +813,6 @@
     "volume": "1500 ml",
     "price": 2900,
     "price_postapoc": 750,
-    "rigid": false,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -781,7 +822,7 @@
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 9,
-    "storage": "8 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 200 } ],
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -802,8 +843,9 @@
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
-    "encumbrance": 30,
-    "storage": "2250 ml",
+    "encumbrance": 21,
+    "max_encumbrance": 30,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2250 ml", "max_contains_weight": "3 kg", "moves": 300 } ],
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -824,8 +866,9 @@
     "color": "red",
     "covers": [ "ARM_EITHER", "HAND_EITHER", "LEG_EITHER" ],
     "coverage": 5,
-    "encumbrance": 100,
-    "storage": "20 L",
+    "encumbrance": 50,
+    "max_encumbrance": 100,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "20 L", "max_contains_weight": "80 kg", "moves": 300 } ],
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -845,8 +888,9 @@
     "color": "blue",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 5,
-    "encumbrance": 100,
-    "storage": "10 L",
+    "encumbrance": 60,
+    "max_encumbrance": 100,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10 L", "max_contains_weight": "40 kg", "moves": 250 } ],
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -859,7 +903,6 @@
     "volume": "7500 ml",
     "price": 24000,
     "price_postapoc": 3250,
-    "rigid": false,
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -868,7 +911,7 @@
     "coverage": 40,
     "encumbrance": 8,
     "max_encumbrance": 28,
-    "storage": "38 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "38 L", "max_contains_weight": "60 kg", "moves": 300 } ],
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
@@ -881,7 +924,6 @@
     "volume": "2500 ml",
     "price": 24000,
     "price_postapoc": 2250,
-    "rigid": false,
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -890,7 +932,7 @@
     "coverage": 30,
     "encumbrance": 3,
     "max_encumbrance": 12,
-    "storage": "16 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "16 L", "max_contains_weight": "32 kg", "moves": 300 } ],
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
@@ -903,7 +945,6 @@
     "volume": "5 L",
     "price": 24000,
     "price_postapoc": 3000,
-    "rigid": false,
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -912,7 +953,7 @@
     "coverage": 40,
     "encumbrance": 3,
     "max_encumbrance": 18,
-    "storage": "25 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "40 kg", "moves": 300 } ],
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
@@ -925,7 +966,6 @@
     "volume": "1750 ml",
     "price": 24000,
     "price_postapoc": 2500,
-    "rigid": false,
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -934,7 +974,7 @@
     "coverage": 30,
     "encumbrance": 1,
     "max_encumbrance": 6,
-    "storage": "8 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 250 } ],
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
@@ -954,8 +994,9 @@
     "color": "brown",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 5,
-    "encumbrance": 100,
-    "storage": "15 L",
+    "encumbrance": 50,
+    "max_encumbrance": 100,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -968,7 +1009,6 @@
     "volume": "3 L",
     "price": 7000,
     "price_postapoc": 1500,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -977,7 +1017,12 @@
     "coverage": 40,
     "encumbrance": 3,
     "max_encumbrance": 25,
-    "storage": "30 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "40 kg", "moves": 300 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "10 kg", "moves": 200 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 120 }
+    ],
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ]
@@ -998,8 +1043,14 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 60,
-    "encumbrance": 5,
-    "storage": "3 L",
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]

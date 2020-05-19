@@ -177,7 +177,7 @@ void vehicle::control_doors()
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     // Move the menu so that we can see our vehicle
-    pmenu.w_y = 0;
+    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
@@ -2071,9 +2071,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case DRINK: {
             item water( "water_clean", 0 );
-            if( g->u.eat( water ) ) {
+            if( g->u.can_consume( water ) ) {
+                g->u.assign_activity( player_activity( consume_activity_actor( water, false ) ) );
                 drain( "water_clean", 1 );
-                g->u.moves -= 250;
             }
             return;
         }
@@ -2120,7 +2120,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case UNLOAD_TURRET: {
-            g->unload( *turret.base() );
+            item_location loc = turret.base();
+            g->unload( loc );
             return;
         }
         case RELOAD_TURRET: {

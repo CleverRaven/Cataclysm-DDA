@@ -14,7 +14,8 @@
     "color": "light_gray",
     "ammo_type": [ "40", "10mm" ],
     "capacity": 6,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 6, "10mm": 6 } } ]
   },
   {
     "id": "90two40mag",
@@ -33,7 +34,8 @@
     "capacity": 12,
     "reliability": 8,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 12, "357sig": 12 } } ]
   },
   {
     "id": "glock40bigmag",
@@ -52,7 +54,8 @@
     "capacity": 22,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 22, "357sig": 22 } } ]
   },
   {
     "id": "glock40mag",
@@ -70,7 +73,8 @@
     "ammo_type": [ "40", "357sig" ],
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 15, "357sig": 15 } } ]
   },
   {
     "id": "px4_40mag",
@@ -89,7 +93,8 @@
     "capacity": 14,
     "reliability": 8,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 14, "357sig": 14 } } ]
   },
   {
     "id": "sig40mag",
@@ -104,10 +109,11 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 12,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 12 } } ]
   },
   {
     "id": "smg_40_mag",
@@ -122,11 +128,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 20,
     "reliability": 1,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 20 } } ]
   },
   {
     "id": "bhp40mag",
@@ -141,10 +148,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 10 } } ]
   },
   {
     "id": "ppq40mag_10rd",
@@ -159,10 +167,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 10 } } ]
   },
   {
     "id": "ppq40mag_12rd",
@@ -177,10 +186,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 12,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 12 } } ]
   },
   {
     "id": "ppq40mag_14rd",
@@ -195,10 +205,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 14,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 14 } } ]
   },
   {
     "id": "hptjcpmag",
@@ -213,9 +224,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
+    "ammo_type": [ "40" ],
     "capacity": 10,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 10 } } ]
   }
 ]

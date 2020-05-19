@@ -16,13 +16,17 @@
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "max_volume": "9 L",
-      "min_volume": "1500 ml",
-      "draw_cost": 150,
-      "skills": [ "smg", "shotgun", "rifle", "launcher" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1500 ml",
+        "max_contains_volume": "9 L",
+        "max_contains_weight": "10 kg",
+        "moves": 150
+      }
+    ],
+    "use_action": { "type": "holster" },
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
   },
   {
@@ -40,17 +44,20 @@
     "color": "brown",
     "covers": [ "FOOT_EITHER" ],
     "coverage": 5,
-    "encumbrance": 4,
+    "encumbrance": 3,
+    "max_encumbrance": 4,
     "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "use_action": {
-      "type": "holster",
-      "max_volume": "400 ml",
-      "min_volume": "100 ml",
-      "max_weight": 1000,
-      "draw_cost": 150,
-      "skills": [ "pistol" ]
-    }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 150
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "bow_sling",
@@ -67,10 +74,21 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 5,
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST" ],
-    "use_action": { "type": "holster", "max_volume": "5 L", "min_volume": "500 ml", "skills": [ "archery" ] }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "5 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "holster",
@@ -89,7 +107,17 @@
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "300 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
@@ -99,8 +127,19 @@
     "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
-    "encumbrance": 2,
-    "use_action": { "type": "holster", "max_volume": "400 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
+    "encumbrance": 1,
+    "max_encumbrance": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80
+      }
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "bholster",
@@ -115,14 +154,17 @@
     "material": [ "lycra" ],
     "covers": [ "LEGS" ],
     "encumbrance": 1,
-    "use_action": {
-      "type": "holster",
-      "max_volume": "400 ml",
-      "min_volume": "100 ml",
-      "max_weight": 1000,
-      "draw_cost": 210,
-      "skills": [ "pistol" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 210
+      }
+    ],
+    "use_action": { "type": "holster" },
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -140,10 +182,20 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 20,
-    "encumbrance": 2,
-    "storage": "3 L",
+    "encumbrance": 1,
+    "max_encumbrance": 2,
     "material_thickness": 2,
-    "use_action": { "type": "holster", "max_volume": "3750 ml", "min_volume": "1250 ml", "skills": [ "smg", "shotgun", "rifle" ] },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1250 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
     "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
   },
   {
@@ -155,7 +207,6 @@
     "volume": "250 ml",
     "price": 9000,
     "price_postapoc": 750,
-    "rigid": false,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "quiver_large",
@@ -164,7 +215,17 @@
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "750 ml",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
     "flags": [ "WAIST", "OVERSIZE" ]
   }
 ]

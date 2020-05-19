@@ -282,7 +282,7 @@ void pixel_minimap::flush_cache_updates()
 
             if( pixel_size.x == 1 && pixel_size.y == 1 ) {
                 SetRenderDrawColor( renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a );
-                RenderDrawPoint( renderer, tile_pos.x, tile_pos.y );
+                RenderDrawPoint( renderer, tile_pos );
             } else {
                 const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, pixel_size.x, pixel_size.y };
                 render_fill_rect( renderer, rect, tile_color.r, tile_color.g, tile_color.b );
@@ -551,7 +551,7 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
             const int divisor = 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) + 1;
 
             SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
-            RenderDrawPoint( renderer, rect.x + x, rect.y + y );
+            RenderDrawPoint( renderer, point( rect.x + x, rect.y + y ) );
         }
     }
 }

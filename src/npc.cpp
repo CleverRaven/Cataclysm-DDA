@@ -596,7 +596,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
-            container.put_in( ammo );
+            container.put_in( ammo, item_pocket::pocket_type::CONTAINER );
             ammo = container;
         }
 
@@ -2089,7 +2089,6 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FLEE:
             return A_NEUTRAL;
         case MATT_FRIEND:
-        case MATT_ZLAVE:
             return A_FRIENDLY;
         case MATT_ATTACK:
             return A_HOSTILE;
@@ -2363,19 +2362,17 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
 {
     if( pos ) {
-        pos->x += dx;
-        pos->y += dy;
+        *pos += d;
     }
 }
 
-static void maybe_shift( tripoint &pos, int dx, int dy )
+static void maybe_shift( tripoint &pos, const point &d )
 {
     if( pos != tripoint_min ) {
-        pos.x += dx;
-        pos.y += dy;
+        pos += d;
     }
 }
 
@@ -2385,9 +2382,9 @@ void npc::shift( const point &s )
 
     setpos( pos() - shift );
 
-    maybe_shift( wanted_item_pos, -shift.x, -shift.y );
-    maybe_shift( last_player_seen_pos, -shift.x, -shift.y );
-    maybe_shift( pulp_location, -shift.x, -shift.y );
+    maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( last_player_seen_pos, point( -shift.x, -shift.y ) );
+    maybe_shift( pulp_location, point( -shift.x, -shift.y ) );
     path.clear();
 }
 
@@ -2759,7 +2756,7 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
         if( e.can_holster( *obj ) ) {
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
-                item_store_cost( *obj, e, false, ptr->draw_cost ),
+                item_store_cost( *obj, e, false, e.contents.obtain_cost( *obj ) ),
                 [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }
             } );
         }
@@ -2889,8 +2886,7 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    const auto &comest = it.is_container() ? it.get_contained() : it;
-    if( comest.is_comestible() ) {
+    if( it.is_comestible() ) {
         if( it.get_comestible_fun() < 0 || it.poison > 0 ) {
             return false;
         }

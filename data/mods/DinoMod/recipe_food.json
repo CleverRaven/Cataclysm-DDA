@@ -1,0 +1,220 @@
+[
+  {
+    "type": "recipe",
+    "result": "scrambled_eggs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ], [ "egg_dino", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "boiled_egg",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "deluxe_eggs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ], [ "egg_dino", 1 ] ],
+      [
+        [ "bacon", 2 ],
+        [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "dry_meat", 1 ],
+        [ "rehydrated_meat", 1 ],
+        [ "sausage", 2 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 2 ],
+        [ "jerky", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "meat_salted", 1 ],
+        [ "meat_canned", 1 ],
+        [ "can_chicken", 1 ],
+        [ "can_spam", 2 ],
+        [ "fish_pickled", 1 ],
+        [ "salted_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "cracklins", 2 ],
+        [ "can_sardine", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pancakes",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "syrup", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "fruit_pancakes",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "syrup", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "choc_pancakes",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
+      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "syrup", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "frenchtoast",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "charges": 3,
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "milk_standard_raw", 1, "LIST" ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "cinnamon", 2 ] ],
+      [
+        [ "flatbread", 2 ],
+        [ "bread", 2 ],
+        [ "cornbread", 2 ],
+        [ "wastebread", 2 ],
+        [ "sourdough_bread", 2 ],
+        [ "hardtack", 2 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "waffles",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "syrup", 1 ] ],
+      [ [ "sugar", 2 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "fruit_waffles",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "syrup", 1 ] ],
+      [ [ "sugar", 2 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "choc_waffles",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "12 m",
+    "charges": 5,
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ], [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "egg_dino", 1 ] ],
+      [ [ "syrup", 1 ] ],
+      [ [ "sugar", 2 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
+    ]
+  }
+]

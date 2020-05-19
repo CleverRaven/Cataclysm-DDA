@@ -182,7 +182,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
-    {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
@@ -228,7 +227,13 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    ammo = type->starting_ammo;
+    if( in_species( ROBOT ) ) {
+        for( const auto &ammo_entry : type->starting_ammo ) {
+            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
+        }
+    } else {
+        ammo = type->starting_ammo;
+    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
@@ -1018,7 +1023,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
-            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
@@ -1056,9 +1060,6 @@ monster_attitude monster::attitude( const Character *u ) const
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
-    }
-    if( has_effect( effect_pacified ) ) {
-        return MATT_ZLAVE;
     }
 
     int effective_anger  = anger;
@@ -1313,6 +1314,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
+        case DT_BULLET:
+            return false;
         default:
             return true;
     }
@@ -1323,12 +1326,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1379,7 +1382,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    body_part bp_hit = dealt_dam.bp_hit;
+    const bodypart_id &bp_hit = convert_bp( dealt_dam.bp_hit ).id();
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
@@ -1480,7 +1483,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
+            const body_part affected_bp = eff.affect_hit_bp ? bp_hit->token : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1508,7 +1511,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( target.is_player() || target.is_npc() ) {
             target.as_character()->make_bleed( bp_hit, 6_minutes );
         } else {
-            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+            target.add_effect( effect_bleed, 6_minutes, bp_hit->token );
         }
 
     }
@@ -1540,11 +1543,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bp_torso, INT_MIN, &attack );
+        on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                        int &pain )
 {
     switch( du.type ) {
@@ -1579,12 +1582,13 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
         // internal damage, like from smoke or poison
         case DT_CUT:
         case DT_STAB:
+        case DT_BULLET:
         case DT_HEAT:
         default:
             break;
     }
 
-    Creature::deal_damage_handle_type( du, bp, damage, pain );
+    Creature::deal_damage_handle_type( du,  bp, damage, pain );
 }
 
 int monster::heal( const int delta_hp, bool overheal )
@@ -1625,6 +1629,11 @@ void monster::die_in_explosion( Creature *source )
 {
     hp = -9999; // huge to trigger explosion and prevent corpse item
     die( source );
+}
+
+void monster::heal_bp( bodypart_id, int dam )
+{
+    heal( dam );
 }
 
 bool monster::movement_impaired()
@@ -1810,20 +1819,27 @@ int monster::get_worn_armor_val( damage_type dt ) const
     return 0;
 }
 
-int monster::get_armor_cut( body_part bp ) const
+int monster::get_armor_cut( bodypart_id bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
     return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
 }
 
-int monster::get_armor_bash( body_part bp ) const
+int monster::get_armor_bash( bodypart_id bp ) const
 {
     ( void ) bp;
     return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
-int monster::get_armor_type( damage_type dt, body_part bp ) const
+int monster::get_armor_bullet( bodypart_id bp ) const
+{
+    ( void ) bp;
+    return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
+               DT_BULLET );
+}
+
+int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     int worn_armor = get_worn_armor_val( dt );
 
@@ -1835,6 +1851,8 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
             return get_armor_bash( bp );
         case DT_CUT:
             return get_armor_cut( bp );
+        case DT_BULLET:
+            return get_armor_bullet( bp );
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
@@ -1971,12 +1989,12 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bodypart_id( "torso" ) ) );
     apply_damage( nullptr, bodypart_id( "torso" ), bash_damage );
     total_dealt += force * mod;
 
@@ -2015,6 +2033,19 @@ void monster::set_special( const std::string &special_name, int time )
 void monster::disable_special( const std::string &special_name )
 {
     special_attacks.at( special_name ).enabled = false;
+}
+
+int monster::shortest_special_cooldown() const
+{
+    int countdown = std::numeric_limits<int>::max();
+    for( const std::pair<const std::string, mon_special_attack> &sp_type : special_attacks ) {
+        const mon_special_attack &local_attack_data = sp_type.second;
+        if( !local_attack_data.enabled ) {
+            continue;
+        }
+        countdown = std::min( countdown, local_attack_data.cooldown );
+    }
+    return countdown;
 }
 
 void monster::normalize_ammo( const int old_ammo )
@@ -2364,7 +2395,7 @@ void monster::drop_items_on_death()
 
     const auto dropped = g->m.spawn_items( pos(), items );
 
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
+    if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
@@ -2411,7 +2442,7 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( DT_HEAT, bp_torso );
+        dam -= get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
         if( dam > 0 ) {
             apply_damage( nullptr, bodypart_id( "torso" ), dam );
         } else {
@@ -2784,7 +2815,7 @@ void monster::on_dodge( Creature *, float )
     // Currently does nothing, later should handle faction relations
 }
 
-void monster::on_hit( Creature *source, body_part,
+void monster::on_hit( Creature *source, bodypart_id,
                       float, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {

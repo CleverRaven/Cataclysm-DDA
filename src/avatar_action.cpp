@@ -901,13 +901,10 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
         }
     }
 
-    int range = gun.target->gun_range( &you );
-    const itype *ammo = gun->ammo_data();
-
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, weapon, range,
-                                       ammo );
+    bool reload_requested;
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, reload_requested );
 
     //may be changed in target_ui
     gun = weapon->gun_current_mode();
@@ -916,12 +913,18 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
         bool not_aiming = you.activity.id() != ACT_AIM;
         if( not_aiming && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             const auto previous_moves = you.moves;
-            g->unload( *gun );
+            item_location loc = item_location( you, gun.target );
+            g->unload( loc );
             // Give back time for unloading as essentially nothing has been done.
             // Note that reload_time has not been applied either.
             you.moves = previous_moves;
         }
         g->reenter_fullscreen();
+
+        if( reload_requested ) {
+            // Reload the gun / select different arrows
+            g->reload_wielded( true );
+        }
         return;
     }
     // Recenter our view
@@ -982,18 +985,9 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         return;
     }
 
-    item *turret_base = &*turret.base();
-
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui(
-                                           you,
-                                           TARGET_MODE_TURRET_MANUAL,
-                                           turret_base,
-                                           turret.range(),
-                                           turret.ammo_data(),
-                                           &turret
-                                       );
+    target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
         // Recenter our view
@@ -1030,11 +1024,10 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
             return true;
         } else {
-            you.moves -= 400;
             g->m.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
-            you.eat( food );
+            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
             return true;
         }
     }
@@ -1044,10 +1037,9 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            you.moves -= 400;
             add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
-            you.eat( food );
+            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
             if( g->m.ter( you.pos() ) == t_grass_tall ) {
                 g->m.ter_set( you.pos(), t_grass_long );
             } else if( g->m.ter( you.pos() ) == t_grass_long ) {
@@ -1076,31 +1068,17 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc );
+    avatar_action::eat( you, loc, true );
 }
 
-void avatar_action::eat( avatar &you, item_location loc )
+void avatar_action::eat( avatar &you, item_location loc, bool open_consume_menu )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    item *it = loc.get_item();
-    if( loc.where() == item_location::type::character ) {
-        you.consume( loc );
-
-    } else if( you.consume_item( *it ) ) {
-        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->remove_item( it->contents.front() );
-            add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            loc.remove_item();
-        }
-    }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-    }
+    you.assign_activity( player_activity( consume_activity_actor( loc, open_consume_menu ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -1187,12 +1165,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, you.pos() );
 
-    const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
-            TARGET_MODE_THROW;
-    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode,
-                                       &you.weapon,
-                                       range );
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
+                                            blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {
@@ -1260,16 +1234,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
             use_in_place = true;
         } else {
-            const int obtain_cost = loc.obtain_cost( you );
             loc = loc.obtain( you );
             if( !loc ) {
                 debugmsg( "Failed to obtain target item" );
                 return;
             }
-
-            // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
-            // This method only handles items in the inventory, so refund the obtain cost.
-            you.mod_moves( obtain_cost );
         }
     }
 
@@ -1301,13 +1270,5 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    item *it = loc.get_item();
-    if( loc.where() != item_location::type::character ) {
-        it = loc.obtain( you ).get_item();
-    }
-    if( you.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            you.remove_item( *it );
-        }
-    }
+    you.unload( loc );
 }

@@ -18,8 +18,10 @@
 #include "string_id.h"
 #include "units.h"
 
+static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -524,7 +526,7 @@ std::string effect::disp_name() const
         }
         ret += eff_type->name[0].translated();
         if( intensity > 1 ) {
-            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+            if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
                 ret += string_format( " [%d]", intensity );
@@ -532,7 +534,7 @@ std::string effect::disp_name() const
         }
     }
     if( bp != num_bp ) {
-        ret += string_format( " (%s)", body_part_name( bp ) );
+        ret += string_format( " (%s)", body_part_name( convert_bp( bp ).id() ) );
     }
 
     return ret;
@@ -690,7 +692,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( convert_bp( bp ).id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );

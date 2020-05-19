@@ -76,6 +76,7 @@
     "dodge": 3,
     "armor_bash": 1,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 40,
     "death_function": [ "NORMAL" ],
     "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks somewhat like a reptilian ostrich.",
@@ -162,6 +163,7 @@
     "dodge": 0,
     "armor_bash": 4,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "hp": 400,
     "death_function": [ "NORMAL" ],
     "description": "A huge dinosaur about the size of a small house, with a ferocious crocodile-like head and a sail on its back.",
@@ -208,6 +210,7 @@
     "dodge": 0,
     "armor_bash": 4,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "hp": 300,
     "death_function": [ "NORMAL" ],
     "description": "Look at those teeth!  Tiny little claws though.",
@@ -244,6 +247,7 @@
     "dodge": 0,
     "armor_bash": 4,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "hp": 150,
     "death_function": [ "NORMAL" ],
     "description": "A massive rhino-like dinosaur with a bony crest from which three large horns emerge.",
@@ -288,6 +292,7 @@
     "dodge": 1,
     "armor_bash": 3,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 150,
     "death_function": [ "NORMAL" ],
     "description": "A large quadruped dinosaur with plates on its back, and a spiked tail.",
@@ -321,6 +326,7 @@
     "dodge": 1,
     "armor_bash": 6,
     "armor_cut": 4,
+    "armor_bullet": 3,
     "hp": 120,
     "death_function": [ "NORMAL" ],
     "description": "This dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
@@ -354,6 +360,7 @@
     "dodge": 1,
     "armor_bash": 3,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 120,
     "death_function": [ "NORMAL" ],
     "description": "A large predatory bipedal dinosaur, with tiger-like stripes on its broad back.",
@@ -420,6 +427,7 @@
     "dodge": 3,
     "armor_bash": 1,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 30,
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true } ],
@@ -455,6 +463,7 @@
     "dodge": 2,
     "armor_bash": 1,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 60,
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true } ],
@@ -490,6 +499,7 @@
     "dodge": 1,
     "armor_bash": 2,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 100,
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true } ],
@@ -525,6 +535,7 @@
     "dodge": 0,
     "armor_bash": 4,
     "armor_cut": 4,
+    "armor_bullet": 3,
     "hp": 300,
     "death_function": [ "NORMAL" ],
     "description": "A huge mottled dinosaur with a blunt head crest.  It contentedly strips leaves from a nearby shrub.",
@@ -593,6 +604,7 @@
     "dodge": 1,
     "armor_bash": 3,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "hp": 120,
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "BOOMER", 20 ] ],
@@ -740,205 +752,5 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "magenta and green hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus" }
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
-      { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
-      { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20 },
-      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 },
-      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
-      { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_HARMLESS",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_DANGEROUS",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 },
-      { "monster": "mon_velociraptor", "freq": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
-      { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_FLY",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_MEGA_HERBIVORE",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20 },
-      { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 2, 4 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
-      { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
-      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_FOREST",
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      {
-        "monster": "mon_gallimimus",
-        "freq": 20,
-        "cost_multiplier": 0,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_pachycephalosaurus",
-        "freq": 10,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_stegosaurus",
-        "freq": 10,
-        "cost_multiplier": 20,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_ankylosaurus",
-        "freq": 3,
-        "cost_multiplier": 20,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_triceratops",
-        "freq": 10,
-        "cost_multiplier": 30,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_dilophosaurus",
-        "freq": 5,
-        "cost_multiplier": 10,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      { "monster": "mon_utahraptor", "freq": 3, "cost_multiplier": 30 },
-      {
-        "monster": "mon_eoraptor",
-        "freq": 3,
-        "cost_multiplier": 0,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_SWAMP",
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_parasaurolophus", "freq": 30, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
-      { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
-      { "monster": "mon_allosaurus", "freq": 2, "cost_multiplier": 30 },
-      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 72 },
-      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 168 },
-      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 672 },
-      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 100, "starts": 2160 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_SEWER",
-    "default": "mon_sewer_rat",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_compsognathus", "freq": 300, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_eoraptor", "freq": 200, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_velociraptor", "freq": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_deinonychus", "freq": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_utahraptor", "freq": 100, "cost_multiplier": 30 },
-      { "monster": "mon_dilophosaurus", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_SAFE",
-    "is_safe": true,
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_PARK_ANIMAL",
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_CAVE",
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_compsognathus", "freq": 600, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_gallimimus", "freq": 200, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_spinosaurus", "freq": 50, "cost_multiplier": 50 },
-      { "monster": "mon_tyrannosaurus", "freq": 50, "cost_multiplier": 40 },
-      { "monster": "mon_triceratops", "freq": 80, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_stegosaurus", "freq": 80, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_ankylosaurus", "freq": 80, "cost_multiplier": 20 },
-      { "monster": "mon_allosaurus", "freq": 100, "cost_multiplier": 30 },
-      { "monster": "mon_eoraptor", "freq": 200, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_velociraptor", "freq": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_deinonychus", "freq": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_utahraptor", "freq": 100, "cost_multiplier": 30 },
-      { "monster": "mon_parasaurolophus", "freq": 80, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_dimorphodon", "freq": 500, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_dilophosaurus", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
-    ]
   }
 ]

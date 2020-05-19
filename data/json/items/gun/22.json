@@ -15,9 +15,9 @@
     "material": "steel",
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 39,
@@ -56,9 +56,9 @@
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 90,
     "durability": 8,
     "blackpowder_tolerance": 56,
@@ -79,7 +79,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ]
   },
   {
     "id": "moss_brownie",
@@ -96,8 +97,8 @@
     "bashing": 1,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
-    "ammo": "22",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 520,
     "durability": 6,
     "blackpowder_tolerance": 96,
@@ -113,7 +114,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 4 } } ]
   },
   {
     "id": "rifle_22",
@@ -131,9 +133,9 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -152,7 +154,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 1 } } ]
   },
   {
     "id": "ruger_1022",
@@ -170,9 +173,9 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 39,
@@ -192,7 +195,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
   },
   {
@@ -202,9 +204,10 @@
     "type": "GUN",
     "name": { "str_sp": "Ruger LCR .22" },
     "weight": "420 g",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "clip_size": 8,
-    "magazines": [ [ "22", [ "22_speedloader8" ] ] ]
+    "magazines": [ [ "22", [ "22_speedloader8" ] ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "sig_mosquito",
@@ -222,9 +225,9 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 39,
@@ -242,7 +245,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },
   {
@@ -260,11 +262,10 @@
     "bashing": 9,
     "material": [ "aluminum", "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
   },
   {
@@ -282,7 +283,7 @@
     "bashing": 1,
     "material": [ "budget_steel" ],
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,
@@ -304,11 +305,10 @@
     "bashing": 4,
     "material": [ "plastic", "zinc" ],
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": 1,
     "magazines": [ [ "22", [ "wp22mag" ] ] ]
   }
 ]

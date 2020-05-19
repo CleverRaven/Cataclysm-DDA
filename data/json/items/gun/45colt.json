@@ -32,7 +32,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
   },
   {
     "id": "colt_lightning",
@@ -49,14 +50,15 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "45colt",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ammo": [ "45colt" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 180,
     "durability": 7,
     "clip_size": 14,
     "blackpowder_tolerance": 56,
     "reload_noise": "chik chik.",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 14 } } ]
   },
   {
     "id": "colt_saa",
@@ -72,10 +74,11 @@
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "ammo": "45colt",
+    "ammo": [ "45colt" ],
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "proportional": { "reload": 1.5 }
+    "proportional": { "reload": 1.5 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 6 } } ]
   }
 ]

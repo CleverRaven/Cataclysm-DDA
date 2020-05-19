@@ -69,6 +69,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
@@ -464,8 +465,10 @@ void npc::assess_danger()
 
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
-        const auto test_too_close = [critter, def_radius,
-                 &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
+        for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
+            if( is_too_close ) {
+                break;
+            }
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I don't know why.
             // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
@@ -474,9 +477,7 @@ void npc::assess_danger()
             if( guy.lock() ) {
                 is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
             }
-            return is_too_close;
-        };
-        std::any_of( ai_cache.friends.begin(), ai_cache.friends.end(), test_too_close );
+        }
         // ignore distant monsters that our rules prevent us from attacking
         if( !is_too_close && is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
             continue;
@@ -682,7 +683,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
     // NPCs under operation should just stay still
-    if( activity.id() == "ACT_OPERATION" ) {
+    if( activity.id() == ACT_OPERATION ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -912,7 +913,6 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    player *patient = dynamic_cast<player *>( current_ally() );
     if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
@@ -1079,18 +1079,21 @@ void npc::execute_action( npc_action action )
             }
             break;
 
-        case npc_heal_player:
-            update_path( patient->pos() );
-            if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( *patient );
-            } else if( !path.empty() ) {
-                say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
-                move_to_next();
-            } else {
-                move_pause();
+        case npc_heal_player: {
+            player *patient = dynamic_cast<player *>( current_ally() );
+            if( patient ) {
+                update_path( patient->pos() );
+                if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
+                    heal_player( *patient );
+                } else if( !path.empty() ) {
+                    say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
+                    move_to_next();
+                } else {
+                    move_pause();
+                }
             }
             break;
-
+        }
         case npc_follow_player:
             update_path( g->u.pos() );
             if( static_cast<int>( path.size() ) <= follow_distance() &&
@@ -1608,22 +1611,15 @@ bool npc::can_use_offensive_cbm() const
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
 {
-    invslice slice = inv.slice();
-    int index = -1;
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        const item &it = slice[i]->front();
-        const item &real_item = it.is_container() ?  it.contents.front() : it;
-        if( filter( real_item ) ) {
-            index = i;
-            break;
-        }
-    }
-    if( index < 0 ) {
+    std::vector<item *> filtered_items = items_with( filter );
+    if( filtered_items.empty() ) {
         return false;
     }
-    int old_moves = moves;
-    item_location loc = item_location( *this, &i_at( index ) );
-    return consume( loc ) && old_moves != moves;
+
+    item_location loc = item_location( *this, filtered_items.front() );
+    const time_duration &consume_time = get_consume_time( *loc );
+    moves -= to_moves<int>( consume_time );
+    return consume( loc );
 }
 
 bool npc::recharge_cbm()
@@ -1645,7 +1641,7 @@ bool npc::recharge_cbm()
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
                 for( const itype_id &fid : bid->fuel_opts ) {
-                    return it.typeId() == fid || ( !it.is_container_empty() && it.contents.front().typeId() == fid );
+                    return it.typeId() == fid;
                 }
                 return false;
             };
@@ -3368,11 +3364,10 @@ bool npc::wield_better_weapon()
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
+            return VisitResponse::SKIP;
         } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
-            const item &holstered = node->get_contained();
-            if( holstered.is_melee() || holstered.is_gun() ) {
-                compare_weapon( holstered );
-            }
+            // we just recur to the next farther down
+            return VisitResponse::NEXT;
         }
         return VisitResponse::SKIP;
     } );
@@ -3672,8 +3667,9 @@ void npc::use_painkiller()
             add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         }
         item_location loc = item_location( *this, it );
+        const time_duration &consume_time = get_consume_time( *loc );
+        moves -= to_moves<int>( consume_time );
         consume( loc );
-        moves = 0;
     }
 }
 
@@ -3828,9 +3824,10 @@ bool npc::consume_food()
 
     // consume doesn't return a meaningful answer, we need to compare moves
     // TODO: Make player::consume return false if it fails to consume
-    int old_moves = moves;
     item_location loc = item_location( *this, &i_at( index ) );
-    bool consumed = consume( loc ) && old_moves != moves;
+    const time_duration &consume_time = get_consume_time( *loc );
+    moves -= to_moves<int>( consume_time );
+    bool consumed = consume( loc );
     if( !consumed ) {
         debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
@@ -4388,8 +4385,8 @@ bool npc::complain()
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        body_part bp = bp_affected( *this, effect_infected );
-        const auto &eff = get_effect( effect_infected, bp );
+        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_infected ) ).id();
+        const auto &eff = get_effect( effect_infected, bp->token );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
@@ -4402,7 +4399,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        body_part bp = bp_affected( *this, effect_bite );
+        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bite ) );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4444,7 +4441,7 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        body_part bp = bp_affected( *this, effect_bleed );
+        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
         std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
         if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;

@@ -728,13 +728,13 @@
       { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "fema" },
       { "point": [ 1, 0, 0 ], "overmap": "fema_entrance" },
-      { "point": [ 2, 0, 0 ], "overmap": "fema" },
-      { "point": [ 0, 1, 0 ], "overmap": "fema" },
-      { "point": [ 1, 1, 0 ], "overmap": "fema" },
-      { "point": [ 2, 1, 0 ], "overmap": "fema" },
-      { "point": [ 0, 2, 0 ], "overmap": "fema" },
-      { "point": [ 1, 2, 0 ], "overmap": "fema" },
-      { "point": [ 2, 2, 0 ], "overmap": "fema" }
+      { "point": [ 2, 0, 0 ], "overmap": "fema_1_3" },
+      { "point": [ 0, 1, 0 ], "overmap": "fema_2_1" },
+      { "point": [ 1, 1, 0 ], "overmap": "fema_2_2" },
+      { "point": [ 2, 1, 0 ], "overmap": "fema_2_3" },
+      { "point": [ 0, 2, 0 ], "overmap": "fema_3_1" },
+      { "point": [ 1, 2, 0 ], "overmap": "fema_3_2" },
+      { "point": [ 2, 2, 0 ], "overmap": "fema_3_3" }
     ],
     "connections": [ { "point": [ 1, -1, 0 ] } ],
     "locations": [ "wilderness" ],
@@ -4903,9 +4903,9 @@
     ],
     "connections": [ { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, 25 ],
+    "city_distance": [ 1, 25 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 0 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC" ]
   },
   {

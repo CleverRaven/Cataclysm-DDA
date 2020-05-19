@@ -12,7 +12,7 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
@@ -29,8 +29,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "creepy_doll",
@@ -45,7 +44,7 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
@@ -62,8 +61,7 @@
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "shuttlecock",

@@ -13,6 +13,7 @@ enum class iteminfo_parts : size_t {
     BASE_BARTER,
     BASE_VOLUME,
     BASE_WEIGHT,
+    BASE_LENGTH,
     BASE_RIGIDITY,
     BASE_DAMAGE,
     BASE_TOHIT,
@@ -27,6 +28,7 @@ enum class iteminfo_parts : size_t {
     MED_PORTIONS,
     MED_STIMULATION,
     MED_QUENCH,
+    MED_CONSUME_TIME,
 
     FOOD_NUTRITION,
     FOOD_QUENCH,
@@ -40,6 +42,7 @@ enum class iteminfo_parts : size_t {
     FOOD_POISON,
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
+    FOOD_CONSUME_TIME,
 
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
@@ -191,6 +194,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_BREWABLE_PRODUCTS,
 
     DESCRIPTION_FAULTS,
+
+    DESCRIPTION_POCKETS,
 
     DESCRIPTION_HOLSTERS,
 

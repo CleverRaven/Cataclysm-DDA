@@ -416,6 +416,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "1 m",
+    "autolearn": true,
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
@@ -442,7 +443,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ] ], [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ], [ [ "rag", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1455,10 +1456,22 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "time": "1 m",
+    "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ], { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "crude_picklock",
+    "id_suffix": "from wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1910,7 +1923,7 @@
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
     "components": [
       [ [ "glasses_safety", 1 ] ],
-      [ [ "hose", 3 ] ],
+      [ [ "hose", 3 ], [ "makeshift_hose", 3 ] ],
       [ [ "flask_glass", 4 ], [ "jar_glass", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
       [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "rucksack", 1 ] ]
     ]
@@ -3527,7 +3540,7 @@
     "reversible": true,
     "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ] ] ]
+    "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
   },
   {
     "type": "recipe",

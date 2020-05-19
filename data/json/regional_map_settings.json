@@ -499,6 +499,7 @@
           "mx_prison_bus": 15
         }
       },
+      "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
       "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
@@ -614,6 +615,10 @@
         "house_30": 50,
         "house_31": 50,
         "house_32": 50,
+        "house_33": 50,
+        "house_34": 50,
+        "house_35": 50,
+        "house_36": 50,
         "house_garage": 50,
         "house_garage2": 50,
         "house_garage3": 50,

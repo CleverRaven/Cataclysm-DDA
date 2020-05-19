@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "blunderbuss",
+    "ammo": [ "blunderbuss" ],
     "skill": "shotgun",
     "dispersion": 855,
     "durability": 3,
@@ -29,6 +29,7 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "blunderbuss": 1 } } ]
   }
 ]

@@ -15,7 +15,7 @@
     "count": 20,
     "stack_size": 40,
     "ammo_type": "12mm",
-    "damage": { "damage_type": "stab", "amount": 50, "armor_penetration": 40 },
+    "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 40 },
     "dispersion": 45,
     "recoil": 100
   }

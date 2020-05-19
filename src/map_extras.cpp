@@ -95,8 +95,10 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
+static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
@@ -467,16 +469,39 @@ static bool mx_military( map &m, const tripoint & )
         if( const auto p = random_point( m, [&m]( const tripoint & n ) {
         return m.passable( n );
         } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
-            } else if( one_in( 25 ) ) {
+            if( one_in( 25 ) ) {
                 if( one_in( 2 ) ) {
                     m.add_spawn( mon_zombie_bio_op, 1, *p );
+
+                    int splatter_range = rng( 1, 3 );
+                    for( int j = 0; j <= splatter_range; j++ ) {
+                        m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
+                    }
                 } else {
                     m.add_spawn( mon_dispatch, 1, *p );
                 }
             } else {
-                m.place_items( "map_extra_military", 100, *p, *p, true, calendar::start_of_cataclysm );
+                m.add_spawn( mon_zombie_soldier, 1, *p );
+                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
+                if( !one_in( 10 ) ) {
+                    std::string group;
+                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    if( one_in( 20 ) ) {
+                        group = "military_standard_sniper_rifles";
+                    } else if( one_in( 20 ) ) {
+                        group = "military_standard_shotguns";
+                    } else if( one_in( 10 ) ) {
+                        group = "military_standard_lmgs";
+                    } else {
+                        group = "military_standard_assault_rifles";
+                    }
+                    m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
+                }
+
+                int splatter_range = rng( 1, 3 );
+                for( int j = 0; j <= splatter_range; j++ ) {
+                    m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
+                }
             }
         }
 
@@ -564,20 +589,17 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = is_ot_match( "road", west, ot_match_type::type );
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
-    const auto spawn_turret = [&]( int x, int y ) {
+    const auto spawn_turret = [&]( const point & p ) {
         if( one_in( 3 ) ) {
-            m.add_spawn( mon_turret_bmg, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_bmg, 1, { p, abs_sub.z } );
         } else if( one_in( 2 ) ) {
-            m.add_spawn( mon_turret_rifle, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_rifle, 1, { p, abs_sub.z } );
         } else {
-            m.add_spawn( mon_turret_riot, 1, { x, y, abs_sub.z } );
+            m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
         }
     };
-    bool mil = false;
-    if( one_in( 6 ) ) {
-        mil = true;
-    }
-    if( mil ) { //Military doesn't joke around with their barricades!
+
+    if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
@@ -592,7 +614,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                 line( &m, t_fence_barbed, point( 4, SEEY * 2 - 3 ), point( 10, SEEY * 2 - 3 ) );
                 line( &m, t_fence_barbed, point( 13, SEEY * 2 - 3 ), point( 19, SEEY * 2 - 3 ) );
             }
-            if( road_at_east ) {
+            if( road_at_west ) {
                 line( &m, t_fence_barbed, point( 3, 4 ), point( 3, 10 ) );
                 line( &m, t_fence_barbed, point( 3, 13 ), point( 3, 19 ) );
             }
@@ -619,40 +641,60 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ), 0, 70, -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
                            -1 );
             if( road_at_north ) {
-                spawn_turret( 12, 6 );
+                spawn_turret( point( 12, 6 ) );
             }
             if( road_at_east ) {
-                spawn_turret( 18, 12 );
+                spawn_turret( point( 18, 12 ) );
             }
             if( road_at_south ) {
-                spawn_turret( 12, 18 );
+                spawn_turret( point( 12, 18 ) );
             }
             if( road_at_west ) {
-                spawn_turret( 6, 12 );
+                spawn_turret( point( 6, 12 ) );
             }
         }
+
+        line_furn( &m, f_sandbag_wall, point( 12, 7 ), point( 15, 7 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
+        m.ter_set( point( 14, 8 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 12, 9 ), point( 15, 9 ) );
 
         int num_bodies = dice( 2, 5 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.place_items( "map_extra_military", 100, *p, *p, true, calendar::start_of_cataclysm );
+                m.add_spawn( mon_zombie_soldier, 1, *p );
+                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
+                if( !one_in( 10 ) ) {
+                    std::string group;
+                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    if( one_in( 20 ) ) {
+                        group = "military_standard_sniper_rifles";
+                    } else if( one_in( 20 ) ) {
+                        group = "military_standard_shotguns";
+                    } else if( one_in( 10 ) ) {
+                        group = "military_standard_lmgs";
+                    } else {
+                        group = "military_standard_assault_rifles";
+                    }
+                    m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
+                }
 
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
@@ -685,6 +727,12 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
         m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
+
+        line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
+        m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
+        m.ter_set( point( 8, 11 ), t_plut_generator );
+        line_furn( &m, f_sandbag_wall, point( 6, 12 ), point( 9, 12 ) );
+
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -921,6 +969,8 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         std::string item_group;
         switch( rng( 1, 10 ) ) {
             case 1:
+                item_group = "mil_bulk";
+                break;
             case 2:
             case 3:
             case 4:
@@ -1530,12 +1580,12 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
 
-    std::vector<point> fumarole = line_to( point( x1, y1 ), point( x2, y2 ), 0 );
+    std::vector<point> fumarole = line_to( p1, p2, 0 );
     for( auto &i : fumarole ) {
         m.ter_set( i, t_lava );
 
@@ -1645,8 +1695,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
-                place_fumarole( m, x1, y1, x2, y2, ignited );
-                place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+                place_fumarole( m, point( x1, y1 ), point( x2, y2 ), ignited );
+                place_fumarole( m, point( x1 + x_extra, y1 + y_extra ), point( x2 + x_extra, y2 + y_extra ),
+                                ignited );
 
                 for( auto &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
@@ -2841,6 +2892,54 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
     return true;
 }
 
+static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
+{
+    //First, find a city
+    const city_reference c = overmap_buffer.closest_city( abs_sub );
+    const tripoint city_center_omt = sm_to_omt_copy( c.abs_sm_pos );
+
+    //Then fill vector with all roads inside the city radius
+    std::vector<tripoint> valid_omt;
+    for( const tripoint &p : points_in_radius( city_center_omt, c.city->size ) ) {
+        if( overmap_buffer.check_ot( "road", ot_match_type::prefix, p ) ) {
+            valid_omt.push_back( p );
+        }
+    }
+
+    const tripoint road_omt = random_entry( valid_omt, city_center_omt );
+
+    tinymap compmap;
+    compmap.load( tripoint( road_omt.x * 2, road_omt.y * 2, road_omt.z ), false );
+
+    const tripoint trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
+    bool empty_3x3_square = false;
+
+    //Then find an empty 3x3 pavement square (no other traps, furniture, or vehicles)
+    for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
+        if( ( compmap.ter( p ) == t_pavement || compmap.ter( p ) == t_pavement_y ) &&
+            compmap.tr_at( p ).is_null() &&
+            compmap.furn( p ) == f_null &&
+            !compmap.veh_at( p ) ) {
+            empty_3x3_square = true;
+            break;
+        }
+    }
+
+    //Finally, place a spinning blade trap...
+    if( empty_3x3_square ) {
+        for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
+            compmap.trap_set( p, tr_blade );
+        }
+        compmap.trap_set( trap_center, tr_engine );
+        //... and a loudspeaker to attract zombies
+        compmap.add_spawn( mon_turret_speaker, 1, trap_center );
+    }
+
+    compmap.save();
+
+    return true;
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2875,7 +2974,8 @@ FunctionMap builtin_functions = {
     { "mx_casings", mx_casings },
     { "mx_looters", mx_looters },
     { "mx_corpses", mx_corpses },
-    { "mx_grave", mx_grave }
+    { "mx_grave", mx_grave },
+    { "mx_city_trap", mx_city_trap }
 };
 
 map_extra_pointer get_function( const std::string &name )

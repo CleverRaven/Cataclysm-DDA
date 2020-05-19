@@ -569,7 +569,9 @@ task_reason veh_interact::cant_do( char mode )
             // siphon mode
             valid_target = false;
             for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-                if( vp.part().base.contents_made_of( LIQUID ) ) {
+                if( vp.part().base.has_item_with( []( const item & it ) {
+                return it.made_of( LIQUID );
+                } ) ) {
                     valid_target = true;
                     break;
                 }
@@ -661,6 +663,15 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
+static void print_message_to( catacurses::window &w_msg, const nc_color col,
+                              const std::string &msg )
+{
+    werase( w_msg );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, col, msg );
+    wrefresh( w_msg );
+}
+
 bool veh_interact::can_install_part()
 {
     if( sel_vpart_info == nullptr ) {
@@ -672,15 +683,19 @@ bool veh_interact::can_install_part()
     if( is_drive_conflict() ) {
         return false;
     }
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This part cannot be installed.\n" ) );
+        return false;
+    }
+
     if( sel_vpart_info->has_flag( "FUNNEL" ) ) {
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Funnels need to be installed over a tank." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Funnels need to be installed over a tank." ) );
             return false;
         }
     }
@@ -689,11 +704,7 @@ bool veh_interact::can_install_part()
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Can't install turret on another turret." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Can't install turret on another turret." ) );
             return false;
         }
     }
@@ -800,10 +811,7 @@ bool veh_interact::can_install_part()
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -1039,6 +1047,16 @@ bool veh_interact::do_install( std::string &msg )
                     default:
                         break;
                 }
+                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( veh->would_prevent_flyable( *sel_vpart_info ) ) {
+                    if( query_yn(
+                            _( "Installing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                        veh->set_flyable( false );
+                    } else {
+                        return false;
+                    }
+                }
                 if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
                     !query_yn( _( "Installing this part will make the vehicle unfoldable.  Continue?" ) ) ) {
                     return true;
@@ -1174,16 +1192,32 @@ bool veh_interact::do_repair( std::string &msg )
 
         std::string nmsg;
 
-        bool ok;
+        // this will always be set, but the gcc thinks that sometimes it won't be
+        bool ok = true;
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.repair_requirements().is_empty() && pt.base.max_damage() > 0 ) {
+            if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
+                pt.base.max_damage() <= 0 ) {
+                nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
+                ok = false;
+            } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
+                nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
+                ok = false;
+            } else if( veh->would_prevent_flyable( vp ) ) {
+                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( query_yn(
+                        _( "Repairing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    nmsg += colorize( _( "You chose not to install this part to keep the vehicle flyable.\n" ),
+                                      c_light_red );
+                    ok = false;
+                }
+            } else {
                 ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
                                   vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
-            } else {
-                nmsg += colorize( _( "This part cannot be repaired" ), c_light_red );
-                ok = false;
             }
         }
 
@@ -1291,7 +1325,8 @@ bool veh_interact::do_refill( std::string &msg )
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
                 if( obj.is_container() && !obj.contents.empty() ) {
-                    return pt.can_reload( obj.contents.front() );
+                    // we are assuming only one pocket here, and it's a liquid so only one item
+                    return pt.can_reload( obj.contents.only_item() );
                 }
             } else if( pt.is_fuel_store() ) {
                 bool can_reload = pt.can_reload( obj );
@@ -1443,12 +1478,13 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         }
     }
 
-    for( auto &pt : veh->parts ) {
+    for( vehicle_part &pt : veh->parts ) {
         if( pt.is_tank() && pt.is_available() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
                     std::string specials;
-                    const item &it = pt.base.contents.front();
+                    // vehicle parts can only have one pocket, and we are showing a liquid, which can only be one.
+                    const item &it = pt.base.contents.legacy_front();
                     // a space isn't actually needed in front of the tags here,
                     // but item::display_name tags use a space so this prevents
                     // needing *second* translation for the same thing with a
@@ -1714,6 +1750,14 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vpart_info = &sel_vehicle_part->info();
     std::string msg;
 
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This part cannot be uninstalled.\n" ) );
+        return false;
+    }
+
     if( sel_vehicle_part->is_broken() ) {
         msg += string_format(
                    _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
@@ -1755,20 +1799,23 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
     const auto helpers = g->u.get_crafting_helpers();
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                            qual.obj().name, lvl );
+
+    std::string str_string;
     if( !helpers.empty() ) {
-        msg += string_format(
-                   //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                   _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                   status_color( use_aid ), qual.obj().name, lvl,
-                   status_color( use_str ), str ) + "\n";
+        str_string = string_format( _( "strength ( assisted ) %d" ), str );
     } else {
-        msg += string_format(
-                   //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                   _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                   status_color( use_aid ), qual.obj().name, lvl,
-                   status_color( use_str ), str ) + "\n";
+        str_string = string_format( _( "strength %d" ), str );
     }
+
+    msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                          colorize( aid_string, aid_color ),
+                          colorize( str_string, str_color ) ) + "\n";
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
@@ -1778,10 +1825,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -1840,6 +1884,17 @@ bool veh_interact::do_remove( std::string &msg )
                 default:
                     break;
             }
+
+            // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+            // It can only be the player doing this - an npc won't work well with query_yn
+            if( veh->would_prevent_flyable( veh->parts[part].info() ) ) {
+                if( query_yn(
+                        _( "Removing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    return false;
+                }
+            }
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
                 add_msg( m_info, _( "%s helps with this task…" ), np->name );
@@ -1883,13 +1938,14 @@ bool veh_interact::do_siphon( std::string &msg )
     set_title( _( "Select part to siphon:" ) );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && pt.base.contents_made_of( LIQUID ) );
+        return( pt.is_tank() && !pt.base.contents.empty() &&
+                pt.base.contents.only_item().made_of( LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.back() );
+        item liquid( base.contents.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -2790,7 +2846,7 @@ void act_vehicle_siphon( vehicle *veh )
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        if( vp.part().get_base().contents_made_of( LIQUID ) ) {
+        if( vp.part().get_base().contents.legacy_front().made_of( LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2802,13 +2858,13 @@ void act_vehicle_siphon( vehicle *veh )
 
     std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
+        return pt.is_tank() && pt.get_base().contents.legacy_front().made_of( LIQUID );
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.back() );
+        item liquid( base.contents.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -3018,11 +3074,11 @@ void veh_interact::complete_vehicle( player &p )
                 break;
             }
 
-            auto &src = p.activity.targets.front();
+            item_location &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
             if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
-
-                pt.base.fill_with( src->contents.front() );
+                item &contained = src->contents.legacy_front();
+                contained.charges -= pt.base.fill_with( *contained.type, contained.charges );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
@@ -3033,8 +3089,8 @@ void veh_interact::complete_vehicle( player &p )
                     p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
-                if( src->contents.front().charges == 0 ) {
-                    src->remove_item( src->contents.front() );
+                if( src->contents.legacy_front().charges == 0 ) {
+                    src->remove_item( src->contents.legacy_front() );
                 } else {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }

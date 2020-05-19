@@ -751,6 +751,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_spurge",
+    "copy-from": "seed",
+    "looks_like": "seed_raw_dandelion",
+    "name": { "str_sp": "spurge seeds" },
+    "description": "Some spurge seeds.",
+    "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_popcorn",
     "copy-from": "seed",
     "name": { "str_sp": "popcorn seeds" },
@@ -778,5 +787,14 @@
     "price": 100,
     "charges": 2,
     "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_bell_pepper",
+    "copy-from": "seed",
+    "price": 50,
+    "name": { "str_sp": "bell pepper seeds" },
+    "description": "Some bell pepper seeds.",
+    "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
   }
 ]

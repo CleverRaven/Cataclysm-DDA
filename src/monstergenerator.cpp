@@ -308,6 +308,11 @@ void monster_adjustment::apply( mtype &mon )
 
 static std::vector<monster_adjustment> adjustments;
 
+void reset_monster_adjustment()
+{
+    adjustments.clear();
+}
+
 void load_monster_adjustment( const JsonObject &jsobj )
 {
     monster_adjustment adj;
@@ -326,6 +331,14 @@ void load_monster_adjustment( const JsonObject &jsobj )
         jsobj.read( "special", adj.special );
     }
     adjustments.push_back( adj );
+}
+
+static void build_behavior_tree( mtype &type )
+{
+    type.set_strategy();
+    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
+        type.add_goal( "absorb_items" );
+    }
 }
 
 void MonsterGenerator::finalize_mtypes()
@@ -358,6 +371,9 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_stab < 0 ) {
             mon.armor_stab = mon.armor_cut * 0.8;
         }
+        if( mon.armor_bullet < 0 ) {
+            mon.armor_bullet = 0;
+        }
         if( mon.armor_acid < 0 ) {
             mon.armor_acid = mon.armor_cut * 0.5;
         }
@@ -368,6 +384,7 @@ void MonsterGenerator::finalize_mtypes()
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
 
+        build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
     }
 
@@ -479,8 +496,6 @@ void MonsterGenerator::init_death()
     death_map["FUNGALBURST"] = &mdeath::fungalburst;
     // Snicker-snack!
     death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Take them with you
-    death_map["DETONATE"] = &mdeath::detonate;
     // Game over!  Defense mode
     death_map["GAMEOVER"] = &mdeath::gameover;
     // Spawn some cockroach nymphs
@@ -489,6 +504,8 @@ void MonsterGenerator::init_death()
     death_map["FIREBALL"] = &mdeath::fireball;
     // Explode in a huge fireball
     death_map["CONFLAGRATION"] = &mdeath::conflagration;
+    // resurrect all zombies in the area and upgrade all zombies in the area
+    death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
 
     /* Currently Unimplemented */
     // Screams loudly
@@ -558,6 +575,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
+    add_hardcoded_attack( "SPEAKER", mattack::speaker );
     add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
     add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
@@ -710,6 +728,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_bullet", armor_bullet, strict, 0 );
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
@@ -1120,7 +1139,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+        if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {

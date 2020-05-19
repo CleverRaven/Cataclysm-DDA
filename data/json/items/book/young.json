@@ -1,0 +1,193 @@
+[
+  {
+    "id": "child_book",
+    "type": "BOOK",
+    "name": { "str": "children's book" },
+    "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
+    "weight": "52 g",
+    "volume": "250 ml",
+    "price": 550,
+    "price_postapoc": 1900,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_cyan",
+    "time": "4 m",
+    "chapters": 4,
+    "fun": 1
+  },
+  {
+    "id": "fairy_tales",
+    "type": "BOOK",
+    "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
+    "description": "An amusing collection of folklore featuring the usual cast of fairies, goblins, and trolls.",
+    "weight": "410 g",
+    "volume": "750 ml",
+    "price": 950,
+    "price_postapoc": 1900,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_blue",
+    "intelligence": 6,
+    "time": "18 m",
+    "chapters": 24,
+    "fun": 3,
+    "//": "The ids below represent the Aarne-Thompson System of folklore classification.  Do not change.",
+    "snippet_category": [
+      {
+        "id": "fairyat_41",
+        "text": "This fairy tale is about a wolf who eats so much salted meat she becomes trapped in the butcher's cellar."
+      },
+      {
+        "id": "fairyat_50",
+        "text": "In this traditional story of beastly intrigue a clever fox convinces an elderly lion to kill a derogatory wolf."
+      },
+      {
+        "id": "fairyat_111",
+        "text": "This is an illustrated fairy tale book about a conversation between a mouse and a cat."
+      },
+      {
+        "id": "fairyat_112",
+        "text": "This illustrated fairy tale relates how a city mouse did visit his cousin in the country, and how each regarded the other's quality of life."
+      },
+      { "id": "fairyat_155", "text": "A fable in which the jackal wins the day via clever foolishness." },
+      {
+        "id": "fairyat_156",
+        "text": "A slave mistakenly wanders into a lion's den - thus begins a fable which demonstrates mutual dependence regardless of size or status."
+      },
+      {
+        "id": "fairyat_171",
+        "text": "An amusing collection of stories featuring \"Goldilocks and The Three Bears\" on the cover."
+      },
+      {
+        "id": "fairyat_222",
+        "text": "This is a well illustrated fairy tale about a war between the birds and the beasts, with particulars on the wartime conduct and eventual fate of the bat."
+      },
+      {
+        "id": "fairyat_285",
+        "text": "This book, titled \"The Rattlesnake's Vengeance\" is a collection of Cherokee myths and legends.  \"285D\" is hand-written in pencil on the title page."
+      },
+      { "id": "fairyat_328", "text": "This fairy tale book is a regional variant of \"Jack and the Beanstalk.\"" },
+      {
+        "id": "fairyat_333",
+        "text": "This fairy tale book is entitled \"Little Red Cap\".  It details a red-cloaked child's various encounters with talking wolves."
+      },
+      {
+        "id": "fairyat_366",
+        "text": "A collection of ghost stories warning about the dangers of stealing from the dead."
+      },
+      {
+        "id": "fairyat_402",
+        "text": "An Irish fairy tale in which a Celtic poet marries a princess who has been cursed with the head of a pig."
+      },
+      {
+        "id": "fairyat_408",
+        "text": "A book of Italian fairy tales translated into English.  The cover features an orange fairy juggling a lemon, a lime, and a tangerine."
+      },
+      { "id": "fairyat_451", "text": "A book of fables about people who change into birds." },
+      {
+        "id": "fairyat_475",
+        "text": "This compendium of amusing folk tales about the devil is titled \"Hell's Kettle: Legends of the Devil.\""
+      },
+      {
+        "id": "fairyat_530",
+        "text": "This charming book of Swedish fables is titled, \"The Glass Mountain and the Princess.\""
+      },
+      {
+        "id": "fairyat_555",
+        "text": "This is a collection of fairy tale stories warning against the consequences of extreme greed."
+      },
+      {
+        "id": "fairyat_570",
+        "text": "This fable book is entitled, \"The Rabbit Herd.\"  Inside are woodcut illustrations of a peasant boy playing his flute for a mob of mischievous hares."
+      },
+      { "id": "fairyat_591", "text": "This book is titled, \"The Thieving Pot: Folktales of the Arab World.\"" },
+      { "id": "fairyat_653", "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s." },
+      { "id": "fairyat_758", "text": "A book by the Brothers Grimm titled, \"Eve's Unequal Children.\"" },
+      { "id": "fairyat_766", "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus." },
+      {
+        "id": "fairyat_1060",
+        "text": "In this fairy tale a strong man frightens an ogre by squeezing water out of a stone."
+      },
+      {
+        "id": "fairyat_1084",
+        "text": "This book of rustic folk tales bears the title: \"How to Shout Down the Devil.\""
+      },
+      {
+        "id": "fairyat_1287",
+        "text": "The title of this book is \"Village Folk-tales of Ceylon.\"  It includes fables about logical errors and foolish misjudgements of the Kadambawa men."
+      },
+      {
+        "id": "fairyat_1461",
+        "text": "This book of folk tales is titled, \"The Girl with the Ugly Name, and Other Stories.\""
+      },
+      {
+        "id": "fairyat_2025",
+        "text": "Titled \"The Fleeing Pancake\", this collection of silly folk tales is suitable for small children."
+      }
+    ]
+  },
+  {
+    "id": "book_fict_soft_ya_adrk",
+    "type": "BOOK",
+    "name": "The Adorkable Girl",
+    "description": "When a therapist's daughter transfers to a new school, she decides to change her personality type.  As her social life begins to blossom, can she maintain a healthy boundary between her home life and her public persona?",
+    "copy-from": "book_fict_soft_ya_quiddity",
+    "relative": { "weight": -150, "time": 5, "chapters": -6 }
+  },
+  {
+    "id": "book_fict_soft_ya_bjak",
+    "type": "BOOK",
+    "name": "Becoming Jackson",
+    "description": "When Jackson gains the mystical talent to alter his appearance on command, how will he continue to recognize himself in his own mirror?",
+    "copy-from": "book_fict_soft_ya_vanilla"
+  },
+  {
+    "id": "book_fict_soft_ya_burn",
+    "type": "BOOK",
+    "name": "Nothing Burned",
+    "description": "A teenage influencer becomes fast friends with someone who may or may not be an actual demon.",
+    "copy-from": "book_fict_soft_ya_quiddity"
+  },
+  {
+    "id": "book_fict_soft_ya_hilo",
+    "type": "BOOK",
+    "name": "High and Low",
+    "description": "In this work of adolescent fiction, a young gemini discovers that the astrology section of his small town newspaper is eerily preminiscent.  His efforts to uncover the oracle reveal more than the stars could have predicted.",
+    "copy-from": "book_fict_soft_ya_vanilla"
+  },
+  {
+    "id": "book_fict_soft_ya_myeyes",
+    "type": "BOOK",
+    "name": "Fire When You See My Eyes",
+    "description": "In a cataclysmic future, advanced technology gives parents access to video footage of every moment of their teenage children's lives.",
+    "copy-from": "book_fict_soft_ya_quiddity"
+  },
+  {
+    "id": "book_fict_soft_ya_pbbr",
+    "type": "BOOK",
+    "name": "Peanut Butter Bruised",
+    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of become a professional chef.",
+    "copy-from": "book_fict_soft_ya_quiddity"
+  },
+  {
+    "id": "book_fict_soft_ya_rwya",
+    "type": "BOOK",
+    "name": "Ready When You Are",
+    "description": "When three teenage girls ditch class to drive cross country together they get a strong dose of life lessons on the road.  This work of young adult fiction explores how friendships evolve in early adulthood.",
+    "copy-from": "book_fict_soft_ya_vanilla"
+  },
+  {
+    "id": "book_fict_soft_ya_sboy",
+    "type": "BOOK",
+    "name": "Study of a Boy",
+    "description": "A high school sophomore's personal journal is stolen and then leaked on social media.  When it goes viral he is forced simultaneously to contend with both fame and betrayal.",
+    "copy-from": "book_fict_soft_ya_vanilla"
+  },
+  {
+    "id": "book_fict_soft_ya_sumv",
+    "type": "BOOK",
+    "name": "Summer Variables",
+    "description": "In this book written primarily for young adults, a woman's modest summer internship results in an incredible discovery that attracts the attention of unsavory elements.",
+    "copy-from": "book_fict_soft_ya_vanilla"
+  }
+]

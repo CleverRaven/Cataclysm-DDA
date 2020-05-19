@@ -17,12 +17,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "map_extra_military",
-    "entries": [ { "item": "corpse", "damage": 3 }, { "group": "mon_zombie_soldier_death_drops" } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "map_extra_college_camping",
     "entries": [
       { "group": "underwear", "damage-min": 1, "damage-max": 3 },

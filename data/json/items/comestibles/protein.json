@@ -5,7 +5,8 @@
     "comestible_type": "DRINK",
     "name": "protein drink",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green drink" },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
@@ -33,6 +34,7 @@
     "name": { "str_sp": "protein powder" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green powder" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
@@ -56,7 +58,7 @@
     "comestible_type": "FOOD",
     "name": { "str": "protein ration" },
     "//": "Inspired by, but not based on, a true story",
-    "description": "SoyPelusa ran a highly successful crowdfunding campaign for this protein bar.  A person can live on one of these bars, three times a day, presumably forever.  After backers received their product, a single flaw was found: most consumers found starvation preferable to the flavor.  Warehouses of the product went unsold as the company went bankrupt, providing the perfect opportunity for FEMA to scoop them up and stock the evac shelters.  Now, you hold a piece of famous crowdfunding history in your hands.  How exciting.",
+    "description": "SoyPelusa ran a highly successful crowdfunding campaign for their signature protein bar, dubbed \"DaiZoom.\"  A person can live on one of these bars, three times a day, presumably forever.  After backers received their product, a single flaw was found: most consumers found starvation preferable to the flavor.  Warehouses of the product went unsold as the company went bankrupt, providing the perfect opportunity for FEMA to scoop them up and stock the evac shelters.  Now, you hold a piece of famous crowdfunding history in your hands.  How exciting.",
     "weight": "150 g",
     "volume": "223 ml",
     "price": 500,
@@ -68,7 +70,7 @@
     "material": [ "fruit", "veggy" ],
     "symbol": "%",
     "color": "green",
-    "container": "wrapper",
+    "container": "wrapper_pr",
     "calories": 400,
     "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
@@ -78,7 +80,8 @@
     "type": "COMESTIBLE",
     "name": "protein shake",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green shake" },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
@@ -97,7 +100,8 @@
     "type": "COMESTIBLE",
     "name": "fortified protein shake",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "fortified soylent green shake" },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",

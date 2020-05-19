@@ -12,10 +12,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "357sig",
+    "ammo_type": [ "357sig" ],
     "capacity": 12,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357sig": 12 } } ]
   },
   {
     "id": "p320mag_13rd_357sig",
@@ -30,10 +31,11 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "357sig",
+    "ammo_type": [ "357sig" ],
     "capacity": 13,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357sig": 13 } } ]
   }
 ]

@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "behavior.h"
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
@@ -213,6 +214,8 @@ struct mtype {
         enum_bitset<mon_trigger> fear;
         enum_bitset<mon_trigger> placate;
 
+        behavior::node_t goals;
+
         void add_special_attacks( const JsonObject &jo, const std::string &member_name,
                                   const std::string &src );
         void remove_special_attacks( const JsonObject &jo, const std::string &member_name,
@@ -280,6 +283,7 @@ struct mtype {
         int armor_bash = -1;    /** innate armor vs. bash */
         int armor_cut  = -1;    /** innate armor vs. cut */
         int armor_stab = -1;    /** innate armor vs. stabbing */
+        int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
 
@@ -385,6 +389,9 @@ struct mtype {
         int get_meat_chunks_count() const;
         std::string get_description() const;
         std::string get_footsteps() const;
+        void set_strategy();
+        void add_goal( const std::string &goal_id );
+        const behavior::node_t *get_goals() const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );

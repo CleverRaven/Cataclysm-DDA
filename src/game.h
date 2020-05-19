@@ -90,7 +90,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
 
@@ -152,7 +151,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
     public:
         game();
         ~game();
@@ -582,8 +580,14 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
-                                 inventory_item_menu_positon position = RIGHT_OF_INFO );
+        int inventory_item_menu( item_location locThisItem,
+        const std::function<int()> &startx = []() {
+            return 0;
+        },
+        const std::function<int()> &width = []() {
+            return 50;
+        },
+        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
@@ -656,7 +660,7 @@ class game
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
-                        const std::vector<tripoint> &points );
+                        const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
@@ -787,13 +791,13 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
-        void reload_wielded();
+        void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item &it ); // Unload a gun/tool  'U'
+        bool unload( item_location &loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 
@@ -810,7 +814,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( item_location &loc );
+        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -951,6 +955,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 
@@ -973,8 +978,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,

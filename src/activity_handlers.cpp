@@ -43,7 +43,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gates.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -126,8 +125,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DIG( "ACT_DIG" );
-static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -154,7 +151,6 @@ static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
-static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
@@ -166,7 +162,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -243,8 +238,6 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
-static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -338,8 +331,6 @@ activity_handlers::do_turn_functions = {
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_DIG, dig_do_turn },
-    { ACT_DIG_CHANNEL, dig_channel_do_turn },
     { ACT_FILL_PIT, fill_pit_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
@@ -367,7 +358,6 @@ activity_handlers::finish_functions = {
     { ACT_FORAGE, forage_finish },
     { ACT_HOTWIRE_CAR, hotwire_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
-    { ACT_MAKE_ZLAVE, make_zlave_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
     { ACT_START_FIRE, start_fire_finish },
@@ -380,7 +370,6 @@ activity_handlers::finish_functions = {
     { ACT_PULP, pulp_finish },
     { ACT_CRACKING, cracking_finish },
     { ACT_LOCKPICK, lockpicking_finish },
-    { ACT_OPEN_GATE, open_gate_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -413,8 +402,6 @@ activity_handlers::finish_functions = {
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
-    { ACT_DIG, dig_finish },
-    { ACT_DIG_CHANNEL, dig_channel_finish },
     { ACT_FILL_PIT, fill_pit_finish },
     { ACT_PLAY_WITH_PET, play_with_pet_finish },
     { ACT_SHAVE, shaving_finish },
@@ -601,7 +588,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     }
     bool b_rack_present = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
-        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) || u.best_nearby_lifting_assist() >= 7 ) {
             b_rack_present = true;
         }
     }
@@ -609,7 +596,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     if( action == BUTCHER_FULL ) {
         const bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
                               u.has_amount( "hd_tow_cable", 1 ) ||
-                              u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
+                              u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 ) || u.has_amount( "chain", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse ) {
@@ -621,7 +608,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_rope && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
+                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, a crane, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -1590,7 +1577,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
+                p->pour_into( *act_ref.targets.at( 0 ), liquid );
                 break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -1878,72 +1865,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
     add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
-}
-
-void activity_handlers::make_zlave_finish( player_activity *act, player *p )
-{
-    act->set_to_null();
-    map_stack items = g->m.i_at( p->pos() );
-    const std::string corpse_name = act->str_values[0];
-    item *body = nullptr;
-
-    for( item &it : items ) {
-        if( it.display_name() == corpse_name ) {
-            body = &it;
-        }
-    }
-
-    if( body == nullptr ) {
-        add_msg( m_info, _( "There's no corpse to make into a zombie slave!" ) );
-        return;
-    }
-
-    int success = act->values[0];
-
-    if( success > 0 ) {
-
-        p->practice( skill_firstaid, rng( 2, 5 ) );
-        p->practice( skill_survival, rng( 2, 5 ) );
-
-        p->add_msg_if_player( m_good,
-                              _( "You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reanimates." ) );
-
-        body->set_var( "zlave", "zlave" );
-        //take into account the chance that the body yet can regenerate not as we need.
-        if( one_in( 10 ) ) {
-            body->set_var( "zlave", "mutilated" );
-        }
-
-    } else if( success > -20 ) {
-
-        p->practice( skill_firstaid, rng( 3, 6 ) );
-        p->practice( skill_survival, rng( 3, 6 ) );
-
-        p->add_msg_if_player( m_warning,
-                              _( "You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates." ) );
-
-        success += rng( 1, 20 );
-
-        if( success > 0 && !one_in( 5 ) ) {
-            body->set_var( "zlave", "zlave" );
-        } else {
-            body->set_var( "zlave", "mutilated" );
-        }
-
-    } else {
-
-        p->practice( skill_firstaid, rng( 1, 8 ) );
-        p->practice( skill_survival, rng( 1, 8 ) );
-
-        body->mod_damage( rng( 0, body->max_damage() - body->damage() ), DT_STAB );
-        if( body->damage() == body->max_damage() ) {
-            body->active = false;
-            p->add_msg_if_player( m_warning, _( "You cut up the corpse too much, it is thoroughly pulped." ) );
-        } else {
-            p->add_msg_if_player( m_warning,
-                                  _( "You cut into the corpse trying to make it unable to attack, but you don't think you have it right." ) );
-        }
-    }
 }
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
@@ -2543,6 +2464,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     item *it = loc.get_item();
     if( it == nullptr ) {
         debugmsg( "lockpick item location lost" );
+        p->cancel_activity();
         return;
     }
 
@@ -2585,7 +2507,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
                     p->dex_cur / 4.0;
     int lock_roll = rng( 1, 120 );
-    if( pick_roll >= lock_roll ) {
+    if( ( pick_roll >= lock_roll ) || it->has_flag( "PSEUDO" ) ) {
         p->practice( skill_lockpick, lock_roll );
         g->m.has_furn( act->placement ) ?
         g->m.furn_set( act->placement, new_furn_type ) :
@@ -2614,18 +2536,10 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                                  p->global_sm_location() );
         }
     }
-    if( destroy ) {
+    if( destroy || it->has_flag( "PSEUDO" ) ) {
         p->i_rem( it );
     }
 
-    act->set_to_null();
-}
-
-void activity_handlers::open_gate_finish( player_activity *act, player * )
-{
-    // Don't use reference and don't inline, because act can change
-    const tripoint pos = act->placement;
-    gates::open_gate( pos );
     act->set_to_null();
 }
 
@@ -2992,7 +2906,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( p->i_rem( &mod ) );
+        gun.put_in( p->i_rem( &mod ), item_pocket::pocket_type::MOD );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -3027,7 +2941,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.item_tags.insert( "IRREMOVABLE" );
-    tool.put_in( mod );
+    tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
 }
 
@@ -3283,6 +3197,13 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
+    if( p->fine_detail_vision_mod() > 4 ) {
+        //It got too dark during the process of reading, bail out.
+        act->set_to_null();
+        p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+        return;
+    }
+
     if( p->is_player() ) {
         if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
             if( act->values.empty() ) {
@@ -3484,7 +3405,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const int difficulty = act->values.front();
 
-    const std::vector<body_part> bps = get_occupied_bodyparts( bid );
+    const std::vector<bodypart_id> bps = get_occupied_bodyparts( bid );
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
@@ -3506,22 +3427,21 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
             if( !bps.empty() ) {
-                for( const body_part bp : bps ) {
-                    const bodypart_id bpid = convert_bp( bp ).id();
+                for( const bodypart_id &bp : bps ) {
                     p->make_bleed( bp, 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, bpid, 20 * difficulty );
+                    p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
                                                   _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
                     }
 
-                    if( bp == bp_eyes ) {
+                    if( bp == bodypart_id( "eyes" ) ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
                 }
             } else {
-                p->make_bleed( num_bp, 1_turns, difficulty, true );
+                p->make_bleed( bodypart_id( "num_bp" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -3529,7 +3449,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     if( time_left > half_op_duration ) {
         if( !bps.empty() ) {
-            for( const body_part bp : bps ) {
+            for( const bodypart_id &bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
@@ -3574,7 +3494,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         }
     } else if( act->values[1] > 0 ) {
         if( !bps.empty() ) {
-            for( const body_part bp : bps ) {
+            for( const bodypart_id &bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
@@ -4226,103 +4146,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::dig_do_turn( player_activity *act, player * )
-{
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::dig_channel_do_turn( player_activity *act, player * )
-{
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::dig_finish( player_activity *act, player *p )
-{
-    const ter_id result_terrain( act->str_values[1] );
-    const std::string byproducts_item_group = act->str_values[0];
-    const int byproducts_count = act->values[0];
-    const tripoint dump_loc = act->coords[0];
-    const tripoint &pos = act->placement;
-    const bool grave = g->m.ter( pos ) == t_grave;
-
-    if( grave ) {
-        if( one_in( 10 ) ) {
-            static const std::array<mtype_id, 5> monids = { {
-                    mon_zombie, mon_zombie_fat,
-                    mon_zombie_rot, mon_skeleton,
-                    mon_zombie_crawler
-                }
-            };
-
-            g->place_critter_at( random_entry( monids ), dump_loc );
-            g->m.furn_set( pos, f_coffin_o );
-            p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
-        } else {
-            g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
-            g->m.furn_set( pos, f_coffin_c );
-        }
-        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
-        g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
-        g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
-        for( item * const &it : dropped ) {
-            if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
-                it->set_damage( rng( 1, it->max_damage() - 1 ) );
-            }
-        }
-        g->events().send<event_type::exhumes_grave>( p->getID() );
-    }
-
-    g->m.ter_set( pos, result_terrain );
-
-    for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
-    }
-
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    if( grave ) {
-        p->add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
-    } else {
-        p->add_msg_if_player( m_good, _( "You finish digging the %s." ),
-                              g->m.ter( act->placement ).obj().name() );
-    }
-
-    act->set_to_null();
-}
-
-void activity_handlers::dig_channel_finish( player_activity *act, player *p )
-{
-    const ter_id result_terrain( act->str_values[1] );
-    const std::string byproducts_item_group = act->str_values[0];
-    const int byproducts_count = act->values[0];
-    const tripoint dump_loc = act->coords[0];
-
-    g->m.ter_set( act->placement, result_terrain );
-
-    for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
-    }
-
-    p->mod_hunger( 5 );
-    p->mod_thirst( 5 );
-    p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finish digging up %s." ),
-                          g->m.ter( act->placement ).obj().name() );
-
-    act->set_to_null();
-}
-
 void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", 100 );
@@ -4671,8 +4494,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
 
 static void blood_magic( player *p, int cost )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
     int max_hp_part = 0;
@@ -4715,14 +4538,13 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     const bool no_mana = act->get_value( 2 ) == 0;
 
     // choose target for spell (if the spell has a range > 0)
-
-    target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
         !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
-            std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
+            std::vector<tripoint> trajectory = target_handler::mode_spell( *p, spell_being_cast, no_fail,
+                                               no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = spell_being_cast.is_valid_target( *p, target );
@@ -4870,5 +4692,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    data_card.put_in( item( "mind_scan_robofac" ) );
+    data_card.put_in( item( "mind_scan_robofac" ), item_pocket::pocket_type::SOFTWARE );
 }

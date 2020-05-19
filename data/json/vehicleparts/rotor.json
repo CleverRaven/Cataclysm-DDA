@@ -7,7 +7,7 @@
     "color": "light_blue",
     "broken_symbol": "O",
     "broken_color": "light_gray",
-    "flags": [ "ROTOR" ],
+    "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_UNINSTALL", "NO_REPAIR" ],
     "description": "A set of aerofoil helicopter rotors, when spun at high speed, they generate thrust via lift."
   },
   {
@@ -18,12 +18,6 @@
     "item": "heavy_duty_military_rotor",
     "//": "rotor diameter is in meters",
     "rotor_diameter": 15,
-    "//": "difficulty is artificially high to prevent homemade helicopters - for the moment",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
-    },
     "durability": 450,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
@@ -38,12 +32,6 @@
     "item": "small_helicopter_rotor",
     "//": "rotor diameter is in meters",
     "rotor_diameter": 8,
-    "//": "difficulty is artificially high to prevent homemade helicopters - for the moment",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
-    },
     "durability": 100,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,

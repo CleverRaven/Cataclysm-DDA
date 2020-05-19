@@ -19,6 +19,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_oracle.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "compatibility.h"
@@ -878,7 +879,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         nc_color color = c_light_red;
 
         const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", bp ) ) {
+        if( u.worn_with_flag( "SPLINT", convert_bp( bp ).id() ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -921,8 +922,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
 
@@ -1149,8 +1150,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     }
 
     // display limbs status
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
     ny2 = 0;
@@ -1175,13 +1176,13 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
-    const std::vector<std::pair<body_part, int>> parts = {
-        {bp_arm_l, 2},
-        {bp_head, 0},
-        {bp_arm_r, 3},
-        {bp_leg_l, 4},
-        {bp_torso, 1},
-        {bp_leg_r, 5}
+    const std::vector<std::pair<bodypart_id, int>> parts = {
+        {bodypart_id( "arm_l" ), 2},
+        {bodypart_id( "head" ), 0},
+        {bodypart_id( "arm_r" ), 3},
+        {bodypart_id( "leg_l" ), 4},
+        {bodypart_id( "torso" ), 1},
+        {bodypart_id( "leg_r" ), 5}
     };
     werase( w );
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1559,8 +1560,8 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
 

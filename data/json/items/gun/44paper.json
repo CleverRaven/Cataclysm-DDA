@@ -13,11 +13,12 @@
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "ammo": "44paper",
+    "ammo": [ "44paper" ],
     "dispersion": 400,
     "durability": 7,
     "blackpowder_tolerance": 96,
-    "clip_size": 6
+    "clip_size": 6,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44paper": 6 } } ]
   },
   {
     "id": "lemat_revolver",
@@ -34,7 +35,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "44paper",
+    "ammo": [ "44paper" ],
     "dispersion": 420,
     "durability": 6,
     "blackpowder_tolerance": 56,
@@ -50,6 +51,7 @@
       [ "sights mount", 1 ]
     ],
     "built_in_mods": [ "lemat_revolver_shotgun" ],
-    "extend": { "flags": [ "NO_UNLOAD" ] }
+    "extend": { "flags": [ "NO_UNLOAD" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44paper": 9 } } ]
   }
 ]

@@ -92,7 +92,7 @@ TEST_CASE( "Items rot away" )
         calendar::turn += 20_minutes;
         test_item.mod_rot( 2_days );
 
-        CHECK( test_item.process_temperature_rot( 1, false, tripoint_zero, nullptr,
+        CHECK( test_item.process_temperature_rot( 1, tripoint_zero, nullptr,
                 temperature_flag::TEMP_HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
     }

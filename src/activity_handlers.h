@@ -60,6 +60,7 @@ enum class do_activity_reason : int {
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
+    WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
     NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
@@ -170,9 +171,7 @@ void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void find_mount_do_turn( player_activity *act, player *p );
 void tidy_up_do_turn( player_activity *act, player *p );
-void dig_do_turn( player_activity *act, player *p );
 void build_do_turn( player_activity *act, player *p );
-void dig_channel_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
@@ -197,7 +196,6 @@ void forage_finish( player_activity *act, player *p );
 void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
 void pulp_finish( player_activity *act, player *p );
-void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
@@ -211,7 +209,6 @@ void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
 void lockpicking_finish( player_activity *act, player *p );
-void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
@@ -240,8 +237,6 @@ void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void chop_planks_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
-void dig_finish( player_activity *act, player *p );
-void dig_channel_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );

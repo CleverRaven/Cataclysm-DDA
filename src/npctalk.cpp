@@ -865,8 +865,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
                 chatbin.mission_selected = d.missions_assigned.front();
             }
         }
-        d_win.print_header( name );
-        const talk_topic next = d.opt( d_win, d.topic_stack.back() );
+        const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -1733,7 +1732,8 @@ const talk_topic &special_talk( char ch )
     return no_topic;
 }
 
-talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
+talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
+                          const talk_topic &topic )
 {
     bool text_only = d_win.text_only;
     std::string challenge = dynamic_line( topic );
@@ -1771,29 +1771,49 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+#if defined(__ANDROID__)
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    for( size_t i = 0; i < responses.size(); i++ ) {
+        ctxt.register_manual_key( 'a' + i );
+    }
+    ctxt.register_manual_key( 'L', "Look at" );
+    ctxt.register_manual_key( 'S', "Size up stats" );
+    ctxt.register_manual_key( 'Y', "Yell" );
+    ctxt.register_manual_key( 'O', "Check opinion" );
+#endif
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        d_win.resize_dialogue( ui );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        d_win.print_header( npc_name );
+        d_win.display_responses( hilight_lines, response_lines );
+    } );
 
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
         d_win.refresh_response_display();
         do {
-            d_win.display_responses( hilight_lines, response_lines, ch );
+            ui_manager::redraw();
             if( !text_only ) {
                 ch = inp_mngr.get_input_event().get_first_input();
             }
+            d_win.handle_scrolling( ch );
             auto st = special_talk( ch );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
             switch( ch ) {
-                // send scroll control keys back to the display window
                 case KEY_DOWN:
                 case KEY_NPAGE:
                 case KEY_UP:
                 case KEY_PPAGE:
-                    continue;
+                    ch = -1;
+                    break;
                 default:
                     ch -= 'a';
                     break;
@@ -2051,7 +2071,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             }
         } else {
             item container( container_name, calendar::turn );
-            container.put_in( item( item_name, calendar::turn, count ) );
+            container.put_in( item( item_name, calendar::turn, count ), item_pocket::pocket_type::CONTAINER );
             u.i_add( container );
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container.tname() );
@@ -3225,11 +3245,15 @@ enum consumption_result {
 };
 
 // Returns true if we destroyed the item through consumption
+// does not try to consume contents
 static consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
-    bool consuming_contents = it.is_container() && !it.contents.empty();
-    item &to_eat = consuming_contents ? it.contents.front() : it;
+    item &to_eat = it;
+    if( to_eat.is_null() ) {
+        debugmsg( "Null item to try_consume." );
+        return REFUSED;
+    }
     const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
@@ -3244,13 +3268,17 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
     if( to_eat.is_food() ) {
-        if( !p.eat( to_eat ) ) {
+        if( !p.can_consume( to_eat ) ) {
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {
+            const time_duration &consume_time = p.get_consume_time( to_eat );
+            p.moves -= to_moves<int>( consume_time );
+            p.consume( to_eat );
             reason = _( "Thanks, that hit the spot." );
+
         }
-    } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
+    } else if( to_eat.is_medication() ) {
         if( comest->tool != "null" ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
@@ -3281,11 +3309,6 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( to_eat.charges > 0 ) {
-        return CONSUMED_SOME;
-    }
-
-    if( consuming_contents ) {
-        it.remove_item( it.contents.front() );
         return CONSUMED_SOME;
     }
 

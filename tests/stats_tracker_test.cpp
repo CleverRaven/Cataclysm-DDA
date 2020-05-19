@@ -460,7 +460,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     event_bus b;
     stats_tracker s;
     b.subscribe( &s );
-    achievements_tracker a( s, [&]( const achievement * a ) {
+    achievements_tracker a( s, [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_completed.emplace( a->id, a );
     } );
     b.subscribe( &a );
@@ -484,6 +484,26 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         calendar::turn += 2_days;
         b.send( avatar_wakes_up );
         CHECK( achievements_completed.count( a_survive_one_day ) );
+    }
+
+    SECTION( "hidden_kills" ) {
+        const character_id u_id = g->u.getID();
+        const mtype_id mon_zombie( "mon_zombie" );
+        const cata::event avatar_zombie_kill =
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+
+        string_id<achievement> a_kill_10( "achievement_kill_10_monsters" );
+        string_id<achievement> a_kill_100( "achievement_kill_100_monsters" );
+
+        b.send<event_type::game_start>( u_id );
+
+        CHECK( !a.is_hidden( &*a_kill_10 ) );
+        CHECK( a.is_hidden( &*a_kill_100 ) );
+        for( int i = 0; i < 10; ++i ) {
+            b.send( avatar_zombie_kill );
+        }
+        CHECK( !a.is_hidden( &*a_kill_10 ) );
+        CHECK( !a.is_hidden( &*a_kill_100 ) );
     }
 
     SECTION( "kills" ) {
@@ -537,7 +557,32 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_light_gray>Rude awakening</color>\n"
                    "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "  <color_c_yellow>0/1 monster killed</color>\n" );
+        }
+
+        // Advance a minute and kill again
+        calendar::turn += 1_minutes;
+        b.send( avatar_zombie_kill );
+
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
+                   "<color_c_light_green>One down, billions to go…</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_green>1/1 zombie killed</color>\n" );
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
+                   "<color_c_light_green>Rude awakening</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
+        } else {
+            CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
+                   "<color_c_light_green>One down, billions to go…</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_green>1/1 zombie killed</color>\n" );
+            CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
+            CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
+                   "<color_c_light_gray>Rude awakening</color>\n"
+                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
     }
 
@@ -577,25 +622,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                     }
                     THEN( "the achivement should be achieved" ) {
                         CHECK( achievements_completed.count( a_marathon ) > 0 );
-                    }
-                }
-            }
-        }
-
-        SECTION( "achievement_walk_1000_miles" ) {
-            string_id<achievement> a_proclaimers( "achievement_walk_1000_miles" );
-
-            GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
-                CHECK( achievements_completed.empty() );
-
-                WHEN( "the avatar walks the required distance" ) {
-                    for( int i = 0; i < 1609340; i++ ) {
-                        b.send( walk );
-                    }
-                    THEN( "the achivement should be achieved" ) {
-                        CHECK( achievements_completed.count( a_proclaimers ) > 0 );
                     }
                 }
             }

@@ -14,12 +14,13 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "270win",
+    "ammo": [ "270win" ],
     "dispersion": 70,
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "270win": 4 } } ]
   }
 ]

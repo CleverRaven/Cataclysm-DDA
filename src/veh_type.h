@@ -49,6 +49,7 @@ enum vpart_bitflags : int {
     VPFLAG_COOLER,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
+    VPFLAG_ROTOR_SIMPLE,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
     VPFLAG_DOME_LIGHT,
@@ -274,7 +275,7 @@ class vpart_info
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -361,6 +362,14 @@ class vpart_info
         static void reset();
 
         static const std::map<vpart_id, vpart_info> &all();
+
+        /**
+          * Exhaust emissions of part
+
+          * If the vehicle has an exhaust part, it is emitted there;
+          * otherwise, it is emitted in place
+          */
+        std::set<emit_id> exhaust;
 };
 
 struct vehicle_item_spawn {

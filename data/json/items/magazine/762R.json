@@ -13,8 +13,9 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "762R",
+    "ammo_type": [ "762R" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ]
   }
 ]

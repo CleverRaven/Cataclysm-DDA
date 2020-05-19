@@ -15,13 +15,14 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
-    "ammo": "nail",
+    "ammo": [ "nail" ],
     "skill": "pistol",
     "dispersion": 800,
     "durability": 8,
     "loudness": 5,
     "clip_size": 20,
     "reload": 50,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nail": 20 } } ]
   }
 ]

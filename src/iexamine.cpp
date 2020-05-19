@@ -98,6 +98,7 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const efftype_id effect_earphones( "earphones" );
@@ -113,7 +114,6 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -139,8 +139,10 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
 
+static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
@@ -148,7 +150,6 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
-static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
@@ -621,20 +622,37 @@ void iexamine::vending( player &p, const tripoint &examp )
         popup( _( "You need some money on a cash card to buy things." ) );
     }
 
-    const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-    const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
-    const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
-    const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    const int w_items_w  = window_w / 2;
-    const int w_info_w   = window_w - w_items_w;
-    const int list_lines = window_h - 4; // minus for header and footer
-
+    int w_items_w = 0;
+    int w_info_w = 0;
+    int list_lines = 0;
+    int lines_above = 0;
+    int lines_below = 0;
     constexpr int first_item_offset = 3; // header size
 
-    catacurses::window const w = catacurses::newwin( window_h, w_items_w, point( padding_x,
-                                 padding_y ) );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,
-                                           point( padding_x + w_items_w, padding_y ) );
+    catacurses::window w;
+    catacurses::window w_item_info;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+        const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+        const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+        const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+        w_items_w  = window_w / 2;
+        w_info_w   = window_w - w_items_w;
+        list_lines = window_h - 4; // minus for header and footer
+
+        lines_above = list_lines / 2;                  // lines above the selector
+        lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
+        w = catacurses::newwin( window_h, w_items_w,
+                                point( padding_x, padding_y ) );
+        w_item_info = catacurses::newwin( window_h, w_info_w,
+                                          point( padding_x + w_items_w, padding_y ) );
+
+        ui.position( point( padding_x, padding_y ), point( window_w, window_h ) );
+    } );
+    ui.mark_resize();
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
@@ -651,7 +669,7 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[utf8_truncate( it->tname(), static_cast<size_t>( w_items_w - 4 ) )].push_back( it );
+        item_map[it->tname()].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
@@ -661,14 +679,8 @@ void iexamine::vending( player &p, const tripoint &examp )
         item_list.emplace_back( &pair );
     }
 
-    const int lines_above = list_lines / 2;                  // lines above the selector
-    const int lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     int cur_pos = 0;
-    for( ;; ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         const int num_items = item_list.size();
         const int page_size = std::min( num_items, list_lines );
 
@@ -721,6 +733,16 @@ void iexamine::vending( player &p, const tripoint &examp )
                                                 static_cast<size_t>( w_info_w - 4 ) );
         mvwprintw( w_item_info, point_east, "<%s>", name );
         wrefresh( w_item_info );
+    } );
+
+    for( ;; ) {
+        ui_manager::redraw();
+
+        const int num_items = item_list.size();
+
+        // Item info
+        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -1011,10 +1033,12 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     } else if( g->m.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         p.moves -= 300; // Most common move cost for barricades pre-change.
-    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) &&
+               !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
-    } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.has_trait( trait_INSECT_ARMS_OK ) &&
+               !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
     } else if( p.has_trait( trait_PARKOUR ) ) {
@@ -1326,9 +1350,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
-    iuse dummy;
     item temporary_item( prying_items[0]->type );
-    dummy.crowbar( &p, &temporary_item, false, examp );
+    iuse::crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -1579,7 +1602,7 @@ static bool can_drink_nectar( const player &p )
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bp_mouth ) ) );
+           ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
 }
 
 /**
@@ -1588,10 +1611,9 @@ static bool can_drink_nectar( const player &p )
 static bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
-        p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
         item nectar( "nectar", calendar::turn, 1 );
-        p.eat( nectar );
+        p.assign_activity( player_activity( consume_activity_actor( nectar, false ) ) );
         return true;
     }
 
@@ -1632,10 +1654,9 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
                        g->m.furnname( examp ) ) ) {
             return;
         }
-        p.moves -= to_moves<int>( 30_seconds ); // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
-        p.eat( poppy );
+        p.assign_activity( player_activity( consume_activity_actor( poppy, false ) ) );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -1648,7 +1669,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         return;
     }
 
-    int resist = p.get_env_resist( bp_mouth );
+    int resist = p.get_env_resist( bodypart_id( "mouth" ) );
 
     if( resist < 10 ) {
         // Can't smell the flowers with a gas mask on!
@@ -2135,7 +2156,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= g->m.furn( examp )->plant->harvest_multiplier;
-        const int max_harvest_count = get_option<int>( "MAX_HARVEST_COUNT" );
+        const int max_harvest_count = 12;
         if( plant_count >= max_harvest_count ) {
             plant_count = max_harvest_count;
         } else if( plant_count <= 0 ) {
@@ -3110,16 +3131,15 @@ void iexamine::keg( player &p, const tripoint &examp )
                 return;
 
             case HAVE_A_DRINK:
-                if( !p.eat( drink ) ) {
+                if( !p.can_consume( drink ) ) {
                     return; // They didn't actually drink
                 }
-
+                p.assign_activity( player_activity( consume_activity_actor( drink, false ) ) );
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                     g->m.i_clear( examp );
                 }
-                p.moves -= to_moves<int>( 5_seconds );
                 return;
 
             case REFILL: {
@@ -3300,13 +3320,17 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
     map_stack items = g->m.i_at( examp );
     if( !items.empty() ) {
         item &it = items.only_item();
-        if( it.is_bucket() || it.is_watertight_container() ) {
+        if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            if( !it.is_container_empty() && it.contents.front().typeId() == "maple_sap" ) {
-                has_sap = true;
-                charges = it.contents.front().charges;
-            }
+            it.visit_items( [&charges, &has_sap]( const item * it ) {
+                if( it->typeId() == "maple_syrup" ) {
+                    has_sap = true;
+                    charges = it->charges;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
         }
     }
 
@@ -4263,7 +4287,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
 
-            if( g->slip_down( true ) ) {
+            if( g->m.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
                 return;
             }
 
@@ -4325,7 +4349,7 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
             return it;
         }
         if( it.typeId() == "corpse" ) {
-            if( it.get_mtype()->id == "mon_broken_cyborg" || it.get_mtype()->id == "mon_prototype_cyborg" ) {
+            if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
                 return it;
             }
         }
@@ -4335,38 +4359,31 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 
 static player &best_installer( player &p, player &null_player, int difficulty )
 {
-    float player_skill = p.bionics_adjusted_skill( skill_firstaid,
-                         skill_computer,
-                         skill_electronics );
-
-    std::vector< std::pair<float, int>> ally_skills;
-    ally_skills.reserve( g->allies().size() );
+    std::vector< std::pair<int, int>> ally_chances;
+    ally_chances.reserve( g->allies().size() );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
-        std::pair<float, int> ally_skill;
+        std::pair<int, int> ally_skill;
         const npc *e = g->allies()[ i ];
 
         player &ally = *g->critter_by_id<player>( e->getID() );
         ally_skill.second = i;
-        ally_skill.first = ally.bionics_adjusted_skill( skill_firstaid,
-                           skill_computer,
-                           skill_electronics );
-        ally_skills.push_back( ally_skill );
+        ally_skill.first = bionic_success_chance( true, -1, difficulty, ally );
+        ally_chances.push_back( ally_skill );
     }
-    std::sort( ally_skills.begin(), ally_skills.end(), [&]( const std::pair<float, int> &lhs,
-    const std::pair<float, int> &rhs ) {
+    std::sort( ally_chances.begin(), ally_chances.end(), [&]( const std::pair<int, int> &lhs,
+    const std::pair<int, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
-    int player_cos = bionic_manip_cos( player_skill, difficulty );
+    int player_cos = bionic_success_chance( true, -1, difficulty, p );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
-        if( ally_skills[ i ].first > player_skill ) {
-            const npc *e = g->allies()[ ally_skills[ i ].second ];
+        if( ally_chances[ i ].first > player_cos ) {
+            const npc *e = g->allies()[ ally_chances[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
-            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 if( !g->u.query_yn(
                         //~ %1$s is the name of the ally
                         _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
-                        ally.disp_name(), ally_cos, player_cos ) ) {
+                        ally.disp_name(), ally_chances[i].first, player_cos ) ) {
                     return null_player;
                 } else {
                     continue;
@@ -4374,7 +4391,7 @@ static player &best_installer( player &p, player &null_player, int difficulty )
             }
             //~ %1$s is the name of the ally
             add_msg( _( "%1$s will perform the operation with a %2$d chance of success." ), ally.disp_name(),
-                     ally_cos );
+                     ally_chances[i].first );
             return ally;
         } else {
             break;
@@ -4422,7 +4439,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg.typeId() == "bot_broken_cyborg" || cyborg.typeId() == "corpse" ) {
-                popup( _( "ERROR Bionic Level Assessement: FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
+                popup( _( "ERROR Bionic Level Assessment: FULL CYBORG.  Autodoc Mk. XI can't operate.  Please move patient to appropriate facility.  Exiting." ) );
                 return;
             }
 
@@ -4460,7 +4477,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.activity.id() == "ACT_OPERATION" ) {
+    } else if( patient.activity.id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
                to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
@@ -4560,7 +4577,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         bionic_to_uninstall.set_flag( flag_IN_CBM );
                         bionic_to_uninstall.set_flag( flag_NO_STERILE );
                         bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        g->u.i_add( bionic_to_uninstall );
+                        // TODO: refactor this whole bit. adding items to the inventory will
+                        // cause major issues when inv gets removed. this is a shim for now
+                        // in order to reduce lines of change for nested containers.
+                        g->u.inv.push_back( bionic_to_uninstall );
                     }
                 }
             }
@@ -4605,8 +4625,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bool broken = patient.is_limb_broken( static_cast<hp_part>( i ) );
-                body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
-                effect &existing_effect = patient.get_effect( effect_mending, part );
+                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                effect &existing_effect = patient.get_effect( effect_mending, part->token );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
                                  existing_effect.get_duration() >
@@ -4630,8 +4650,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     cata::optional<std::list<item>::iterator> worn_item =
                         patient.wear( equipped_splint, false );
                 }
-                patient.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part );
+                patient.add_effect( effect_mending, 0_turns, part->token, true );
+                effect &mending_effect = patient.get_effect( effect_mending, part->token );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
@@ -4719,7 +4739,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_MILLABLE ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, false, examp, nullptr );
+            it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -4819,7 +4839,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, false, examp, nullptr );
+            it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

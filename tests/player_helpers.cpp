@@ -50,9 +50,11 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    dummy.normalize(); // In particular this clears martial arts style
+
+    // delete all worn items.
+    dummy.worn.clear();
+    dummy.reset_encumbrance();
     dummy.inv.clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
@@ -67,7 +69,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.stomach.empty();
     dummy.guts.empty();
     item food( "debug_nutrition" );
-    dummy.eat( food );
+    dummy.consume( food );
 
     dummy.empty_skills();
     dummy.clear_morale();
@@ -99,6 +101,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
+    dummy.hp_cur.fill( dummy.get_hp_max() );
 
     dummy.cash = 0;
 
@@ -156,7 +159,7 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->toggled && !bio.powered ) {
+    if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
         const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front(), "2" );
@@ -168,4 +171,11 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
             p.remove_value( fuel_opts.front() );
         }
     }
+}
+
+item tool_with_ammo( const itype_id &tool, const int qty )
+{
+    item tool_it( tool );
+    tool_it.ammo_set( tool_it.ammo_default(), qty );
+    return tool_it;
 }

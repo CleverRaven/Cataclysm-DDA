@@ -48,6 +48,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_conversions.h"
@@ -117,6 +118,15 @@ static const activity_id ACT_AIM( "ACT_AIM" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const ter_str_id t_ash( "t_ash" );
+static const ter_str_id t_rubble( "t_rubble" );
+static const ter_str_id t_pwr_sb_support_l( "t_pwr_sb_support_l" );
+static const ter_str_id t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
+static const ter_str_id t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
+static const ter_str_id t_wreckage( "t_wreckage" );
+
+static const trap_str_id tr_brazier( "tr_brazier" );
+
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
         "OBJECT_TERRAIN", "OBJECT_FURNITURE"
@@ -166,10 +176,10 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !items.empty() ) {
+    if( !contents.empty() ) {
         json.start_object();
 
-        json.member( "items", items );
+        json.member( "contents", contents );
 
         json.end_object();
     }
@@ -178,7 +188,38 @@ void item_contents::serialize( JsonOut &json ) const
 void item_contents::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "items", items );
+    data.read( "contents", contents );
+}
+
+void item_pocket::serialize( JsonOut &json ) const
+{
+    if( !contents.empty() ) {
+        json.start_object();
+        json.member( "pocket_type", data->type );
+        json.member( "contents", contents );
+        json.end_object();
+    }
+}
+
+void item_pocket::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "contents", contents );
+    int saved_type_int;
+    data.read( "pocket_type", saved_type_int );
+    _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+}
+
+void pocket_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void resealable_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,12 +253,19 @@ void player_activity::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     std::string tmptype;
     int tmppos = 0;
+
+    bool is_obsolete = false;
+    std::set<std::string> obs_activites {
+        "ACT_MAKE_ZLAVE" // Remove after 0.F
+    };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
         int tmp_type_legacy = data.get_int( "type" );
         deserialize_legacy_type( tmp_type_legacy, type );
-    } else {
+    } else if( !obs_activites.count( tmptype ) ) {
         type = activity_id( tmptype );
+    } else {
+        is_obsolete = true;
     }
 
     if( type.is_null() ) {
@@ -230,7 +278,7 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( has_actor && !data.has_member( "actor" ) ) {
+    if( is_obsolete || ( has_actor && !data.has_member( "actor" ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 
@@ -398,6 +446,8 @@ void Character::load( const JsonObject &data )
 
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
+
+    data.read( "custom_profession", custom_profession );
 
     // needs
     data.read( "thirst", thirst );
@@ -658,6 +708,8 @@ void Character::store( JsonOut &json ) const
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
+
+    json.member( "custom_profession", custom_profession );
 
     // health
     json.member( "healthy", healthy );
@@ -2325,6 +2377,26 @@ void item::io( Archive &archive )
     }
 }
 
+void item::migrate_content_item( const item &contained )
+{
+    if( contained.is_gunmod() || contained.is_toolmod() ) {
+        put_in( contained, item_pocket::pocket_type::MOD );
+    } else if( !contained.made_of( LIQUID )
+               && ( contained.is_magazine() || contained.is_ammo() ) ) {
+        put_in( contained, item_pocket::pocket_type::MAGAZINE );
+    } else if( typeId() == "usb_drive" ) {
+        // as of this migration, only usb_drive has any software in it.
+        put_in( contained, item_pocket::pocket_type::SOFTWARE );
+    } else if( is_corpse() ) {
+        put_in( contained, item_pocket::pocket_type::CORPSE );
+    } else if( can_contain( contained ) ) {
+        put_in( contained, item_pocket::pocket_type::CONTAINER );
+    } else {
+        // we want this to silently fail - the contents will fall out later
+        put_in( contained, item_pocket::pocket_type::MIGRATION );
+    }
+}
+
 void item::deserialize( JsonIn &jsin )
 {
     const JsonObject data = jsin.get_object();
@@ -2334,17 +2406,27 @@ void item::deserialize( JsonIn &jsin )
     if( savegame_loading_version < 27 ) {
         legacy_fast_forward_time();
     }
+    contents = item_contents( type->pockets );
+    // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
         data.read( "contents", items );
-        contents = item_contents( items );
+        for( const item &it : items ) {
+            migrate_content_item( it );
+        }
     } else {
-        data.read( "contents", contents );
-    }
+        item_contents read_contents;
+        data.read( "contents", read_contents );
+        contents.combine( read_contents );
 
-    // Sealed item migration: items with "unseals_into" set should always have contents
-    if( contents.empty() && is_non_resealable_container() ) {
-        convert( type->container->unseals_into );
+        if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
+            // migration for nested containers. leave until after 0.F
+            std::list<item> items;
+            data.get_object( "contents" ).read( "items", items );
+            for( const item &it : items ) {
+                migrate_content_item( it );
+            }
+        }
     }
 }
 
@@ -2619,6 +2701,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
+    data.read( "airworthy", flyable );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
@@ -2781,6 +2864,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "is_following", is_following );
     json.member( "is_patrolling", is_patrolling );
     json.member( "autodrive_local_target", autodrive_local_target );
+    json.member( "airworthy", flyable );
     json.member( "summon_time_limit", summon_time_limit );
     json.member( "magic", magic );
     json.end_object();
@@ -2981,6 +3065,7 @@ void Creature::store( JsonOut &jsout ) const
     }
     jsout.member( "effects", tmp_map );
 
+    jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
 
     jsout.member( "blocks_left", num_blocks );
@@ -2990,6 +3075,7 @@ void Creature::store( JsonOut &jsout ) const
 
     jsout.member( "armor_bash_bonus", armor_bash_bonus );
     jsout.member( "armor_cut_bonus", armor_cut_bonus );
+    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3046,6 +3132,8 @@ void Creature::load( const JsonObject &jsin )
     }
     jsin.read( "values", values );
 
+    jsin.read( "damage_over_time_map", damage_over_time_map );
+
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
@@ -3053,6 +3141,7 @@ void Creature::load( const JsonObject &jsin )
 
     jsin.read( "armor_bash_bonus", armor_bash_bonus );
     jsin.read( "armor_cut_bonus", armor_cut_bonus );
+    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
 
     jsin.read( "speed", speed_base );
 
@@ -3752,24 +3841,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( jsin.get_string() );
 
-                    if( tid == "t_rubble" ) {
+                    if( tid == t_rubble ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_rubble" );
                         itm[i][j].insert( rock );
                         itm[i][j].insert( rock );
-                    } else if( tid == "t_wreckage" ) {
+                    } else if( tid == t_wreckage ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_wreckage" );
                         itm[i][j].insert( chunk );
                         itm[i][j].insert( chunk );
-                    } else if( tid == "t_ash" ) {
+                    } else if( tid == t_ash ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_ash" );
-                    } else if( tid == "t_pwr_sb_support_l" ) {
+                    } else if( tid == t_pwr_sb_support_l ) {
                         ter[i][j] = ter_id( "t_support_l" );
-                    } else if( tid == "t_pwr_sb_switchgear_l" ) {
+                    } else if( tid == t_pwr_sb_switchgear_l ) {
                         ter[i][j] = ter_id( "t_switchgear_l" );
-                    } else if( tid == "t_pwr_sb_switchgear_s" ) {
+                    } else if( tid == t_pwr_sb_switchgear_s ) {
                         ter[i][j] = ter_id( "t_switchgear_s" );
                     } else {
                         ter[i][j] = tid.id();
@@ -3861,7 +3950,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( jsin.get_string() );
-            if( trid == "tr_brazier" ) {
+            if( trid == tr_brazier ) {
                 frn[p.x][p.y] = furn_id( "f_brazier" );
             } else {
                 trp[p.x][p.y] = trid.id();

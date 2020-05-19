@@ -173,17 +173,17 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
-    for( const body_part bp : all_body_parts ) {
-        const float wetness_percentage = static_cast<float>( body_wetness[bp] ) /
-                                         drench_capacity[bp];
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        const float wetness_percentage = static_cast<float>( body_wetness[bp->token] ) /
+                                         drench_capacity[bp->token];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr, convert_bp( bp ).id(), dmg );
+            apply_damage( nullptr,  bp, dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
-        } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
-            heal( bp, std::abs( dmg ) );
+        } else if( dmg < 0 && hp_cur[bp_to_hp( bp->token )] != hp_max[bp_to_hp( bp->token )] ) {
+            heal( bp->token, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
                                    body_part_name( bp ) );
@@ -706,7 +706,7 @@ void Character::suffer_from_asthma( const int current_stim )
 void Character::suffer_in_sunlight()
 {
     double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bp_head );
+    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
                        has_trait( trait_LEAVES3 );
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
@@ -788,7 +788,7 @@ void Character::suffer_from_albinism()
     }
     // Sunglasses can keep the sun off the eyes.
     if( !has_bionic( bio_sunglasses ) &&
-        !( wearing_something_on( bp_eyes ) &&
+        !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         if( one_turn_in( 1_minutes ) ) {
@@ -856,7 +856,7 @@ void Character::suffer_from_albinism()
                 ++parts_count;
             }
         }
-        std::string bp_name = body_part_name( max_affected_bp, parts_count );
+        std::string bp_name = body_part_name( convert_bp( max_affected_bp ).id(), parts_count );
         if( count_affected_bp > parts_count ) {
             bp_name = string_format( _( "%s and other body parts" ), bp_name );
         }
@@ -1628,15 +1628,15 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+        const bodypart_id &part = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+        if( needs_splint && !worn_with_flag( "SPLINT",  part ) ) {
             continue;
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, part );
+        auto &eff = get_effect( effect_mending, part->token );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, part, true );
+            add_effect( effect_mending, dur_inc, part->token, true );
             continue;
         }
 
@@ -1644,8 +1644,8 @@ void Character::mend( int rate_multiplier )
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
             hp_cur[i] = 1;
-            remove_effect( effect_mending, part );
-            g->events().send<event_type::broken_bone_mends>( getID(), part );
+            remove_effect( effect_mending, part->token );
+            g->events().send<event_type::broken_bone_mends>( getID(), part->token );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( part ) );
