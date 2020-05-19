@@ -51,7 +51,7 @@
     "difficulty": 1,
     "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 6 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 6 ] ] ]
   },
   {
     "result": "rubber_harness_dog",

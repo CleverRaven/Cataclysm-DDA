@@ -336,21 +336,6 @@
     "color": "light_gray"
   },
   {
-    "id": "kevlar_plate",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Kevlar plate" },
-    "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "300 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 25,
-    "material": "kevlar",
-    "symbol": ",",
-    "color": "green",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "large_space_heater",
     "type": "TOOL",
     "name": { "str": "large space heater" },
