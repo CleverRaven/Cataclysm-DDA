@@ -20,6 +20,43 @@
     "fuel": { "energy": 1 }
   },
   {
+    "type": "AMMO",
+    "id": "butane",
+    "name": { "str_sp": "butane" },
+    "symbol": "~",
+    "description": "A common flammable liquid used in lighters.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "butane"
+  },
+  {
+    "type": "AMMO",
+    "id": "match",
+    "name": { "str": "match", "str_pl": "matches" },
+    "symbol": "|",
+    "description": "A small stick with a red part at the end.  Strike it against a matchbook to light it.",
+    "volume": "4 ml",
+    "weight": "1 mg",
+    "color": "red",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "match"
+  },
+  {
+    "type": "AMMO",
+    "id": "oxygen",
+    "name": { "str_sp": "oxygen" },
+    "symbol": "~",
+    "color": "white",
+    "description": "Compressed medical oxygen.",
+    "weight": "1 mg",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "gas",
+    "ammo_type": "oxygen"
+  },
+  {
     "type": "TOOL",
     "id": "betavoltaic",
     "category": "spare_parts",

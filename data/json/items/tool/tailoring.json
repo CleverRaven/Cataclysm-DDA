@@ -160,9 +160,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ",",
     "color": "red",
-    "ammo": [ "thread" ],
-    "initial_charges": 50,
-    "max_charges": 200,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 3 ] ],
     "use_action": {
