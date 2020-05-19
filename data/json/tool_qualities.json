@@ -178,6 +178,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOSE_SIPHON",
+    "name": { "str": "siphoning" },
+    "usages": [ [ 1, [ "SIPHON" ] ] ]
+  },
+  {
+    "type": "tool_quality",
     "id": "CHISEL",
     "name": { "str": "chiseling" }
   },
