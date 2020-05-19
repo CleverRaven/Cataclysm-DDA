@@ -13,13 +13,7 @@
         "house_41": 50,
         "house_42": 50
       },
-      "shops": {
-        "s_gunstore": 500,
-        "s_apt": 400,
-        "s_apt_2": 400,
-        "s_games": 100,
-        "s_electronicstore": 400
-      }
+      "shops": { "s_gunstore": 500, "s_apt": 400, "s_apt_2": 400, "s_games": 100, "s_electronicstore": 400 }
     }
   }
 ]
