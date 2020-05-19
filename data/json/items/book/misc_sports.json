@@ -115,36 +115,44 @@
     "relative": { "fun": -1, "intelligence": -1 }
   },
   {
-    "id": "book_nonf_hard_sports_1",
+    "id": "book_nonf_hard_sports_morg",
     "type": "BOOK",
-    "name": { "str": "", "str_pl": "copies of " },
-    "description": "xxx.",
-    "//isbn13": 9780000000000,
-    "weight": "472 g",
-    "volume": "1074 ml",
-    "longest_side": "20 cm",
-    "copy-from": "book_nonf_hard_tpl"
+    "name": { "str": "William G. Morgan, the Godfather of Volleyball", "str_pl": "copies of The Godfather of Volleyball" },
+    "description": "This odd little hardbound book is only 98 pages long, and a dozen of those are comprised of grainy black and white photos.  If you read this book, you learn that volleyball was originally called \"Mintonette\" and also some biographic details about its inventor.",
+    "//isbn13": 9781595941893,
+    "weight": "272 g",
+    "volume": "400 ml",
+    "longest_side": "22 cm",
+    "price": 3999,
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "fun": -1, "intelligence": 1 }
   },
   {
-    "id": "book_nonf_hard_sports_xx2xx",
+    "id": "book_nonf_hard_sports_bike",
     "type": "BOOK",
-    "name": { "str": "", "str_pl": "copies of " },
-    "description": "xxx.",
-    "//isbn13": 9780000000000,
-    "weight": "472 g",
-    "volume": "1074 ml",
-    "longest_side": "20 cm",
-    "copy-from": "book_nonf_hard_tpl"
+    "name": { "str": "Legendary Bike Rides", "str_pl": "copies of Bike Rides" },
+    "description": "This unweildy coffeetable book is titled \"LEGENDARY Bike Rides Around the WORLD.\"  It provides a wealth of detail about paved bike trails in every part of the globe except New England.  But if you make it to Patagonia on bike, you're all set.",
+    "//isbn13": 9781760340834,
+    "weight": "1589 g",
+    "volume": "1660 ml",
+    "longest_side": "27 cm",
+    "price": 2999,
+    "chapters": 40,
+    "time": "8 m",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "intelligence": -1 }
   },
   {
-    "id": "book_nonf_hard_sports_xx3xx",
+    "id": "book_nonf_hard_sports_hoop",
     "type": "BOOK",
-    "name": { "str": "", "str_pl": "copies of " },
-    "description": "xxx.",
-    "//isbn13": 9780000000000,
-    "weight": "472 g",
-    "volume": "1074 ml",
-    "longest_side": "20 cm",
-    "copy-from": "book_nonf_hard_tpl"
+    "name": { "str": "Stratosphere: The Rise of Hoops", "str_pl": "copies of Stratosphere" },
+    "description": "\"Stratosphere: The Rise of Hoops\" chronicles four decades of professional basketball against a backdrop of sustained social change.",
+    "//isbn13":  9781629376509,
+    "weight": "818 g",
+    "volume": "1114 ml",
+    "longest_side": "23 cm",
+    "price": 2699,
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "chapters": 8 }
   }
 ]
