@@ -4,6 +4,7 @@
     "type": "SPELL",
     "name": "Cranial Explosion",
     "description": "This fake spell occurs on cranial bomb activation.  Likely fatal.",
+    "effect": "target_attack",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "min_damage": 70,
