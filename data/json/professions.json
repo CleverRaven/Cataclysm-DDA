@@ -3725,7 +3725,8 @@
     "ident": "naked",
     "name": "Naked and Afraid",
     "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
-    "points": -1
+    "points": -1,
+    "skills": [ { "level": 2, "name": "survival" } ]
   },
   {
     "type": "profession",
