@@ -801,6 +801,20 @@
   },
   {
     "type": "mutation",
+    "id": "NO_HEAL",
+    "name": { "str": "Incapable Healer" },
+    "points": -12,
+    "description": "The events of the cataclysm have rendered you incapable of healing.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "HEALING" ],
+    "healing_awake": 0,
+    "healing_resting": -1,
+    "mending_modifier": 0
+  },
+  {
+    "type": "mutation",
     "id": "HYPEROPIC",
     "name": { "str": "Far-Sighted" },
     "points": -2,

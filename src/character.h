@@ -479,9 +479,6 @@ class Character : public Creature, public visitable<Character>
           * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
-        // called once per 24 hours to enforce the minimum of 1 hp healed per day
-        // TODO: Move to Character once heal() is moved
-        void enforce_minimum_healing();
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
