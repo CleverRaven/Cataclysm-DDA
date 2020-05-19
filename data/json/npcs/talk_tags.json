@@ -716,7 +716,6 @@
       "Yoink, don't mind if I do!",
       "I hope you learned a valuable lesson today, <name_b>!",
       "You should be <happy> I didn't pop you instead, <name_b>."
-      
     ]
   },
   {
@@ -1296,7 +1295,6 @@
       "Damn, I <really> hope this wound doesn't get worse.",
       "Took a hit there, hang on 'till I check it out.",
       "Hang on a second, a little hurt here.  Going to take care of it."
-
     ]
   },
   {
@@ -1456,13 +1454,18 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>", "I knew someone who was hooked on that stuff before all this happened. He didn't make it past the first day without it.",
+    "text": [
+      "Ew, smells like burning rubber!",
+      "Ugh, that smells rancid!",
+      "Why are you smoking crack cocaine?",
+      "<meth_smoke>",
+      "I knew someone who was hooked on that stuff before all this happened. He didn't make it past the first day without it.",
       "That stuff is poison.  Please get rid of it.",
       "Jeez <name_g>, didn't think you were such a <name_b> to be fucking with that stuff.",
       "You must be out of your mind to be puffing that!",
       "Hey, at least I know you're not serious about surviving the apocalypse.",
       "That stuff kills, <name_g>."
-            ]
+    ]
   },
   {
     "type": "snippet",
@@ -1613,10 +1616,21 @@
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "brain-dead", "imbecilic", "thick",
+    "text": [
+      "stupid",
+      "idiotic",
+      "dumb",
+      "dumb-ass",
+      "moronic",
+      "mickey mouse",
+      "shit-for-brains",
+      "brain-dead",
+      "imbecilic",
+      "thick",
       "slack-jawed",
       "gormless",
-      "asinine" ]
+      "asinine"
+    ]
   },
   {
     "type": "snippet",
@@ -1760,10 +1774,7 @@
   {
     "type": "snippet",
     "category": "<granny_name_g>",
-    "text": [ "child", "my child", "dear", "my dear", "friend", "survivor", "sweetie",
-      "dearest",
-      "honey",
-      "angel" ]
+    "text": [ "child", "my child", "dear", "my dear", "friend", "survivor", "sweetie", "dearest", "honey", "angel" ]
   },
   {
     "type": "snippet",
