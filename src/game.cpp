@@ -1697,7 +1697,9 @@ void game::process_activity()
         return;
     }
 
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 5_minutes )
+        && u.activity.moves_total > to_moves<int>
+        ( 5_minutes ) ) {//This is a hack to prevent an issue with the consume menu popping up again when this fires, since eating is not at present ever 5 minutes long this works
         ui_manager::redraw();
         refresh_display();
     }
