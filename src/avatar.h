@@ -98,6 +98,9 @@ class avatar : public player
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
 
+        nc_color basic_symbol_color() const override;
+        int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
+
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Uses morale and other factors to return the player's focus target goto value */
