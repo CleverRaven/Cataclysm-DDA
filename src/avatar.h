@@ -99,7 +99,7 @@ class avatar : public player
         void clear_memorized_tile( const tripoint &pos );
 
         nc_color basic_symbol_color() const override;
-        int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
