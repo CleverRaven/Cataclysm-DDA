@@ -188,7 +188,7 @@
     ]
   },
   {
-    "id": "mon_zombie_wrecking_ball",
+    "id": "mon_zombie_hammer_hands",
     "type": "MONSTER",
     "name": { "str": "rust fist brute" },
     "description": "This brute of a zombie is covered in rusted metal detritus.  Chunks of metal smashed through its arms have deformed them into hammers.",
