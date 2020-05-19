@@ -7,7 +7,7 @@
     "time": "20 m",
     "copy-from": "book_fict_soft_tpl",
     "relative": { "chapters": 12, "fun": 1, "intelligence": 1 }
-  }
+  },
   {
     "id": "book_fict_soft_sports_bunt",
     "type": "BOOK",
