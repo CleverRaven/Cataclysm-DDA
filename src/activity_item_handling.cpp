@@ -91,6 +91,15 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_soap( "soap" );
+static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_welder( "welder" );
+
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -564,14 +573,14 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) );
     };
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required.water, is_liquid_crafting_component ) &&
-        !crafting_inv.has_charges( "water_clean", required.water, is_liquid_crafting_component ) ) {
+    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
+        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid_crafting_component ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                               required.water );
         act->set_to_null();
         return;
-    } else if( !crafting_inv.has_charges( "soap", required.cleanser ) &&
-               !crafting_inv.has_charges( "detergent", required.cleanser ) ) {
+    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
         act->set_to_null();
@@ -585,13 +594,13 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required.water ) );
-    comps.push_back( item_comp( "water_clean", required.water ) );
+    comps.push_back( item_comp( itype_water, required.water ) );
+    comps.push_back( item_comp( itype_water_clean, required.water ) );
     p->consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required.cleanser ) );
-    comps1.push_back( item_comp( "detergent", required.cleanser ) );
+    comps1.push_back( item_comp( itype_soap, required.cleanser ) );
+    comps1.push_back( item_comp( itype_detergent, required.cleanser ) );
     p->consume_items( comps1 );
 
     p->add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -984,22 +993,18 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
-    const bool check_weight = p.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                              activity_to_restore == ACT_MULTIPLE_FARM ||
-                              p.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                              activity_to_restore == ACT_MULTIPLE_CHOP_PLANKS ||
-                              p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                              activity_to_restore == ACT_MULTIPLE_BUTCHER ||
-                              p.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                              activity_to_restore == ACT_VEHICLE_DECONSTRUCTION ||
-                              p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                              activity_to_restore == ACT_VEHICLE_REPAIR ||
-                              p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                              activity_to_restore == ACT_MULTIPLE_CHOP_TREES ||
-                              p.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                              activity_to_restore == ACT_MULTIPLE_FISH ||
-                              p.backlog.front().id() == ACT_MULTIPLE_MINE ||
-                              activity_to_restore == ACT_MULTIPLE_MINE;
+    static const auto check_weight_if = []( const activity_id & id ) {
+        return id == ACT_MULTIPLE_FARM ||
+               id == ACT_MULTIPLE_CHOP_PLANKS ||
+               id == ACT_MULTIPLE_BUTCHER ||
+               id == ACT_VEHICLE_DECONSTRUCTION ||
+               id == ACT_VEHICLE_REPAIR ||
+               id == ACT_MULTIPLE_CHOP_TREES ||
+               id == ACT_MULTIPLE_FISH ||
+               id == ACT_MULTIPLE_MINE;
+    };
+    const bool check_weight = check_weight_if( activity_to_restore ) || ( !p.backlog.empty() &&
+                              check_weight_if( p.backlog.front().id() ) );
     bool found_welder = false;
     for( item *elem : p.inv_dump() ) {
         if( elem->has_quality( qual_WELD ) ) {
@@ -1052,12 +1057,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &veh = vp->vehicle();
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
-                    item welder( "welder", 0 );
-                    welder.charges = veh.fuel_left( "battery", true );
+                    item welder( itype_welder, 0 );
+                    welder.charges = veh.fuel_left( itype_battery, true );
                     welder.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( welder );
-                    item soldering_iron( "soldering_iron", 0 );
-                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    item soldering_iron( itype_soldering_iron, 0 );
+                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
                     soldering_iron.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
@@ -1132,6 +1137,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
                     continue;
                 }
+                // If removing this part would make the vehicle non-flyable, avoid it
+                if( veh->would_prevent_flyable( vpinfo ) ) {
+                    return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
+                }
                 // this is the same part that somebody else wants to work on, or already is.
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
                                vpindex ) != already_working_indexes.end() ) {
@@ -1177,6 +1186,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( part_elem->is_broken() || part_elem->damage() == 0 ||
                     part_elem->info().repair_requirements().is_empty() ) {
                     continue;
+                }
+                // If repairing this part would make the vehicle non-flyable, avoid it
+                if( veh->would_prevent_flyable( vpinfo ) ) {
+                    return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
                                vpindex ) != already_working_indexes.end() ) {
@@ -1289,7 +1302,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
         for( auto &i : g->m.i_at( src_loc ) ) {
-            if( i.typeId() == "log" ) {
+            if( i.typeId() == itype_log ) {
                 // do we have an axe?
                 if( p.has_quality( qual_AXE, 1 ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_CHOPPING );
@@ -1353,10 +1366,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 } else {
                     // do we have the required seed on our person?
                     const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
-                    const std::string seed = options.get_seed();
+                    const itype_id seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed.empty() ) {
+                    if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -1682,8 +1695,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(), std::get<1>( elem ),
-                 std::get<0>( elem ).x, std::get<0>( elem ).y );
+        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+                 std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
 }
@@ -1899,7 +1912,7 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     for( auto &i : g->m.i_at( src_loc ) ) {
-        if( i.typeId() == "log" ) {
+        if( i.typeId() == itype_log ) {
             g->m.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             p.add_msg_if_player( _( "You cut the log into planks." ) );
@@ -2633,7 +2646,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        g->m.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
-            const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
+            const itype_id seed =
+                dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
             std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
                 return itm.typeId() == itype_id( seed );
             } );

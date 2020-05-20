@@ -220,6 +220,14 @@
     "magazines": [ [ "308", [ "belt308" ] ] ]
   },
   {
+    "id": "m60_semi",
+    "type": "GUN",
+    "copy-from": "m60",
+    "name": { "str": "M60 Semi Auto" },
+    "description": "This is a semi-automatic civilian variant of the M60 machine gun, retaining the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
+  },
+  {
     "id": "rifle_308",
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
@@ -281,7 +289,8 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 3 } } ]
   },
   {
     "id": "scar_h",
@@ -333,7 +342,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "hk417_13",

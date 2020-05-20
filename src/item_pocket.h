@@ -26,8 +26,6 @@ struct iteminfo;
 struct itype;
 struct tripoint;
 
-using itype_id = std::string;
-
 class item_pocket
 {
     public:
@@ -46,7 +44,7 @@ class item_pocket
             ERR_MOD,
             // trying to put a liquid into a non-watertight container
             ERR_LIQUID,
-            // trying to put a gas in a non-gastight container
+            // trying to put a gas in a non-airtight container
             ERR_GAS,
             // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_BIG,
@@ -100,6 +98,9 @@ class item_pocket
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
+        // The largest volume of contents this pocket can have.  Different from
+        // volume_capacity because that doesn't take into account ammo containers.
+        units::volume max_contains_volume() const;
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
@@ -256,19 +257,24 @@ class pocket_data
 
         item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
-        units::volume max_contains_volume = 0_ml;
+        units::volume volume_capacity = 0_ml;
         // max volume of item that can be contained, otherwise it spills
         cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
         // max weight of stuff the pocket can hold
         units::mass max_contains_weight = 0_gram;
+        // longest item that can fit into the pocket
+        // if not defined in json, calculated to be cbrt( volume ) * sqrt( 2 )
+        units::length max_item_length = 0_mm;
         // if true, this pocket can can contain one and only one item
         bool holster = false;
         // multiplier for spoilage rate of contained items
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
         float weight_multiplier = 1.0f;
+        // items' volume in this pocket are modified by this number for calculation of the containing object
+        float volume_multiplier = 1.0f;
         // the size that gets subtracted from the contents before it starts enlarging the item
         units::volume magazine_well = 0_ml;
         // base time it takes to pull an item out of the pocket
@@ -278,7 +284,7 @@ class pocket_data
         // can hold liquids
         bool watertight = false;
         // can hold gas
-        bool gastight = false;
+        bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
 
@@ -288,12 +294,14 @@ class pocket_data
         // empty means no restriction
         std::vector<std::string> flag_restriction;
         // items stored are restricted to these ammo types:
-        // the pocket can only contain one of them since the amoutn is also defined for each ammotype
+        // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
 
         bool operator==( const pocket_data &rhs ) const;
+
+        units::volume max_contains_volume() const;
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );

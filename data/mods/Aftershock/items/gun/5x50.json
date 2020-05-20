@@ -11,6 +11,7 @@
     "valid_mod_locations": [ [ "accessories", 2 ] ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "MULTI", "4 rd.", 4 ] ],
     "clip_size": 4,
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 4 } } ]
   }
 ]

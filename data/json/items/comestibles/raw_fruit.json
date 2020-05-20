@@ -147,6 +147,7 @@
     "price_postapoc": 100,
     "material": "fruit",
     "volume": "250 ml",
+    "fun": -5,
     "charges": 3,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",

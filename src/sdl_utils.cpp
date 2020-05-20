@@ -14,7 +14,10 @@
 color_pixel_function_map builtin_color_pixel_functions = {
     { "color_pixel_none", nullptr },
     { "color_pixel_darken", color_pixel_darken },
-    { "color_pixel_sepia", color_pixel_sepia },
+    { "color_pixel_sepia_light", color_pixel_sepia_light },
+    { "color_pixel_sepia_dark", color_pixel_sepia_dark },
+    { "color_pixel_blue_dark", color_pixel_blue_dark },
+    { "color_pixel_custom", color_pixel_custom },
     { "color_pixel_grayscale", color_pixel_grayscale },
     { "color_pixel_nightvision", color_pixel_nightvision },
     { "color_pixel_overexposed", color_pixel_overexposed },

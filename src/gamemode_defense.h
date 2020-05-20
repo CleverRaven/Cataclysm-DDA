@@ -14,7 +14,6 @@
 #include "type_id.h"
 
 enum action_id : int;
-using itype_id = std::string;
 
 enum defense_style {
     DEFENSE_CUSTOM = 0,

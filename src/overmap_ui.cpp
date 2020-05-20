@@ -1463,8 +1463,6 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        catacurses::erase();
-        catacurses::refresh();
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data );
     } );

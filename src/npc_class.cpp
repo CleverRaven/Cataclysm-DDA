@@ -96,7 +96,7 @@ void apply_all_to_unassigned( T &skills )
 {
     auto iter = std::find_if( skills.begin(), skills.end(),
     []( decltype( *begin( skills ) ) &pr ) {
-        return pr.first == "ALL";
+        return pr.first.str() == "ALL";
     } );
 
     if( iter != skills.end() ) {

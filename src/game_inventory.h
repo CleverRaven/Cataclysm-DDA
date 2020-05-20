@@ -98,7 +98,8 @@ item_location use( avatar &you );
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */
-item_location holster( player &p, item_location holster );
+drop_locations holster( player &p, item_location holster );
+void insert_items( avatar &you, item_location holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
 /** Choose item to wear. */

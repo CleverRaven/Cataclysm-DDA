@@ -66,6 +66,10 @@
 
 static const itype_id fuel_type_battery( "battery" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_hose( "hose" );
+static const itype_id itype_plut_cell( "plut_cell" );
+
 static const skill_id skill_mechanics( "mechanics" );
 
 static const quality_id qual_JACK( "JACK" );
@@ -199,7 +203,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     // Only build the shapes map and the wheel list once
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        vpart_shapes[ vp.name() + vp.item ].push_back( &vp );
+        vpart_shapes[ vp.name() + vp.item.str() ].push_back( &vp );
         if( vp.has_flag( "WHEEL" ) ) {
             wheel_types.push_back( &vp );
         }
@@ -576,7 +580,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = crafting_inv.has_tools( "hose", 1 );
+            has_tools = crafting_inv.has_tools( itype_hose, 1 );
             break;
 
         case 'd':
@@ -663,6 +667,15 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
+static void print_message_to( catacurses::window &w_msg, const nc_color col,
+                              const std::string &msg )
+{
+    werase( w_msg );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, col, msg );
+    wrefresh( w_msg );
+}
+
 bool veh_interact::can_install_part()
 {
     if( sel_vpart_info == nullptr ) {
@@ -674,12 +687,11 @@ bool veh_interact::can_install_part()
     if( is_drive_conflict() ) {
         return false;
     }
-    if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
-        werase( w_msg );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                        _( "This part cannot be installed.\n" ) );
-        wrefresh( w_msg );
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This part cannot be installed.\n" ) );
         return false;
     }
 
@@ -687,11 +699,7 @@ bool veh_interact::can_install_part()
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Funnels need to be installed over a tank." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Funnels need to be installed over a tank." ) );
             return false;
         }
     }
@@ -700,11 +708,7 @@ bool veh_interact::can_install_part()
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
         } ) ) {
-            werase( w_msg );
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                            _( "Can't install turret on another turret." ) );
-            wrefresh( w_msg );
+            print_message_to( w_msg, c_light_red, _( "Can't install turret on another turret." ) );
             return false;
         }
     }
@@ -811,10 +815,7 @@ bool veh_interact::can_install_part()
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -1050,11 +1051,22 @@ bool veh_interact::do_install( std::string &msg )
                     default:
                         break;
                 }
+                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( veh->would_prevent_flyable( *sel_vpart_info ) ) {
+                    if( query_yn(
+                            _( "Installing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                        veh->set_flyable( false );
+                    } else {
+                        return false;
+                    }
+                }
                 if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
                     !query_yn( _( "Installing this part will make the vehicle unfoldable.  Continue?" ) ) ) {
                     return true;
                 }
-                const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
+                const auto &shapes =
+                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item.str() ];
                 int selected_shape = -1;
                 if( shapes.size() > 1 ) {  // more than one shape available, display selection
                     std::vector<uilist_entry> shape_ui_entries;
@@ -1185,17 +1197,32 @@ bool veh_interact::do_repair( std::string &msg )
 
         std::string nmsg;
 
-        bool ok;
+        // this will always be set, but the gcc thinks that sometimes it won't be
+        bool ok = true;
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills, vp.install_time( g->u ) );
         } else {
-            if( !vp.has_flag( "NO_REPAIR" ) && !vp.repair_requirements().is_empty() &&
-                pt.base.max_damage() > 0 ) {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
-                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
-            } else {
+            if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
+                pt.base.max_damage() <= 0 ) {
                 nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
                 ok = false;
+            } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
+                nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
+                ok = false;
+            } else if( veh->would_prevent_flyable( vp ) ) {
+                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( query_yn(
+                        _( "Repairing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    nmsg += colorize( _( "You chose not to install this part to keep the vehicle flyable.\n" ),
+                                      c_light_red );
+                    ok = false;
+                }
+            } else {
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level( 4 ), vp.repair_skills,
+                                  vp.repair_time( g->u ) * pt.base.damage() / pt.base.max_damage() );
             }
         }
 
@@ -1431,11 +1458,13 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( pt.is_engine() && pt.is_available() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%s     <color_light_gray>%s</color>",
-                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ) : "",
-                                            //~ translation should not exceed 3 console cells
-                                            right_justify( pt.enabled ? _( "Yes" ) : _( "No" ), 3 ) ) );
+                right_print(
+                    w, y, 1, item::find_type( pt.ammo_current() )->color,
+                    string_format(
+                        "%s     <color_light_gray>%s</color>",
+                        !pt.fuel_current().is_null() ? item::nname( pt.fuel_current() ) : "",
+                        //~ translation should not exceed 3 console cells
+                        right_justify( pt.enabled ? _( "Yes" ) : _( "No" ), 3 ) ) );
             };
 
             // display engine faults (if any)
@@ -1459,7 +1488,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     for( vehicle_part &pt : veh->parts ) {
         if( pt.is_tank() && pt.is_available() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( pt.ammo_current() != "null" ) {
+                if( !pt.ammo_current().is_null() ) {
                     std::string specials;
                     // vehicle parts can only have one pocket, and we are showing a liquid, which can only be one.
                     const item &it = pt.base.contents.legacy_front();
@@ -1494,7 +1523,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( pt.ammo_current() != "null" ) {
+                if( !pt.ammo_current().is_null() ) {
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
@@ -1728,12 +1757,11 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vpart_info = &sel_vehicle_part->info();
     std::string msg;
 
-    if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
-        werase( w_msg );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                        _( "This part cannot be uninstalled.\n" ) );
-        wrefresh( w_msg );
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        return false;
+    } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
+        print_message_to( w_msg, c_light_red, _( "This part cannot be uninstalled.\n" ) );
         return false;
     }
 
@@ -1804,10 +1832,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg );
-    wrefresh( w_msg );
+    print_message_to( w_msg, c_light_gray, msg );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -1865,6 +1890,17 @@ bool veh_interact::do_remove( std::string &msg )
                     return false;
                 default:
                     break;
+            }
+
+            // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+            // It can only be the player doing this - an npc won't work well with query_yn
+            if( veh->would_prevent_flyable( veh->parts[part].info() ) ) {
+                if( query_yn(
+                        _( "Removing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    return false;
+                }
             }
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
@@ -2099,7 +2135,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 continue;
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
-                if( vp.get_id() != vpart_shapes[ vp.name() + vp.item ][ 0 ]->get_id() ) {
+                if( vp.get_id() != vpart_shapes[ vp.name() + vp.item.str() ][ 0 ]->get_id() ) {
                     // only add first shape to install list
                     continue;
                 }
@@ -2732,7 +2768,7 @@ void veh_interact::display_details( const vpart_info *part )
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
-    if( part->fuel_type != "null" ) {
+    if( !part->fuel_type.is_null() ) {
         fold_and_print( w_details, point( col_1, line + 4 ), column_width,
                         c_white, _( "Charge: <color_light_gray>%s</color>" ),
                         item::nname( part->fuel_type ) );
@@ -2755,7 +2791,7 @@ void veh_interact::display_details( const vpart_info *part )
     // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print( w_details, point( col_1, line + 5 ), details_w, c_yellow, label );
 
-    if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) &&
+    if( part->fuel_type == itype_battery && !part->has_flag( VPFLAG_ENGINE ) &&
         !part->has_flag( VPFLAG_ALTERNATOR ) ) {
         const cata::value_ptr<islot_magazine> &battery = item::find_type( part->item )->magazine;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
@@ -2865,7 +2901,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
         uilist smenu;
         smenu.text = _( "Remove what?" );
         for( auto &fuel : fuels ) {
-            if( fuel == "plut_cell" && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
+            if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
                 continue;
             }
             smenu.addentry( item::nname( fuel ) );
@@ -2881,7 +2917,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     }
 
     int qty = veh->fuel_left( fuel );
-    if( fuel == "plut_cell" ) {
+    if( fuel == itype_plut_cell ) {
         if( qty / PLUTONIUM_CHARGES == 0 ) {
             add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
             return;

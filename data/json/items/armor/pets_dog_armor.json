@@ -9,7 +9,7 @@
     "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement, that protects from shoulders to abdomen.  You could put this on a friendly dog.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "kevlar" ],
+    "material": [ "kevlar_layered" ],
     "weight": "4290 g",
     "volume": "4500 ml",
     "bashing": 5,

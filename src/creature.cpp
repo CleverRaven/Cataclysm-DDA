@@ -483,6 +483,13 @@ int Creature::size_melee_penalty() const
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     int hit_spread = hitroll - dodge_roll() - size_melee_penalty();
+    if( has_flag( MF_IMMOBILE ) ) {
+        // Under normal circumstances, even a clumsy person would
+        // not miss a turret.  It should, however, be possible to
+        // miss a smaller target, especially when wielding a
+        // clumsy weapon or when severely encumbered.
+        hit_spread += 40;
+    }
 
     // If attacker missed call targets on_dodge event
     if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
@@ -512,9 +519,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    const bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
-    body_part bp_token = bp_hit->token;
-    block_hit( source, bp_token, d );
+    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    const body_part bp_token = bp_hit->token;
+    block_hit( source, bp_hit, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
@@ -781,12 +788,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
                      is_monster() ?
                      skin_name() :
-                     body_part_name_accusative( bp_hit ) );
+                     body_part_name_accusative( bp_hit_id ) );
         } else if( is_player() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
             add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( bp_hit ),
+                               body_part_name_accusative( bp_hit_id ),
                                dealt_dam.total_damage() );
         } else if( source != nullptr ) {
             if( source->is_player() ) {
@@ -833,8 +840,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    const body_part bp_token = bp->token;
-    absorb_hit( bp_token, d );
+    absorb_hit( bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -894,7 +900,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp->token );
+    on_damage_of_type( adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );

@@ -23,9 +23,6 @@ class JsonIn;
 class JsonOut;
 class item;
 struct tripoint;
-
-using itype_id = std::string;
-
 class item;
 class item_location;
 class player;
@@ -99,6 +96,13 @@ class item_contents
         units::volume total_contained_volume() const;
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
+
+        /** If contents should contribute to encumbrance, returns a value
+         * between 0 and 1 indicating the position between minimum and maximum
+         * contribution it's currently making.  Otherwise, return 0 */
+        float relative_encumbrance() const;
+        /** True iff every pocket is rigid */
+        bool all_pockets_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;

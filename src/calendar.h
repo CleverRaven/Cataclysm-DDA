@@ -453,54 +453,46 @@ class time_point
             return point.turn_;
         }
 
+        friend constexpr inline bool operator<( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) < to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) <= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) > to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) >= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator==( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) == to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) != to_turn<int>( rhs );
+        }
+
+        friend constexpr inline time_duration operator-(
+            const time_point &lhs, const time_point &rhs ) {
+            return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator+(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator+=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator-(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator-=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
-
-constexpr inline bool operator<( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) < to_turn<int>( rhs );
-}
-constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) <= to_turn<int>( rhs );
-}
-constexpr inline bool operator>( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) > to_turn<int>( rhs );
-}
-constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) >= to_turn<int>( rhs );
-}
-constexpr inline bool operator==( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) == to_turn<int>( rhs );
-}
-constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) != to_turn<int>( rhs );
-}
-
-constexpr inline time_duration operator-( const time_point &lhs, const time_point &rhs )
-{
-    return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
-}
-constexpr inline time_point operator+( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-time_point inline &operator+=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-constexpr inline time_point operator-( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
-time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
 
 inline time_duration time_past_midnight( const time_point &p )
 {

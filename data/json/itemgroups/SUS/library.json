@@ -106,6 +106,7 @@
       { "item": "textbook_biodiesel", "count": [ 1, 2 ], "prob": 70 },
       { "item": "textbook_gaswarfare", "count": [ 1, 2 ], "prob": 40 },
       { "item": "textbook_chemistry", "count": [ 1, 4 ], "prob": 90 },
+      { "item": "textbook_extraction", "count": [ 1, 2 ], "prob": 60 },
       { "item": "adv_chemistry", "count": [ 1, 4 ], "prob": 70 }
     ]
   },
@@ -376,11 +377,12 @@
     "//2": "Returns a single nonfiction book that is hard bound.  Note that this may or may not be a skill training book.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 },
-      { "group": "SUS_book_nonf_hard_spirit", "prob": 1 },
-      { "group": "SUS_book_nonf_hard_homemk", "prob": 1 },
-      { "group": "SUS_book_nonf_hard_psych", "prob": 1 },
-      { "group": "SUS_book_nonf_hard_arch", "prob": 1 }
+      { "group": "SUS_book_nonf_hard_dodge", "prob": 10 },
+      { "group": "SUS_book_nonf_hard_spirit", "prob": 10 },
+      { "group": "SUS_book_nonf_hard_homemk", "prob": 10 },
+      { "group": "SUS_book_nonf_hard_psych", "prob": 10 },
+      { "group": "SUS_book_nonf_hard_phil", "prob": 7 },
+      { "group": "SUS_book_nonf_hard_arch", "prob": 10 }
     ]
   },
   {
@@ -497,6 +499,18 @@
       { "item": "book_nonf_hard_psych_moodalm", "prob": 1 },
       { "item": "book_nonf_hard_psych_phonodis", "prob": 1 },
       { "item": "book_nonf_hard_psych_thergar", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard_phil",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns a book about philosophy.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_nonf_hard_phil_mdlogic", "prob": 1 },
+      { "item": "book_nonf_hard_phil_aesth", "prob": 1 },
+      { "item": "book_nonf_hard_phil_phinfo", "prob": 1 }
     ]
   },
   {

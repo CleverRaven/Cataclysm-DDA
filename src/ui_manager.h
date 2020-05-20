@@ -57,6 +57,9 @@ class ui_adaptor
         // to redraw.
         void invalidate_ui() const;
 
+        // Reset all callbacks and dimensions
+        void reset();
+
         static void invalidate( const rectangle &rect );
         static void redraw();
         static void screen_resized();

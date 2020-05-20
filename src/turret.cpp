@@ -116,7 +116,7 @@ const itype *turret_data::ammo_data() const
         return nullptr;
     }
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        return ammo_current() != "null" ? item::find_type( ammo_current() ) : nullptr;
+        return !ammo_current().is_null() ? item::find_type( ammo_current() ) : nullptr;
     }
     return part->base.ammo_data();
 }
@@ -133,7 +133,7 @@ itype_id turret_data::ammo_current() const
     if( opts.count( part->base.ammo_default() ) ) {
         return part->base.ammo_default();
     }
-    return opts.empty() ? "null" : *opts.begin();
+    return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
 }
 
 std::set<itype_id> turret_data::ammo_options() const
@@ -145,7 +145,7 @@ std::set<itype_id> turret_data::ammo_options() const
     }
 
     if( !part->info().has_flag( "USE_TANKS" ) ) {
-        if( part->base.ammo_current() != "null" ) {
+        if( !part->base.ammo_current().is_null() ) {
             opts.insert( part->base.ammo_current() );
         }
 
@@ -441,7 +441,7 @@ void vehicle::turrets_set_targeting()
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
-        menu.w_y = 2;
+        menu.w_y_setup = 2;
 
         for( auto &p : turrets ) {
             menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
@@ -497,7 +497,7 @@ void vehicle::turrets_set_mode()
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
-        menu.w_y = 2;
+        menu.w_y_setup = 2;
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",

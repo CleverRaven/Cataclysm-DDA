@@ -72,7 +72,8 @@
       [ "sling", 1 ]
     ],
     "magazines": [ [ "762R", [ "762R_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ]
   },
   {
     "id": "mosin91_30_ebr",

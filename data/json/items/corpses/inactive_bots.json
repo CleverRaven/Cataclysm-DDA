@@ -768,5 +768,30 @@
       "skill1": "electronics",
       "skill2": "computer"
     }
+  },
+  {
+    "id": "bot_turret_speaker",
+    "type": "TOOL",
+    "name": { "str": "inactive loudspeaker" },
+    "description": "This is an inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the loudspeaker will continuously shout pre-recorded messages.",
+    "weight": "100 kg",
+    "volume": "50500 ml",
+    "price": 500000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_speaker",
+      "friendly_msg": "The loudspeaker activates and begins his non-stopping shouts.",
+      "hostile_msg": "The loudspeaker activates and begins his non-stopping shouts.",
+      "difficulty": 2,
+      "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
   }
 ]

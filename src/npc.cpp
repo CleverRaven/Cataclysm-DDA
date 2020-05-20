@@ -91,6 +91,8 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -166,7 +168,7 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,
-                            const std::vector<itype_id> &clothing,
+                            const std::vector<std::string> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
@@ -1470,8 +1472,8 @@ void npc::decide_needs()
     if( weapon.is_gun() ) {
         int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( "UPS_off", ups_drain ) +
-                              charges_of( "UPS_off", ups_drain );
+            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
+                              charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
@@ -1664,7 +1666,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
+        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2089,7 +2091,6 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FLEE:
             return A_NEUTRAL;
         case MATT_FRIEND:
-        case MATT_ZLAVE:
             return A_FRIENDLY;
         case MATT_ATTACK:
             return A_HOSTILE;
@@ -2121,7 +2122,7 @@ void npc::npc_dismount()
     }
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
-        !mounted_creature->type->mech_weapon.empty() ) {
+        !mounted_creature->type->mech_weapon.is_empty() ) {
         remove_item( weapon );
     }
     mounted_creature->remove_effect( effect_ridden );

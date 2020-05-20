@@ -101,7 +101,7 @@
       [ [ "nomex", 6 ] ],
       [ [ "leather", 2 ] ],
       [ [ "duct_tape", 120 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
     ]
   },
@@ -134,7 +134,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "duct_tape", 120 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [ [ "wetsuit_gloves", 1 ] ]
     ]
   },
@@ -155,7 +155,7 @@
       [ [ "leather", 2 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "duct_tape", 50 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -218,7 +218,7 @@
       [ [ "rag", 6 ] ],
       [ [ "leather", 2 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -269,7 +269,7 @@
       [ [ "rag", 2 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -367,7 +367,7 @@
       [ [ "rag", 2 ] ],
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -394,7 +394,7 @@
       [ [ "rag", 6 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "duct_tape", 160 ] ],
-      [ [ "gloves_tactical", 2 ], [ "kevlar_plate", 6 ] ]
+      [ [ "gloves_tactical", 2 ], [ "sheet_kevlar_layered", 6 ] ]
     ]
   },
   {

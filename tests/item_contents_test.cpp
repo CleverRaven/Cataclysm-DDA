@@ -42,7 +42,7 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.contents.num_item_stacks() == 4 );
 
     tool_belt.contents.remove_items_if( []( item & it ) {
-        return it.typeId() == "hammer";
+        return it.typeId() == itype_id( "hammer" );
     } );
     // check to see that removing an item works
     CHECK( tool_belt.contents.num_item_stacks() == 3 );

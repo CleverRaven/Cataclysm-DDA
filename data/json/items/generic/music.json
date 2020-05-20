@@ -69,6 +69,17 @@
   },
   {
     "type": "GENERIC",
+    "id": "plectrum",
+    "name": { "str": "plectrum", "str_pl": "plectra" },
+    "description": "A flat piece of plastic with a pointed tip, designed for plucking the strings of a guitar or mandolin.",
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "red",
+    "volume": "2 ml",
+    "weight": "1 g"
+  },
+  {
+    "type": "GENERIC",
     "id": "mixer_music",
     "name": { "str": "mixer" },
     "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables.  (left and right)",

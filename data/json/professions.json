@@ -692,14 +692,13 @@
           "legguard_hard",
           "gloves_rubber",
           "socks",
-          "mbag",
           "chestguard_hard",
           "boots_rubber"
         ],
         "entries": [
           { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "foodperson_mask" },
-          { "group": "snacks_fancy" },
-          { "group": "snacks" },
+          { "item": "foodplace_snack_bar", "container-item": "fanny" },
+          { "item": "foodplace_snack_bar" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       }
@@ -2047,6 +2046,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "legpouch_large" },
           { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
         ]
       },
@@ -4024,7 +4024,21 @@
       "both": {
         "ammo": 100,
         "magazine": 100,
-        "items": [ "tshirt_tour", "shorts_cargo", "socks", "sneakers", "wristwatch", "water_clean", "guitar_electric" ],
+        "items": [
+          "mbag",
+          "tshirt_tour",
+          "shorts_cargo",
+          "socks",
+          "sneakers",
+          "wristwatch",
+          "water_clean",
+          "guitar_electric",
+          "cable_instrument",
+          "plectrum",
+          "plectrum",
+          "plectrum",
+          "joint"
+        ],
         "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],

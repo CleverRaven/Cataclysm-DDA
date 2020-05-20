@@ -434,7 +434,7 @@ struct vehicle_part {
         cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
-        itype_id ammo_pref = "null";
+        itype_id ammo_pref = itype_id::NULL_ID();
 
         /**
          *  What NPC (if any) is assigned to this part (seat, turret etc)?
@@ -1332,6 +1332,12 @@ class vehicle
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
         bool is_rotorcraft() const;
+        // Can the vehicle safely fly? E.g. there haven't been any player modifications
+        // of non-simple parts
+        bool is_flyable() const;
+        void set_flyable( bool val );
+        // Would interacting with this part prevent the vehicle from being flyable?
+        bool would_prevent_flyable( const vpart_info &vpinfo ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1870,6 +1876,7 @@ class vehicle
         mutable bool in_water = false;
         // is the vehicle currently flying
         mutable bool is_flying = false;
+        bool flyable = true;
         int requested_z_change = 0;
 
     public:
@@ -1903,6 +1910,12 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+
+        // return vehicle part index and muffle value
+        std::pair<int, double> get_exhaust_part() const;
+
+        // destination for exhaust emissions
+        tripoint exhaust_dest( int part ) const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

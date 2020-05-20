@@ -60,6 +60,16 @@
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
+static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id construction_category_FILTER( "FILTER" );
+static const construction_category_id construction_category_REPAIR( "REPAIR" );
+
+static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_nail( "nail" );
+static const itype_id itype_sheet( "sheet" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_string_36( "string_36" );
+
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -625,9 +635,9 @@ construction_id construction_menu( const bool blueprint )
                 last_construction = constructs[select];
             }
             category_id = construct_cat[tabindex].id;
-            if( category_id == "ALL" ) {
+            if( category_id == construction_category_ALL ) {
                 constructs = available;
-            } else if( category_id == "FILTER" ) {
+            } else if( category_id == construction_category_FILTER ) {
                 constructs.clear();
                 std::copy_if( available.begin(), available.end(),
                               std::back_inserter( constructs ),
@@ -1149,7 +1159,7 @@ void construct::done_grave( const tripoint &p )
     g->m.destroy_furn( p, true );
 }
 
-static vpart_id vpart_from_item( const std::string &item_id )
+static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -1231,12 +1241,12 @@ void construct::done_deconstruct( const tripoint &p )
             }
             done_deconstruct( top );
         }
-        if( t.id == "t_console_broken" )  {
+        if( t.id.id() == t_console_broken )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 20, 4 );
             }
         }
-        if( t.id == "t_console" )  {
+        if( t.id.id() == t_console )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 40, 8 );
             }
@@ -1253,7 +1263,7 @@ static void unroll_digging( const int numer_of_2x4s )
     item rope( "rope_30" );
     g->m.add_item_or_charges( g->u.pos(), rope );
     // presuming 2x4 to conserve lumber.
-    g->m.spawn_item( g->u.pos(), "2x4", numer_of_2x4s );
+    g->m.spawn_item( g->u.pos(), itype_2x4, numer_of_2x4s );
 }
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
@@ -1325,12 +1335,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    static const std::set<ter_id> liquids = {{
-            t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
-        }
-    };
-
-    if( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
+    if( tmpmap.has_flag_ter( TFLAG_SHALLOW_WATER, local_tmp ) ||
+        tmpmap.has_flag_ter( TFLAG_DEEP_WATER, local_tmp ) ) {
         g->m.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
@@ -1360,10 +1366,10 @@ void construct::done_wood_stairs( const tripoint &p )
 void construct::done_window_curtains( const tripoint & )
 {
     // copied from iexamine::curtains
-    g->m.spawn_item( g->u.pos(), "nail", 1, 4 );
-    g->m.spawn_item( g->u.pos(), "sheet", 2 );
-    g->m.spawn_item( g->u.pos(), "stick" );
-    g->m.spawn_item( g->u.pos(), "string_36" );
+    g->m.spawn_item( g->u.pos(), itype_nail, 1, 4 );
+    g->m.spawn_item( g->u.pos(), itype_sheet, 2 );
+    g->m.spawn_item( g->u.pos(), itype_stick );
+    g->m.spawn_item( g->u.pos(), itype_string_36 );
     g->u.add_msg_if_player(
         _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
@@ -1723,7 +1729,7 @@ void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
         std::string build_pre_ter = build.pre_terrain;
         while( !build_pre_ter.empty() ) {
             for( const construction &pre_build : constructions ) {
-                if( pre_build.category == "REPAIR" ) {
+                if( pre_build.category == construction_category_REPAIR ) {
                     continue;
                 }
                 if( pre_build.post_terrain == build_pre_ter ) {
@@ -1744,7 +1750,7 @@ void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
     for( const auto &ter_data : changed_ids.first ) {
         for( const construction &build : constructions ) {
             if( build.post_terrain.empty() || build.post_is_furniture ||
-                build.category == "REPAIR" ) {
+                build.category == construction_category_REPAIR ) {
                 continue;
             }
             if( ter_id( build.post_terrain ) == ter_data.first ) {
@@ -1757,7 +1763,7 @@ void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
     for( const auto &furn_data : changed_ids.second ) {
         for( const construction &build : constructions ) {
             if( build.post_terrain.empty() || !build.post_is_furniture ||
-                build.category == "REPAIR" ) {
+                build.category == construction_category_REPAIR ) {
                 continue;
             }
             if( furn_id( build.post_terrain ) == furn_data.first ) {

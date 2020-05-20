@@ -37,27 +37,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_diner",
-    "name": "diner",
-    "copy-from": "generic_city_building",
-    "sym": "d",
-    "color": "green",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_diner_2ndfloor",
-    "name": "diner",
-    "copy-from": "s_diner"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_diner_roof",
-    "name": "diner",
-    "copy-from": "s_diner"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_apt",
     "name": "apartment",
     "copy-from": "generic_city_building",
@@ -97,36 +76,6 @@
     "id": "s_apt_2_roof",
     "name": "apartment",
     "copy-from": "s_apt_2"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_cardealer",
-    "name": "dealership",
-    "copy-from": "generic_city_building",
-    "sym": "0",
-    "color": "blue",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_cardealer_roof",
-    "name": "dealership",
-    "copy-from": "s_cardealer"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_camping",
-    "name": "outdoorsman's store",
-    "copy-from": "generic_city_building",
-    "sym": "o",
-    "color": "brown",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_camping_roof",
-    "name": "outdoorsman's store",
-    "copy-from": "s_camping"
   },
   {
     "type": "overmap_terrain",
@@ -416,95 +365,5 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_33",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_34",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_35",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_36",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_37",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_38",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_39",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_40",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_41",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_42",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   }
 ]

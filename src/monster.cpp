@@ -85,6 +85,10 @@ static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_milk( "milk" );
+static const itype_id itype_milk_raw( "milk_raw" );
+
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
@@ -182,7 +186,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
-    {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
@@ -228,7 +231,13 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    ammo = type->starting_ammo;
+    if( in_species( ROBOT ) ) {
+        for( const auto &ammo_entry : type->starting_ammo ) {
+            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
+        }
+    } else {
+        ammo = type->starting_ammo;
+    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
@@ -476,12 +485,12 @@ void monster::refill_udders()
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
     }
-    auto current_milk = ammo.find( "milk_raw" );
+    auto current_milk = ammo.find( itype_milk_raw );
     if( current_milk == ammo.end() ) {
-        current_milk = ammo.find( "milk" );
+        current_milk = ammo.find( itype_milk );
         if( current_milk != ammo.end() ) {
             // take this opportunity to update milk udders to raw_milk
-            ammo["milk_raw"] = current_milk->second;
+            ammo[itype_milk_raw] = current_milk->second;
             // Erase old key-value from map
             ammo.erase( current_milk );
         }
@@ -1015,7 +1024,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
-            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
@@ -1053,9 +1061,6 @@ monster_attitude monster::attitude( const Character *u ) const
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
-    }
-    if( has_effect( effect_pacified ) ) {
-        return MATT_ZLAVE;
     }
 
     int effective_anger  = anger;
@@ -1322,12 +1327,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1378,7 +1383,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    body_part bp_hit = dealt_dam.bp_hit;
+    const bodypart_id &bp_hit = convert_bp( dealt_dam.bp_hit ).id();
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
@@ -1479,7 +1484,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
+            const body_part affected_bp = eff.affect_hit_bp ? bp_hit->token : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1507,7 +1512,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( target.is_player() || target.is_npc() ) {
             target.as_character()->make_bleed( bp_hit, 6_minutes );
         } else {
-            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+            target.add_effect( effect_bleed, 6_minutes, bp_hit->token );
         }
 
     }
@@ -2391,7 +2396,7 @@ void monster::drop_items_on_death()
 
     const auto dropped = g->m.spawn_items( pos(), items );
 
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
+    if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
@@ -2745,7 +2750,7 @@ bool monster::is_dead() const
 
 void monster::init_from_item( const item &itm )
 {
-    if( itm.typeId() == "corpse" ) {
+    if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
@@ -2775,7 +2780,7 @@ void monster::init_from_item( const item &itm )
 
 item monster::to_item() const
 {
-    if( type->revert_to_itype.empty() ) {
+    if( type->revert_to_itype.is_empty() ) {
         return item();
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).

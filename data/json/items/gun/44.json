@@ -7,7 +7,8 @@
     "name": { "str_sp": "Desert Eagle .44" },
     "description": "One of the most recognizable handguns due to its popularity in movies and video games, the Desert Eagle is better known for its menacing appearance than its performance.  It's a large pistol, but its heavy weight reduces recoil.",
     "weight": "1700 g",
-    "volume": "750 ml",
+    "volume": "617 ml",
+    "longest_side": "29 cm",
     "price": 87500,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -45,7 +46,8 @@
     "name": { "str_sp": "Henry Big Boy .44" },
     "description": "This fine lever action rifle is chambered in the powerful .44 magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
     "weight": "3937 g",
-    "volume": "3 L",
+    "volume": "2310 ml",
+    "longest_side": "98 cm",
     "price": 89995,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -71,7 +73,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 10 } } ]
   },
   {
     "id": "rifle_44",
@@ -109,7 +112,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 1 } } ]
   },
   {
     "id": "ruger_redhawk",
@@ -118,8 +122,9 @@
     "type": "GUN",
     "name": { "str_sp": "Ruger Redhawk" },
     "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers.",
-    "weight": "1386 g",
-    "volume": "750 ml",
+    "weight": "1389 g",
+    "volume": "699 ml",
+    "longest_side": "31 cm",
     "price": 86100,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -143,7 +148,8 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 6 } } ]
   },
   {
     "id": "sw629",
@@ -153,7 +159,8 @@
     "name": { "str_sp": "S&W 629" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "weight": "1267 g",
-    "volume": "750 ml",
+    "volume": "675 ml",
+    "longest_side": "30 cm",
     "price": 86100,
     "price_postapoc": 2750,
     "bashing": 10,
@@ -177,6 +184,7 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 6 } } ]
   }
 ]

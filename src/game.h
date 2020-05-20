@@ -93,8 +93,6 @@ enum action_id : int;
 
 struct special_game;
 
-using itype_id = std::string;
-
 class achievements_tracker;
 class avatar;
 class event_bus;
@@ -580,8 +578,14 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
-                                 inventory_item_menu_positon position = RIGHT_OF_INFO );
+        int inventory_item_menu( item_location locThisItem,
+        const std::function<int()> &startx = []() {
+            return 0;
+        },
+        const std::function<int()> &width = []() {
+            return 50;
+        },
+        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
@@ -791,7 +795,7 @@ class game
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item &it ); // Unload a gun/tool  'U'
+        bool unload( item_location &loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 

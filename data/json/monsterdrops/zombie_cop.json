@@ -35,6 +35,7 @@
       [ "heavy_flashlight", 35 ],
       [ "holster", 25 ],
       [ "kevlar", 35 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "bholster", 3 ],
       [ "legpouch_large", 5 ],
       [ "pocket_firstaid", 10 ],
@@ -48,7 +49,7 @@
   {
     "id": "cop_gloves",
     "type": "item_group",
-    "items": [ [ "gloves_leather", 45 ], [ "gloves_medical", 20 ], [ "gloves_tactical", 10 ] ]
+    "items": [ [ "gloves_leather", 45 ], [ "gloves_medical", 20 ], [ "gloves_cut_resistant", 20 ], [ "gloves_tactical", 10 ] ]
   },
   {
     "id": "cop_helmet",
@@ -78,7 +79,13 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "guns_cop", "prob": 40 } ]
+    "items": [
+      { "group": "cop_melee", "prob": 60 },
+      {
+        "distribution": [ { "group": "longguns_cop", "prob": 50, "contents-item": "shoulder_strap" }, { "group": "sidearms_cop", "prob": 50 } ],
+        "prob": 40
+      }
+    ]
   },
   {
     "id": "mon_zombie_swat_death_drops",

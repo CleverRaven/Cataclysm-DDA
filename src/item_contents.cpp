@@ -11,6 +11,7 @@
 #include "itype.h"
 #include "item_pocket.h"
 #include "map.h"
+#include "units.h"
 
 struct tripoint;
 
@@ -241,6 +242,11 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
+            pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
+            pocket.is_type( item_pocket::pocket_type::MIGRATION ) ) {
+            continue;
+        }
         if( !pocket.rigid() ) {
             ret = ret_val<bool>::make_failure( _( "is not rigid" ) );
             continue;
@@ -502,7 +508,7 @@ bool item_contents::stacks_with( const item_contents &rhs ) const
     if( contents.size() != rhs.contents.size() ) {
         return false;
     }
-    return empty() || rhs.empty() ||
+    return ( empty() && rhs.empty() ) ||
            std::equal( contents.begin(), contents.end(),
                        rhs.contents.begin(),
     []( const item_pocket & a, const item_pocket & b ) {
@@ -784,6 +790,44 @@ int item_contents::remaining_capacity_for_liquid( const item &liquid ) const
         charges_of_liquid += pocket.remaining_capacity_for_item( liquid );
     }
     return charges_of_liquid;
+}
+
+float item_contents::relative_encumbrance() const
+{
+    units::volume nonrigid_max_volume;
+    units::volume nonrigid_volume;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( pocket.rigid() ) {
+            continue;
+        }
+        nonrigid_volume += pocket.contains_volume();
+        nonrigid_max_volume += pocket.max_contains_volume();
+    }
+    if( nonrigid_volume > nonrigid_max_volume ) {
+        debugmsg( "volume exceeds capacity (%sml > %sml)",
+                  to_milliliter( nonrigid_volume ), to_milliliter( nonrigid_max_volume ) );
+        return 1;
+    }
+    if( nonrigid_max_volume == 0_ml ) {
+        return 0;
+    }
+    return nonrigid_volume * 1.0 / nonrigid_max_volume;
+}
+
+bool item_contents::all_pockets_rigid() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 units::volume item_contents::item_size_modifier() const

@@ -86,7 +86,6 @@
 #include "weather.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
@@ -109,6 +108,13 @@ static const efftype_id effect_stunned( "stunned" );
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const bionic_id bio_syringe( "bio_syringe" );
+
+static const itype_id itype_barrel_small( "barrel_small" );
+static const itype_id itype_brazier( "brazier" );
+static const itype_id itype_char_smoker( "char_smoker" );
+static const itype_id itype_fire( "fire" );
+static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -151,7 +157,7 @@ std::unique_ptr<iuse_actor> iuse_transform::clone() const
 
 void iuse_transform::load( const JsonObject &obj )
 {
-    target = obj.get_string( "target" ); // required
+    obj.read( "target", target, true );
 
     obj.read( "msg", msg_transform );
     obj.read( "container", container );
@@ -172,7 +178,7 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "countdown", countdown );
 
-    if( !ammo_type.empty() && !container.empty() ) {
+    if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
     }
 
@@ -228,7 +234,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( need_fire && possess ) {
-        if( !p.use_charges_if_avail( "fire", need_fire ) ) {
+        if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
             return 0;
         }
@@ -250,7 +256,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
-    if( container.empty() ) {
+    if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -260,9 +266,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
             } else {
                 qty = ammo_qty;
             }
-            if( !ammo_type.empty() ) {
+            if( !ammo_type.is_empty() ) {
                 obj->ammo_set( ammo_type, qty );
-            } else if( obj->ammo_current() != "null" ) {
+            } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
             } else {
                 obj->set_countdown( qty );
@@ -322,7 +328,7 @@ void iuse_transform::finalize( const itype_id & )
         debugmsg( "Invalid transform target: %s", target.c_str() );
     }
 
-    if( !container.empty() ) {
+    if( !container.is_empty() ) {
         if( !item::type_is_defined( container ) ) {
             debugmsg( "Invalid transform container: %s", container.c_str() );
         }
@@ -631,7 +637,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
     // Store the id of the item the vehicle is made of.
-    veh->tags.insert( std::string( "convertible:" ) + it.typeId() );
+    veh->tags.insert( std::string( "convertible:" ) + it.typeId().str() );
     if( !unfold_msg.empty() ) {
         p.add_msg_if_player( _( unfold_msg ), it.tname() );
     }
@@ -738,7 +744,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits );
     }
 
-    if( tools_needed.count( "syringe" ) ) {
+    if( tools_needed.count( itype_syringe ) ) {
         dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug." ) );
     }
 }
@@ -746,8 +752,8 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
-    if( need_these.count( "syringe" ) && p.has_bionic( bio_syringe ) ) {
-        need_these.erase( "syringe" ); // no need for a syringe with bionics like these!
+    if( need_these.count( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
+        need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
     }
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
@@ -1000,7 +1006,7 @@ static bool has_powersource( const item &i, const player &p )
     if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
         return true;
     }
-    return p.has_charges( "UPS", 1 );
+    return p.has_charges( itype_UPS, 1 );
 }
 
 int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -1135,7 +1141,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( the_furn.crafting_pseudo_item == "char_smoker" ) {
+    if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
@@ -1302,7 +1308,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     // Check for a brazier.
     bool has_unactivated_brazier = false;
     for( const auto &i : g->m.i_at( pos ) ) {
-        if( i.typeId() == "brazier" ) {
+        if( i.typeId() == itype_brazier ) {
             has_unactivated_brazier = true;
         }
     }
@@ -1549,7 +1555,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // What material components can we get back?
     std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     // What materials do we salvage (ids and counts).
-    std::map<std::string, int> materials_salvaged;
+    std::map<itype_id, int> materials_salvaged;
 
     // Final just in case check (that perhaps was not done elsewhere);
     if( cut.get_item() == &it ) {
@@ -1611,7 +1617,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     p.reset_encumbrance();
 
     for( const auto &salvaged : materials_salvaged ) {
-        std::string mat_name = salvaged.first;
+        itype_id mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
@@ -1725,7 +1731,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
         cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_tool, tool.typeId() );
+        cut.set_var( carving_tool, tool.typeId().str() );
     }
 
     return true;
@@ -1859,7 +1865,7 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( flame ) {
-        p.use_charges( "fire", 4 );
+        p.use_charges( itype_fire, 4 );
         return 0;
 
     } else {
@@ -1884,7 +1890,7 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
     }
 
     if( flame ) {
-        if( !p.has_charges( "fire", 4 ) ) {
+        if( !p.has_charges( itype_fire, 4 ) ) {
             return ret_val<bool>::make_failure(
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
@@ -1902,160 +1908,9 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
     return ret_val<bool>::make_success();
 }
 
-void enzlave_actor::load( const JsonObject &obj )
-{
-    assign( obj, "cost", cost );
-}
-
-std::unique_ptr<iuse_actor> enzlave_actor::clone() const
-{
-    return std::make_unique<enzlave_actor>( *this );
-}
-
-int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        return 0;
-    }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
-    std::vector<const item *> corpses;
-
-    for( item &corpse_candidate : items ) {
-        const mtype *mt = corpse_candidate.get_mtype();
-        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) &&
-            mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
-            corpses.push_back( &corpse_candidate );
-        }
-    }
-
-    if( corpses.empty() ) {
-        p.add_msg_if_player( _( "No suitable corpses" ) );
-        return 0;
-    }
-
-    int tolerance_level = 9;
-    if( p.has_trait( trait_PSYCHOPATH ) || p.has_trait( trait_SAPIOVORE ) ) {
-        tolerance_level = 0;
-    } else if( p.has_trait_flag( "PRED4" ) ) {
-        tolerance_level = 5;
-    } else if( p.has_trait_flag( "PRED3" ) ) {
-        tolerance_level = 7;
-    }
-
-    // Survival skill increases your willingness to get things done,
-    // but it doesn't make you feel any less bad about it.
-    /** @EFFECT_SURVIVAL increases tolerance for enzlavement */
-    if( p.get_morale_level() <= ( 15 * ( tolerance_level - p.get_skill_level(
-            skill_survival ) ) ) - 150 ) {
-        add_msg( m_neutral,
-                 _( "The prospect of cutting up the corpse and letting it rise again as a slave is too much for you to deal with right now." ) );
-        return 0;
-    }
-
-    uilist amenu;
-
-    amenu.text = _( "Selectively butcher the downed zombie into a zombie slave?" );
-    for( size_t i = 0; i < corpses.size(); i++ ) {
-        amenu.addentry( i, true, -1, corpses[i]->display_name() );
-    }
-
-    amenu.query();
-
-    if( amenu.ret < 0 ) {
-        p.add_msg_if_player( _( "Make love, not zlave." ) );
-        return 0;
-    }
-
-    if( tolerance_level == 0 ) {
-        // You just don't care, no message.
-    } else if( tolerance_level <= 5 ) {
-        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat…" ) );
-    } else {
-        add_msg( m_bad, _( "You feel horrible for mutilating and enslaving someone's corpse." ) );
-
-        /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
-        int moraleMalus = -50 * ( 5.0 / p.get_skill_level( skill_survival ) );
-        int maxMalus = -250 * ( 5.0 / p.get_skill_level( skill_survival ) );
-        time_duration duration = 30_minutes * ( 5.0 / p.get_skill_level( skill_survival ) );
-        time_duration decayDelay = 3_minutes * ( 5.0 / p.get_skill_level( skill_survival ) );
-
-        if( p.has_trait( trait_PACIFIST ) ) {
-            moraleMalus *= 5;
-            maxMalus *= 3;
-        } else if( p.has_trait_flag( "PRED1" ) ) {
-            moraleMalus /= 4;
-        } else if( p.has_trait_flag( "PRED2" ) ) {
-            moraleMalus /= 5;
-        }
-
-        p.add_morale( MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay );
-    }
-
-    const int selected_corpse = amenu.ret;
-
-    const item *body = corpses[selected_corpse];
-    const mtype *mt = body->get_mtype();
-
-    // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
-    // Speed range is 20 - 120 (for humanoids, dogs get way faster)
-    // This gives us a difficulty ranging roughly from 10 - 40, with up to +25 for corpse damage.
-    // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
-    int difficulty = ( body->damage_level( 4 ) * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
-    // 0 - 30
-    /** @EFFECT_DEX increases chance of success for enzlavement */
-
-    /** @EFFECT_SURVIVAL increases chance of success for enzlavement */
-
-    /** @EFFECT_FIRSTAID increases chance of success for enzlavement */
-    int skills = p.get_skill_level( skill_survival ) + p.get_skill_level( skill_firstaid ) +
-                 ( p.dex_cur / 2 );
-    skills *= 2;
-
-    int success = rng( 0, skills ) - rng( 0, difficulty );
-
-    /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * to_moves<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
-
-    p.assign_activity( ACT_MAKE_ZLAVE, moves );
-    p.activity.values.push_back( success );
-    p.activity.str_values.push_back( corpses[selected_corpse]->display_name() );
-
-    return cost >= 0 ? cost : it.ammo_required();
-}
-
-ret_val<bool> enzlave_actor::can_use( const Character &p, const item &, bool,
-                                      const tripoint & ) const
-{
-    /** @EFFECT_SURVIVAL >=1 allows enzlavement */
-
-    /** @EFFECT_FIRSTAID >=1 allows enzlavement */
-
-    // TODO: Extract such checks into some kind of 'stat_requirements' class.
-    if( p.get_skill_level( skill_survival ) < 1 ) {
-        //~ %s - name of the required skill.
-        return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
-                                            skill_survival->name() );
-    }
-    if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You cannot do that while mounted." ) );
-    }
-    if( p.get_skill_level( skill_firstaid ) < 1 ) {
-        //~ %s - name of the required skill.
-        return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
-                                            skill_firstaid->name() );
-    }
-
-    return ret_val<bool>::make_success();
-}
-
 void fireweapon_off_actor::load( const JsonObject &obj )
 {
-    target_id           = obj.get_string( "target_id" );
+    obj.read( "target_id", target_id, true );
     success_message     = obj.get_string( "success_message", "hsss" );
     lacks_fuel_message  = obj.get_string( "lacks_fuel_message" );
     failure_message     = obj.get_string( "failure_message", "hsss" );
@@ -2317,10 +2172,10 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( morale_effect >= 0 ) {
         sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument",
-                       it.typeId() );
+                       it.typeId().str() );
     } else {
         sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument_bad",
-                       it.typeId() );
+                       it.typeId().str() );
     }
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
@@ -2381,6 +2236,10 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
+    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        p.add_msg_if_player( _( "You can't read." ) );
+        return 0;
+    }
     std::vector<uilist_entry> uilist_initializer;
     uilist spellbook_uilist;
     spellbook_callback sp_cb;
@@ -2416,13 +2275,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height = 24;
-    spellbook_uilist.w_width = 80;
-    spellbook_uilist.w_x = ( TERMX - spellbook_uilist.w_width ) / 2;
-    spellbook_uilist.w_y = ( TERMY - spellbook_uilist.w_height ) / 2;
+    spellbook_uilist.w_height_setup = 24;
+    spellbook_uilist.w_width_setup = 80;
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left = 38;
+    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -2622,15 +2479,11 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
 
     } else {
-        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location loc = game_menus::inv::holster( p, item_location( p, &it ) );
-
-        if( !loc ) {
-            p.add_msg_if_player( _( "Never mind." ) );
+        if( p.as_avatar() == nullptr ) {
             return 0;
         }
-
-        store( p, it, *loc.obtain( p ) );
+        // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
+        game_menus::inv::insert_items( *p.as_avatar(), item_location( p, &it ) );
     }
 
     return 0;
@@ -2649,7 +2502,7 @@ std::unique_ptr<iuse_actor> ammobelt_actor::clone() const
 
 void ammobelt_actor::load( const JsonObject &obj )
 {
-    belt = obj.get_string( "belt" );
+    belt = itype_id( obj.get_string( "belt" ) );
 }
 
 void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -2914,7 +2767,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     int diff = find_repair_difficulty( pl, fix.typeId(), training );
 
     // If we don't find a recipe, see if there's a repairs_like that has a recipe
-    if( diff == -1 && !fix.type->repairs_like.empty() ) {
+    if( diff == -1 && !fix.type->repairs_like.is_empty() ) {
         diff = find_repair_difficulty( pl, fix.type->repairs_like, training );
     }
 
@@ -3297,10 +3150,10 @@ void heal_actor::load( const JsonObject &obj )
     }
 
     if( obj.has_string( "used_up_item" ) ) {
-        used_up_item_id = obj.get_string( "used_up_item", used_up_item_id );
+        obj.read( "used_up_item", used_up_item_id, true );
     } else if( obj.has_object( "used_up_item" ) ) {
         JsonObject u = obj.get_object( "used_up_item" );
-        used_up_item_id = u.get_string( "id", used_up_item_id );
+        u.read( "id", used_up_item_id, true );
         used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
         used_up_item_charges = u.get_int( "charges", used_up_item_charges );
         used_up_item_flags = u.get_tags( "flags" );
@@ -3333,7 +3186,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
-    if( get_option<bool>( "FILTHY_WOUNDS" ) && it.is_filthy() ) {
+    if( it.is_filthy() ) {
         p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
     }
@@ -3488,7 +3341,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
-    if( !used_up_item_id.empty() ) {
+    if( !used_up_item_id.is_empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
@@ -3944,7 +3797,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
         return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
     }
 
-    if( target.gunmod_find( "barrel_small" ) ) {
+    if( target.gunmod_find( itype_barrel_small ) ) {
         return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
     }
 
@@ -3969,6 +3822,8 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
+        p.consume_installation_requirment( it.type->bionic->id );
+        p.consume_anesth_requirment( *it.type, p );
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {
         return 0;
@@ -3985,11 +3840,10 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
     if( p.is_mounted() ) {
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
-    if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
-        !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
-    } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_flag( "FILTHY" ) ) {
+    if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
+        if( bid->installation_requirement.is_empty() ) {
+            return ret_val<bool>::make_failure( _( "You can't self-install this CBM." ) );
+        } else  if( it.has_flag( "FILTHY" ) ) {
             return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
         } else if( it.has_flag( "NO_STERILE" ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );

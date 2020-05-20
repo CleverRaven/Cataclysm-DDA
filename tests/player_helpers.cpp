@@ -29,7 +29,7 @@ int get_remaining_charges( const std::string &tool_id )
     const inventory crafting_inv = g->u.crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
-        return i.typeId() == tool_id;
+        return i.typeId() == itype_id( tool_id );
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
@@ -42,7 +42,7 @@ bool player_has_item_of_type( const std::string &type )
 {
     std::vector<item *> matching_items = g->u.inv.items_with(
     [&]( const item & i ) {
-        return i.type->get_id() == type;
+        return i.type->get_id() == itype_id( type );
     } );
 
     return !matching_items.empty();
@@ -69,7 +69,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.stomach.empty();
     dummy.guts.empty();
     item food( "debug_nutrition" );
-    dummy.eat( food );
+    dummy.consume( food );
 
     dummy.empty_skills();
     dummy.clear_morale();
@@ -159,21 +159,21 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->toggled && !bio.powered ) {
+    if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
         const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
-            p.set_value( fuel_opts.front(), "2" );
+            p.set_value( fuel_opts.front().str(), "2" );
         }
         p.activate_bionic( bioindex );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
         if( !fuel_opts.empty() ) {
-            p.remove_value( fuel_opts.front() );
+            p.remove_value( fuel_opts.front().str() );
         }
     }
 }
 
-item tool_with_ammo( const itype_id &tool, const int qty )
+item tool_with_ammo( const std::string &tool, const int qty )
 {
     item tool_it( tool );
     tool_it.ammo_set( tool_it.ammo_default(), qty );

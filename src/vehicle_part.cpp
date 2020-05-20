@@ -28,6 +28,9 @@
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_muscle( "muscle" );
+
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -171,14 +174,14 @@ bool vehicle_part::is_available( const bool carried ) const
 itype_id vehicle_part::fuel_current() const
 {
     if( is_engine() ) {
-        if( ammo_pref == "null" ) {
-            return info().fuel_type != "muscle" ? info().fuel_type : "null";
+        if( ammo_pref.is_null() ) {
+            return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
         } else {
             return ammo_pref;
         }
     }
 
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 bool vehicle_part::fuel_set( const itype_id &fuel )
@@ -197,7 +200,7 @@ bool vehicle_part::fuel_set( const itype_id &fuel )
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
-        return "battery";
+        return itype_battery;
     }
 
     if( is_tank() && !base.contents.empty() ) {
@@ -208,7 +211,7 @@ itype_id vehicle_part::ammo_current() const
         return base.ammo_current();
     }
 
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 int vehicle_part::ammo_capacity() const
@@ -338,7 +341,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // prevent mixing of different ammo
-        if( ammo_current() != "null" && ammo_current() != obj_type ) {
+        if( !ammo_current().is_null() && ammo_current() != obj_type ) {
             return false;
         }
         // For storage with set type, prevent filling with different types

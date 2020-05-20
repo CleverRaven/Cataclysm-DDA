@@ -199,7 +199,7 @@ class player_morale
         };
         std::map<trait_id, mutation_data> mutations;
 
-        std::map<std::string, int> super_fancy_items;
+        std::map<itype_id, int> super_fancy_items;
 
         // Mutability is required for lazy initialization
         mutable int level;

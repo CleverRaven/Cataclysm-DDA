@@ -15,7 +15,8 @@
     "ammo_type": [ "flammable" ],
     "capacity": 3000,
     "reliability": 9,
-    "reload_time": 3
+    "reload_time": 3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 3000 }, "watertight": true } ]
   },
   {
     "id": "aux_pressurized_tank",
@@ -34,7 +35,8 @@
     "capacity": 500,
     "reliability": 9,
     "reload_time": 3,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 500 }, "watertight": true } ]
   },
   {
     "id": "rm4502",
@@ -52,7 +54,8 @@
     "ammo_type": [ "flammable" ],
     "capacity": 2000,
     "reliability": 10,
-    "reload_time": 3
+    "reload_time": 3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 2000 }, "watertight": true } ]
   },
   {
     "id": "rm4504",
@@ -70,6 +73,7 @@
     "ammo_type": [ "flammable" ],
     "capacity": 4000,
     "reliability": 10,
-    "reload_time": 3
+    "reload_time": 3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 4000 }, "watertight": true } ]
   }
 ]
