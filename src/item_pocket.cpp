@@ -638,37 +638,38 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         const std::string pocket_num = string_format( _( "Pocket %d:" ), pocket_number );
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
-    if( data->rigid ) {
-        info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
-    }
-    if( data->min_item_volume > 0_ml ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "Minimum volume of item allowed: <neutral>%s</neutral>" ),
-                                          vol_to_string( data->min_item_volume ) ) );
-    }
 
-    if( data->max_item_volume ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "Maximum volume of item allowed: <neutral>%s</neutral>" ),
-                                          vol_to_string( *data->max_item_volume ) ) );
-    }
+    info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
+    info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+    info.back().bNewLine = true;
 
     if( data->max_item_length != 0_mm ) {
-        info.push_back( iteminfo( "BASE", _( "Max Item Length: " ),
+        info.back().bNewLine = true;
+        info.push_back( iteminfo( "BASE", _( "Maximum item length: " ),
                                   string_format( "<num> %s", length_units( data->max_item_length ) ),
                                   iteminfo::lower_is_better,
                                   convert_length( data->max_item_length ) ) );
     }
 
-    info.emplace_back( "DESCRIPTION", string_format( _( "Volume Capacity: <neutral>%s</neutral>" ),
-                       vol_to_string( volume_capacity() ) ) );
+    if( data->min_item_volume > 0_ml ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "Minimum item volume: <neutral>%s</neutral>" ),
+                                          vol_to_string( data->min_item_volume ) ) );
+    }
 
-    info.emplace_back( "DESCRIPTION", string_format( _( "Weight Capacity: <neutral>%s</neutral>" ),
-                       weight_to_string( data->max_contains_weight ) ) );
+    if( data->max_item_volume ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "Maximum item volume: <neutral>%s</neutral>" ),
+                                          vol_to_string( *data->max_item_volume ) ) );
+    }
 
     info.emplace_back( "DESCRIPTION",
-                       string_format( _( "Base moves to take an item out: <neutral>%d</neutral>" ),
+                       string_format( _( "Base moves to remove item: <neutral>%d</neutral>" ),
                                       data->moves ) );
+
+    if( data->rigid ) {
+        info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
+    }
 
     if( data->watertight ) {
         info.emplace_back( "DESCRIPTION",
