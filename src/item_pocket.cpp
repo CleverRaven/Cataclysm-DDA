@@ -295,6 +295,11 @@ units::volume item_pocket::volume_capacity() const
     return data->volume_capacity;
 }
 
+units::mass item_pocket::weight_capacity() const
+{
+    return data->max_contains_weight;
+}
+
 units::volume item_pocket::max_contains_volume() const
 {
     return data->max_contains_volume();
@@ -876,7 +881,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_SMALL, _( "item is too small" ) );
     }
-    if( it.weight() > data->max_contains_weight ) {
+    if( it.weight() > weight_capacity() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
     }
@@ -1237,7 +1242,7 @@ units::mass item_pocket::contains_weight() const
 
 units::mass item_pocket::remaining_weight() const
 {
-    return data->max_contains_weight - contains_weight();
+    return weight_capacity() - contains_weight();
 }
 
 int item_pocket::best_quality( const quality_id &id ) const
