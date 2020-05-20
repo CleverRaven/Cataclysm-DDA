@@ -139,9 +139,6 @@ class player : public Character
             return false;    // Overloaded for NPCs in npc.h
         }
 
-        /** Returns what color the player should be drawn as */
-        nc_color basic_symbol_color() const override;
-
         // populate variables, inventory items, and misc from json object
         virtual void deserialize( JsonIn &jsin ) = 0;
 

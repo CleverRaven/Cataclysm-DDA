@@ -10606,12 +10606,6 @@ std::string Character::short_description() const
     return join( short_description_parts(), ";   " );
 }
 
-int Character::print_info( const catacurses::window &w, int vStart, int, int column ) const
-{
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
-}
-
 void Character::shift_destination( const point &shift )
 {
     if( next_expected_position ) {

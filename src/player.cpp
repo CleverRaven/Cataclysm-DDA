@@ -142,7 +142,6 @@ static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
-static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
@@ -215,7 +214,6 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
-static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -608,36 +606,6 @@ void player::set_underwater( bool u )
         underwater = u;
         recalc_sight_limits();
     }
-}
-
-nc_color player::basic_symbol_color() const
-{
-    if( has_effect( effect_onfire ) ) {
-        return c_red;
-    }
-    if( has_effect( effect_stunned ) ) {
-        return c_light_blue;
-    }
-    if( has_effect( effect_boomered ) ) {
-        return c_pink;
-    }
-    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
-        return c_magenta;
-    }
-    if( underwater ) {
-        return c_blue;
-    }
-    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
-        is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
-        return c_dark_gray;
-    }
-    if( move_mode == CMM_RUN ) {
-        return c_yellow;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        return c_light_gray;
-    }
-    return c_white;
 }
 
 void player::mod_stat( const std::string &stat, float modifier )
