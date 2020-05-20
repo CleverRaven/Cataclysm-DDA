@@ -283,6 +283,13 @@ void player_activity::do_turn( player &p )
     }
 }
 
+void player_activity::canceled( Character &who )
+{
+    if( *this && actor ) {
+        actor->canceled( *this, who );
+    }
+}
+
 template <typename T>
 bool containers_equal( const T &left, const T &right )
 {

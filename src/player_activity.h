@@ -139,6 +139,11 @@ class player_activity
         void do_turn( player &p );
 
         /**
+         * Performs activity-specific cleanup when Character::cancel_activity() is called
+         */
+        void canceled( Character &who );
+
+        /**
          * Returns true if activities are similar enough that this activity
          * can be resumed instead of starting the other activity.
          */

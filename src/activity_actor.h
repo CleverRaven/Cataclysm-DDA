@@ -62,6 +62,12 @@ class activity_actor
         virtual void finish( player_activity &act, Character &who ) = 0;
 
         /**
+         * Called just before Character::cancel_activity() executes.
+         * This may be used to perform cleanup
+         */
+        virtual void canceled( player_activity &/*act*/, Character &/*who*/ ) {};
+
+        /**
          * Called in player_activity::can_resume_with
          * which allows suspended activities to be resumed instead of
          * starting a new activity in certain cases.
