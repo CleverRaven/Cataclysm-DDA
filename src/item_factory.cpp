@@ -2541,7 +2541,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     } else if( jo.has_array( "id" ) ) {
         std::vector<itype_id> ids;
         jo.read( "id", ids, true );
-        for( const itype_id id : ids ) {
+        for( const itype_id& id : ids ) {
             m.id = id;
             migrations[ m.id ] = m;
         }
