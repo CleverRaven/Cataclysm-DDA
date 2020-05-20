@@ -9436,9 +9436,6 @@ void Character::cancel_activity()
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
-    if( has_activity( ACT_TRY_SLEEP ) ) {
-        remove_value( "sleep_query" );
-    }
     if( has_activity( ACT_LOCKPICK ) ) {
         std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
             return itm.typeId() == itype_pseudo_bio_picklock;

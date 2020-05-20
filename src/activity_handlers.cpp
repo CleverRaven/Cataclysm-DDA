@@ -187,7 +187,6 @@ static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
-static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD_MAG( "ACT_UNLOAD_MAG" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -360,7 +359,6 @@ activity_handlers::do_turn_functions = {
     { ACT_FILL_PIT, fill_pit_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
-    { ACT_TRY_SLEEP, try_sleep_do_turn },
     { ACT_OPERATION, operation_do_turn },
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
@@ -409,7 +407,6 @@ activity_handlers::finish_functions = {
     { ACT_WAIT_NPC, wait_npc_finish },
     { ACT_WAIT_STAMINA, wait_stamina_finish },
     { ACT_SOCIALIZE, socialize_finish },
-    { ACT_TRY_SLEEP, try_sleep_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_DISASSEMBLE, disassemble_finish },
     { ACT_VIBE, vibe_finish },
@@ -3367,48 +3364,6 @@ void activity_handlers::socialize_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
-{
-    if( !p->has_effect( effect_sleep ) ) {
-        if( p->can_sleep() ) {
-            act->set_to_null();
-            p->fall_asleep();
-            p->remove_value( "sleep_query" );
-        } else if( one_in( 1000 ) ) {
-            p->add_msg_if_player( _( "You toss and turn…" ) );
-        }
-        if( calendar::once_every( 30_minutes ) ) {
-            try_sleep_query( act, p );
-        }
-    }
-}
-
-void activity_handlers::try_sleep_query( player_activity *act, player *p )
-{
-    if( p->get_value( "sleep_query" ) == "false" ) {
-        return;
-    }
-    uilist sleep_query;
-    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
-    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
-    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
-    sleep_query.addentry( 3, true, 'C',
-                          _( "Continue trying to fall asleep and don't ask again." ) );
-    sleep_query.query();
-    switch( sleep_query.ret ) {
-        case UILIST_CANCEL:
-        case 1:
-            act->set_to_null();
-            break;
-        case 3:
-            p->set_value( "sleep_query", "false" );
-            break;
-        case 2:
-        default:
-            break;
-    }
-}
-
 void activity_handlers::operation_do_turn( player_activity *act, player *p )
 {
     /**
@@ -3559,14 +3514,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         p->add_effect( effect_narcosis, time_left );
         p->add_effect( effect_sleep, time_left );
     }
-}
-
-void activity_handlers::try_sleep_finish( player_activity *act, player *p )
-{
-    if( !p->has_effect( effect_sleep ) ) {
-        p->add_msg_if_player( _( "You try to sleep, but can't…" ) );
-    }
-    act->set_to_null();
 }
 
 void activity_handlers::operation_finish( player_activity *act, player *p )
