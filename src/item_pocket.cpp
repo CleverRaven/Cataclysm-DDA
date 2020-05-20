@@ -731,14 +731,13 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     if( sealed() ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>sealed</info>." ) );
     }
-    info.emplace_back( "DESCRIPTION",
-                       string_format( "%s: <neutral>%s / %s</neutral>", _( "Volume" ),
-                                      vol_to_string( contains_volume() ),
-                                      vol_to_string( volume_capacity() ) ) );
-    info.emplace_back( "DESCRIPTION",
-                       string_format( "%s: <neutral>%s / %s</neutral>", _( "Weight" ),
-                                      weight_to_string( contains_weight() ),
-                                      weight_to_string( data->max_contains_weight ) ) );
+
+    info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+    info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
+
+    info.back().bNewLine = true;
+    info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+    info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {

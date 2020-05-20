@@ -1498,22 +1498,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
     if( parts->test( iteminfo_parts::BASE_VOLUME ) ) {
-        int converted_volume_scale = 0;
-        const double converted_volume = round_up( convert_volume( volume().value(),
-                                        &converted_volume_scale ) * batch, 3 );
-        iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
-        if( converted_volume_scale != 0 ) {
-            f |= iteminfo::is_three_decimal;
-        }
-        info.push_back( iteminfo( "BASE", _( "Volume: " ),
-                                  string_format( "<num> %s", volume_units_abbr() ),
-                                  f, converted_volume ) );
+        info.push_back( vol_to_info( "BASE", _( "Volume: " ), volume() * batch, 3 ) );
     }
     if( parts->test( iteminfo_parts::BASE_WEIGHT ) ) {
-        info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
-                                  string_format( "<num> %s", weight_units() ),
-                                  iteminfo::lower_is_better | iteminfo::is_decimal,
-                                  convert_weight( weight() ) * batch ) );
+        info.push_back( weight_to_info( "BASE", space + _( "Weight: " ), weight() * batch ) );
+        info.back().bNewLine = true;
     }
     if( parts->test( iteminfo_parts::BASE_LENGTH ) && length() > 0_mm ) {
         info.push_back( iteminfo( "BASE", _( "Length: " ),
@@ -3421,18 +3410,8 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
             if( contents_item->made_of_from_type( LIQUID ) ) {
                 units::volume contents_volume = contents_item->volume() * batch;
-                int converted_volume_scale = 0;
-                const double converted_volume =
-                    round_up( convert_volume( contents_volume.value(),
-                                              &converted_volume_scale ), 2 );
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
-                iteminfo::flags f = iteminfo::no_newline;
-                if( converted_volume_scale != 0 ) {
-                    f |= iteminfo::is_decimal;
-                }
-                info.emplace_back( "CONTAINER", description + space,
-                                   string_format( "<num> %s", volume_units_abbr() ), f,
-                                   converted_volume );
+                info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
             } else {
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
                 info.emplace_back( "DESCRIPTION", description.translated() );
