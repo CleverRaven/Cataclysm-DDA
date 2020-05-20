@@ -37,7 +37,7 @@
     "type": "furniture",
     "id": "f_small_satelitte_dish",
     "name": "satellite dish",
-    "description": "A small sheet metal disc designed to receive radio waves from orbital sattelites.  Sattelites that will assuredly continue to orbit, with nothing to broadcast.",
+    "description": "A small sheet metal disc designed to receive radio waves from orbital satellites.  Satellites that will assuredly continue to orbit, with nothing to broadcast.",
     "symbol": "(",
     "color": "light_gray",
     "move_cost_mod": -2,
