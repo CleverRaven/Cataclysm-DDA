@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_bulletin",
     "name": "bulletin board",
-    "description": "A wide wooden frame with a sheet of corkboard inside.  Good for pinning various notices for other survivors to read..",
+    "description": "A wide wooden frame with a sheet of corkboard inside.  Good for pinning various notices for other survivors to read.",
     "symbol": "6",
     "color": "blue",
     "move_cost_mod": -1,
