@@ -395,7 +395,7 @@
     "id": "f_mailbox",
     "name": "mailbox",
     "symbol": "P",
-    "description": "A small metal box on top of a wooden post, designed to be a recepticle for mail deliveries.  Although considering the circumstances, it will likely never see proper use again.",
+    "description": "A small metal box on top of a wooden post, designed to receive mail deliveries.  Although considering the circumstances, it will likely never see proper use again.",
     "color": "light_gray",
     "move_cost_mod": 1,
     "required_str": -1,
