@@ -113,7 +113,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "ammo_restriction": { "50": 1 },
+        "ammo_restriction": { "50": 1 }
       }
     ]
   },
