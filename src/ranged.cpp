@@ -73,6 +73,19 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
+static const itype_id itype_12mm( "12mm" );
+static const itype_id itype_40x46mm( "40x46mm" );
+static const itype_id itype_40x53mm( "40x53mm" );
+static const itype_id itype_66mm( "66mm" );
+static const itype_id itype_84x246mm( "84x246mm" );
+static const itype_id itype_arrow( "arrow" );
+static const itype_id itype_bolt( "bolt" );
+static const itype_id itype_brass_catcher( "brass_catcher" );
+static const itype_id itype_flammable( "flammable" );
+static const itype_id itype_m235( "m235" );
+static const itype_id itype_metal_rail( "metal_rail" );
+static const itype_id itype_UPS( "UPS" );
+
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
@@ -139,6 +152,8 @@ class target_ui
         bool no_fail = false;
         // Spell does not require mana
         bool no_mana = false;
+        // Relevant activity
+        aim_activity_actor *activity = nullptr;
 
         enum class ExitCode {
             Abort,
@@ -147,10 +162,8 @@ class target_ui
             Reload
         };
 
-        // Initialize UI and run the event loop.
-        // Uses public members to determine UI contents
-        // If exit_code != nullptr, exit code will be written into provided address
-        target_handler::trajectory run( player &pc, ExitCode *exit_code = nullptr );
+        // Initialize UI and run the event loop
+        target_handler::trajectory run( player &pc );
 
     private:
         enum class Status {
@@ -338,20 +351,17 @@ class target_ui
         void on_target_accepted( player &pc, bool harmful );
 };
 
-target_handler::trajectory target_handler::mode_fire( player &pc, item &weapon,
-        bool &reload_requested )
+target_handler::trajectory target_handler::mode_fire( player &pc, aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
     ui.mode = target_ui::TargetMode::Fire;
-    ui.relevant = &weapon;
-    gun_mode gun = weapon.gun_current_mode();
+    ui.activity = &activity;
+    ui.relevant = activity.get_weapon();
+    gun_mode gun = ui.relevant->gun_current_mode();
     ui.range = gun.target->gun_range( &pc );
     ui.ammo = gun->ammo_data();
 
-    target_ui::ExitCode exit_code;
-    trajectory result = ui.run( pc, &exit_code );
-    reload_requested = exit_code == target_ui::ExitCode::Reload;
-    return result;
+    return ui.run( pc );
 }
 
 target_handler::trajectory target_handler::mode_throw( player &pc, item &relevant,
@@ -433,59 +443,6 @@ target_handler::trajectory target_handler::mode_spell( player &pc, spell_id sp, 
 {
     return mode_spell( pc, g->u.magic.get_spell( sp ), no_fail, no_mana );
 }
-
-bool targeting_data::is_valid() const
-{
-    return weapon_source != WEAPON_SOURCE_INVALID;
-}
-
-targeting_data targeting_data::use_wielded()
-{
-    return targeting_data{
-        WEAPON_SOURCE_WIELDED,
-        nullptr,
-        0_J,
-    };
-}
-
-targeting_data targeting_data::use_bionic( const item &fake_gun,
-        const units::energy &cost_per_shot )
-{
-    return targeting_data{
-        WEAPON_SOURCE_BIONIC,
-        shared_ptr_fast<item>( new item( fake_gun ) ),
-        cost_per_shot
-    };
-}
-
-targeting_data targeting_data::use_mutation( const item &fake_gun )
-{
-    return targeting_data{
-        WEAPON_SOURCE_MUTATION,
-        shared_ptr_fast<item>( new item( fake_gun ) ),
-        0_J
-    };
-}
-
-namespace io
-{
-template<>
-std::string enum_to_string<weapon_source_enum>( weapon_source_enum data )
-{
-    switch( data ) {
-        // *INDENT-OFF*
-        case WEAPON_SOURCE_INVALID: return "WS_INVALID";
-        case WEAPON_SOURCE_WIELDED: return "WS_WIELDED";
-        case WEAPON_SOURCE_BIONIC: return "WS_BIONIC";
-        case WEAPON_SOURCE_MUTATION: return "WS_MUTATION";
-        // *INDENT-ON*
-        case NUM_WEAPON_SOURCES:
-            break;
-    }
-    debugmsg( "Invalid weapon source" );
-    abort();
-}
-} // namespace io
 
 static double occupied_tile_fraction( m_size target_size )
 {
@@ -762,7 +719,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( charges_of( itype_UPS ) / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -820,8 +777,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         cycle_action( gun, pos() );
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( gun.ammo_current() == "flammable" || gun.ammo_current() == "66mm" ||
-                gun.ammo_current() == "84x246mm" || gun.ammo_current() == "m235" ) {
+            if( gun.ammo_current() == itype_flammable || gun.ammo_current() == itype_66mm ||
+                gun.ammo_current() == itype_84x246mm || gun.ammo_current() == itype_m235 ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -835,7 +792,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            use_charges( "UPS", gun.get_gun_ups_drain() );
+            use_charges( itype_UPS, gun.get_gun_ups_drain() );
         }
 
         if( shot.missed_by <= .1 ) {
@@ -1549,7 +1506,7 @@ static projectile make_gun_projectile( const item &gun )
 
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
-        if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
+        if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
                 drop.activate();
@@ -1592,7 +1549,7 @@ static void cycle_action( item &weap, const tripoint &pos )
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
+        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
             weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
         } else {
             if( cargo.empty() ) {
@@ -1610,7 +1567,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
-        if( weap.gunmod_find( "brass_catcher" ) ) {
+        if( weap.gunmod_find( itype_brass_catcher ) ) {
             linkage.set_flag( "CASING" );
             weap.put_in( linkage, item_pocket::pocket_type::CONTAINER );
         } else if( cargo.empty() ) {
@@ -1646,21 +1603,21 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == "40x46mm" || ammo_current() == "40x53mm" ) {
+    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_current() == "12mm" || ammo_current() == "metal_rail" ) {
+    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == "flammable" || ammo_current() == "66mm" ||
-               ammo_current() == "84x246mm" || ammo_current() == "m235" ) {
+    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
+               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == "arrow" ) {
+    } else if( ammo_current() == itype_arrow ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == "bolt" ) {
+    } else if( ammo_current() == itype_bolt ) {
         return { noise, _( "thonk!" ) };
     }
 
@@ -1787,14 +1744,14 @@ double player::gun_value( const item &weap, int ammo ) const
 
     const islot_gun &gun = *weap.type->gun;
     itype_id ammo_type;
-    if( weap.ammo_current() != "null" ) {
+    if( !weap.ammo_current().is_null() ) {
         ammo_type = weap.ammo_current();
     } else if( weap.magazine_current() ) {
         ammo_type = weap.common_ammo_default();
     } else {
         ammo_type = weap.ammo_default();
     }
-    const itype *def_ammo_i = ammo_type != "NULL" ?
+    const itype *def_ammo_i = !ammo_type.is_null() ?
                               item::find_type( ammo_type ) :
                               nullptr;
 
@@ -1887,12 +1844,12 @@ double player::gun_value( const item &weap, int ammo ) const
     double gun_value = damage_and_accuracy * capacity_factor;
 
     add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
-             weap.type->get_id(), gun_value, dispersion_factor, damage_factor,
+             weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
 }
 
-target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
+target_handler::trajectory target_ui::run( player &pc )
 {
     if( mode == TargetMode::Spell && !no_mana && !casting->can_cast( pc ) ) {
         pc.add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
@@ -1919,32 +1876,22 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
     std::string action;
     bool attack_was_confirmed = false;
     bool reentered = false;
-    tripoint manual_view_offset = pc.view_offset;
-    if( mode == TargetMode::Fire ) {
-        if( pc.activity.id() == ACT_AIM ) {
-            // We were in this UI during previous turn...
-            reentered = true;
-            std::string act_data = pc.activity.str_values[0];
-            if( act_data == "AIM" ) {
-                // ...and ran out of moves while aiming.
-            } else {
-                // ...and selected 'aim and shoot', but ran out of moves.
-                // So, skip retrieving input and go straight to the action.
-                action = act_data;
-                attack_was_confirmed = true;
-            }
-            // Load state to keep the ui consistent across turns
-            snap_to_target = pc.activity.str_values[1] == "snap";
-            shifting_view = pc.activity.values[0] == 1;
-            manual_view_offset = pc.activity.coords[0];
-            // Clear the activity, we'll re-set it later if we need to.
-            pc.cancel_activity();
+    if( mode == TargetMode::Fire && !activity->first_turn ) {
+        // We were in this UI during previous turn...
+        reentered = true;
+        std::string act_data = activity->action;
+        if( act_data == "AIM" ) {
+            // ...and ran out of moves while aiming.
+        } else {
+            // ...and selected 'aim and shoot', but ran out of moves.
+            // So, skip retrieving input and go straight to the action.
+            action = act_data;
+            attack_was_confirmed = true;
         }
+        // Load state to keep the ui consistent across turns
+        snap_to_target = activity->snap_to_target;
+        shifting_view = activity->shifting_view;
     }
-
-    // Restore view to how it was during previos turn in this ui
-    const tripoint saved_view_offset = pc.view_offset;
-    set_view_offset( pc, manual_view_offset );
 
     // Initialize cursor position
     src = pc.pos();
@@ -2064,14 +2011,12 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
         }
     } // for(;;)
 
-    // Since the activity can be cancelled at any time, we restore the view now
-    // but save it if we need it in this ui on the next turn
-    manual_view_offset = pc.view_offset;
-    set_view_offset( pc, saved_view_offset );
-
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
             traj.clear();
+            if( mode == TargetMode::Fire ) {
+                activity->aborted = true;
+            }
             break;
         }
         case ExitCode::Fire: {
@@ -2080,29 +2025,21 @@ target_handler::trajectory target_ui::run( player &pc, ExitCode *exit_code )
             break;
         }
         case ExitCode::Timeout: {
-            // We've ran out of moves. Set activity to ACT_AIM, so we'll
-            // automatically re-enter the aiming UI on the next turn.
-            // pc.activity.str_values[0] remembers which action, AIM or *_SHOT,
-            // we didn't have the time to finish.
+            // We've ran out of moves, save UI state
             traj.clear();
-            pc.assign_activity( ACT_AIM, 0, 0 );
-            pc.activity.str_values.push_back( timed_out_action );
-            // Save UI state
-            pc.activity.str_values.push_back( snap_to_target ? "snap" : "nosnap" );
-            pc.activity.values.push_back( shifting_view ? 1 : 0 );
-            pc.activity.coords.push_back( manual_view_offset );
+            activity->action = timed_out_action;
+            activity->snap_to_target = snap_to_target;
+            activity->shifting_view = shifting_view;
             break;
         }
         case ExitCode::Reload: {
-            // Calling function will handle reloading for us
             traj.clear();
+            activity->aborted = true;
+            activity->reload_requested = true;
             break;
         }
     }
 
-    if( exit_code ) {
-        *exit_code = loop_exit_code;
-    }
     return traj;
 }
 
@@ -2618,7 +2555,7 @@ void target_ui::action_switch_mode( player &pc )
     }
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
-        if( ammo_current == "null" ) {
+        if( ammo_current.is_null() ) {
             ammo = nullptr;
             range = 0;
         } else {

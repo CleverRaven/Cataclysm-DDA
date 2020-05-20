@@ -174,6 +174,20 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
 
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_apparatus( "apparatus" );
+static const itype_id itype_beartrap( "breatrap" );
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_fire( "fire" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rope_6( "rope_6" );
+static const itype_id itype_snare_trigger( "snare_trigger" );
+static const itype_id itype_string_36( "string_36" );
+static const itype_id itype_toolset( "toolset" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_pistol( "pistol" );
@@ -1072,7 +1086,7 @@ void Character::mount_creature( monster &z )
     z.facing = facing;
     add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
     if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.empty() ) {
+        if( !z.type->mech_weapon.is_empty() ) {
             item mechwep = item( z.type->mech_weapon );
             wield( mechwep );
         }
@@ -1153,7 +1167,7 @@ void Character::forced_dismount()
     bool mech = false;
     if( mounted_creature ) {
         auto mon = mounted_creature.get();
-        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
+        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
             remove_item( weapon );
         }
@@ -1260,7 +1274,7 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
             remove_item( weapon );
         }
         if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
@@ -1376,8 +1390,8 @@ bool Character::move_effects( bool attacking )
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
                 mon->remove_effect( effect_lightsnare );
                 remove_effect( effect_lightsnare );
-                g->m.spawn_item( pos(), "string_36" );
-                g->m.spawn_item( pos(), "snare_trigger" );
+                g->m.spawn_item( pos(), itype_string_36 );
+                g->m.spawn_item( pos(), itype_snare_trigger );
                 add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
             }
         } else {
@@ -1406,8 +1420,8 @@ bool Character::move_effects( bool attacking )
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                     mon->remove_effect( effect_heavysnare );
                     remove_effect( effect_heavysnare );
-                    g->m.spawn_item( pos(), "rope_6" );
-                    g->m.spawn_item( pos(), "snare_trigger" );
+                    g->m.spawn_item( pos(), itype_rope_6 );
+                    g->m.spawn_item( pos(), itype_snare_trigger );
                     add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
                 }
             }
@@ -1444,7 +1458,7 @@ bool Character::move_effects( bool attacking )
                 if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                     mon->remove_effect( effect_beartrap );
                     remove_effect( effect_beartrap );
-                    g->m.spawn_item( pos(), "beartrap" );
+                    g->m.spawn_item( pos(), itype_beartrap );
                     add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
                 } else {
                     add_msg_if_player( m_bad,
@@ -1689,7 +1703,7 @@ void Character::recalc_sight_limits()
     if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( "rm13_armor_on" ) ||
+    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
         ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
@@ -1978,7 +1992,7 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     std::vector<itype_id> stored_fuels;
     for( const itype_id &fuel : bio->fuel_opts ) {
         const item tmp_fuel( fuel );
-        if( !get_value( fuel ).empty() || tmp_fuel.has_flag( flag_PERPETUAL ) ) {
+        if( !get_value( fuel.str() ).empty() || tmp_fuel.has_flag( flag_PERPETUAL ) ) {
             stored_fuels.emplace_back( fuel );
         }
     }
@@ -1988,13 +2002,13 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
 int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
-    if( !get_value( fuel ).empty() ) {
-        amount_stored = std::stoi( get_value( fuel ) );
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
     }
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
         for( const itype_id &fl : bid->fuel_opts ) {
-            if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
                     capacity += bid->fuel_capacity;
                 }
@@ -2009,7 +2023,7 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
     int capacity = 0;
     for( const bionic_id &bid : get_bionics() ) {
         for( const itype_id &fl : bid->fuel_opts ) {
-            if( get_value( bid.c_str() ).empty() || get_value( bid.c_str() ) == fl ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
                 if( fl == fuel ) {
                     capacity += bid->fuel_capacity;
                 }
@@ -2022,7 +2036,7 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 void Character::update_fuel_storage( const itype_id &fuel )
 {
     const item it( fuel );
-    if( get_value( fuel ).empty() ) {
+    if( get_value( fuel.str() ).empty() ) {
         for( const bionic_id &bid : get_bionic_fueled_with( it ) ) {
             remove_value( bid.c_str() );
         }
@@ -2033,7 +2047,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
     if( bids.empty() ) {
         return;
     }
-    int amount_fuel_loaded = std::stoi( get_value( fuel ) );
+    int amount_fuel_loaded = std::stoi( get_value( fuel.str() ) );
     std::vector<bionic_id> loaded_bio;
 
     // Sort bionic in order of decreasing capacity
@@ -2061,7 +2075,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
     }
 
     for( const bionic_id &bd : loaded_bio ) {
-        set_value( bd.c_str(), fuel );
+        set_value( bd.str(), fuel.str() );
     }
 
 }
@@ -3173,13 +3187,13 @@ std::vector<std::string> Character::get_overlay_ids() const
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
-        rval.push_back( "worn_" + worn_item.typeId() );
+        rval.push_back( "worn_" + worn_item.typeId().str() );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     if( is_armed() ) {
-        rval.push_back( "wielded_" + weapon.typeId() );
+        rval.push_back( "wielded_" + weapon.typeId().str() );
     }
 
     if( move_mode != CMM_WALK ) {
@@ -5293,7 +5307,7 @@ void Character::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) ||
+    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
                               has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
@@ -6285,7 +6299,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         return is_elec_immune();
     }
     if( ft.has_fire ) {
-        return has_active_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" );
+        return has_active_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on );
     }
     if( ft.has_acid ) {
         return !is_on_ground() && get_env_resist( bodypart_id( "foot_l" ) ) >= 15 &&
@@ -6315,7 +6329,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_deaf ) {
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_bionic( bio_ears ) ||
-               is_wearing( "rm13_armor_on" );
+               is_wearing( itype_rm13_armor_on );
     } else if( eff == effect_corroding ) {
         return is_immune_damage( DT_ACID ) || has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS );
     } else if( eff == effect_nausea ) {
@@ -6664,7 +6678,7 @@ int Character::ammo_count_for( const item &gun )
 
     int ups_drain = gun.get_gun_ups_drain();
     if( ups_drain > 0 ) {
-        ret = std::min( ret, charges_of( "UPS" ) / ups_drain );
+        ret = std::min( ret, charges_of( itype_UPS ) / ups_drain );
     }
 
     return ret;
@@ -7042,7 +7056,7 @@ units::mass Character::bionics_weight() const
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
         if( !bid->included ) {
-            bio_weight += item::find_type( bid.c_str() )->weight;
+            bio_weight += item::find_type( bid->itype() )->weight;
         }
     }
     return bio_weight;
@@ -7625,7 +7639,7 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
         return true;
     }
     if( it.has_flag( flag_USE_UPS ) ) {
-        if( has_charges( "UPS", it.ammo_required() ) || it.ammo_sufficient() ) {
+        if( has_charges( itype_UPS, it.ammo_required() ) || it.ammo_sufficient() ) {
             return true;
         }
         if( show_msg ) {
@@ -7688,7 +7702,7 @@ bool Character::consume_charges( item &used, int qty )
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
         } else {
-            use_charges( "UPS", qty );
+            use_charges( itype_UPS, qty );
         }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
@@ -7704,7 +7718,7 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         mv += std::min( 200, it.volume() / 20_ml );
     }
 
-    if( weapon.typeId() == "e_handcuffs" ) {
+    if( weapon.typeId() == itype_e_handcuffs ) {
         mv *= 4;
     } else if( penalties && has_effect( effect_grabbed ) ) {
         mv *= 2;
@@ -9402,6 +9416,7 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 
 void Character::cancel_activity()
 {
+    activity.canceled( *this );
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
@@ -9410,7 +9425,7 @@ void Character::cancel_activity()
     }
     if( has_activity( ACT_LOCKPICK ) ) {
         std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
-            return itm.typeId() == "pseudo_bio_picklock";
+            return itm.typeId() == itype_pseudo_bio_picklock;
         } );
         if( !bio_picklocks.empty() ) {
             g->u.i_rem( bio_picklocks[0] );
@@ -9764,10 +9779,10 @@ std::vector<const item *> Character::all_items_with_flag( const std::string &fla
 bool Character::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
-    if( it == "fire" || it == "apparatus" ) {
+    if( it == itype_fire || it == itype_apparatus ) {
         return has_fire( quantity );
     }
-    if( it == "UPS" && is_mounted() &&
+    if( it == itype_UPS && is_mounted() &&
         mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
         auto mons = mounted_creature.get();
         return quantity <= mons->battery_item->ammo_remaining();
@@ -9815,15 +9830,15 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     if( qty <= 0 ) {
         return res;
 
-    } else if( what == "toolset" ) {
+    } else if( what == itype_toolset ) {
         mod_power_level( units::from_kilojoule( -qty ) );
         return res;
 
-    } else if( what == "fire" ) {
+    } else if( what == itype_fire ) {
         use_fire( qty );
         return res;
 
-    } else if( what == "UPS" ) {
+    } else if( what == itype_UPS ) {
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
             mounted_creature.get()->battery_item ) {
             auto mons = mounted_creature.get();
@@ -9838,16 +9853,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( "adv_UPS_off", static_cast<int>( std::ceil( qty * 0.6 ) ) );
+        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
-            std::list<item> found = use_charges( "adv_UPS_off", adv );
+            std::list<item> found = use_charges( itype_adv_UPS_off, adv );
             res.splice( res.end(), found );
             qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
         }
 
-        int ups = charges_of( "UPS_off", qty );
+        int ups = charges_of( itype_UPS_off, qty );
         if( ups > 0 ) {
-            std::list<item> found = use_charges( "UPS_off", ups );
+            std::list<item> found = use_charges( itype_UPS_off, ups );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
@@ -9872,7 +9887,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     }
 
     if( has_tool_with_UPS ) {
-        use_charges( "UPS", qty );
+        use_charges( itype_UPS, qty );
     }
 
     return res;
@@ -10377,7 +10392,7 @@ void Character::place_corpse()
         g->m.add_item_or_charges( pos(), *itm );
     }
     for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
+        if( item::type_is_defined( bio.info().itype() ) ) {
             item cbm( bio.id.str(), calendar::turn );
             cbm.set_flag( "FILTHY" );
             cbm.set_flag( "NO_STERILE" );
@@ -10426,7 +10441,7 @@ void Character::place_corpse( const tripoint &om_target )
         bay.add_item_or_charges( point( finX, finY ), *itm );
     }
     for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
+        if( item::type_is_defined( bio.info().itype() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ), item_pocket::pocket_type::CORPSE );
         }
     }
@@ -10589,12 +10604,6 @@ std::vector<std::string> Character::short_description_parts() const
 std::string Character::short_description() const
 {
     return join( short_description_parts(), ";   " );
-}
-
-int Character::print_info( const catacurses::window &w, int vStart, int, int column ) const
-{
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
 }
 
 void Character::shift_destination( const point &shift )

@@ -64,6 +64,9 @@
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -966,7 +969,8 @@ void talk_function::field_plant( npc &p, const std::string &place )
         return;
     }
     std::vector<item *> seed_inv = g->u.items_with( []( const item & itm ) {
-        return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+        return itm.is_seed() && itm.typeId() != itype_marloss_seed &&
+               itm.typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant!" ) );

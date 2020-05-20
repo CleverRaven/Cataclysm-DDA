@@ -741,8 +741,11 @@ class Creature
 
         virtual std::string extended_description() const = 0;
 
+        /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
+        /** Creature symbol color */
         virtual nc_color basic_symbol_color() const = 0;
+        /** Creature symbol */
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 

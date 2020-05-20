@@ -133,7 +133,7 @@ class gun_actor : public mattack_actor
         itype_id gun_type;
 
         /** Specific ammo type to use or for gun default if unspecified */
-        itype_id ammo_type = "null";
+        itype_id ammo_type = itype_id::NULL_ID();
 
         /*@{*/
         /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */

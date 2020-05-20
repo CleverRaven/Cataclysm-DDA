@@ -49,7 +49,7 @@ struct clothing_mod {
     bool was_loaded = false;
 
     std::string flag;
-    std::string item_string;
+    itype_id item_string;
     std::string implement_prompt;
     std::string destroy_prompt;
     std::vector< mod_value > mod_values;

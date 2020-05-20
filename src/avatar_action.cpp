@@ -68,6 +68,13 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_grass( "grass" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_underbrush( "underbrush" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const skill_id skill_swimming( "swimming" );
 
 static const bionic_id bio_ups( "bio_ups" );
@@ -532,8 +539,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
-        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
-                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+        if( !you.is_underwater() &&
+            !( you.shoe_type_count( itype_swim_fins ) == 2 ||
+               ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
             you.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while sinking
@@ -691,13 +699,13 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = g->u.mounted_creature.get();
-            if( !mons->type->mech_weapon.empty() ) {
+            if( !mons->type->mech_weapon.is_empty() ) {
                 is_mech_weapon = true;
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
+                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
                    ( you.has_active_bionic( bio_ups ) &&
                      you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                 messages.push_back( string_format(
@@ -706,7 +714,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
                 result = false;
             }
         } else {
-            if( !you.has_charges( "UPS", ups_drain ) ) {
+            if( !you.has_charges( itype_UPS, ups_drain ) ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;
@@ -730,11 +738,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
 }
 
 // TODO: Move data/functions related to targeting out of game class
-/**
- * Checks if the weapon is valid and if the player meets certain conditions for firing it.
- * @return True if all conditions are true, otherwise false.
- */
-static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
+bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
 {
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
@@ -823,127 +827,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
     return false;
 }
 
-void avatar_action::aim_do_turn( avatar &you, map &m )
-{
-    targeting_data &args = you.get_targeting_data();
-
-    item *weapon = nullptr;
-    switch( args.weapon_source ) {
-        case WEAPON_SOURCE_WIELDED:
-            // TODO: if wielding a gun, check that this is the same gun that was used to start aiming
-            if( !you.weapon.is_null() ) {
-                // Gun wasn't lost (e.g. yanked by zombie technician)
-                weapon = &you.weapon;
-            }
-            break;
-
-        case WEAPON_SOURCE_BIONIC:
-        case WEAPON_SOURCE_MUTATION:
-            // TODO: this should check if the player lost relevant bionic/mutation
-            weapon = args.cached_fake_weapon.get();
-            break;
-
-        case WEAPON_SOURCE_INVALID:
-        case NUM_WEAPON_SOURCES:
-            debugmsg( "Expected valid targeting data" );
-            break;
-    }
-
-    if( !weapon || !can_fire_weapon( you, m, *weapon ) ) {
-        you.cancel_activity();
-        return;
-    }
-
-    int reload_time = 0;
-    gun_mode gun = weapon->gun_current_mode();
-
-    // TODO: use MODERATE_EXERCISE if firing a bow
-    you.increase_activity_level( LIGHT_EXERCISE );
-
-    // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( !gun->ammo_remaining() ) {
-            const auto ammo_location_is_valid = [&]() -> bool {
-                if( !you.ammo_location )
-                {
-                    return false;
-                }
-                if( !gun->can_reload_with( you.ammo_location->typeId() ) )
-                {
-                    return false;
-                }
-                if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
-                {
-                    return false;
-                }
-                return true;
-            };
-            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                                      weapon, you.ammo_location ) : you.select_ammo( *gun );
-            if( !opt ) {
-                // Menu canceled
-                return;
-            }
-            reload_time += opt.moves();
-            if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
-                // Reload not allowed
-                return;
-            }
-
-            // Burn 0.2% max base stamina x the strength required to fire.
-            you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                             get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
-            // At low stamina levels, firing starts getting slow.
-            int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
-            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-
-            g->refresh_all();
-        }
-    }
-
-    g->temp_exit_fullscreen();
-    m.draw( g->w_terrain, you.pos() );
-    bool reload_requested;
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, reload_requested );
-
-    //may be changed in target_ui
-    gun = weapon->gun_current_mode();
-
-    if( trajectory.empty() ) {
-        bool not_aiming = you.activity.id() != ACT_AIM;
-        if( not_aiming && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            const auto previous_moves = you.moves;
-            item_location loc = item_location( you, gun.target );
-            g->unload( loc );
-            // Give back time for unloading as essentially nothing has been done.
-            // Note that reload_time has not been applied either.
-            you.moves = previous_moves;
-        }
-        g->reenter_fullscreen();
-
-        if( reload_requested ) {
-            // Reload the gun / select different arrows
-            g->reload_wielded( true );
-        }
-        return;
-    }
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
-
-    you.moves -= reload_time;
-
-    int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
-
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && ( args.bp_cost_per_shot > 0_J ) ) {
-        you.mod_power_level( -args.bp_cost_per_shot * shots_fired );
-    }
-    g->reenter_fullscreen();
-}
-
-void avatar_action::fire_wielded_weapon( avatar &you, map &m )
+void avatar_action::fire_wielded_weapon( avatar &you )
 {
     item &weapon = you.weapon;
     if( weapon.is_gunmod() ) {
@@ -955,28 +839,22 @@ void avatar_action::fire_wielded_weapon( avatar &you, map &m )
         return;
     } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
-                 weapon.tname(), weapon.ammo_current() );
+                 weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
     }
 
-    targeting_data args = targeting_data::use_wielded();
-    you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor::use_wielded(), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_gun )
+void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
 {
-    targeting_data args = targeting_data::use_mutation( fake_gun );
-    you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun,
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
                                         units::energy cost_per_shot )
 {
-    targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );
-    you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )

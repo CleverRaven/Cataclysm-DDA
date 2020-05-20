@@ -50,6 +50,10 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
+static const itype_id itype_bullwhip( "bullwhip" );
+static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_rope_30( "rope_30" );
+
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
@@ -1016,7 +1020,7 @@ bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
-static bool query_for_item( const player *pl, const std::string &itemname, const char *que )
+static bool query_for_item( const player *pl, const itype_id &itemname, const char *que )
 {
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
 }
@@ -1028,7 +1032,7 @@ static tripoint random_neighbor( tripoint center )
     return center;
 }
 
-static bool sinkhole_safety_roll( player *p, const std::string &itemname, const int diff )
+static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int diff )
 {
     ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
@@ -1082,15 +1086,15 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
         }
     } else if( pl != nullptr ) {
         bool success = false;
-        if( query_for_item( pl, "grapnel",
+        if( query_for_item( pl, itype_grapnel,
                             _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, "grapnel", 6 );
-        } else if( query_for_item( pl, "bullwhip",
+            success = sinkhole_safety_roll( pl, itype_grapnel, 6 );
+        } else if( query_for_item( pl, itype_bullwhip,
                                    _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, "bullwhip", 8 );
-        } else if( query_for_item( pl, "rope_30",
+            success = sinkhole_safety_roll( pl, itype_bullwhip, 8 );
+        } else if( query_for_item( pl, itype_rope_30,
                                    _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, "rope_30", 12 );
+            success = sinkhole_safety_roll( pl, itype_rope_30, 12 );
         }
 
         pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),

@@ -15,8 +15,6 @@ class JsonOut;
 class avatar;
 class item;
 
-using itype_id = std::string;
-
 class character_martial_arts
 {
     private:

@@ -74,6 +74,10 @@ static const efftype_id effect_visuals( "visuals" );
 
 static const item_category_id item_category_chems( "chems" );
 
+static const itype_id itype_apparatus( "dab_pen_on" );
+static const itype_id itype_dab_pen_on( "dab_pen_on" );
+static const itype_id itype_syringe( "syringe" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
@@ -176,9 +180,9 @@ const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {
-    { "plut_cell",         PLUTONIUM_CHARGES * 10 },
-    { "plut_slurry_dense", PLUTONIUM_CHARGES },
-    { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
+    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
+    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
+    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
 };
 
 int Character::stomach_capacity() const
@@ -409,7 +413,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         }
         if( result_it.typeId() != comest_it.typeId() ) {
             debugmsg( "When creating recipe result expected %s, got %s\n",
-                      comest_it.typeId(), result_it.typeId() );
+                      comest_it.typeId().str(), result_it.typeId().str() );
         }
         std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
@@ -689,7 +693,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    if( comest->tool != "null" ) {
+    if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
@@ -1497,7 +1501,7 @@ bool Character::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
-    const std::string str_loaded  = get_value( it.typeId() );
+    const std::string str_loaded  = get_value( it.typeId().str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1507,7 +1511,7 @@ bool Character::fuel_bionic_with( item &it )
 
     it.charges -= loadable;
     // Type and amount of fuel
-    set_value( it.typeId(), new_charge );
+    set_value( it.typeId().str(), new_charge );
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
@@ -1658,11 +1662,11 @@ time_duration Character::get_consume_time( const item &it )
         if( consume_drug != nullptr ) { //its a drug
             const auto consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                                           ( consume_drug->get_actor_ptr() );
-            if( consume_drug_use->tools_needed.find( "syringe" ) != consume_drug_use->tools_needed.end() ) {
+            if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
-            } else if( consume_drug_use->tools_needed.find( "apparatus" ) !=
+            } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
                        consume_drug_use->tools_needed.end() ||
-                       consume_drug_use->tools_needed.find( "dab_pen_on" ) != consume_drug_use->tools_needed.end() ) {
+                       consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_seconds( 30 );//smoke a bowl
             } else {
                 time = time_duration::from_seconds( 5 );//popping a pill is quick
@@ -1725,7 +1729,7 @@ static bool consume_med( item &target, player &you )
     const itype_id tool_type = target.get_comestible()->tool;
     const auto req_tool = item::find_type( tool_type );
     bool tool_override = false;
-    if( tool_type == "syringe" && you.has_bionic( bio_syringe ) ) {
+    if( tool_type == itype_syringe && you.has_bionic( bio_syringe ) ) {
         tool_override = true;
     }
     if( req_tool->tool ) {
