@@ -82,6 +82,10 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
@@ -2268,7 +2272,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
 
 static bool farm_valid_seed( const item &itm )
 {
-    return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+    return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
@@ -3252,7 +3256,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
             target_bay.ter_set( p, t_dirt );
-            target_bay.spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+            target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
             harvested++;
         }
     }

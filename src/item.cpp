@@ -112,6 +112,24 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_barrel_small( "barrel_small" );
+static const itype_id itype_blood( "blood" );
+static const itype_id itype_brass_catcher( "brass_catcher" );
+static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
+static const itype_id itype_cig_butt( "cig_butt" );
+static const itype_id itype_cig_lit( "cig_lit" );
+static const itype_id itype_cigar_butt( "cigar_butt" );
+static const itype_id itype_cigar_lit( "cigar_lit" );
+static const itype_id itype_hand_crossbow( "hand_crossbow" );
+static const itype_id itype_joint_roach( "joint_roach" );
+static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
+
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
@@ -357,16 +375,16 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
         itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
-        set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
+        set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
     if( type->gun ) {
-        for( const std::string &mod : type->gun->built_in_mods ) {
+        for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
             it.item_tags.insert( "IRREMOVABLE" );
             put_in( it, item_pocket::pocket_type::MOD );
         }
-        for( const std::string &mod : type->gun->default_mods ) {
+        for( const itype_id &mod : type->gun->default_mods ) {
             put_in( item( mod, turn, qty ), item_pocket::pocket_type::MOD );
         }
 
@@ -567,7 +585,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             qty = ammo_capacity();
 
             // else try to add a magazine using default ammo count property if set
-        } else if( magazine_default() != "null" ) {
+        } else if( !magazine_default().is_null() ) {
             item mag( magazine_default() );
             if( mag.type->magazine->count > 0 ) {
                 qty = mag.type->magazine->count;
@@ -583,7 +601,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ( ammo == "null" || ammo == "NULL" ) && ammo_types().empty() ) || is_money() ) {
+    if( ( ( ammo.is_null() || ammo.is_null() ) && ammo_types().empty() ) || is_money() ) {
         if( magazine_integral() ) {
             if( is_tool() ) {
                 curammo = nullptr;
@@ -631,7 +649,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 auto iter = type->magazines.find( atype->ammo->type );
                 if( iter == type->magazines.end() ) {
                     debugmsg( "%s doesn't have a magazine for %s",
-                              tname(), ammo );
+                              tname(), ammo.str() );
                     return *this;
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
@@ -639,7 +657,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
                 } );
                 mag = find_type( opts.back() );
-                for( const std::string &e : opts ) {
+                for( const itype_id &e : opts ) {
                     if( find_type( e )->magazine->capacity >= qty ) {
                         mag = find_type( e );
                         break;
@@ -712,9 +730,8 @@ item item::split( int qty )
 
 bool item::is_null() const
 {
-    static const std::string s_null( "null" ); // used a lot, no need to repeat
     // Actually, type should never by null at all.
-    return ( type == nullptr || type == nullitem() || typeId() == s_null );
+    return ( type == nullptr || type == nullitem() || typeId().is_null() );
 }
 
 bool item::is_unarmed_weapon() const
@@ -826,7 +843,7 @@ item item::in_its_container() const
 
 item item::in_container( const itype_id &cont ) const
 {
-    if( cont != "null" ) {
+    if( !cont.is_null() ) {
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
@@ -1971,7 +1988,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         tmp = *mod;
         tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
         loaded_mod = &tmp;
-        if( loaded_mod->typeId() == "none" || loaded_mod == nullptr ||
+        // TODO: Should this be .is_null(), rather than comparing to "none"?
+        if( loaded_mod->typeId().str() == "none" || loaded_mod == nullptr ||
             loaded_mod->ammo_data() == nullptr ) {
             debugmsg( "loaded a nun or ammo_data() is nullptr" );
             return;
@@ -2208,7 +2226,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
-        const std::set<std::string> compat = magazine_compatible();
+        const std::set<itype_id> compat = magazine_compatible();
         info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
         enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
             return item::nname( id );
@@ -2339,9 +2357,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
         std::string used_on_str = _( "Used on: " ) +
         enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
-            std::string id_string = item_controller->has_template( used_on.name() ) ? nname( used_on.name(),
-                                    1 ) : used_on.name();
-            return string_format( "<info>%s</info>", id_string );
+            return string_format( "<info>%s</info>", used_on.name() );
         } );
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
@@ -2760,7 +2776,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
             }
         }
     }
-    if( typeId() == "rad_badge" && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
+    if( typeId() == itype_rad_badge && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   string_format( _( "* The film strip on the badge is %s." ),
                                           rad_badge_color( irradiation ) ) ) );
@@ -2950,7 +2966,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
-            const std::set<std::string> compat = magazine_compatible();
+            const std::set<itype_id> compat = magazine_compatible();
             info.emplace_back( "TOOL", _( "Compatible magazines: " ),
             enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
                 return item::nname( id );
@@ -3000,7 +3016,7 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         return;
     }
     insert_separation_line( info );
-    const std::set<std::string> &rep = repaired_with();
+    const std::set<itype_id> &rep = repaired_with();
     if( !rep.empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Repair</bold> using %s." ),
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
@@ -3592,7 +3608,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {
-            for( const std::string &res : brewed.brewing_results() ) {
+            for( const itype_id &res : brewed.brewing_results() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "* Fermenting this will produce "
                                                   "<neutral>%s</neutral>." ),
@@ -3656,10 +3672,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
         insert_separation_line( info );
         std::string ntext;
-        const use_function *use_func = item_note_tool != item_vars.end() ?
-                                       item_controller->find_template( item_note_tool->second )->get_use( "inscribe" ) : nullptr;
-        const inscribe_actor *use_actor = use_func ?
-                                          dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
+        const use_function *use_func =
+            item_note_tool != item_vars.end() ?
+            item_controller->find_template(
+                itype_id( item_note_tool->second ) )->get_use( "inscribe" ) :
+            nullptr;
+        const inscribe_actor *use_actor =
+            use_func ? dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
         if( use_actor ) {
             //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
             ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
@@ -4281,7 +4300,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string maintext;
-    if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
+    if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
         int amt = 0;
@@ -4393,7 +4412,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        tagtext += string_format( " (%s)", nname( get_var( "NANOFAB_ITEM_ID" ) ) );
+        tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
     }
 
     if( has_flag( flag_RADIO_MOD ) ) {
@@ -4420,8 +4439,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
-               typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
+    } else if( active && !is_food() && !is_corpse() &&
+               !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
@@ -4432,7 +4451,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string modtext;
-    if( gunmod_find( "barrel_small" ) ) {
+    if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
     if( has_flag( flag_DIAMOND ) ) {
@@ -4518,7 +4537,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     std::string ammotext;
     if( ( ( is_gun() && ammo_required() ) || is_magazine() ) && get_option<bool>( "AMMO_IN_NAMES" ) ) {
-        if( ammo_current() != "null" ) {
+        if( !ammo_current().is_null() ) {
             ammotext = find_type( ammo_current() )->ammo->type->name();
         } else {
             ammotext = ammotype( *ammo_types().begin() )->name();
@@ -4661,7 +4680,7 @@ units::mass item::weight( bool, bool integral ) const
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
-        if( ammo_current() == "plut_cell" ) {
+        if( ammo_current() == itype_plut_cell ) {
             ret += ammo_remaining() * find_type( ammotype(
                     *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
@@ -4677,7 +4696,7 @@ units::mass item::weight( bool, bool integral ) const
     }
 
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
-    if( gunmod_find( "barrel_small" ) ) {
+    if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_length;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
@@ -4789,7 +4808,7 @@ units::volume item::volume( bool integral ) const
         units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
                 ( charges );
         if( type->stack_size <= 0 ) {
-            debugmsg( "Item type %s has invalid stack_size %d", typeId(), type->stack_size );
+            debugmsg( "Item type %s has invalid stack_size %d", typeId().str(), type->stack_size );
             ret = num;
         } else {
             ret = num / type->stack_size;
@@ -4828,7 +4847,7 @@ units::volume item::volume( bool integral ) const
             }
         }
 
-        if( gunmod_find( "barrel_small" ) ) {
+        if( gunmod_find( itype_barrel_small ) ) {
             ret -= type->gun->barrel_length;
         }
     }
@@ -6439,7 +6458,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     if( !is_reloadable() ) {
         return false;
     } else if( magazine_integral() ) {
-        if( !ammo.empty() ) {
+        if( !ammo.is_empty() ) {
             if( ammo_data() ) {
                 if( ammo_current() != ammo ) {
                     return false;
@@ -6454,7 +6473,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         }
         return now ? ( ammo_remaining() < ammo_capacity() ) : true;
     } else {
-        return ammo.empty() ? true : magazine_compatible().count( ammo );
+        return ammo.is_empty() ? true : magazine_compatible().count( ammo );
     }
 }
 
@@ -6735,7 +6754,7 @@ gun_type_type item::gun_type() const
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == "bullet_crossbow" ) {
+        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == itype_bullet_crossbow ) {
             return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else {
             return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
@@ -6932,7 +6951,7 @@ int item::ammo_remaining() const
 
     if( is_tool() ) {
         // dirty hack for UPS, hopefully temporary
-        if( typeId() == "UPS_off" || typeId() == "adv_UPS_off" ) {
+        if( typeId() == itype_UPS_off || typeId() == itype_adv_UPS_off ) {
             return charges;
         }
 
@@ -6982,7 +7001,7 @@ int item::ammo_capacity( bool potential_capacity ) const
 
     if( is_tool() ) {
         res = type->tool->max_charges;
-        if( res == 0 && magazine_default() != "null" && potential_capacity ) {
+        if( res == 0 && !magazine_default().is_null() && potential_capacity ) {
             res = find_type( magazine_default() )->magazine->capacity;
         }
         for( const item *e : toolmods() ) {
@@ -7101,7 +7120,7 @@ const itype *item::ammo_data() const
 
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const item *e : mods ) {
-        if( !e->type->mod->ammo_modifier.empty() && e->ammo_current() != "null" &&
+        if( !e->type->mod->ammo_modifier.empty() && !e->ammo_current().is_null() &&
             item_controller->has_template( e->ammo_current() ) ) {
             return item_controller->find_template( e->ammo_current() );
         }
@@ -7116,7 +7135,7 @@ const itype *item::ammo_data() const
 itype_id item::ammo_current() const
 {
     const itype *ammo = ammo_data();
-    return ammo ? ammo->get_id() : "null";
+    return ammo ? ammo->get_id() : itype_id::NULL_ID();
 }
 
 const std::set<ammotype> &item::ammo_types( bool conversion ) const
@@ -7154,11 +7173,11 @@ itype_id item::ammo_default( bool conversion ) const
 {
     if( !ammo_types( conversion ).empty() ) {
         itype_id res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
-        if( !res.empty() ) {
+        if( !res.is_empty() ) {
             return res;
         }
     }
-    return "NULL";
+    return itype_id::NULL_ID();
 }
 
 itype_id item::common_ammo_default( bool conversion ) const
@@ -7168,13 +7187,13 @@ itype_id item::common_ammo_default( bool conversion ) const
             const item *mag = magazine_current();
             if( mag && mag->type->magazine->type.count( at ) ) {
                 itype_id res = at->default_ammotype();
-                if( !res.empty() ) {
+                if( !res.is_empty() ) {
                     return res;
                 }
             }
         }
     }
-    return "NULL";
+    return itype_id::NULL_ID();
 }
 
 std::set<std::string> item::ammo_effects( bool with_ammo ) const
@@ -7242,7 +7261,7 @@ itype_id item::magazine_default( bool conversion ) const
             return mag->second;
         }
     }
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
@@ -7330,10 +7349,11 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                                             mod.type->gunmod->location.name() );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId() ) ) {
+               !mod.type->gunmod->usable.count( typeId().str() ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
 
-    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
+    } else if( typeId() == itype_hand_crossbow &&
+               !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
         return ret_val<bool>::make_failure( _( "isn't big enough to use that mod" ) );
 
     } else if( mod.type->gunmod->location.str() == "underbarrel" &&
@@ -7351,13 +7371,13 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
             return ret_val<bool>::make_failure(
                        _( "%1$s cannot be used on item with no compatible ammo types" ), mod.tname( 1 ) );
         }
-    } else if( mod.typeId() == "waterproof_gunmod" && has_flag( flag_WATERPROOF_GUN ) ) {
+    } else if( mod.typeId() == itype_waterproof_gunmod && has_flag( flag_WATERPROOF_GUN ) ) {
         return ret_val<bool>::make_failure( _( "is already waterproof" ) );
 
-    } else if( mod.typeId() == "tuned_mechanism" && has_flag( flag_NEVER_JAMS ) ) {
+    } else if( mod.typeId() == itype_tuned_mechanism && has_flag( flag_NEVER_JAMS ) ) {
         return ret_val<bool>::make_failure( _( "is already eminently reliable" ) );
 
-    } else if( mod.typeId() == "brass_catcher" && has_flag( flag_RELOAD_EJECT ) ) {
+    } else if( mod.typeId() == itype_brass_catcher && has_flag( flag_RELOAD_EJECT ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
     } else if( ( mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )
@@ -7531,7 +7551,7 @@ int item::units_remaining( const Character &ch, int limit ) const
 
     int res = ammo_remaining();
     if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += ch.charges_of( "UPS", limit - res );
+        res += ch.charges_of( itype_UPS, limit - res );
     }
 
     return std::min( static_cast<int>( res ), limit );
@@ -7888,7 +7908,7 @@ bool item::flammable( int threshold ) const
 
 itype_id item::typeId() const
 {
-    return type ? type->get_id() : "null";
+    return type ? type->get_id() : itype_id::NULL_ID();
 }
 
 bool item::getlight( float &luminance, int &width, int &direction ) const
@@ -8010,7 +8030,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
 bool item::use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                 const std::function<bool( const item & )> &filter )
 {
-    if( typeId() == "null" ) {
+    if( typeId().is_null() ) {
         return false;
     }
     if( typeId() == it && quantity > 0 && filter( *this ) ) {
@@ -8544,7 +8564,7 @@ uint64_t item::make_component_hash() const
     // First we need to sort the IDs so that identical ingredients give identical hashes.
     std::multiset<std::string> id_set;
     for( const item &it : components ) {
-        id_set.insert( it.typeId() );
+        id_set.insert( it.typeId().str() );
     }
 
     std::string concatenated_ids;
@@ -9123,12 +9143,12 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         if( carrier != nullptr ) {
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
         }
-        if( typeId() == "cig_lit" ) {
-            convert( "cig_butt" );
-        } else if( typeId() == "cigar_lit" ) {
-            convert( "cigar_butt" );
+        if( typeId() == itype_cig_lit ) {
+            convert( itype_cig_butt );
+        } else if( typeId() == itype_cigar_lit ) {
+            convert( itype_cigar_butt );
         } else { // joint
-            convert( "joint_roach" );
+            convert( itype_joint_roach );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 g->m.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
@@ -9202,12 +9222,12 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
 
     // cig dies out
     if( has_flag( flag_LITCIG ) ) {
-        if( typeId() == "cig_lit" ) {
-            convert( "cig_butt" );
-        } else if( typeId() == "cigar_lit" ) {
-            convert( "cigar_butt" );
+        if( typeId() == itype_cig_lit ) {
+            convert( itype_cig_butt );
+        } else if( typeId() == itype_cigar_lit ) {
+            convert( itype_cigar_butt );
         } else { // joint
-            convert( "joint_roach" );
+            convert( itype_joint_roach );
         }
     } else { // transform (lit) items
         if( type->tool->revert_to ) {
@@ -9365,7 +9385,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
     // for items in player possession if insufficient charges within tool try UPS
     if( carrier && has_flag( flag_USE_UPS ) ) {
-        if( carrier->use_charges_if_avail( "UPS", energy ) ) {
+        if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
             energy = 0;
         }
     }
@@ -9635,7 +9655,7 @@ std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
     std::string ret_name;
-    if( typeId() == "blood" ) {
+    if( typeId() == itype_blood ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
             return npgettext( "item name", "human blood", "human blood", quantity );
         } else {
@@ -9655,7 +9675,7 @@ std::string item::type_name( unsigned int quantity ) const
         std::function<bool ( std::list<item> )> component_id_contains =
         [&]( std::list<item> components ) {
             for( const item &component : components ) {
-                if( component.typeId().find( cname.condition ) != std::string::npos ||
+                if( component.typeId().str().find( cname.condition ) != std::string::npos ||
                     component_id_contains( component.components ) ) {
                     return true;
                 }

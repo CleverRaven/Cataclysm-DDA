@@ -117,6 +117,17 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_brass_catcher( "brass_catcher" );
+static const itype_id itype_cookbook_human( "cookbook_human" );
+static const itype_id itype_large_repairkit( "large_repairkit" );
+static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
+static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
@@ -1839,9 +1850,9 @@ void player::process_items()
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        if( identifier == "UPS_off" ) {
+        if( identifier == itype_UPS_off ) {
             ch_UPS += it.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" ) {
+        } else if( identifier == itype_adv_UPS_off ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
         if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
@@ -1865,9 +1876,9 @@ void player::process_items()
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w.typeId();
-        if( identifier == "UPS_off" ) {
+        if( identifier == itype_UPS_off ) {
             ch_UPS += w.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" ) {
+        } else if( identifier == itype_adv_UPS_off ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
         if( !update_required && w.encumbrance_update_ ) {
@@ -1884,13 +1895,13 @@ void player::process_items()
     int ch_UPS_used = 0;
     if( cloak != nullptr ) {
         if( ch_UPS >= 20 ) {
-            use_charges( "UPS", 20 );
+            use_charges( itype_UPS, 20 );
             ch_UPS -= 20;
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
             }
         } else if( ch_UPS > 0 ) {
-            use_charges( "UPS", ch_UPS );
+            use_charges( itype_UPS, ch_UPS );
             return;
         } else {
             add_msg_if_player( m_bad,
@@ -1908,7 +1919,7 @@ void player::process_items()
         // Bionic power costs are handled elsewhere.
         if( !bio_powered ) {
             if( ch_UPS >= power_cost ) {
-                use_charges( "UPS", power_cost );
+                use_charges( itype_UPS, power_cost );
                 ch_UPS -= power_cost;
             } else {
                 // Deactivate armor here, bypassing the usual deactivation message.
@@ -1940,7 +1951,7 @@ void player::process_items()
         worn_item->charges++;
     }
     if( ch_UPS_used > 0 ) {
-        use_charges( "UPS", ch_UPS_used );
+        use_charges( itype_UPS, ch_UPS_used );
     }
 }
 
@@ -2056,7 +2067,7 @@ item::reload_option player::select_ammo( const item &base,
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( names ), [&]( const item::reload_option & e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
-            if( e.ammo->ammo_current() == "battery" ) {
+            if( e.ammo->ammo_current() == itype_battery ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
                 //~ battery storage (charges)
                 return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
@@ -2142,7 +2153,8 @@ item::reload_option player::select_ammo( const item &base,
         return row;
     };
 
-    itype_id last = uistate.lastreload[ ammotype( base.ammo_default() ) ];
+    const ammotype base_ammotype( base.ammo_default().str() );
+    itype_id last = uistate.lastreload[ base_ammotype ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
     int last_key = inp_mngr.get_previously_pressed_key();
@@ -2250,10 +2262,10 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
-    uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
-            // get first item in all magazine pockets
-            sel->contents.first_ammo().typeId() :
-            sel->typeId();
+    uistate.lastreload[ base_ammotype ] = sel->is_ammo_container() ?
+                                          // get first item in all magazine pockets
+                                          sel->contents.first_ammo().typeId() :
+                                          sel->typeId();
     return opts[ menu.ret ];
 }
 
@@ -2573,7 +2585,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
             if( obj->damage() > 0 ) {
-                const std::set<std::string> &rep = obj->repaired_with();
+                const std::set<itype_id> &rep = obj->repaired_with();
                 if( !rep.empty() ) {
                     const std::string repair_options =
                     enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
@@ -3010,7 +3022,7 @@ bool player::unload( item_location &loc )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == "plut_cell" ) {
+        if( target->ammo_current() == itype_plut_cell ) {
             if( qty / PLUTONIUM_CHARGES > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty / PLUTONIUM_CHARGES );
             } else {
@@ -3277,7 +3289,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
     //TODO: add activity for removing gunmods
 
-    if( mod.typeId() == "brass_catcher" ) {
+    if( mod.typeId() == itype_brass_catcher ) {
         gun.casings_handle( [&]( item & e ) {
             return i_add_or_drop( e );
         } );
@@ -3392,7 +3404,7 @@ void player::gunmod_add( item &gun, item &mod )
                          string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
         actions.emplace_back( [&] {} );
 
-        prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
+        prompt.addentry( -1, has_charges( itype_small_repairkit, 100 ), 'f',
                          string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
 
         actions.emplace_back( [&] {
@@ -3402,7 +3414,7 @@ void player::gunmod_add( item &gun, item &mod )
             risk /= 2; // ...and reduces the risk of damage upon failure
         } );
 
-        prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
+        prompt.addentry( -1, has_charges( itype_large_repairkit, 25 ), 'g',
                          string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
 
         actions.emplace_back( [&] {
@@ -3459,7 +3471,7 @@ bool player::fun_to_read( const item &book ) const
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
           has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == "cookbook_human" ) {
+        book.typeId() == itype_cookbook_human ) {
         return true;
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
@@ -3479,7 +3491,7 @@ int player::book_fun_for( const item &book, const player &p ) const
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
           p.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == "cookbook_human" ) {
+        book.typeId() == itype_cookbook_human ) {
         fun_bonus = std::abs( fun_bonus );
     } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         fun_bonus = std::abs( fun_bonus * 3 );

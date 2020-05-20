@@ -86,13 +86,13 @@ TEST_CASE( "Wield time test", "[wield]" )
         avatar guy;
         clear_character( guy );
 
-        wield_check_from_inv( guy, "halberd", 612 );
+        wield_check_from_inv( guy, itype_id( "halberd" ), 612 );
         clear_character( guy );
-        wield_check_from_inv( guy, "aspirin", 375 );
+        wield_check_from_inv( guy, itype_id( "aspirin" ), 375 );
         clear_character( guy );
-        wield_check_from_inv( guy, "knife_combat", 412 );
+        wield_check_from_inv( guy, itype_id( "knife_combat" ), 412 );
         clear_character( guy );
-        wield_check_from_ground( guy, "metal_tank", 300 );
+        wield_check_from_ground( guy, itype_id( "metal_tank" ), 300 );
         clear_character( guy );
     }
 }

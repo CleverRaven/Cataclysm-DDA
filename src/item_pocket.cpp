@@ -1131,7 +1131,7 @@ std::list<item> &item_pocket::edit_contents()
 
 void item_pocket::migrate_item( item &obj, const std::set<itype_id> &migrations )
 {
-    for( const std::string &c : migrations ) {
+    for( const itype_id &c : migrations ) {
         if( std::none_of( contents.begin(), contents.end(), [&]( const item & e ) {
         return e.typeId() == c;
         } ) ) {

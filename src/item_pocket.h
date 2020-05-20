@@ -26,8 +26,6 @@ struct iteminfo;
 struct itype;
 struct tripoint;
 
-using itype_id = std::string;
-
 class item_pocket
 {
     public:

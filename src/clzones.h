@@ -111,8 +111,8 @@ class mark_option
 class plot_options : public zone_options, public mark_option
 {
     private:
-        std::string mark;
-        std::string seed;
+        itype_id mark;
+        itype_id seed;
 
         enum query_seed_result {
             canceled,
@@ -124,9 +124,9 @@ class plot_options : public zone_options, public mark_option
 
     public:
         std::string get_mark() const override {
-            return mark;
+            return mark.str();
         }
-        std::string get_seed() const {
+        itype_id get_seed() const {
             return seed;
         }
 

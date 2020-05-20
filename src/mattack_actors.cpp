@@ -384,7 +384,7 @@ gun_actor::gun_actor() : description( _( "The %1$s fires its %2$s!" ) ),
 
 void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    gun_type = obj.get_string( "gun_type" );
+    obj.read( "gun_type", gun_type, true );
 
     obj.read( "ammo_type", ammo_type );
 
@@ -529,8 +529,8 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
-    if( ammo != "null" ) {
+    itype_id ammo = ammo_type.is_null() ? gun.ammo_default() : ammo_type;
+    if( !ammo.is_null() ) {
         gun.ammo_set( ammo, z.ammo[ ammo ] );
     }
 

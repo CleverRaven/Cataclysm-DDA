@@ -617,13 +617,13 @@ void Character::activate_mutation( const trait_id &mut )
             tdata.powered = false;
         }
         return;
-    } else if( !mdata.spawn_item.empty() ) {
+    } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
-    } else if( !mdata.ranged_mutation.empty() ) {
+    } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
         avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );

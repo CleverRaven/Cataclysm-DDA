@@ -615,7 +615,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             WHEN( "they have the recipe in a book, but not memorized" ) {
                 item &textbook = g->u.i_add( item( "textbook_chemistry" ) );
                 g->u.do_read( textbook );
-                REQUIRE( g->u.has_identified( "textbook_chemistry" ) );
+                REQUIRE( g->u.has_identified( itype_id( "textbook_chemistry" ) ) );
                 // update the crafting inventory cache
                 g->u.moves++;
 

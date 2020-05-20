@@ -61,6 +61,9 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
+static const itype_id itype_processor( "processor" );
+static const itype_id itype_ruined_chunks( "ruined_chunks" );
+
 static const species_id species_BLOB( "BLOB" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -119,7 +122,7 @@ void mdeath::normal( monster &z )
     }
 }
 
-static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
+static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
                             int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
@@ -207,15 +210,18 @@ void mdeath::splatter( monster &z )
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * to_gram(
-                                          z.get_weight() ) / to_gram( ( item::find_type( entry.drop ) )->weight );
-                scatter_chunks( entry.drop, chunk_amt, z, gib_distance, chunk_amt / ( gib_distance - 1 ) );
+                const int chunk_amt =
+                    entry.mass_ratio / overflow_ratio / 10 *
+                    z.get_weight() / ( item::find_type( itype_id( entry.drop ) ) )->weight;
+                scatter_chunks( itype_id( entry.drop ), chunk_amt, z, gib_distance,
+                                chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
             }
         }
         if( gibbed_weight > 0 ) {
-            const int chunk_amount = gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight );
-            scatter_chunks( "ruined_chunks", chunk_amount, z, gib_distance,
+            const int chunk_amount =
+                gibbed_weight / to_gram( ( item::find_type( itype_ruined_chunks ) )->weight );
+            scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
@@ -579,7 +585,7 @@ void mdeath::focused_beam( monster &z )
 {
     map_stack items = g->m.i_at( z.pos() );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-        if( it->typeId() == "processor" ) {
+        if( it->typeId() == itype_processor ) {
             it = items.erase( it );
         } else {
             ++it;
@@ -633,7 +639,7 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-        for( const std::pair<const std::string, int> &ammo_entry : z.type->starting_ammo ) {
+        for( const std::pair<const itype_id, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
                 bool spawned = false;
                 for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {

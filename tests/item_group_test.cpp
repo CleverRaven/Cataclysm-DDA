@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 #include "item.h"
 #include "item_group.h"
+#include "stringmaker.h"
 
 TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
 {
@@ -8,14 +9,14 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
     default_charges.with_ammo = 100;
     SECTION( "tools without ammo" ) {
         item matches( "matches" );
-        REQUIRE( matches.ammo_default() == "NULL" );
+        REQUIRE( matches.ammo_default() == itype_id::NULL_ID() );
         default_charges.modify( matches );
         CHECK( matches.ammo_remaining() == matches.ammo_capacity() );
     }
 
     SECTION( "gun with ammo type" ) {
         item glock( "glock_19" );
-        REQUIRE( glock.ammo_default() != "NULL" );
+        REQUIRE( !glock.ammo_default().is_null() );
         default_charges.modify( glock );
         CHECK( glock.ammo_remaining() == glock.ammo_capacity() );
     }

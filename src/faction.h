@@ -85,7 +85,7 @@ class faction_template
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
-        std::string currency; // itype_id of the faction currency
+        itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;

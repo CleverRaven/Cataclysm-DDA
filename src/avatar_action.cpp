@@ -68,6 +68,13 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_grass( "grass" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_underbrush( "underbrush" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const skill_id skill_swimming( "swimming" );
 
 static const bionic_id bio_ups( "bio_ups" );
@@ -532,8 +539,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
-        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
-                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+        if( !you.is_underwater() &&
+            !( you.shoe_type_count( itype_swim_fins ) == 2 ||
+               ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
             you.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while sinking
@@ -691,13 +699,13 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = g->u.mounted_creature.get();
-            if( !mons->type->mech_weapon.empty() ) {
+            if( !mons->type->mech_weapon.is_empty() ) {
                 is_mech_weapon = true;
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
+                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
                    ( you.has_active_bionic( bio_ups ) &&
                      you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                 messages.push_back( string_format(
@@ -706,7 +714,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
                 result = false;
             }
         } else {
-            if( !you.has_charges( "UPS", ups_drain ) ) {
+            if( !you.has_charges( itype_UPS, ups_drain ) ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;
@@ -955,7 +963,7 @@ void avatar_action::fire_wielded_weapon( avatar &you, map &m )
         return;
     } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
-                 weapon.tname(), weapon.ammo_current() );
+                 weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
     }
 

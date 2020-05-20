@@ -62,6 +62,16 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_purifier( "water_purifier" );
+static const itype_id itype_welder( "welder" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
@@ -1284,8 +1294,8 @@ void vehicle::operate_reaper()
         map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
             return it.is_seed();
         } );
-        if( seed == items.end() || seed->typeId() == "fungal_seeds" ||
-            seed->typeId() == "marloss_seed" ) {
+        if( seed == items.end() || seed->typeId() == itype_fungal_seeds ||
+            seed->typeId() == itype_marloss_seed ) {
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
@@ -1524,7 +1534,7 @@ void vehicle::use_autoclave( int p )
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
-    } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
+    } else if( fuel_left( itype_water ) < 8 && fuel_left( itype_water_clean ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
@@ -1540,10 +1550,10 @@ void vehicle::use_autoclave( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( "water" ) >= 8 ) {
-            drain( "water", 8 );
+        if( fuel_left( itype_water ) >= 8 ) {
+            drain( itype_water, 8 );
         } else {
-            drain( "water_clean", 8 );
+            drain( itype_water_clean, 8 );
         }
 
         add_msg( m_good,
@@ -1576,7 +1586,7 @@ void vehicle::use_washing_machine( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The washing machine is empty, there's no point in starting it." ) );
-    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
+    } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
     } else if( detergents.empty() ) {
@@ -1621,10 +1631,10 @@ void vehicle::use_washing_machine( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( "water" ) >= 24 ) {
-            drain( "water", 24 );
+        if( fuel_left( itype_water ) >= 24 ) {
+            drain( itype_water, 24 );
         } else {
-            drain( "water_clean", 24 );
+            drain( itype_water_clean, 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1638,7 +1648,7 @@ void vehicle::use_washing_machine( int p )
 
 void vehicle::use_dishwasher( int p )
 {
-    bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
+    bool detergent_is_enough = g->u.crafting_inventory().has_charges( itype_detergent, 5 );
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1662,7 +1672,7 @@ void vehicle::use_dishwasher( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The dishwasher is empty, there's no point in starting it." ) );
-    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
+    } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
@@ -1678,14 +1688,14 @@ void vehicle::use_dishwasher( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( "water" ) >= 24 ) {
-            drain( "water", 24 );
+        if( fuel_left( itype_water ) >= 24 ) {
+            drain( itype_water, 24 );
         } else {
-            drain( "water_clean", 24 );
+            drain( itype_water_clean, 24 );
         }
 
         std::vector<item_comp> detergent;
-        detergent.push_back( item_comp( "detergent", 5 ) );
+        detergent.push_back( item_comp( itype_detergent, 5 ) );
         g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
@@ -1963,25 +1973,25 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery", true ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && fuel_left( itype_battery, true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
-    if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
+    if( has_faucet && fuel_left( itype_water_clean ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( "battery", true ) > 0 ) {
+    if( has_weldrig && fuel_left( itype_battery, true ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( "battery", true ) >=
-                          item::find_type( "water_purifier" )->charges_to_use();
+        bool can_purify = fuel_left( itype_battery, true ) >=
+                          item::find_type( itype_water_purifier )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
-        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
+        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( itype_water ),
                              'P', _( "Purify water in vehicle tank" ) );
     }
     if( has_monster_capture ) {
@@ -2016,12 +2026,12 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( fuel_left( "battery", true ) < pseudo.ammo_required() ) {
+        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
         auto capacity = pseudo.ammo_capacity( true );
         auto qty = capacity - discharge_battery( capacity );
-        pseudo.ammo_set( "battery", qty );
+        pseudo.ammo_set( itype_battery, qty );
         g->u.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
         return true;
@@ -2046,7 +2056,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_HOTPLATE: {
-            veh_tool( "hotplate" );
+            veh_tool( itype_hotplate );
             return;
         }
         case USE_TOWEL: {
@@ -2066,19 +2076,19 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case FILL_CONTAINER: {
-            g->u.siphon( *this, "water_clean" );
+            g->u.siphon( *this, itype_water_clean );
             return;
         }
         case DRINK: {
             item water( "water_clean", 0 );
             if( g->u.can_consume( water ) ) {
                 g->u.assign_activity( player_activity( consume_activity_actor( water, false ) ) );
-                drain( "water_clean", 1 );
+                drain( itype_water_clean, 1 );
             }
             return;
         }
         case USE_WELDER: {
-            if( veh_tool( "welder" ) ) {
+            if( veh_tool( itype_welder ) ) {
                 // HACK: Evil hack incoming
                 auto &act = g->u.activity;
                 if( act.id() == ACT_REPAIR_ITEM ) {
@@ -2094,19 +2104,20 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_PURIFIER: {
-            veh_tool( "water_purifier" );
+            veh_tool( itype_water_purifier );
             return;
         }
         case PURIFY_TANK: {
             auto sel = []( const vehicle_part & pt ) {
-                return pt.is_tank() && pt.ammo_current() == "water";
+                return pt.is_tank() && pt.ammo_current() == itype_water;
             };
-            auto title = string_format( _( "Purify <color_%s>water</color> in tank" ),
-                                        get_all_colors().get_name( item::find_type( "water" )->color ) );
+            auto title = string_format(
+                             _( "Purify <color_%s>water</color> in tank" ),
+                             get_all_colors().get_name( item::find_type( itype_water )->color ) );
             auto &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                double cost = item::find_type( "water_purifier" )->charges_to_use();
-                if( fuel_left( "battery", true ) < tank.ammo_remaining() * cost ) {
+                double cost = item::find_type( itype_water_purifier )->charges_to_use();
+                if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              name, tank.name() );
@@ -2114,7 +2125,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
                     discharge_battery( tank.ammo_remaining() * cost );
-                    tank.ammo_set( "water_clean", tank.ammo_remaining() );
+                    tank.ammo_set( itype_water_clean, tank.ammo_remaining() );
                 }
             }
             return;

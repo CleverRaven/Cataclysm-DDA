@@ -61,6 +61,8 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_pressurized_tank( "pressurized_tank" );
+
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id SPIDER( "SPIDER" );
@@ -1624,9 +1626,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo["pressurized_tank"] > 0 ) {
+            if( ammo[itype_pressurized_tank] > 0 ) {
                 g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo["pressurized_tank"] -= 50;
+                ammo[itype_pressurized_tank] -= 50;
             } else {
                 // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
                 // Not possible for now since flag check is done on type, not individual monster

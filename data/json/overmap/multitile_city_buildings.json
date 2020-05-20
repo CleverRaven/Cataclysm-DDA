@@ -3579,5 +3579,30 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_laundromat_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_laundromat_roof_1_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_camping",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_camping_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_camping_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_cardealer",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_cardealer_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_cardealer_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_diner",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_diner_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_diner_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_diner_roof_north" }
+    ]
   }
 ]
