@@ -90,7 +90,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -1031,11 +1030,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", std::abs( int_upgrade ) );
     json.member( "per_upgrade", std::abs( per_upgrade ) );
 
-    // targeting
-    if( activity.id() == ACT_AIM ) {
-        json.member( "targeting_data", *tdata );
-    }
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1104,13 +1098,6 @@ void avatar::load( const JsonObject &data )
     data.read( "dex_upgrade", dex_upgrade );
     data.read( "int_upgrade", int_upgrade );
     data.read( "per_upgrade", per_upgrade );
-
-    // targeting
-    targeting_data tdata = targeting_data();
-    data.read( "targeting_data", tdata );
-    if( tdata.is_valid() ) {
-        set_targeting_data( tdata );
-    }
 
     // this is so we don't need to call get_option in a draw function
     if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
@@ -1220,32 +1207,6 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// ranged.h
-
-void targeting_data::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "weapon_source", io::enum_to_string( weapon_source ) );
-    if( cached_fake_weapon ) {
-        json.member( "cached_fake_weapon", *cached_fake_weapon );
-    }
-    json.member( "bp_cost", bp_cost_per_shot );
-    json.end_object();
-}
-
-void targeting_data::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    data.read( "weapon_source", weapon_source );
-    if( weapon_source == WEAPON_SOURCE_BIONIC || weapon_source == WEAPON_SOURCE_MUTATION ) {
-        cached_fake_weapon = shared_ptr_fast<item>( new item() );
-        data.read( "cached_fake_weapon", *cached_fake_weapon );
-    }
-
-    data.read( "bp_cost", bp_cost_per_shot );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2136,22 +2097,6 @@ void time_duration::deserialize( JsonIn &jsin )
         turns_ = jsin.get_int();
     }
 }
-
-template<typename V, typename U>
-void units::quantity<V, U>::serialize( JsonOut &jsout ) const
-{
-    jsout.write( value_ );
-}
-
-// TODO: BATTERIES this template specialization should be in the global namespace - see GCC bug 56480
-namespace units
-{
-template<>
-void units::energy::deserialize( JsonIn &jsin )
-{
-    *this = from_millijoule( jsin.get_int() );
-}
-} // namespace units
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h

@@ -626,7 +626,7 @@ void Character::activate_mutation( const trait_id &mut )
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
