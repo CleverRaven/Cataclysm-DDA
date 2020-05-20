@@ -7,8 +7,8 @@
     "effect": "target_attack",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
-    "min_damage": 70,
-    "max_damage": 115,
+    "min_damage": 82,
+    "max_damage": 166,
     "damage_type": "fire"
   }
 ]
