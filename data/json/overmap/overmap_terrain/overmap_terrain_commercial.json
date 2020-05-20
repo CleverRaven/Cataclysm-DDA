@@ -308,6 +308,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_diner",
+    "name": "diner",
+    "copy-from": "generic_city_building",
+    "sym": "d",
+    "color": "green",
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
+    "name": "diner",
+    "copy-from": "generic_city_building",
+    "sym": "d",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_restaurant_foodplace", "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
     "copy-from": "generic_city_building",
     "name": "restaurant",
@@ -1314,7 +1331,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_car_dealership",
+    "id": [ "cs_car_dealership", "s_cardealer" ],
     "copy-from": "generic_city_building",
     "name": "car dealership",
     "sym": "c",
@@ -1323,7 +1340,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_car_dealership_roof",
+    "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ],
     "copy-from": "generic_city_building",
     "name": "car dealership",
     "sym": "c",
@@ -1463,6 +1480,23 @@
     "copy-from": "generic_city_building",
     "name": "hunting supply store roof",
     "sym": "H",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping",
+    "name": "outdoorsman's store",
+    "copy-from": "generic_city_building",
+    "sym": "o",
+    "color": "brown",
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CLOTHING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping_roof",
+    "name": "outdoorsman's store",
+    "copy-from": "generic_city_building",
+    "sym": "o",
     "color": "brown"
   },
   {
