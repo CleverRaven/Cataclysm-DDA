@@ -108,14 +108,7 @@
       "dispersion": 60,
       "barrel_length": -1
     },
-    "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "ammo_restriction": { "50": 1 }
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "50": 1 } } ]
   },
   {
     "id": "as50",
