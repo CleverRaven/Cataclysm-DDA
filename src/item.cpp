@@ -8352,13 +8352,12 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Val
 }
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol )
+                      const units::volume &vol, const int decimal_places )
 {
     iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
     int converted_volume_scale = 0;
     const double converted_volume =
-        convert_volume( vol.value(),
-                        &converted_volume_scale );
+        round_up( convert_volume( vol.value(), &converted_volume_scale ), decimal_places );
     if( converted_volume_scale != 0 ) {
         f |= iteminfo::is_decimal;
     }
@@ -8367,7 +8366,7 @@ iteminfo vol_to_info( const std::string &type, const std::string &left,
 }
 
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight )
+                         const units::mass &weight, const int /* decimal_places */ )
 {
     iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
     const double converted_weight = convert_weight( weight );
