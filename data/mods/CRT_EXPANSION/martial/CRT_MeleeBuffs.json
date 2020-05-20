@@ -39,7 +39,7 @@
         "melee_allowed": false,
         "flat_bonuses": [
           { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.15 },
-          { "stat": "dodge", "scaling-stat": "dex", "scale": 0.1 },
+          { "stat": "dodge", "scaling-stat": "dex", "scale": 0.15 },
           { "stat": "hit", "scaling-stat": "dex", "scale": 0.15 }
         ]
       }
@@ -55,7 +55,7 @@
         "buff_duration": 2,
         "max_stacks": 5,
         "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "dex", "scale": -0.05 }, { "stat": "movecost", "scale": 0.1 } ],
-        "mult_bonuses": [ { "stat": "dodge", "scaling-stat": "dex", "scale": 1.0 } ]
+        "mult_bonuses": [ { "stat": "dodge", "scaling-stat": "dex", "scale": 0.1 } ]
       }
     ],
     "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_crt_cqb_feint" ]
