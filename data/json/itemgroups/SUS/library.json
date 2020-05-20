@@ -570,7 +570,7 @@
     "entries": [
       { "item": "book_nonf_hard_phil_mdlogic", "prob": 1 },
       { "item": "book_nonf_hard_phil_aesth", "prob": 1 },
-      { "item": "book_noft_hard_sports_ergo", "prob": 1 },
+      { "item": "book_nonf_hard_sports_ergo", "prob": 1 },
       { "item": "book_nonf_hard_phil_phinfo", "prob": 1 }
     ]
   },
@@ -650,7 +650,7 @@
     "entries": [
       { "item": "book_nonf_hard_sports_hoop", "prob": 1 },
       { "item": "book_nonf_hard_sports_bike", "prob": 1 },
-      { "item": "book_noft_hard_sports_ergo", "prob": 1 },
+      { "item": "book_nonf_hard_sports_ergo", "prob": 1 },
       { "item": "book_nonf_hard_sports_morg", "prob": 1 }
     ]
   },
