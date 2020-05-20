@@ -9,6 +9,6 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "min_damage": 70,
     "max_damage": 115,
-    "damage_type": "heat"
+    "damage_type": "fire"
   }
 ]
