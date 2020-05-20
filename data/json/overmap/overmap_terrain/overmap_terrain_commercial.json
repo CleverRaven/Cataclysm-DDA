@@ -1541,5 +1541,19 @@
       "urban_14_9"
     ],
     "copy-from": "urban_13_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games",
+    "name": "gaming store",
+    "copy-from": "generic_city_building",
+    "sym": "g",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games_roof",
+    "name": "gaming store",
+    "copy-from": "s_games"
   }
 ]
