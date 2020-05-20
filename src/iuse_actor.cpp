@@ -861,8 +861,12 @@ void place_monster_iuse::load( const JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
-    skill1 = skill_id( obj.get_string( "skill1", skill1.str() ) );
-    skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
+    if( obj.has_array( "skills" ) ) {
+        JsonArray skills_ja = obj.get_array( "skills" );
+        for( JsonValue s : skills_ja ) {
+            skills.emplace( skill_id( s.get_string() ) );
+        }
+    }
 }
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
@@ -913,24 +917,19 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     int skill_offset = 0;
-    if( skill1 ) {
-        skill_offset += p.get_skill_level( skill1 ) / 2;
-    }
-    if( skill2 ) {
-        skill_offset += p.get_skill_level( skill2 );
+    for( skill_id sk : skills ) {
+        skill_offset += p.get_skill_level( sk ) / 2;
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
     if( rng( 0, p.int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
-            p.add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
-                                 newmon.name() );
+            p.add_msg_if_player( m_bad, _( "You deploy the %s wrong. It is hostile!" ), newmon.name() );
         } else {
             p.add_msg_if_player( m_bad, "%s", _( hostile_msg ) );
         }
     } else {
         if( friendly_msg.empty() ) {
-            p.add_msg_if_player( m_warning, _( "The %s emits an IFF beep as it scans you." ),
-                                 newmon.name() );
+            p.add_msg_if_player( m_warning, _( "You deploy the %s." ), newmon.name() );
         } else {
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }

@@ -2315,8 +2315,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
-    "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
-    "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
+    "skill1": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
