@@ -8372,7 +8372,7 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
     iteminfo::flags f = iteminfo::lower_is_better | iteminfo::no_newline;
     const double converted_weight = convert_weight( weight );
     f |= iteminfo::is_decimal;
-    return iteminfo( type, left, string_format( "<num> %s", volume_units_abbr() ), f,
+    return iteminfo( type, left, string_format( "<num> %s", weight_units() ), f,
                      converted_weight );
 }
 
