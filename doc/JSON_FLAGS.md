@@ -1280,7 +1280,8 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FIRE``` Item will start a fire immediately.
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
-- ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
+- ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.
+- ```HOSE_SIPHON``` Tool quality to allow an item to siphon as well as quantifying its ability to do so
 - ```IS_UPS``` Item is Unified Power Supply. Used in active item processing
 - ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`).
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
