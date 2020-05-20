@@ -476,6 +476,7 @@
     "material": "plastic",
     "weight": "18 g",
     "volume": "5 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
     "to_hit": -3
   },
   {
