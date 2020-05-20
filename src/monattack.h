@@ -69,6 +69,7 @@ bool tazer( monster *z );
 bool flamethrower( monster *z );
 bool searchlight( monster *z );
 bool speaker( monster *z );
+bool dissipate( monster *z );
 bool dissipate_drain( monster *z );
 bool dissipate_nightmares( monster *z );
 bool dissipate_force_scream( monster *z );

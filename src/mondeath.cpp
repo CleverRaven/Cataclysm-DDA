@@ -45,6 +45,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
@@ -846,4 +847,26 @@ void mdeath::necro_boomer( monster &z )
             mon->try_upgrade( false );
         }
     }
+}
+
+void mdeath::dissipate( monster &z )
+{
+    if( g->u.sees( z ) ) {
+        add_msg( m_good, _( "The %s dissipates into mist." ), z.name() );
+    }
+}
+
+void mdeath::release_mist( monster &z )
+{
+
+    std::string burst = g->u.sees( z ) ? string_format( _( "The %s bursts open!" ), z.name() ) : "";
+    if( g->weather.mist_intensity == 0 ) {
+        g->u.add_msg_if_player( m_bad, "%s %s", burst,
+                                SNIPPET.random_from_category( "mist_arrives" ).value_or( translation() ) );
+    } else {
+        g->u.add_msg_if_player( m_bad, "%s %s", burst,
+                                SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
+    }
+    g->weather.mist_intensity++;
+    g->weather.set_nextweather( calendar::turn );
 }

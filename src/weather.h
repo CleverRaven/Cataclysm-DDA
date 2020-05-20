@@ -252,7 +252,7 @@ class weather_manager
         int windspeed = 0;
 
         //Mist values
-        int mist_intensity = 1;
+        int mist_intensity = 0;
         int mist_max_intensity = 10;
         time_duration mist_intensity_increase_time = 10_seconds;
         time_duration mist_spawn_time = 5_seconds;

@@ -16,7 +16,7 @@
     "morale": 100,
     "melee_skill": 10,
 	"special_attacks": [ [ "DISSIPATE_DRAIN", 1 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": [ "DISSIPATE" ],
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
   },
   {
@@ -37,7 +37,7 @@
     "morale": 100,
     "melee_skill": 3,
 	"special_attacks": [ [ "DISSIPATE_NIGHTMARES", 1 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": [ "DISSIPATE" ],
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
   },
   {
@@ -58,7 +58,28 @@
     "morale": 100,
     "melee_skill": 3,
 	"special_attacks": [ [ "DISSIPATE_FORCE_SCREAM", 1 ] ],
-    "death_function": [ "DISAPPEAR" ],
+    "death_function": [ "DISSIPATE" ],
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+  },
+    {
+    "id": "mon_mist_bag",
+    "type": "MONSTER",
+    "name": { "str": "Mist bag" },
+    "description": "A bag seemingly made of mist, it appears to be on the edge of bursting.",
+    "default_faction": "MIST",
+    "bodytype": "human",
+    "species": [ "MIST" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 1,
+    "speed": 70,
+    "symbol": "B",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+	"special_attacks": [ [ "DISSIPATE", 1 ] ],
+    "death_function": [ "RELEASE_MIST" ],
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
   }
 ]

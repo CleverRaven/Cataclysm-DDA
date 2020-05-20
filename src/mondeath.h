@@ -80,6 +80,10 @@ void fireball( monster &z );
 void conflagration( monster &z );
 // raises and then upgrades all zombies in a radius
 void necro_boomer( monster &z );
+//dissolves into mist leaving nothing
+void dissipate( monster &z );
+//summons/strenthens the mist
+void release_mist( monster &z );
 
 // Game over!  Defense mode
 void gameover( monster &z );

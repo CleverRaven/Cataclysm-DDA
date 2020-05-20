@@ -506,6 +506,10 @@ void MonsterGenerator::init_death()
     death_map["CONFLAGRATION"] = &mdeath::conflagration;
     // resurrect all zombies in the area and upgrade all zombies in the area
     death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
+    //dissipates into mist
+    death_map["DISSIPATE"] = &mdeath::dissipate;
+    //summons/strengthens the mist
+    death_map["RELEASE_MIST"] = &mdeath::release_mist;
 
     /* Currently Unimplemented */
     // Screams loudly
@@ -618,6 +622,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "DISSIPATE_DRAIN", mattack::dissipate_drain );
     add_hardcoded_attack( "DISSIPATE_NIGHTMARES", mattack::dissipate_nightmares );
     add_hardcoded_attack( "DISSIPATE_FORCE_SCREAM", mattack::dissipate_force_scream );
+    add_hardcoded_attack( "DISSIPATE", mattack::dissipate );
 }
 
 void MonsterGenerator::init_defense()

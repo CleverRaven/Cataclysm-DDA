@@ -5811,12 +5811,11 @@ bool mattack::dissipate_drain( monster *z )
     }
 
     foe->mod_fatigue( 50 );
-    foe->mod_stamina( -50 );
+    foe->mod_stamina( -100 );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you and dissipates, taking a little of your strength with it." ), z->name() );
+                            _( "The %s touches you taking a little of your strength with it." ), z->name() );
 
     z->die( z );
-
     return true;
 }
 
@@ -5829,10 +5828,9 @@ bool mattack::dissipate_nightmares( monster *z )
     foe->add_effect( effect_disrupted_sleep, 8_hours );
     foe->add_effect( effect_nightmares, 8_hours );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you and dissipates, leaving an unsettling feeling behind." ), z->name() );
+                            _( "The %s touches you leaving an unsettling feeling behind." ), z->name() );
 
     z->die( z );
-
     return true;
 }
 
@@ -5845,7 +5843,7 @@ bool mattack::dissipate_force_scream( monster *z )
 
     foe->add_morale( MORALE_TRAUMATIC_MEMORY, -5, -15, 30_minutes );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you and dissipates, and you feel a memory surfacing so intensly you have no choice but to scream in response." ),
+                            _( "The %s touches you and you feel a memory surfacing so intensly you have no choice but to scream in response." ),
                             z->name() );
     std::string shout_message = string_format( "%s",
                                 SNIPPET.random_from_category( "mist_shouts" ).value_or( translation() ) );
@@ -5854,5 +5852,15 @@ bool mattack::dissipate_force_scream( monster *z )
     foe->shout( shout_message );
     z->die( z );
 
+    return true;
+}
+
+bool mattack::dissipate( monster *z )
+{
+    Character *foe = dynamic_cast<Character *>( z->attack_target() );
+    if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
+        return false;
+    }
+    z->die( z );
     return true;
 }

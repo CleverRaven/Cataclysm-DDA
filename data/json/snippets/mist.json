@@ -12,7 +12,7 @@
     "type": "snippet",
     "category": "mist_summon_spectre",
     "text": [
-      "You see a shape form in the mist that reminds you of a figure from a nightmare.",
+      "A shape appears in the mist that reminds you of a figure from a nightmare.",
       "You see a shape form in the mist that reminds you of a dream monster."
     ]
   },
@@ -34,10 +34,18 @@
   },
   {
     "type": "snippet",
+    "category": "mist_arrives",
+    "text": [
+      "You blink and there is dense mist as far as you can see, which is much less than it used to be.",
+      "In an instant a thick mist descends upon the world, far too fast to be natural.  Or are you finally losing it?."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "mist_shouts",
     "text": [
       "I'm sorry mommy!",
-      "Please stop sir, that hurts!",
+      "Please stop, that hurts!",
 	  "Why? I tried my best!",
 	  "No, please get up, please be ok!",
 	  "Why would you lie about THAT?",
