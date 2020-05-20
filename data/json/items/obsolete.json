@@ -379,7 +379,7 @@
     "clip_size": 100,
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 }, "watertight": true } ]
   },
   {
     "type": "effect_type",
