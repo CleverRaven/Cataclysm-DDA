@@ -111,7 +111,7 @@
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE_WELL",
+        "pocket_type": "MAGAZINE",
         "holster": true,
         "ammo_restriction": { "50": 1 },
       }
