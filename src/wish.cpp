@@ -560,7 +560,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 granted.item_tags.insert( cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( granted.ammo_default() != "NULL" ) {
+            if( !granted.ammo_default().is_null() ) {
                 granted.ammo_set( granted.ammo_default(), -1 );
             }
 

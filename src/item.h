@@ -66,8 +66,6 @@ enum body_part : int;
 enum m_size : int;
 enum class side : int;
 class body_part_set;
-
-using itype_id = std::string;
 class map;
 struct damage_instance;
 struct damage_unit;
@@ -197,6 +195,13 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+
+        // Legacy constructor for constructing from string rather than itype_id
+        // TODO: remove this and migrate code using it.
+        template<typename... Args>
+        item( const std::string &itype, Args &&... args ) :
+            item( itype_id( itype ), std::forward<Args>( args )... )
+        {}
 
         ~item();
 
@@ -1739,9 +1744,10 @@ class item : public visitable<item>
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
-        /** Get default ammo used by item or "NULL" if item does not have a default ammo type
+        /** Get default ammo used by item or a null id if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+         *  @return itype_id::NULL_ID() if item does not use a specific ammo type
+         *  (and is consequently not reloadable) */
         itype_id ammo_default( bool conversion = true ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists

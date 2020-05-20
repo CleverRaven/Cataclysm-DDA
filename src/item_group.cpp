@@ -123,7 +123,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
 void Single_item_creator::check_consistency( const std::string &context ) const
 {
     if( type == S_ITEM ) {
-        if( !item::type_is_defined( id ) ) {
+        if( !item::type_is_defined( itype_id( id ) ) ) {
             debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
@@ -140,7 +140,7 @@ void Single_item_creator::check_consistency( const std::string &context ) const
     }
 }
 
-bool Single_item_creator::remove_item( const Item_tag &itemid )
+bool Single_item_creator::remove_item( const itype_id &itemid )
 {
     if( modifier ) {
         if( modifier->remove_item( itemid ) ) {
@@ -149,7 +149,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
         }
     }
     if( type == S_ITEM ) {
-        if( itemid == id ) {
+        if( itemid.str() == id ) {
             type = S_NONE;
             return true;
         }
@@ -162,7 +162,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
     return type == S_NONE;
 }
 
-bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( modifier ) {
         if( modifier->replace_item( itemid, replacementid ) ) {
@@ -170,8 +170,8 @@ bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &
         }
     }
     if( type == S_ITEM ) {
-        if( itemid == id ) {
-            id = replacementid;
+        if( itemid.str() == id ) {
+            id = replacementid.str();
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
@@ -183,16 +183,16 @@ bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &
     return type == S_NONE;
 }
 
-bool Single_item_creator::has_item( const Item_tag &itemid ) const
+bool Single_item_creator::has_item( const itype_id &itemid ) const
 {
-    return type == S_ITEM && itemid == id;
+    return type == S_ITEM && itemid.str() == id;
 }
 
 std::set<const itype *> Single_item_creator::every_item() const
 {
     switch( type ) {
         case S_ITEM:
-            return { item::find_type( id ) };
+            return { item::find_type( itype_id( id ) ) };
         case S_ITEM_GROUP: {
             Item_spawn_data *isd = item_controller->get_group( id );
             if( isd != nullptr ) {
@@ -258,7 +258,7 @@ void Item_modifier::modify( item &new_item ) const
     }
     if( cont.is_null() && new_item.type->default_container.has_value() ) {
         const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
-        if( cont_value != "null" ) {
+        if( !cont_value.is_null() ) {
             cont = item( cont_value, new_item.birthday() );
         }
     }
@@ -390,7 +390,7 @@ void Item_modifier::check_consistency( const std::string &context ) const
     }
 }
 
-bool Item_modifier::remove_item( const Item_tag &itemid )
+bool Item_modifier::remove_item( const itype_id &itemid )
 {
     if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
@@ -406,7 +406,7 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     return false;
 }
 
-bool Item_modifier::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( ammo != nullptr ) {
         ammo->replace_item( itemid, replacementid );
@@ -437,10 +437,10 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     }
 }
 
-void Item_group::add_item_entry( const Item_tag &itemid, int probability )
+void Item_group::add_item_entry( const itype_id &itemid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   itemid, Single_item_creator::S_ITEM, probability ) );
+                   itemid.str(), Single_item_creator::S_ITEM, probability ) );
 }
 
 void Item_group::add_group_entry( const Group_tag &groupid, int probability )
@@ -525,7 +525,7 @@ void Item_group::check_consistency( const std::string &context ) const
     }
 }
 
-bool Item_group::remove_item( const Item_tag &itemid )
+bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
@@ -538,7 +538,7 @@ bool Item_group::remove_item( const Item_tag &itemid )
     return items.empty();
 }
 
-bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+bool Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         ( elem )->replace_item( itemid, replacementid );
@@ -546,7 +546,7 @@ bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replaceme
     return items.empty();
 }
 
-bool Item_group::has_item( const Item_tag &itemid ) const
+bool Item_group::has_item( const itype_id &itemid ) const
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         if( ( elem )->has_item( itemid ) ) {

@@ -71,7 +71,7 @@ bool string_id<recipe>::is_valid() const
 
 const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 {
-    auto iter = recipe_dict.uncraft.find( recipe_id( id ) );
+    auto iter = recipe_dict.uncraft.find( recipe_id( id.str() ) );
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
@@ -390,9 +390,9 @@ void recipe_dictionary::find_items_on_loops()
     std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
     for( const std::vector<itype_id> &loop : loops ) {
         std::string error_message =
-            "loop in comestible recipes detected: " + loop.back();
+            "loop in comestible recipes detected: " + loop.back().str();
         for( const itype_id &i : loop ) {
-            error_message += " -> " + i;
+            error_message += " -> " + i.str();
             items_on_loops.insert( i );
         }
         error_message += ".  Such loops can be broken by either removing or altering "
@@ -429,15 +429,15 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
-            recipe_dict.uncraft[ recipe_id( r.result() ) ] = r;
+        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result().str() ) ) ) {
+            recipe_dict.uncraft[ recipe_id( r.result().str() ) ] = r;
         }
     }
 
     // add pseudo uncrafting recipes
     for( const itype *e : item_controller->all() ) {
         const itype_id id = e->get_id();
-        const recipe_id rid = recipe_id( id );
+        const recipe_id rid = recipe_id( id.str() );
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {

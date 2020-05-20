@@ -77,11 +77,11 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
                          const std::string &ammo_type = "" )
 {
     shooter.remove_weapon();
-    if( !shooter.is_wearing( "backpack" ) ) {
+    if( !shooter.is_wearing( itype_id( "backpack" ) ) ) {
         shooter.worn.push_back( item( "backpack" ) );
     }
 
-    const itype_id &gun_id( gun_type );
+    const itype_id &gun_id{ itype_id( gun_type ) };
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = ammo_type.empty() ? gun.ammo_default() : itype_id( ammo_type );

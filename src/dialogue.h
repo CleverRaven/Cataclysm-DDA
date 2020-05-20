@@ -75,7 +75,7 @@ struct talk_topic {
 
     std::string id;
     /** If we're talking about an item, this should be its type. */
-    itype_id item_type = "null";
+    itype_id item_type = itype_id::NULL_ID();
     /** Reason for denying a request. */
     std::string reason;
 };
@@ -83,7 +83,7 @@ struct talk_topic {
 struct talk_effect_fun_t {
     private:
         std::function<void( const dialogue &d )> function;
-        std::vector<std::pair<int, std::string>> likely_rewards;
+        std::vector<std::pair<int, itype_id>> likely_rewards;
 
     public:
         talk_effect_fun_t() = default;
@@ -98,10 +98,10 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_u_buy_item( const std::string &item_name, int cost, int count,
+        void set_u_buy_item( const itype_id &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
-        void set_u_sell_item( const std::string &item_name, int cost, int count );
+        void set_u_sell_item( const itype_id &item_name, int cost, int count );
         void set_consume_item( const JsonObject &jo, const std::string &member, int count,
                                bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -120,7 +120,7 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const std::string &mission_id );
-        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
@@ -381,7 +381,7 @@ class json_talk_repeat_response
         json_talk_repeat_response( const JsonObject &jo );
         bool is_npc = false;
         bool include_containers = false;
-        std::vector<std::string> for_item;
+        std::vector<itype_id> for_item;
         std::vector<item_category_id> for_category;
         json_talk_response response;
 };

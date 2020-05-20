@@ -80,6 +80,8 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
 
+static const itype_id itype_plut_cell( "plut_cell" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -548,7 +550,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.empty() ) {
+            !bio_data.fake_item.is_empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
@@ -1155,7 +1157,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
+                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
@@ -2060,7 +2062,7 @@ bool player::disassemble( item_location target, bool interactive )
     // index is used as a bool that indicates if we want recursive uncraft.
     activity.index = false;
     activity.targets.emplace_back( std::move( target ) );
-    activity.str_values.push_back( r.result() );
+    activity.str_values.push_back( r.result().str() );
     // Unused position attribute used to store ammo to disassemble
     activity.position = std::min( num_dis, obj.charges );
 
@@ -2102,7 +2104,7 @@ void player::complete_disassemble()
 
     // Disassembly has 2 parallel vectors:
     // item location, and recipe id
-    const recipe &rec = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe &rec = recipe_dictionary::get_uncraft( itype_id( activity.str_values.back() ) );
 
     if( rec ) {
         complete_disassemble( activity.targets.back(), rec );
@@ -2129,7 +2131,8 @@ void player::complete_disassemble()
     }
 
     // Set get and set duration of next uncraft
-    const recipe &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( itype_id(
+                                    activity.str_values.back() ) );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
@@ -2346,16 +2349,16 @@ void remove_ammo( item &dis_item, player &p )
     if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;
     }
-    if( dis_item.is_gun() && dis_item.ammo_current() != "null" ) {
+    if( dis_item.is_gun() && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
         drop_or_handle( ammodrop, p );
         dis_item.charges = 0;
     }
-    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
+    if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_current() == "plut_cell" ) {
+        if( dis_item.ammo_current() == itype_plut_cell ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );

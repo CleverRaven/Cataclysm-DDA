@@ -71,7 +71,7 @@ static void test_archery_balance( std::string weapon_type, std::string ammo_type
 {
     item weapon( weapon_type );
     // The standard modern hunting arrow, make this a parameter if we extend to crossbows.
-    weapon.ammo_set( ammo_type, 1 );
+    weapon.ammo_set( itype_id( ammo_type ), 1 );
 
     projectile test_projectile;
     test_projectile.speed = 1000;

@@ -50,7 +50,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 
     // Create a gun to fire a projectile from
     item gun( itype_id( "m1a" ) );
-    gun.ammo_set( "308", 5 );
+    gun.ammo_set( itype_id( "308" ), 5 );
 
     // Check that a bullet with the correct amount of speed can through obstacles
     CHECK( projectile_end_point( range, gun, 1000, 3 ) == range[2] );
