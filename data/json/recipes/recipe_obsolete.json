@@ -2469,5 +2469,10 @@
     "type": "recipe",
     "result": "control_laptop",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ammonia",
+    "obsolete": true
   }
 ]
