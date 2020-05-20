@@ -2046,6 +2046,7 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
+          { "item": "legpouch_large" },
           { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
         ]
       },
