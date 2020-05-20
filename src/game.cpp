@@ -3313,7 +3313,96 @@ void game::invalidate_main_ui_adaptor() const
     }
 }
 
+game::draw_callback_t::draw_callback_t( const std::function<void()> &cb )
+    : cb( cb )
+{
+}
+
+game::draw_callback_t::~draw_callback_t()
+{
+    if( added ) {
+        g->invalidate_main_ui_adaptor();
+    }
+}
+
+void game::draw_callback_t::operator()()
+{
+    if( cb ) {
+        cb();
+    }
+}
+
+void game::add_draw_callback( shared_ptr_fast<draw_callback_t> cb )
+{
+    draw_callbacks.erase(
+        std::remove_if( draw_callbacks.begin(), draw_callbacks.end(),
+    []( const weak_ptr_fast<draw_callback_t> &cbw ) {
+        return cbw.expired();
+    } ),
+    draw_callbacks.end()
+    );
+    draw_callbacks.emplace_back( cb );
+    cb->added = true;
+    invalidate_main_ui_adaptor();
+}
+
 static void draw_trail( const tripoint &start, const tripoint &end, bool bDrawX );
+
+static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
+    const cata::optional<tripoint> &zone_start,
+    const cata::optional<tripoint> &zone_end,
+    const bool &zone_blink,
+    const bool &zone_cursor
+)
+{
+    return make_shared_fast<game::draw_callback_t>(
+    [&]() {
+        if( zone_cursor ) {
+            if( zone_end ) {
+                g->draw_cursor( zone_end.value() );
+            } else if( zone_start ) {
+                g->draw_cursor( zone_start.value() );
+            }
+        }
+        if( zone_blink && zone_start && zone_end ) {
+            const int offset_x = ( g->u.posx() + g->u.view_offset.x ) - getmaxx( g->w_terrain ) / 2;
+            const int offset_y = ( g->u.posy() + g->u.view_offset.y ) - getmaxy( g->w_terrain ) / 2;
+
+            tripoint offset;
+#if defined(TILES)
+            if( use_tiles ) {
+                offset = tripoint_zero; //TILES
+            } else {
+#endif
+                offset = tripoint( offset_x, offset_y, 0 ); //CURSES
+#if defined(TILES)
+            }
+#endif
+
+            const tripoint start( std::min( zone_start->x, zone_end->x ),
+                                  std::min( zone_start->y, zone_end->y ),
+                                  zone_end->z );
+            const tripoint end( std::max( zone_start->x, zone_end->x ),
+                                std::max( zone_start->y, zone_end->y ),
+                                zone_end->z );
+            g->draw_zones( start, end, offset );
+        }
+    } );
+}
+
+static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
+    const cata::optional<tripoint> &trail_start,
+    const cata::optional<tripoint> &trail_end,
+    const bool &trail_end_x
+)
+{
+    return make_shared_fast<game::draw_callback_t>(
+    [&]() {
+        if( trail_start && trail_end ) {
+            draw_trail( trail_start.value(), trail_end.value(), trail_end_x );
+        }
+    } );
+}
 
 void game::draw()
 {
@@ -3328,42 +3417,15 @@ void game::draw()
 
     werase( w_terrain );
     draw_ter();
-
-    if( zone_cursor ) {
-        if( zone_end ) {
-            g->draw_cursor( zone_end.value() );
-        } else if( zone_start ) {
-            g->draw_cursor( zone_start.value() );
-        }
-    }
-    if( zone_blink && zone_start && zone_end ) {
-        const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
-        const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
-
-        tripoint offset;
-#if defined(TILES)
-        if( use_tiles ) {
-            offset = tripoint_zero; //TILES
+    for( auto it = draw_callbacks.begin(); it != draw_callbacks.end(); ) {
+        shared_ptr_fast<draw_callback_t> cb = it->lock();
+        if( cb ) {
+            ( *cb )();
+            ++it;
         } else {
-#endif
-            offset = tripoint( offset_x, offset_y, 0 ); //CURSES
-#if defined(TILES)
+            it = draw_callbacks.erase( it );
         }
-#endif
-
-        const tripoint start( std::min( zone_start->x, zone_end->x ),
-                              std::min( zone_start->y, zone_end->y ),
-                              zone_end->z );
-        const tripoint end( std::max( zone_start->x, zone_end->x ),
-                            std::max( zone_start->y, zone_end->y ),
-                            zone_end->z );
-        draw_zones( start, end, offset );
     }
-
-    if( trail_start && trail_end ) {
-        draw_trail( trail_start.value(), trail_end.value(), trail_end_x );
-    }
-
     wrefresh( w_terrain );
 
     draw_panels( true );
@@ -6358,6 +6420,14 @@ void game::zones_manager()
         wrefresh( w_zones_options );
     };
 
+    cata::optional<tripoint> zone_start;
+    cata::optional<tripoint> zone_end;
+    bool zone_blink = false;
+    bool zone_cursor = false;
+    shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback(
+                zone_start, zone_end, zone_blink, zone_cursor );
+    add_draw_callback( zone_cb );
+
     auto query_position =
     [&]() -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
@@ -6365,7 +6435,11 @@ void game::zones_manager()
             ui.mark_resize();
         } );
         restore_on_out_of_scope<bool> show_prev( show );
+        restore_on_out_of_scope<cata::optional<tripoint>> zone_start_prev( zone_start );
+        restore_on_out_of_scope<cata::optional<tripoint>> zone_end_prev( zone_end );
         show = false;
+        zone_start = cata::nullopt;
+        zone_end = cata::nullopt;
         ui.mark_resize();
 
         static_popup popup;
@@ -6796,8 +6870,15 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } );
     }
 
+    cata::optional<tripoint> zone_start;
+    cata::optional<tripoint> zone_end;
+    bool zone_blink = false;
+    bool zone_cursor = true;
+    shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
+            zone_cursor );
+    add_draw_callback( zone_cb );
+
     is_looking = true;
-    zone_cursor = true;
     const tripoint prev_offset = u.view_offset;
     do {
         u.view_offset = center - u.pos();
@@ -7489,6 +7570,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
     } );
 
+    cata::optional<tripoint> trail_start;
+    cata::optional<tripoint> trail_end;
+    bool trail_end_x = false;
+    shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
+            trail_end_x );
+    add_draw_callback( trail_cb );
+
     do {
         if( action == "COMPARE" && activeItem ) {
             game_menus::inv::compare( u, active_pos );
@@ -7941,6 +8029,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             wrefresh( w_monster_info );
         }
     } );
+
+    cata::optional<tripoint> trail_start;
+    cata::optional<tripoint> trail_end;
+    bool trail_end_x;
+    shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
+            trail_end_x );
+    add_draw_callback( trail_cb );
 
     do {
         if( action == "UP" ) {
