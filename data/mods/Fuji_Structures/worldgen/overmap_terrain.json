@@ -365,59 +365,5 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_37",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_38",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_39",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_40",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_41",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_42",
-    "copy-from": "generic_city_building",
-    "name": "house",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   }
 ]
