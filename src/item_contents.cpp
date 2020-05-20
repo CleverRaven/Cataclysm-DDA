@@ -765,6 +765,7 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
+
 std::set<itype_id> item_contents::magazine_compatible() const
 {
     std::set<itype_id> ret;
@@ -776,6 +777,17 @@ std::set<itype_id> item_contents::magazine_compatible() const
         }
     }
     return ret;
+}
+
+units::mass item_contents::total_container_weight_capacity() const
+{
+    units::mass total_weight = 0_gram;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            total_weight += pocket.weight_capacity();
+        }
+    }
+    return total_weight;
 }
 
 units::volume item_contents::total_container_capacity() const
