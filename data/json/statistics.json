@@ -38,7 +38,7 @@
     "id": "avatar_zombie_kills",
     "type": "event_transformation",
     "event_transformation": "avatar_species_kills",
-    "value_constraints": { "species": { "equals": "ZOMBIE" } }
+    "value_constraints": { "species": { "equals": [ "species_id", "ZOMBIE" ] } }
   },
   {
     "id": "num_avatar_kills",
@@ -118,7 +118,11 @@
     "id": "moves_walked",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "walk" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": [ "character_movemode", "walk" ] },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_mounted",
@@ -130,13 +134,21 @@
     "id": "moves_ran",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "run" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": [ "character_movemode", "run" ] },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_crouched",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "crouch" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": [ "character_movemode", "crouch" ] },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_swam",
@@ -154,7 +166,7 @@
     "id": "moves_sharp_terrain",
     "type": "event_transformation",
     "event_transformation": "moves_with_terrain_flags",
-    "value_constraints": { "terrain_flag": { "equals": "SHARP" } }
+    "value_constraints": { "terrain_flag": { "equals": [ "string", "SHARP" ] } }
   },
   {
     "id": "num_moves_walked",
