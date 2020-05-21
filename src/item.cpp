@@ -902,7 +902,7 @@ bool item::combine( const item &rhs )
     if( is_comestible() && typeId() == rhs.typeId() ) {
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
-		if( rhs_energy < 0 ) {
+        if( rhs_energy < 0 ) {
             debugmsg( "Poured item has no defined temperature" );
         }
         const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
