@@ -11,5 +11,3 @@ If ever you wanted to give back to Cataclysm: Dark Days Ahead, this is the place
 [Dpwb](https://github.com/CleverRaven/Cataclysm-DDA/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Amerged+author%3Adavidpwbrown) - [Donate via Patreon](https://www.patreon.com/dpwbmakesstuff)
 
 [KorGgenT](https://github.com/CleverRaven/Cataclysm-DDA/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Amerged+author%3AKorGgenT) - [Donate via Github Sponsors](https://github.com/sponsors/KorGgenT)
-
-[Snipercup](https://github.com/CleverRaven/Cataclysm-DDA/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Amerged+author%3Asnipercup) - [Donate via Github Sponsors](https://github.com/sponsors/snipercup)
