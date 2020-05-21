@@ -6674,6 +6674,9 @@ void game::zones_manager()
             ctxt.reset_timeout();
         }
 
+        // Actually accessed from the terrain overlay callback `zone_cb` in the
+        // call to `ui_manager::redraw`.
+        //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         zone_blink = blink;
         invalidate_main_ui_adaptor();
 
@@ -6684,9 +6687,7 @@ void game::zones_manager()
     } while( action != "QUIT" );
     zones_manager_open = false;
     ctxt.reset_timeout();
-    zone_start = zone_end = cata::nullopt;
-    zone_blink = false;
-    invalidate_main_ui_adaptor();
+    zone_cb = nullptr;
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
@@ -6864,10 +6865,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 zone_start = lp;
                 zone_end = cata::nullopt;
             }
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         } else {
             zone_start = lp;
             zone_end = cata::nullopt;
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = false;
         }
         invalidate_main_ui_adaptor();
@@ -7013,11 +7020,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
     ctxt.reset_timeout();
     u.view_offset = prev_offset;
-    zone_start = zone_end = cata::nullopt;
-    zone_blink = false;
-    zone_cursor = false;
+    zone_cb = nullptr;
     is_looking = false;
-    invalidate_main_ui_adaptor();
 
     reenter_fullscreen();
     bVMonsterLookFire = true;
@@ -7723,8 +7727,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iScrollPos++;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
-            trail_start = trail_end = cata::nullopt;
-            invalidate_main_ui_adaptor();
             return game::vmenu_ret::CHANGE_TAB;
         }
 
@@ -7748,6 +7750,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             centerlistview( active_pos, width );
             trail_start = u.pos();
             trail_end = u.pos() + active_pos;
+            // Actually accessed from the terrain overlay callback `trail_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             trail_end_x = true;
         } else {
             u.view_offset = stored_view_offset;
@@ -7761,8 +7766,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     } while( action != "QUIT" );
 
     u.view_offset = stored_view_offset;
-    trail_start = trail_end = cata::nullopt;
-    invalidate_main_ui_adaptor();
     return game::vmenu_ret::QUIT;
 }
 
@@ -8030,8 +8033,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
-            trail_start = trail_end = cata::nullopt;
-            invalidate_main_ui_adaptor();
             return game::vmenu_ret::CHANGE_TAB;
         } else if( action == "SAFEMODE_BLACKLIST_REMOVE" ) {
             const auto m = dynamic_cast<monster *>( cCurMon );
@@ -8058,8 +8059,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 u.last_target = shared_from( *cCurMon );
                 u.view_offset = stored_view_offset;
-                trail_start = trail_end = cata::nullopt;
-                invalidate_main_ui_adaptor();
                 return game::vmenu_ret::FIRE;
             }
         }
@@ -8070,6 +8069,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             centerlistview( iActivePos, width );
             trail_start = u.pos();
             trail_end = cCurMon->pos();
+            // Actually accessed from the terrain overlay callback `trail_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             trail_end_x = false;
         } else {
             cCurMon = nullptr;
@@ -8085,8 +8087,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     } while( action != "QUIT" );
 
     u.view_offset = stored_view_offset;
-    trail_start = trail_end = cata::nullopt;
-    invalidate_main_ui_adaptor();
 
     return game::vmenu_ret::QUIT;
 }
