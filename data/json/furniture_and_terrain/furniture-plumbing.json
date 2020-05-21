@@ -80,7 +80,7 @@
     "name": "toilet",
     "symbol": "&",
     "color": "white",
-    "description": "An invaluable appliance in any environment, it would be a miracle to have one that works.  The standing tank may hold a moderate amount of water, but while better than anything that would be in the bowl, it would not be the cleanest.",
+    "description": "An invaluable fixture in any home, it would be a miracle to have one that works.  The standing tank may hold a moderate amount of water, but while better than anything that would be in the bowl, it would not be the cleanest.",
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": -1,
