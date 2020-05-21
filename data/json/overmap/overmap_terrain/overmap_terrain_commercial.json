@@ -1553,7 +1553,7 @@
   {
     "type": "overmap_terrain",
     "id": "s_games_roof",
-    "name": "gaming store",
+    "name": "gaming store roof",
     "copy-from": "s_games"
   }
 ]
