@@ -60,6 +60,7 @@ enum class do_activity_reason : int {
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
+    WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
     NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
@@ -138,7 +139,6 @@ void vibe_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
 void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
-void aim_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
 void eat_menu_do_turn( player_activity *act, player *p );
 void consume_food_menu_do_turn( player_activity *act, player *p );
@@ -227,7 +227,6 @@ void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
-void aim_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );

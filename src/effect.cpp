@@ -31,6 +31,9 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const itype_id itype_holybook_bible( "holybook_bible" );
+static const itype_id itype_money_bundle( "money_bundle" );
+
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
@@ -103,7 +106,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( "money_bundle", 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
                     p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
                     if( one_in( 2 ) ) {
                         p.add_msg_if_player(
@@ -112,7 +115,7 @@ void weed_msg( player &p )
                             p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
                         }
                     }
-                } else if( p.has_amount( "holybook_bible", 1 ) ) {
+                } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
                     p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
                 } else { // Big Lebowski
                     p.add_msg_if_player( _( "That rug really tied the room together…" ) );
@@ -534,7 +537,7 @@ std::string effect::disp_name() const
         }
     }
     if( bp != num_bp ) {
-        ret += string_format( " (%s)", body_part_name( bp ) );
+        ret += string_format( " (%s)", body_part_name( convert_bp( bp ).id() ) );
     }
 
     return ret;
@@ -692,7 +695,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( convert_bp( bp ).id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );

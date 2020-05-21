@@ -1276,7 +1276,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
-    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
+    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
     transparent = false;

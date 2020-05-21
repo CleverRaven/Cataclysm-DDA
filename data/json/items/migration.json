@@ -1198,5 +1198,10 @@
     "id": "8x40_speedloader5",
     "type": "MIGRATION",
     "replace": "8x40_10_mag"
+  },
+  {
+    "id": "kevlar_plate",
+    "type": "MIGRATION",
+    "replace": "sheet_kevlar_layered"
   }
 ]

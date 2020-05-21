@@ -65,6 +65,10 @@
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
 
+static const itype_id itype_fur( "fur" );
+static const itype_id itype_leather( "leather" );
+static const itype_id itype_rag( "rag" );
+
 static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
@@ -181,7 +185,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     float material_factor;
 
     itype_id weak_comp;
-    itype_id big_comp = "null";
+    itype_id big_comp = itype_id::NULL_ID();
     // Fragile items that fall apart easily when used as a weapon due to poor construction quality
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
         const float fragile_factor = 6;
@@ -189,10 +193,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         units::volume big_vol = 0_ml;
 
         // Items that should have no bearing on durability
-        const std::set<itype_id> blacklist = { "rag",
-                                               "leather",
-                                               "fur"
-                                             };
+        const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
         for( auto &comp : shield.components ) {
             if( blacklist.count( comp.typeId() ) <= 0 ) {
@@ -1622,7 +1623,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             }
         }
 
-        thing_blocked_with = body_part_name( bp_hit->token );
+        thing_blocked_with = body_part_name( bp_hit );
     }
 
     if( has_shield ) {
@@ -2219,7 +2220,7 @@ double player::weapon_value( const item &weap, int ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
@@ -2246,7 +2247,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.5;
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

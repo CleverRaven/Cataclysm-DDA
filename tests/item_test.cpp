@@ -163,7 +163,7 @@ TEST_CASE( "stacking_over_time", "[item]" )
 
 static void assert_minimum_length_to_volume_ratio( const item &target )
 {
-    if( target.type->get_id() == "null" ) {
+    if( target.type->get_id().is_null() ) {
         return;
     }
     CAPTURE( target.type->get_id() );

@@ -84,17 +84,17 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                 fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel.str() ),
                            c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
-            if( !rem_fuel.empty() ) {
+            if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
                 if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
-                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
                                    c_green ) + " ";
                 }
                 found_fuel = true;
@@ -520,7 +520,7 @@ void player::power_bionics()
         for( const bodypart_id &bp : get_all_body_parts() ) {
             const int total = get_total_bionics_slots( bp );
             const std::string s = string_format( "%s: %d/%d",
-                                                 body_part_name_as_heading( bp->token, 1 ),
+                                                 body_part_name_as_heading( bp, 1 ),
                                                  total - get_free_bionics_slots( bp ), total );
             bps.push_back( s );
             max_width = std::max( max_width, utf8_width( s ) );

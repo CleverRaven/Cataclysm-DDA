@@ -39,8 +39,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const bionic_id bio_night( "bio_night" );
-
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
@@ -324,6 +322,7 @@ void map::generate_lightmap( const int zlev )
         apply_character_light( guy );
     }
 
+    std::vector<std::pair<tripoint, float>> lm_override;
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -375,6 +374,10 @@ void map::generate_lightmap( const int zlev )
                         const int light_emitted = cur->light_emitted();
                         if( light_emitted > 0 ) {
                             add_light_source( p, light_emitted );
+                        }
+                        const int light_override = cur->local_light_override();
+                        if( light_override >= 0.0 ) {
+                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
                         }
                     }
                 }
@@ -482,13 +485,8 @@ void map::generate_lightmap( const int zlev )
             apply_light_source( p, light_source_buffer[p.x][p.y] );
         }
     }
-
-    if( g->u.has_active_bionic( bio_night ) ) {
-        for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-            if( rl_dist( p, g->u.pos() ) < 2 ) {
-                lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );
-            }
-        }
+    for( const std::pair<tripoint, float> &elem : lm_override ) {
+        lm[elem.first.x][elem.first.y].fill( elem.second );
     }
 }
 

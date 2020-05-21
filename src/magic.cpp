@@ -34,6 +34,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -116,6 +117,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
+        case spell_flag::SPAWN_GROUP: return "SPAWN_GROUP";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -1728,6 +1730,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const int damage = sp.damage();
     std::string damage_string;
+    std::string range_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
@@ -1761,21 +1764,35 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
     } else if( fx == "spawn_item" ) {
-        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(), item::nname( sp.effect_data(),
-                                       sp.damage() ) );
+        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(),
+                                       item::nname( itype_id( sp.effect_data() ), sp.damage() ) );
     } else if( fx == "summon" ) {
-        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
-                                       _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
+        std::string monster_name = "FIXME";
+        if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // TODO: Get a more user-friendly group name
+            if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
+                monster_name = "from " + sp.effect_data();
+            } else {
+                debugmsg( "Unknown monster group: %s", sp.effect_data() );
+            }
+        } else {
+            monster_name = monster( mtype_id( sp.effect_data() ) ).get_name( );
+        }
+        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), _( monster_name ) );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }
 
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
+    range_string = string_format( "%s: %s", _( "Range" ),
+                                  sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) );
+
+    // Range / AOE in two columns
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray, range_string );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
+    // One line for damage / healing / spawn / summon effect
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, damage_string );
 
     // todo: damage over time here, when it gets implemeted
 

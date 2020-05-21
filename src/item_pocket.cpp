@@ -57,11 +57,12 @@ void pocket_data::load( const JsonObject &jo )
     }
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
     optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
+    optional( jo, was_loaded, "volume_multiplier", volume_multiplier, 1.0f );
     optional( jo, was_loaded, "magazine_well", magazine_well, volume_reader(), 0_ml );
     optional( jo, was_loaded, "moves", moves, 100 );
     optional( jo, was_loaded, "fire_protection", fire_protection, false );
     optional( jo, was_loaded, "watertight", watertight, false );
-    optional( jo, was_loaded, "gastight", gastight, false );
+    optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "flag_restriction", flag_restriction );
     optional( jo, was_loaded, "rigid", rigid, false );
@@ -83,7 +84,7 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
 {
     return rigid == rhs.rigid &&
            watertight == rhs.watertight &&
-           gastight == rhs.gastight &&
+           airtight == rhs.airtight &&
            fire_protection == rhs.fire_protection &&
            flag_restriction == rhs.flag_restriction &&
            type == rhs.type &&
@@ -325,13 +326,10 @@ units::volume item_pocket::item_size_modifier() const
     }
     units::volume total_vol = 0_ml;
     for( const item &it : contents ) {
-        if( is_type( item_pocket::pocket_type::MOD ) ) {
-            total_vol += it.volume( true );
-        } else {
-            total_vol += it.volume();
-        }
+        total_vol += it.volume( is_type( item_pocket::pocket_type::MOD ) );
     }
     total_vol -= data->magazine_well;
+    total_vol *= data->volume_multiplier;
     return std::max( 0_ml, total_vol );
 }
 
@@ -641,7 +639,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            _( "This pocket can <info>contain a liquid</info>." ) );
     }
-    if( data->gastight ) {
+    if( data->airtight ) {
         info.emplace_back( "DESCRIPTION",
                            _( "This pocket can <info>contain a gas</info>." ) );
     }
@@ -666,6 +664,12 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "Items in this pocket weigh <neutral>%.0f%%</neutral> their original weight." ),
                                           data->weight_multiplier * 100 ) );
+    }
+    if( data->volume_multiplier != 1.0f ) {
+        info.emplace_back( "DESCRIPTION",
+                           string_format(
+                               _( "This pocket expands at <neutral>%.0f%%</neutral> of the rate of volume of items inside." ),
+                               data->weight_multiplier * 100 ) );
     }
 }
 
@@ -767,7 +771,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                    contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }
     if( it.made_of( phase_id::GAS ) ) {
-        if( !data->gastight ) {
+        if( !data->airtight ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_GAS, _( "can't contain gas" ) );
         }
@@ -1127,7 +1131,7 @@ std::list<item> &item_pocket::edit_contents()
 
 void item_pocket::migrate_item( item &obj, const std::set<itype_id> &migrations )
 {
-    for( const std::string &c : migrations ) {
+    for( const itype_id &c : migrations ) {
         if( std::none_of( contents.begin(), contents.end(), [&]( const item & e ) {
         return e.typeId() == c;
         } ) ) {

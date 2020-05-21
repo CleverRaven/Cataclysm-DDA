@@ -1223,6 +1223,10 @@ class weapon_inventory_preset: public inventory_selector_preset
                 }
                 return std::string();
             }, _( "MOVES" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return string_format( "<color_yellow>%d</color>", loc.obtain_cost( this->p ) );
+            }, _( "WIELD COST" ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {

@@ -17,13 +17,13 @@
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
-    const itype_id gun_id   = "m4a1";
+    const itype_id gun_id( "m4a1" );
     const ammotype gun_ammo( "223" );
-    const itype_id ammo_id  = "556";      // any type of compatible ammo
-    const itype_id alt_ammo = "223";      // any alternative type of compatible ammo
-    const itype_id bad_ammo = "9mm";      // any type of incompatible ammo
-    const itype_id mag_id   = "stanag30"; // must be set to default magazine
-    const itype_id bad_mag  = "glockmag"; // any incompatible magazine
+    const itype_id ammo_id( "556" ); // any type of compatible ammo
+    const itype_id alt_ammo( "223" ); // any alternative type of compatible ammo
+    const itype_id bad_ammo( "9mm" ); // any type of incompatible ammo
+    const itype_id mag_id( "stanag30" ); // must be set to default magazine
+    const itype_id bad_mag( "glockmag" ); // any incompatible magazine
     const int mag_cap       = 30;
 
     CHECK( ammo_id != alt_ammo );
@@ -50,7 +50,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     CHECK( p.can_reload( mag, bad_ammo ) == false );
     CHECK( mag.ammo_types().count( gun_ammo ) );
     CHECK( mag.ammo_capacity() == mag_cap );
-    CHECK( mag.ammo_current() == "null" );
+    CHECK( mag.ammo_current().is_null() );
     CHECK( mag.ammo_data() == nullptr );
 
     GIVEN( "An empty magazine" ) {
@@ -184,7 +184,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
         CHECK( gun.ammo_types().count( gun_ammo ) );
         CHECK( gun.ammo_capacity() == 0 );
         CHECK( gun.ammo_remaining() == 0 );
-        CHECK( gun.ammo_current() == "null" );
+        CHECK( gun.ammo_current().is_null() );
         CHECK( gun.ammo_data() == nullptr );
 
         WHEN( "the gun is reloaded with an incompatible magazine" ) {
@@ -214,7 +214,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     REQUIRE( gun.ammo_capacity() == mag_cap );
                 }
                 AND_THEN( "the gun contains no ammo" ) {
-                    REQUIRE( gun.ammo_current() == "null" );
+                    REQUIRE( gun.ammo_current().is_null() );
                     REQUIRE( gun.ammo_remaining() == 0 );
                     REQUIRE( gun.ammo_data() == nullptr );
                 }

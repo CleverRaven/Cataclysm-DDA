@@ -324,19 +324,6 @@
     ]
   },
   {
-    "result": "afs_hauling_space",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": 60000,
-    "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
-  },
-  {
     "result": "plut_cell",
     "type": "recipe",
     "category": "CC_ELECTRONIC",

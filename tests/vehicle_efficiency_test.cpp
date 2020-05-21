@@ -70,11 +70,11 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     }
 
     // We ignore battery when setting fuel because it uses designated "tanks"
-    actually_used.erase( "battery" );
+    actually_used.erase( itype_id( "battery" ) );
 
     // Currently only one liquid fuel supported
     REQUIRE( actually_used.size() <= 1 );
-    itype_id liquid_fuel = "null";
+    itype_id liquid_fuel = itype_id::NULL_ID();
     for( const auto &ft : actually_used ) {
         if( item::find_type( ft )->phase == LIQUID ) {
             liquid_fuel = ft;
@@ -89,9 +89,9 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
         vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
-            pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
-            ret[ "battery" ] += pt.ammo_capacity() * veh_fuel_mult;
-        } else if( pt.is_tank() && liquid_fuel != "null" ) {
+            pt.ammo_set( itype_id( "battery" ), pt.ammo_capacity() * veh_fuel_mult );
+            ret[ itype_id( "battery" ) ] += pt.ammo_capacity() * veh_fuel_mult;
+        } else if( pt.is_tank() && !liquid_fuel.is_null() ) {
             float qty = pt.ammo_capacity() * veh_fuel_mult;
             qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
@@ -103,7 +103,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     }
 
     // We re-add battery because we want it accounted for, just not in the section above
-    actually_used.insert( "battery" );
+    actually_used.insert( itype_id( "battery" ) );
     for( auto iter = ret.begin(); iter != ret.end(); ) {
         if( iter->second <= 0 || actually_used.count( iter->first ) == 0 ) {
             iter = ret.erase( iter );
@@ -124,11 +124,11 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
         vehicle_part &pt = vp.part();
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
-            pt.ammo_current() != "null" ) {
+            !pt.ammo_current().is_null() ) {
             fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
         }
 
-        if( pt.is_engine() && pt.info().fuel_type != "null" ) {
+        if( pt.is_engine() && !pt.info().fuel_type.is_null() ) {
             consumed_fuels.insert( pt.info().fuel_type );
         }
     }
@@ -416,11 +416,11 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 815669, 277800, 211800, 70490, 53160 );
     test_vehicle( "car", 1120618, 473700, 277500, 45440, 25170 );
     test_vehicle( "car_sports", 1154214, 360300, 260700, 36450, 20770 );
-    test_vehicle( "electric_car", 1126087, 213400, 116100, 16900, 8492 );
+    test_vehicle( "electric_car", 1046335, 220900, 127900, 18490, 9907 );
     test_vehicle( "suv", 1320286, 902100, 451700, 67740, 30810 );
     test_vehicle( "motorcycle", 163085, 74030, 61180, 46200, 38100 );
     test_vehicle( "quad_bike", 265345, 73170, 73170, 34300, 34300 );
-    test_vehicle( "scooter", 62587, 228800, 216400, 170200, 161900 );
+    test_vehicle( "scooter", 55941, 229200, 229200, 174700, 174700 );
     test_vehicle( "superbike", 242085, 68580, 45170, 33670, 21220 );
     test_vehicle( "ambulance", 1839299, 404800, 323500, 62240, 43840 );
     test_vehicle( "fire_engine", 2628611, 1136000, 924100, 242300, 209600 );

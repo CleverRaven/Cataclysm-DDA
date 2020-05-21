@@ -131,7 +131,7 @@ int lightson_game::start_game()
     const int w_height = 15;
 
     ui_adaptor ui;
-    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
         const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
         w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, point( iOffsetX, iOffsetY ) );
@@ -148,7 +148,7 @@ int lightson_game::start_game()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    ui.on_redraw( [this]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
         shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
         shortcuts.push_back( _( "<r>eset" ) );

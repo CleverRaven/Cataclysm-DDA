@@ -18,8 +18,6 @@
 class JsonObject;
 class item;
 class time_duration;
-
-using itype_id = std::string; // From itype.h
 class Character;
 
 enum class recipe_filter_flags : int {
@@ -38,13 +36,13 @@ class recipe
         friend class recipe_dictionary;
 
     private:
-        itype_id result_ = "null";
+        itype_id result_ = itype_id::NULL_ID();
 
     public:
         recipe();
 
         operator bool() const {
-            return result_ != "null";
+            return !result_.is_null();
         }
 
         const itype_id &result() const {
@@ -197,7 +195,7 @@ class recipe
         bool reversible = false;
 
         /** What does the item spawn contained in? Unset ("null") means default container. */
-        itype_id container = "null";
+        itype_id container = itype_id::NULL_ID();
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;

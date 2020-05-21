@@ -964,7 +964,7 @@ player will start with this as a nearby vehicle.
 
 A list of flags. TODO: document those flags here.
 
-- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession 
+- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
 
 Mods can modify this via `add:flags` and `remove:flags`.
 
@@ -1894,7 +1894,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "moves": 100,                             // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
     "fire_protection": false,                 // If the pocket protects the contained items from exploding in a fire or not.  This is for protecting ammo from exploding if the container is tossed into a fire.
     "watertight": false,                      // can contain liquid
-    "gastight": false,                        // can contain gas
+    "airtight": false,                        // can contain gas
     "open_container": false,                  // Default is false. If true, the contents of this pocket will spill if this item is placed into another item.
     "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
     "rigid": false,                           // Default is false. If false, this pocket's contents contribute to this item's size. If true, they do not.  Think glass jar vs plastic bag: a plastic bag containing nothing takes up almost no space, whereas a glass jar containing nothing takes up as much space as a completely full glass jar. The property magazine_well only works if rigid is false.
@@ -2294,7 +2294,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "consume_drug", // A drug the player can consume.
     "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
     "effects" : { "high": 15 }, // Effects and their duration.
-    "damage_over_time": [ 
+    "damage_over_time": [
         {
           "damage_type": "true", // Type of damage
           "duration": "1 m", // For how long this damage will be applied
@@ -3321,6 +3321,10 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "intensity_levels": [ 
+      { "name": "shadow",  // name of this level of intensity
+        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
+     ],
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket

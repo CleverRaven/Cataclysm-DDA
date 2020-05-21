@@ -4,5 +4,12 @@
     "id": "ENCH_INVISIBILITY",
     "condition": "ALWAYS",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_SHADOW_CLOUD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "emitter": "emit_shadow_field"
   }
 ]

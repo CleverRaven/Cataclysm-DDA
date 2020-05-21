@@ -226,6 +226,17 @@ static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_holybook_bible1( "holybook_bible1" );
+static const itype_id itype_holybook_bible2( "holybook_bible2" );
+static const itype_id itype_holybook_bible3( "holybook_bible3" );
+static const itype_id itype_manhole_cover( "manhole_cover" );
+static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rope_30( "rope_30" );
+static const itype_id itype_swim_fins( "swim_fins" );
+
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
@@ -1049,8 +1060,8 @@ bool game::cleanup_at_end()
         int iNameLine = 0;
         int iInfoLine = 0;
 
-        if( u.has_amount( "holybook_bible1", 1 ) || u.has_amount( "holybook_bible2", 1 ) ||
-            u.has_amount( "holybook_bible3", 1 ) ) {
+        if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
+            u.has_amount( itype_holybook_bible3, 1 ) ) {
             if( !( u.has_trait( trait_id( "CANNIBAL" ) ) || u.has_trait( trait_id( "PSYCHOPATH" ) ) ) ) {
                 vRip.emplace_back( "               _______  ___" );
                 vRip.emplace_back( "              <       `/   |" );
@@ -1697,7 +1708,9 @@ void game::process_activity()
         return;
     }
 
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 5_minutes )
+        && u.activity.moves_total > to_moves<int>
+        ( 5_minutes ) ) {//This is a hack to prevent an issue with the consume menu popping up again when this fires, since eating is not at present ever 5 minutes long this works
         ui_manager::redraw();
         refresh_display();
     }
@@ -2014,7 +2027,9 @@ void game::handle_key_blocking_activity()
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            cancel_activity_query( _( "Confirm:" ) );
+            if( u.activity.interruptable_with_kb ) {
+                cancel_activity_query( _( "Confirm:" ) );
+            }
         } else if( action == "player_data" ) {
             u.disp_info();
         } else if( action == "messages" ) {
@@ -2321,12 +2336,6 @@ int game::inventory_item_menu( item_location locThisItem,
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
     cata::optional<tripoint> liveview_pos;
-    auto &mgr = panel_manager::get_manager();
-    const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
-    int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
-
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         action = ctxt.handle_input();
@@ -2335,15 +2344,11 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
-                draw_panels( true );
-                const catacurses::window &w = catacurses::newwin( TERMY / 2, width,
-                                              point( sidebar_right ? TERMX - width : 0, 0 ) );
-                liveview.draw( w, TERMY / 2 );
             } else if( !mouse_pos ) {
                 liveview_pos.reset();
                 liveview.hide();
-                draw_panels( true );
             }
+            ui_manager::redraw();
         }
     } while( action == "MOUSE_MOVE" ); // Freeze animation when moving the mouse
 
@@ -2579,13 +2584,13 @@ vehicle *game::remoteveh()
     remoteveh_cache_time = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
-        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
+        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( itype_remotevehcontrol ) ) ) {
         remoteveh_cache = nullptr;
     } else {
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = veh_pointer_or_null( m.veh_at( vp ) );
-        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh && veh->fuel_left( itype_battery, true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -2599,7 +2604,7 @@ void game::setremoteveh( vehicle *veh )
     remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) &&
-        !u.has_active_item( "remotevehcontrol" ) ) {
+        !u.has_active_item( itype_remotevehcontrol ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
         veh = nullptr;
     }
@@ -6124,18 +6129,19 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
-        for( const auto &it : item_names ) {
-            if( line >= last_line - 2 ) {
+        for( auto it = item_names.begin(); it != item_names.end(); ++it ) {
+            // last line but not last item
+            if( line + 1 >= last_line && std::next( it ) != item_names.end() ) {
                 mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here…" ) );
                 break;
             }
 
-            if( it.second > 1 ) {
+            if( it->second > 1 ) {
                 trim_and_print( w_look, point( column, ++line ), max_width, c_white,
                                 pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
-                                it.first.c_str(), it.second );
+                                it->first.c_str(), it->second );
             } else {
-                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it.first );
+                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it->first );
             }
         }
     }
@@ -6484,7 +6490,7 @@ void game::zones_manager()
                 if( !maybe_name.has_value() ) {
                     break;
                 }
-                const itype_id &name = maybe_name.value();
+                const std::string &name = maybe_name.value();
 
                 const auto position = query_position();
                 if( !position ) {
@@ -7251,7 +7257,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u, m );
+        avatar_action::fire_wielded_weapon( u );
     }
     reenter_fullscreen();
 }
@@ -8760,6 +8766,7 @@ void game::wield( item_location loc )
     item to_wield = *loc.get_item();
     item_location::type location_type = loc.where();
     tripoint pos = loc.position();
+    const int obtain_cost = loc.obtain_cost( g->u );
     int worn_index = INT_MIN;
     if( u.is_worn( *loc.get_item() ) ) {
         auto ret = u.can_takeoff( *loc.get_item() );
@@ -8773,7 +8780,7 @@ void game::wield( item_location loc )
         }
     }
     loc.remove_item();
-    if( !u.wield( to_wield ) ) {
+    if( !u.wield( to_wield, obtain_cost ) ) {
         switch( location_type ) {
             case item_location::type::container:
                 // this will not cause things to spill, as it is inside another item
@@ -8901,7 +8908,7 @@ bool game::disable_robot( const tripoint &p )
     }
     const auto mid = critter.type->id;
     const auto mon_item_id = critter.type->revert_to_itype;
-    if( !mon_item_id.empty() &&
+    if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
         u.moves -= 100;
@@ -9260,7 +9267,7 @@ bool game::walk_move( const tripoint &dest_loc )
         int volume = u.is_stealthy() ? 3 : 6;
         volume *= u.mutation_value( "noise_modifier" );
         if( volume > 0 ) {
-            if( u.is_wearing( "rm13_armor_on" ) ) {
+            if( u.is_wearing( itype_rm13_armor_on ) ) {
                 volume = 2;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
@@ -9388,7 +9395,7 @@ point game::place_player( const tripoint &dest_loc )
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                         body_part_name_accusative( bp->token ),
+                         body_part_name_accusative( bp ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
@@ -10235,7 +10242,7 @@ void game::vertical_move( int movez, bool force )
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg( _( "You dive underwater!" ) );
         } else {
-            if( u.swim_speed() < 500 || u.shoe_type_count( "swim_fins" ) ) {
+            if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
                 u.set_underwater( false );
                 add_msg( _( "You surface." ) );
             } else {
@@ -10574,7 +10581,7 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( m.ter( stairs ) == t_manhole_cover ) {
-        m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), "manhole_cover" );
+        m.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
         m.ter_set( stairs, t_manhole );
     }
 
@@ -10745,17 +10752,17 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
         } else {
             return cata::nullopt;
         }
-    } else if( u.has_amount( "grapnel", 1 ) ) {
+    } else if( u.has_amount( itype_grapnel, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( "grapnel", 1 );
+            u.use_amount( itype_grapnel, 1 );
         } else {
             return cata::nullopt;
         }
-    } else if( u.has_amount( "rope_30", 1 ) ) {
+    } else if( u.has_amount( itype_rope_30, 1 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Climb your rope down?" ) ) ) {
             rope_ladder = true;
-            u.use_amount( "rope_30", 1 );
+            u.use_amount( itype_rope_30, 1 );
         } else {
             return cata::nullopt;
         }

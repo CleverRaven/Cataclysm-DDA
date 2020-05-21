@@ -333,7 +333,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( liquid );
+            g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
             transfer_ok = true;
             break;
         case LD_ITEM: {

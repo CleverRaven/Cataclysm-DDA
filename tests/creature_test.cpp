@@ -49,7 +49,7 @@ static void calculate_bodypart_distribution( const enum m_size asize, const enum
     }
 
     for( auto weight : selected_part_histogram ) {
-        INFO( body_part_name( weight.first ) );
+        INFO( body_part_name( convert_bp( weight.first ).id() ) );
         const double expected_proportion = expected[weight.first] / total_weight;
         CHECK_THAT( weight.second, IsBinomialObservation( num_tests, expected_proportion ) );
     }

@@ -81,9 +81,12 @@ static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id fuel_type_battery( "battery" );
+
+static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
 struct sound_event {
     int volume;
@@ -984,7 +987,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
     } ) ) {
-            weapon_id = "weapon_fire_suppressed";
+            weapon_id = itype_weapon_fire_suppressed;
         }
 
     } else {
@@ -997,7 +1000,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
         }
     }
 
-    play_variant_sound( selected_sound, weapon_id, heard_volume, angle, 0.8, 1.2 );
+    play_variant_sound( selected_sound, weapon_id.str(), heard_volume, angle, 0.8, 1.2 );
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
