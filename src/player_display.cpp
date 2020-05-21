@@ -842,118 +842,6 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
     }
 }
 
-static void draw_grid_borders( const catacurses::window &w_grid_top,
-                               const catacurses::window &w_grid_skill, const catacurses::window &w_grid_trait,
-                               const catacurses::window &w_grid_bionics, const catacurses::window &w_grid_effect,
-                               const unsigned int &info_win_size_y, const unsigned int &infooffsetybottom,
-                               const unsigned int &skill_win_size_y, const unsigned int &trait_win_size_y,
-                               const unsigned int &bionics_win_size_y, const unsigned int &effect_win_size_y )
-{
-    unsigned upper_info_border = 10;
-    unsigned lower_info_border = 1 + upper_info_border + info_win_size_y;
-    for( unsigned i = 0; i < static_cast<unsigned>( FULL_SCREEN_WIDTH + 1 ); i++ ) {
-        //Horizontal line top grid
-        mvwputch( w_grid_top, point( i, upper_info_border ), BORDER_COLOR, LINE_OXOX );
-        mvwputch( w_grid_top, point( i, lower_info_border ), BORDER_COLOR, LINE_OXOX );
-
-        //Vertical line top grid
-        if( i <= infooffsetybottom ) {
-            mvwputch( w_grid_top, point( 26, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w_grid_top, point( 53, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w_grid_top, point( FULL_SCREEN_WIDTH, i ), BORDER_COLOR, LINE_XOXO );
-        }
-
-        //Horizontal line skills
-        if( i <= 26 ) {
-            mvwputch( w_grid_skill, point( i, skill_win_size_y ), BORDER_COLOR, LINE_OXOX );
-        }
-
-        //Vertical line skills
-        if( i <= skill_win_size_y ) {
-            mvwputch( w_grid_skill, point( 26, i ), BORDER_COLOR, LINE_XOXO );
-        }
-
-        //Horizontal line traits
-        if( i <= 26 ) {
-            mvwputch( w_grid_trait, point( i, trait_win_size_y ), BORDER_COLOR, LINE_OXOX );
-        }
-
-        //Vertical line traits
-        if( i <= trait_win_size_y ) {
-            mvwputch( w_grid_trait, point( 26, i ), BORDER_COLOR, LINE_XOXO );
-        }
-
-        //Horizontal line bionics
-        if( i <= 26 ) {
-            mvwputch( w_grid_bionics, point( i, bionics_win_size_y ), BORDER_COLOR, LINE_OXOX );
-        }
-
-        //Vertical line bionics
-        if( i <= bionics_win_size_y ) {
-            mvwputch( w_grid_bionics, point( 26, i ), BORDER_COLOR, LINE_XOXO );
-        }
-
-        //Horizontal line effects
-        if( i <= 27 ) {
-            mvwputch( w_grid_effect, point( i, effect_win_size_y ), BORDER_COLOR, LINE_OXOX );
-        }
-
-        //Vertical line effects
-        if( i <= effect_win_size_y ) {
-            mvwputch( w_grid_effect, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w_grid_effect, point( 27, i ), BORDER_COLOR, LINE_XOXO );
-        }
-    }
-
-    //Intersections top grid
-    mvwputch( w_grid_top, point( 26, lower_info_border ), BORDER_COLOR, LINE_OXXX ); // T
-    mvwputch( w_grid_top, point( 53, lower_info_border ), BORDER_COLOR, LINE_OXXX ); // T
-    mvwputch( w_grid_top, point( 26, upper_info_border ), BORDER_COLOR, LINE_XXOX ); // _|_
-    mvwputch( w_grid_top, point( 53, upper_info_border ), BORDER_COLOR, LINE_XXOX ); // _|_
-    mvwputch( w_grid_top, point( FULL_SCREEN_WIDTH, upper_info_border ), BORDER_COLOR,
-              LINE_XOXX ); // -|
-    mvwputch( w_grid_top, point( FULL_SCREEN_WIDTH, lower_info_border ), BORDER_COLOR,
-              LINE_XOXX ); // -|
-    wrefresh( w_grid_top );
-
-    mvwputch( w_grid_skill, point( 26, skill_win_size_y ), BORDER_COLOR, LINE_XOOX ); // _|
-
-    if( skill_win_size_y > trait_win_size_y ) {
-        mvwputch( w_grid_skill, point( 26, trait_win_size_y ), BORDER_COLOR, LINE_XXXO );    // |-
-    } else if( skill_win_size_y == trait_win_size_y ) {
-        mvwputch( w_grid_skill, point( 26, trait_win_size_y ), BORDER_COLOR, LINE_XXOX );    // _|_
-    }
-
-    mvwputch( w_grid_trait, point( 26, trait_win_size_y ), BORDER_COLOR, LINE_XOXX ); // -|
-
-    if( trait_win_size_y > effect_win_size_y ) {
-        mvwputch( w_grid_trait, point( 26, effect_win_size_y ), BORDER_COLOR, LINE_XXXO ); // |-
-    } else if( trait_win_size_y == effect_win_size_y ) {
-        mvwputch( w_grid_trait, point( 26, effect_win_size_y ), BORDER_COLOR, LINE_XXOX ); // _|_
-    } else if( trait_win_size_y < effect_win_size_y ) {
-        mvwputch( w_grid_trait, point( 26, trait_win_size_y ), BORDER_COLOR, LINE_XOXX ); // -|
-        mvwputch( w_grid_trait, point( 26, effect_win_size_y ), BORDER_COLOR, LINE_XXOO ); // |_
-    }
-
-    if( ( trait_win_size_y + bionics_win_size_y ) > effect_win_size_y ) {
-        mvwputch( w_grid_bionics, point( 26, bionics_win_size_y ), BORDER_COLOR, LINE_XOOX ); // _|
-    } else if( ( trait_win_size_y + bionics_win_size_y ) == effect_win_size_y ) {
-        mvwputch( w_grid_bionics, point( 26, effect_win_size_y ), BORDER_COLOR, LINE_XXOX ); // _|_
-    } else if( ( trait_win_size_y + bionics_win_size_y ) < effect_win_size_y ) {
-        mvwputch( w_grid_bionics, point( 26, bionics_win_size_y ), BORDER_COLOR, LINE_XOXX ); // -|
-        mvwputch( w_grid_bionics, point( 26, effect_win_size_y ), BORDER_COLOR, LINE_XXOO ); // |_
-    }
-
-    mvwputch( w_grid_effect, point( 0, effect_win_size_y ), BORDER_COLOR, LINE_XXOO ); // |_
-    mvwputch( w_grid_effect, point( 27, effect_win_size_y ), BORDER_COLOR, LINE_XOOX ); // _|
-
-    wrefresh( w_grid_skill );
-    wrefresh( w_grid_effect );
-    wrefresh( w_grid_trait );
-    wrefresh( w_grid_bionics );
-
-}
-
 static void draw_initial_windows( const catacurses::window &w_stats,
                                   const catacurses::window &w_encumb, const catacurses::window &w_traits,
                                   const catacurses::window &w_bionics, const catacurses::window &w_effects,
@@ -1252,7 +1140,10 @@ void player::disp_info()
     unsigned int skill_win_size_y = 1 + skillslist.size();
     unsigned int info_win_size_y = 6;
 
-    unsigned int infooffsetytop = 11;
+    const unsigned int grid_width = 26;
+    const unsigned int grid_height = 9;
+
+    const unsigned int infooffsetytop = grid_height + 2;
     unsigned int infooffsetybottom = infooffsetytop + 1 + info_win_size_y;
 
     if( ( bionics_win_size_y + trait_win_size_y + infooffsetybottom ) > maxy ) {
@@ -1275,51 +1166,93 @@ void player::disp_info()
         skill_win_size_y = maxy - infooffsetybottom;
     }
 
-    catacurses::window w_grid_top =
-        catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
-                            point_zero );
-    catacurses::window w_grid_skill =
-        catacurses::newwin( skill_win_size_y + 1, 27,
-                            point( 0, infooffsetybottom ) );
-    catacurses::window w_grid_trait =
-        catacurses::newwin( trait_win_size_y + 1, 27,
-                            point( 27, infooffsetybottom ) );
-    catacurses::window w_grid_bionics =
-        catacurses::newwin( bionics_win_size_y + 1, 27,
-                            point( 27,
-                                   infooffsetybottom + trait_win_size_y + 1 ) );
-    catacurses::window w_grid_effect =
-        catacurses::newwin( effect_win_size_y + 1, 28,
-                            point( 53, infooffsetybottom ) );
+    border_helper borders;
 
     catacurses::window w_tip =
-        catacurses::newwin( 1, FULL_SCREEN_WIDTH, point_zero );
+        catacurses::newwin( 1, FULL_SCREEN_WIDTH + 1, point_zero );
     catacurses::window w_stats =
-        catacurses::newwin( 9, 26, point( 0, 1 ) ); //NOLINT(cata-use-named-point-constants)
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        catacurses::newwin( grid_height, grid_width, point( 0, 1 ) );
+    // Every grid draws the bottom and right borders. The top and left borders
+    // are either not displayed or drawn by another grid.
+    catacurses::window w_stats_border =
+        //NOLINTNEXTLINE(cata-use-named-point-constants)
+        catacurses::newwin( grid_height + 1, grid_width + 1, point( 0, 1 ) );
+    // But we need to specify the full border for border_helper to calculate the
+    // border connection.
+    //NOLINTNEXTLINE(cata-use-named-point-constants)
+    borders.add_border().set( point( -1, 0 ), point( grid_width + 2, grid_height + 2 ) );
+
     catacurses::window w_traits =
-        catacurses::newwin( trait_win_size_y, 26,
-                            point( 27, infooffsetybottom ) );
+        catacurses::newwin( trait_win_size_y, grid_width,
+                            point( grid_width + 1, infooffsetybottom ) );
+    catacurses::window w_traits_border =
+        catacurses::newwin( trait_win_size_y + 1, grid_width + 1,
+                            point( grid_width + 1, infooffsetybottom ) );
+    borders.add_border().set( point( grid_width, infooffsetybottom - 1 ),
+                              point( grid_width + 2, trait_win_size_y + 2 ) );
+
     catacurses::window w_bionics =
-        catacurses::newwin( bionics_win_size_y, 26,
-                            point( 27,
+        catacurses::newwin( bionics_win_size_y, grid_width,
+                            point( grid_width + 1,
                                    infooffsetybottom + trait_win_size_y + 1 ) );
+    catacurses::window w_bionics_border =
+        catacurses::newwin( bionics_win_size_y + 1, grid_width + 1,
+                            point( grid_width + 1,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
+    borders.add_border().set( point( grid_width, infooffsetybottom + trait_win_size_y ),
+                              point( grid_width + 2, bionics_win_size_y + 2 ) );
+
     catacurses::window w_encumb =
-        catacurses::newwin( 9, 26, point( 27, 1 ) );
+        catacurses::newwin( grid_height, grid_width, point( grid_width + 1, 1 ) );
+    catacurses::window w_encumb_border =
+        catacurses::newwin( grid_height + 1, grid_width + 1, point( grid_width + 1, 1 ) );
+    borders.add_border().set( point( grid_width, 0 ), point( grid_width + 2, grid_height + 2 ) );
+
     catacurses::window w_effects =
-        catacurses::newwin( effect_win_size_y, 26,
-                            point( 54, infooffsetybottom ) );
+        catacurses::newwin( effect_win_size_y, grid_width,
+                            point( grid_width * 2 + 2, infooffsetybottom ) );
+    catacurses::window w_effects_border =
+        catacurses::newwin( effect_win_size_y + 1, grid_width + 1,
+                            point( grid_width * 2 + 2, infooffsetybottom ) );
+    borders.add_border().set( point( grid_width * 2 + 1, infooffsetybottom - 1 ),
+                              point( grid_width + 2, effect_win_size_y + 2 ) );
+
     catacurses::window w_speed =
-        catacurses::newwin( 9, 26, point( 54, 1 ) );
+        catacurses::newwin( grid_height, grid_width, point( grid_width * 2 + 2, 1 ) );
+    catacurses::window w_speed_border =
+        catacurses::newwin( grid_height + 1, grid_width + 1, point( grid_width * 2 + 2, 1 ) );
+    borders.add_border().set( point( grid_width * 2 + 1, 0 ),
+                              point( grid_width + 2, grid_height + 2 ) );
+
     catacurses::window w_skills =
-        catacurses::newwin( skill_win_size_y, 26,
+        catacurses::newwin( skill_win_size_y, grid_width,
                             point( 0, infooffsetybottom ) );
+    catacurses::window w_skills_border =
+        catacurses::newwin( skill_win_size_y + 1, grid_width + 1,
+                            point( 0, infooffsetybottom ) );
+    borders.add_border().set( point( -1, infooffsetybottom - 1 ),
+                              point( grid_width + 2, skill_win_size_y + 2 ) );
+
     catacurses::window w_info =
         catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
                             point( 0, infooffsetytop ) );
+    catacurses::window w_info_border =
+        catacurses::newwin( info_win_size_y + 1, FULL_SCREEN_WIDTH + 1,
+                            point( 0, infooffsetytop ) );
+    borders.add_border().set( point( -1, infooffsetytop - 1 ),
+                              point( FULL_SCREEN_WIDTH + 2, info_win_size_y + 2 ) );
 
-    draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
-                       info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y,
-                       bionics_win_size_y, effect_win_size_y );
+    const auto draw_grid_borders = [&]() {
+        for( catacurses::window win : {
+                 w_stats_border, w_traits_border, w_bionics_border, w_encumb_border,
+                 w_effects_border, w_speed_border, w_skills_border, w_info_border
+             } ) {
+            borders.draw_border( win );
+            wrefresh( win );
+        }
+    };
+    draw_grid_borders();
     //-1 for header
     trait_win_size_y--;
     bionics_win_size_y--;
@@ -1366,7 +1299,7 @@ void player::disp_info()
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    right_print( w_tip, 0, 0, c_white, string_format(
+    right_print( w_tip, 0, 1, c_white, string_format(
                      _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
@@ -1425,9 +1358,7 @@ void player::disp_info()
 
             g->refresh_all();
 
-            draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
-                               info_win_size_y, infooffsetybottom, skill_win_size_y + 1, trait_win_size_y + 1,
-                               bionics_win_size_y + 1, effect_win_size_y + 1 );
+            draw_grid_borders();
 
             // Print name and header
             if( g->u.custom_profession.empty() ) {
@@ -1449,7 +1380,7 @@ void player::disp_info()
                            male ? _( "Male" ) : _( "Female" ), g->u.custom_profession );
             }
 
-            right_print( w_tip, 0, 0, c_white, string_format(
+            right_print( w_tip, 0, 1, c_white, string_format(
                              _( "[<color_yellow>%s</color>]" ),
                              ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 

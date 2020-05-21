@@ -371,6 +371,41 @@ void draw_border( const catacurses::window &w, nc_color border_color = BORDER_CO
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
 
+class border_helper
+{
+    public:
+        class border_info
+        {
+            public:
+                void set( const point &pos, const point &size );
+
+                friend class border_helper;
+            private:
+                border_info( border_helper &helper );
+
+                point pos;
+                point size;
+                std::reference_wrapper<border_helper> helper;
+        };
+
+        border_info &add_border();
+        void draw_border( const catacurses::window &win );
+
+        friend class border_info;
+    private:
+        struct border_connection {
+            bool top = false;
+            bool right = false;
+            bool bottom = false;
+            bool left = false;
+
+            int as_curses_line() const;
+        };
+        cata::optional<std::map<point, border_connection>> border_connection_map;
+
+        std::vector<border_info> border_info_list;
+};
+
 std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
