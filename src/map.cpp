@@ -4271,6 +4271,8 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
+	//ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ), 277.15 ) );
+	//ret.set_item_temperature( 300 );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
         int poison_chance = 0;

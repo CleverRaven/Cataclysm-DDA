@@ -3657,6 +3657,7 @@ void iexamine::trap( player &p, const tripoint &examp )
 void iexamine::water_source( player &p, const tripoint &examp )
 {
     item water = g->m.water_from( examp );
+	water.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( examp ) ), 277.15 ) );
     // TODO: use me
     ( void ) p;
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );

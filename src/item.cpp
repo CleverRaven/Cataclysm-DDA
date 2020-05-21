@@ -8222,6 +8222,7 @@ int item::fill_with( const itype &contained, const int amount )
     }
 
     item contained_item( &contained );
+	contained_item.set_item_temperature( 300 );
     if( contained_item.count_by_charges() ) {
         contained_item.charges = 1;
     }
