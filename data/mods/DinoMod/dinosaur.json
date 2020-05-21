@@ -2,7 +2,7 @@
   {
     "type": "SPECIES",
     "id": "DINOSAUR",
-     "//": "Capping these at 1000 L to prevent bodies disappearing",
+    "//": "Capping these at 1000 L to prevent bodies disappearing",
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND", "FIRE" ]
   },
