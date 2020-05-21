@@ -70,7 +70,7 @@
       {
         "id": "bug_organs_6",
         "text": "This organ meat, retrieved from a mutated creature, looks like a series of small mammalian hearts arranged in series on a long fleshy tube.  At the end of the chain is a large fleshy sac resembling a stomach."
-      },
+      }
     ]
   },
   {
@@ -93,7 +93,7 @@
     "text": [
       {
         "id": "chitin_1",
-        "text": "A piece of a bug's exoskeleton, but mutated.  The inner side is lined with veins and strange hooked protruberances."
+        "text": "A piece of a bug's exoskeleton, but mutated.  The inner side is lined with veins and strange hooked protuberances."
       },
       {
         "id": "chitin_2",
@@ -122,7 +122,7 @@
       "As you peel away the outer shell, you find veins lining the chitin plates",
       "With the creature dead, its carapace comes away surprisingly easily",
       "There's a thin membrane, much like skin, spread over the chitin of this creature",
-      "Under the carapace of this mutant is a bristly, velcro like material",
+      "Under the carapace of this mutant is a bristly, velcro-like material",
       "The anatomy concealed beneath seems almost like a small mammal given a shell and twisted into the shape of an arthropod",
       "You crack the beast open like a horrific lobster",
       "The chitin holds tight to the creature, and you need to snap and tear it away, sawing at tough fibers beneath"
@@ -137,7 +137,7 @@
       "Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to any natural creature",
       "Beneath the chitin, the meat is covered in thick, bristly hair hiding a chaotic bramble of half-formed, mutated organs",
       "Inside is a tangled mess of organs and tissues that do not appear to entirely natural",
-      "Inside the creature you find lungs, hearts, and intestings more like a mammal than a giant bug"
+      "Inside the creature you find lungs, hearts, and intestines more like a mammal than a giant bug"
     ]
   },
   {
@@ -176,7 +176,7 @@
     "text": [
       "<bug_harvest_general_descriptive>",
       "The powerfully acidic vapors coming from the carcass make it hard to work",
-      "The tissues of the creature are full of half-formed organs, their purpose unclear.",
+      "The tissues of the creature are full of half-formed organs, their purpose unclear",
       "Several times, you nearly burn yourself piercing a concealed gland full of acid"
     ]
   },
