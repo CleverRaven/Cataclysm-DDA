@@ -101,7 +101,7 @@
         "##|+||  ###++###  ||+|##",
         "`#d  |s  R#<<#HHs |d D#`",
         "`o   |Hl x####    |   o`",
-        "`o @ |Hl x#``#R hr| @ ov",
+        "`o @ |Hl x#``#R hr| @ o`",
         "`#D@I|HH T#``#R  r|T@I#`",
         "`##o###oo##``##oo###o##`"
       ],
@@ -170,7 +170,7 @@
         " |--------3  |---------3"
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "$": "t_brick_wall", "+": "t_door_c", ">": "t_stairs_down" }
+      "terrain": { "#": "t_brick_wall", "+": "t_door_c", ">": "t_stairs_down" }
     }
   },
   {
