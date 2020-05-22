@@ -667,6 +667,8 @@
         "house_vacant2": 20,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
+        "s_apt": 30,
+        "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
         "fishing_pond_city": 10,
@@ -708,6 +710,8 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "s_apt": 50,
+        "s_apt_2": 50,
         "urban_13_dense_house_apt_house": 300,
         "urban_14_dense_house_mart_food": 200,
         "town_hall": 150,
