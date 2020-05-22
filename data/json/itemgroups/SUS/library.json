@@ -189,8 +189,7 @@
     "//2": "This group is for a set of novels.",
     "subtype": "collection",
     "entries": [
-      { "group": "SUS_book_fict", "count": [ 3, 18 ], "prob": 240 },
-      { "item": "novel_samurai", "count": [ 1, 5 ], "prob": 80 },
+      { "group": "SUS_book_fict", "count": [ 4, 20 ], "prob": 300 },
       { "item": "novel_war", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_adventure", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_experimental", "count": [ 1, 5 ], "prob": 80 },
@@ -202,7 +201,6 @@
       { "item": "novel_erotic", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_pulp", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_thriller", "count": [ 1, 5 ], "prob": 80 },
-      { "item": "novel_coa", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_crime", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_horror", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_tragedy", "count": [ 1, 5 ], "prob": 80 }
@@ -283,9 +281,10 @@
     "//2": "This group is for a single hardback novel.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_fict_hard_sports", "prob": 8 },
+      { "group": "SUS_book_fict_hard_sports", "prob": 6 },
       { "group": "SUS_book_fict_hard_ya", "prob": 4 },
       { "item": "book_fict_hard_scifi_dune", "prob": 1 },
+      { "item": "novel_samurai", "prob": 1 }
     ]
   },
   {
