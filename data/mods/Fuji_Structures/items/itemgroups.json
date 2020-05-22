@@ -1,7 +1,0 @@
-[
-  {
-    "type": "item_group",
-    "id": "gunshop_accessories",
-    "items": [ [ "powered_earmuffs", 50 ], [ "ear_plugs", 80 ] ]
-  }
-]
