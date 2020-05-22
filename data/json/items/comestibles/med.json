@@ -1829,7 +1829,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "heartburn medicine",
-    "description": "Creamy pink heartburn syrup that soothes upset stomachs and quells vomitous urges; with a twist off cap that doubles as a dosage cup.",
+    "description": "Creamy pink heartburn syrup that soothes upset stomachs and quells vomitous urges.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 1000,
