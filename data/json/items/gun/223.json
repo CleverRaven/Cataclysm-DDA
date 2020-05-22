@@ -94,7 +94,7 @@
     "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
     "weight": "2267 g",
     "volume": "1758 ml",
-    "longest_length": "1116 mm",
+    "longest_side": "1116 mm",
     "price": 91400,
     "price_postapoc": 3500,
     "to_hit": -2,
