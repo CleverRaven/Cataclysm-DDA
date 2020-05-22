@@ -4290,7 +4290,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         { effect_hunger_engorged, std::make_pair( _( "Engorged" ), c_red ) },
         { effect_hunger_full, std::make_pair( _( "Full" ), c_yellow ) },
         { effect_hunger_satisfied, std::make_pair( _( "Satisfied" ), c_green ) },
-        { effect_hunger_blank, std::make_pair( _( "" ), c_white ) },
+        { effect_hunger_blank, std::make_pair( "", c_white ) },
         { effect_hunger_hungry, std::make_pair( _( "Hungry" ), c_yellow ) },
         { effect_hunger_very_hungry, std::make_pair( _( "Very Hungry" ), c_yellow ) },
         { effect_hunger_near_starving, std::make_pair( _( "Near starving" ), c_red ) },
