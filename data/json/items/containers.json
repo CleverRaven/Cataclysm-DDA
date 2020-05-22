@@ -572,7 +572,6 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "open_container": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -668,7 +667,6 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "open_container": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
@@ -700,7 +698,6 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "open_container": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
