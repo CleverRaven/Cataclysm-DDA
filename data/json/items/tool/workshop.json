@@ -1083,7 +1083,7 @@
     "material": "leather",
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE_SIPHON", 1 ] ]
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "makeshift_hand_drill",
