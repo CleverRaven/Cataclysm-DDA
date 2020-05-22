@@ -4433,6 +4433,7 @@ void item::on_pickup( Character &p )
 void item::on_contents_changed()
 {
     contents.update_open_pockets();
+    cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
 }
 
@@ -5702,11 +5703,13 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-
+    float relative_encumbrance = 1.0;
     // Additional encumbrance from non-rigid pockets
-    float relative_encumbrance = 1;
     if( !( flags & encumber_flags::assume_full ) ) {
-        relative_encumbrance = contents.relative_encumbrance();
+        if( !cached_relative_encumbrance ) {
+            cached_relative_encumbrance = contents.relative_encumbrance();
+        }
+	relative_encumbrance = *cached_relative_encumbrance;
     }
 
     if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {

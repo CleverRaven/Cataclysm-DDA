@@ -2276,6 +2276,7 @@ class item : public visitable<item>
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
+        mutable cata::optional<float> cached_relative_encumbrance;
 
     public:
         char invlet = 0;      // Inventory letter
