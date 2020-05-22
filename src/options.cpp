@@ -3135,24 +3135,26 @@ bool options_manager::has_option( const std::string &name ) const
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
+    if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return options[name];
+        return opt->second;
     }
-    auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
-        auto &opt = options[name];
-        if( opt.getPage() != "world_default" ) {
+    std::unordered_map<std::string, cOpt>::iterator wopt = ( *world_options )->find( name );
+    if( wopt == ( *world_options )->end() ) {
+        if( opt->second.getPage() != "world_default" ) {
             // Requested a non-world option, deliver it.
-            return opt;
+            return opt->second;
         }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = opt;
+        cOpt &new_world_option = ( **world_options )[name];
+        new_world_option = opt->second;
+        return new_world_option;
     }
-    return wopts[name];
+    return wopt->second;
 }
 
 options_manager::options_container options_manager::get_world_defaults() const

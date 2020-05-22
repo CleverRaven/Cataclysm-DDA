@@ -41,9 +41,9 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     statistics<bool> victims;
     std::stringstream survivor_stats;
     int total_hp = 0;
+    clear_map_and_put_player_underground();
     do {
-        // Clear map
-        clear_map_and_put_player_underground();
+        clear_creatures();
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;

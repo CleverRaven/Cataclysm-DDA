@@ -2151,7 +2151,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
                                _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
         }
-    } else {
+    } else if( is_npc() && g->u.sees( *this ) ) {
         add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -3511,7 +3511,7 @@ bool Character::has_nv()
 
 void Character::reset_encumbrance()
 {
-    encumbrance_cache = calc_encumbrance();
+    encumbrance_cache_dirty = true;
 }
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
@@ -3548,6 +3548,10 @@ units::mass Character::get_weight() const
 
 std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
 {
+    if( encumbrance_cache_dirty ) {
+        encumbrance_cache = calc_encumbrance();
+        encumbrance_cache_dirty = false;
+    }
     return encumbrance_cache;
 }
 
@@ -3558,6 +3562,10 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
+    if( encumbrance_cache_dirty ) {
+        encumbrance_cache = calc_encumbrance();
+        encumbrance_cache_dirty = false;
+    }
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
@@ -3881,6 +3889,10 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 
 int Character::encumb( body_part bp ) const
 {
+    if( encumbrance_cache_dirty ) {
+        encumbrance_cache = calc_encumbrance();
+        encumbrance_cache_dirty = false;
+    }
     return encumbrance_cache[bp].encumbrance;
 }
 
