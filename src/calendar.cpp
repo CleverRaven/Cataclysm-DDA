@@ -222,26 +222,25 @@ float sunlight( const time_point &p, const bool vision )
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
     const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
-    const double daylight_level = current_daylight_level( p );
+    const double daylight = current_daylight_level( p );
 
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
-                          0;
+    const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
 
     if( is_night( p ) ) {
         return moonlight;
     } else if( is_dawn( p ) ) {
         const double percent = ( now - sunrise ) / twilight_duration;
-        return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
+        return moonlight * ( 1. - percent ) + daylight * percent;
     } else if( is_dusk( p ) ) {
         const double percent = ( now - sunset ) / twilight_duration;
-        return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
+        return daylight * ( 1. - percent ) + moonlight * percent;
     } else {
-        return daylight_level;
+        return daylight;
     }
 }
 
