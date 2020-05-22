@@ -79,21 +79,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_games",
-    "name": "gaming store",
-    "copy-from": "generic_city_building",
-    "sym": "g",
-    "color": "cyan",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_games_roof",
-    "name": "gaming store",
-    "copy-from": "s_games"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_air_term",
     "name": "airport",
     "sym": "A",
