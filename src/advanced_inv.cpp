@@ -1297,7 +1297,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             // important if item is worn
-            if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
+            if( g->u.can_unwield(*sitem->items.front()).success() ) {
                 g->u.assign_activity( ACT_DROP );
                 g->u.activity.placement = squares[destarea].off;
 
@@ -1306,7 +1306,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     g->u.activity.str_values.push_back( "force_ground" );
                 }
 
-                g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
+                g->u.activity.targets.push_back( item_location( g->u, sitem->items.front()) );
                 g->u.activity.values.push_back( amount_to_move );
 
                 // exit so that the activity can be carried out
@@ -1347,7 +1347,8 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
                   player::worn_position_to_index( sitem->idx );
-        item_location loc( g->u, &g->u.i_at( idx ) );
+ //       item_location loc( g->u, &g->u.i_at( idx ) );
+        item_location loc(g->u, sitem->items.front());
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
         // "return to AIM". Once the new activity is finished, "return to AIM" comes back
