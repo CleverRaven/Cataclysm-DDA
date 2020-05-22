@@ -30,6 +30,7 @@
     "description": "Template for hard bound book of fiction",
     "weight": "1000 g",
     "volume": "1100 ml",
+    "longest_side": "23 cm",
     "price": 1999,
     "price_postapoc": 1500,
     "material": [ "paper", "cardboard" ],
@@ -41,8 +42,9 @@
     "type": "BOOK",
     "name": { "str": "paperback novel", "str_pl": "paperbacks" },
     "description": "An ordinary paperback book.  Or is it?  It is.",
-    "weight": "400 g",
-    "volume": "700 ml",
+    "weight": "425 g",
+    "volume": "662 ml",
+    "longest_side": "18 cm",
     "price": 799,
     "price_postapoc": 1500,
     "material": [ "paper" ],
@@ -77,6 +79,22 @@
     "bashing": 1,
     "chapters": 18,
     "copy-from": "book_nonf_tpl"
+  },
+  {
+    "abstract": "book_fict_soft_scifi_tpl",
+    "type": "BOOK",
+    "name": "Generic SciFi Book",
+    "description": "This is a template for paperback scifi books.",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 }
+  },
+  {
+    "abstract": "book_fict_hard_scifi_tpl",
+    "type": "BOOK",
+    "name": "Generic SciFi Book",
+    "description": "This is a template for a hard cover scifi book.",
+    "copy-from": "book_fict_hard_tpl",
+    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 }
   },
   {
     "abstract": "book_nonf_hard_homemk_tpl",

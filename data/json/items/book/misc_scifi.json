@@ -204,6 +204,6 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "//chapters": "3",
     "time": "60 m",
-    "relative": { "intelligence": -1, "chapters": -21 }
+    "relative": { "intelligence": -1, "chapters": -21, "fun": 12 }
   }
 ]
