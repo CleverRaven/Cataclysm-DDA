@@ -5971,7 +5971,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                     m.coverage( lp ) );
     // Terrain and furniture flags next. These can be several lines for some combinations of
     // furnitures and terrains.
-    std::vector<std::string> lines = foldstring( m.features(lp), max_width );
+    std::vector<std::string> lines = foldstring( m.features( lp ), max_width );
     int numlines = lines.size();
     for( int i = 0; i < numlines; i++ ) {
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
