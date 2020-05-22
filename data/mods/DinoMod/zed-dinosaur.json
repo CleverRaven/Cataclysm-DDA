@@ -7,7 +7,7 @@
     "default_faction": "zombie",
     "symbol": "Z",
     "color": "green",
-    "volume": "5000000 ml",
+    "volume": "1000 L",
     "weight": 5000000,
     "material": "flesh",
     "aggression": 100,
