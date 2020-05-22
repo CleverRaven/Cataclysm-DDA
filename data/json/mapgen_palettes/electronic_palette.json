@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "electro_palette",
     "terrain": {
-      " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 1 ] ],
+      " ": "t_region_groundcover_urban",
       ",": "t_floor",
       "_": "t_thconc_floor",
       "^": "t_carpet_yellow",
@@ -36,7 +36,7 @@
       "t": "f_counter",
       "d": "f_desk",
       "S": "f_sink",
-      "f": "f_filing_cabinet",
+      "}": "f_filing_cabinet",
       "c": "f_chair",
       "o": "f_crate_c",
       "O": "f_crate_c",
