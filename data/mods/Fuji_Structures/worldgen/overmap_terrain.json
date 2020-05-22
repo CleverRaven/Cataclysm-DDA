@@ -1,42 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "s_electronicstore",
-    "name": "electronics store",
-    "copy-from": "generic_city_building",
-    "color": "yellow",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_electronicstore_2ndfloor",
-    "name": "electronics store",
-    "copy-from": "s_electronicstore",
-    "land_use_code": "residential_multi"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gunstore",
-    "name": "gun store",
-    "copy-from": "generic_city_building",
-    "color": "red",
-    "land_use_code": "commercial"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gunstore_2ndfloor",
-    "name": "gun store",
-    "copy-from": "s_gunstore",
-    "land_use_code": "residential_high"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_gunstore_roof",
-    "name": "gun store",
-    "copy-from": "s_gunstore"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_apt",
     "name": "apartment",
     "copy-from": "generic_city_building",

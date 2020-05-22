@@ -2,9 +2,6 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "city": {
-      "houses": { "s_apt": 40, "s_apt_2": 40 },
-      "shops": { "s_gunstore": 500, "s_apt": 400, "s_apt_2": 400, "s_electronicstore": 400 }
-    }
+    "city": { "houses": { "s_apt": 40, "s_apt_2": 40 }, "shops": { "s_apt": 100, "s_apt_2": 100 } }
   }
 ]
