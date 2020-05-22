@@ -216,32 +216,6 @@
     "time": "20 m"
   },
   {
-    "id": "novel_coa",
-    "type": "BOOK",
-    "name": { "str": "coming of age novel" },
-    "description": "A classic tale about growing up, portraying one young man's funny and poignant experiences with life, love, and sex.",
-    "weight": "187 g",
-    "volume": "500 ml",
-    "price": 750,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "intelligence": 4,
-    "time": "20 m",
-    "chapters": 16,
-    "fun": 2
-  },
-  {
-    "id": "novel_coa2",
-    "type": "BOOK",
-    "name": { "str": "coming of age novel" },
-    "copy-from": "novel_coa",
-    "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
-    "time": "16 m",
-    "relative": { "chapters": -2, "fun": 1 }
-  },
-  {
     "id": "novel_crime",
     "type": "BOOK",
     "name": { "str": "crime novel" },

@@ -252,7 +252,7 @@
     "name": "Tween Topics",
     "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
+    "relative": { "price_post": -400, "intelligence": -1, "fun": -1 }
   },
   {
     "abstract": "book_fict_soft_ya_quiddity",
@@ -260,7 +260,18 @@
     "name": "Quiddity Books",
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "chapters": 9 }
+    "relative": { "price_post": -400, "chapters": 7 }
+  },
+  {
+    "abstract": "book_fict_hard_ya_quiddity",
+    "type": "BOOK",
+    "name": "Quiddity Books",
+    "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
+    "weight": "500 g",
+    "volume": "1014 ml",
+    "longest_side": "22 cm",
+    "copy-from": "book_fict_hard_tpl",
+    "relative": { "price_post": -400, "chapters": 10, "fun": -1 }
   },
   {
     "abstract": "book_fict_soft_satire_tpl",
