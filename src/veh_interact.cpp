@@ -74,7 +74,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_HOSE_SIPHON( "HOSE_SIPHON" );
+static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
