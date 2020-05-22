@@ -113,16 +113,6 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 {
     std::vector<advanced_inv_listitem> items;
     size_t item_index = 0;
-    /*if( has_weapon() && !weapon.contents.empty() ) {
-        for( std::list<item *> it_stack : item_list_to_stack( weapon.contents.all_items_top() ) ) {
-            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
-            if( !pane.is_filtered( *adv_it.items.front() ) ) {
-                square.volume += adv_it.volume;
-                square.weight += adv_it.weight;
-                items.push_back( adv_it );
-            }
-        }
-    }*/
 
     int worn_index = -2;
     for( item &worn_item : worn ) {
