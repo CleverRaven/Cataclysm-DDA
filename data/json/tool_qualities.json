@@ -178,7 +178,7 @@
   },
   {
     "type": "tool_quality",
-    "id": "HOSE_SIPHON",
+    "id": "HOSE",
     "name": { "str": "siphoning" },
     "usages": [ [ 1, [ "SIPHON" ] ] ]
   },
