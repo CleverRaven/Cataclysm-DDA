@@ -2332,9 +2332,7 @@ void target_ui::update_target_list( player &pc )
     }
 
     // Get targets in range and sort them by distance (targets[0] is the closest)
-    // FIXME: get_targetable_creatures does not consider some of the visible creatures
-    //        as targets (e.g. those behind fences), but you can still see and shoot them
-    targets = pc.get_targetable_creatures( range );
+    targets = pc.get_targetable_creatures( range, mode == TargetMode::Reach );
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
         return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
