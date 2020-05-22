@@ -4125,7 +4125,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                                   to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p',
-                    string_format( str_to_illiterate_str( _( "Choose a %s pump." ) ), fuelType ) );
+                    str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelType ) ) );
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
     amenu.addentry( 0, false, -1, string_format( str_to_illiterate_str(
@@ -4143,7 +4143,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     if( choose_pump == choice ) {
         uilist amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump;
-        amenu.text = string_format( str_to_illiterate_str( _( "Please choose %s pump:" ) ), fuelType );
+        amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
@@ -4175,8 +4175,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
-        std::string popupmsg = string_format(
-                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelType, maximum_liters );
+        std::string popupmsg = str_to_illiterate_str( string_format(
+                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelType, maximum_liters ) );
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
