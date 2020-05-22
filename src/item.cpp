@@ -6957,9 +6957,10 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
-item_pocket *item::best_pocket( const item &it )
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent )
 {
-    return contents.best_pocket( it, false );
+    item_location nested_location( parent, this );
+    return contents.best_pocket( it, nested_location, false );
 }
 
 bool item::spill_contents( Character &c )
@@ -8480,7 +8481,8 @@ int item::fill_with( const itype &contained, const int amount )
         contained_item.charges = 1;
     }
 
-    item_pocket *pocket = best_pocket( contained_item );
+    item_location loc;
+    item_pocket *pocket = best_pocket( contained_item, loc ).second;
     if( pocket == nullptr ) {
         debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
                   contained_item.typeId().str(), typeId().str() );
@@ -8494,7 +8496,7 @@ int item::fill_with( const itype &contained, const int amount )
         }
         num_contained++;
         if( !pocket->can_contain( contained_item ).success() ) {
-            pocket = best_pocket( contained_item );
+            pocket = best_pocket( contained_item, loc ).second;
         }
     }
     return num_contained;

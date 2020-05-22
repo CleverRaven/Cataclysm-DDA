@@ -39,10 +39,11 @@ class item_contents
         item_contents( const std::vector<pocket_data> &pockets );
 
         /**
-          * returns a pointer to the best pocket that can contain the item @it
+          * returns an item_location and pointer to the best pocket that can contain the item @it
           * only checks CONTAINER pocket type
           */
-        item_pocket *best_pocket( const item &it, bool nested );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+                bool nested );
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;

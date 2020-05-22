@@ -942,7 +942,7 @@ class Character : public Creature, public visitable<Character>
           * What is the best pocket to put @it into?
           * the pockets in @avoid do not count
           */
-        item_pocket *best_pocket( const item &it, const item *avoid );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
     protected:
 
         void do_skill_rust();

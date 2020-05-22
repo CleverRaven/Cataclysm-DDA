@@ -1236,7 +1236,7 @@ class item : public visitable<item>
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
-        item_pocket *best_pocket( const item &it );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
 
         /**
          * Is it ever possible to reload this item?

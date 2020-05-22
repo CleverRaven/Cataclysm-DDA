@@ -451,12 +451,14 @@ void item_contents::fill_with( const item &contained )
     }
 }
 
-item_pocket *item_contents::best_pocket( const item &it, bool nested )
+std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
+        item_location &parent, bool nested )
 {
     if( !can_contain( it ).success() ) {
-        return nullptr;
+        return { item_location(), nullptr };
     }
-    item_pocket *ret = nullptr;
+    std::pair<item_location, item_pocket *> ret;
+    ret.second = nullptr;
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // best pocket is for picking stuff up.
@@ -471,15 +473,14 @@ item_pocket *item_contents::best_pocket( const item &it, bool nested )
             // that needs to be something a player explicitly does
             continue;
         }
-        if( ret == nullptr ) {
-            if( pocket.can_contain( it ).success() ) {
-                ret = &pocket;
-            }
-        } else if( pocket.can_contain( it ).success() && ret->better_pocket( pocket, it ) ) {
-            ret = &pocket;
+        if( ( ret.second == nullptr && pocket.can_contain( it ).success() ) ||
+            ( pocket.can_contain( it ).success() && ret.second->better_pocket( pocket, it ) ) ) {
+            ret.first = parent;
+            ret.second = &pocket;
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                item_pocket *internal_pocket = contained->contents.best_pocket( it, nested );
-                if( internal_pocket != nullptr && ret->better_pocket( pocket, it ) ) {
+                std::pair<item_location, item_pocket *> internal_pocket =
+                    contained->contents.best_pocket( it, parent, true );
+                if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
                     ret = internal_pocket;
                 }
             }
