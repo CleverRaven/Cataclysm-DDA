@@ -581,7 +581,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = g->u.has_quality( qual_HOSE_SIPHON );
+            has_tools = g->u.has_quality( qual_HOSE );
             break;
 
         case 'd':
