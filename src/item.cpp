@@ -8381,7 +8381,7 @@ bool item::will_explode_in_fire() const
     }
 
     // Most containers do nothing to protect the contents from fire
-    if( !is_magazine() || !type->magazine->protects_contents ) {
+    if( !type->magazine || !type->magazine->protects_contents ) {
         return has_item_with( [&]( const item & it ) {
             return this != &it && it.will_explode_in_fire();
         } );
