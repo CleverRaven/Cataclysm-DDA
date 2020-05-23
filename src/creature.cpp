@@ -1406,8 +1406,6 @@ int Creature::get_armor_bullet_bonus() const
 {
     return armor_bullet_bonus;
 }
-
-
 int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();

@@ -6886,7 +6886,6 @@ bool vehicle::refresh_zones()
     return false;
 }
 
-
 std::pair<int, double> vehicle::get_exhaust_part() const
 {
     double muffle = 1.0;

@@ -6307,7 +6307,6 @@ bool item::is_ammo_container() const
     }, item_pocket::pocket_type::CONTAINER );
 }
 
-
 bool item::is_melee() const
 {
     for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {

@@ -2489,7 +2489,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         wrefresh( w_skills );
 
-
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
                            "to cycle through name, height, and age." ),

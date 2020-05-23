@@ -393,7 +393,6 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 
 } // namespace io
 
-
 // *INDENT-OFF*
 Character::Character() :
 
@@ -7588,7 +7587,6 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         }
     } );
 
-
     opts.emplace_back( dispose_option{
         _( "Drop item" ), true, '2', 0, [this, &obj] {
             put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { *obj } );
@@ -8659,8 +8657,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     } else if( bp == bodypart_id( "num_bp" ) ) {
         debugmsg( "Wacky body part hit!" );
     }
-
-
 
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
@@ -10390,7 +10386,6 @@ int Character::run_cost( int base_cost, bool diag ) const
 
     return static_cast<int>( movecost );
 }
-
 
 void Character::place_corpse()
 {

@@ -40,8 +40,6 @@ struct bionic_data {
     int charge_time = 0;
     /** Power bank size **/
     units::energy capacity = 0_kJ;
-
-
     /** Is true if a bionic is an active instead of a passive bionic */
     bool activated = false;
     /**

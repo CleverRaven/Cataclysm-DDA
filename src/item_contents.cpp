@@ -765,7 +765,6 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
-
 std::set<itype_id> item_contents::magazine_compatible() const
 {
     std::set<itype_id> ret;
@@ -974,7 +973,6 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                                             total_container_weight_capacity() ) );
             info.back().bNewLine = true;
         }
-
 
         int idx = 0;
         for( const item_pocket &pocket : found_pockets ) {

@@ -84,7 +84,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
 
-
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -251,7 +250,6 @@ class player : public Character
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
 
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
@@ -757,7 +755,6 @@ class player : public Character
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
-
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
