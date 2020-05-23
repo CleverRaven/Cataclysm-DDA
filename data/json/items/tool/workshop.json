@@ -333,7 +333,7 @@
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "use_action": "SIPHON"
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "jack",
@@ -1125,7 +1125,7 @@
     "material": "leather",
     "symbol": ",",
     "color": "green",
-    "use_action": "SIPHON"
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "makeshift_hand_drill",
