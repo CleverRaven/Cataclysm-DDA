@@ -330,14 +330,6 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "8x40_speedloader5" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "8x40mm": 5 } } ]
   }
 ]

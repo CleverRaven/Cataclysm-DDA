@@ -229,15 +229,7 @@
     "weight": "420 g",
     "ammo": [ "22" ],
     "clip_size": 8,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "22_speedloader8" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "sig_mosquito",

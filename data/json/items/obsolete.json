@@ -1780,15 +1780,7 @@
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "223_speedloader5" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "223": 5 } } ]
   },
   {
     "id": "223_speedloader5",
