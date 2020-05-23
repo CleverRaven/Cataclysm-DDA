@@ -52,7 +52,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "weights", 10, "LIST" ] ] ]
+    "components": [ [ [ "leather", 5 ] ], [ [ "spring", 1 ] ], [ [ "weights", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",

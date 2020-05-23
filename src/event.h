@@ -17,8 +17,6 @@
 
 template <typename E> struct enum_traits;
 
-using itype_id = std::string;
-
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
 //
@@ -43,6 +41,7 @@ enum class event_type {
     character_loses_effect,
     character_takes_damage,
     character_triggers_trap,
+    character_wakes_up,
     consumes_marloss_item,
     crosses_marloss_threshold,
     crosses_mutation_threshold,
@@ -138,7 +137,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 61,
+static_assert( static_cast<int>( event_type::num_event_types ) == 62,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -168,8 +167,12 @@ struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::avatar_moves> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
             { "mount", cata_variant_type::mtype_id },
+            { "terrain", cata_variant_type::ter_id },
+            { "movement_mode", cata_variant_type::character_movemode },
+            { "underwater", cata_variant_type::bool_ },
+            { "z", cata_variant_type::int_ },
         }
     };
 };
@@ -265,6 +268,14 @@ struct event_spec<event_type::character_triggers_trap> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "trap", cata_variant_type::trap_str_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_wakes_up> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id },
         }
     };
 };

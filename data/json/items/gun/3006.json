@@ -15,9 +15,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 90,
     "durability": 7,
     "blackpowder_tolerance": 24,
@@ -37,8 +37,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazine_well": 1,
-    "magazines": [ [ "3006", [ "blrmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "blrmag" ]
+      }
+    ]
   },
   {
     "id": "garand",
@@ -56,7 +63,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
@@ -76,8 +83,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "3006", [ "garandclip" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "garandclip" ]
+      }
+    ]
   },
   {
     "id": "m1903",
@@ -94,7 +108,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "dispersion": 120,
     "durability": 8,
     "blackpowder_tolerance": 60,
@@ -114,8 +128,16 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "3006_clip" ]
+      }
+    ]
   },
   {
     "id": "m1918",
@@ -133,7 +155,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
@@ -155,7 +177,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1918mag", "m1918bigmag" ]
+      }
+    ]
   },
   {
     "id": "remington_700",
@@ -172,13 +202,14 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "dispersion": 90,
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
   },
   {
     "id": "rifle_3006",
@@ -197,9 +228,9 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -218,6 +249,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
   }
 ]

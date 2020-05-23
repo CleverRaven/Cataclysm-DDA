@@ -23,8 +23,7 @@ template <typename E> struct enum_traits;
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
-
-using itype_id = std::string;
+enum character_movemode : int;
 
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
@@ -36,6 +35,7 @@ enum class cata_variant_type : int {
     body_part,
     bool_,
     character_id,
+    character_movemode,
     efftype_id,
     hp_part,
     int_,
@@ -49,6 +49,7 @@ enum class cata_variant_type : int {
     species_id,
     spell_id,
     string,
+    ter_id,
     trait_id,
     trap_str_id,
     num_types, // last
@@ -153,7 +154,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 21,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 23,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -194,6 +195,9 @@ struct convert<cata_variant_type::character_id> {
 };
 
 template<>
+struct convert<cata_variant_type::character_movemode> : convert_enum<character_movemode> {};
+
+template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
 
 template<>
@@ -211,7 +215,7 @@ struct convert<cata_variant_type::int_> {
 };
 
 template<>
-struct convert<cata_variant_type::itype_id> : convert_string<itype_id> {};
+struct convert<cata_variant_type::itype_id> : convert_string_id<itype_id> {};
 
 template<>
 struct convert<cata_variant_type::matype_id> : convert_string_id<matype_id> {};
@@ -239,6 +243,9 @@ struct convert<cata_variant_type::spell_id> : convert_string_id<spell_id> {};
 
 template<>
 struct convert<cata_variant_type::string> : convert_string<std::string> {};
+
+template<>
+struct convert<cata_variant_type::ter_id> : convert_int_id<ter_id> {};
 
 template<>
 struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
@@ -315,10 +322,10 @@ class cata_variant
     }
         CATA_VARIANT_OPERATOR( == );
         CATA_VARIANT_OPERATOR( != );
-        CATA_VARIANT_OPERATOR( < );
-        CATA_VARIANT_OPERATOR( <= );
-        CATA_VARIANT_OPERATOR( > );
-        CATA_VARIANT_OPERATOR( >= );
+        CATA_VARIANT_OPERATOR( < ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( <= ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( > ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( >= ); // NOLINT( cata-use-localized-sorting )
 #undef CATA_VARIANT_OPERATOR
     private:
         explicit cata_variant( cata_variant_type t, std::string &&v )

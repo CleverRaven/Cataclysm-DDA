@@ -1,9 +1,9 @@
 [
   {
     "id": "mana_potion_lesser",
-    "name": "Lesser Mana Potion",
+    "name": { "str": "lesser mana potion" },
     "description": "You can't buy these, so you need to save them until the last boss!  Actually, don't even use them there!",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 0 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "weight": "265 g",
     "quench": 10,
@@ -24,22 +24,22 @@
   {
     "id": "mana_potion",
     "type": "COMESTIBLE",
-    "name": "Mana Potion",
+    "name": { "str": "mana potion" },
     "copy-from": "mana_potion_lesser",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 5 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
     "price": 10000
   },
   {
     "id": "mana_potion_greater",
     "type": "COMESTIBLE",
-    "name": "Greater Mana Potion",
+    "name": { "str": "greater mana potion" },
     "copy-from": "mana_potion_lesser",
-    "use_action": { "type": "cast_spell", "spell_id": "recover_mana", "no_fail": true, "level": 15 },
+    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
     "price": 30000
   },
   {
     "id": "cats_grace_potion",
-    "name": { "str": "Potion of Cat's Grace", "str_pl": "Potions of Cat's Grace" },
+    "name": { "str": "potion of Cat's Grace", "str_pl": "potions of Cat's Grace" },
     "description": "This is a potion of Cat's Grace.  It will increase your dexterity for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "cats_grace", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -60,7 +60,7 @@
   },
   {
     "id": "ogres_strength_potion",
-    "name": { "str": "Potion of Ogre's Strength", "str_pl": "Potions of Ogre's Strength" },
+    "name": { "str": "potion of Ogre's Strength", "str_pl": "potions of Ogre's Strength" },
     "description": "This is a potion of Ogre's Strength.  It will increase your strength for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "ogres_strength", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -68,7 +68,7 @@
   },
   {
     "id": "eagles_sight_potion",
-    "name": { "str": "Potion of Eagle's Sight", "str_pl": "Potions of Eagle's Sight" },
+    "name": { "str": "potion of Eagle's Sight", "str_pl": "potions of Eagle's Sight" },
     "description": "This is a potion of Eagle's Sight.  It will increase your perception for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "eagles_sight", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",
@@ -76,7 +76,7 @@
   },
   {
     "id": "foxs_cunning_potion",
-    "name": { "str": "Potion of Fox's Cunning", "str_pl": "Potions of Fox's Cunning" },
+    "name": { "str": "potion of Fox's Cunning", "str_pl": "potions of Fox's Cunning" },
     "description": "This is a potion of Fox's Cunning.  It will increase your intelligence for 10 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "foxs_cunning", "no_fail": true, "level": 9 },
     "type": "COMESTIBLE",

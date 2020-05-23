@@ -46,11 +46,18 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": "HAIRKIT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ],
-    "magazine_well": 1
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "mop",
@@ -111,7 +118,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "white",
-    "ammo": "soap",
+    "ammo": [ "soap" ],
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
@@ -162,7 +169,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "soap",
+    "ammo": [ "soap" ],
     "max_charges": 10,
     "charges_per_use": 1,
     "use_action": "SHAVEKIT"
@@ -188,14 +195,14 @@
     "type": "TOOL",
     "name": { "str": "washing kit" },
     "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
-    "weight": "80 g",
-    "volume": "250 ml",
+    "weight": "100 g",
+    "volume": "275 ml",
     "price": 0,
     "price_postapoc": 50,
-    "material": "plastic",
+    "material": [ "wood", "plastic" ],
     "symbol": "%",
     "color": "yellow",
     "use_action": "WASH_ALL_ITEMS",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
   }
 ]

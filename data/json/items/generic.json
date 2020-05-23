@@ -476,6 +476,7 @@
     "material": "plastic",
     "weight": "18 g",
     "volume": "5 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
     "to_hit": -3
   },
   {
@@ -505,6 +506,7 @@
     "material": "gold",
     "weight": "1500 g",
     "volume": "250 ml",
+    "to_hit": -2,
     "bashing": 9
   },
   {
@@ -522,7 +524,7 @@
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 8,
-    "to_hit": -2,
+    "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ]
   },
   {
@@ -632,7 +634,7 @@
     "weight": "908 g",
     "volume": "1500 ml",
     "bashing": 12,
-    "to_hit": 2,
+    "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -692,7 +694,6 @@
     "weight": "751 g",
     "volume": "750 ml",
     "bashing": 8,
-    "to_hit": 3,
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1295,6 +1296,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_speaker",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "broken loudspeaker" },
+    "category": "other",
+    "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "100 kg",
+    "volume": "50500 ml",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
@@ -1823,6 +1840,32 @@
     "id": "chamomile",
     "name": { "str_sp": "chamomile flowers" },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
+    "weight": "50 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "lotus",
+    "name": { "str": "lotus flower" },
+    "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
+    "weight": "50 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "spurge",
+    "name": { "str_sp": "spurge flowers" },
+    "description": "A handful of yellow-green flowers.  Can be brewed into a tea that prevents asthma attacks.",
     "weight": "50 g",
     "color": "white",
     "symbol": ",",
@@ -2430,6 +2473,7 @@
     "symbol": ",",
     "color": "yellow",
     "name": { "str": "cash card" },
+    "ascii_picture": "cashcard",
     "description": "A yellow plastic card used to store money.  These became popular once the government officially moved to all electronic money.  It holds up to 2 million dollars.",
     "price": 1000,
     "price_postapoc": 0,
@@ -2438,6 +2482,7 @@
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "money": 200000000 } } ],
     "max_charges": 200000000,
     "rand_charges": [
       0,
@@ -2479,7 +2524,7 @@
       50000,
       100000
     ],
-    "ammo": "money"
+    "ammo": [ "money" ]
   },
   {
     "id": "robofac_test_data",

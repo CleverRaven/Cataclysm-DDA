@@ -250,6 +250,8 @@
       "ak47",
       "arx160",
       "mosin91_30",
+      "m249_semi",
+      "m60_semi",
       "ar15",
       "oa93",
       "ar_pistol",
@@ -263,7 +265,8 @@
       "sks",
       "mosin44",
       "famas",
-      "aksemi"
+      "aksemi",
+      "fs2000"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"

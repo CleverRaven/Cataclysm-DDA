@@ -163,12 +163,12 @@ inline float trig_dist( const point &loc1, const point &loc2 )
 // Roguelike distance; maximum of dX and dY
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    const tripoint d = abs( loc1 - loc2 );
+    const tripoint d = ( loc1 - loc2 ).abs();
     return std::max( { d.x, d.y, d.z } );
 }
 inline int square_dist( const point &loc1, const point &loc2 )
 {
-    const point d = abs( loc1 - loc2 );
+    const point d = ( loc1 - loc2 ).abs();
     return std::max( d.x, d.y );
 }
 
@@ -225,7 +225,7 @@ inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tri
 }
 inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {
-    const tripoint d = abs( loc1 - loc2 );
+    const tripoint d = ( loc1 - loc2 ).abs();
     return std::max( { d.x, d.y, d.z } );
 }
 inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )

@@ -12,6 +12,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "visitable.h"
 
@@ -29,7 +30,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     map_cursor cursor( pos );
     item *tshirt = nullptr;
     cursor.visit_items( [&tshirt]( item * i ) {
-        if( i->typeId() == "tshirt" ) {
+        if( i->typeId() == itype_id( "tshirt" ) ) {
             tshirt = i;
             return VisitResponse::ABORT;
         }
@@ -37,19 +38,19 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     } );
     REQUIRE( tshirt != nullptr );
     item_location item_loc( cursor, tshirt );
-    REQUIRE( item_loc->typeId() == "tshirt" );
+    REQUIRE( item_loc->typeId() == itype_id( "tshirt" ) );
     for( int j = 0; j < 4; ++j ) {
         // Delete up to 4 random jeans
         map_stack stack = m.i_at( pos );
         REQUIRE( !stack.empty() );
         item *i = &random_entry_opt( stack )->get();
-        if( i->typeId() == "jeans" ) {
+        if( i->typeId() == itype_id( "jeans" ) ) {
             m.i_rem( pos, i );
         }
     }
     CAPTURE( m.i_at( pos ) );
     REQUIRE( item_loc );
-    CHECK( item_loc->typeId() == "tshirt" );
+    CHECK( item_loc->typeId() == itype_id( "tshirt" ) );
 }
 
 TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]" )
@@ -60,7 +61,7 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
     m.i_clear( pos );
     m.add_item( pos, item( "tshirt" ) );
     item_location item_loc( map_cursor( pos ), &m.i_at( pos ).only_item() );
-    REQUIRE( item_loc->typeId() == "tshirt" );
+    REQUIRE( item_loc->typeId() == itype_id( "tshirt" ) );
     m.i_rem( pos, &*item_loc );
     m.add_item( pos, item( "jeans" ) );
     CHECK( !item_loc );
@@ -69,24 +70,25 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
     avatar &dummy = g->u;
+    clear_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );
 
     REQUIRE( dummy.has_item( backpack ) );
 
-    backpack.put_in( jeans );
+    backpack.put_in( jeans, item_pocket::pocket_type::CONTAINER );
 
     item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 
-    item_location jeans_loc( backpack_loc, &jeans );
+    item_location jeans_loc( backpack_loc, &backpack_loc->contents.only_item() );
 
     REQUIRE( backpack_loc.where() == item_location::type::character );
     REQUIRE( jeans_loc.where() == item_location::type::container );
-
-    CHECK( backpack_loc.obtain_cost( dummy ) + INVENTORY_HANDLING_PENALTY == jeans_loc.obtain_cost(
-               dummy ) );
+    const int obtain_cost_calculation = ( backpack_loc.obtain_cost( dummy ) / 2 ) +
+                                        dummy.item_handling_cost( *jeans_loc, true, backpack_loc->contents.obtain_cost( *jeans_loc ) );
+    CHECK( obtain_cost_calculation == jeans_loc.obtain_cost( dummy ) );
 
     CHECK( jeans_loc.parent_item() == backpack_loc );
 }

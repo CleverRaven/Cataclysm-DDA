@@ -255,6 +255,84 @@ double convert_weight( const units::mass &weight )
     return ret;
 }
 
+int convert_length( const units::length &length )
+{
+    int ret = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( ret % 1'000'000 == 0 ) {
+            // kilometers
+            ret /= 1'000'000;
+        } else if( ret % 1'000 == 0 ) {
+            // meters
+            ret /= 1'000;
+        } else if( ret % 10 == 0 ) {
+            // centimeters
+            ret /= 10;
+        }
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        ret /= 25.4;
+        if( ret % 63360 == 0 ) {
+            ret /= 63360;
+        } else if( ret % 36 == 0 ) {
+            ret /= 36;
+        } else if( ret % 12 == 0 ) {
+            ret /= 12;
+        }
+    }
+    return ret;
+}
+
+std::string length_units( const units::length &length )
+{
+    int length_mm = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( length_mm % 1'000'000 == 0 ) {
+            //~ kilometers
+            return _( "km" );
+        } else if( length_mm % 1'000 == 0 ) {
+            //~ meters
+            return _( "m" );
+        } else if( length_mm % 10 == 0 ) {
+            //~ centimeters
+            return _( "cm" );
+        } else {
+            //~ millimeters
+            return _( "mm" );
+        }
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        length_mm /= 25.4;
+        if( length_mm == 0 ) {
+            //~ inches
+            return _( "in." );
+        }
+        if( length_mm % 63360 == 0 ) {
+            //~ miles
+            return _( "mi" );
+        } else if( length_mm % 36 == 0 ) {
+            //~ yards (length)
+            return _( "yd" );
+        } else if( length_mm % 12 == 0 ) {
+            //~ feet (length)
+            return _( "ft" );
+        } else {
+            //~ inches
+            return _( "in." );
+        }
+    }
+}
+
+std::string weight_to_string( const units::mass &weight )
+{
+    const double converted_weight = convert_weight( weight );
+    return string_format( "%.2f %s", converted_weight, weight_units() );
+}
+
 double convert_volume( int volume )
 {
     return convert_volume( volume, nullptr );
@@ -279,6 +357,16 @@ double convert_volume( int volume, int *out_scale )
         *out_scale = scale;
     }
     return ret;
+}
+
+std::string vol_to_string( const units::volume &vol )
+{
+    int converted_volume_scale = 0;
+    const double converted_volume =
+        convert_volume( vol.value(),
+                        &converted_volume_scale );
+
+    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
 }
 
 double temp_to_celsius( double fahrenheit )

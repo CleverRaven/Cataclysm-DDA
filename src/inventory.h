@@ -234,7 +234,7 @@ class inventory : public visitable<inventory>
 
     private:
         invlet_favorites invlet_cache;
-        char find_usable_cached_invlet( const std::string &item_type );
+        char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
 

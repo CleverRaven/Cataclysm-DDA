@@ -116,6 +116,17 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
+    "id": "m249_semi",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M249S" },
+    "item": "m249_semi",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 9 }, { "item": "steel_lump", "count": 3 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
     "id": "mounted_bigun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -176,6 +187,17 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M60" },
     "item": "m60",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_m60_semi",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M60 Semi Auto" },
+    "item": "m60_semi",
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],

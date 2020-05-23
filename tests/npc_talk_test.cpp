@@ -570,7 +570,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     g->u.remove_items_with( []( const item & it ) {
         return it.get_category().get_id() == item_category_id( "books" ) ||
                it.get_category().get_id() == item_category_id( "food" ) ||
-               it.typeId() == "bottle_glass";
+               it.typeId() == itype_id( "bottle_glass" );
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 1 );
@@ -592,6 +592,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     g->u.cash = 1000;
     g->u.int_cur = 8;
+    g->u.worn.push_back( item( "backpack" ) );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -683,24 +684,24 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
     CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
     CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
-    CHECK( d.responses[0].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "manual_speech" ) );
 
     d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 8 );
     CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[0].success.next_topic.item_type ==  "beer" );
+    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "beer" ) );
     CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[1].success.next_topic.item_type ==  "dnd_handbook" );
+    CHECK( d.responses[1].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
     CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[2].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[2].success.next_topic.item_type == itype_id( "manual_speech" ) );
     CHECK( d.responses[3].text == "This is a repeated category books test response" );
-    CHECK( d.responses[3].success.next_topic.item_type ==  "dnd_handbook" );
+    CHECK( d.responses[3].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
     CHECK( d.responses[4].text == "This is a repeated category books test response" );
-    CHECK( d.responses[4].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[4].success.next_topic.item_type == itype_id( "manual_speech" ) );
     CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[5].success.next_topic.item_type ==  "bottle_glass" );
+    CHECK( d.responses[5].success.next_topic.item_type == itype_id( "bottle_glass" ) );
     CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[6].success.next_topic.item_type ==  "beer" );
+    CHECK( d.responses[6].success.next_topic.item_type == itype_id( "beer" ) );
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     // test sell and consume
@@ -708,7 +709,11 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 19 );
     REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
     REQUIRE( has_beer_bottle( g->u, 2 ) );
-    REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( "bottle_glass" ) ) ) );
+    const std::vector<item *> glass_bottles = g->u.items_with( []( const item & it ) {
+        return it.typeId() == itype_id( "bottle_glass" );
+    } );
+    REQUIRE( !glass_bottles.empty() );
+    REQUIRE( g->u.wield( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
     CHECK_FALSE( has_item( g->u, "bottle_plastic", 1 ) );

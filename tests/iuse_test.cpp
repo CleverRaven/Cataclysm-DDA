@@ -18,8 +18,8 @@ static const std::string flag_WET( "WET" );
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
+    item eyedrops( "saline", 0, item::default_charges_tag{} );
 
-    item &eyedrops = dummy.i_add( item( "saline", 0, item::default_charges_tag{} ) );
     int charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
 
@@ -56,7 +56,8 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
-    item &antifungal = dummy.i_add( item( "antifungal", 0, item::default_charges_tag{} ) );
+    item antifungal( "antifungal", 0, item::default_charges_tag{} );
+
     int charges_before = antifungal.charges;
     REQUIRE( charges_before > 0 );
 
@@ -98,7 +99,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
-    item &antiparasitic = dummy.i_add( item( "antiparasitic", 0, item::default_charges_tag{} ) );
+    item antiparasitic( "antiparasitic", 0, item::default_charges_tag{} );
 
     int charges_before = antiparasitic.charges;
     REQUIRE( charges_before > 0 );
@@ -154,7 +155,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
     avatar dummy;
-    item &anticonvulsant = dummy.i_add( item( "diazepam", 0, item::default_charges_tag{} ) );
+    item anticonvulsant( "diazepam", 0, item::default_charges_tag{} );
 
     int charges_before = anticonvulsant.charges;
     REQUIRE( charges_before > 0 );
@@ -187,9 +188,11 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
-    item &oxygen = dummy.i_add( item( "oxygen_tank", 0, item::default_charges_tag{} ) );
+    item oxygen( "oxygen_tank" );
+    itype_id o2_ammo( "oxygen" );
+    oxygen.ammo_set( o2_ammo );
 
-    int charges_before = oxygen.charges;
+    int charges_before = oxygen.ammo_remaining();
     REQUIRE( charges_before > 0 );
 
     // Ensure baseline painkiller value to measure painkiller effects
@@ -202,7 +205,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -217,7 +220,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of tear gas" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -232,7 +235,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of asthma" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -252,7 +255,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen is stimulating" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.charges == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
                 // values should match iuse function `oxygen_bottle`
                 CHECK( dummy.get_stim() == 8 );
 
@@ -272,7 +275,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen has no additional stimulation effects" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.charges == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
                 CHECK( dummy.get_stim() == max_stim );
 
                 AND_THEN( "it acts as a mild painkiller" ) {
@@ -299,15 +302,15 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_rad() == 0 );
 
     SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
-        item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
-        dummy.consume_item( coffee );
+        item coffee( "coffee", 0, item::default_charges_tag{} );
+        dummy.consume( coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
     SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
-        item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
-        dummy.consume_item( atomic_coffee );
+        item atomic_coffee( "atomic_coffee", 0, item::default_charges_tag{} );
+        dummy.consume( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
@@ -316,8 +319,7 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
-
-    item &towel = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
+    item towel( "towel", 0, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
@@ -342,13 +344,13 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK( dummy.body_wetness[bp_arm_r] == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
-                    CHECK( towel.typeId() == "towel_wet" );
+                    CHECK( towel.typeId().str() == "towel_wet" );
                 }
             }
         }
 
         WHEN( "they use a wet towel" ) {
-            towel.convert( "towel_wet" );
+            towel.convert( itype_id( "towel_wet" ) );
             REQUIRE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
@@ -366,7 +368,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
 
         WHEN( "they use a wet towel" ) {
-            towel.convert( "towel_wet" );
+            towel.convert( itype_id( "towel_wet" ) );
             REQUIRE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
@@ -383,7 +385,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK( dummy.has_morale( MORALE_WET ) == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
-                    CHECK( towel.typeId() == "towel_wet" );
+                    CHECK( towel.typeId() == itype_id( "towel_wet" ) );
                 }
             }
         }
@@ -407,7 +409,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( efftype_id( "glowing" ) ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == "towel_soiled" );
+                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
                 }
             }
         }
@@ -427,7 +429,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == "towel_soiled" );
+                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
                 }
             }
         }
@@ -438,7 +440,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
     dummy.set_fatigue( 0 );
-    item &thorazine = dummy.i_add( item( "thorazine", 0, item::default_charges_tag{} ) );
+    item thorazine( "thorazine", 0, item::default_charges_tag{} );
+
     int charges_before = thorazine.charges;
     REQUIRE( charges_before >= 2 );
 
@@ -485,7 +488,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
-    item &prozac = dummy.i_add( item( "prozac", 0, item::default_charges_tag{} ) );
+    item prozac( "prozac", 0, item::default_charges_tag{} );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac" ) ) );
@@ -509,7 +512,7 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     avatar dummy;
-    item &inhaler = dummy.i_add( item( "inhaler", 0, item::default_charges_tag{} ) );
+    item inhaler( "inhaler", 0, item::default_charges_tag{} );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );
@@ -542,15 +545,15 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     }
 }
 
-TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
+TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
-    item &jelly = dummy.i_add( item( "royal_jelly", 0, item::default_charges_tag{} ) );
+    item panacea( "panacea", 0, item::default_charges_tag{} );
 
-    SECTION( "royal jelly gives cure-all effect" ) {
+    SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
 
-        dummy.invoke_item( &jelly );
+        dummy.consume( panacea );
         CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
     }
 }
@@ -558,7 +561,7 @@ TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
 TEST_CASE( "xanax", "[iuse][xanax]" )
 {
     avatar dummy;
-    item &xanax = dummy.i_add( item( "xanax", 0, item::default_charges_tag{} ) );
+    item xanax( "xanax", 0, item::default_charges_tag{} );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );

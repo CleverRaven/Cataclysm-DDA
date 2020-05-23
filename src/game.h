@@ -90,11 +90,8 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
-
-using itype_id = std::string;
 
 class achievements_tracker;
 class avatar;
@@ -152,7 +149,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
     public:
         game();
         ~game();
@@ -229,15 +225,29 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+
+        class draw_callback_t
+        {
+            public:
+                draw_callback_t( const std::function<void()> &cb );
+                ~draw_callback_t();
+                void operator()();
+                friend class game;
+            private:
+                std::function<void()> cb;
+                bool added = false;
+        };
+        /* Add callback that would be called in `game::draw`. This can be used to
+         * implement map overlays in game menus. If parameters of the callback changes
+         * during its lifetime, `invaliate_main_ui_adaptor` has to be called for
+         * the changes to take effect immediately on the next call to `ui_manager::redraw`.
+         * Otherwise the callback may not take effect until the main ui is invalidated
+         * due to resizing or other menus closing. The callback is disabled once all
+         * shared pointers to the callback are deconstructed, and is removed afterwards. */
+        void add_draw_callback( shared_ptr_fast<draw_callback_t> cb );
     private:
-        cata::optional<tripoint> zone_start;
-        cata::optional<tripoint> zone_end;
-        bool zone_blink = false;
-        bool zone_cursor = false;
         bool is_looking = false;
-        cata::optional<tripoint> trail_start;
-        cata::optional<tripoint> trail_end;
-        bool trail_end_x = false;
+        std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -582,8 +592,14 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
-                                 inventory_item_menu_positon position = RIGHT_OF_INFO );
+        int inventory_item_menu( item_location locThisItem,
+        const std::function<int()> &startx = []() {
+            return 0;
+        },
+        const std::function<int()> &width = []() {
+            return 50;
+        },
+        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
@@ -656,7 +672,7 @@ class game
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
-                        const std::vector<tripoint> &points );
+                        const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
@@ -724,7 +740,7 @@ class game
         void on_move_effects();
     private:
         // Game-start procedures
-        void load( const save_t &name ); // Load a player-specific save file
+        bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
@@ -787,13 +803,13 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
-        void reload_wielded();
+        void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item &it ); // Unload a gun/tool  'U'
+        bool unload( item_location &loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 
@@ -810,7 +826,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( item_location &loc );
+        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -951,6 +967,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 
@@ -973,8 +990,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -1089,5 +1104,14 @@ class game
 int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
+
+namespace cata_event_dispatch
+{
+// Constructs and dispatches an avatar movement event with the necessary parameters
+// @param u The avatar moving
+// @param m The map the avatar is moving on
+// @param p The point the avatar is moving to on map m
+void avatar_moves( const avatar &u, const map &m, const tripoint &p );
+} // namespace cata_event_dispatch
 
 #endif // CATA_SRC_GAME_H

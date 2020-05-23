@@ -82,6 +82,10 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
@@ -2268,7 +2272,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
 
 static bool farm_valid_seed( const item &itm )
 {
-    return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+    return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
@@ -2492,7 +2496,7 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
         if( !broken && !skill_break ) {
             //Higher level garages will salvage liquids from tanks
             if( !p_all[prt].is_battery() ) {
-                p_all[prt].ammo_consume( p_all[prt].ammo_capacity(),
+                p_all[prt].ammo_consume( p_all[prt].ammo_remaining(),
                                          car->global_part_pos3( p_all[prt] ) );
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
@@ -2804,11 +2808,12 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += string_format( _( "Perception:      %10d\n\n" ), recruit->per_max );
         description += _( "Top 3 Skills:\n" );
 
-        const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
-        const Skill & b ) {
+        const auto skillslist = Skill::get_skills_sorted_by(
+        [&]( const Skill & a, const Skill & b ) {
             const int level_a = recruit->get_skill_level( a.ident() );
             const int level_b = recruit->get_skill_level( b.ident() );
-            return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+            return localized_compare( std::make_pair( -level_a, a.name() ),
+                                      std::make_pair( -level_b, b.name() ) );
         } );
 
         description += string_format( "%s:          %4d\n", right_justify( skillslist[0]->name(), 12 ),
@@ -3251,7 +3256,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
             target_bay.ter_set( p, t_dirt );
-            target_bay.spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+            target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
             harvested++;
         }
     }
@@ -3506,8 +3511,8 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).contents.total_container_capacity();
+    units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }
@@ -3836,7 +3841,7 @@ std::string camp_car_description( vehicle *car )
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
                                     static_cast<int>( 100.0 * pt.ammo_remaining() /
-                                            pt.ammo_capacity() ) );
+                                            pt.ammo_capacity( ammotype( "battery" ) ) ) );
         }
     }
     entry += "\n";
@@ -3908,8 +3913,11 @@ bool basecamp::distribute_food()
         const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
         map_stack initial_items = g->m.i_at( p_food_stock );
         for( item &i : initial_items ) {
-            if( i.is_container() && i.get_contained().is_food() ) {
-                auto comest = i.get_contained();
+            std::vector<item *> comest_list{ &i };
+            if( i.is_food_container() ) {
+                std::vector<item *> comest = i.items_with( []( const item & it ) {
+                    return it.is_comestible();
+                } );
                 i.contents.clear_items();
                 //NPCs are lazy bastards who leave empties all around the camp fire
                 tripoint litter_spread = p_litter;
@@ -3917,23 +3925,25 @@ bool basecamp::distribute_food()
                 litter_spread.y += rng( -3, 3 );
                 i.on_contents_changed();
                 g->m.add_item_or_charges( litter_spread, i, false );
-                i = comest;
+                comest_list = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
-                keep_me.push_back( i );
-            } else if( i.is_food() ) {
-                double rot_multip;
-                int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
-                if( rots_in >= 5 ) {
-                    rot_multip = 1.00;
-                } else if( rots_in >= 2 ) {
-                    rot_multip = slow_rot;
+            for( item *comest : comest_list ) {
+                if( comest->is_comestible() && ( comest->rotten() || comest->get_comestible_fun() < -6 ) ) {
+                    keep_me.push_back( *comest );
+                } else if( comest->is_food() ) {
+                    double rot_multip;
+                    int rots_in = to_days<int>( time_duration::from_turns( comest->spoilage_sort_order() ) );
+                    if( rots_in >= 5 ) {
+                        rot_multip = 1.00;
+                    } else if( rots_in >= 2 ) {
+                        rot_multip = slow_rot;
+                    } else {
+                        rot_multip = quick_rot;
+                    }
+                    total += comest->get_comestible()->default_nutrition.kcal * rot_multip * i.count();
                 } else {
-                    rot_multip = quick_rot;
+                    keep_me.push_back( *comest );
                 }
-                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
-            } else {
-                keep_me.push_back( i );
             }
         }
         g->m.i_clear( p_food_stock );

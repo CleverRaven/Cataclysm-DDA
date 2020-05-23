@@ -242,8 +242,9 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 10,
-    "storage": "25 L",
+    "encumbrance": 5,
+    "max_encumbrance": 10,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
     "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
   },
@@ -302,7 +303,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": 29,
+    "ranged_damage": { "damage_type": "stab", "amount": 29 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,
@@ -423,6 +424,33 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
+    "id": "burn_scar",
+    "type": "effect_type",
+    "desc": [ "This burn really hurts!" ],
+    "max_duration": "10 second",
+    "rating": "bad",
+    "base_mods": { "pain_amount": [ 20 ] }
+  },
+  {
+    "id": "ench_overcharge_burn_scar",
+    "type": "enchantment",
+    "ench_effects": [ { "effect": "burn_scar", "intensity": 1 } ]
+  },
+  {
+    "id": "overcharge_burn_scar",
+    "type": "ARMOR",
+    "name": { "str": "overcharge burn" },
+    "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "~",
+    "color": "light_red",
+    "covers": [ "EYES", "MOUTH" ],
+    "encumbrance": 18,
+    "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
+    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
   },
   {
     "id": "protect_env",

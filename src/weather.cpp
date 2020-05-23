@@ -42,6 +42,10 @@ static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_acid( "water_acid" );
+static const itype_id itype_water_acid_weak( "water_acid_weak" );
+
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
@@ -207,24 +211,36 @@ void item::add_rain_to_container( bool acid, int charges )
     }
     item ret( acid ? "water_acid" : "water", calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
-    if( contents.empty() ) {
+    ret.charges = std::min( charges, capa );
+    if( contents.can_contain( ret ).success() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
             ret.poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min( charges, capa );
-        put_in( ret );
+        put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
+        static const std::set<itype_id> allowed_liquid_types{
+            itype_water,
+            itype_water_acid,
+            itype_water_acid_weak
+        };
+        item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
+            return allowed_liquid_types.count( liquid.typeId() );
+        } );
+        if( found_liq == nullptr ) {
+            debugmsg( "Rainwater failed to add to container" );
+            return;
+        }
         // The container already has a liquid.
-        item &liq = contents.front();
+        item &liq = *found_liq;
         int orig = liq.charges;
         int added = std::min( charges, capa );
         if( capa > 0 ) {
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == "water_acid_weak" ) {
+        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -240,8 +256,8 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( "water_acid_weak", calendar::turn, liq.charges );
-            } else if( liq.typeId() == "water" ) {
+                liq = item( "water_acid_weak", calendar::turn, liq.charges );
+            } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
@@ -372,7 +388,8 @@ static void wet_player( int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    const int warmth_delay = g->u.warmth( bodypart_id( "torso" ) ) * 4 / 5 + g->u.warmth(
+                                 bodypart_id( "head" ) ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;

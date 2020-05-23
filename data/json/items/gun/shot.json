@@ -15,8 +15,8 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "shot",
-    "ranged_damage": { "damage_type": "stab", "amount": -11 },
+    "ammo": [ "shot" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 900,
     "durability": 6,
     "clip_size": 1,
@@ -31,7 +31,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bigun",
@@ -53,8 +54,16 @@
     "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "shotbelt_20" ]
+      }
+    ]
   },
   {
     "id": "browning_a5",
@@ -70,11 +79,12 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 425,
     "durability": 6,
     "clip_size": 5,
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "ksg",
@@ -90,7 +100,7 @@
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 425,
     "sight_dispersion": 500,
     "durability": 7,
@@ -108,7 +118,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "ksg-25",
@@ -123,7 +134,7 @@
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 425,
     "sight_dispersion": 500,
     "durability": 7,
@@ -141,7 +152,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "m1014",
@@ -157,7 +169,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 345,
     "durability": 9,
     "clip_size": 8,
@@ -172,7 +184,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ]
+    "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "mossberg_500",
@@ -182,17 +195,18 @@
     "name": { "str_sp": "Mossberg 500 Field" },
     "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with a 28 inch barrel with sight rib.",
     "weight": "3180 g",
-    "volume": "2500 ml",
+    "volume": "2450 ml",
     "price": 53800,
     "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 13,
-    "barrel_length": "108 ml",
+    "barrel_length": "186 ml",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 325,
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "durability": 9,
-    "clip_size": 6
+    "clip_size": 6,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "mossberg_500_security",
@@ -201,14 +215,14 @@
     "name": { "str_sp": "Mossberg 500 Security" },
     "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with an 18.5 inch barrel.",
     "weight": "3062 g",
-    "volume": "2900 ml",
+    "volume": "2386 ml",
     "looks_like": "mossberg_500",
     "price": 53800,
     "price_postapoc": 2250,
     "bashing": 12,
-    "barrel_length": "18 ml",
+    "barrel_length": "28 ml",
     "dispersion": 375,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 }
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 }
   },
   {
     "id": "mossberg_590",
@@ -217,12 +231,13 @@
     "name": { "str_sp": "Mossberg 590A1" },
     "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance.",
     "weight": "3289 g",
-    "volume": "2990 ml",
+    "volume": "2548 ml",
     "looks_like": "mossberg_500",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
     "barrel_length": "0 ml",
-    "clip_size": 9
+    "clip_size": 9,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 9 } } ]
   },
   {
     "id": "mossberg_930",
@@ -231,14 +246,14 @@
     "name": { "str": "Mossberg 930 SPX" },
     "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
     "weight": "3402 g",
-    "volume": "2942 ml",
+    "volume": "2623 ml",
     "looks_like": "m1014",
     "price": 60000,
     "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "aluminum", "plastic" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 345,
     "durability": 7,
     "clip_size": 8,
@@ -255,7 +270,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "pipe_double_shotgun",
@@ -278,7 +294,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "pipe_shotgun",
@@ -294,7 +311,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,
@@ -311,7 +328,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "remington_870",
@@ -321,17 +339,18 @@
     "name": { "str_sp": "Remington 870 Wingmaster" },
     "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game.",
     "weight": "3400 g",
-    "volume": "2765 ml",
+    "volume": "2487 ml",
     "price": 58700,
     "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 13,
     "material": [ "steel", "plastic" ],
     "dispersion": 305,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "durability": 8,
     "clip_size": 5,
-    "barrel_length": "135 ml"
+    "barrel_length": "229 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "remington_870_breacher",
@@ -340,9 +359,9 @@
     "name": { "str": "Remington 870 MCS" },
     "description": "This Remington 870 Modular Combat System shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
     "weight": "2812 g",
-    "volume": "1427 ml",
+    "volume": "1284 ml",
     "looks_like": "remington_870",
-    "ranged_damage": { "damage_type": "stab", "amount": -5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "skill": "pistol",
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "//": "dispersion should be 300 moa, but CDDA exaggerates dispersion.",
@@ -365,7 +384,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
   },
   {
     "id": "remington_870_express",
@@ -374,12 +394,14 @@
     "name": { "str": "Remington 870 express", "str_pl": "Remington 870 expresses" },
     "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
     "weight": "3402 g",
-    "volume": "2696 ml",
+    "volume": "2365 ml",
     "looks_like": "remington_870",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 345,
     "clip_size": 7,
-    "price": 33800
+    "barrel_length": "20 ml",
+    "price": 33800,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "remington_1100",
@@ -388,7 +410,7 @@
     "name": { "str": "Remington 1100 competiton" },
     "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
     "weight": "3742 g",
-    "volume": "3285 ml",
+    "volume": "2626 ml",
     "price_postapoc": 3250,
     "looks_like": "remington_870",
     "price": 130000,
@@ -396,9 +418,10 @@
     "bashing": 13,
     "material": [ "steel", "plastic" ],
     "dispersion": 315,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "durability": 8,
     "clip_size": 10,
+    "barrel_length": "299 ml",
     "built_in_mods": [ "match_trigger" ],
     "default_mods": [ "recoil_stock" ],
     "valid_mod_locations": [
@@ -413,7 +436,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 10 } } ]
   },
   {
     "id": "revolver_shotgun",
@@ -444,7 +468,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "saiga_12",
@@ -463,7 +488,6 @@
     "dispersion": 395,
     "durability": 7,
     "barrel_length": "81 ml",
-    "magazine_well": 1,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -476,7 +500,15 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "saiga10mag", "saiga30mag" ]
+      }
+    ]
   },
   {
     "id": "shotgun_d",
@@ -503,7 +535,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "shotgun_s",
@@ -536,7 +569,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "streetsweeper",
@@ -573,7 +607,8 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "SPAS_12",
@@ -592,7 +627,7 @@
     "dispersion": 380,
     "durability": 6,
     "clip_size": 9,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -607,7 +642,8 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 9 } } ]
   },
   {
     "id": "tavor_12",
@@ -627,7 +663,7 @@
     "durability": 6,
     "clip_size": 5,
     "sight_dispersion": 500,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -641,7 +677,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "USAS_12",
@@ -673,7 +710,15 @@
       [ "underbarrel mount", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "magazines": [ [ "shot", [ "USAS10mag", "USAS20mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "USAS10mag", "USAS20mag" ]
+      }
+    ]
   },
   {
     "id": "winchester_1887",
@@ -689,7 +734,7 @@
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "stab", "amount": -9 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
     "dispersion": 860,
     "durability": 6,
     "clip_size": 6,
@@ -707,7 +752,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "winchester_1897",
@@ -722,7 +768,7 @@
     "price_postapoc": 2500,
     "bashing": 11,
     "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
@@ -741,6 +787,7 @@
       [ "underbarrel", 1 ]
     ],
     "default_mods": [ "sword_bayonet" ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   }
 ]

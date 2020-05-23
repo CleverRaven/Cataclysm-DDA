@@ -158,8 +158,7 @@ class jmapgen_piece
         virtual void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( mapgendata &/*dat*/, int /*offset_x*/,
-                                            int /*offset_y*/ ) const {
+        virtual bool has_vehicle_collision( mapgendata &/*dat*/, const point &/*offset*/ ) const {
             return false;
         }
 };

@@ -12,7 +12,7 @@
     "material": [ "glass" ],
     "symbol": "!",
     "color": "cyan",
-    "ammo": "anesthetic",
+    "ammo": [ "anesthetic" ],
     "initial_charges": 3000,
     "max_charges": 3000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -36,11 +36,16 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
     "looks_like": "microwave",
-    "ammo": "battery",
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "inhaler",
@@ -73,7 +78,7 @@
     "material": [ "ceramic", "superalloy" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "ampoule",
+    "ammo": [ "ampoule" ],
     "initial_charges": 2,
     "max_charges": 2,
     "charges_per_use": 1,
@@ -161,13 +166,14 @@
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "oxygen": 24 } } ],
     "max_charges": 24,
     "charges_per_use": 1,
     "use_action": "OXYGEN_BOTTLE"
   },
   {
     "id": "vacutainer",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "blood draw kit" },
     "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
@@ -180,11 +186,17 @@
     "material": "plastic",
     "symbol": ";",
     "color": "light_cyan",
-    "contains": "250 ml",
-    "seals": true,
-    "watertight": true,
     "use_action": "BLOOD_DRAW",
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g"
+      }
+    ]
   },
   {
     "id": "wrapped_rad_badge",

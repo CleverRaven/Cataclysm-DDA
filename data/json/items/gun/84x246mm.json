@@ -13,7 +13,7 @@
     "material": "steel",
     "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
     "skill": "launcher",
-    "ammo": "84x246mm",
+    "ammo": [ "84x246mm" ],
     "weight": "6900 g",
     "volume": "4500 ml",
     "bashing": 8,
@@ -30,7 +30,8 @@
       [ "sights", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "84x246mm": 1 } } ]
   },
   {
     "id": "AT4",
@@ -39,7 +40,7 @@
     "name": { "str": "AT4" },
     "description": "Mil-Spec rocket launcher.  An 84-mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
     "extend": { "flags": [ "FIRE_TWOHAND", "NO_REPAIR" ] },
-    "ammo": "84x246mm",
+    "ammo": [ "84x246mm" ],
     "weight": "6803 g",
     "volume": "3500 ml",
     "price_postapoc": 6000,

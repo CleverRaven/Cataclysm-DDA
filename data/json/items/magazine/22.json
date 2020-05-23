@@ -12,9 +12,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 8,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "a180mag",
@@ -29,11 +30,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 165,
     "reliability": 7,
     "reload_time": 150,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 165 } } ]
   },
   {
     "id": "marlin_tubeloader",
@@ -48,9 +50,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 19,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ]
   },
   {
     "id": "mosquitomag",
@@ -65,10 +68,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "ruger1022bigmag",
@@ -83,10 +87,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 25,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 25 } } ]
   },
   {
     "id": "ruger1022mag",
@@ -101,11 +106,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 9,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "sw22mag",
@@ -120,10 +126,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "j22mag",
@@ -138,10 +145,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 6,
     "reliability": 6,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 6 } } ]
   },
   {
     "id": "wp22mag",
@@ -156,9 +164,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   }
 ]

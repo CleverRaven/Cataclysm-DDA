@@ -23,6 +23,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
@@ -119,7 +120,7 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         const bool combine = bps[thisline].second;
         const encumbrance_data &e = enc_data[bp];
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
-        std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
+        std::string out = body_part_name_as_heading( convert_bp( bp ).id(), combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
             out = utf8_truncate( out, 7 );
         }
@@ -174,7 +175,19 @@ static std::string melee_cost_text( int moves )
     return string_format(
                _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
 }
-
+static std::string melee_stamina_cost_text( int cost )
+{
+    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+}
+static std::string mouth_stamina_cost_text( int cost )
+{
+    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+}
+static std::string ranged_cost_text( double disp )
+{
+    return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
+                          disp );
+}
 static std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
@@ -215,11 +228,14 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
                      eff_encumbrance * 10 );
             break;
         case bp_mouth:
-            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>" );
+            s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
+            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>" );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance );
+            s += ranged_cost_text( eff_encumbrance / 5.0 );
             break;
         case bp_hand_l:
         case bp_hand_r:
@@ -1215,16 +1231,13 @@ void player::disp_info()
     std::vector<bionic> bionicslist = *my_bionics;
     unsigned int bionics_win_size_y = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by( [&]( const Skill & a,
-    const Skill & b ) {
+    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    [&]( const Skill & a, const Skill & b ) {
         skill_displayType_id type_a = a.display_category();
         skill_displayType_id type_b = b.display_category();
 
-        if( type_a != type_b ) {
-            return type_a < type_b;
-        } else {
-            return a.name() < b.name();
-        }
+        return localized_compare( std::make_pair( type_a, a.name() ),
+                                  std::make_pair( type_b, b.name() ) );
     } );
 
     std::vector<HeaderSkill> skillslist;
@@ -1264,45 +1277,45 @@ void player::disp_info()
 
     catacurses::window w_grid_top =
         catacurses::newwin( infooffsetybottom, FULL_SCREEN_WIDTH + 1,
-                            point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+                            point_zero );
     catacurses::window w_grid_skill =
         catacurses::newwin( skill_win_size_y + 1, 27,
-                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetybottom ) );
     catacurses::window w_grid_trait =
         catacurses::newwin( trait_win_size_y + 1, 27,
-                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 27, infooffsetybottom ) );
     catacurses::window w_grid_bionics =
         catacurses::newwin( bionics_win_size_y + 1, 27,
-                            point( 27 + VIEW_OFFSET_X,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+                            point( 27,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
     catacurses::window w_grid_effect =
         catacurses::newwin( effect_win_size_y + 1, 28,
-                            point( 53 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 53, infooffsetybottom ) );
 
     catacurses::window w_tip =
-        catacurses::newwin( 1, FULL_SCREEN_WIDTH,  point( 0 + VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+        catacurses::newwin( 1, FULL_SCREEN_WIDTH, point_zero );
     catacurses::window w_stats =
-        catacurses::newwin( 9, 26,  point( 0 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 0, 1 ) ); //NOLINT(cata-use-named-point-constants)
     catacurses::window w_traits =
         catacurses::newwin( trait_win_size_y, 26,
-                            point( 27 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 27, infooffsetybottom ) );
     catacurses::window w_bionics =
         catacurses::newwin( bionics_win_size_y, 26,
-                            point( 27 + VIEW_OFFSET_X,
-                                   infooffsetybottom + VIEW_OFFSET_Y + trait_win_size_y + 1 ) );
+                            point( 27,
+                                   infooffsetybottom + trait_win_size_y + 1 ) );
     catacurses::window w_encumb =
-        catacurses::newwin( 9, 26, point( 27 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 27, 1 ) );
     catacurses::window w_effects =
         catacurses::newwin( effect_win_size_y, 26,
-                            point( 54 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 54, infooffsetybottom ) );
     catacurses::window w_speed =
-        catacurses::newwin( 9, 26,  point( 54 + VIEW_OFFSET_X, 1 + VIEW_OFFSET_Y ) );
+        catacurses::newwin( 9, 26, point( 54, 1 ) );
     catacurses::window w_skills =
         catacurses::newwin( skill_win_size_y, 26,
-                            point( 0 + VIEW_OFFSET_X, infooffsetybottom + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetybottom ) );
     catacurses::window w_info =
         catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
-                            point( 0 + VIEW_OFFSET_X, infooffsetytop + VIEW_OFFSET_Y ) );
+                            point( 0, infooffsetytop ) );
 
     draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
                        info_win_size_y, infooffsetybottom, skill_win_size_y, trait_win_size_y,
@@ -1314,27 +1327,33 @@ void player::disp_info()
     effect_win_size_y--;
 
     // Print name and header
-    // Post-humanity trumps your pre-Cataclysm life.
-    if( crossed_threshold() ) {
-        std::string race;
-        for( const trait_id &mut : get_mutations() ) {
-            const mutation_branch &mdata = mut.obj();
-            if( mdata.threshold ) {
-                race = mdata.name();
-                break;
+    // Post-humanity trumps your pre-Cataclysm life
+    // Unless you have a custom profession.
+    std::string race;
+    if( g->u.custom_profession.empty() ) {
+        if( crossed_threshold() ) {
+            for( const trait_id &mut : get_mutations() ) {
+                const mutation_branch &mdata = mut.obj();
+                if( mdata.threshold ) {
+                    race = mdata.name();
+                    break;
+                }
             }
+            //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
+            mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                       male ? _( "Male" ) : _( "Female" ), race );
+        } else if( prof == nullptr || prof == profession::generic() ) {
+            // Regular person. Nothing interesting.
+            //~ player info window: 1s - name, 2s - gender '|' - field separator.
+            mvwprintw( w_tip, point_zero, _( " %1$s | %2$s" ), name,
+                       male ? _( "Male" ) : _( "Female" ) );
+        } else {
+            mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                       male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
         }
-        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), race );
-    } else if( prof == nullptr || prof == profession::generic() ) {
-        // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s - gender '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ) );
     } else {
         mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
+                   male ? _( "Male" ) : _( "Female" ), g->u.custom_profession );
     }
 
     input_context ctxt( "PLAYER_INFO" );
@@ -1343,6 +1362,7 @@ void player::disp_info()
     ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training" ) );
+    ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
@@ -1390,6 +1410,56 @@ void player::disp_info()
     // and "hover" over different items for more info.
     do {
         werase( w_info );
+
+        if( action == "CHANGE_PROFESSION_NAME" ) {
+            string_input_popup popup;
+            popup.title( _( "Profession Name: " ) )
+            .width( 25 )
+            .text( "" )
+            .max_length( 25 )
+            .query();
+
+            g->u.custom_profession = popup.text();
+
+            werase( w_tip );
+
+            g->refresh_all();
+
+            draw_grid_borders( w_grid_top, w_grid_skill, w_grid_trait, w_grid_bionics, w_grid_effect,
+                               info_win_size_y, infooffsetybottom, skill_win_size_y + 1, trait_win_size_y + 1,
+                               bionics_win_size_y + 1, effect_win_size_y + 1 );
+
+            // Print name and header
+            if( g->u.custom_profession.empty() ) {
+                if( crossed_threshold() ) {
+                    //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
+                    mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                               male ? _( "Male" ) : _( "Female" ), race );
+                } else if( prof == nullptr || prof == profession::generic() ) {
+                    // Regular person. Nothing interesting.
+                    //~ player info window: 1s - name, 2s - gender '|' - field separator.
+                    mvwprintw( w_tip, point_zero, _( " %1$s | %2$s" ), name,
+                               male ? _( "Male" ) : _( "Female" ) );
+                } else {
+                    mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                               male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
+                }
+            } else {
+                mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                           male ? _( "Male" ) : _( "Female" ), g->u.custom_profession );
+            }
+
+            right_print( w_tip, 0, 0, c_white, string_format(
+                             _( "[<color_yellow>%s</color>]" ),
+                             ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+
+            wrefresh( w_tip );
+
+            draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
+                                  line, traitslist, bionicslist, effect_name_and_text, skillslist, bionics_win_size_y,
+                                  effect_win_size_y, trait_win_size_y, skill_win_size_y );
+        }
+
         switch( curtab ) {
             case 1:
                 // Stats tab

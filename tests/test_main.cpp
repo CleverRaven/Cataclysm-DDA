@@ -215,7 +215,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 {
     std::string option_user_dir = extract_argument( arg_vec, "--user-dir=" );
     if( option_user_dir.empty() ) {
-        return "./";
+        return "./test_user_dir/";
     }
     if( !string_ends_with( option_user_dir, "/" ) ) {
         option_user_dir += "/";

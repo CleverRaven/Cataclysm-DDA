@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "color.h"
+#include "options.h"
 #include "sdl_wrappers.h"
 
 using color_pixel_function_pointer = SDL_Color( * )( const SDL_Color &color );
@@ -121,7 +122,8 @@ inline SDL_Color color_pixel_darken( const SDL_Color &color )
 
 }
 
-inline SDL_Color color_pixel_sepia( const SDL_Color &color )
+inline SDL_Color color_pixel_mixer( const SDL_Color &color, const float &gammav,
+                                    const SDL_Color &color_a, const SDL_Color &color_b )
 {
     if( is_black( color ) ) {
         return color;
@@ -129,20 +131,43 @@ inline SDL_Color color_pixel_sepia( const SDL_Color &color )
 
     /*
      *  Objective is to provide a gradient between two color points
-     *  (sepia_dark and sepia_light) based on the grayscale value.
-     *  This presents an effect intended to mimic a faded sepia photograph.
+     *  (color_a and color_b) based on the grayscale value.
      */
 
-    const SDL_Color sepia_dark = { 39, 23, 19, color.a};
-    const SDL_Color sepia_light = { 241, 220, 163, color.a};
-
     const Uint8 av = average_pixel_color( color );
-    const float gammav = 1.6;
     const float pv = av / 255.0;
     const Uint8 finalv =
         std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 
-    return mix_colors( sepia_dark, sepia_light, finalv );
+    return mix_colors( color_a, color_b, finalv );
+}
+
+inline SDL_Color color_pixel_sepia_light( const SDL_Color &color )
+{
+    const SDL_Color dark = { 39, 23, 19, color.a };
+    const SDL_Color light = { 241, 220, 163, color.a };
+    return color_pixel_mixer( color, 1.6f, dark, light );
+}
+
+inline SDL_Color color_pixel_sepia_dark( const SDL_Color &color )
+{
+    const SDL_Color dark = { 39, 23, 19, color.a };
+    const SDL_Color light = { 70, 66, 60, color.a };
+    return color_pixel_mixer( color, 1.0f, dark, light );
+}
+
+inline SDL_Color color_pixel_blue_dark( const SDL_Color &color )
+{
+    const SDL_Color dark = { 19, 23, 39, color.a };
+    const SDL_Color light = { 60, 66, 70, color.a };
+    return color_pixel_mixer( color, 1.0f, dark, light );
+}
+
+inline SDL_Color color_pixel_custom( const SDL_Color &color )
+{
+    const SDL_Color dark = { static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_RED" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_GREEN" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_BLUE" ) ), color.a };
+    const SDL_Color light = { static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_RED" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_GREEN" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_BLUE" ) ), color.a };
+    return color_pixel_mixer( color, get_option<float>( "MEMORY_GAMMA" ), dark, light );
 }
 
 SDL_Color curses_color_to_SDL( const nc_color &color );

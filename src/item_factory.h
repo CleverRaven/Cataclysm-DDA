@@ -26,10 +26,10 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
-bool item_is_blacklisted( const std::string &id );
+bool item_is_blacklisted( const itype_id &id );
 
-using Item_tag = std::string;
 using Group_tag = std::string;
+using item_action_id = std::string;
 using Item_list = std::vector<item>;
 
 class Item_factory;
@@ -41,11 +41,11 @@ extern std::unique_ptr<Item_factory> item_controller;
 class migration
 {
     public:
-        std::string id;
-        std::string replace;
+        itype_id id;
+        itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
-        std::set<std::string> contents;
+        std::set<itype_id> contents;
 };
 
 /**
@@ -137,7 +137,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag &group_id, const Item_tag &item_id, int chance );
+        bool add_item_to_group( const Group_tag &group_id, const itype_id &item_id, int chance );
         /*@}*/
 
         /**
@@ -158,7 +158,6 @@ class Item_factory
         void load_tool_armor( const JsonObject &jo, const std::string &src );
         void load_book( const JsonObject &jo, const std::string &src );
         void load_comestible( const JsonObject &jo, const std::string &src );
-        void load_container( const JsonObject &jo, const std::string &src );
         void load_engine( const JsonObject &jo, const std::string &src );
         void load_wheel( const JsonObject &jo, const std::string &src );
         void load_fuel( const JsonObject &jo, const std::string &src );
@@ -168,6 +167,16 @@ class Item_factory
         void load_generic( const JsonObject &jo, const std::string &src );
         void load_bionic( const JsonObject &jo, const std::string &src );
         /*@}*/
+
+        /**
+          *  a temporary function to aid in nested container migration of magazine and gun json
+          *  - creates a magazine pocket if none is specified and the islot is loaded
+          */
+        void check_and_create_magazine_pockets( itype &def );
+        /**
+         * adds the pockets that are not encoded in json - CORPSE, MOD, etc.
+         */
+        void add_special_pockets( itype &def );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         void finalize();
@@ -211,7 +220,7 @@ class Item_factory
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
-        bool has_iuse( const std::string &type ) const {
+        bool has_iuse( const item_action_id &type ) const {
             return iuse_function_list.find( type ) != iuse_function_list.end();
         }
 
@@ -229,7 +238,7 @@ class Item_factory
         /**
          * Create a new (and currently unused) item type id.
          */
-        Item_tag create_artifact_id() const;
+        itype_id create_artifact_id() const;
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
@@ -237,7 +246,7 @@ class Item_factory
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;
 
-        std::map<const std::string, itype> m_abstracts;
+        std::map<itype_id, itype> m_abstracts;
 
         std::unordered_map<itype_id, itype> m_templates;
 
@@ -280,12 +289,8 @@ class Item_factory
                                  const std::string &member, const std::string &src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_container &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_brewable &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_armor &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_pet_armor &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_book &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_engine &slot, const JsonObject &jo, const std::string &src );
         void load( islot_wheel &slot, const JsonObject &jo, const std::string &src );
@@ -295,12 +300,12 @@ class Item_factory
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
         void load( islot_battery &slot, const JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_ammo &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_seed &slot, const JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, const std::string &src );
 
         //json data handlers
+        void emplace_usage( std::map<std::string, use_function> &container, const std::string &iuse_id );
+
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
                                         std::map<std::string, use_function> &use_methods );
 
@@ -345,7 +350,7 @@ class Item_factory
         void finalize_post( itype &obj );
 
         //iuse stuff
-        std::map<Item_tag, use_function> iuse_function_list;
+        std::map<item_action_id, use_function> iuse_function_list;
 
         void add_iuse( const std::string &type, use_function_pointer f );
         void add_iuse( const std::string &type, use_function_pointer f,

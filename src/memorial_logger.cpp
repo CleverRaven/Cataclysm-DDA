@@ -323,8 +323,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -343,8 +341,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -441,7 +437,7 @@ void memorial_logger::notify( const cata::event &e )
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( part ) );
+                     body_part_name( convert_bp( part ).id() ) );
             }
             break;
         }
@@ -1021,6 +1017,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
+        case event_type::character_wakes_up:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

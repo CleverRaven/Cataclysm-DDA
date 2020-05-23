@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Graphical_Overmap_Magiclysm",
+    "name": "Graphical Overmap Magiclysm",
+    "authors": [ "Nphyx" ],
+    "maintainers": [ "Nphyx" ],
+    "description": "Magiclysm support for Graphical Overmap.",
+    "category": "graphical",
+    "dependencies": [ "dda", "Graphical_Overmap", "magiclysm" ],
+    "obsolete": false
+  }
+]

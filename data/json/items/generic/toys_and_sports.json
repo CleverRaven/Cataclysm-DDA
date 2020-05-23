@@ -12,14 +12,17 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_disposable_cell",
           "light_disposable_cell",
           "light_minus_battery_cell",
@@ -28,9 +31,8 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "creepy_doll",
@@ -45,14 +47,17 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_disposable_cell",
           "light_disposable_cell",
           "light_minus_battery_cell",
@@ -61,9 +66,23 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
+  },
+  {
+    "id": "shuttlecock",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "badminton shuttlecock", "str_pl": "shuttlecocks" },
+    "description": "A high-drag projectile used in the sport of badminton.",
+    "weight": "5 g",
+    "volume": "600 ml",
+    "price": 200,
+    "price_postapoc": 0,
+    "material": [ "rubber", "plastic" ],
+    "symbol": "-",
+    "color": "white",
+    "to_hit": -5
   },
   {
     "id": "golf_tee",
@@ -169,7 +188,7 @@
     "description": "A high-quality indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "price_postapoc": 10,
-    "material": "leather",
+    "material": "rubber",
     "weight": "800 g",
     "volume": "1 L",
     "bashing": 6,
@@ -180,12 +199,12 @@
     "id": "indoor_volleyball",
     "symbol": "*",
     "color": "white",
-    "name": "volleyball",
+    "name": { "str": "volleyball" },
     "category": "other",
     "description": "A standard regulation volleyball.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "leather",
+    "material": "rubber",
     "weight": "260 g",
     "volume": "1 L",
     "bashing": 4,
@@ -196,12 +215,12 @@
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",
-    "name": "beach volleyball",
+    "name": { "str": "beach volleyball", "str_pl": "volleyballs" },
     "category": "other",
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
     "price": 1200,
     "price_postapoc": 10,
-    "material": "leather",
+    "material": "rubber",
     "weight": "280 g",
     "volume": "1 L",
     "bashing": 4,
@@ -217,7 +236,7 @@
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": "rubber",
     "weight": "170 g",
     "volume": "250 ml",
     "bashing": 7,

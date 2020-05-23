@@ -57,6 +57,8 @@
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
+static const itype_id itype_water( "water" );
+
 // Pickup helper functions
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -157,8 +159,8 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name() );
     }
     if( it.is_bucket_nonempty() ) {
-        amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
-                        it.contents.front().tname(), it.display_name() );
+        amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
+                        it.tname(), it.display_name() );
     }
 
     amenu.query();
@@ -260,8 +262,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     bool did_prompt = false;
-    newit.charges = u.i_add_to_container( newit, false );
-    if( newit.is_ammo() && newit.charges == 0 ) {
+    if( newit.count_by_charges() ) {
+        newit.charges -= u.i_add( newit ).charges;
+    }
+    if( newit.is_ammo() && newit.charges <= 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.is_frozen_liquid() ) {
@@ -279,7 +283,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             option = CANCEL;
         }
-    } else if( newit.is_bucket() && !newit.is_container_empty() ) {
+    } else if( newit.is_bucket_nonempty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
                                          newit.display_name() );
@@ -288,7 +292,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             option = CANCEL;
         }
-    } else if( !u.can_pickVolume( newit ) ) {
+    } else if( !u.can_stash( newit ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
                                          newit.display_name() );
@@ -366,7 +370,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 {
     bool got_water = false;
     bool weight_is_okay = ( g->u.weight_carried() <= g->u.weight_capacity() );
-    bool volume_is_okay = ( g->u.volume_carried() <= g->u.volume_capacity() );
     bool offered_swap = false;
 
     // Map of items picked up so we can output them all at the end and
@@ -399,9 +402,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
     if( weight_is_okay && g->u.weight_carried() > g->u.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
-    }
-    if( volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() ) {
-        add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
 
     return !problem;
@@ -451,7 +451,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
+                if( maybe_water.typeId() != itype_water  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }
@@ -501,15 +501,19 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
-        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         if( from_vehicle ) {
-            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( vehicle_cursor( *veh, cargo_part ), &*here.front() ) },
+            { 0 },
+            cata::nullopt
+                                                   ) ) );
         } else {
-            g->u.activity.targets.emplace_back( map_cursor( p ), &*here.front() );
-            g->u.activity.coords.push_back( g->u.pos() );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            {item_location( map_cursor( p ), &*here.front() ) },
+            { 0 },
+            g->u.pos()
+                                                   ) ) );
         }
-        // auto-pickup means pick up all.
-        g->u.activity.values.push_back( 0 );
         return;
     }
 
@@ -976,12 +980,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-    g->u.activity.coords.push_back( g->u.pos() );
-    if( min == -1 ) {
-        // Auto pickup will need to auto resume since there can be several of them on the stack.
-        g->u.activity.auto_resume = true;
-    }
     std::vector<std::pair<item_stack::iterator, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
         const pickup_count &selection = getitem[i];
@@ -1010,13 +1008,22 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
     }
 
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
         if( from_vehicle ) {
-            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
+            target_items.emplace_back( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
         } else {
-            g->u.activity.targets.emplace_back( map_cursor( p ), &*iter_qty.first );
+            target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
         }
-        g->u.activity.values.push_back( iter_qty.second );
+        quantities.push_back( iter_qty.second );
+    }
+
+    g->u.assign_activity( player_activity( pickup_activity_actor( target_items, quantities,
+                                           g->u.pos() ) ) );
+    if( min == -1 ) {
+        // Auto pickup will need to auto resume since there can be several of them on the stack.
+        g->u.activity.auto_resume = true;
     }
 
     g->reenter_fullscreen();
@@ -1039,19 +1046,11 @@ void show_pickup_message( const PickupMap &mapPickup )
 bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
-        const item &it_cont = it.contents.front();
-        int num_charges = it_cont.charges;
-        while( !it.spill_contents( c ) ) {
-            if( num_charges > it_cont.charges ) {
-                num_charges = it_cont.charges;
-            } else {
-                break;
-            }
-        }
+        it.contents.spill_open_pockets( c );
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
-        if( it.is_bucket_nonempty() ) {
+        if( !it.contents.empty() ) {
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),

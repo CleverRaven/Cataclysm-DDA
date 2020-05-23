@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": "birdshot paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of birdshot.  Used mostly for hunting small game or fowl.",
-    "damage": { "damage_type": "stab", "amount": 10 },
+    "damage": { "damage_type": "bullet", "amount": 10 },
     "proportional": { "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
   },
@@ -15,7 +15,13 @@
     "type": "AMMO",
     "name": { "str": "pyrotechnic paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of flammable metals.  When fired, burning chunks of metal and sparks will shoot out of the barrel, igniting everything in their path.",
-    "proportional": { "damage": { "damage_type": "stab", "amount": 0.2 }, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 0.2 },
+      "recoil": 0.6,
+      "loudness": 0.8,
+      "dispersion": 1.2,
+      "range": 0.5
+    },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
@@ -29,7 +35,7 @@
     "material": [ "paper", "powder", "lead" ],
     "color": "white",
     "ammo_type": "shotpaper",
-    "proportional": { "damage": { "damage_type": "stab", "amount": 0.8 }, "recoil": 0.8, "loudness": 0.8 },
+    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.8 }, "recoil": 0.8, "loudness": 0.8 },
     "delete": { "effects": [ "RECYCLED" ], "casing": "shot_hull" }
   },
   {
@@ -38,7 +44,7 @@
     "type": "AMMO",
     "name": { "str": ".62 paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and a .605 inch lead ball.",
-    "relative": { "range": 12, "damage": { "damage_type": "stab", "armor_penetration": 4 } },
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetration": 4 } },
     "delete": { "effects": [ "SHOT" ] },
     "dispersion": 100
   }

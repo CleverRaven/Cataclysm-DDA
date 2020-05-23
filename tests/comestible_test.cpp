@@ -29,7 +29,7 @@ static int comp_calories( const std::vector<item_comp> &components )
     int calories = 0;
     for( item_comp it : components ) {
         const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
-        if( temp && temp->cooks_like.empty() ) {
+        if( temp && temp->cooks_like.is_empty() ) {
             calories += temp->default_nutrition.kcal * it.count;
         } else if( temp ) {
             const itype *cooks_like = item::find_type( temp->cooks_like );
@@ -108,7 +108,8 @@ static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutati
 
 static item food_or_food_container( const item &it )
 {
-    return it.is_food_container() ? it.contents.front() : it;
+    // if it contains an item, it's a food container. it will also contain only one item.
+    return it.contents.num_item_stacks() > 0 ? it.contents.only_item() : it;
 }
 
 TEST_CASE( "recipe_permutations", "[recipe]" )

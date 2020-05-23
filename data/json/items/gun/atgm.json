@@ -13,7 +13,7 @@
     "to_hit": -6,
     "bashing": 12,
     "material": "steel",
-    "ammo": "atgm",
+    "ammo": [ "atgm" ],
     "skill": "launcher",
     "range": 15,
     "dispersion": 50,
@@ -23,6 +23,7 @@
     "reload": 600,
     "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "atgm": 1 } } ]
   }
 ]

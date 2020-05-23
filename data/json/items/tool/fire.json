@@ -11,13 +11,17 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": { "type": "firestarter" },
-    "magazines": [
-      [
-        "battery",
-        [
+    "flags": [ "FIRESTARTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -26,10 +30,8 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
-    ],
-    "flags": [ "FIRESTARTER" ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "fire_drill",
@@ -93,16 +95,17 @@
     "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": "14 g",
     "volume": "14 ml",
-    "price": 100,
-    "price_postapoc": 100,
+    "price": 10,
+    "price_postapoc": 10,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 100 } } ],
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "NO_UNLOAD" ]
   },
   {
     "id": "magnifying_glass",
@@ -135,8 +138,9 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "ref_lighter",
@@ -146,11 +150,11 @@
     "weight": "20 g",
     "volume": "31 ml",
     "price": 3000,
-    "price_postapoc": 250,
+    "price_postapoc": 150,
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -176,11 +180,11 @@
     "weight": "20 g",
     "volume": "31 ml",
     "price": 3000,
-    "price_postapoc": 250,
+    "price_postapoc": 150,
     "material": "aluminum",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -210,7 +214,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "tinder",
+    "ammo": [ "tinder" ],
     "max_charges": 100,
     "use_action": {
       "target": "tinderbox_on",
@@ -235,7 +239,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "tinder",
+    "ammo": [ "tinder" ],
     "max_charges": 100,
     "turns_per_charge": 600,
     "revert_to": "tinderbox",

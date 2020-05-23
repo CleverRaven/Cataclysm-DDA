@@ -1030,12 +1030,12 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "#########",
-        "#aaaaaaa#",
+        "#aafffaa#",
         "#c..A..b#",
         "#c.....b#",
         "#c.HXW..+",
         "#c.....f#",
-        "#c.e.r.f#",
+        "#e.....f#",
         "#eeerrrr#",
         "#########"
       ],
@@ -1052,12 +1052,18 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
+      "place_loot": [
+        { "item": "jar_3l_glass", "x": 7, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "pot_canning", "x": 7, "y": 5, "chance": 80 },
+        { "item": "hotplate", "x": 7, "y": 6, "chance": 50 },
+        { "item": "jar_glass", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
+      ],
       "items": {
-        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
-        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
-        "c": { "item": "condiments", "chance": 50, "repeat": [ 2, 8 ] },
-        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 1, 2 ] },
+        "c": { "item": "condiments", "chance": 50, "repeat": [ 1, 4 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 1, 4 ] }
       }
     }
   },
@@ -1071,12 +1077,12 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "#########",
-        "#aaaaaaa#",
+        "#aafffaa#",
         "#b.A...c#",
         "#b..H..c#",
         "+...X..c#",
         "#f..W..c#",
-        "#f.....c#",
+        "#f.....e#",
         "#eeerrrr#",
         "#########"
       ],
@@ -1093,12 +1099,18 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "mead", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
+      "place_loot": [
+        { "item": "jar_3l_glass", "x": 1, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "pot_canning", "x": 1, "y": 5, "chance": 80 },
+        { "item": "hotplate", "x": 1, "y": 6, "chance": 50 },
+        { "item": "jar_glass", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
+      ],
       "items": {
-        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
-        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
-        "c": { "item": "SUS_pantry", "chance": 50, "repeat": [ 2, 8 ] },
-        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 1, 2 ] },
+        "c": { "item": "condiments", "chance": 50, "repeat": [ 1, 4 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 1, 4 ] }
       }
     }
   },
@@ -1112,7 +1124,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "#########",
-        "#aaaaaaa#",
+        "#aafffaa#",
         "#b.A...c#",
         "#b..f..c#",
         "#W..f..c#",
@@ -1135,12 +1147,18 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
+      "place_loot": [
+        { "item": "jar_3l_glass", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "pot_canning", "x": 4, "y": 4, "chance": 80 },
+        { "item": "hotplate", "x": 4, "y": 3, "chance": 50 },
+        { "item": "jar_glass", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
+      ],
       "items": {
-        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
-        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
-        "c": { "item": "SUS_pantry", "chance": 50, "repeat": [ 2, 8 ] },
-        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 1, 2 ] },
+        "c": { "item": "condiments", "chance": 50, "repeat": [ 1, 4 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 1, 4 ] }
       }
     }
   },
@@ -1154,13 +1172,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "####+####",
-        "#aaa.aaa#",
+        "#aae.eaa#",
         "#b.A...c#",
         "#b..f..c#",
         "#H..f..c#",
         "#X..fA.c#",
-        "#W.....c#",
-        "#eeerrrr#",
+        "#W.....r#",
+        "#eefffrr#",
         "#########"
       ],
       "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
@@ -1176,12 +1194,18 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "vinegar", "amount": [ 100, 1000 ] }, "W": { "liquid": "burdock_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "mead", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
+      "place_loot": [
+        { "item": "jar_3l_glass", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "pot_canning", "x": 4, "y": 4, "chance": 80 },
+        { "item": "hotplate", "x": 4, "y": 3, "chance": 50 },
+        { "item": "jar_glass", "x": [ 3, 5 ], "y": 7, "chance": 60, "repeat": [ 0, 4 ] }
+      ],
       "items": {
-        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
-        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
-        "c": { "item": "SUS_pantry", "chance": 50, "repeat": [ 2, 8 ] },
-        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 1, 2 ] },
+        "c": { "item": "condiments", "chance": 50, "repeat": [ 1, 4 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 1, 4 ] }
       }
     }
   },
@@ -1378,6 +1402,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_N",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1460,6 +1485,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_S",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1534,6 +1560,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_E",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1608,6 +1635,7 @@
     "method": "json",
     "//": "a nested map for basements",
     "nested_mapgen_id": "room_6x6_guns_W",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -1742,10 +1770,17 @@
       },
       "furniture": { "%": [ [ "f_piano", 5 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
-        { "item": "stereo", "x": 6, "y": 2, "chance": 100 },
         { "item": "laptop", "x": 6, "y": 3, "chance": 100 },
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
-        { "item": "amplifier_head", "x": 1, "y": 5, "chance": 100 }
+        { "item": "amplifier_head", "x": 1, "y": 5, "chance": 100 },
+        { "item": "mixer_music", "x": 6, "y": 2, "chance": 100 },
+        { "item": "guitar_stand", "x": 3, "y": 3, "chance": 100 },
+        { "item": "guitar_stand", "x": 0, "y": 5, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 5, "y": 5, "chance": 100 },
+        { "item": "microphone_xlr_generic", "x": 5, "y": 5, "chance": 100 },
+        { "item": "headphones_circumaural", "x": 6, "y": 2, "chance": 100 },
+        { "item": "cable_instrument", "x": 3, "y": [ 0, 5 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_xlr", "x": [ 0, 6 ], "y": 5, "chance": 80, "repeat": [ 3, 6 ] }
       ],
       "items": {
         "h": [ { "item": "mussto_stringinst", "chance": 100 } ],
@@ -3230,7 +3265,7 @@
       "mapgensize": [ 10, 10 ],
       "rows": [
         "||||++||||",
-        "|HHy  ==s|",
+        "|HH   ==s|",
         "|l   A Es|",
         "|= Ysssss|",
         "|:)::::::|",
@@ -3256,7 +3291,19 @@
         { "item": "laptop", "x": 8, "y": 2, "chance": 100 },
         { "item": "amplifier_head", "x": [ 5, 6 ], "y": 3, "chance": 100 },
         { "item": "amplifier_head", "x": 4, "y": 5, "chance": 100 },
-        { "item": "amplifier_head", "x": 6, "y": 5, "chance": 100 }
+        { "item": "amplifier_head", "x": 6, "y": 5, "chance": 100 },
+        { "item": "mixer_music", "x": [ 4, 7 ], "y": 3, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 7, "y": [ 5, 8 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 4, "y": 7, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 7, "y": 5, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 2, "y": 5, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 3, "y": 1, "chance": 100 },
+        { "item": "microphone_xlr_generic", "x": 7, "y": 5, "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "headphones_circumaural", "x": [ 4, 6 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "headphones_circumaural", "x": [ 4, 7 ], "y": 3, "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "cable_instrument", "x": 1, "y": [ 5, 8 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_instrument", "x": 8, "y": [ 5, 8 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_xlr", "x": [ 1, 5 ], "y": 8, "chance": 80, "repeat": [ 3, 6 ] }
       ],
       "items": {
         "h": [ { "item": "mussto_stringinst", "chance": 100 } ],
@@ -3280,7 +3327,7 @@
         "|:)::::::|",
         "|= Ysssss|",
         "|l   A Es|",
-        "|HHy  ==s|",
+        "|HH   ==s|",
         "||||++||||"
       ],
       "palettes": [ "standard_domestic_palette" ],
@@ -3299,7 +3346,20 @@
         { "item": "laptop", "x": 8, "y": 7, "chance": 100 },
         { "item": "amplifier_head", "x": [ 5, 6 ], "y": 6, "chance": 100 },
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
-        { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 }
+        { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
+        { "item": "mixer_music", "x": [ 4, 7 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 2, "y": 4, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 3, "y": 8, "chance": 100 },
+        { "item": "microphone_xlr_generic", "x": 7, "y": 4, "chance": 80 },
+        { "item": "microphone_xlr_generic", "x": 2, "y": 4, "chance": 80 },
+        { "item": "headphones_circumaural", "x": [ 4, 6 ], "y": 3, "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "headphones_circumaural", "x": [ 4, 7 ], "y": 6, "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "cable_instrument", "x": 1, "y": [ 1, 4 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_instrument", "x": 8, "y": [ 1, 4 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_xlr", "x": [ 1, 5 ], "y": 1, "chance": 80, "repeat": [ 3, 6 ] }
       ],
       "items": {
         "h": [ { "item": "mussto_stringinst", "chance": 100 } ],
@@ -3342,7 +3402,20 @@
         { "item": "laptop", "x": 1, "y": 7, "chance": 100 },
         { "item": "amplifier_head", "x": [ 2, 3 ], "y": 6, "chance": 100 },
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
-        { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 }
+        { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
+        { "item": "mixer_music", "x": [ 1, 4 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 2, "y": 4, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 4, "y": 8, "chance": 100 },
+        { "item": "microphone_xlr_generic", "x": 7, "y": 4, "chance": 80 },
+        { "item": "microphone_xlr_generic", "x": 2, "y": 4, "chance": 80 },
+        { "item": "headphones_circumaural", "x": [ 4, 6 ], "y": 3, "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "headphones_circumaural", "x": [ 1, 4 ], "y": 6, "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "cable_instrument", "x": 1, "y": [ 1, 4 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_instrument", "x": 8, "y": [ 1, 4 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_xlr", "x": [ 1, 5 ], "y": 1, "chance": 80, "repeat": [ 3, 6 ] }
       ],
       "items": {
         "h": [ { "item": "mussto_stringinst", "chance": 100 } ],
@@ -3385,7 +3458,20 @@
         { "item": "laptop", "x": 8, "y": 7, "chance": 100 },
         { "item": "amplifier_head", "x": [ 5, 6 ], "y": 6, "chance": 100 },
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
-        { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 }
+        { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
+        { "item": "mixer_music", "x": [ 4, 7 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 2, "y": 4, "chance": 100 },
+        { "item": "mic_stand_tall", "x": 6, "y": 8, "chance": 100 },
+        { "item": "microphone_xlr_generic", "x": 7, "y": 4, "chance": 80 },
+        { "item": "microphone_xlr_generic", "x": 2, "y": 4, "chance": 80 },
+        { "item": "headphones_circumaural", "x": [ 4, 6 ], "y": 3, "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "headphones_circumaural", "x": [ 4, 7 ], "y": 6, "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "cable_instrument", "x": 1, "y": [ 1, 4 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_instrument", "x": 8, "y": [ 1, 4 ], "chance": 80, "repeat": [ 3, 6 ] },
+        { "item": "cable_xlr", "x": [ 1, 5 ], "y": 1, "chance": 80, "repeat": [ 3, 6 ] }
       ],
       "items": {
         "h": [ { "item": "mussto_stringinst", "chance": 100 } ],
@@ -3833,7 +3919,7 @@
       "mapgensize": [ 10, 10 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "||||||+|||",
+        "||||||||||",
         "|T~~~  Y!|",
         "|  h     |",
         "+        |",
@@ -3912,6 +3998,213 @@
         ],
         "!": [ { "item": "book_gunref", "chance": 80, "repeat": [ 1, 2 ] } ]
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "11x11_gym_open",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        "           ",
+        "      $ $  ",
+        "     i$ $  ",
+        "     i!!!  ",
+        "     i$ $  ",
+        "      $ $  ",
+        "      ===  ",
+        "   &  =%=  ",
+        " &&&  ===  ",
+        "           "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "=": "t_carpet_green", "%": "t_carpet_green" },
+      "furniture": { "&": "f_barricade_road", "%": "f_floor_canvas", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
+      "place_loot": [
+        { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "wheel_wide", "x": 1, "y": 1, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 2, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 3, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 4, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 5, "chance": 100 },
+        { "item": "wheel_wide", "x": 2, "y": 6, "chance": 100 },
+        { "item": "wheel_wide", "x": 1, "y": 7, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "11x11_recroom_open",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        " T=====!== ",
+        " x====h=== ",
+        " x===ss=== ",
+        " !==hssh== ",
+        " ====ss=== ",
+        " =====h=== ",
+        " y======== ",
+        " Hll====== ",
+        " HHHH=A%== ",
+        "           "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "!": "t_carpet_green",
+        "h": "t_carpet_green",
+        "s": "t_carpet_green",
+        "y": "t_carpet_green",
+        "A": "t_carpet_green",
+        "%": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "T": "t_carpet_green"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
+      "place_loot": [ { "item": "stereo", "x": 1, "y": 3, "chance": 100 }, { "item": "deck_of_cards", "x": 5, "y": 4, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "11x11_recroom_open",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "           ",
+        " T=====!== ",
+        " x====h=== ",
+        " x===ss=== ",
+        " !==hssh== ",
+        " ===hss=== ",
+        " =====h=== ",
+        " y======== ",
+        " Hll====== ",
+        " HHHH=A%== ",
+        "           "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "=": "t_carpet_purple",
+        "x": "t_carpet_purple",
+        "!": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "s": "t_carpet_purple",
+        "y": "t_carpet_purple",
+        "H": "t_carpet_purple",
+        "A": "t_carpet_purple",
+        "%": "t_carpet_purple",
+        "l": "t_carpet_purple",
+        "T": "t_carpet_purple"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "stereo", "x": 1, "y": 3, "chance": 100 },
+        { "item": "dnd_handbook", "x": 5, "y": 3, "chance": 100 },
+        { "item": "novel_fantasy", "x": [ 5, 6 ], "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "character_sheet", "x": [ 5, 6 ], "y": [ 3, 5 ], "chance": 80, "repeat": [ 1, 5 ] },
+        { "item": "metal_RPG_die", "x": 6, "y": 3, "chance": 10 },
+        { "item": "RPG_die", "x": [ 5, 6 ], "y": [ 3, 5 ], "chance": 90, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_N",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||+|||||",
+        "|ffh     F|",
+        "|h    41O3|",
+        "|Hl  x|||||",
+        "|Hl  x|t89|",
+        "|TEs  +  S|",
+        "||||| |||||",
+        "|d  + +  R|",
+        "|@ y|+| hr|",
+        "|@IT|q|Y r|",
+        "|||||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 5, "y": 3, "chance": 50 }, { "item": "stereo", "x": 5, "y": 4, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_S",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||||||||",
+        "|@IT|U|Y r|",
+        "|@ y|+| hr|",
+        "|d  + +  R|",
+        "||||| |||||",
+        "|TEs  +  S|",
+        "|Hl  x|t89|",
+        "|Hl  x|||||",
+        "|h   Y41O3|",
+        "|ffh     F|",
+        "|||||+|||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 5, "y": 6, "chance": 50 }, { "item": "stereo", "x": 5, "y": 7, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_E",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||||||||",
+        "|@@I|s E T|",
+        "|@@ |Hl  x|",
+        "|D  |Hl  x|",
+        "|||+|  A y|",
+        "|Q+   ff  +",
+        "|||+|+||3 |",
+        "|E  | t|4 |",
+        "|I  | 8|O |",
+        "|@@d|S9|F1|",
+        "|||||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_11x11_apartment_W",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "|||||||||||",
+        "|@@I|s E T|",
+        "|@@ |Hl  x|",
+        "|D  |Hl  x|",
+        "|||+|  A y|",
+        "+     ff  |",
+        "|||+|+||3 |",
+        "|E  | t|4 |",
+        "|I  | 8|O |",
+        "|@@d|S9|F1|",
+        "|||||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_loot": [ { "item": "television", "x": 9, "y": 2, "chance": 50 }, { "item": "stereo", "x": 9, "y": 3, "chance": 50 } ]
     }
   }
 ]

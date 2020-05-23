@@ -1,0 +1,72 @@
+[
+  {
+    "id": "TALK_FRIEND_CONVERSATION",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RECENT_MUTATION_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RECENT_MUTATION_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_4_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_4" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_5_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_5" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RADIATION_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RADIATION_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RADIATION_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RADIATION_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_SELFTEST_STORY1",
+        "condition": { "npc_has_trait": "BGSS_SELFTEST" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_VATGROWN_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_VATGROWN_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CRIMINAL_EXPERIMENT_STORY1",
+        "condition": { "npc_has_trait": "BGSS_CRIMINAL_EXPERIMENT" },
+        "switch": true
+      }
+]

@@ -95,6 +95,13 @@
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
+    "id": "potion_starter_superior",
+    "copy-from": "chem_ethanol",
+    "type": "COMESTIBLE",
+    "name": "superior potion starter",
+    "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
+  },
+  {
     "id": "adrenal_gland_large",
     "copy-from": "meat",
     "type": "COMESTIBLE",
@@ -263,5 +270,15 @@
     "count": 50,
     "stack_size": 10,
     "fuel": { "energy": 3 }
+  },
+  {
+    "id": "mana_dust",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "blue",
+    "name": "mana dust",
+    "description": "Crystallized mana in powdered form.  It faintly pulses with arcane energy.",
+    "material": "powder",
+    "volume": "100 ml"
   }
 ]

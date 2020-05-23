@@ -19,8 +19,7 @@
       "hostile_msg": "The brain blaster swivels towards you.  You feel a buzzing in the air.",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "cooking",
-      "skill2": "computer"
+      "skills": [ "cooking", "computer" ]
     }
   },
   {
@@ -44,8 +43,7 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -71,8 +69,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -98,8 +95,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -124,8 +120,7 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -192,7 +187,13 @@
     "material": "alien_resin",
     "symbol": ";",
     "color": "green",
-    "use_action": { "type": "place_monster", "monster_id": "afs_mon_sentinel_lx", "difficulty": 4, "moves": 100, "skill2": "computer" }
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "afs_mon_sentinel_lx",
+      "difficulty": 4,
+      "moves": 100,
+      "skills": [ "computer" ]
+    }
   },
   {
     "id": "bot_bloodhound_drone",
@@ -216,8 +217,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

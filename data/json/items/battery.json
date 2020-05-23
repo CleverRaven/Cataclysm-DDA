@@ -22,6 +22,7 @@
     "category": "spare_parts",
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
+    "ascii_picture": "ultra_light_battery",
     "weight": "5 g",
     "volume": "1 ml",
     "price": 1500,
@@ -29,10 +30,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ]
   },
   {
     "id": "light_minus_atomic_battery_cell",
@@ -40,6 +42,7 @@
     "category": "spare_parts",
     "name": { "str": "ultra-light plutonium fuel battery", "str_pl": "ultra-light plutonium fuel batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stablize an exotic nanocompound.  It is universally compatible with small devices.  Although it stores a huge amount of power, it cannot be recharged.",
+    "ascii_picture": "ultra_light_battery_plut",
     "weight": "80 g",
     "volume": "1 ml",
     "price": 15000,
@@ -47,11 +50,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 500,
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "light_minus_disposable_cell",
@@ -66,11 +70,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 100,
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
   },
   {
     "id": "light_battery_cell",
@@ -78,6 +83,7 @@
     "category": "spare_parts",
     "name": { "str": "light battery", "str_pl": "light batteries" },
     "description": "This is a light battery cell, universally compatible with all kinds of small devices.",
+    "ascii_picture": "light_battery",
     "weight": "30 g",
     "volume": "25ml",
     "price": 3500,
@@ -85,10 +91,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
   },
   {
     "id": "light_plus_battery_cell",
@@ -103,10 +110,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 150 } } ]
   },
   {
     "id": "light_atomic_battery_cell",
@@ -114,6 +122,7 @@
     "category": "spare_parts",
     "name": { "str": "light plutonium fuel battery", "str_pl": "light plutonium fuel batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stabilize an exotic nanocompound.  It is universally compatible with all kinds of personal electronic devices.  Although it stores a huge amount of power, it cannot be recharged.",
+    "ascii_picture": "light_battery_plut",
     "weight": "160 g",
     "volume": "35ml",
     "price": 50000,
@@ -121,11 +130,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 1000,
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
   },
   {
     "id": "light_disposable_cell",
@@ -140,11 +150,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 300,
     "capacity": 300,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 300 } } ]
   },
   {
     "id": "medium_battery_cell",
@@ -152,6 +163,7 @@
     "category": "spare_parts",
     "name": { "str": "medium battery", "str_pl": "medium batteries" },
     "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.",
+    "ascii_picture": "medium_battery",
     "weight": "600 g",
     "volume": "450ml",
     "price": 10000,
@@ -159,10 +171,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "medium_plus_battery_cell",
@@ -177,10 +190,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 600,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 600 } } ]
   },
   {
     "id": "medium_atomic_battery_cell",
@@ -188,6 +202,7 @@
     "category": "spare_parts",
     "name": { "str": "medium plutonium fuel battery", "str_pl": "medium plutonium fuel batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stablize an exotic nanocompound.  It is universally compatible with all kinds of appliances and power tools.  Although it stores a huge amount of power, it cannot be recharged.",
+    "ascii_picture": "medium_battery_plut",
     "weight": "1000 g",
     "volume": "525ml",
     "price": 100000,
@@ -195,11 +210,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 5000,
     "capacity": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ]
   },
   {
     "id": "medium_disposable_cell",
@@ -214,11 +230,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 1200,
     "capacity": 1200,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1200 } } ]
   },
   {
     "id": "heavy_battery_cell",
@@ -226,6 +243,7 @@
     "category": "spare_parts",
     "name": { "str": "heavy battery", "str_pl": "heavy batteries" },
     "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",
+    "ascii_picture": "heavy_battery",
     "weight": "1000 g",
     "volume": "1225ml",
     "price": 10000,
@@ -233,10 +251,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
   },
   {
     "id": "heavy_plus_battery_cell",
@@ -251,10 +270,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 1250,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1250 } } ]
   },
   {
     "id": "heavy_atomic_battery_cell",
@@ -262,6 +282,7 @@
     "category": "spare_parts",
     "name": { "str": "heavy plutonium fuel battery", "str_pl": "heavy plutonium fuel batteries" },
     "description": "This battery uses a thin plutonium-244 rod to stablize an exotic nanocompound.  It is universally compatible with all kinds of industrial-grade equipment and large tools.  Although it stores a huge amount of power, it cannot be recharged.",
+    "ascii_picture": "heavy_battery_plut",
     "weight": "1600 g",
     "volume": "1500ml",
     "price": 100000,
@@ -269,11 +290,12 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 10000,
     "capacity": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ]
   },
   {
     "id": "huge_atomic_battery_cell",
@@ -288,11 +310,12 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "=",
     "color": "red",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 100000,
     "capacity": 100000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ]
   },
   {
     "id": "heavy_disposable_cell",
@@ -307,10 +330,11 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "count": 2500,
     "capacity": 2500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ]
   }
 ]

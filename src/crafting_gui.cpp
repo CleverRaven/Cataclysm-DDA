@@ -488,23 +488,14 @@ const recipe *select_crafting_recipe( int &batch_size )
             const int xpos = 30;
 
             if( display_mode == 0 ) {
-                auto player_skill = g->u.get_skill_level( current[line]->skill_used );
-                std::string difficulty_color =
-                    current[line]->difficulty > player_skill ? "yellow" : "green";
-                std::string primary_skill_level = string_format( "(%s/%s)", player_skill,
-                                                  current[line]->difficulty );
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Primary skill: <color_cyan>%s</color> <color_%s>%s</color>" ),
-                                   ( !current[line]->skill_used ? _( "N/A" ) :
-                                     current[line]->skill_used.obj().name() ),
-                                   difficulty_color,
-                                   ( !current[line]->skill_used ? "" : primary_skill_level )
-                                 ) );
+                    string_format( _( "Primary skill: %s" ),
+                                   current[line]->primary_skill_string( &g->u, false ) ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Other skills: %s" ),
-                                        current[line]->required_skills_string( &g->u ) );
+                                        current[line]->required_skills_string( &g->u, false, false ) );
 
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
@@ -937,6 +928,12 @@ const recipe *select_crafting_recipe( int &batch_size )
 
 std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
 {
+    auto compare_second =
+        []( const std::pair<itype_id, std::string> &a,
+    const std::pair<itype_id, std::string> &b ) {
+        return localized_compare( a.second, b.second );
+    };
+
     // current recipe components
     std::vector<std::pair<itype_id, std::string>> related_components;
     const requirement_data &req = current->simple_requirements();
@@ -945,25 +942,19 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
             related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
         }
     }
+    std::sort( related_components.begin(), related_components.end(), compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
     item tmp = current->create_result();
-    itype_id tid;
-    if( tmp.contents.empty() ) { // use this item
-        tid = tmp.typeId();
-    } else { // use the contained item
-        tid = tmp.contents.front().typeId();
-    }
+    // use this item
+    const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
     for( const auto &b : known_recipes ) {
         if( available.contains( b ) ) {
             related_results.push_back( { b->result(), b->result_name() } );
         }
     }
-    std::stable_sort( related_results.begin(), related_results.end(),
-    []( const std::pair<std::string, std::string> &a, const std::pair<std::string, std::string> &b ) {
-        return a.second < b.second;
-    } );
+    std::stable_sort( related_results.begin(), related_results.end(), compare_second );
 
     uilist rel_menu;
     int np_last = -1;

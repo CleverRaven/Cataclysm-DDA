@@ -67,12 +67,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "shotcanister",
-    "name": "shotcanisters",
-    "default": "shotcanister_scrap"
-  },
-  {
-    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
@@ -304,6 +298,24 @@
     "id": "lamp_oil",
     "name": "lamp oil",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "butane",
+    "name": "butane",
+    "default": "butane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "match",
+    "name": "match",
+    "default": "match"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen"
   },
   {
     "type": "ammunition_type",

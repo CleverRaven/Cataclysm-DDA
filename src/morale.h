@@ -58,6 +58,9 @@ class player_morale
         int get_total_positive_value() const;
         int get_total_negative_value() const;
 
+        /** Returns percieved pain. Only used in morale_test.cpp*/
+        int get_percieved_pain() const;
+
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
         void on_stat_change( const std::string &stat, int value );
@@ -109,7 +112,7 @@ class player_morale
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution();
+                double get_percent_contribution() const;
             private:
                 morale_type type;
                 const itype *item_type;
@@ -196,7 +199,7 @@ class player_morale
         };
         std::map<trait_id, mutation_data> mutations;
 
-        std::map<std::string, int> super_fancy_items;
+        std::map<itype_id, int> super_fancy_items;
 
         // Mutability is required for lazy initialization
         mutable int level;

@@ -58,26 +58,6 @@ bool tile_iso;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
-std::vector<options_manager::id_and_option> options_manager::lang_options = {
-    { "", translate_marker( "System language" ) },
-    // Note: language names are in their own language and are *not* translated at all.
-    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-    // http://en.wikipedia.org/wiki/List_of_language_names
-    { "en", no_translation( R"(English)" ) },
-    { "de", no_translation( R"(Deutsch)" ) },
-    { "es_AR", no_translation( R"(Español (Argentina))" ) },
-    { "es_ES", no_translation( R"(Español (España))" ) },
-    { "fr", no_translation( R"(Français)" ) },
-    { "hu", no_translation( R"(Magyar)" ) },
-    { "ja", no_translation( R"(日本語)" ) },
-    { "ko", no_translation( R"(한국어)" ) },
-    { "pl", no_translation( R"(Polski)" ) },
-    { "pt_BR", no_translation( R"(Português (Brasil))" )},
-    { "ru", no_translation( R"(Русский)" ) },
-    { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-    { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-};
-
 options_manager &get_options()
 {
     static options_manager single_instance;
@@ -1035,6 +1015,57 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
+std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
+{
+    std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
+                                         PATH_INFO::langdir(), true );
+    const std::string start_str = "mo/";
+    const std::size_t start_len = start_str.length();
+    const std::string end_str = "/LC_MESSAGES";
+    std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
+        const std::size_t start = dir.find( start_str ) + start_len;
+        const std::size_t len = dir.rfind( end_str ) - start;
+        dir = dir.substr( start, len );
+    } );
+    return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
+}
+
+std::vector<options_manager::id_and_option> options_manager::get_lang_options()
+{
+    std::vector<id_and_option> lang_options = {
+        { "", translate_marker( "System language" ) },
+        // Note: language names are in their own language and are *not* translated at all.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+        // http://en.wikipedia.org/wiki/List_of_language_names
+        { "en", no_translation( R"(English)" ) },
+        { "de", no_translation( R"(Deutsch)" ) },
+        { "es_AR", no_translation( R"(Español (Argentina))" ) },
+        { "es_ES", no_translation( R"(Español (España))" ) },
+        { "fr", no_translation( R"(Français)" ) },
+        { "hu", no_translation( R"(Magyar)" ) },
+        { "ja", no_translation( R"(日本語)" ) },
+        { "ko", no_translation( R"(한국어)" ) },
+        { "pl", no_translation( R"(Polski)" ) },
+        { "pt_BR", no_translation( R"(Português (Brasil))" )},
+        { "ru", no_translation( R"(Русский)" ) },
+        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
+    };
+
+    std::unordered_set<std::string> lang_list = get_langs_with_translation_files();
+
+    std::vector<id_and_option> options;
+
+    lang_list.insert( "" ); // for System language option
+    lang_list.insert( "en" ); // for English option
+
+    std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
+    [&lang_list]( const options_manager::id_and_option & pair ) {
+        return lang_list.count( pair.first );
+    } );
+    return options;
+}
+
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
@@ -1330,9 +1361,8 @@ void options_manager::add_options_interface()
         interface_page_.items_.emplace_back();
     };
 
-    // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
+         translate_marker( "Switch Language." ), options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
@@ -1766,12 +1796,61 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
-    translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
+    add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map overlay preset" ),
+    translate_marker( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
         { "color_pixel_darken", translate_marker( "Darkened" ) },
-        { "color_pixel_sepia", translate_marker( "Sepia" ) }
-    }, "color_pixel_sepia", COPT_CURSES_HIDE
+        { "color_pixel_sepia_light", translate_marker( "Sepia" ) },
+        { "color_pixel_sepia_dark", translate_marker( "Sepia Dark" ) },
+        { "color_pixel_blue_dark", translate_marker( "Blue Dark" ) },
+        { "color_pixel_custom", translate_marker( "Custom" ) },
+    }, "color_pixel_sepia_light", COPT_CURSES_HIDE
        );
+
+    add( "MEMORY_RGB_DARK_RED", "graphics", translate_marker( "Custom dark color RGB overlay - RED" ),
+         translate_marker( "Specify RGB value for color RED for dark color overlay." ),
+         0, 255, 39, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_DARK_RED" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_DARK_GREEN", "graphics",
+         translate_marker( "Custom dark color RGB overlay - GREEN" ),
+         translate_marker( "Specify RGB value for color GREEN for dark color overlay." ),
+         0, 255, 23, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_DARK_GREEN" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_DARK_BLUE", "graphics", translate_marker( "Custom dark color RGB overlay - BLUE" ),
+         translate_marker( "Specify RGB value for color BLUE for dark color overlay." ),
+         0, 255, 19, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_DARK_BLUE" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_BRIGHT_RED", "graphics",
+         translate_marker( "Custom bright color RGB overlay - RED" ),
+         translate_marker( "Specify RGB value for color RED for bright color overlay." ),
+         0, 255, 241, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_BRIGHT_RED" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_BRIGHT_GREEN", "graphics",
+         translate_marker( "Custom bright color RGB overlay - GREEN" ),
+         translate_marker( "Specify RGB value for color GREEN for bright color overlay." ),
+         0, 255, 220, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_BRIGHT_GREEN" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_BRIGHT_BLUE", "graphics",
+         translate_marker( "Custom bright color RGB overlay - BLUE" ),
+         translate_marker( "Specify RGB value for color BLUE for bright color overlay." ),
+         0, 255, 163, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_BRIGHT_BLUE" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_GAMMA", "graphics", translate_marker( "Custom gamma for overlay" ),
+         translate_marker( "Specify gamma value for overlay." ),
+         1.0f, 3.0f, 1.6f, 0.1f, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_GAMMA" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add_empty_line();
 
@@ -2033,7 +2112,7 @@ void options_manager::add_options_world_default()
 
     add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
-         0, 1000, 100, COPT_NO_HIDE, "%i%%"
+         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
     add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
@@ -2629,7 +2708,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
-            } else if( current_opt.getValue() == "false" ) {
+            } else if( current_opt.getValue() == "false" || current_opt.getValue() == "disabled" ||
+                       current_opt.getValue() == "off" ) {
                 cLineColor = c_light_red;
             }
 
@@ -3055,24 +3135,26 @@ bool options_manager::has_option( const std::string &name ) const
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
+    if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return options[name];
+        return opt->second;
     }
-    auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
-        auto &opt = options[name];
-        if( opt.getPage() != "world_default" ) {
+    std::unordered_map<std::string, cOpt>::iterator wopt = ( *world_options )->find( name );
+    if( wopt == ( *world_options )->end() ) {
+        if( opt->second.getPage() != "world_default" ) {
             // Requested a non-world option, deliver it.
-            return opt;
+            return opt->second;
         }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = opt;
+        cOpt &new_world_option = ( **world_options )[name];
+        new_world_option = opt->second;
+        return new_world_option;
     }
-    return wopts[name];
+    return wopt->second;
 }
 
 options_manager::options_container options_manager::get_world_defaults() const
@@ -3129,4 +3211,7 @@ void options_manager::update_global_locale()
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }
+
+    DebugLog( D_INFO, DC_ALL ) << "[options] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[options] C++ locale set to " << std::locale().name();
 }

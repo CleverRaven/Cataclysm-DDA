@@ -540,7 +540,7 @@ int main( int argc, char *argv[] )
     }
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
-        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
+        printf( "Fatal: Can't find data directory \"%s\"\nPlease ensure the current working directory is correct or specify data directory with --datadir.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
                 PATH_INFO::datadir().c_str() );
         exit( 1 );
     }
@@ -577,6 +577,9 @@ int main( int argc, char *argv[] )
 #if !defined(MACOSX)
     }
 #endif
+
+    DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
 #if defined(TILES)
     SDL_version compiled;

@@ -673,7 +673,7 @@ void it_artifact_armor::create_name( const std::string &type )
     name = no_translation( artifact_name( type ) );
 }
 
-std::string new_artifact()
+itype_id new_artifact()
 {
     if( one_in( 2 ) ) {
         // Generate a "tool" artifact
@@ -840,7 +840,6 @@ std::string new_artifact()
         def.armor->thickness = info.thickness;
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
-        def.armor->storage = info.storage;
         std::string description = string_format( info.plural ?
                                   _( "This is the %s.\nThey are the only ones of their kind." ) :
                                   _( "This is the %s.\nIt is the only one of its kind." ), def.nname( 1 ) );
@@ -883,12 +882,6 @@ std::string new_artifact()
                 }
                 def.armor->warmth += modinfo.warmth;
 
-                if( modinfo.storage > 0_ml || def.armor->storage > -modinfo.storage ) {
-                    def.armor->storage += modinfo.storage;
-                } else {
-                    def.armor->storage = 0_ml;
-                }
-
                 description += string_format( info.plural ?
                                               _( "\nThey are %s" ) :
                                               _( "\nIt is %s" ),
@@ -927,7 +920,7 @@ std::string new_artifact()
     }
 }
 
-std::string new_natural_artifact( artifact_natural_property prop )
+itype_id new_natural_artifact( artifact_natural_property prop )
 {
     // Natural artifacts are always tools.
     it_artifact_tool def;
@@ -1048,7 +1041,7 @@ std::string new_natural_artifact( artifact_natural_property prop )
 }
 
 // Make a special debugging artifact.
-std::string architects_cube()
+itype_id architects_cube()
 {
     it_artifact_tool def;
 
@@ -1143,7 +1136,7 @@ void load_artifacts( const std::string &path )
 
 void it_artifact_tool::deserialize( const JsonObject &jo )
 {
-    id = jo.get_string( "id" );
+    jo.read( "id", id, true );
     name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
@@ -1195,7 +1188,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     }
 
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
-    if( *tool->revert_to == "null" ) {
+    if( tool->revert_to->is_null() ) {
         tool->revert_to.reset();
     }
 
@@ -1251,7 +1244,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
 
 void it_artifact_armor::deserialize( const JsonObject &jo )
 {
-    id = jo.get_string( "id" );
+    jo.read( "id", id, true );
     name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
@@ -1293,7 +1286,6 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
     armor->warmth = jo.get_int( "warmth" );
-    armor->storage = jo.get_int( "storage" ) * units::legacy_volume_factor;
     armor->power_armor = jo.get_bool( "power_armor" );
 
     for( const int entry : jo.get_array( "effects_worn" ) ) {
@@ -1432,7 +1424,6 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "material_thickness", armor->thickness );
     json.member( "env_resist", armor->env_resist );
     json.member( "warmth", armor->warmth );
-    json.member( "storage", armor->storage / units::legacy_volume_factor );
     json.member( "power_armor", armor->power_armor );
 
     // artifact data

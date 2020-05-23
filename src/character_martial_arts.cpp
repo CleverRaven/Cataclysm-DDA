@@ -13,8 +13,6 @@
 static const matype_id style_kicks( "style_kicks" );
 static const matype_id style_none( "style_none" );
 
-using itype_id = std::string;
-
 character_martial_arts::character_martial_arts()
 {
 

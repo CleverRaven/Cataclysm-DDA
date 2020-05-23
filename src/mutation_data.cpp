@@ -373,6 +373,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
@@ -426,7 +427,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( get_body_part_token( s ) );
+        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
 
     optional( jo, was_loaded, "category", category, string_reader{} );
@@ -641,7 +642,14 @@ void dream::load( const JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return a->name() < b->name();
+    if( a->get_display_color() > b->get_display_color() ) {
+        return true;
+    }
+    if( a->get_display_color() < b->get_display_color() ) {
+        return false;
+    }
+
+    return localized_compare( a->name(), b->name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )

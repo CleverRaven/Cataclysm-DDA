@@ -245,7 +245,7 @@ template<class T>
 void conditional_t<T>::set_is_wearing( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
-    const std::string &item_id = jo.get_string( member );
+    const itype_id item_id( jo.get_string( member ) );
     condition = [item_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -258,7 +258,7 @@ void conditional_t<T>::set_is_wearing( const JsonObject &jo, const std::string &
 template<class T>
 void conditional_t<T>::set_has_item( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    const std::string &item_id = jo.get_string( member );
+    const itype_id item_id( jo.get_string( member ) );
     condition = [item_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -277,7 +277,7 @@ void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &m
             return false;
         };
     } else {
-        const std::string item_id = has_items.get_string( "item" );
+        const itype_id item_id( has_items.get_string( "item" ) );
         int count = has_items.get_int( "count" );
         condition = [item_id, count, is_npc]( const T & d ) {
             player *actor = d.alpha;

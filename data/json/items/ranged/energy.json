@@ -14,7 +14,7 @@
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ],
     "ups_charges": 100,
     "skill": "rifle",
-    "ammo": "plasma",
+    "ammo": [ "plasma" ],
     "weight": "10500 g",
     "volume": "4L",
     "price_postapoc": 10000,
@@ -35,7 +35,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ]
   },
   {
     "id": "plasma_rifle",
@@ -52,7 +53,7 @@
     "ups_charges": 5,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],
     "skill": "rifle",
-    "ammo": "plasma",
+    "ammo": [ "plasma" ],
     "weight": "4535 g",
     "volume": "3750 ml",
     "price_postapoc": 8000,
@@ -74,6 +75,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ]
   }
 ]

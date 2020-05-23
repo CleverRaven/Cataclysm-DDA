@@ -42,6 +42,7 @@
       { "group": "ammo_swat", "prob": 20 },
       { "group": "guns_swat", "prob": 20 },
       { "group": "mags_swat", "prob": 20 },
+      { "group": "eod_armor", "prob": 20 },
       { "item": "survnote", "prob": 1 }
     ]
   },
@@ -1124,7 +1125,7 @@
       [ "ref_lighter", 2 ],
       [ "matches", 60 ],
       [ "sewage", 60 ],
-      [ "pipebomb", 4 ],
+      [ "improvised_pipebomb", 4 ],
       [ "crack", 8 ],
       [ "crackpipe", 37 ],
       [ "lsd", 10 ],

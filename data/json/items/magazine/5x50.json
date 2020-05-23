@@ -12,11 +12,12 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "5x50",
+    "ammo_type": [ "5x50" ],
     "capacity": 100,
     "reliability": 10,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 100 } } ]
   },
   {
     "id": "5x50_50_mag",
@@ -31,10 +32,11 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "5x50",
+    "ammo_type": [ "5x50" ],
     "capacity": 50,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 50 } } ]
   }
 ]

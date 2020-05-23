@@ -56,6 +56,8 @@ enum spell_flag {
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
+    WITH_CONTAINER, // items spawned with container
+    SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     LAST
 };
 
@@ -294,6 +296,7 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage() const;
+        int min_leveled_dot() const;
         // minimum aoe including levels
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
@@ -321,6 +324,9 @@ class spell
         float exp_modifier( const Character &guy ) const;
         // level up!
         void gain_level();
+        // gains a number of levels, or until max. 0 or less just returns early.
+        void gain_levels( int gains );
+        void set_level( int nlevel );
         // is the spell at max level?
         bool is_max_level() const;
         // what is the max level of the spell
@@ -330,6 +336,8 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        int damage_dot() const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
         // how big is the spell's radius
@@ -554,7 +562,7 @@ class spellbook_callback : public uilist_callback
         std::vector<spell_type> spells;
     public:
         void add_spell( const spell_id &sp );
-        void select( int entnum, uilist *menu ) override;
+        void refresh( uilist *menu ) override;
 };
 
 // Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,

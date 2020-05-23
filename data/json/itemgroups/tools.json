@@ -195,7 +195,9 @@
       [ "hammer_sledge", 5 ],
       [ "hammer_sledge_short", 5 ],
       [ "hammer_sledge_engineer", 10 ],
-      [ "halligan", 10 ]
+      [ "halligan", 10 ],
+      [ "pike_pole", 10 ],
+      [ "ny_hook", 10 ]
     ]
   },
   {
@@ -413,7 +415,6 @@
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
       [ "smart_lamp", 2 ],
-      [ "control_laptop", 1 ],
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
       [ "laptop", 4 ],

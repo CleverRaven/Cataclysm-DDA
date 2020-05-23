@@ -218,6 +218,10 @@ class time_duration
         static constexpr time_duration from_days( const T d ) {
             return from_hours( d * 24 );
         }
+        template<typename T>
+        static constexpr time_duration from_weeks( const T d ) {
+            return from_days( d * 7 );
+        }
         /**@}*/
 
         /**
@@ -357,6 +361,10 @@ constexpr time_duration operator"" _days( const unsigned long long int v )
 {
     return time_duration::from_days( v );
 }
+constexpr time_duration operator"" _weeks( const unsigned long long int v )
+{
+    return time_duration::from_weeks( v );
+}
 /**@}*/
 
 /**
@@ -445,54 +453,46 @@ class time_point
             return point.turn_;
         }
 
+        friend constexpr inline bool operator<( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) < to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) <= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) > to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) >= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator==( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) == to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) != to_turn<int>( rhs );
+        }
+
+        friend constexpr inline time_duration operator-(
+            const time_point &lhs, const time_point &rhs ) {
+            return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator+(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator+=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator-(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator-=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
-
-constexpr inline bool operator<( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) < to_turn<int>( rhs );
-}
-constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) <= to_turn<int>( rhs );
-}
-constexpr inline bool operator>( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) > to_turn<int>( rhs );
-}
-constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) >= to_turn<int>( rhs );
-}
-constexpr inline bool operator==( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) == to_turn<int>( rhs );
-}
-constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) != to_turn<int>( rhs );
-}
-
-constexpr inline time_duration operator-( const time_point &lhs, const time_point &rhs )
-{
-    return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
-}
-constexpr inline time_point operator+( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-time_point inline &operator+=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-constexpr inline time_point operator-( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
-time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
 
 inline time_duration time_past_midnight( const time_point &p )
 {
@@ -530,7 +530,9 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
-/** Returns the current light level of the moon. */
+/** Returns the default duration of a lunar month (duration between syzygies) */
+time_duration lunar_month();
+/** Returns the current phase of the moon. */
 moon_phase get_moon_phase( const time_point &p );
 /** Returns the current sunrise time based on the time of year. */
 time_point sunrise( const time_point &p );
@@ -540,12 +542,14 @@ time_point sunset( const time_point &p );
 time_point daylight_time( const time_point &p );
 /** Returns the time it gets dark based on sunset */
 time_point night_time( const time_point &p );
-/** Returns whether it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
+/** Returns true if it's currently night time - after dusk and before dawn. */
 bool is_night( const time_point &p );
-/** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */
-bool is_sunset_now( const time_point &p );
-/** Returns true if it's currently after sunrise and before sunrise + TWILIGHT_SECONDS. */
-bool is_sunrise_now( const time_point &p );
+/** Returns true if it's currently day time - after dawn and before dusk. */
+bool is_day( const time_point &p );
+/** Returns true if it's currently dusk - between sunset and and twilight_duration after sunset. */
+bool is_dusk( const time_point &p );
+/** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
+bool is_dawn( const time_point &p );
 /** Returns the current seasonally-adjusted maximum daylight level */
 double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */

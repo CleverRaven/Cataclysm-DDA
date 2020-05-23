@@ -131,6 +131,14 @@
     "chance": 50
   },
   {
+    "id": "emit_shadow_field",
+    "type": "emit",
+    "field": "fd_shadow",
+    "intensity": 1,
+    "qty": 10,
+    "chance": 100
+  },
+  {
     "id": "emit_shock_burst",
     "type": "emit",
     "//": "small cloud of lightning",

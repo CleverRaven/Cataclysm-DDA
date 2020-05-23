@@ -175,6 +175,32 @@
     ]
   },
   {
+    "id": "demihuman_fur",
+    "//": "drops regular stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.34 },
+      { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "demihuman_large_fur",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.34 },
+      { "drop": "demihuman_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_hfur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "mammal_small_leather",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
@@ -530,7 +556,7 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "kevlar_plate", "type": "skin", "mass_ratio": 0.015 },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.24 },
       { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },
@@ -554,6 +580,19 @@
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "demihuman",
+    "//": "a near human sapient being possibly from another dimension, some people will consider it human and some won't",
+    "type": "harvest",
+    "entries": [
+      { "drop": "demihuman_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "demihuman_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "demihuman_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {

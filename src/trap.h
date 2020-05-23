@@ -66,8 +66,6 @@ bool cast_spell( const tripoint &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
-    using itype_id = std::string;
-
     bool remove_trap = false;
     bool do_explosion = false;
     bool is_falling = false;
@@ -86,7 +84,6 @@ struct vehicle_handle_trap_data {
 using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
 
 struct trap {
-        using itype_id = std::string;
         trap_str_id id;
         trap_id loadid;
 
@@ -115,7 +112,7 @@ struct trap {
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
         // For disassembly?
-        std::vector<std::tuple<std::string, int, int>> components;
+        std::vector<std::tuple<itype_id, int, int>> components;
     public:
         // data required for trapfunc::spell()
         fake_spell spell_data;

@@ -72,7 +72,8 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), true ) >= 0 );
             veh->charge_battery( 10000 );
 
-            auto ammo = ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default() );
+            auto ammo =
+                ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );

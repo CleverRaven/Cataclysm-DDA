@@ -11,7 +11,7 @@
     "price_postapoc": 4000,
     "material": "steel",
     "skill": "launcher",
-    "ammo": "m235",
+    "ammo": [ "m235" ],
     "weight": "5220 g",
     "volume": "6 L",
     "reload_noise_volume": 10,
@@ -20,10 +20,18 @@
     "dispersion": 300,
     "durability": 7,
     "modes": [ [ "DEFAULT", "single shot", 1 ], [ "BURST", "all barrels", 4 ] ],
-    "magazines": [ [ "m235", [ "m74_clip" ] ] ],
     "reload": 600,
     "loudness": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sling", 1 ] ],
-    "flags": [ "BACKBLAST", "NEVER_JAMS" ]
+    "flags": [ "BACKBLAST", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m74_clip" ]
+      }
+    ]
   }
 ]

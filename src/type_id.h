@@ -34,6 +34,9 @@ using efftype_id = string_id<effect_type>;
 class scent_type;
 using scenttype_id = string_id<scent_type>;
 
+class ascii_art;
+using ascii_art_id = string_id<ascii_art>;
+
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
 
@@ -62,6 +65,9 @@ using harvest_id = string_id<harvest_list>;
 
 class item_category;
 using item_category_id = string_id<item_category>;
+
+struct itype;
+using itype_id = string_id<itype>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;

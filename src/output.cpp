@@ -46,8 +46,6 @@ int TERMX;
 int TERMY;
 int POSX;
 int POSY;
-int VIEW_OFFSET_X;
-int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
 int TERRAIN_WINDOW_TERM_WIDTH;
@@ -681,7 +679,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 {
     catacurses::window win =
         catacurses::newwin( iHeight, iWidth,
-                            point( iLeft + VIEW_OFFSET_X, iTop + VIEW_OFFSET_Y ) );
+                            point( iLeft, iTop ) );
 
 #if defined(TILES)
     clear_window_area( win );
@@ -946,10 +944,13 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
+    if( data.any_input ) {
+        ctxt.register_action( "ANY_INPUT" );
+    }
 
     std::string action;
-    do {
+    bool exit = false;
+    while( !exit ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -961,8 +962,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
+            exit = true;
+        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
+            exit = true;
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+    }
 
     return ctxt.get_raw_input();
 }
@@ -1389,6 +1394,16 @@ void scrolling_text_view::scroll_down()
     }
 }
 
+void scrolling_text_view::page_up()
+{
+    offset_ = std::max( 0, offset_ - getmaxy( w_ ) );
+}
+
+void scrolling_text_view::page_down()
+{
+    offset_ = std::min( max_offset(), offset_ + getmaxy( w_ ) );
+}
+
 void scrolling_text_view::draw( const nc_color &base_color )
 {
     werase( w_ );
@@ -1458,13 +1473,8 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
 catacurses::window w_hit_animation;
 void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
 {
-    /*
-    chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
-    mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
-    */
-
     catacurses::window w_hit =
-        catacurses::newwin( 1, 1, p + point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
+        catacurses::newwin( 1, 1, p );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
@@ -1651,19 +1661,19 @@ void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
     while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
+        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
                            false );
     }
     while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
+        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
                            false );
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
                            false );
     }
     while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
+        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
                            false );
     }
 }
@@ -1820,53 +1830,68 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
 }
 
 /**
- * Display data in table, each cell contains one entry from the
- * data vector. Allows vertical scrolling if the data does not fit.
- * Data is displayed using fold_and_print_from, which allows coloring!
- * @param columns Number of columns, can be 1. Make sure each entry
- * of the data vector fits into one cell.
- * @param title The title text, displayed on top.
- * @param w The window to draw this in, the whole widow is used.
+ * Inserts a table into a window, with data right-aligned.
+ * @param pad Reduce table width by padding left side.
+ * @param line Line to insert table.
+ * @param columns Number of columns. Can be 1.
+ * @param nc_color &FG Default color of table text.
+ * @param divider To insert a character separating table entries. Can be blank.
+ * @param r_align true for right aligned, false for left aligned.
  * @param data Text data to fill.
+ * Make sure each entry of the data vector fits into one cell, including divider if any.
  */
-void display_table( const catacurses::window &w, const std::string &title, int columns,
-                    const std::vector<std::string> &data )
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data )
 {
-    const int width = getmaxx( w ) - 2; // -2 for border
-    const int rows = getmaxy( w ) - 2 - 1; // -2 for border, -1 for title
-    const int col_width = width / columns;
+    const int width = getmaxx( w );
+    const int rows = getmaxy( w );
+    const int col_width = ( ( width - pad ) / columns );
+    int indent = 1;  // 1 for right window border
+    if( r_align ) {
+        indent = ( col_width * columns ) + 1;
+    }
+    int div = columns - 1;
     int offset = 0;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
 #if defined(__ANDROID__)
-    // no bindings, but give it its own input context so stale buttons don't hang around.
-    input_context ctxt( "DISPLAY_TABLE" );
+    input_context ctxt( "INSERT_TABLE" );
 #endif
-    for( ;; ) {
-        werase( w );
-        draw_border( w, BORDER_COLOR, title, c_white );
-        for( int i = 0; i < rows * columns; i++ ) {
-            if( i + offset * columns >= static_cast<int>( data.size() ) ) {
-                break;
-            }
-            const int x = 2 + ( i % columns ) * col_width;
-            const int y = ( i / columns ) + 2;
-            fold_and_print_from( w, point( x, y ), col_width, 0, c_white, data[i + offset * columns] );
-        }
-        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, point( 0, 2 ) );
-        wrefresh( w );
-        // TODO: use input context
-        int ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < static_cast<int>( data.size() ) ) {
-            offset++;
-        } else if( ch == KEY_UP && offset > 0 ) {
-            offset--;
-        } else if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
+    wattron( w, FG );
+    for( int i = 0; i < rows * columns; i++ ) {
+        if( i + offset * columns >= static_cast<int>( data.size() ) ) {
             break;
         }
+        int y = line + ( i / columns );
+        if( r_align ) {
+            indent -= col_width;
+        }
+        if( div != 0 ) {
+            if( r_align ) {
+                right_print( w, y, indent - utf8_width( divider ), FG, divider );
+            } else {
+                fold_and_print_from( w, point( indent + col_width - utf8_width( divider ), y ),
+                                     utf8_width( divider ), 0, FG, divider );
+            }
+            div--;
+        } else {
+            div = columns - 1;
+        }
+
+        if( r_align ) {
+            right_print( w, y, indent, c_white, data[i + offset * columns] );
+            if( indent == 1 ) {
+                indent = ( col_width * columns ) + 1;
+            }
+        } else {
+            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + offset * columns] );
+            indent += col_width;
+            if( indent == ( col_width * columns ) + 1 ) {
+                indent = 1;
+            }
+        }
     }
+    wattroff( w, FG );
 }
 
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,

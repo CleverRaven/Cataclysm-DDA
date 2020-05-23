@@ -236,6 +236,9 @@
       [ "sleeveless_duster", 5 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "sleeveless_duster_fur", 5 ],
+      [ "apron_cut_resistant", 2 ],
+      [ "chaps_cut_resistant", 5 ],
+      [ "balaclava_cut_resistant", 5 ],
       [ "gold_watch", 15 ],
       [ "silver_watch", 20 ],
       [ "sf_watch", 7 ],
@@ -1862,7 +1865,7 @@
       { "item": "shed_stick", "prob": 2 },
       [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
       [ "rag", 20 ],
       [ "needle_curved", 10 ],
@@ -1883,5 +1886,10 @@
       [ "recipe_fauxfur", 5 ],
       [ "textbook_tailor", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunshop_accessories",
+    "items": [ [ "powered_earmuffs", 50 ], [ "ear_plugs", 80 ] ]
   }
 ]

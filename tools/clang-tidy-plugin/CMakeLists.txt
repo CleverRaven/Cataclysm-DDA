@@ -17,6 +17,7 @@ add_library(
     TestFilenameCheck.cpp
     TextStyleCheck.cpp
     TranslatorCommentsCheck.cpp
+    UseLocalizedSortingCheck.cpp
     UseNamedPointConstantsCheck.cpp
     UsePointApisCheck.cpp
     UsePointArithmeticCheck.cpp

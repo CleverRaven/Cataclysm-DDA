@@ -63,7 +63,9 @@
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
-      "sloc_cemetery"
+      "sloc_cemetery",
+      "sloc_fire_station",
+      "sloc_police"
     ],
     "start_name": "In Town",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
@@ -112,6 +114,31 @@
       "sloc_cemetery"
     ],
     "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "fungal_start",
+    "name": "Challenge - Fungal Infection",
+    "points": -8,
+    "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
+    "start_name": "In Town",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery"
+    ],
+    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -495,7 +522,7 @@
   {
     "type": "scenario",
     "ident": "presort",
-    "name": "Crazy party",
+    "name": "Crazy Party",
     "points": 0,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",

@@ -112,7 +112,7 @@
     "material": "steel",
     "flags": [ "REACH_ATTACK" ],
     "skill": "archery",
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -122,7 +122,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 60,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "boulder_anvil",

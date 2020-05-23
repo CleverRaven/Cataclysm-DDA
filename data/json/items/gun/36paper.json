@@ -8,16 +8,18 @@
     "description": "The Colt Model 1861 Navy cap & ball .36-caliber revolver was a six-shot, single-action percussion weapon produced by Colt's Manufacturing Company from 1861 until 1873.",
     "weight": "1184 g",
     "volume": "540 ml",
+    "longest_side": "351 mm",
     "price": 30000,
     "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "ammo": "36paper",
+    "ammo": [ "36paper" ],
     "dispersion": 450,
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
-    "proportional": { "reload": 2.0 }
+    "proportional": { "reload": 2.0 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "36paper": 6 } } ]
   }
 ]
