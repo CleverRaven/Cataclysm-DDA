@@ -4152,10 +4152,10 @@
     "type": "profession",
     "ident": "knight",
     "name": "Medieval Knight",
-    "description": "You've made medieval swordsmanship your life. Now you will finally have a real use for it."
+    "description": "You've made medieval swordsmanship your life. Now you will finally have a real use for it.",
     "points": 8,
     "CBMs": [  ],
-    "traits": [ "knight_training" ],
+    "traits": [ "PROF_KNIGHT_TRAINING" ],
     "skills": [ { "level": 5, "name": "melee" }, { "level": 5, "name": "cutting" }, { "level": 5, "name": "dodge" } ],
     "items": {
       "both": {
