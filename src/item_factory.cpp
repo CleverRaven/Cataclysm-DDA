@@ -2240,7 +2240,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( !def.magazines.empty() ) {
         mag_data.type = item_pocket::pocket_type::MAGAZINE_WELL;
         mag_data.rigid = false;
-        for( const std::pair<ammotype, std::set<itype_id>> &mag_pair : def.magazines ) {
+        for( const std::pair<const ammotype, std::set<itype_id>> &mag_pair : def.magazines ) {
             for( const itype_id &mag_type : mag_pair.second ) {
                 mag_data.item_id_restriction.insert( mag_type );
             }

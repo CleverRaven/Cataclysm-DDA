@@ -433,7 +433,7 @@ int item_pocket::ammo_capacity( const ammotype &ammo ) const
 std::set<ammotype> item_pocket::ammo_types() const
 {
     std::set<ammotype> ret;
-    for( const std::pair<ammotype, int> &type_pair : data->ammo_restriction ) {
+    for( const std::pair<const ammotype, int> &type_pair : data->ammo_restriction ) {
         ret.emplace( type_pair.first );
     }
     return ret;
