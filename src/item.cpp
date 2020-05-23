@@ -579,7 +579,11 @@ units::energy item::set_energy( const units::energy &qty )
 
 item &item::ammo_set( const itype_id &ammo, int qty )
 {
-    const ammotype &ammo_type = item_controller->find_template( ammo )->ammo->type;
+    if( !ammo->ammo ) {
+        debugmsg( "can't set ammo %s as it is not an ammo", ammo.c_str() );
+        return *this;
+    }
+    const ammotype &ammo_type = ammo->ammo->type;
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
         if( magazine_integral() || magazine_current() ) {
@@ -602,7 +606,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ( ammo.is_null() || ammo.is_null() ) && ammo_types().empty() ) || is_money() ) {
+    if( ( ammo.is_null() && ammo_types().empty() ) || is_money() ) {
         if( magazine_integral() ) {
             if( is_tool() ) {
                 curammo = nullptr;
