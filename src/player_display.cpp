@@ -927,11 +927,40 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
 
 static bool handle_player_display_action( player &you, unsigned int &line,
         player_display_tab &curtab, input_context &ctxt,
+        const ui_adaptor &ui_tip, const ui_adaptor &ui_info,
+        const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
+        const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics,
+        const ui_adaptor &ui_effects, const ui_adaptor &ui_skills,
         const std::vector<trait_id> &traitslist,
         const std::vector<bionic> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
         const std::vector<HeaderSkill> &skillslist )
 {
+    const auto invalidate_tab = [&]( const player_display_tab tab ) {
+        switch( tab ) {
+            case player_display_tab::stats:
+                ui_stats.invalidate_ui();
+                break;
+            case player_display_tab::encumbrance:
+                ui_encumb.invalidate_ui();
+                break;
+            case player_display_tab::traits:
+                ui_traits.invalidate_ui();
+                break;
+            case player_display_tab::bionics:
+                ui_bionics.invalidate_ui();
+                break;
+            case player_display_tab::effects:
+                ui_effects.invalidate_ui();
+                break;
+            case player_display_tab::skills:
+                ui_skills.invalidate_ui();
+                break;
+            case player_display_tab::num_tabs:
+                abort();
+        }
+    };
+
     unsigned int line_beg = 0;
     unsigned int line_end = 0;
     switch( curtab ) {
@@ -977,6 +1006,8 @@ static bool handle_player_display_action( player &you, unsigned int &line,
         if( curtab == player_display_tab::skills && skillslist[line].is_header ) {
             --line;
         }
+        invalidate_tab( curtab );
+        ui_info.invalidate_ui();
     } else if( action == "DOWN" ) {
         if( line + 1 < line_end ) {
             ++line;
@@ -986,9 +1017,14 @@ static bool handle_player_display_action( player &you, unsigned int &line,
         if( curtab == player_display_tab::skills && skillslist[line].is_header ) {
             ++line;
         }
+        invalidate_tab( curtab );
+        ui_info.invalidate_ui();
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         line = 0;
+        invalidate_tab( curtab );
         curtab = action == "NEXT_TAB" ? next_tab( curtab ) : prev_tab( curtab );
+        invalidate_tab( curtab );
+        ui_info.invalidate_ui();
     } else if( action == "QUIT" ) {
         done = true;
     } else if( action == "CONFIRM" ) {
@@ -999,6 +1035,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
                 if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
                     you.as_avatar()->upgrade_stat_prompt( static_cast<Character::stat>( line ) );
                 }
+                invalidate_tab( curtab );
                 break;
             case player_display_tab::skills: {
                 const Skill *selectedSkill = nullptr;
@@ -1008,6 +1045,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
                 if( selectedSkill ) {
                     you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 }
+                invalidate_tab( curtab );
                 break;
             }
         }
@@ -1020,6 +1058,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
         .query();
 
         you.custom_profession = popup.text();
+        ui_tip.invalidate_ui();
     }
     return done;
 }
@@ -1107,7 +1146,7 @@ void player::disp_info()
         }
     }
 
-    unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
+    const unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
 
     std::vector<trait_id> traitslist = get_mutations( false );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
@@ -1135,7 +1174,7 @@ void player::disp_info()
         skillslist.emplace_back( s, false );
     }
     const unsigned int skill_win_size_y_max = 1 + skillslist.size();
-    unsigned int info_win_size_y = 6;
+    const unsigned int info_win_size_y = 6;
 
     const unsigned int grid_width = 26;
     const unsigned int grid_height = 9;
@@ -1143,106 +1182,27 @@ void player::disp_info()
     const unsigned int infooffsetytop = grid_height + 2;
     unsigned int infooffsetybottom = infooffsetytop + 1 + info_win_size_y;
 
-    unsigned int maxy = static_cast<unsigned>( TERMY );
-    unsigned int trait_win_size_y = trait_win_size_y_max;
-    unsigned int bionics_win_size_y = bionics_win_size_y_max;
-    unsigned int skill_win_size_y = skill_win_size_y_max;
-    if( ( bionics_win_size_y_max + 1 + trait_win_size_y_max + infooffsetybottom ) > maxy ) {
-        // maximum space for either window if they're both the same size
-        unsigned max_shared_y = ( maxy - infooffsetybottom - 1 ) / 2;
-        if( std::min( bionics_win_size_y_max, trait_win_size_y_max ) > max_shared_y ) {
-            // both are larger than the shared size
-            bionics_win_size_y = max_shared_y;
-            trait_win_size_y = maxy - infooffsetybottom - 1 - bionics_win_size_y;
-        } else if( trait_win_size_y_max <= max_shared_y ) {
-            // trait window is less than the shared size, so give space to bionics
-            bionics_win_size_y = maxy - infooffsetybottom - 1 - trait_win_size_y_max;
-        } else {
-            // bionics window is less than the shared size
-            trait_win_size_y = maxy - infooffsetybottom - 1 - bionics_win_size_y;
+    const auto calculate_trait_and_bionic_height = [&]() {
+        const unsigned int maxy = static_cast<unsigned>( TERMY );
+        unsigned int trait_win_size_y = trait_win_size_y_max;
+        unsigned int bionics_win_size_y = bionics_win_size_y_max;
+        if( ( bionics_win_size_y_max + 1 + trait_win_size_y_max + infooffsetybottom ) > maxy ) {
+            // maximum space for either window if they're both the same size
+            unsigned max_shared_y = ( maxy - infooffsetybottom - 1 ) / 2;
+            if( std::min( bionics_win_size_y_max, trait_win_size_y_max ) > max_shared_y ) {
+                // both are larger than the shared size
+                bionics_win_size_y = max_shared_y;
+                trait_win_size_y = maxy - infooffsetybottom - 1 - bionics_win_size_y;
+            } else if( trait_win_size_y_max <= max_shared_y ) {
+                // trait window is less than the shared size, so give space to bionics
+                bionics_win_size_y = maxy - infooffsetybottom - 1 - trait_win_size_y_max;
+            } else {
+                // bionics window is less than the shared size
+                trait_win_size_y = maxy - infooffsetybottom - 1 - bionics_win_size_y;
+            }
         }
-    }
-
-    if( skill_win_size_y + infooffsetybottom > maxy ) {
-        skill_win_size_y = maxy - infooffsetybottom;
-    }
-
-    border_helper borders;
-
-    catacurses::window w_tip =
-        catacurses::newwin( 1, FULL_SCREEN_WIDTH + 1, point_zero );
-    catacurses::window w_stats =
-        //NOLINTNEXTLINE(cata-use-named-point-constants)
-        catacurses::newwin( grid_height, grid_width, point( 0, 1 ) );
-    // Every grid draws the bottom and right borders. The top and left borders
-    // are either not displayed or drawn by another grid.
-    catacurses::window w_stats_border =
-        //NOLINTNEXTLINE(cata-use-named-point-constants)
-        catacurses::newwin( grid_height + 1, grid_width + 1, point( 0, 1 ) );
-    // But we need to specify the full border for border_helper to calculate the
-    // border connection.
-    //NOLINTNEXTLINE(cata-use-named-point-constants)
-    borders.add_border().set( point( -1, 0 ), point( grid_width + 2, grid_height + 2 ) );
-
-    catacurses::window w_traits =
-        catacurses::newwin( trait_win_size_y, grid_width,
-                            point( grid_width + 1, infooffsetybottom ) );
-    catacurses::window w_traits_border =
-        catacurses::newwin( trait_win_size_y + 1, grid_width + 1,
-                            point( grid_width + 1, infooffsetybottom ) );
-    borders.add_border().set( point( grid_width, infooffsetybottom - 1 ),
-                              point( grid_width + 2, trait_win_size_y + 2 ) );
-
-    catacurses::window w_bionics =
-        catacurses::newwin( bionics_win_size_y, grid_width,
-                            point( grid_width + 1,
-                                   infooffsetybottom + trait_win_size_y + 1 ) );
-    catacurses::window w_bionics_border =
-        catacurses::newwin( bionics_win_size_y + 1, grid_width + 1,
-                            point( grid_width + 1,
-                                   infooffsetybottom + trait_win_size_y + 1 ) );
-    borders.add_border().set( point( grid_width, infooffsetybottom + trait_win_size_y ),
-                              point( grid_width + 2, bionics_win_size_y + 2 ) );
-
-    catacurses::window w_encumb =
-        catacurses::newwin( grid_height, grid_width, point( grid_width + 1, 1 ) );
-    catacurses::window w_encumb_border =
-        catacurses::newwin( grid_height + 1, grid_width + 1, point( grid_width + 1, 1 ) );
-    borders.add_border().set( point( grid_width, 0 ), point( grid_width + 2, grid_height + 2 ) );
-
-    catacurses::window w_effects =
-        catacurses::newwin( effect_win_size_y, grid_width,
-                            point( grid_width * 2 + 2, infooffsetybottom ) );
-    catacurses::window w_effects_border =
-        catacurses::newwin( effect_win_size_y + 1, grid_width + 1,
-                            point( grid_width * 2 + 2, infooffsetybottom ) );
-    borders.add_border().set( point( grid_width * 2 + 1, infooffsetybottom - 1 ),
-                              point( grid_width + 2, effect_win_size_y + 2 ) );
-
-    catacurses::window w_speed =
-        catacurses::newwin( grid_height, grid_width, point( grid_width * 2 + 2, 1 ) );
-    catacurses::window w_speed_border =
-        catacurses::newwin( grid_height + 1, grid_width + 1, point( grid_width * 2 + 2, 1 ) );
-    borders.add_border().set( point( grid_width * 2 + 1, 0 ),
-                              point( grid_width + 2, grid_height + 2 ) );
-
-    catacurses::window w_skills =
-        catacurses::newwin( skill_win_size_y, grid_width,
-                            point( 0, infooffsetybottom ) );
-    catacurses::window w_skills_border =
-        catacurses::newwin( skill_win_size_y + 1, grid_width + 1,
-                            point( 0, infooffsetybottom ) );
-    borders.add_border().set( point( -1, infooffsetybottom - 1 ),
-                              point( grid_width + 2, skill_win_size_y + 2 ) );
-
-    catacurses::window w_info =
-        catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
-                            point( 0, infooffsetytop ) );
-    catacurses::window w_info_border =
-        catacurses::newwin( info_win_size_y + 1, FULL_SCREEN_WIDTH + 1,
-                            point( 0, infooffsetytop ) );
-    borders.add_border().set( point( -1, infooffsetytop - 1 ),
-                              point( FULL_SCREEN_WIDTH + 2, info_win_size_y + 2 ) );
+        return std::make_pair( trait_win_size_y, bionics_win_size_y );
+    };
 
     // Print name and header
     // Post-humanity trumps your pre-Cataclysm life
@@ -1282,40 +1242,202 @@ void player::disp_info()
         }
     }
 
+    border_helper borders;
+
     player_display_tab curtab = player_display_tab::stats;
     unsigned int line = 0;
-    bool done = false;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
-    // Initial printing is DONE.  Now we give the player a chance to scroll around
-    // and "hover" over different items for more info.
-    do {
-        g->refresh_all();
-
-        for( catacurses::window win : {
-                 w_stats_border, w_traits_border, w_bionics_border, w_encumb_border,
-                 w_effects_border, w_speed_border, w_skills_border, w_info_border
-             } ) {
-            borders.draw_border( win );
-            wrefresh( win );
-        }
-
+    catacurses::window w_tip;
+    ui_adaptor ui_tip;
+    ui_tip.on_screen_resize( [&]( ui_adaptor & ui_tip ) {
+        w_tip = catacurses::newwin( 1, FULL_SCREEN_WIDTH + 1, point_zero );
+        ui_tip.position_from_window( w_tip );
+    } );
+    ui_tip.mark_resize();
+    ui_tip.on_redraw( [&]( const ui_adaptor & ) {
         draw_tip( w_tip, *this, race, ctxt );
+    } );
+
+    catacurses::window w_stats;
+    catacurses::window w_stats_border;
+    border_helper::border_info &border_stats = borders.add_border();
+    ui_adaptor ui_stats;
+    ui_stats.on_screen_resize( [&]( ui_adaptor & ui_stats ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        w_stats = catacurses::newwin( grid_height, grid_width, point( 0, 1 ) );
+        // Every grid draws the bottom and right borders. The top and left borders
+        // are either not displayed or drawn by another grid.
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        w_stats_border = catacurses::newwin( grid_height + 1, grid_width + 1, point( 0, 1 ) );
+        // But we need to specify the full border for border_helper to calculate the
+        // border connection.
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        border_stats.set( point( -1, 0 ), point( grid_width + 2, grid_height + 2 ) );
+        ui_stats.position_from_window( w_stats_border );
+    } );
+    ui_stats.mark_resize();
+    ui_stats.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_stats_border );
+        wrefresh( w_stats_border );
         draw_stats_tab( w_stats, *this, line, curtab );
-        draw_encumbrance_tab( w_encumb, *this, line, curtab );
+    } );
+
+    unsigned int trait_win_size_y = 0;
+    catacurses::window w_traits;
+    catacurses::window w_traits_border;
+    border_helper::border_info &border_traits = borders.add_border();
+    ui_adaptor ui_traits;
+    ui_traits.on_screen_resize( [&]( ui_adaptor & ui_traits ) {
+        trait_win_size_y = calculate_trait_and_bionic_height().first;
+        w_traits = catacurses::newwin( trait_win_size_y, grid_width,
+                                       point( grid_width + 1, infooffsetybottom ) );
+        w_traits_border = catacurses::newwin( trait_win_size_y + 1, grid_width + 1,
+                                              point( grid_width + 1, infooffsetybottom ) );
+        border_traits.set( point( grid_width, infooffsetybottom - 1 ),
+                           point( grid_width + 2, trait_win_size_y + 2 ) );
+        ui_traits.position_from_window( w_traits_border );
+    } );
+    ui_traits.mark_resize();
+    ui_traits.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_traits_border );
+        wrefresh( w_traits_border );
         draw_traits_tab( w_traits, line, curtab, traitslist, trait_win_size_y );
+    } );
+
+    unsigned int bionics_win_size_y = 0;
+    catacurses::window w_bionics;
+    catacurses::window w_bionics_border;
+    border_helper::border_info &border_bionics = borders.add_border();
+    ui_adaptor ui_bionics;
+    ui_bionics.on_screen_resize( [&]( ui_adaptor & ui_bionics ) {
+        bionics_win_size_y = calculate_trait_and_bionic_height().second;
+        w_bionics = catacurses::newwin( bionics_win_size_y, grid_width,
+                                        point( grid_width + 1,
+                                               infooffsetybottom + trait_win_size_y + 1 ) );
+        w_bionics_border = catacurses::newwin( bionics_win_size_y + 1, grid_width + 1,
+                                               point( grid_width + 1,
+                                                       infooffsetybottom + trait_win_size_y + 1 ) );
+        border_bionics.set( point( grid_width, infooffsetybottom + trait_win_size_y ),
+                            point( grid_width + 2, bionics_win_size_y + 2 ) );
+        ui_bionics.position_from_window( w_bionics_border );
+    } );
+    ui_bionics.mark_resize();
+    ui_bionics.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_bionics_border );
+        wrefresh( w_bionics_border );
         draw_bionics_tab( w_bionics, *this, line, curtab, bionicslist, bionics_win_size_y );
+    } );
+
+    catacurses::window w_encumb;
+    catacurses::window w_encumb_border;
+    border_helper::border_info &border_encumb = borders.add_border();
+    ui_adaptor ui_encumb;
+    ui_encumb.on_screen_resize( [&]( ui_adaptor & ui_encumb ) {
+        w_encumb = catacurses::newwin( grid_height, grid_width, point( grid_width + 1, 1 ) );
+        w_encumb_border = catacurses::newwin( grid_height + 1, grid_width + 1, point( grid_width + 1, 1 ) );
+        border_encumb.set( point( grid_width, 0 ), point( grid_width + 2, grid_height + 2 ) );
+        ui_encumb.position_from_window( w_encumb_border );
+    } );
+    ui_encumb.mark_resize();
+    ui_encumb.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_encumb_border );
+        wrefresh( w_encumb_border );
+        draw_encumbrance_tab( w_encumb, *this, line, curtab );
+    } );
+
+    catacurses::window w_effects;
+    catacurses::window w_effects_border;
+    border_helper::border_info &border_effects = borders.add_border();
+    ui_adaptor ui_effects;
+    ui_effects.on_screen_resize( [&]( ui_adaptor & ui_effects ) {
+        w_effects = catacurses::newwin( effect_win_size_y, grid_width,
+                                        point( grid_width * 2 + 2, infooffsetybottom ) );
+        w_effects_border = catacurses::newwin( effect_win_size_y + 1, grid_width + 1,
+                                               point( grid_width * 2 + 2, infooffsetybottom ) );
+        border_effects.set( point( grid_width * 2 + 1, infooffsetybottom - 1 ),
+                            point( grid_width + 2, effect_win_size_y + 2 ) );
+        ui_effects.position_from_window( w_effects_border );
+    } );
+    ui_effects.mark_resize();
+    ui_effects.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_effects_border );
+        wrefresh( w_effects_border );
         draw_effects_tab( w_effects, line, curtab, effect_name_and_text, effect_win_size_y );
-        draw_skills_tab( w_skills, *this, line, curtab, skillslist, skill_win_size_y );
+    } );
+
+    catacurses::window w_speed;
+    catacurses::window w_speed_border;
+    border_helper::border_info &border_speed = borders.add_border();
+    ui_adaptor ui_speed;
+    ui_speed.on_screen_resize( [&]( ui_adaptor & ui_speed ) {
+        w_speed = catacurses::newwin( grid_height, grid_width, point( grid_width * 2 + 2, 1 ) );
+        w_speed_border = catacurses::newwin( grid_height + 1, grid_width + 1,
+                                             point( grid_width * 2 + 2, 1 ) );
+        border_speed.set( point( grid_width * 2 + 1, 0 ),
+                          point( grid_width + 2, grid_height + 2 ) );
+        ui_speed.position_from_window( w_speed_border );
+    } );
+    ui_speed.mark_resize();
+    ui_speed.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_speed_border );
+        wrefresh( w_speed_border );
         draw_speed_tab( w_speed, *this, speed_effects );
+    } );
+
+    unsigned int skill_win_size_y = 0;
+    catacurses::window w_skills;
+    catacurses::window w_skills_border;
+    border_helper::border_info &border_skills = borders.add_border();
+    ui_adaptor ui_skills;
+    ui_skills.on_screen_resize( [&]( ui_adaptor & ui_skills ) {
+        const unsigned int maxy = static_cast<unsigned>( TERMY );
+        skill_win_size_y = skill_win_size_y_max;
+        if( skill_win_size_y + infooffsetybottom > maxy ) {
+            skill_win_size_y = maxy - infooffsetybottom;
+        }
+        w_skills = catacurses::newwin( skill_win_size_y, grid_width,
+                                       point( 0, infooffsetybottom ) );
+        w_skills_border = catacurses::newwin( skill_win_size_y + 1, grid_width + 1,
+                                              point( 0, infooffsetybottom ) );
+        border_skills.set( point( -1, infooffsetybottom - 1 ),
+                           point( grid_width + 2, skill_win_size_y + 2 ) );
+        ui_skills.position_from_window( w_skills_border );
+    } );
+    ui_skills.mark_resize();
+    ui_skills.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_skills_border );
+        wrefresh( w_skills_border );
+        draw_skills_tab( w_skills, *this, line, curtab, skillslist, skill_win_size_y );
+    } );
+
+    catacurses::window w_info;
+    catacurses::window w_info_border;
+    border_helper::border_info &border_info = borders.add_border();
+    ui_adaptor ui_info;
+    ui_info.on_screen_resize( [&]( ui_adaptor & ui_info ) {
+        w_info = catacurses::newwin( info_win_size_y, FULL_SCREEN_WIDTH,
+                                     point( 0, infooffsetytop ) );
+        w_info_border = catacurses::newwin( info_win_size_y + 1, FULL_SCREEN_WIDTH + 1,
+                                            point( 0, infooffsetytop ) );
+        border_info.set( point( -1, infooffsetytop - 1 ),
+                         point( FULL_SCREEN_WIDTH + 2, info_win_size_y + 2 ) );
+        ui_info.position_from_window( w_info_border );
+    } );
+    ui_info.mark_resize();
+    ui_info.on_redraw( [&]( const ui_adaptor & ) {
+        borders.draw_border( w_info_border );
+        wrefresh( w_info_border );
         draw_info_window( w_info, *this, line, curtab,
                           traitslist, bionicslist, effect_name_and_text, skillslist );
+    } );
 
-        done = handle_player_display_action( *this, line, curtab, ctxt,
+    bool done = false;
+
+    do {
+        ui_manager::redraw_invalidated();
+
+        done = handle_player_display_action( *this, line, curtab, ctxt, ui_tip, ui_info,
+                                             ui_stats, ui_encumb, ui_traits, ui_bionics, ui_effects, ui_skills,
                                              traitslist, bionicslist, effect_name_and_text, skillslist );
     } while( !done );
-
-    g->refresh_all();
 }

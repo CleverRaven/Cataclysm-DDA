@@ -608,8 +608,8 @@ void border_helper::border_info::set( const point &pos, const point &size )
 
 border_helper::border_info &border_helper::add_border()
 {
-    border_info_list.emplace_back( border_info( *this ) );
-    return border_info_list.back();
+    border_info_list.emplace_front( border_info( *this ) );
+    return border_info_list.front();
 }
 
 void border_helper::draw_border( const catacurses::window &win )

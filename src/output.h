@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <forward_list>
 #include <functional>
 #include <iterator>
 #include <locale>
@@ -379,6 +380,12 @@ class border_helper
             public:
                 void set( const point &pos, const point &size );
 
+                // Prevent accidentally copying the return value from border_helper::add_border
+                border_info( const border_info & ) = delete;
+                border_info( border_info && ) = default;
+                border_info &operator=( const border_info & ) = delete;
+                border_info &operator=( border_info && ) = default;
+
                 friend class border_helper;
             private:
                 border_info( border_helper &helper );
@@ -403,7 +410,7 @@ class border_helper
         };
         cata::optional<std::map<point, border_connection>> border_connection_map;
 
-        std::vector<border_info> border_info_list;
+        std::forward_list<border_info> border_info_list;
 };
 
 std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
