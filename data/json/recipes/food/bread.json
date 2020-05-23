@@ -15,7 +15,7 @@
     "components": [
       [ [ "flour", 40 ] ],
       [ [ "yeast", 2 ] ],
-      [ [ "milk", 2 ], [ "raw_milk", 2 ] ],
+      [ [ "milk", 2 ], [ "milk_raw", 2 ] ],
       [ [ "pumpkin", 2 ] ],
       [ [ "sugar", 4 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
