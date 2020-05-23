@@ -2648,20 +2648,6 @@
     "category": "spare_parts"
   },
   {
-    "id": "cerberus_laser",
-    "type": "GENERIC",
-    "symbol": "(",
-    "color": "magenta",
-    "name": { "str": "TX-5LR Laser Cannon" },
-    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
-    "price": 5000000,
-    "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
-    "weight": "5000 g",
-    "volume": "750 ml",
-    "category": "spare_parts"
-  },
-  {
     "id": "light_bulb",
     "type": "GENERIC",
     "name": { "str": "light bulb" },

@@ -20,5 +20,19 @@
       { "item": "scrap", "count": [ 4, 4 ] },
       { "item": "solar_cell", "count": [ 2, 8 ] }
     ]
+  },
+  {
+    "id": "laser_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted Cerberus laser cannon" },
+    "item": "laser_cannon",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   }
 ]
