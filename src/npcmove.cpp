@@ -36,6 +36,7 @@
 #include "gun_mode.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -1440,7 +1441,11 @@ static bool wants_to_reload( const npc &who, const item &it )
     }
 
     const int remaining = it.ammo_remaining();
-    return remaining < required || remaining < it.ammo_capacity();
+    // return early just in case there is no ammo
+    if( remaining < required ) {
+        return true;
+    }
+    return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
 }
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
@@ -2087,7 +2092,8 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
-                                   gun.ammo_capacity() );
+                                   gun.ammo_capacity(
+                                       item_controller->find_template( gun.ammo_default() )->ammo->type ) );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
@@ -4480,7 +4486,7 @@ void npc::do_reload( const item &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it.ammo_capacity() - it.ammo_remaining() ) );
+                                     it.ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();

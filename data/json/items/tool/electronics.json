@@ -14,7 +14,7 @@
     "symbol": ";",
     "color": "light_green",
     "ammo": [ "plutonium" ],
-    "max_charges": 2500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
     "flags": [ "IS_UPS" ]
   },
   {

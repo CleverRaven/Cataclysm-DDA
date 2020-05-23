@@ -4418,7 +4418,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 continue;
             }
             // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-            if( n.ammo_capacity() > n.ammo_remaining() ||
+            if( n.ammo_capacity( ammotype( "battery" ) ) > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                 int power = recharge_part.info().bonus;
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {

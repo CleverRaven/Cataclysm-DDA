@@ -5760,7 +5760,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                 e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
-                e->ammo_set( e->ammo_default(), e->ammo_capacity() );
+                e->ammo_set( e->ammo_default() );
             }
         }
     }

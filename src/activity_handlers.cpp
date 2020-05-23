@@ -50,6 +50,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
@@ -2290,8 +2291,8 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
 
     if( calendar::once_every( 144_seconds ) ) {
         p->mod_fatigue( 1 );
-        if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
+            hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2777,8 +2778,15 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         std::string title = string_format( _( "%s %s\n" ),
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
+        ammotype current_ammo;
+        if( !used_tool->ammo_current().is_null() ) {
+            current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
+        } else {
+            current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
+        }
+
         title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
-                                used_tool->ammo_remaining(), used_tool->ammo_capacity(),
+                                used_tool->ammo_remaining(), used_tool->ammo_capacity( current_ammo ),
                                 item::nname( used_tool->ammo_current() ),
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),

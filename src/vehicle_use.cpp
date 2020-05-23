@@ -23,6 +23,7 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
@@ -2029,8 +2030,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto capacity = pseudo.ammo_capacity( true );
-        auto qty = capacity - discharge_battery( capacity );
+        int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
+        int qty = capacity - discharge_battery( capacity );
         pseudo.ammo_set( itype_battery, qty );
         g->u.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );

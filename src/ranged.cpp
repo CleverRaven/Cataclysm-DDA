@@ -1741,13 +1741,15 @@ double player::gun_value( const item &weap, int ammo ) const
     }
 
     const islot_gun &gun = *weap.type->gun;
-    itype_id ammo_type;
+    itype_id ammo_type = itype_id::NULL_ID();
     if( !weap.ammo_current().is_null() ) {
         ammo_type = weap.ammo_current();
     } else if( weap.magazine_current() ) {
         ammo_type = weap.common_ammo_default();
-    } else {
+    } else if( weap.is_magazine() ) {
         ammo_type = weap.ammo_default();
+    } else if( !weap.magazine_default().is_null() ) {
+        ammo_type = item( weap.magazine_default() ).ammo_default();
     }
     const itype *def_ammo_i = !ammo_type.is_null() ?
                               item::find_type( ammo_type ) :
@@ -1755,7 +1757,18 @@ double player::gun_value( const item &weap, int ammo ) const
 
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
-    tmp.ammo_set( ammo_type );
+    if( tmp.is_magazine() ) {
+        tmp.ammo_set( ammo_type );
+    } else if( tmp.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        item mag;
+        if( weap.magazine_current() ) {
+            mag = item( *weap.magazine_current() );
+        } else {
+            mag = item( weap.magazine_default() );
+        }
+        mag.ammo_set( ammo_type );
+        tmp.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    }
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
                            effective_dispersion( tmp.sight_dispersion() );
 
@@ -2974,7 +2987,7 @@ void target_ui::panel_gun_info( int &text_y )
     } else if( ammo ) {
         str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
                              colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
-                             m->ammo_capacity() );
+                             m->ammo_capacity( ammo->ammo->type ) );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {
         // Weapon doesn't use ammunition

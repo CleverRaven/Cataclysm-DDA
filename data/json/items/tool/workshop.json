@@ -394,6 +394,7 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
