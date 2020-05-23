@@ -6587,14 +6587,13 @@
   },
   {
     "type": "mutation",
-    "id": "knight_training",
+    "id": "PROF_KNIGHT_TRAINING",
     "name": { "str": "Knightly Training" },
     "points": 0,
     "description": "You have mastered the art of medieval swordsmanship.",
-    "starting_trait": false,
     "initial_ma_styles": [ "style_swordsmanship" ],
+    "valid": false,
     "profession": true,
-    "purifiable": false,
-    "valid": false
+    "purifiable": false
   }
 ]
