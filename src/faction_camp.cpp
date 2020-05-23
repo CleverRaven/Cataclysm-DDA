@@ -685,7 +685,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
 {
     std::string entry;
-    std::string gather_bldg = "null";
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
@@ -723,6 +722,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 
     if( has_provides( "gathering", dir ) ) {
+        std::string gather_bldg = "null";
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes:\n"
@@ -1207,7 +1207,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
-    const std::string base_dir_abbr = base_data.bracket_abbr.translated();
     reset_camp_resources();
     std::string gather_bldg = "null";
 
@@ -1247,6 +1246,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         std::map<recipe_id, translation> craft_recipes = recipe_deck( base_camps::base_dir );
         add_available_recipes( mission_key, base_camps::base_dir, craft_recipes );
     } else {
+        const std::string base_dir_abbr = base_data.bracket_abbr.translated();
         entry = miss_info.action.translated();
         bool avail = update_time_left( entry, npc_list );
         mission_key.add_return( base_dir_id + miss_info.ret_miss_id,

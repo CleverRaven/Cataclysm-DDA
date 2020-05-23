@@ -1706,7 +1706,6 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         }
     }
 
-    const std::string space = "  ";
     if( max_nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
@@ -1717,6 +1716,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             }
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
+            const std::string space = "  ";
             info.push_back( iteminfo( "FOOD", space + _( "Quench: " ),
                                       food_item->get_comestible()->quench ) );
         }
@@ -1896,7 +1896,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         return;
     }
 
-    const std::string space = "  ";
     if( ammo_remaining() > 0 ) {
         info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
                            ammo_data()->nname( ammo_remaining() ) );
@@ -1906,6 +1905,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
+        const std::string space = "  ";
         if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                 info.emplace_back( "AMMO", _( "Damage: " ), "",
@@ -2402,9 +2402,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         return;
     }
 
-    const std::string space = "  ";
-
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+        const std::string space = "  ";
         info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
                                   iteminfo::no_newline, bash_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", iteminfo::no_newline, cut_resist() ) );
@@ -2618,13 +2617,11 @@ void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query 
     if( !is_pet_armor() ) {
         return;
     }
-
-    const std::string space = "  ";
-
     int converted_storage_scale = 0;
     const double converted_storage = round_up( convert_volume( type->pet_armor->storage.value(),
                                      &converted_storage_scale ), 2 );
     if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
+        const std::string space = "  ";
         const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
         info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
@@ -3427,8 +3424,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         return;
     }
 
-    const std::string space = "  ";
-
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
@@ -3659,12 +3654,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-    std::map<std::string, std::string>::const_iterator item_note_tool =
-        item_vars.find( "item_note_tool" );
 
     if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
         insert_separation_line( info );
         std::string ntext;
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
         const use_function *use_func =
             item_note_tool != item_vars.end() ?
             item_controller->find_template(
@@ -3701,6 +3696,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   static_cast<double>( price_preapoc ) / 100 ) );
     }
     if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
+        const std::string space = "  ";
         info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
                                   iteminfo::is_decimal | iteminfo::lower_is_better,
                                   static_cast<double>( price_postapoc ) / 100 ) );

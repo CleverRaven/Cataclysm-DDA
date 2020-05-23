@@ -777,7 +777,6 @@ bool veh_interact::can_install_part()
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
-    item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         qual = qual_JACK;
         lvl = jack_quality( *veh );
@@ -785,6 +784,7 @@ bool veh_interact::can_install_part()
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
+        item base( sel_vpart_info->item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
@@ -1789,7 +1789,6 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
-    item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         qual = qual_JACK;
         lvl = jack_quality( *veh );
@@ -1797,6 +1796,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
+        item base( sel_vpart_info->item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );

@@ -6013,8 +6013,6 @@ void map::rotate( int turns, const bool setpos_safe )
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
-        const point local_sq = getlocal( sq ).xy();
-
         real_coords np_rc;
         np_rc.fromabs( sq.x, sq.y );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
@@ -6037,6 +6035,7 @@ void map::rotate( int turns, const bool setpos_safe )
 
         const point new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
+            const point local_sq = getlocal( sq ).xy();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls

@@ -3383,7 +3383,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         is_autodoc = 3
     };
     const bionic_id bid( act->str_values[cbm_id] );
-    const bionic_id upbid = bid->upgraded_bionic;
     const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
                        g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
@@ -3469,6 +3468,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
 
             if( bid.is_valid() ) {
+                const bionic_id upbid = bid->upgraded_bionic;
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
                                     act->str_values[installer_name], bid->canceled_mutations, p->pos() );
             } else {

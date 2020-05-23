@@ -202,12 +202,12 @@ bool monster::will_move_to( const tripoint &p ) const
 
         // Higher awareness is needed for identifying these as threats.
         if( avoid_complex ) {
-            const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
                 return false;
             }
             // Don't step on any traps (if we can see)
+            const trap &target_trap = g->m.tr_at( p );
             if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
                 return false;
             }
@@ -963,8 +963,8 @@ void monster::move()
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
-    const tripoint local_next_step = g->m.getlocal( next_step );
     if( moved ) { // Actual effects of moving to the square we've chosen
+        const tripoint local_next_step = g->m.getlocal( next_step );
         const bool did_something =
             ( !pacified && attack_at( local_next_step ) ) ||
             ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||

@@ -1801,10 +1801,10 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );

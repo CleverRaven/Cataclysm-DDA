@@ -1976,8 +1976,8 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
-        tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         if( !magic ) {
+            tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
             // This new point might be out of the map bounds.  It's not
             // reasonable to try to spawn it outside the currently valid map,
             // so we pass true here to cause such points to be clamped to the
@@ -6045,8 +6045,8 @@ void vehicle::shed_loose_parts()
             tow_data.clear_towing();
         }
         auto part = &parts[elem];
-        item drop = part->properties_to_item();
         if( !magic ) {
+            item drop = part->properties_to_item();
             g->m.add_item_or_charges( global_part_pos3( *part ), drop );
         }
 
@@ -6341,8 +6341,8 @@ int vehicle::break_off( int p, int dmg )
                     add_msg( m_bad, _( "The %1$s's %2$s is torn off!" ), name,
                              parts[ parts_in_square[ index ] ].name() );
                 }
-                item part_as_item = parts[parts_in_square[index]].properties_to_item();
                 if( !magic ) {
+                    item part_as_item = parts[parts_in_square[index]].properties_to_item();
                     g->m.add_item_or_charges( pos, part_as_item );
                 }
             }

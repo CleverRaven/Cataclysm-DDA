@@ -3888,8 +3888,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                     tmp.legacy_fast_forward_time();
                 }
 
-                const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
+                    const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                     active_items.add( *it, p );
                 }
             }

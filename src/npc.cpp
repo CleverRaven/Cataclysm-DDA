@@ -950,9 +950,7 @@ void npc::finish_read( item &book )
         max_ex = std::max( min_ex, max_ex );
 
         skill_level.readBook( min_ex, max_ex, reading->level );
-
-        std::string skill_name = skill.obj().name();
-
+        const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
@@ -964,7 +962,7 @@ void npc::finish_read( item &book )
         } else {
             continuous = true;
             if( display_messages ) {
-                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill.obj().name() );
+                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill_name );
             }
         }
 

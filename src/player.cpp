@@ -3816,8 +3816,6 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    std::string skill_name = skill.name();
-
     if( !level.can_train() && !in_sleep_state() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
         // Leaving as a skill method rather than global for possible future skill cap setting
@@ -3872,6 +3870,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
+        std::string skill_name = skill.name();
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }

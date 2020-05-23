@@ -738,8 +738,8 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
         }
     }
     const vpart_info &vp = veh->part_info( vpindex );
-    const vehicle_part part = veh->parts[ vpindex ];
     if( type == 'r' ) {
+        const vehicle_part part = veh->parts[ vpindex ];
         time_to_take = vp.repair_time( p ) * part.damage() / part.max_damage();
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( p );
@@ -1854,10 +1854,10 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         leftovers.charges = 0;
                     }
                     it.set_var( "activity_var", p.name );
-                    const std::string item_name = it.tname();
                     p.i_add( it );
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
+                            const std::string item_name = it.tname();
                             add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), item_name );
                         } else {
                             add_msg( _( "%s picks up several items." ),  p.disp_name() );
