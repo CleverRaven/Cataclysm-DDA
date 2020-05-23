@@ -6584,5 +6584,17 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "PROF_HELI_PILOT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "knight_training",
+    "name": { "str": "Knightly Training" },
+    "points": 0,
+    "description": "You have mastered the art of medieval swordsmanship.",
+    "starting_trait": false,
+    "initial_ma_styles": [ "style_swordsmanship" ],
+    "profession": true,
+    "purifiable": false,
+    "valid": false
   }
 ]
