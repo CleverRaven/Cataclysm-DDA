@@ -124,7 +124,6 @@ inline std::string string_from_int( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ch;
             break;
     }
     char buffer[2] = { static_cast<char>( charcode ), '\0' };

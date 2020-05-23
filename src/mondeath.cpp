@@ -444,7 +444,6 @@ void mdeath::guilt( monster &z )
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
-        msgtype = m_bad;
         for( auto &guilt_treshold : guilt_tresholds ) {
             if( kill_count >= guilt_treshold.first ) {
                 msg = guilt_treshold.second;

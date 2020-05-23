@@ -1715,7 +1715,6 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     // create the partial construction struct
     partial_con pc;
     pc.id = built_chosen.id;
-    pc.counter = 0;
     // Set the trap that has the examine function
     if( g->m.tr_at( src_loc ).loadid == tr_null ) {
         g->m.trap_set( src_loc, tr_unfinished_construction );

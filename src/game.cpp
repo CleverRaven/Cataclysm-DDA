@@ -904,8 +904,6 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     }
     for( const std::string &search_type : search_types ) {
         omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types.emplace_back( search_type, ot_match_type::type );
         // find nearest road
         find_params.min_distance = min_distance;

@@ -335,7 +335,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
-        angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
         const optional_vpart_position vp = g->m.veh_at( u.pos() );

@@ -625,7 +625,6 @@ void basecamp::form_crafting_inventory( map &target_map )
     fuels.clear();
     for( const itype_id &fuel_id : fuel_types ) {
         basecamp_fuel bcp_f;
-        bcp_f.available = 0;
         bcp_f.ammo_id = fuel_id;
         fuels.emplace_back( bcp_f );
     }
