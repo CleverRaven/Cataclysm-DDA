@@ -1636,7 +1636,7 @@
     "name": "Biker",
     "description": "You spent most of your life on a Harley, out on the open road with your club.  Now they're all dead.  Time to ride or die.",
     "points": 3,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } ,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
     "vehicle": "motorcycle",           
     "items": {
       "both": {
