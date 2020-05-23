@@ -29,15 +29,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "454_speedloader5" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "454": 5, "410shot": 5, "45colt": 5 } } ]
   },
   {
     "id": "raging_judge",
@@ -49,14 +41,6 @@
     "weight": "2070 g",
     "volume": "1175 ml",
     "clip_size": 6,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "454_speedloader6" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "454": 6, "410shot": 6, "45colt": 6 } } ]
   }
 ]
