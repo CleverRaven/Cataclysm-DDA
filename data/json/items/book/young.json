@@ -145,7 +145,7 @@
   {
     "id": "book_fict_soft_ya_burn",
     "type": "BOOK",
-    "name": { "str": "Nothing Burned", "str_pl": "Nothing Burned" },
+    "name": { "str": "Nothing Burned", "str_pl": "copies of Nothing Burned" },
     "description": "A teenage influencer becomes fast friends with someone who may or may not be an actual demon.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },

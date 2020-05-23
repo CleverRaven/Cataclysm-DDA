@@ -310,10 +310,12 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This returns a single paperback fictional scifi book.",
     "subtype": "distribution",
+    "//3": "cats cradle (book_fict_soft_satire_cats) is satire and scifi",
     "entries": [
       { "item": "novel__scifi", "prob": 5 },
       { "item": "book_fict_soft_scifi_f451", "prob": 1 },
       { "item": "book_fict_soft_scifi_cybrd", "prob": 1 },
+      { "item": "book_fict_soft_satire_cats", "prob": 1 },
       { "item": "book_fict_soft_scifi_dune", "prob": 1 }
     ]
   },
