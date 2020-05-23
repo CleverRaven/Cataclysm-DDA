@@ -45,7 +45,8 @@ static void expect_can_contain( const item_pocket &pocket, const item &it )
 }
 
 // Expect pocket.can_contain( it ) to fail, with an expected reason and contain_code
-static void expect_cannot_contain( const item_pocket &pocket, const item &it, const std::string &expect_reason,
+static void expect_cannot_contain( const item_pocket &pocket, const item &it,
+                                   const std::string &expect_reason,
                                    item_pocket::contain_code expect_code )
 {
     CAPTURE( it.tname() );
@@ -66,7 +67,8 @@ static void expect_can_insert( item_pocket &pocket, const item &it )
 }
 
 // Call pocket.insert_item( it ) and expect it to fail, with an expected reason and contain_code
-static void expect_cannot_insert( item_pocket &pocket, const item &it, const std::string &expect_reason,
+static void expect_cannot_insert( item_pocket &pocket, const item &it,
+                                  const std::string &expect_reason,
                                   item_pocket::contain_code expect_code )
 {
     CAPTURE( it.tname() );
