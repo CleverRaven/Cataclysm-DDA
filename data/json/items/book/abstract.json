@@ -271,7 +271,7 @@
     "volume": "1014 ml",
     "longest_side": "22 cm",
     "copy-from": "book_fict_hard_tpl",
-    "relative": { "price_post": -400, "chapters": 10, "fun": -1 }
+    "relative": { "price_post": -400, "chapters": 10 }
   },
   {
     "abstract": "book_fict_soft_satire_tpl",

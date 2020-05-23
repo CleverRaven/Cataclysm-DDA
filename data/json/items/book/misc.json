@@ -457,7 +457,7 @@
     "id": "novel_samurai",
     "type": "BOOK",
     "name": { "str": "samurai novel" },
-    "description": "The classic tale of a wandering swordsman who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
+    "description": "The classic tale of a wandering swordsman who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.  This hardback is quite hefty.",
     "//isbn13": 9781568364278,
     "weight": "1090 g",
     "volume": "1367 ml",
