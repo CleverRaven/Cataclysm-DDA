@@ -350,6 +350,7 @@ void item_contents::heat_up()
 
 int item_contents::ammo_consume( int qty, const tripoint &pos )
 {
+    int consumed = 0;
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             // we are assuming only one magazine per well
@@ -368,12 +369,14 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
                 }
             }
             qty -= res;
+            consumed += res;
         } else if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-
-            qty -= pocket.ammo_consume( qty );
+            const int res = pocket.ammo_consume( qty );
+            consumed += res;
+            qty -= res;
         }
     }
-    return qty;
+    return consumed;
 }
 
 item *item_contents::magazine_current()

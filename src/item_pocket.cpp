@@ -417,7 +417,7 @@ int item_pocket::ammo_consume( int qty )
             break;
         }
     }
-    return qty - used;
+    return used;
 }
 
 int item_pocket::ammo_capacity( const ammotype &ammo ) const
