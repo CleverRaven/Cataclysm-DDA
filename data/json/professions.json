@@ -1635,8 +1635,9 @@
     "ident": "biker",
     "name": "Biker",
     "description": "You spent most of your life on a Harley, out on the open road with your club.  Now they're all dead.  Time to ride or die.",
-    "points": 1,
-    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "points": 3,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } 
+    "vehicle": "motorcycle",           
     "items": {
       "both": {
         "items": [ "jeans", "tank_top", "chaps_leather", "socks", "boots", "bandana", "jacket_leather", "wristwatch" ],
