@@ -454,7 +454,15 @@
       "apartments_mod_tower_NE",
       "apartments_mod_tower_NW",
       "apartments_mod_tower_SE",
-      "apartments_mod_tower_SW"
+      "apartments_mod_tower_SW",
+      "s_apt",
+      "s_apt_2ndfloor",
+      "s_apt_roof",
+      "s_apt_2_upper_roof",
+      "s_apt_2",
+      "s_apt_2_2ndfloor",
+      "s_apt_2_roof",
+      "s_apt_upper_roof"
     ],
     "copy-from": "apartments_tower_any"
   },

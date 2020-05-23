@@ -1,48 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "s_apt",
-    "name": "apartment",
-    "copy-from": "generic_city_building",
-    "sym": "A",
-    "color": "light_green",
-    "land_use_code": "residential_multi"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_apt_2ndfloor",
-    "name": "apartment",
-    "copy-from": "s_apt"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_apt_roof",
-    "name": "apartment",
-    "copy-from": "s_apt"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_apt_2",
-    "name": "apartment",
-    "copy-from": "generic_city_building",
-    "sym": "A",
-    "color": "light_green",
-    "land_use_code": "residential_multi"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_apt_2_2ndfloor",
-    "name": "apartment",
-    "copy-from": "s_apt_2"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_apt_2_roof",
-    "name": "apartment",
-    "copy-from": "s_apt_2"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_air_term",
     "name": "airport",
     "sym": "A",
