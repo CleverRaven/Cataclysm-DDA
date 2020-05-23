@@ -657,7 +657,7 @@
     "type": "COMESTIBLE",
     "copy-from": "fat",
     "name": { "str": "chunk of mutant fat", "str_pl": "chunks of mutant fat" },
-    "description": "Freshly butchered fat from a heavily mutated animal.  It smells, if anything, even more disgusting than the rest of the mutant.  There are little puddles of undentified oils dripping from it.",
+    "description": "Freshly butchered fat from a heavily mutated animal.  It smells, if anything, even more disgusting than the rest of the mutant.  There are little puddles of unidentified oils dripping from it.",
     "looks_like": "fat",
     "proportional": { "price": 0.2 },
     "vitamins": [ [ "mutant_toxin", 360 ] ]
