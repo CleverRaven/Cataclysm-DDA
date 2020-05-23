@@ -8064,7 +8064,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     cata::optional<tripoint> trail_start;
     cata::optional<tripoint> trail_end;
-    bool trail_end_x;
+    bool trail_end_x = false;
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
