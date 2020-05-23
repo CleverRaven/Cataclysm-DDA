@@ -595,7 +595,7 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
 }
 
 border_helper::border_info::border_info( border_helper &helper )
-    : pos( point_zero ), size( point_zero ), helper( helper )
+    : helper( helper )
 {
 }
 
