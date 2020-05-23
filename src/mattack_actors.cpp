@@ -529,9 +529,20 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ammo_type.is_null() ? gun.ammo_default() : ammo_type;
+    itype_id ammo;
+    if( gun.magazine_integral() ) {
+        ammo = gun.ammo_default();
+    } else {
+        ammo = item( gun.magazine_default() ).ammo_default();
+    }
     if( !ammo.is_null() ) {
-        gun.ammo_set( ammo, z.ammo[ ammo ] );
+        if( gun.magazine_integral() ) {
+            gun.ammo_set( ammo, z.ammo[ammo] );
+        } else {
+            item mag( gun.magazine_default() );
+            mag.ammo_set( ammo, z.ammo[ammo] );
+            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        }
     }
 
     if( !gun.ammo_sufficient() ) {
