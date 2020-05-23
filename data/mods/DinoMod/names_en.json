@@ -1,0 +1,31 @@
+[
+  {
+    "usage": "nick",
+    "name": [
+      "Raptor",
+      "Jurassic",
+      "Triassic",
+      "Cretaceous",
+      "Bone Warrior",
+      "Sharptooth",
+      "Dinosaur",
+      "Grimlock",
+      "Reptar",
+      "Pterri"
+    ]
+  },
+  {
+    "usage": "family",
+    "gender": "unisex",
+    "name": [ "Rubble", "Flintstone", "Stromer", "Ostrom", "Goldblum", "Dern", "Crichton", "Verne", "Tingle", "Gurney", "Lauda" ]
+  },
+  {
+    "usage": "given",
+    "gender": "male",
+    "name": [ "Bamm-Bamm", "Yoshi", "Othniel" ]
+  },
+  {
+    "usage": "world",
+    "name": [ "Jurassic", "Triassic", "Cretaceous" ]
+  }
+]
