@@ -508,7 +508,7 @@ class player : public Character
         bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty();
+        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** This handles giving xp for a skill */
