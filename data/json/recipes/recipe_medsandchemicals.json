@@ -260,6 +260,7 @@
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
     "time": "5 m",
+    "flags": [ "SECRET" ],
     "book_learn": [
       [ "textbook_chemistry", 2 ],
       [ "adv_chemistry", 2 ],
