@@ -129,6 +129,7 @@ class item_pocket
         std::vector<const item *> gunmods() const;
         cata::flat_set<itype_id> item_type_restrictions() const;
         item *magazine_current();
+        // returns amount of ammo consumed
         int ammo_consume( int qty );
         // returns all allowable ammotypes
         std::set<ammotype> ammo_types() const;
