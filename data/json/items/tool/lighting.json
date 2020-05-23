@@ -161,10 +161,13 @@
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_battery_cell",
           "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell",
@@ -173,7 +176,7 @@
           "light_plus_battery_cell",
           "light_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -208,10 +211,13 @@
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -220,7 +226,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -389,10 +395,13 @@
       "need_charges": 1,
       "need_charges_msg": "The heavy duty flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_plus_battery_cell",
@@ -401,7 +410,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -460,10 +469,13 @@
       "need_charges": 1,
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -472,7 +484,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -537,7 +549,15 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "weldtank", "tinyweldtank" ]
+      }
+    ]
   },
   {
     "id": "oxylamp_on",
@@ -571,7 +591,15 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+      }
+    ]
   },
   {
     "id": "reading_light_on",
@@ -609,10 +637,13 @@
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -621,7 +652,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {

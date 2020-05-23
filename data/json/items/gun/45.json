@@ -37,7 +37,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "tdi_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tdi_mag" ]
+      }
+    ]
   },
   {
     "id": "hk_ump45",
@@ -79,7 +87,15 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m1911",
@@ -104,7 +120,15 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
-    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1911mag", "m1911bigmag" ]
+      }
+    ]
   },
   {
     "id": "m1911_MEU",
@@ -159,7 +183,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mac10mag", "smg_45_mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_45",
@@ -239,7 +271,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "45", [ "smg_45_mag", "mac10mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "smg_45_mag", "mac10mag" ]
+      }
+    ]
   },
   {
     "id": "surv_hand_cannon",
@@ -307,7 +347,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "usp_45",
@@ -321,7 +369,15 @@
     "price_postapoc": 2500,
     "ranged_damage": 0,
     "built_in_mods": [ "match_trigger" ],
-    "magazines": [ [ "45", [ "usp45mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "usp45mag" ]
+      }
+    ]
   },
   {
     "id": "mk23",
@@ -354,7 +410,15 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 9,
-    "magazines": [ [ "45", [ "ppq45mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppq45mag" ]
+      }
+    ]
   },
   {
     "id": "hptjhp",
@@ -375,6 +439,14 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptjhpmag" ]
+      }
+    ]
   }
 ]

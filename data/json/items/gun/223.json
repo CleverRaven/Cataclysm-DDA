@@ -23,10 +23,13 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -41,7 +44,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -64,10 +67,13 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -82,7 +88,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -108,7 +114,15 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30", "stanag50", "survivor223mag" ]
+      }
+    ]
   },
   {
     "id": "famas",
@@ -145,7 +159,15 @@
       [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "famasmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "famasmag" ]
+      }
+    ]
   },
   {
     "id": "fs2000",
@@ -168,7 +190,6 @@
     "durability": 9,
     "min_cycle_recoil": 1350,
     "default_mods": [ "factory_handguard" ],
-    "magazines": [ [ "223", [ "stanag30" ] ] ],
     "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -178,6 +199,15 @@
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30" ]
+      }
     ]
   },
   {
@@ -203,10 +233,13 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -221,7 +254,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -245,7 +278,15 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "g36mag_30rd", "g36mag_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ]
+      }
+    ]
   },
   {
     "id": "m249",
@@ -283,10 +324,13 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "belt223",
           "stanag30",
           "stanag5",
@@ -302,7 +346,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -321,10 +365,14 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -339,9 +387,8 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
-    ],
-    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 }
+      }
+    ]
   },
   {
     "id": "m4a1",
@@ -365,10 +412,13 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -383,7 +433,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -407,10 +457,13 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -425,7 +478,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -450,7 +503,15 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30", "stanag50", "survivor223mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_223",
@@ -528,7 +589,15 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "scar_l",
@@ -552,10 +621,13 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -570,7 +642,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -593,10 +665,13 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -611,7 +686,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -650,7 +725,15 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ]
+      }
+    ]
   },
   {
     "id": "surv_carbine_223",
@@ -688,10 +771,13 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ]
     ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "survivor223mag",
           "stanag30",
           "stanag5",
@@ -706,7 +792,7 @@
           "stanag100drum",
           "stanag150"
         ]
-      ]
+      }
     ]
   }
 ]

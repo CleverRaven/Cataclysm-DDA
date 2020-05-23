@@ -21,7 +21,6 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],
@@ -31,7 +30,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "454": 5, "410shot": 5, "45colt": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "454": 5, "410shot": 5, "45colt": 5 } } ]
   },
   {
     "id": "raging_judge",
@@ -44,7 +43,6 @@
     "volume": "1175 ml",
     "longest_side": "385 mm",
     "clip_size": 6,
-    "magazines": [ [ "454", [ "454_speedloader6" ] ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "454": 6, "410shot": 6, "45colt": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "454": 6, "410shot": 6, "45colt": 6 } } ]
   }
 ]

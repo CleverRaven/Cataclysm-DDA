@@ -35,7 +35,15 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
+      }
+    ]
   },
   {
     "id": "arx160",
@@ -76,7 +84,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ]
+      }
+    ]
   },
   {
     "id": "sks",
@@ -117,9 +133,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "762x39_clip" ] ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "762x39_clip" ]
+      }
+    ]
   },
   {
     "id": "aksemi",
@@ -156,7 +179,15 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
+      }
+    ]
   },
   {
     "id": "draco",
@@ -194,6 +225,14 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
+      }
+    ]
   }
 ]
