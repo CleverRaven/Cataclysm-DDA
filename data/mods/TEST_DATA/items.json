@@ -709,5 +709,56 @@
     "price": 50,
     "symbol": "~",
     "color": "light_gray"
+  },
+  {
+    "id": "test_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test box" },
+    "description": "A simple 1-liter cardboard box of deliberately undefined proportions.",
+    "weight": "100 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 25,
+    "material": "cardboard",
+    "symbol": "[",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "//": "max_item_length is left undefined on purpose, to test default length from volume",
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_item_volume": "1 L",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "10 kg",
+        "moves": 200
+      }
+    ]
+  },
+  {
+    "id": "test_rod_14cm",
+    "type": "GENERIC",
+    "name": "test 14 cm rod",
+    "description": "A thin rod exactly 14 cm in length",
+    "category": "spare_parts",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "longest_side": "14 cm",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": "steel"
+  },
+  {
+    "id": "test_rod_15cm",
+    "type": "GENERIC",
+    "name": "test 15 cm rod",
+    "description": "A thin rod exactly 15 cm in length",
+    "category": "spare_parts",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "longest_side": "15 cm",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": "steel"
   }
 ]

@@ -93,32 +93,74 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
     item sonic( "test_sonic_screwdriver" );
     item sword( "test_clumsy_sword" );
 
-    // Ensure lengths are in the expected order
-    REQUIRE( screwdriver.length() < sonic.length() );
-    REQUIRE( sonic.length() < sword.length() );
-
-    // Sheath just long enough for sonic screwdriver
+    // Sheath that may contain items
     pocket_data data_sheath( item_pocket::pocket_type::CONTAINER );
-
     // Has plenty of weight/ volume, since we're only testing length
     data_sheath.volume_capacity = 10_liter;
     data_sheath.max_contains_weight = 10_kilogram;
 
     GIVEN( "pocket has max_item_length enough for some items, but not others" ) {
-        data_sheath.max_item_length = sonic.length();
+        // Sheath is just long enough for sonic screwdriver
+        const units::length max_length = sonic.length();
+        data_sheath.max_item_length = max_length;
         item_pocket pocket_sheath( &data_sheath );
 
         THEN( "it can contain an item with longest_side shorter than max_item_length" ) {
+            REQUIRE( screwdriver.length() < max_length );
             expect_can_contain( pocket_sheath, screwdriver );
         }
 
         THEN( "it can contain an item with longest_side equal to max_item_length" ) {
+            REQUIRE( sonic.length() == max_length );
             expect_can_contain( pocket_sheath, sonic );
         }
 
         THEN( "it cannot contain an item with longest_side longer than max_item_length" ) {
+            REQUIRE( sword.length() > max_length );
             expect_cannot_contain( pocket_sheath, sword, "item is too long",
                                    item_pocket::contain_code::ERR_TOO_BIG );
+        }
+    }
+
+    // Default max_item_length assumes pocket is a cube, limiting max length to the diagonal
+    // dimension of one side of the cube (the opening into the box, so to speak).
+    //
+    // For a 1-liter volume, a 10 cm cube encloses it, so the longest diagonal is:
+    //
+    //      10 cm * sqrt(2) =~ 14.14 cm
+    //
+    // This test ensures that a 1-liter box with unspecified max_item_length can indeed contain
+    // items up to 14 cm in length, but not ones that are 15 cm.
+    //
+    // NOTE: In theory, the interior space of the cube can accommodate a longer item between its
+    // opposite diagonals, assuming it is infinitely thin:
+    //
+    //      10 cm * sqrt(3) =~ 17.32 cm
+    //
+    // Items of such length are not currently allowed in a 1-liter pocket.
+
+    GIVEN( "a 1-liter box without a defined max_item_length" ) {
+        item box( "test_box" );
+        REQUIRE( box.get_total_capacity() == 1_liter );
+
+        THEN( "it can hold an item 14 cm in length" ) {
+            item rod_14( "test_rod_14cm" );
+            REQUIRE( rod_14.length() == 14_cm );
+
+            REQUIRE( box.is_container_empty() );
+            box.put_in( rod_14, item_pocket::pocket_type::CONTAINER );
+            // Item went into the box
+            CHECK_FALSE( box.is_container_empty() );
+        }
+
+        THEN( "it cannot hold an item 15 cm in length" ) {
+            item rod_15( "test_rod_15cm" );
+            REQUIRE( rod_15.length() == 15_cm );
+
+            REQUIRE( box.is_container_empty() );
+            box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+            // Box should still be empty
+            CHECK( box.is_container_empty() );
         }
     }
 }
