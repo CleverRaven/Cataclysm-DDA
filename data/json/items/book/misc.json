@@ -514,9 +514,10 @@
     "name": "Cat’s Cradle",
     "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
     "weight": "360 g",
-    "copy-from": "book_fict_soft_satire_tpl",
     "time": "1 m",
-    "relative": { "chapters": 111, "fun": -1 }
+    "chapters": 127,
+    "fun": 1,
+    "copy-from": "book_fict_soft_satire_tpl"
   },
   {
     "id": "novel_spy",
