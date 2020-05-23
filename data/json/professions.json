@@ -3694,22 +3694,6 @@
   },
   {
     "type": "profession",
-    "ident": "knight",
-    "name": "Medieval Knight",
-    "description": "You've made medieval swordsmanship your life. Now you will finally have a real use for it."
-    "points": 8,
-    "CBMs": [  ],
-    "traits": [ "knight_training" ],
-    "skills": [ { "level": 5, "name": "melee" }, { "level": 5, "name": "cutting" }, { "level": 5, "name": "dodge" } ],
-    "items": {
-      "both": {
-        "items": [ "socks", "boxer_briefs", "chainmail_suit", "gloves_plate", "boots_plate", "armor_lightplate", "helmet_barbute" ],
-        "entries": [ { "item": "broadsword", "container-item": "scabbard" } ]
-      }
-    }
-  },
-  {
-    "type": "profession",
     "ident": "tourist",
     "name": "Tourist",
     "description": "This seemed like a great place for a holiday, but you're starting to regret ever leaving home.  You came here to get a taste of New England, but New England keeps trying to get a taste of you!",
@@ -4163,5 +4147,21 @@
       "female": [ "sports_bra", "boy_shorts" ]
     },
     "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "knight",
+    "name": "Medieval Knight",
+    "description": "You've made medieval swordsmanship your life. Now you will finally have a real use for it."
+    "points": 8,
+    "CBMs": [  ],
+    "traits": [ "knight_training" ],
+    "skills": [ { "level": 5, "name": "melee" }, { "level": 5, "name": "cutting" }, { "level": 5, "name": "dodge" } ],
+    "items": {
+      "both": {
+        "items": [ "socks", "boxer_briefs", "chainmail_suit", "gloves_plate", "boots_plate", "armor_lightplate", "helmet_barbute" ],
+        "entries": [ { "item": "broadsword", "container-item": "scabbard" } ]
+      }
+    }
   }
 ]
