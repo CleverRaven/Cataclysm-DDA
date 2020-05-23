@@ -289,7 +289,7 @@ enum class player_display_tab {
     effects,
     num_tabs,
 };
-}
+} // namespace
 
 static player_display_tab next_tab( const player_display_tab tab )
 {
