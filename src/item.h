@@ -1166,8 +1166,8 @@ class item : public visitable<item>
 
         bool is_faulty() const;
         bool is_irremovable() const;
-
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
+        bool is_addiction_nicotine()const;
 
         bool has_temperature() const;
 
@@ -1178,6 +1178,8 @@ class item : public visitable<item>
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
         float get_freeze_point() const; // Fahrenheit
+
+
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.

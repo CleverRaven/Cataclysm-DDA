@@ -67,6 +67,15 @@ void addict_effect( Character &u, addiction &add )
                                  _( "You need some nicotine." ) :
                                  _( "You could use some nicotine." ) );
             u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
+
+            //If the player brings a cigarette but does not smoke, it will make the player more sad
+            if (u.has_item_with([](const item& i){
+                            return i.is_addiction_nicotine();
+            }) ){
+                u.rem_morale(MORALE_CRAVING_NICOTINE);
+                u.add_morale(MORALE_CRAVING_NICOTINE, -20, -3 * in);
+            }
+
             if( one_in( 800 - 50 * in ) ) {
                 u.mod_fatigue( 1 );
             }

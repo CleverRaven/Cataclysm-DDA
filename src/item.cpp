@@ -721,7 +721,18 @@ bool item::is_unarmed_weapon() const
 {
     return has_flag( flag_UNARMED_WEAPON ) || is_null();
 }
-
+bool item::is_addiction_nicotine() const
+{
+    if (is_comestible()) 
+    {
+        return get_comestible()->add == add_type::CIG;
+    }
+    else
+    {
+        return false;
+    }
+}
+   
 bool item::is_frozen_liquid() const
 {
     return made_of( SOLID ) && made_of_from_type( LIQUID );
