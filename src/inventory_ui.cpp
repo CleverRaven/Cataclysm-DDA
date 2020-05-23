@@ -920,7 +920,7 @@ int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, 
     return cur_invlet;
 }
 
-static int num_parents( item_location loc )
+static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
         return 0;
@@ -1267,12 +1267,12 @@ void inventory_selector::add_items( inventory_column &target_column,
     }
 }
 
-void inventory_selector::add_contained_items( item_location container )
+void inventory_selector::add_contained_items( item_location &container )
 {
     add_contained_items( container, own_inv_column );
 }
 
-void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );

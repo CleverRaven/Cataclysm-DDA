@@ -668,7 +668,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-static void print_message_to( catacurses::window &w_msg, const nc_color col,
+static void print_message_to( catacurses::window &w_msg, const nc_color &col,
                               const std::string &msg )
 {
     werase( w_msg );

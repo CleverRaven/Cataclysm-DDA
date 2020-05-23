@@ -133,7 +133,7 @@ struct bionic_data {
     bool is_included( const bionic_id &id ) const;
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
+    void load( const JsonObject &obj, const std::string & );
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();

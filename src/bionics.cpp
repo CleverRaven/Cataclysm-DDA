@@ -256,7 +256,7 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string )
+void bionic_data::load( const JsonObject &jsobj, const std::string & )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -1942,7 +1942,7 @@ void Character::consume_anesth_requirment( const itype &cbm, player &patient )
     invalidate_crafting_inventory();
 }
 
-bool Character::has_installation_requirment( bionic_id bid )
+bool Character::has_installation_requirment( const bionic_id &bid )
 {
     if( bid->installation_requirement.is_empty() ) {
         return false;
@@ -1960,7 +1960,7 @@ bool Character::has_installation_requirment( bionic_id bid )
     return true;
 }
 
-void Character::consume_installation_requirment( bionic_id bid )
+void Character::consume_installation_requirment( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
         as_player()->consume_items( e, 1, is_crafting_component );

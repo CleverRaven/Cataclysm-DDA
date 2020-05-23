@@ -520,7 +520,7 @@ void draw_custom_border(
     const catacurses::window &w, const catacurses::chtype ls, const catacurses::chtype rs,
     const catacurses::chtype ts, const catacurses::chtype bs, const catacurses::chtype tl,
     const catacurses::chtype tr, const catacurses::chtype bl, const catacurses::chtype br,
-    const nc_color FG, const point &pos, int height, int width )
+    const nc_color &FG, const point &pos, int height, int width )
 {
     wattron( w, FG );
 

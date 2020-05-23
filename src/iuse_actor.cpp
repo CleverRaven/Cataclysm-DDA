@@ -2482,7 +2482,8 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        game_menus::inv::insert_items( *p.as_avatar(), item_location( p, &it ) );
+        item_location item_loc( p, &it );
+        game_menus::inv::insert_items( *p.as_avatar(), item_loc );
     }
 
     return 0;

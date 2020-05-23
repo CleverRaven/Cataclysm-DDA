@@ -1424,7 +1424,7 @@ anatomy_id Creature::get_anatomy() const
     return creature_anatomy;
 }
 
-void Creature::set_anatomy( anatomy_id anat )
+void Creature::set_anatomy( const anatomy_id &anat )
 {
     creature_anatomy = anat;
 }

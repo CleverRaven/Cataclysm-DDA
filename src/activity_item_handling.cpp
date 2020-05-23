@@ -849,7 +849,7 @@ static activity_reason_info find_base_construction(
     const inventory &inv,
     const tripoint &loc,
     const cata::optional<construction_id> &part_con_idx,
-    const construction_id idx,
+    const construction_id &idx,
     std::set<construction_id> &used )
 {
     const construction &build = idx.obj();

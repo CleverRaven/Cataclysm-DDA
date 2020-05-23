@@ -436,8 +436,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
-                              units::volume carry_volume );
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
 std::string camp_trip_description( const time_duration &total_time,
                                    const time_duration &working_time,
@@ -3492,8 +3492,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
     return work + one_way * trips * 1_seconds;
 }
 
-int om_carry_weight_to_trips( units::mass mass, units::volume volume,
-                              units::mass carry_mass, units::volume carry_volume )
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume )
 {
     int trips_m = 1 + mass / carry_mass;
     int trips_v = 1 + volume / carry_volume;

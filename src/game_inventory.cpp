@@ -242,7 +242,7 @@ void game_menus::inv::common( avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-void game_menus::inv::common( item_location loc, avatar &you )
+void game_menus::inv::common( item_location &loc, avatar &you )
 {
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
@@ -1274,7 +1274,7 @@ class holster_inventory_preset: public weapon_inventory_preset
         const item &holster;
 };
 
-drop_locations game_menus::inv::holster( player &p, item_location holster )
+drop_locations game_menus::inv::holster( player &p, const item_location &holster )
 {
     const std::string holster_name = holster->tname( 1, false );
     const use_function *use = holster->type->get_use( "holster" );
@@ -1300,7 +1300,7 @@ drop_locations game_menus::inv::holster( player &p, item_location holster )
     return insert_menu.execute();
 }
 
-void game_menus::inv::insert_items( avatar &you, item_location holster )
+void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     for( drop_location holstered_item : holstered_list ) {
