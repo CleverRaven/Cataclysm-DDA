@@ -162,7 +162,7 @@ static std::string swim_cost_text( int moves )
 
 static std::string run_cost_text( int moves )
 {
-    return string_format( _( "Running movement point cost: <color_white>%+d</color>\n" ), moves );
+    return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
 static std::string reload_cost_text( int moves )
