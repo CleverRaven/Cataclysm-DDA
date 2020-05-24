@@ -4160,7 +4160,7 @@
     "items": {
       "both": {
         "items": [ "socks", "boxer_briefs", "chainmail_suit", "gloves_plate", "boots_plate", "armor_lightplate", "helmet_barbute" ],
-        "entries": [ { "item": "broadsword", "container-item": "scabbard" } ]
+        "entries": [ { "item": "arming_sword", "container-item": "scabbard" } ]
       }
     }
   }
