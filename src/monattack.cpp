@@ -2883,7 +2883,7 @@ bool mattack::stare( monster *z )
         } else {
             add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
         }
-        g->u.add_effect( effect_taint, rng( 20_minutes, 60_minutes ) );
+        g->u.add_effect( effect_taint, rng( 2_minutes, 5_minutes ) );
         //Check severity before adding more debuffs
         if( g->u.get_effect_int( effect_taint ) > 2 ) {
             g->u.add_effect( effect_hallu, 30_minutes );
@@ -2897,7 +2897,7 @@ bool mattack::stare( monster *z )
             }
         }
         if( g->u.get_effect_int( effect_taint ) >= 3 && one_in( 12 ) ) {
-            g->u.add_effect( effect_tindrift, 5_turns );
+            g->u.add_effect( effect_tindrift, 1_turns );
         }
     }
     return true;

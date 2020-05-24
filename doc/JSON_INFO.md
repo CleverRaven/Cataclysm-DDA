@@ -1189,14 +1189,23 @@ Here are examples of each modification:
 "value_constraints" : { // A dictionary of constraints
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
-    // "equals" can be used to specify a constant string value the field must take.
+    // "equals" can be used to specify a constant cata_variant value the field must take.
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
-    "mount" : { "equals": "mon_horse" }
+    "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
 }
 // Since we are filtering to only those events where 'mount' is 'mon_horse', we
 // might as well drop the 'mount' field, since it provides no useful information.
 "drop_fields" : [ "mount" ]
 ```
+
+The parameter to `"equals"` is normally a length-two array specifying a
+`cata_variant_type` and a value.  As a short cut, you can simply specify an
+`int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
+those types.
+
+Value constraints are type-checked, so you should see an error message at game
+data verification time if the variant type you have specified doesn't match the
+type of the field you're matching.
 
 #### `event_statistic`
 

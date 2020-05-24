@@ -838,18 +838,18 @@ bool item::is_worn_only_with( const item &it ) const
     return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
 }
 
-item item::in_its_container() const
+item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ) );
+    return in_container( type->default_container.value_or( "null" ), qty );
 }
 
-item item::in_container( const itype_id &cont ) const
+item item::in_container( const itype_id &cont, int qty ) const
 {
     if( !cont.is_null() ) {
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                ret.fill_with( *type, charges );
+                ret.fill_with( *type, qty );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
@@ -2022,6 +2022,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                string_format( "<stat>%s</stat>",
                                               curammo->nname( 1 ) ) );
         }
+    } else {
+        curammo = loaded_mod->ammo_data();
     }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
@@ -7906,7 +7908,7 @@ int item::getlight_emit() const
 {
     float lumint = type->light_emission;
 
-    if( lumint == 0 ) {
+    if( lumint == 0 || ammo_remaining() == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
