@@ -193,7 +193,7 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     bool activate = false;
     bool deactivate = false;
 
-    int var;
+    int var = 0;
 
     switch( mut->reflex_activation->trigger ) {
         case PAIN:
@@ -207,8 +207,10 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
             break;
         case MOOD:
             var = get_morale_level();
+            break;
         case STAMINA:
             var = get_stamina();
+            break;
         case MOON:
             var = static_cast<int>( get_moon_phase( calendar::turn ) );
             break;
@@ -216,6 +218,8 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
             var = to_hours<int>( time_past_midnight( calendar::turn ) );
             break;
         default:
+            debugmsg( "Invalid trigger" );
+            return;
             break;
     }
 
