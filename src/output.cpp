@@ -594,6 +594,102 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
     mvwputch( w, point( width - 1, height - 1 ), border_color, LINE_XOOX ); // _|
 }
 
+border_helper::border_info::border_info( border_helper &helper )
+    : helper( helper )
+{
+}
+
+void border_helper::border_info::set( const point &pos, const point &size )
+{
+    this->pos = pos;
+    this->size = size;
+    helper.get().border_connection_map.reset();
+}
+
+border_helper::border_info &border_helper::add_border()
+{
+    border_info_list.emplace_front( border_info( *this ) );
+    return border_info_list.front();
+}
+
+void border_helper::draw_border( const catacurses::window &win )
+{
+    if( !border_connection_map.has_value() ) {
+        border_connection_map.emplace();
+        for( const border_info &info : border_info_list ) {
+            const point beg = info.pos;
+            const point end = info.pos + info.size;
+            for( int x = beg.x; x < end.x; ++x ) {
+                const point ptop( x, beg.y );
+                const point pbottom( x, end.y - 1 );
+                if( x > beg.x ) {
+                    border_connection_map.value()[ptop].left =
+                        border_connection_map.value()[pbottom].left = true;
+                }
+                if( x < end.x - 1 ) {
+                    border_connection_map.value()[ptop].right =
+                        border_connection_map.value()[pbottom].right = true;
+                }
+            }
+            for( int y = beg.y; y < end.y; ++y ) {
+                const point pleft( beg.x, y );
+                const point pright( end.x - 1, y );
+                if( y > beg.y ) {
+                    border_connection_map.value()[pleft].top =
+                        border_connection_map.value()[pright].top = true;
+                }
+                if( y < end.y - 1 ) {
+                    border_connection_map.value()[pleft].bottom =
+                        border_connection_map.value()[pright].bottom = true;
+                }
+            }
+        }
+    }
+    const point win_beg( getbegx( win ), getbegy( win ) );
+    const point win_end = win_beg + point( getmaxx( win ), getmaxy( win ) );
+    for( const std::pair<point, border_connection> &conn : border_connection_map.value() ) {
+        if( conn.first.x >= win_beg.x && conn.first.x < win_end.x &&
+            conn.first.y >= win_beg.y && conn.first.y < win_end.y ) {
+            mvwputch( win, conn.first - win_beg, BORDER_COLOR, conn.second.as_curses_line() );
+        }
+    }
+}
+
+int border_helper::border_connection::as_curses_line() const
+{
+    constexpr int t = 0x8;
+    constexpr int r = 0x4;
+    constexpr int b = 0x2;
+    constexpr int l = 0x1;
+    const int conn = ( top ? t : 0 ) | ( right ? r : 0 ) | ( bottom ? b : 0 ) | ( left ? l : 0 );
+    switch( conn ) {
+        default:
+            return '?';
+        case 0x3:
+            return LINE_OOXX;
+        case 0x5:
+            return LINE_OXOX;
+        case 0x6:
+            return LINE_OXXO;
+        case 0x7:
+            return LINE_OXXX;
+        case 0x9:
+            return LINE_XOOX;
+        case 0xA:
+            return LINE_XOXO;
+        case 0xB:
+            return LINE_XOXX;
+        case 0xC:
+            return LINE_XXOO;
+        case 0xD:
+            return LINE_XXOX;
+        case 0xE:
+            return LINE_XXXO;
+        case 0xF:
+            return LINE_XXXX;
+    }
+}
+
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );

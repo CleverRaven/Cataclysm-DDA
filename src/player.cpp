@@ -472,7 +472,7 @@ void player::process_turn()
     }
 }
 
-int player::kcal_speed_penalty()
+int player::kcal_speed_penalty() const
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
