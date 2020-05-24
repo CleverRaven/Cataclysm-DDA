@@ -840,7 +840,7 @@ bool item::is_worn_only_with( const item &it ) const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ) );
+    return in_container( type->default_container.value_or( "null" ), qty );
 }
 
 item item::in_container( const itype_id &cont, int qty ) const
