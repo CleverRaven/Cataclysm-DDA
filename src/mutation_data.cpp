@@ -113,10 +113,10 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
                                         translate_marker( "You fall asleep." ) );
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
-    static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold_low" ) );
-    static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold_low" ) );
+    static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
+    static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
-                                        "Crossed a threshold_low" );
+                                        "Crossed a threshold" );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
                                       translate_marker( "Oh, yeah!  That's the stuff!" ) );
 
@@ -194,7 +194,7 @@ void mutation_category_trait::check_consistency()
     for( const auto &pr : mutation_category_traits ) {
         const mutation_category_trait &cat = pr.second;
         if( !cat.threshold_mut.is_empty() && !cat.threshold_mut.is_valid() ) {
-            debugmsg( "Mutation category %s has threshold_low mutation %s, which does not exist",
+            debugmsg( "Mutation category %s has threshold mutation %s, which does not exist",
                       cat.id.c_str(), cat.threshold_mut.c_str() );
         }
     }
@@ -370,7 +370,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
-    optional( jo, was_loaded, "threshold_low", threshold, false );
+    optional( jo, was_loaded, "threshold", threshold, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
