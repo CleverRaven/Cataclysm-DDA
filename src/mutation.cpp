@@ -184,6 +184,129 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     mutation_effect( target );
 }
 
+void Character::mutation_reflex_trigger( const trait_id &mut )
+{
+    if( !mut->reflex_activation ) {
+        return;
+    }
+
+    bool activate = false;
+    bool deactivate = false;
+
+    switch( mut->reflex_activation->trigger ) {
+        case PAIN:
+            if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
+                if( get_pain() < mut->reflex_activation->threshold_high &&
+                    get_pain() > mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_pain() > mut->reflex_activation->threshold_high ||
+                           get_pain() < mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            } else {
+                if( get_pain() > mut->reflex_activation->threshold_high ||
+                    get_pain() < mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_pain() < mut->reflex_activation->threshold_high &&
+                           get_pain() > mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            }
+            break;
+        case HUNGER:
+            if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
+                if( get_hunger() < mut->reflex_activation->threshold_high &&
+                    get_hunger() > mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_hunger() > mut->reflex_activation->threshold_high ||
+                           get_hunger() < mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            } else {
+                if( get_hunger() > mut->reflex_activation->threshold_high ||
+                    get_hunger() < mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_hunger() < mut->reflex_activation->threshold_high &&
+                           get_hunger() > mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            }
+            break;
+        case THRIST:
+            if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
+                if( get_thirst() < mut->reflex_activation->threshold_high &&
+                    get_thirst() > mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_thirst() > mut->reflex_activation->threshold_high ||
+                           get_thirst() < mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            } else {
+                if( get_thirst() > mut->reflex_activation->threshold_high ||
+                    get_thirst() < mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_thirst() < mut->reflex_activation->threshold_high &&
+                           get_thirst() > mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            }
+            break;
+        case MOOD:
+            if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
+                if( get_morale_level() < mut->reflex_activation->threshold_high &&
+                    get_morale_level() > mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_morale_level() > mut->reflex_activation->threshold_high ||
+                           get_morale_level() < mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            } else {
+                if( get_morale_level() > mut->reflex_activation->threshold_high ||
+                    get_morale_level() < mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_morale_level() < mut->reflex_activation->threshold_high &&
+                           get_morale_level() > mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            }
+            break;
+        case STAMINA:
+            if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
+                if( get_stamina() < mut->reflex_activation->threshold_high &&
+                    get_stamina() > mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_stamina() > mut->reflex_activation->threshold_high ||
+                           get_stamina() < mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            } else {
+                if( get_stamina() > mut->reflex_activation->threshold_high ||
+                    get_stamina() < mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_stamina() < mut->reflex_activation->threshold_high &&
+                           get_stamina() > mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    if( activate ) {
+        activate_mutation( mut );
+        if( !mut->reflex_activation->msg_on.first.empty() ) {
+            add_msg_if_player( mut->reflex_activation->msg_on.second, mut->reflex_activation->msg_on.first );
+        }
+    } else if( deactivate ) {
+        deactivate_mutation( mut );
+        if( !mut->reflex_activation->msg_off.first.empty() ) {
+            add_msg_if_player( mut->reflex_activation->msg_off.second, mut->reflex_activation->msg_off.first );
+        }
+    }
+}
+
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;

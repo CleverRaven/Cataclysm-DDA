@@ -78,7 +78,7 @@ struct mut_transform {
 
     trait_id target;
 
-    /** displayed if player sees transformation with %s replaced by item name */
+    /** displayed if player sees transformation with %s replaced by mutation name */
     translation msg_transform;
     /** used to set the active property of the transformed @ref target */
     bool active = false;
@@ -86,6 +86,36 @@ struct mut_transform {
     int moves = 0;
     mut_transform();
     bool load( const JsonObject &jsobj, const std::string &member );
+};
+
+enum trigger_type {
+    PAIN,
+    HUNGER,
+    THRIST,
+    MOOD,
+    STAMINA,
+    num_trigger
+};
+template<>
+struct enum_traits<trigger_type> {
+    static constexpr auto last = trigger_type::num_trigger;
+};
+
+struct reflex_activation_data {
+
+    /**What variable controls the activation*/
+    trigger_type trigger;
+
+    /**Activates above that threshold and deactivates below it*/
+    int threshold_low = INT_MIN;
+    /**Activates below that threshold and deactivates above it*/
+    int threshold_high = INT_MAX;
+
+    std::pair<translation, game_message_type> msg_on;
+    std::pair<translation, game_message_type> msg_off;
+
+    bool was_loaded;
+    void load( const JsonObject &jsobj, const std::string &member );
 };
 
 struct mutation_branch {
@@ -167,6 +197,8 @@ struct mutation_branch {
         int butchering_quality = 0;
 
         cata::value_ptr<mut_transform> transform;
+
+        cata::value_ptr<reflex_activation_data> reflex_activation;
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;

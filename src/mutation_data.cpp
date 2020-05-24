@@ -113,10 +113,10 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
                                         translate_marker( "You fall asleep." ) );
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
-    static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
-    static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
+    static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold_low" ) );
+    static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold_low" ) );
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
-                                        "Crossed a threshold" );
+                                        "Crossed a threshold_low" );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
                                       translate_marker( "Oh, yeah!  That's the stuff!" ) );
 
@@ -194,7 +194,7 @@ void mutation_category_trait::check_consistency()
     for( const auto &pr : mutation_category_traits ) {
         const mutation_category_trait &cat = pr.second;
         if( !cat.threshold_mut.is_empty() && !cat.threshold_mut.is_valid() ) {
-            debugmsg( "Mutation category %s has threshold mutation %s, which does not exist",
+            debugmsg( "Mutation category %s has threshold_low mutation %s, which does not exist",
                       cat.id.c_str(), cat.threshold_mut.c_str() );
         }
     }
@@ -274,6 +274,52 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
+namespace io
+{
+    // *INDENT-OFF*
+    template<>
+    std::string enum_to_string<trigger_type>(trigger_type trigger_num)
+    {
+        switch (trigger_num) {
+        case trigger_type::PAIN: return "PAIN";
+        case trigger_type::HUNGER: return "HUNGER";
+        case trigger_type::THRIST: return "THIRST";
+        case trigger_type::MOOD: return "MOOD";
+        case trigger_type::STAMINA: return "STAMINA";
+        case trigger_type::num_trigger: return "undefined trigger";
+        }
+        debugmsg("Invalid trigger_type %d", trigger_num);
+        abort();
+    }
+    // *INDENT-ON*
+} // namespace io
+
+void reflex_activation_data::load( const JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+    std::string tmp;
+    mandatory( j, was_loaded, "trigger_type", tmp );
+    trigger = io::string_to_enum<trigger_type>( tmp );
+
+    optional( j, was_loaded, "threshold_low",  threshold_low, INT_MIN );
+    optional( j, was_loaded, "threshold_high", threshold_high, INT_MAX );
+
+    if( j.has_object( "msg_on" ) ) {
+        JsonObject jo = j.get_object( "msg_on" );
+        optional( jo, was_loaded, "text", msg_on.first );
+        std::string tmp_rating;
+        optional( jo, was_loaded, "rating", tmp_rating, "m_neutral" );
+        msg_on.second = io::string_to_enum<game_message_type>( tmp_rating );
+    }
+    if( j.has_object( "msg_off" ) ) {
+        JsonObject jo = j.get_object( "msg_off" );
+        optional( jo, was_loaded, "text", msg_off.first );
+        std::string tmp_rating;
+        optional( jo, was_loaded, "rating", tmp_rating, "m_neutral" );
+        msg_off.second = io::string_to_enum<game_message_type>( tmp_rating );
+    }
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -311,6 +357,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         transform = cata::make_value<mut_transform>();
         transform->load( jo, "transform" );
     }
+    if( jo.has_object( "reflex_activation" ) ) {
+        reflex_activation = cata::make_value<reflex_activation_data>();
+        reflex_activation->load( jo, "reflex_activation" );
+    }
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
@@ -320,7 +370,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
-    optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "threshold_low", threshold, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
