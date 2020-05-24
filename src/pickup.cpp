@@ -264,6 +264,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     bool did_prompt = false;
     if( newit.count_by_charges() ) {
         newit.charges -= u.i_add( newit ).charges;
+        // if the item stacks with another item when added,
+        // the charges returned may be larger than the charges of the item added.
+        newit.charges = std::max( 0, newit.charges );
     }
     if( newit.is_ammo() && newit.charges <= 0 ) {
         picked_up = true;
