@@ -576,7 +576,7 @@ class inventory_selector
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
-        inventory_entry *find_entry_by_mouse_input() const;
+        inventory_entry *find_entry_by_coordinate( point coordinate ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;

@@ -1366,28 +1366,23 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     return nullptr;
 }
 
-inventory_entry *inventory_selector::find_entry_by_mouse_input() const
+inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate ) const
 {
-    std::tuple<point, bool> tuple = ctxt.get_coordinates_inventory( w_inv );
-    if( !std::get<1>( tuple ) ) {
-        return nullptr;
-    } else {
-        point p = std::get<0>( tuple );
-        std::vector<inventory_column *> columns = get_visible_columns();
-        const auto filter_to_selected = [&]( const inventory_entry & entry ) {
-            return entry.is_selectable();
-        };
-        for( inventory_column *column : columns ) {
-            std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
-            for( inventory_entry *entry : entries ) {
-                if( entry->drawn_info.text_x_start <= p.x && p.x <= entry->drawn_info.text_x_end &&
-                    entry->drawn_info.y == p.y ) {
-                    return entry;
-                }
+    std::vector<inventory_column *> columns = get_visible_columns();
+    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
+        return entry.is_selectable();
+    };
+    for( inventory_column *column : columns ) {
+        std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
+        for( inventory_entry *entry : entries ) {
+            if( entry->drawn_info.text_x_start <= coordinate.x &&
+                coordinate.x <= entry->drawn_info.text_x_end &&
+                entry->drawn_info.y == coordinate.y ) {
+                return entry;
             }
         }
-        return nullptr;
     }
+    return nullptr;
 }
 
 
@@ -1837,9 +1832,13 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    res.entry = find_entry_by_mouse_input();
-    if( res.entry != nullptr ) {
-        return res;
+    std::tuple<point, bool> tuple = ctxt.get_coordinates_inventory( w_inv );
+    if( std::get<1>( tuple ) ) {
+        point p = std::get<0>( tuple );
+        res.entry = find_entry_by_coordinate( p );
+        if( res.entry != nullptr ) {
+            return res;
+        }
     }
 
     res.entry = find_entry_by_invlet( res.ch );

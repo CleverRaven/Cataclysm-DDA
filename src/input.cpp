@@ -33,6 +33,7 @@
 #include "ui_manager.h"
 #include "color.h"
 #include "point.h"
+#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -1362,15 +1363,25 @@ std::tuple<point, bool> input_context::get_coordinates_inventory( const catacurs
     if( !coordinate_input_received ) {
         return std::make_tuple( point(), false );
     }
-    const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
-    const point win_min( getbegx( capture_win ),
-                         getbegy( capture_win ) );
-    const rectangle win_bounds( win_min, win_min + view_size );
-    const point p = coordinate;
-    if( !win_bounds.contains_half_open( coordinate ) ) {
-        return std::make_tuple( p, false );
+
+    const window_dimensions dim = get_window_dimensions( capture_win );
+
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
+    const point &win_min = dim.window_pos_pixel;
+    const point &win_size = dim.window_size_pixel;
+    const point win_max = win_min + win_size;
+
+    const rectangle win_bounds( win_min, win_max );
+
+    const point screen_pos = coordinate - win_min;
+    const point selected( screen_pos.x / fw, screen_pos.y / fh );
+
+    if( !win_bounds.contains_inclusive( coordinate ) ) {
+        return std::make_tuple( selected, false );
     }
-    return std::make_tuple( p, true );
+
+    return std::make_tuple( selected, true );
 }
 
 std::string input_context::get_action_name( const std::string &action_id ) const
