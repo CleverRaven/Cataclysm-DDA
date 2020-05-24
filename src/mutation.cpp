@@ -220,7 +220,6 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
         default:
             debugmsg( "Invalid trigger" );
             return;
-            break;
     }
 
     if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
