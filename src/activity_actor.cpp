@@ -975,7 +975,7 @@ void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
     if( one_in( 1000 ) ) {
-        who.add_msg_if_player( _( "You toss and turn?" ) );
+        who.add_msg_if_player( _( "You toss and turn…" ) );
     }
     if( calendar::once_every( 30_minutes ) ) {
         query_keep_trying( act, who );
