@@ -38,8 +38,11 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
+static const skill_id skill_lockpick( "lockpick" );
+static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
@@ -50,6 +53,8 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 template<>
 struct enum_traits<aim_activity_actor::WeaponSource> {
@@ -814,6 +819,176 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     return actor.clone();
 }
 
+void lockpick_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = moves_total;
+    act.moves_total = moves_total;
+}
+
+void lockpick_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    item *it;
+    if( lockpick.has_value() ) {
+        it = ( *lockpick ).get_item();
+    } else {
+        it = &*fake_lockpick;
+    }
+
+    if( !it ) {
+        debugmsg( "Lost ACT_LOCKPICK item" );
+        return;
+    }
+
+    const tripoint target = g->m.getlocal( this->target );
+    const ter_id ter_type = g->m.ter( target );
+    const furn_id furn_type = g->m.furn( target );
+    ter_id new_ter_type;
+    furn_id new_furn_type;
+    std::string open_message;
+    if( ter_type == t_chaingate_l ) {
+        new_ter_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
+               ter_type == t_door_locked_interior ) {
+        new_ter_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_locked_peep ) {
+        new_ter_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_metal_pickable ) {
+        new_ter_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_bar_locked ) {
+        new_ter_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open…" );
+    } else if( furn_type == f_gunsafe_ml ) {
+        new_furn_type = f_safe_o;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    }
+
+    bool bionic = it->has_flag( "PSEUDO" );
+    bool destroy = false;
+
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_lockpick ) ) *
+                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
+                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                    who.dex_cur / 4.0;
+    int lock_roll = rng( 1, 120 );
+    int xp_gain = 0;
+    if( bionic || ( pick_roll >= lock_roll ) ) {
+        xp_gain += lock_roll;
+        g->m.has_furn( target ) ?
+        g->m.furn_set( target, new_furn_type ) :
+        static_cast<void>( g->m.ter_set( target, new_ter_type ) );
+        who.add_msg_if_player( m_good, open_message );
+    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
+        who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
+        g->m.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
+    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
+        if( it->inc_damage() ) {
+            who.add_msg_if_player( m_bad,
+                                   _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+            destroy = true;
+        } else {
+            who.add_msg_if_player( m_bad,
+                                   _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
+        }
+    } else {
+        who.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
+    }
+
+    if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
+        if( !bionic ) {
+            // You don't gain much skill since the bionic does all the hard work for you
+            xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
+        }
+        you->practice( skill_lockpick, xp_gain );
+    }
+
+    if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+        sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 who.global_sm_location() );
+        }
+    }
+
+    if( destroy && lockpick.has_value() ) {
+        ( *lockpick ).remove_item();
+    }
+}
+
+cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
+{
+    if( you.is_mounted() ) {
+        you.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return cata::nullopt;
+    }
+
+    const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
+        if( p == you.pos() ) {
+            return false;
+        }
+        return g->m.has_flag( "PICKABLE", p );
+    };
+
+    const cata::optional<tripoint> target = choose_adjacent_highlight(
+            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+    if( !target ) {
+        return cata::nullopt;
+    }
+
+    if( is_pickable( *target ) ) {
+        return target;
+    }
+
+    const ter_id terr_type = g->m.ter( *target );
+    if( *target == you.pos() ) {
+        you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+    } else if( g->critter_at<npc>( *target ) ) {
+        you.add_msg_if_player( m_info,
+                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
+    } else if( terr_type == t_door_c ) {
+        you.add_msg_if_player( m_info, _( "That door isn't locked." ) );
+    } else {
+        you.add_msg_if_player( m_info, _( "That cannot be picked." ) );
+    }
+    return cata::nullopt;
+}
+
+void lockpick_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "lockpick", lockpick );
+    jsout.member( "fake_lockpick", fake_lockpick );
+    jsout.member( "target", target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &jsin )
+{
+    lockpick_activity_actor actor( 0, cata::nullopt, cata::nullopt, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "lockpick", actor.lockpick );
+    data.read( "fake_lockpick", actor.fake_lockpick );
+    data.read( "target", actor.target );
+
+    return actor.clone();
+}
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -1051,6 +1226,7 @@ deserialize_functions = {
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
