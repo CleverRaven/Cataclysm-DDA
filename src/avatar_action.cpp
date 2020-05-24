@@ -609,7 +609,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
+    std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
         if( !c->is_npc() ) {
             return false;
@@ -837,7 +837,8 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && weapon.type->gun &&
+               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;

@@ -195,7 +195,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_electronics", "s_electronics_1" ],
+    "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
     "copy-from": "generic_city_building",
     "name": "electronics store",
     "color": "yellow",
@@ -203,9 +203,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_electronics_roof", "s_electronics_roof_1" ],
+    "id": [ "s_electronics_roof", "s_electronics_roof_1", "s_electronicstore_roof" ],
     "copy-from": "generic_city_building",
     "name": "electronics store roof",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore_2ndfloor",
+    "name": "electronics store 2nd floor",
+    "copy-from": "generic_city_building",
     "color": "yellow"
   },
   {
@@ -240,7 +247,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4" ],
+    "id": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4", "s_gunstore" ],
     "copy-from": "generic_city_building",
     "name": "gun store",
     "color": "red",
@@ -248,14 +255,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4" ],
+    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4", "s_gunstore_roof" ],
     "name": "gun store roof",
     "copy-from": "generic_city_building",
     "color": "red"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gun_2ndfloor_4",
+    "id": [ "s_gun_2ndfloor_4", "s_gunstore_2ndfloor" ],
     "name": "gun store 2nd floor",
     "copy-from": "generic_city_building",
     "color": "red"
@@ -1541,5 +1548,19 @@
       "urban_14_9"
     ],
     "copy-from": "urban_13_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games",
+    "name": "gaming store",
+    "copy-from": "generic_city_building",
+    "sym": "g",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games_roof",
+    "name": "gaming store roof",
+    "copy-from": "s_games"
   }
 ]

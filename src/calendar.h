@@ -530,7 +530,9 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
-/** Returns the current light level of the moon. */
+/** Returns the default duration of a lunar month (duration between syzygies) */
+time_duration lunar_month();
+/** Returns the current phase of the moon. */
 moon_phase get_moon_phase( const time_point &p );
 /** Returns the current sunrise time based on the time of year. */
 time_point sunrise( const time_point &p );

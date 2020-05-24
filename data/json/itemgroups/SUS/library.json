@@ -189,8 +189,7 @@
     "//2": "This group is for a set of novels.",
     "subtype": "collection",
     "entries": [
-      { "group": "SUS_book_fict", "count": [ 3, 10 ], "prob": 100 },
-      { "item": "novel_sports", "count": [ 1, 5 ], "prob": 80 },
+      { "group": "SUS_book_fict", "count": [ 3, 12 ], "prob": 160 },
       { "item": "novel_samurai", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_war", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_adventure", "count": [ 1, 5 ], "prob": 80 },
@@ -240,12 +239,26 @@
     "entries": [ { "group": "SUS_book_fict", "prob": 1 }, { "group": "SUS_book_nonf", "prob": 1 } ]
   },
   {
+    "id": "SUS_book_sports",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns one book about sports.  It may be hard or soft cover, fiction or nonfiction",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_fict_soft_sports", "prob": 1 },
+      { "group": "SUS_book_fict_hard_sports", "prob": 1 },
+      { "group": "SUS_book_nonf_soft_sports", "prob": 1 },
+      { "group": "SUS_book_nonf_hard_sports", "prob": 1 },
+      { "group": "SUS_book_nonf_zine_sport", "prob": 1 }
+    ]
+  },
+  {
     "id": "SUS_book_fict",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single book of any fiction.",
     "subtype": "distribution",
-    "entries": [ { "group": "SUS_book_fict_soft", "prob": 1 } ]
+    "entries": [ { "group": "SUS_book_fict_soft", "prob": 10 }, { "group": "SUS_book_fict_hard", "prob": 1 } ]
   },
   {
     "id": "SUS_book_fict_soft",
@@ -259,8 +272,17 @@
       { "group": "SUS_book_fict_soft_west", "prob": 1 },
       { "group": "SUS_book_fict_soft_satire", "prob": 1 },
       { "group": "SUS_book_fict_soft_swash", "prob": 1 },
+      { "group": "SUS_book_fict_soft_sports", "prob": 1 },
       { "group": "SUS_book_fict_soft_spy", "prob": 1 }
     ]
+  },
+  {
+    "id": "SUS_book_fict_hard",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a single hardback novel.",
+    "subtype": "distribution",
+    "entries": [ { "group": "SUS_book_fict_hard_sports", "prob": 3 }, { "group": "SUS_book_fict_hard_ya", "prob": 1 } ]
   },
   {
     "id": "SUS_book_fict_soft_west",
@@ -277,6 +299,19 @@
       { "item": "book_fict_soft_west_riot", "prob": 1 },
       { "item": "book_fict_soft_west_vaq", "prob": 1 },
       { "item": "book_fict_soft_west_vride", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_soft_sports",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This returns a single paperback fictional sports book.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "novel_sports", "prob": 1 },
+      { "item": "book_fict_soft_sports_bunt", "prob": 1 },
+      { "item": "book_fict_soft_sports_tdsp", "prob": 1 },
+      { "item": "book_fict_soft_sports_envy", "prob": 1 }
     ]
   },
   {
@@ -359,6 +394,27 @@
     ]
   },
   {
+    "id": "SUS_book_fict_hard_sports",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This returns a single hardback fictional sports book.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_fict_hard_sports_semi", "prob": 1 },
+      { "item": "book_fict_hard_sports_omni", "prob": 1 },
+      { "item": "book_fict_hard_sports_uni", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_hard_ya",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group returns a single hardback book for young adults and teens.",
+    "//3": "This group is a WIP. Please don't delete.",
+    "subtype": "distribution",
+    "entries": [ { "item": "book_fict_hard_sports_uni", "prob": 1 } ]
+  },
+  {
     "id": "SUS_book_nonf",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -382,6 +438,7 @@
       { "group": "SUS_book_nonf_hard_homemk", "prob": 10 },
       { "group": "SUS_book_nonf_hard_psych", "prob": 10 },
       { "group": "SUS_book_nonf_hard_phil", "prob": 7 },
+      { "group": "SUS_book_nonf_hard_sports", "prob": 3 },
       { "group": "SUS_book_nonf_hard_arch", "prob": 10 }
     ]
   },
@@ -394,11 +451,13 @@
     "entries": [
       { "group": "SUS_book_nonf_soft_occult", "prob": 2 },
       { "group": "SUS_book_nonf_soft_psych", "prob": 6 },
-      { "item": "book_nonf_soft_wedding_coolring", "prob": 2 },
-      { "item": "book_nonf_soft_parent_howtogen", "prob": 2 },
+      { "group": "SUS_book_nonf_soft_sports", "prob": 3 },
+      { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
+      { "item": "book_nonf_soft_parent_howtogen", "prob": 1 },
       { "item": "book_nonf_soft_safety_radiaea", "prob": 1 },
       { "item": "book_nonf_soft_mechnic_hotrod", "prob": 1 },
-      { "item": "book_nonf_soft_speech_naillaw", "prob": 1 }
+      { "item": "book_nonf_soft_speech_naillaw", "prob": 1 },
+      { "item": "book_nonf_soft_phil_benoth", "prob": 1 }
     ]
   },
   {
@@ -452,7 +511,8 @@
       { "item": "mag_cutting", "prob": 6 },
       { "item": "mag_cars", "prob": 10 },
       { "item": "mag_guns", "prob": 10 },
-      { "item": "mag_glam", "prob": 10 }
+      { "item": "mag_glam", "prob": 10 },
+      { "item": "mag_gaming", "prob": 10 }
     ]
   },
   {
@@ -460,13 +520,13 @@
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "Returns a single sports or games magazine.",
+    "//TODO": "rename this SUS_book_nonf_zine_sports",
     "subtype": "distribution",
     "entries": [
       { "item": "mag_unarmed", "prob": 1 },
       { "item": "mag_throwing", "prob": 1 },
       { "item": "mag_archery", "prob": 1 },
-      { "item": "mag_bashing", "prob": 1 },
-      { "item": "mag_gaming", "prob": 2 }
+      { "item": "mag_bashing", "prob": 1 }
     ]
   },
   {
@@ -505,11 +565,12 @@
     "id": "SUS_book_nonf_hard_phil",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "Returns a book about philosophy.",
+    "//2": "Returns one hardback book about philosophy.",
     "subtype": "distribution",
     "entries": [
       { "item": "book_nonf_hard_phil_mdlogic", "prob": 1 },
       { "item": "book_nonf_hard_phil_aesth", "prob": 1 },
+      { "item": "book_nonf_hard_sports_ergo", "prob": 1 },
       { "item": "book_nonf_hard_phil_phinfo", "prob": 1 }
     ]
   },
@@ -566,6 +627,31 @@
       { "item": "book_nonf_soft_psych_adrugds", "prob": 1 },
       { "item": "book_nonf_soft_psych_arteatds", "prob": 1 },
       { "item": "book_nonf_soft_psych_cggamers", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_soft_sports",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns one nonfiction paperback about sports",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_nonf_soft_sports_bdgt", "prob": 1 },
+      { "item": "book_nonf_soft_sports_lads", "prob": 1 },
+      { "item": "book_nonf_soft_sports_vlly", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard_sports",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single hardback book of nonfiction sports",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_nonf_hard_sports_hoop", "prob": 1 },
+      { "item": "book_nonf_hard_sports_bike", "prob": 1 },
+      { "item": "book_nonf_hard_sports_ergo", "prob": 1 },
+      { "item": "book_nonf_hard_sports_morg", "prob": 1 }
     ]
   },
   {

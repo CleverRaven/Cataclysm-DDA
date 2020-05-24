@@ -54,8 +54,16 @@
     "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "shotbelt_20" ]
+      }
+    ]
   },
   {
     "id": "browning_a5",
@@ -492,7 +500,15 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "saiga10mag", "saiga30mag" ]
+      }
+    ]
   },
   {
     "id": "shotgun_d",
@@ -694,7 +710,15 @@
       [ "underbarrel mount", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "magazines": [ [ "shot", [ "USAS10mag", "USAS20mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "USAS10mag", "USAS20mag" ]
+      }
+    ]
   },
   {
     "id": "winchester_1887",

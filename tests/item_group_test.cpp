@@ -9,16 +9,16 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
     default_charges.with_ammo = 100;
     SECTION( "tools without ammo" ) {
         item matches( "matches" );
-        REQUIRE( matches.ammo_default() == itype_id::NULL_ID() );
+        REQUIRE( matches.ammo_default() == itype_id( "match" ) );
         default_charges.modify( matches );
-        CHECK( matches.ammo_remaining() == matches.ammo_capacity() );
+        CHECK( matches.remaining_ammo_capacity() == 0 );
     }
 
     SECTION( "gun with ammo type" ) {
         item glock( "glock_19" );
-        REQUIRE( !glock.ammo_default().is_null() );
+        REQUIRE( !glock.magazine_default().is_null() );
         default_charges.modify( glock );
-        CHECK( glock.ammo_remaining() == glock.ammo_capacity() );
+        CHECK( glock.remaining_ammo_capacity() == 0 );
     }
 }
 

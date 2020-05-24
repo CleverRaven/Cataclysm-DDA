@@ -2161,7 +2161,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
 
 static int cauterize_elec( player &p, item &it )
 {
-    if( it.charges == 0 && it.ammo_capacity() ) {
+    if( it.ammo_remaining() == 0 ) {
         p.add_msg_if_player( m_info, _( "You need batteries to cauterize wounds." ) );
         return 0;
     } else if( !p.has_effect( effect_bite ) && !p.has_effect( effect_bleed ) && !p.is_underwater() ) {
@@ -4603,7 +4603,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
-        if( it->ammo_capacity() > it->ammo_remaining() ) {
+        if( it->ammo_capacity( ammotype( "battery" ) ) > it->ammo_remaining() ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );

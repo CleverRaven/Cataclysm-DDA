@@ -74,6 +74,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
+static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -580,7 +581,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = crafting_inv.has_tools( itype_hose, 1 );
+            has_tools = g->u.has_quality( qual_HOSE );
             break;
 
         case 'd':
@@ -1546,7 +1547,8 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( pt.is_battery() && pt.is_available() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
+                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
+                                ammotype( "battery" ) ) ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
                 if( pt.is_leaking() ) {
@@ -1554,7 +1556,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     offset = 0;
                 }
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
-                             string_format( fmtstring, pt.ammo_capacity(), pct ) );
+                             string_format( fmtstring, pt.ammo_capacity( ammotype( "battery" ) ), pct ) );
             };
             opts.emplace_back( "BATTERY", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
@@ -3088,7 +3090,7 @@ void veh_interact::complete_vehicle( player &p )
                 contained.charges -= pt.base.fill_with( *contained.type, contained.charges );
                 src->on_contents_changed();
 
-                if( pt.ammo_remaining() != pt.ammo_capacity() ) {
+                if( pt.remaining_ammo_capacity() ) {
                     //~ 1$s vehicle name, 2$s tank name
                     p.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ), veh->name, pt.name() );
                 } else {

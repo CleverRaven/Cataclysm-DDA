@@ -708,17 +708,6 @@
     ]
   },
   {
-    "id": "novel_sports",
-    "type": "BOOK",
-    "name": { "str": "sports novel" },
-    "description": "The dramatic tale of a small-time boxer who gets a rare chance to fight the heavy-weight champion, and seize his one chance to make a better life for himself while impressing the cute girl who works in the pet store.",
-    "copy-from": "book_fict_soft_tpl",
-    "intelligence": 7,
-    "time": "20 m",
-    "chapters": 28,
-    "fun": 3
-  },
-  {
     "id": "novel_spy",
     "type": "BOOK",
     "name": { "str": "spy novel" },

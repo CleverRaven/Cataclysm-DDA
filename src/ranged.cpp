@@ -41,6 +41,7 @@
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -316,11 +317,8 @@ class target_ui
         // Aim and shoot. Returns 'false' if ran out of moves
         bool action_aim_and_shoot( player &pc, const std::string &action );
 
-        // Drawing routines
-        void draw( player &pc );
-
-        // Draw terrain with UI-specific overlays
-        void draw_terrain( player &pc );
+        // Draw UI-specific terrain overlays
+        void draw_terrain_overlay( player &pc );
 
         // Draw aiming window
         void draw_ui_window( player &pc );
@@ -1743,13 +1741,15 @@ double player::gun_value( const item &weap, int ammo ) const
     }
 
     const islot_gun &gun = *weap.type->gun;
-    itype_id ammo_type;
+    itype_id ammo_type = itype_id::NULL_ID();
     if( !weap.ammo_current().is_null() ) {
         ammo_type = weap.ammo_current();
     } else if( weap.magazine_current() ) {
         ammo_type = weap.common_ammo_default();
-    } else {
+    } else if( weap.is_magazine() ) {
         ammo_type = weap.ammo_default();
+    } else if( !weap.magazine_default().is_null() ) {
+        ammo_type = item( weap.magazine_default() ).ammo_default();
     }
     const itype *def_ammo_i = !ammo_type.is_null() ?
                               item::find_type( ammo_type ) :
@@ -1757,7 +1757,18 @@ double player::gun_value( const item &weap, int ammo ) const
 
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
-    tmp.ammo_set( ammo_type );
+    if( tmp.is_magazine() ) {
+        tmp.ammo_set( ammo_type );
+    } else if( tmp.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        item mag;
+        if( weap.magazine_current() ) {
+            mag = item( *weap.magazine_current() );
+        } else {
+            mag = item( weap.magazine_default() );
+        }
+        mag.ammo_set( ammo_type );
+        tmp.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    }
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
                            effective_dispersion( tmp.sight_dispersion() );
 
@@ -1867,10 +1878,24 @@ target_handler::trajectory target_ui::run( player &pc )
         draw_turret_lines = vturrets->size() == 1;
     }
 
-    // Create window
-    init_window_and_input( pc );
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
+
+    shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
+    [&]() {
+        draw_terrain_overlay( pc );
+    } );
+    g->add_draw_callback( target_ui_cb );
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        init_window_and_input( pc );
+        ui.position_from_window( w_target );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_ui_window( pc );
+    } );
 
     // Handle multi-turn aiming
     std::string action;
@@ -1917,7 +1942,8 @@ target_handler::trajectory target_ui::run( player &pc )
     bool skip_redraw = false;
     for( ;; action.clear() ) {
         if( !skip_redraw ) {
-            draw( pc );
+            g->invalidate_main_ui_adaptor();
+            ui_manager::redraw();
         }
         skip_redraw = false;
 
@@ -2319,9 +2345,7 @@ void target_ui::update_target_list( player &pc )
     }
 
     // Get targets in range and sort them by distance (targets[0] is the closest)
-    // FIXME: get_targetable_creatures does not consider some of the visible creatures
-    //        as targets (e.g. those behind fences), but you can still see and shoot them
-    targets = pc.get_targetable_creatures( range );
+    targets = pc.get_targetable_creatures( range, mode == TargetMode::Reach );
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
         return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
@@ -2633,18 +2657,9 @@ bool target_ui::action_aim_and_shoot( player &pc, const std::string &action )
     return done_aiming;
 }
 
-void target_ui::draw( player &pc )
-{
-    draw_terrain( pc );
-    g->draw_panels();
-    draw_ui_window( pc );
-    catacurses::refresh();
-}
-
-void target_ui::draw_terrain( player &pc )
+void target_ui::draw_terrain_overlay( player &pc )
 {
     tripoint center = pc.pos() + pc.view_offset;
-    g->draw_ter( center, true );
 
     // Removes parts that don't belong to currently visible Z level
     const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
@@ -2703,11 +2718,17 @@ void target_ui::draw_terrain( player &pc )
             if( tile.z != center.z ) {
                 continue;
             }
-            g->m.drawsq( g->w_terrain, pc, tile, true, true, center );
+#ifdef TILES
+            if( use_tiles ) {
+                g->draw_highlight( tile );
+            } else {
+#endif
+                g->m.drawsq( g->w_terrain, pc, tile, true, true, center );
+#ifdef TILES
+            }
+#endif
         }
     }
-
-    wrefresh( g->w_terrain );
 }
 
 void target_ui::draw_ui_window( player &pc )
@@ -2966,7 +2987,7 @@ void target_ui::panel_gun_info( int &text_y )
     } else if( ammo ) {
         str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
                              colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
-                             m->ammo_capacity() );
+                             m->ammo_capacity( ammo->ammo->type ) );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {
         // Weapon doesn't use ammunition

@@ -174,6 +174,7 @@ static void do_blast( const tripoint &p, const float power,
     std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp_first >
     open;
     std::set<tripoint> closed;
+    std::set<tripoint> bashed{ p };
     std::map<tripoint, float> dist_map;
     open.push( std::make_pair( 0.0f, p ) );
     dist_map[p] = 0.0f;
@@ -218,21 +219,24 @@ static void do_blast( const tripoint &p, const float power,
                 continue;
             }
 
-            // Up to 200% bonus for shaped charge
-            // But not if the explosion is fiery, then only half the force and no bonus
-            const float bash_force = !fire ?
-                                     force + ( 2 * force / empty_neighbors ) :
-                                     force / 2;
-            if( z_offset[i] == 0 ) {
-                // Horizontal - no floor bashing
-                g->m.bash( dest, bash_force, true, false, false );
-            } else if( z_offset[i] > 0 ) {
-                // Should actually bash through the floor first, but that's not really possible yet
-                g->m.bash( dest, bash_force, true, false, true );
-            } else if( !g->m.valid_move( pt, dest, false, true ) ) {
-                // Only bash through floor if it doesn't exist
-                // Bash the current tile's floor, not the one's below
-                g->m.bash( pt, bash_force, true, false, true );
+            if( bashed.count( dest ) != 0 ) {
+                bashed.insert( dest );
+                // Up to 200% bonus for shaped charge
+                // But not if the explosion is fiery, then only half the force and no bonus
+                const float bash_force = !fire ?
+                                         force + ( 2 * force / empty_neighbors ) :
+                                         force / 2;
+                if( z_offset[i] == 0 ) {
+                    // Horizontal - no floor bashing
+                    g->m.bash( dest, bash_force, true, false, false );
+                } else if( z_offset[i] > 0 ) {
+                    // Should actually bash through the floor first, but that's not really possible yet
+                    g->m.bash( dest, bash_force, true, false, true );
+                } else if( !g->m.valid_move( pt, dest, false, true ) ) {
+                    // Only bash through floor if it doesn't exist
+                    // Bash the current tile's floor, not the one's below
+                    g->m.bash( pt, bash_force, true, false, true );
+                }
             }
 
             float next_dist = distance;
@@ -279,7 +283,9 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        g->m.smash_items( pt, force, _( "force of the explosion" ) );
+        if( g->m.has_items( pt ) ) {
+            g->m.smash_items( pt, force, _( "force of the explosion" ) );
+        }
 
         if( fire ) {
             int intensity = ( force > 50.0f ) + ( force > 100.0f );

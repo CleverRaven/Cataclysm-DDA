@@ -188,9 +188,11 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
-    item oxygen( "oxygen_tank", 0, item::default_charges_tag{} );
+    item oxygen( "oxygen_tank" );
+    itype_id o2_ammo( "oxygen" );
+    oxygen.ammo_set( o2_ammo );
 
-    int charges_before = oxygen.charges;
+    int charges_before = oxygen.ammo_remaining();
     REQUIRE( charges_before > 0 );
 
     // Ensure baseline painkiller value to measure painkiller effects
@@ -203,7 +205,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -218,7 +220,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of tear gas" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -233,7 +235,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of asthma" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -253,7 +255,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen is stimulating" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.charges == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
                 // values should match iuse function `oxygen_bottle`
                 CHECK( dummy.get_stim() == 8 );
 
@@ -273,7 +275,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen has no additional stimulation effects" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.charges == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
                 CHECK( dummy.get_stim() == max_stim );
 
                 AND_THEN( "it acts as a mild painkiller" ) {

@@ -522,7 +522,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "white",
-    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "covers": [ "LEGS", "FEET", "HEAD", "TORSO", "ARMS" ],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 10,

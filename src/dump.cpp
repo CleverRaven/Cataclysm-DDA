@@ -197,7 +197,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             }, enumeration_conjunction::none ) : "" );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
             r.push_back( to_string( obj.gun_recoil( who ) ) );
@@ -218,9 +217,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->gun ) {
                 item gun( e );
                 if( !gun.magazine_integral() ) {
-                    gun.put_in( item( gun.magazine_default() ), item_pocket::pocket_type::MAGAZINE );
+                    gun.put_in( item( gun.magazine_default() ), item_pocket::pocket_type::MAGAZINE_WELL );
                 }
-                gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
+                gun.ammo_set( gun.ammo_default( false ) );
 
                 dump( test_npcs[ "S1" ], gun );
 

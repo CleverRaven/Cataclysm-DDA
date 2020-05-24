@@ -85,14 +85,16 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     // Set fuel to a given percentage
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, int> ret;
+    const itype_id itype_battery( "battery" );
+    const ammotype ammo_battery( "battery" );
     for( const vpart_reference vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
-            pt.ammo_set( itype_id( "battery" ), pt.ammo_capacity() * veh_fuel_mult );
-            ret[ itype_id( "battery" ) ] += pt.ammo_capacity() * veh_fuel_mult;
+            pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * veh_fuel_mult );
+            ret[itype_battery] += pt.ammo_capacity( ammo_battery ) * veh_fuel_mult;
         } else if( pt.is_tank() && !liquid_fuel.is_null() ) {
-            float qty = pt.ammo_capacity() * veh_fuel_mult;
+            float qty = pt.ammo_capacity( item::find_type( liquid_fuel )->ammo->type ) * veh_fuel_mult;
             qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
             pt.ammo_set( liquid_fuel, qty );

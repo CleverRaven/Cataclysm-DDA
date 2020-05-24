@@ -955,6 +955,26 @@
   },
   {
     "type": "city_building",
+    "id": "s_electronicstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_electronicstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_electronicstore_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_electronicstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_gunstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gunstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gunstore_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_gunstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "mortuary",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mortuary_north" }, { "point": [ 0, 0, 1 ], "overmap": "mortuary_roof_north" } ]
@@ -1745,6 +1765,28 @@
       { "point": [ 0, 1, 5 ], "overmap": "apartments_mod_tower_013_south" },
       { "point": [ 1, 0, 5 ], "overmap": "apartments_mod_tower_103_south" },
       { "point": [ 0, 0, 5 ], "overmap": "apartments_mod_tower_003_south" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_apt",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_apt_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_apt_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_apt_roof_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "s_apt_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_apt_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_apt_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_apt_2_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_apt_2_roof_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "s_apt_2_upper_roof_north" }
     ]
   },
   {
@@ -2577,6 +2619,12 @@
     "id": "s_arcade",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_arcade_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_arcade_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_games",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_games_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_games_roof_north" } ]
   },
   {
     "type": "city_building",

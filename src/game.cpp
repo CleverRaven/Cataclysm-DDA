@@ -155,6 +155,7 @@
 #include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "fungal_effects.h"
 
 class computer;
 class inventory;
@@ -223,6 +224,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_fungus( "fungus" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -813,6 +815,9 @@ bool game::start_game()
     }
     if( scen->has_flag( "INFECTED" ) ) {
         u.add_effect( effect_infected, 1_turns, random_body_part(), true );
+    }
+    if( scen->has_flag( "FUNGAL_INFECTION" ) ) {
+        u.add_effect( effect_fungus, 1_turns, random_body_part(), true );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -3313,7 +3318,96 @@ void game::invalidate_main_ui_adaptor() const
     }
 }
 
+game::draw_callback_t::draw_callback_t( const std::function<void()> &cb )
+    : cb( cb )
+{
+}
+
+game::draw_callback_t::~draw_callback_t()
+{
+    if( added ) {
+        g->invalidate_main_ui_adaptor();
+    }
+}
+
+void game::draw_callback_t::operator()()
+{
+    if( cb ) {
+        cb();
+    }
+}
+
+void game::add_draw_callback( shared_ptr_fast<draw_callback_t> cb )
+{
+    draw_callbacks.erase(
+        std::remove_if( draw_callbacks.begin(), draw_callbacks.end(),
+    []( const weak_ptr_fast<draw_callback_t> &cbw ) {
+        return cbw.expired();
+    } ),
+    draw_callbacks.end()
+    );
+    draw_callbacks.emplace_back( cb );
+    cb->added = true;
+    invalidate_main_ui_adaptor();
+}
+
 static void draw_trail( const tripoint &start, const tripoint &end, bool bDrawX );
+
+static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
+    const cata::optional<tripoint> &zone_start,
+    const cata::optional<tripoint> &zone_end,
+    const bool &zone_blink,
+    const bool &zone_cursor
+)
+{
+    return make_shared_fast<game::draw_callback_t>(
+    [&]() {
+        if( zone_cursor ) {
+            if( zone_end ) {
+                g->draw_cursor( zone_end.value() );
+            } else if( zone_start ) {
+                g->draw_cursor( zone_start.value() );
+            }
+        }
+        if( zone_blink && zone_start && zone_end ) {
+            const int offset_x = ( g->u.posx() + g->u.view_offset.x ) - getmaxx( g->w_terrain ) / 2;
+            const int offset_y = ( g->u.posy() + g->u.view_offset.y ) - getmaxy( g->w_terrain ) / 2;
+
+            tripoint offset;
+#if defined(TILES)
+            if( use_tiles ) {
+                offset = tripoint_zero; //TILES
+            } else {
+#endif
+                offset = tripoint( offset_x, offset_y, 0 ); //CURSES
+#if defined(TILES)
+            }
+#endif
+
+            const tripoint start( std::min( zone_start->x, zone_end->x ),
+                                  std::min( zone_start->y, zone_end->y ),
+                                  zone_end->z );
+            const tripoint end( std::max( zone_start->x, zone_end->x ),
+                                std::max( zone_start->y, zone_end->y ),
+                                zone_end->z );
+            g->draw_zones( start, end, offset );
+        }
+    } );
+}
+
+static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
+    const cata::optional<tripoint> &trail_start,
+    const cata::optional<tripoint> &trail_end,
+    const bool &trail_end_x
+)
+{
+    return make_shared_fast<game::draw_callback_t>(
+    [&]() {
+        if( trail_start && trail_end ) {
+            draw_trail( trail_start.value(), trail_end.value(), trail_end_x );
+        }
+    } );
+}
 
 void game::draw()
 {
@@ -3328,42 +3422,15 @@ void game::draw()
 
     werase( w_terrain );
     draw_ter();
-
-    if( zone_cursor ) {
-        if( zone_end ) {
-            g->draw_cursor( zone_end.value() );
-        } else if( zone_start ) {
-            g->draw_cursor( zone_start.value() );
-        }
-    }
-    if( zone_blink && zone_start && zone_end ) {
-        const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
-        const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
-
-        tripoint offset;
-#if defined(TILES)
-        if( use_tiles ) {
-            offset = tripoint_zero; //TILES
+    for( auto it = draw_callbacks.begin(); it != draw_callbacks.end(); ) {
+        shared_ptr_fast<draw_callback_t> cb = it->lock();
+        if( cb ) {
+            ( *cb )();
+            ++it;
         } else {
-#endif
-            offset = tripoint( offset_x, offset_y, 0 ); //CURSES
-#if defined(TILES)
+            it = draw_callbacks.erase( it );
         }
-#endif
-
-        const tripoint start( std::min( zone_start->x, zone_end->x ),
-                              std::min( zone_start->y, zone_end->y ),
-                              zone_end->z );
-        const tripoint end( std::max( zone_start->x, zone_end->x ),
-                            std::max( zone_start->y, zone_end->y ),
-                            zone_end->z );
-        draw_zones( start, end, offset );
     }
-
-    if( trail_start && trail_end ) {
-        draw_trail( trail_start.value(), trail_end.value(), trail_end_x );
-    }
-
     wrefresh( w_terrain );
 
     draw_panels( true );
@@ -6358,6 +6425,14 @@ void game::zones_manager()
         wrefresh( w_zones_options );
     };
 
+    cata::optional<tripoint> zone_start;
+    cata::optional<tripoint> zone_end;
+    bool zone_blink = false;
+    bool zone_cursor = false;
+    shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback(
+                zone_start, zone_end, zone_blink, zone_cursor );
+    add_draw_callback( zone_cb );
+
     auto query_position =
     [&]() -> cata::optional<std::pair<tripoint, tripoint>> {
         on_out_of_scope invalidate_current_ui( [&]()
@@ -6365,7 +6440,11 @@ void game::zones_manager()
             ui.mark_resize();
         } );
         restore_on_out_of_scope<bool> show_prev( show );
+        restore_on_out_of_scope<cata::optional<tripoint>> zone_start_prev( zone_start );
+        restore_on_out_of_scope<cata::optional<tripoint>> zone_end_prev( zone_end );
         show = false;
+        zone_start = cata::nullopt;
+        zone_end = cata::nullopt;
         ui.mark_resize();
 
         static_popup popup;
@@ -6627,6 +6706,9 @@ void game::zones_manager()
             ctxt.reset_timeout();
         }
 
+        // Actually accessed from the terrain overlay callback `zone_cb` in the
+        // call to `ui_manager::redraw`.
+        //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         zone_blink = blink;
         invalidate_main_ui_adaptor();
 
@@ -6637,9 +6719,7 @@ void game::zones_manager()
     } while( action != "QUIT" );
     zones_manager_open = false;
     ctxt.reset_timeout();
-    zone_start = zone_end = cata::nullopt;
-    zone_blink = false;
-    invalidate_main_ui_adaptor();
+    zone_cb = nullptr;
 
     if( stuff_changed ) {
         auto &zones = zone_manager::get_manager();
@@ -6796,8 +6876,15 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } );
     }
 
+    cata::optional<tripoint> zone_start;
+    cata::optional<tripoint> zone_end;
+    bool zone_blink = false;
+    bool zone_cursor = true;
+    shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
+            zone_cursor );
+    add_draw_callback( zone_cb );
+
     is_looking = true;
-    zone_cursor = true;
     const tripoint prev_offset = u.view_offset;
     do {
         u.view_offset = center - u.pos();
@@ -6809,10 +6896,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 zone_start = lp;
                 zone_end = cata::nullopt;
             }
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         } else {
             zone_start = lp;
             zone_end = cata::nullopt;
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = false;
         }
         invalidate_main_ui_adaptor();
@@ -6956,11 +7049,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
     ctxt.reset_timeout();
     u.view_offset = prev_offset;
-    zone_start = zone_end = cata::nullopt;
-    zone_blink = false;
-    zone_cursor = false;
+    zone_cb = nullptr;
     is_looking = false;
-    invalidate_main_ui_adaptor();
 
     reenter_fullscreen();
     bVMonsterLookFire = true;
@@ -7489,6 +7579,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
     } );
 
+    cata::optional<tripoint> trail_start;
+    cata::optional<tripoint> trail_end;
+    bool trail_end_x = false;
+    shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
+            trail_end_x );
+    add_draw_callback( trail_cb );
+
     do {
         if( action == "COMPARE" && activeItem ) {
             game_menus::inv::compare( u, active_pos );
@@ -7659,8 +7756,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iScrollPos++;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
-            trail_start = trail_end = cata::nullopt;
-            invalidate_main_ui_adaptor();
             return game::vmenu_ret::CHANGE_TAB;
         }
 
@@ -7684,6 +7779,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             centerlistview( active_pos, width );
             trail_start = u.pos();
             trail_end = u.pos() + active_pos;
+            // Actually accessed from the terrain overlay callback `trail_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             trail_end_x = true;
         } else {
             u.view_offset = stored_view_offset;
@@ -7697,8 +7795,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     } while( action != "QUIT" );
 
     u.view_offset = stored_view_offset;
-    trail_start = trail_end = cata::nullopt;
-    invalidate_main_ui_adaptor();
     return game::vmenu_ret::QUIT;
 }
 
@@ -7942,6 +8038,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
     } );
 
+    cata::optional<tripoint> trail_start;
+    cata::optional<tripoint> trail_end;
+    bool trail_end_x;
+    shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
+            trail_end_x );
+    add_draw_callback( trail_cb );
+
     do {
         if( action == "UP" ) {
             iActive--;
@@ -7959,8 +8062,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
-            trail_start = trail_end = cata::nullopt;
-            invalidate_main_ui_adaptor();
             return game::vmenu_ret::CHANGE_TAB;
         } else if( action == "SAFEMODE_BLACKLIST_REMOVE" ) {
             const auto m = dynamic_cast<monster *>( cCurMon );
@@ -7988,8 +8089,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 u.last_target = shared_from( *cCurMon );
                 u.recoil = MAX_RECOIL;
                 u.view_offset = stored_view_offset;
-                trail_start = trail_end = cata::nullopt;
-                invalidate_main_ui_adaptor();
                 return game::vmenu_ret::FIRE;
             }
         }
@@ -8000,6 +8099,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             centerlistview( iActivePos, width );
             trail_start = u.pos();
             trail_end = cCurMon->pos();
+            // Actually accessed from the terrain overlay callback `trail_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             trail_end_x = false;
         } else {
             cCurMon = nullptr;
@@ -8015,8 +8117,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     } while( action != "QUIT" );
 
     u.view_offset = stored_view_offset;
-    trail_start = trail_end = cata::nullopt;
-    invalidate_main_ui_adaptor();
 
     return game::vmenu_ret::QUIT;
 }
@@ -8553,7 +8653,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     switch( u.rate_action_reload( *it ) ) {
         case hint_rating::iffy:
             if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
-                it->ammo_remaining() == it->ammo_capacity() ) {
+                it->remaining_ammo_capacity() == 0 ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
                 return;
             }
@@ -8677,8 +8777,8 @@ void game::reload_weapon( bool try_everything )
             return ap->is_gun();
         }
         // Finally sort by speed to reload.
-        return ( ap->get_reload_time() * ( ap->ammo_capacity() - ap->ammo_remaining() ) ) <
-               ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
+        return ( ap->get_reload_time() * ( ap->remaining_ammo_capacity() ) ) <
+               ( bp->get_reload_time() * ( bp->remaining_ammo_capacity() ) );
     } );
     for( item_location &candidate : reloadables ) {
         std::vector<item::reload_option> ammo_list;
@@ -11514,7 +11614,7 @@ void game::process_artifact( item &it, player &p )
 
     if( it.is_tool() ) {
         // Recharge it if necessary
-        if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
+        if( it.remaining_ammo_capacity() > 0 && calendar::once_every( 1_minutes ) ) {
             //Before incrementing charge, check that any extra requirements are met
             if( check_art_charge_req( it ) ) {
                 switch( it.type->artifact->charge_type ) {
@@ -12011,8 +12111,7 @@ void game::add_artifact_dreams( )
         //Pick only the ones with an applicable dream
         const cata::value_ptr<islot_artifact> &art = it->type->artifact;
         if( art && art->charge_req != ACR_NULL &&
-            ( it->ammo_remaining() < it->ammo_capacity() ||
-              it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
+            it->remaining_ammo_capacity() > 0 ) { //or max 0 in case of wacky mod shenanigans
             add_msg( m_debug, "Checking artifact %s", it->tname() );
             if( check_art_charge_req( *it ) ) {
                 add_msg( m_debug, "   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet );

@@ -227,7 +227,15 @@
     "encumbrance": 2,
     "covers": [ "LEG_EITHER" ],
     "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS", "NO_RELOAD", "NO_UNLOAD" ],
-    "magazines": [  ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [  ]
+      }
+    ]
   },
   {
     "id": "adv_UPS_off",
@@ -273,11 +281,14 @@
     "ammo": [ "battery" ],
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   }
 ]

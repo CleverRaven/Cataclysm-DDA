@@ -2496,7 +2496,7 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
         if( !broken && !skill_break ) {
             //Higher level garages will salvage liquids from tanks
             if( !p_all[prt].is_battery() ) {
-                p_all[prt].ammo_consume( p_all[prt].ammo_capacity(),
+                p_all[prt].ammo_consume( p_all[prt].ammo_remaining(),
                                          car->global_part_pos3( p_all[prt] ) );
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
@@ -3841,7 +3841,7 @@ std::string camp_car_description( vehicle *car )
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
                                     static_cast<int>( 100.0 * pt.ammo_remaining() /
-                                            pt.ammo_capacity() ) );
+                                            pt.ammo_capacity( ammotype( "battery" ) ) ) );
         }
     }
     entry += "\n";

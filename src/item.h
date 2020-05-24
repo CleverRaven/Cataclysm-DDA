@@ -1702,10 +1702,15 @@ class item : public visitable<item>
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
-        /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
-        int ammo_capacity() const;
-        /** @param potential_capacity whether to try a default magazine if necessary */
-        int ammo_capacity( bool potential_capacity ) const;
+        /**
+         * ammo capacity for a specific ammo
+         */
+        int ammo_capacity( const ammotype &ammo ) const;
+        /**
+         * how much more ammo can fit into this item
+         * if this item is not loaded, gives remaining capacity of its default ammo
+         */
+        int remaining_ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
 
@@ -1738,7 +1743,7 @@ class item : public visitable<item>
         /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
+        std::set<ammotype> ammo_types( bool conversion = true ) const;
 
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */

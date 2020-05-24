@@ -25,6 +25,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     switch ( data ) {
     case item_pocket::pocket_type::CONTAINER: return "CONTAINER";
     case item_pocket::pocket_type::MAGAZINE: return "MAGAZINE";
+    case item_pocket::pocket_type::MAGAZINE_WELL: return "MAGAZINE_WELL";
     case item_pocket::pocket_type::MOD: return "MOD";
     case item_pocket::pocket_type::CORPSE: return "CORPSE";
     case item_pocket::pocket_type::SOFTWARE: return "SOFTWARE";
@@ -41,6 +42,7 @@ void pocket_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
+    optional( jo, was_loaded, "item_restriction", item_id_restriction );
     // ammo_restriction is a type of override, making the mandatory members not mandatory and superfluous
     // putting it in an if statement like this should allow for report_unvisited_member to work here
     if( ammo_restriction.empty() ) {
@@ -386,6 +388,11 @@ std::vector<const item *> item_pocket::gunmods() const
     return mods;
 }
 
+cata::flat_set<itype_id> item_pocket::item_type_restrictions() const
+{
+    return data->item_id_restriction;
+}
+
 item *item_pocket::magazine_current()
 {
     auto iter = std::find_if( contents.begin(), contents.end(), []( const item & it ) {
@@ -397,18 +404,39 @@ item *item_pocket::magazine_current()
 int item_pocket::ammo_consume( int qty )
 {
     int need = qty;
+    int used = 0;
     while( !contents.empty() ) {
         item &e = contents.front();
         if( need >= e.charges ) {
             need -= e.charges;
+            used += e.charges;
             contents.erase( contents.begin() );
         } else {
             e.charges -= need;
-            need = 0;
+            used = need;
             break;
         }
     }
-    return qty - need;
+    return used;
+}
+
+int item_pocket::ammo_capacity( const ammotype &ammo ) const
+{
+    const auto found_ammo = data->ammo_restriction.find( ammo );
+    if( found_ammo == data->ammo_restriction.end() ) {
+        return 0;
+    } else {
+        return found_ammo->second;
+    }
+}
+
+std::set<ammotype> item_pocket::ammo_types() const
+{
+    std::set<ammotype> ret;
+    for( const std::pair<const ammotype, int> &type_pair : data->ammo_restriction ) {
+        ret.emplace( type_pair.first );
+    }
+    return ret;
 }
 
 void item_pocket::casings_handle( const std::function<bool( item & )> &func )
@@ -578,7 +606,9 @@ void item_pocket::set_item_defaults()
         /* for guns and other items defined to have a magazine but don't use "ammo" */
         if( contained_item.is_magazine() ) {
             contained_item.ammo_set(
-                contained_item.ammo_default(), contained_item.ammo_capacity() / 2
+                contained_item.ammo_default(),
+                contained_item.ammo_capacity( item_controller->find_template(
+                                                  contained_item.ammo_default() )->ammo->type ) / 2
             );
         } else { //Contents are batteries or food
             contained_item.charges =
@@ -745,6 +775,12 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
         }
+    }
+
+    if( !data->item_id_restriction.empty() &&
+        data->item_id_restriction.count( it.typeId() ) == 0 ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_FLAG, _( "holster does not accept this item type" ) );
     }
 
     if( data->holster && !contents.empty() ) {
@@ -1096,6 +1132,13 @@ bool item_pocket::watertight() const
     return data->watertight;
 }
 
+bool item_pocket::is_standard_type() const
+{
+    return data->type == pocket_type::CONTAINER ||
+           data->type == pocket_type::MAGAZINE ||
+           data->type == pocket_type::MAGAZINE_WELL;
+}
+
 void item_pocket::add( const item &it )
 {
     contents.push_back( it );
@@ -1142,8 +1185,7 @@ void item_pocket::migrate_item( item &obj, const std::set<itype_id> &migrations 
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
-    const bool contain_override = !is_type( pocket_type::CONTAINER ) &&
-                                  !is_type( pocket_type::MAGAZINE );
+    const bool contain_override = !is_standard_type();
     const ret_val<item_pocket::contain_code> ret = can_contain( it );
     if( contain_override || ret.success() ) {
         contents.push_back( it );

@@ -2222,36 +2222,50 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         // we assume they're good to go, or error elsewhere
         return;
     }
-    if( def.magazine ) {
-        pocket_data mag_data;
-        mag_data.type = item_pocket::pocket_type::MAGAZINE;
-        for( const ammotype &amtype : def.magazine->type ) {
-            mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
-        }
-        mag_data.fire_protection = def.magazine->protects_contents;
-        mag_data.volume_capacity = 200_liter;
-        mag_data.max_contains_weight = 400_kilogram;
-        mag_data.max_item_length = 2_km;
-        mag_data.rigid = true;
-        mag_data.watertight = true;
-        def.pockets.push_back( mag_data );
-        return;
-    } else if( def.gun || !def.magazines.empty() ) {
-        pocket_data mag_data;
-        mag_data.type = item_pocket::pocket_type::MAGAZINE;
-        // only one magazine in a pocket, for now
-        mag_data.holster = true;
-        // guns are, in code terms, nonrigid objects with optional magazine_wells.
-        mag_data.rigid = false;
-        mag_data.watertight = true;
-        mag_data.volume_capacity = 200_liter;
-        mag_data.max_contains_weight = 400_kilogram;
-        mag_data.max_item_length = 2_km;
-        // the magazine pocket does not use can_contain like normal CONTAINER pockets
-        // so we don't have to worry about having random items be put into the mag
-        def.pockets.push_back( mag_data );
+    // the item we're trying to migrate must actually have data for ammo
+    if( def.magazines.empty() && !( def.gun || def.magazine || def.tool ) ) {
         return;
     }
+    if( def.pockets.empty() && def.tool && def.tool->max_charges == 0 ) {
+        // if a tool has no max charges, it doesn't need an ammo
+        return;
+    }
+
+    pocket_data mag_data;
+    mag_data.holster = true;
+    mag_data.volume_capacity = 200_liter;
+    mag_data.max_contains_weight = 400_kilogram;
+    mag_data.max_item_length = 2_km;
+    mag_data.watertight = true;
+    if( !def.magazines.empty() ) {
+        mag_data.type = item_pocket::pocket_type::MAGAZINE_WELL;
+        mag_data.rigid = false;
+        for( const std::pair<const ammotype, std::set<itype_id>> &mag_pair : def.magazines ) {
+            for( const itype_id &mag_type : mag_pair.second ) {
+                mag_data.item_id_restriction.insert( mag_type );
+            }
+        }
+    } else {
+        mag_data.type = item_pocket::pocket_type::MAGAZINE;
+        mag_data.rigid = true;
+        if( def.magazine ) {
+            for( const ammotype &amtype : def.magazine->type ) {
+                mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
+            }
+            mag_data.fire_protection = def.magazine->protects_contents;
+        }
+        if( def.gun ) {
+            for( const ammotype &amtype : def.gun->ammo ) {
+                mag_data.ammo_restriction.emplace( amtype, def.gun->clip );
+            }
+        }
+        if( def.tool ) {
+            for( const ammotype &amtype : def.tool->ammo_id ) {
+                mag_data.ammo_restriction.emplace( amtype, def.tool->max_charges );
+            }
+        }
+    }
+    def.pockets.push_back( mag_data );
 }
 
 static bool has_pocket_type( const std::vector<pocket_data> &data, item_pocket::pocket_type pk )
@@ -2541,7 +2555,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     } else if( jo.has_array( "id" ) ) {
         std::vector<itype_id> ids;
         jo.read( "id", ids, true );
-        for( const itype_id id : ids ) {
+        for( const itype_id &id : ids ) {
             m.id = id;
             migrations[ m.id ] = m;
         }

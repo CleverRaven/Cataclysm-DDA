@@ -1895,7 +1895,7 @@ class Character : public Creature, public visitable<Character>
          * As above, but includes all creatures the player can detect well enough to target
          * with ranged weapons, e.g. with infrared vision.
          */
-        std::vector<Creature *> get_targetable_creatures( int range ) const;
+        std::vector<Creature *> get_targetable_creatures( int range, bool melee ) const;
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( int visibility_cap ) const;
         player_activity get_destination_activity() const;
@@ -2189,8 +2189,9 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         trap_map known_traps;
-        std::array<encumbrance_data, num_bp> encumbrance_cache;
         mutable std::map<std::string, double> cached_info;
+        mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
+        mutable bool encumbrance_cache_dirty = true;
         bool bio_soporific_powered_at_last_sleep_check;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;

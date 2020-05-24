@@ -2151,7 +2151,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
                                _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
         }
-    } else {
+    } else if( is_npc() && g->u.sees( *this ) ) {
         add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -2628,11 +2628,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of_from_type( SOLID ) ) {
+            if( !node->made_of_from_type( SOLID ) && parent == nullptr ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of( SOLID ) && parent->is_ammo_container() ) {
+            if( !node->made_of( SOLID ) && parent != nullptr ) {
                 for( const ammotype &at : ammo ) {
                     if( node->ammo_type() == at ) {
                         out = item_location( src, node );
@@ -2701,11 +2701,11 @@ std::vector<item_location> Character::find_reloadables()
         bool reloadable = false;
         if( node->is_gun() && !node->magazine_compatible().empty() ) {
             reloadable = node->magazine_current() == nullptr ||
-                         node->ammo_remaining() < node->ammo_capacity();
+                         node->remaining_ammo_capacity() > 0;
         } else {
             reloadable = ( node->is_magazine() ||
                            ( node->is_gun() && node->magazine_integral() ) ) &&
-                         node->ammo_remaining() < node->ammo_capacity();
+                         node->remaining_ammo_capacity() > 0;
         }
         if( reloadable ) {
             reloadables.push_back( item_location( *this, node ) );
@@ -3511,7 +3511,7 @@ bool Character::has_nv()
 
 void Character::reset_encumbrance()
 {
-    encumbrance_cache = calc_encumbrance();
+    encumbrance_cache_dirty = true;
 }
 
 std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
@@ -3548,6 +3548,10 @@ units::mass Character::get_weight() const
 
 std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
 {
+    if( encumbrance_cache_dirty ) {
+        encumbrance_cache = calc_encumbrance();
+        encumbrance_cache_dirty = false;
+    }
     return encumbrance_cache;
 }
 
@@ -3558,6 +3562,10 @@ std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
+    if( encumbrance_cache_dirty ) {
+        encumbrance_cache = calc_encumbrance();
+        encumbrance_cache_dirty = false;
+    }
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
@@ -3881,6 +3889,10 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 
 int Character::encumb( body_part bp ) const
 {
+    if( encumbrance_cache_dirty ) {
+        encumbrance_cache = calc_encumbrance();
+        encumbrance_cache_dirty = false;
+    }
     return encumbrance_cache[bp].encumbrance;
 }
 
@@ -4290,7 +4302,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         { effect_hunger_engorged, std::make_pair( _( "Engorged" ), c_red ) },
         { effect_hunger_full, std::make_pair( _( "Full" ), c_yellow ) },
         { effect_hunger_satisfied, std::make_pair( _( "Satisfied" ), c_green ) },
-        { effect_hunger_blank, std::make_pair( _( "" ), c_white ) },
+        { effect_hunger_blank, std::make_pair( "", c_white ) },
         { effect_hunger_hungry, std::make_pair( _( "Hungry" ), c_yellow ) },
         { effect_hunger_very_hungry, std::make_pair( _( "Very Hungry" ), c_yellow ) },
         { effect_hunger_near_starving, std::make_pair( _( "Near starving" ), c_red ) },
@@ -10486,15 +10498,19 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
     } );
 }
 
-std::vector<Creature *> Character::get_targetable_creatures( const int range ) const
+std::vector<Creature *> Character::get_targetable_creatures( const int range, bool melee ) const
 {
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        bool can_see = sees( critter ) || sees_with_infrared( critter );
-        if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
+    return g->get_creatures_if( [this, range, melee]( const Creature & critter ) -> bool {
+        //the call to map.sees is to make sure that even if we can see it through walls
+        //via a mutation or cbm we only attack targets with a line of sight
+        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && g->m.sees( pos(), critter.pos(), 100 ) );
+        if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
             for( const tripoint &point : path ) {
-                if( g->m.impassable( point ) ) {
+                if( g->m.impassable( point ) &&
+                    !( weapon.has_flag( "SPEAR" ) && // Fences etc. Spears can stab through those
+                       g->m.has_flag( "THIN_OBSTACLE", point ) ) ) { //this mirrors melee.cpp function reach_attack
                     can_see = false;
                     break;
                 }
