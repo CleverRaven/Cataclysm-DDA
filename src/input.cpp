@@ -1377,7 +1377,7 @@ std::tuple<point, bool> input_context::get_coordinates_inventory( const catacurs
     const point screen_pos = coordinate - win_min;
     const point selected( screen_pos.x / fw, screen_pos.y / fh );
 
-    if( !win_bounds.contains_inclusive( coordinate ) ) {
+    if( !win_bounds.contains_half_open( coordinate ) ) {
         return std::make_tuple( selected, false );
     }
 
