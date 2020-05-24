@@ -2737,8 +2737,7 @@
       "monster_id": "mon_laserturret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+       "skills": [ "electronics", "computer" ]
     }
   },
   {
