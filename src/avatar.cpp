@@ -1125,11 +1125,10 @@ int avatar::calc_focus_change() const
     }
 
     // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
-    if( rng( 1, 100 ) <= focus_gap % 100 ) {
-        gain++;
-    }
+    // for n points left, calculate the probability over half a sinusoid.
+    int gain = 0;
+
+    gain += get_focus_chance( focus_gap );
 
     gain *= base_change;
 

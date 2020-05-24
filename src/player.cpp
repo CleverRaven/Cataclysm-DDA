@@ -3791,6 +3791,15 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     return std::min( own_light, ambient_light );
 }
 
+int player::get_focus_chance( int focus ) const
+{
+    if( focus >= 100 ) {
+        return 1;
+    } else {
+        return roll_remainder( .5 * ( 1 - std::cos( ( M_PI / 100 ) * ( focus % 100 ) ) ) );
+    }
+}
+
 void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
@@ -3859,13 +3868,11 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
                      skill_name );
         }
 
-        int chance_to_drop = focus_pool;
-        focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
-                skill.is_combat_skill() ) ) ) {
-            focus_pool--;
+        if( !( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) ) {
+            // Calculate focus chance to drop sinusoidally
+            focus_pool += get_focus_chance( focus_pool );
         }
     }
 
