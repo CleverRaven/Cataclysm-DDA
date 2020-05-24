@@ -518,7 +518,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-bool Character::activate_bionic( int b, bool eff_only )
+bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 {
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
@@ -586,6 +586,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
         g->refresh_all();
+        if( close_bionics_ui ) {
+            *close_bionics_ui = true;
+        }
         avatar_action::fire_ranged_bionic( g->u, item( bio.info().fake_item ), bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
@@ -948,6 +951,9 @@ bool Character::activate_bionic( int b, bool eff_only )
             int moves = to_moves<int>( 4_seconds );
             assign_activity( lockpick_activity_actor( moves, cata::nullopt, fake_lockpick,
                              g->m.getabs( *target ) ) );
+            if( close_bionics_ui ) {
+                *close_bionics_ui = true;
+            }
         } else {
             refund_power();
             return false;
