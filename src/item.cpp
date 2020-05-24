@@ -838,18 +838,18 @@ bool item::is_worn_only_with( const item &it ) const
     return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
 }
 
-item item::in_its_container() const
+item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ) );
+    return in_container( type->default_container.value_or( "null" ), qty );
 }
 
-item item::in_container( const itype_id &cont ) const
+item item::in_container( const itype_id &cont, int qty ) const
 {
     if( !cont.is_null() ) {
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                ret.fill_with( *type, charges );
+                ret.fill_with( *type, qty );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }

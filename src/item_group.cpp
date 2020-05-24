@@ -74,8 +74,12 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp );
     } else {
+        int qty = item::INFINITE_CHARGES;
+        if( modifier ) {
+            qty = rng( modifier->charges.first, modifier->charges.second );
+        }
         // TODO: change the spawn lists to contain proper references to containers
-        tmp = tmp.in_its_container();
+        tmp = tmp.in_its_container( qty );
     }
     return tmp;
 }
