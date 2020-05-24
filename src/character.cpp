@@ -7545,6 +7545,10 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         i_rem( used );
         return true;
+    } else if( used->is_comestible() ) {
+        const bool ret = consume_effects( *used );
+        used->charges -= charges_used;
+        return ret;
     }
 
     return false;
