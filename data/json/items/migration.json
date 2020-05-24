@@ -1188,5 +1188,10 @@
     "id": "akmbigmag",
     "type": "MIGRATION",
     "replace": "akmag40"
+  },
+  {
+    "id": "kevlar_plate",
+    "type": "MIGRATION",
+    "replace": "sheet_kevlar_layered"
   }
 ]

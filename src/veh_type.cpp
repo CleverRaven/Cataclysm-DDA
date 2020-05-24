@@ -73,6 +73,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SEATBELT", VPFLAG_SEATBELT },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
+    { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },
     { "FLOATS", VPFLAG_FLOATS },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
@@ -336,6 +337,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "emissions", def.emissions );
+    assign( jo, "exhaust", def.exhaust );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
@@ -421,7 +423,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         load_wheel( def.wheel_info, jo );
     }
 
-    if( def.has_flag( "ROTOR" ) ) {
+    if( def.has_flag( "ROTOR" ) || def.has_flag( "ROTOR_SIMPLE" ) ) {
         load_rotor( def.rotor_info, jo );
     }
 
@@ -612,14 +614,14 @@ void vpart_info::check()
         // Fuel type errors are serious and need fixing now
         if( !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
-            part.fuel_type = "null";
-        } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
+            part.fuel_type = itype_id::NULL_ID();
+        } else if( !part.fuel_type.is_null() && !item::find_type( part.fuel_type )->fuel &&
                    !type_can_contain( base_item_type, part.fuel_type ) ) {
             // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );
-            part.fuel_type = "null";
+            part.fuel_type = itype_id::NULL_ID();
         }
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
@@ -627,9 +629,13 @@ void vpart_info::check()
         if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
             debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
         }
+        if( !part.exhaust.empty() && !part.has_flag( "EMITTER" ) ) {
+            debugmsg( "vehicle part %s has exhaust set, but the EMITTER flag is not set", part.id.c_str() );
+        }
         if( part.has_flag( "EMITTER" ) ) {
-            if( part.emissions.empty() ) {
-                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions were set", part.id.c_str() );
+            if( part.emissions.empty() && part.exhaust.empty() ) {
+                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions or exhaust were set",
+                          part.id.c_str() );
             } else {
                 for( const emit_id &e : part.emissions ) {
                     if( !e.is_valid() ) {
@@ -637,11 +643,17 @@ void vpart_info::check()
                                   part.id.c_str(), e.str().c_str() );
                     }
                 }
+                for( const emit_id &e : part.exhaust ) {
+                    if( !e.is_valid() ) {
+                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid exhaust %s was set",
+                                  part.id.c_str(), e.str().c_str() );
+                    }
+                }
             }
         }
         if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
-            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  THIS WILL CRASH!",
-                      part.id.c_str(), part.item );
+            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
+                      "THIS WILL CRASH!", part.id.str(), part.item.str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
@@ -892,7 +904,10 @@ float vpart_info::wheel_or_rating() const
 
 int vpart_info::rotor_diameter() const
 {
-    return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
+    if( has_flag( VPFLAG_ROTOR ) || has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
+        return rotor_info->rotor_diameter;
+    }
+    return 0;
 }
 
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
@@ -1018,12 +1033,10 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
-            for( const std::string line : spawn_info.get_array( "items" ) ) {
-                next_spawn.item_ids.push_back( line );
-            }
+            spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( spawn_info.get_string( "items" ) );
+            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
@@ -1106,7 +1119,7 @@ void vehicle_prototype::finalize()
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             } else {
-                if( pt.fuel != "null" ) {
+                if( !pt.fuel.is_null() ) {
                     debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }

@@ -1159,23 +1159,24 @@ class jmapgen_loot : public jmapgen_piece
                           jsi.get_int( "magazine", 0 ) )
             , chance( jsi.get_int( "chance", 100 ) ) {
             const std::string group = jsi.get_string( "group", std::string() );
-            const std::string name = jsi.get_string( "item", std::string() );
+            itype_id ity;
+            jsi.read( "item", ity );
 
-            if( group.empty() == name.empty() ) {
+            if( group.empty() == ity.is_empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
                 set_mapgen_defer( jsi, "group", "no such item group" );
             }
-            if( !name.empty() && !item::type_is_defined( name ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type '" + name + "'" );
+            if( !ity.is_empty() && !item::type_is_defined( ity ) ) {
+                set_mapgen_defer( jsi, "item", "no such item type '" + ity.str() + "'" );
             }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
             if( group.empty() ) {
                 // Migrations are applied to item *groups* on load, but single item spawns must be
                 // migrated individually
-                result_group.add_item_entry( item_controller->migrate_id( name ), 100 );
+                result_group.add_item_entry( item_controller->migrate_id( ity ), 100 );
             } else {
                 result_group.add_group_entry( group, 100 );
             }
@@ -1639,7 +1640,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                     const itype *spawned_type = item::find_type( item_spawner->type );
                     if( !spawned_type->seed ) {
                         debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
-                                  summary, spawned_type->get_id() );
+                                  summary, spawned_type->get_id().str() );
                         return;
                     }
                 }
@@ -1657,7 +1658,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                         if( !type->seed ) {
                             debugmsg( "%s (with flag PLANT) spawns item group %s which can "
                                       "spawn item %s which is not a seed.",
-                                      summary, group_id, type->get_id() );
+                                      summary, group_id, type->get_id().str() );
                             return;
                         }
                     }
@@ -5759,7 +5760,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                 e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
-                e->ammo_set( e->ammo_default(), e->ammo_capacity() );
+                e->ammo_set( e->ammo_default() );
             }
         }
     }

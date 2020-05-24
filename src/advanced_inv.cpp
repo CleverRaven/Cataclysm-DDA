@@ -890,9 +890,9 @@ bool advanced_inventory::move_all_items( bool nested_call )
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
             g->u.activity.coords.push_back( g->u.pos() );
-
+            std::vector<item_location> target_items;
+            std::vector<int> quantities;
             item_stack::iterator stack_begin, stack_end;
             if( panes[src].in_vehicle() ) {
                 vehicle_stack targets = sarea.veh->get_items( sarea.vstor );
@@ -918,17 +918,22 @@ bool advanced_inventory::move_all_items( bool nested_call )
                     continue;
                 }
                 if( spane.in_vehicle() ) {
-                    g->u.activity.targets.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
+                    target_items.emplace_back( vehicle_cursor( *sarea.veh, sarea.vstor ), &*it );
                 } else {
-                    g->u.activity.targets.emplace_back( map_cursor( sarea.pos ), &*it );
+                    target_items.emplace_back( map_cursor( sarea.pos ), &*it );
                 }
                 // quantity of 0 means move all
-                g->u.activity.values.push_back( 0 );
+                quantities.push_back( 0 );
             }
 
             if( filtered_any_bucket ) {
                 add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
             }
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+                    target_items,
+                    quantities,
+                    cata::optional<tripoint>( g->u.pos() )
+                                                   ) ) );
 
         } else {
             // Vehicle and map destinations are handled the same.

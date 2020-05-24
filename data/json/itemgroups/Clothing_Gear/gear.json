@@ -17,6 +17,8 @@
       [ "helmet_lobster", 5 ],
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
+      [ "balclava", 10 ],
+      [ "balaclava_cut_resistant", 5 ],
       [ "holster", 15 ],
       [ "bandolier_shotgun", 15 ],
       [ "torso_bandolier_shotgun", 8 ],

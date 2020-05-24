@@ -49,7 +49,7 @@ faction_template::faction_template()
     size = 0;
     power = 0;
     lone_wolf_faction = false;
-    currency = "null";
+    currency = itype_id::NULL_ID();
 }
 
 faction::faction( const faction_template &templ )
@@ -106,9 +106,9 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     if( jsobj.has_string( "currency" ) ) {
-        currency = jsobj.get_string( "currency" );
+        jsobj.read( "currency", currency, true );
     } else {
-        currency = "null";
+        currency = itype_id::NULL_ID();
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );

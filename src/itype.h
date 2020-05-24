@@ -37,7 +37,6 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-using itype_id = std::string;
 
 class gun_modifier_data
 {
@@ -97,7 +96,7 @@ struct islot_tool {
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
-    std::string subtype;
+    itype_id subtype;
 
     int max_charges = 0;
     int def_charges = 0;
@@ -117,7 +116,7 @@ struct islot_comestible {
         std::string comesttype;
 
         /** tool needed to consume (e.g. lighter for cigarettes) */
-        std::string tool = "null";
+        itype_id tool = itype_id::NULL_ID();
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
         int def_charges = 1;
@@ -197,7 +196,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<std::string> results;
+    std::vector<itype_id> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -637,7 +636,7 @@ struct islot_magazine {
     int count = 0;
 
     /** Default type of ammo contained by a magazine (often set for ammo belts) */
-    itype_id default_ammo = "NULL";
+    itype_id default_ammo = itype_id::NULL_ID();
 
     /**
      * How reliable this magazine on a range of 0 to 10?
@@ -673,7 +672,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Control chance for and state of any items dropped at ranged target
      *@{*/
-    itype_id drop = "null";
+    itype_id drop = itype_id::NULL_ID();
 
     float drop_chance = 1.0;
 
@@ -766,7 +765,7 @@ struct islot_seed {
     /**
      * Type id of the fruit item.
      */
-    std::string fruit_id;
+    itype_id fruit_id;
     /**
      * Whether to spawn seed items additionally to the fruit items.
      */
@@ -774,7 +773,7 @@ struct islot_seed {
     /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
-    std::vector<std::string> byproducts;
+    std::vector<itype_id> byproducts;
 
     islot_seed() = default;
 };
@@ -844,7 +843,7 @@ struct itype {
         /*@}*/
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
-        std::string looks_like;
+        itype_id looks_like;
 
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
@@ -1001,7 +1000,7 @@ struct itype {
         /// @}
 
     protected:
-        std::string id = "null"; /** unique string identifier for this type */
+        itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
         // nname() is used for display purposes

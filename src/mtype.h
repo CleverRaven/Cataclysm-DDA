@@ -36,8 +36,6 @@ using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
 
-using itype_id = std::string;
-
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum class mon_trigger {
@@ -227,7 +225,7 @@ struct mtype {
     public:
         mtype_id id;
 
-        std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
+        std::map<itype_id, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
 

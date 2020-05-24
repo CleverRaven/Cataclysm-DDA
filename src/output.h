@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <forward_list>
 #include <functional>
 #include <iterator>
 #include <locale>
@@ -370,6 +371,47 @@ void draw_custom_border(
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
+
+class border_helper
+{
+    public:
+        class border_info
+        {
+            public:
+                void set( const point &pos, const point &size );
+
+                // Prevent accidentally copying the return value from border_helper::add_border
+                border_info( const border_info & ) = delete;
+                border_info( border_info && ) = default;
+                border_info &operator=( const border_info & ) = delete;
+                border_info &operator=( border_info && ) = default;
+
+                friend class border_helper;
+            private:
+                border_info( border_helper &helper );
+
+                point pos;
+                point size;
+                std::reference_wrapper<border_helper> helper;
+        };
+
+        border_info &add_border();
+        void draw_border( const catacurses::window &win );
+
+        friend class border_info;
+    private:
+        struct border_connection {
+            bool top = false;
+            bool right = false;
+            bool bottom = false;
+            bool left = false;
+
+            int as_curses_line() const;
+        };
+        cata::optional<std::map<point, border_connection>> border_connection_map;
+
+        std::forward_list<border_info> border_info_list;
+};
 
 std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );

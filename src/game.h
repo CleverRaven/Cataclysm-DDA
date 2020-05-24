@@ -93,8 +93,6 @@ enum action_id : int;
 
 struct special_game;
 
-using itype_id = std::string;
-
 class achievements_tracker;
 class avatar;
 class event_bus;
@@ -227,15 +225,29 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+
+        class draw_callback_t
+        {
+            public:
+                draw_callback_t( const std::function<void()> &cb );
+                ~draw_callback_t();
+                void operator()();
+                friend class game;
+            private:
+                std::function<void()> cb;
+                bool added = false;
+        };
+        /* Add callback that would be called in `game::draw`. This can be used to
+         * implement map overlays in game menus. If parameters of the callback changes
+         * during its lifetime, `invaliate_main_ui_adaptor` has to be called for
+         * the changes to take effect immediately on the next call to `ui_manager::redraw`.
+         * Otherwise the callback may not take effect until the main ui is invalidated
+         * due to resizing or other menus closing. The callback is disabled once all
+         * shared pointers to the callback are deconstructed, and is removed afterwards. */
+        void add_draw_callback( shared_ptr_fast<draw_callback_t> cb );
     private:
-        cata::optional<tripoint> zone_start;
-        cata::optional<tripoint> zone_end;
-        bool zone_blink = false;
-        bool zone_cursor = false;
         bool is_looking = false;
-        cata::optional<tripoint> trail_start;
-        cata::optional<tripoint> trail_end;
-        bool trail_end_x = false;
+        std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
 
     public:
         // when force_redraw is true, redraw all panel instead of just animated panels
@@ -797,7 +809,7 @@ class game
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item &it ); // Unload a gun/tool  'U'
+        bool unload( item_location &loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 

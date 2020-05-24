@@ -22,6 +22,11 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const vpart_id vpart_battery_car( "battery_car" );
+static const vpart_id vpart_headlight( "headlight" );
+static const vpart_id vpart_vehicle_clock( "vehicle_clock" );
+static const vpart_id vpart_windshield( "windshield" );
+
 enum class outcome_type {
     Kill, Casualty
 };
@@ -36,9 +41,9 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     statistics<bool> victims;
     std::stringstream survivor_stats;
     int total_hp = 0;
+    clear_map_and_put_player_underground();
     do {
-        // Clear map
-        clear_map_and_put_player_underground();
+        clear_creatures();
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
@@ -125,11 +130,11 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     for( size_t i = 0; i < before_hp.size(); ++i ) {
         CAPTURE( i );
         INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == "battery_car" ||
-            target_vehicle->parts[ i ].info().get_id() == "headlight" ||
-            target_vehicle->parts[ i ].info().get_id() == "windshield" ) {
+        if( target_vehicle->parts[ i ].info().get_id() == vpart_battery_car ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_headlight ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_windshield ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->parts[ i ].info().get_id() == "vehicle_clock" ) ) {
+        } else if( !( target_vehicle->parts[ i ].info().get_id() == vpart_vehicle_clock ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }

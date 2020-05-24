@@ -57,6 +57,8 @@
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
+static const itype_id itype_water( "water" );
+
 // Pickup helper functions
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -262,6 +264,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     bool did_prompt = false;
     if( newit.count_by_charges() ) {
         newit.charges -= u.i_add( newit ).charges;
+        // if the item stacks with another item when added,
+        // the charges returned may be larger than the charges of the item added.
+        newit.charges = std::max( 0, newit.charges );
     }
     if( newit.is_ammo() && newit.charges <= 0 ) {
         picked_up = true;
@@ -449,7 +454,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
+                if( maybe_water.typeId() != itype_water  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }

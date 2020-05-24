@@ -285,6 +285,9 @@ class inventory_column
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
+        // orders the child entries in this column to be under their parent
+        void order_by_parent();
+
         inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, size_t x, size_t y ) const;

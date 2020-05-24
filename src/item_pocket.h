@@ -6,6 +6,7 @@
 
 #include "enums.h"
 #include "enum_traits.h"
+#include "flat_set.h"
 #include "optional.h"
 #include "type_id.h"
 #include "ret_val.h"
@@ -26,14 +27,13 @@ struct iteminfo;
 struct itype;
 struct tripoint;
 
-using itype_id = std::string;
-
 class item_pocket
 {
     public:
         enum pocket_type {
             CONTAINER,
             MAGAZINE,
+            MAGAZINE_WELL, //holds magazines
             MOD, // the gunmods or toolmods
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
@@ -46,7 +46,7 @@ class item_pocket
             ERR_MOD,
             // trying to put a liquid into a non-watertight container
             ERR_LIQUID,
-            // trying to put a gas in a non-gastight container
+            // trying to put a gas in a non-airtight container
             ERR_GAS,
             // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_BIG,
@@ -76,8 +76,14 @@ class item_pocket
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
+        // Convenience accessors for pocket data attributes with the same name
         bool rigid() const;
         bool watertight() const;
+        bool airtight() const;
+
+        // is this pocket one of the standard types?
+        // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
+        bool is_standard_type() const;
 
         std::list<item *> all_items_top();
         std::list<const item *> all_items_top() const;
@@ -102,6 +108,7 @@ class item_pocket
         units::volume volume_capacity() const;
         // the amount of space this pocket can hold before it starts expanding
         units::volume magazine_well() const;
+        units::mass weight_capacity() const;
         // The largest volume of contents this pocket can have.  Different from
         // volume_capacity because that doesn't take into account ammo containers.
         units::volume max_contains_volume() const;
@@ -125,8 +132,13 @@ class item_pocket
         std::vector<item *> gunmods();
         // returns a list of pointers of all gunmods in the pocket
         std::vector<const item *> gunmods() const;
+        cata::flat_set<itype_id> item_type_restrictions() const;
         item *magazine_current();
+        // returns amount of ammo consumed
         int ammo_consume( int qty );
+        // returns all allowable ammotypes
+        std::set<ammotype> ammo_types() const;
+        int ammo_capacity( const ammotype &ammo ) const;
         void casings_handle( const std::function<bool( item & )> &func );
         bool use_amount( const itype_id &it, int &quantity, std::list<item> &used );
         bool will_explode_in_a_fire() const;
@@ -277,6 +289,8 @@ class pocket_data
         float spoil_multiplier = 1.0f;
         // items' weight in this pocket are modified by this number
         float weight_multiplier = 1.0f;
+        // items' volume in this pocket are modified by this number for calculation of the containing object
+        float volume_multiplier = 1.0f;
         // the size that gets subtracted from the contents before it starts enlarging the item
         units::volume magazine_well = 0_ml;
         // base time it takes to pull an item out of the pocket
@@ -286,7 +300,7 @@ class pocket_data
         // can hold liquids
         bool watertight = false;
         // can hold gas
-        bool gastight = false;
+        bool airtight = false;
         // the pocket will spill its contents if placed in another container
         bool open_container = false;
 
@@ -298,6 +312,9 @@ class pocket_data
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
+        // items stored are restricted to these item ids.
+        // this takes precedence over the other two restrictions
+        cata::flat_set<itype_id> item_id_restriction;
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
 

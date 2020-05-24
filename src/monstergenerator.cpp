@@ -742,11 +742,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
-    optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
+    optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
-    optional( jo, was_loaded, "mech_weapon", mech_weapon, "" );
+    optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
-    optional( jo, was_loaded, "mech_battery", mech_battery, "" );
+    optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -863,7 +863,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
-                  "null" );
+                  itype_id::NULL_ID() );
         reproduces = true;
     }
 
@@ -885,7 +885,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
 
         optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
-                  "null" );
+                  itype_id::NULL_ID() );
         biosignatures = true;
     }
 
@@ -1139,16 +1139,16 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+        if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
             debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
-            !item( itype_id( mon.starting_ammo.begin()->first ) ).made_of( LIQUID ) ) {
+            !item( mon.starting_ammo.begin()->first ).made_of( LIQUID ) ) {
             debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
-                      mon.id.c_str(), mon.starting_ammo.begin()->first );
+                      mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
             debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
@@ -1167,15 +1167,15 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.c_str() );
             }
         }
-        if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
+        if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
         }
-        if( !mon.mech_weapon.empty() && !item::type_is_defined( mon.mech_weapon ) ) {
+        if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
                       mon.mech_weapon.c_str() );
         }
-        if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
+        if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
         }
@@ -1237,10 +1237,10 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Number of children (%d) is invalid for %s",
                           mon.baby_count, mon.id.c_str() );
             }
-            if( !mon.baby_monster && mon.baby_egg == "null" ) {
+            if( !mon.baby_monster && mon.baby_egg.is_null() ) {
                 debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
             }
-            if( mon.baby_monster && mon.baby_egg != "null" ) {
+            if( mon.baby_monster && !mon.baby_egg.is_null() ) {
                 debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
             }
             if( !mon.baby_monster.is_valid() ) {
@@ -1258,7 +1258,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Time between biosignature drops (%d) is invalid for %s",
                           mon.biosig_timer ? to_turns<int>( *mon.biosig_timer ) : -1, mon.id.c_str() );
             }
-            if( mon.biosig_item == "null" ) {
+            if( mon.biosig_item.is_null() ) {
                 debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
             }
             if( !item::type_is_defined( mon.biosig_item ) ) {

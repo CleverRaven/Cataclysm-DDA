@@ -63,9 +63,6 @@ class JsonOut;
 class dispersion_sources;
 struct bionic;
 struct dealt_projectile_attack;
-
-using itype_id = std::string;
-using faction_id = string_id<faction>;
 class profession;
 struct trap;
 
@@ -141,9 +138,6 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
-
-        /** Returns what color the player should be drawn as */
-        nc_color basic_symbol_color() const override;
 
         // populate variables, inventory items, and misc from json object
         virtual void deserialize( JsonIn &jsin ) = 0;
@@ -333,16 +327,12 @@ class player : public Character
          */
         void siphon( vehicle &veh, const itype_id &desired_liquid );
 
-        /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
+        bool consume( item_location loc, bool force = false );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
+        bool consume( item &target, bool force = false );
 
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
 
@@ -400,7 +390,7 @@ class player : public Character
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
          */
-        bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -433,7 +423,7 @@ class player : public Character
           */
         bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
-        bool unload( item &it );
+        bool unload( item_location &loc );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -480,7 +470,7 @@ class player : public Character
 
         bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const std::string &item_id ) const = 0;
+        virtual bool has_identified( const itype_id &item_id ) const = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
@@ -518,7 +508,7 @@ class player : public Character
         bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty();
+        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** This handles giving xp for a skill */
@@ -785,15 +775,6 @@ class player : public Character
 
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
-
-    private:
-
-        /**
-         * Consumes an item as medication.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target );
 
     private:
 

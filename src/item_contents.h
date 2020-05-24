@@ -23,9 +23,6 @@ class JsonIn;
 class JsonOut;
 class item;
 struct tripoint;
-
-using itype_id = std::string;
-
 class item;
 class item_location;
 class player;
@@ -81,6 +78,9 @@ class item_contents
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
+        // all magazines compatible with any pockets.
+        // this only checks MAGAZINE_WELL
+        std::set<itype_id> magazine_compatible() const;
         /**
          * This function is to aid migration to using nested containers.
          * The call sites of this function need to be updated to search the
@@ -91,6 +91,9 @@ class item_contents
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
+
+        // gets the total weight capacity of all pockets
+        units::mass total_container_weight_capacity() const;
 
         /**
           * gets the total volume available to be used.
@@ -147,9 +150,11 @@ class item_contents
 
         // heats up the contents if they have temperature
         void heat_up();
-        // returns qty - need
-        int ammo_consume( int qty );
+        // returns amount of ammo consumed
+        int ammo_consume( int qty, const tripoint &pos );
         item *magazine_current();
+        std::set<ammotype> ammo_types() const;
+        int ammo_capacity( const ammotype &ammo ) const;
         // gets the first ammo in all magazine pockets
         // does not support multiple magazine pockets!
         item &first_ammo();

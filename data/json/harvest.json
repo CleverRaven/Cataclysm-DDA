@@ -556,7 +556,7 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "kevlar_plate", "type": "skin", "mass_ratio": 0.015 },
+      { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.24 },
       { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },
