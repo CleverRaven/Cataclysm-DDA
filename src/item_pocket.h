@@ -76,8 +76,10 @@ class item_pocket
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
+        // Convenience accessors for pocket data attributes with the same name
         bool rigid() const;
         bool watertight() const;
+        bool airtight() const;
 
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.

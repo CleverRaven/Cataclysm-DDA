@@ -1139,6 +1139,11 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
+bool item_pocket::airtight() const
+{
+    return data->airtight;
+}
+
 void item_pocket::add( const item &it )
 {
     contents.push_back( it );
