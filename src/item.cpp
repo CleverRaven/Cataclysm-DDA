@@ -7906,7 +7906,7 @@ int item::getlight_emit() const
 {
     float lumint = type->light_emission;
 
-    if( lumint == 0 ) {
+    if( lumint == 0 || ammo_remaining() == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
