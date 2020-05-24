@@ -1355,6 +1355,24 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
+std::tuple<point, bool> input_context::get_coordinates_inventory( const catacurses::window
+        &capture_win ) const
+{
+    std::tuple<point, bool> tuple;
+    if( !coordinate_input_received ) {
+        return std::make_tuple( point(), false );
+    }
+    const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
+    const point win_min( getbegx( capture_win ),
+                         getbegy( capture_win ) );
+    const rectangle win_bounds( win_min, win_min + view_size );
+    const point p = coordinate;
+    if( !win_bounds.contains_half_open( coordinate ) ) {
+        return std::make_tuple( p, false );
+    }
+    return std::make_tuple( p, true );
+}
+
 std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context

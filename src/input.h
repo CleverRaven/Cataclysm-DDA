@@ -634,6 +634,8 @@ class input_context
          */
         input_event get_raw_input();
 
+        std::tuple<point, bool> get_coordinates_inventory( const catacurses::window &capture_win ) const;
+
         /**
          * Get the human-readable name for an action.
          */
