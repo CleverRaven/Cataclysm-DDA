@@ -286,6 +286,7 @@ namespace io
         case trigger_type::THRIST: return "THIRST";
         case trigger_type::MOOD: return "MOOD";
         case trigger_type::STAMINA: return "STAMINA";
+        case trigger_type::MOON: return "MOON";
         case trigger_type::num_trigger: return "undefined trigger";
         }
         debugmsg("Invalid trigger_type %d", trigger_num);

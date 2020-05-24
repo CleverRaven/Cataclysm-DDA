@@ -289,7 +289,25 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
                 }
             }
             break;
-
+        case MOON:
+            if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
+                if( get_moon_phase( calendar::turn ) < mut->reflex_activation->threshold_high &&
+                    get_moon_phase( calendar::turn ) > mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_moon_phase( calendar::turn ) > mut->reflex_activation->threshold_high ||
+                           get_moon_phase( calendar::turn ) < mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            } else {
+                if( get_moon_phase( calendar::turn ) > mut->reflex_activation->threshold_high ||
+                    get_moon_phase( calendar::turn ) < mut->reflex_activation->threshold_low ) {
+                    activate = !has_active_mutation( mut );
+                } else if( get_moon_phase( calendar::turn ) < mut->reflex_activation->threshold_high &&
+                           get_moon_phase( calendar::turn ) > mut->reflex_activation->threshold_low ) {
+                    deactivate = has_active_mutation( mut );
+                }
+            }
+            break;
         default:
             break;
     }
