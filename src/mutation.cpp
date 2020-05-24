@@ -210,7 +210,10 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
         case STAMINA:
             var = get_stamina();
         case MOON:
-            var = get_moon_phase( calendar::turn );
+            var = static_cast<int>( get_moon_phase( calendar::turn ) );
+            break;
+        case TIME:
+            var = to_hours<int>( time_past_midnight( calendar::turn ) );
             break;
         default:
             break;

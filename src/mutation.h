@@ -95,6 +95,7 @@ enum trigger_type {
     MOOD,
     STAMINA,
     MOON,
+    TIME,
     num_trigger
 };
 template<>
