@@ -488,7 +488,7 @@ achievement_tracker::achievement_tracker( const achievement &a, achievements_tra
 void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is_satisfied )
 {
     if( sorted_watchers_[is_satisfied].insert( watcher ).second ) {
-        // Remove from other; check for completion.
+        // Remove from other
         sorted_watchers_[!is_satisfied].erase( watcher );
         assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
