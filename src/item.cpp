@@ -6475,27 +6475,29 @@ bool item::is_reloadable_with( const itype_id &ammo ) const
 
 bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 {
-    // empty ammo is passed for listing possible ammo apparently, so it needs to return true.
     if( !is_reloadable() ) {
         return false;
-    } else if( magazine_integral() ) {
-        if( !ammo.is_empty() ) {
-            if( ammo_data() ) {
-                if( ammo_current() != ammo ) {
-                    return false;
-                }
-            } else {
-                const itype *at = find_type( ammo );
-                if( ( !at->ammo || !ammo_types().count( at->ammo->type ) ) &&
-                    !magazine_compatible().count( ammo ) ) {
-                    return false;
-                }
+    }
+
+    // empty ammo is passed for listing possible ammo, so it needs to return true.
+    if( ammo.is_empty() ) {
+        return true;
+    }
+
+    if( magazine_integral() ) {
+        if( ammo_data() ) {
+            if( ammo_current() != ammo ) {
+                return false;
+            }
+        } else {
+            if( ( !ammo->ammo || !ammo_types().count( ammo->ammo->type ) ) &&
+                !magazine_compatible().count( ammo ) ) {
+                return false;
             }
         }
-        return now ? ( ammo_remaining() < ammo_capacity( find_type( ammo )->ammo->type ) ) : true;
-    } else {
-        return ammo.is_empty() ? true : magazine_compatible().count( ammo );
+        return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
+    return magazine_compatible().count( ammo );
 }
 
 bool item::is_salvageable() const
