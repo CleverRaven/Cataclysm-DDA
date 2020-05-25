@@ -647,7 +647,7 @@ void border_helper::draw_border( const catacurses::window &win )
     }
     const point win_beg( getbegx( win ), getbegy( win ) );
     const point win_end = win_beg + point( getmaxx( win ), getmaxy( win ) );
-    for( const std::pair<point, border_connection> &conn : border_connection_map.value() ) {
+    for( const std::pair<const point, border_connection> &conn : border_connection_map.value() ) {
         if( conn.first.x >= win_beg.x && conn.first.x < win_end.x &&
             conn.first.y >= win_beg.y && conn.first.y < win_end.y ) {
             mvwputch( win, conn.first - win_beg, BORDER_COLOR, conn.second.as_curses_line() );
