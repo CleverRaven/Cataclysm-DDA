@@ -2485,12 +2485,6 @@ hint_rating player::rate_action_wear( const item &it ) const
 
 bool player::can_reload( const item &it, const itype_id &ammo ) const
 {
-    if( ammo.is_empty() ) {
-        // if no ammo is passed, we just want to know if the player has an ammo for this item
-        return has_item_with( [&it]( const item & ammo ) {
-            return it.can_reload_with( ammo.typeId() );
-        } );
-    }
 
     if( !it.is_reloadable_with( ammo ) ) {
         return false;
