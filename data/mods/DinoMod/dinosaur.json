@@ -472,7 +472,19 @@
     "reproduction": { "baby_egg": "egg_deinonychus", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "BLEED", "ATTACKMON", "WARM" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "KEENNOSE",
+      "BLEED",
+      "ATTACKMON",
+      "WARM",
+      "CAN_OPEN_DOORS",
+      "PRIORITIZE_TARGETS"
+    ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
@@ -506,10 +518,12 @@
       "BLEED",
       "ATTACKMON",
       "WARM",
+      "CAN_OPEN_DOORS",
+      "PRIORITIZE_TARGETS",
       "ACIDPROOF",
       "ELECTRIC"
     ],
-    "harvest": [ "dino_feather_leather", "CBM_DINO" ]
+    "harvest": [ "CBM_DINO" ]
   },
   {
     "type": "MONSTER",
