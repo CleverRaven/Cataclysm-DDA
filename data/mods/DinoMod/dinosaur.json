@@ -496,6 +496,7 @@
     "id": "mon_deino_bio_op",
     "name": { "str_sp": "Deinonychus bio-operator" },
     "copy-from": "mon_deinonychus",
+    "diff": 5,
     "aggression": 10,
     "morale": 100,
     "speed": 156,
@@ -510,6 +511,7 @@
     "luminance": 4,
     "hp": 72,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A bipedal dinosaur covered with feathers and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "flags": [
       "SEES",
