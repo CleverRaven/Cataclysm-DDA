@@ -34,6 +34,7 @@
 #include "color.h"
 #include "point.h"
 #include "sdltiles.h"
+#include <cata_tiles.cpp>
 
 using std::min; // from <algorithm>
 using std::max;
@@ -1356,7 +1357,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::tuple<point, bool> input_context::get_coordinates_inventory( const catacurses::window
+std::tuple<point, bool> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
     std::tuple<point, bool> tuple;
@@ -1375,7 +1376,8 @@ std::tuple<point, bool> input_context::get_coordinates_inventory( const catacurs
     const rectangle win_bounds( win_min, win_max );
 
     const point screen_pos = coordinate - win_min;
-    const point selected( screen_pos.x / fw, screen_pos.y / fh );
+    const point selected( divide_round_down( screen_pos.x, fw ),
+                          divide_round_down( screen_pos.y, fh ) );
 
     if( !win_bounds.contains_inclusive( coordinate ) ) {
         return std::make_tuple( selected, false );

@@ -1832,7 +1832,7 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    std::tuple<point, bool> tuple = ctxt.get_coordinates_inventory( w_inv );
+    std::tuple<point, bool> tuple = ctxt.get_coordinates_text( w_inv );
     if( std::get<1>( tuple ) ) {
         point p = std::get<0>( tuple );
         res.entry = find_entry_by_coordinate( p );
