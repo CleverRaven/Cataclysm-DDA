@@ -34,7 +34,6 @@
 #include "color.h"
 #include "point.h"
 #include "sdltiles.h"
-#include <cata_tiles.cpp>
 
 using std::min; // from <algorithm>
 using std::max;
