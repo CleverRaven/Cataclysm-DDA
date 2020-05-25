@@ -1023,20 +1023,34 @@ tab_direction set_traits( avatar &u, points_left &points )
             continue;
         }
 
+
+        const std::set<trait_id> scentraits = g->scen->get_locked_traits();
+        const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
+                                             traits_iter.id ) != scentraits.end();
+
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
                                              traits_iter.id ) != proftraits.end();
+
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
+
+                if( is_proftrait || is_scentrait ) {
+                    continue;
+                }
 
                 if( u.has_trait( traits_iter.id ) ) {
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
                 vStartingTraits[1].push_back( traits_iter.id );
+
+                if( is_proftrait || is_scentrait ) {
+                    continue;
+                }
 
                 if( u.has_trait( traits_iter.id ) ) {
                     num_bad += traits_iter.points;
