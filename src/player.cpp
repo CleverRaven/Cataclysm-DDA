@@ -2556,7 +2556,9 @@ void player::mend_item( item_location &&obj, bool interactive )
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
             if( obj->damage() > 0 ) {
                 const std::set<itype_id> &rep = obj->repaired_with();
-                if( !rep.empty() ) {
+                if( rep.empty() ) {
+                    add_msg( m_info, _( "It is damaged, but cannot be repaired." ) );
+                } else {
                     const std::string repair_options =
                     enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
                         return item::nname( e );
