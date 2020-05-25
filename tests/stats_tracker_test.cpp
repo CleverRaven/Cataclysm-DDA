@@ -242,7 +242,7 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         const cata::event other_kill =
             cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
         const string_id<event_statistic> avatar_id( "avatar_id" );
-        const string_id<event_statistic> num_avatar_kills( "num_avatar_kills" );
+        const string_id<event_statistic> num_avatar_monster_kills( "num_avatar_monster_kills" );
         const string_id<event_statistic> num_avatar_zombie_kills( "num_avatar_zombie_kills" );
         const string_id<score> score_kills( "score_kills" );
 
@@ -251,12 +251,12 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( score_kills->value( s ).get<int>() == 0 );
         CHECK( score_kills->description( s ) == "0 monsters killed" );
         b.send( avatar_zombie_kill );
-        CHECK( num_avatar_kills->value( s ).get<int>() == 1 );
+        CHECK( num_avatar_monster_kills->value( s ).get<int>() == 1 );
         CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
         CHECK( score_kills->value( s ).get<int>() == 1 );
         CHECK( score_kills->description( s ) == "1 monster killed" );
         b.send( avatar_dog_kill );
-        CHECK( num_avatar_kills->value( s ).get<int>() == 2 );
+        CHECK( num_avatar_monster_kills->value( s ).get<int>() == 2 );
         CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
         CHECK( score_kills->value( s ).get<int>() == 2 );
         b.send( other_kill );
@@ -415,12 +415,12 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
             cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
         const cata::event other_kill =
             cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
-        const string_id<event_statistic> num_avatar_kills( "num_avatar_kills" );
+        const string_id<event_statistic> num_avatar_monster_kills( "num_avatar_monster_kills" );
         const string_id<event_statistic> num_avatar_zombie_kills( "num_avatar_zombie_kills" );
 
         watch_stat kills_watcher;
         watch_stat zombie_kills_watcher;
-        s.add_watcher( num_avatar_kills, &kills_watcher );
+        s.add_watcher( num_avatar_monster_kills, &kills_watcher );
         s.add_watcher( num_avatar_zombie_kills, &zombie_kills_watcher );
 
         b.send<event_type::game_start>( u_id );
