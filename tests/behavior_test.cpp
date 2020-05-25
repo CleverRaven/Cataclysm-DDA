@@ -197,9 +197,9 @@ TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
         test_monster.reset_special( special_name );
     }
     CHECK( monster_goals.tick( &oracle ) == "idle" );
-    for( const tripoint &near : g->m.points_in_radius( monster_location, 1 ) ) {
-        g->m.ter_set( near, ter_id( "t_grass" ) );
-        g->m.furn_set( near, furn_id( "f_null" ) );
+    for( const tripoint &near_monster : g->m.points_in_radius( monster_location, 1 ) ) {
+        g->m.ter_set( near_monster, ter_id( "t_grass" ) );
+        g->m.furn_set( near_monster, furn_id( "f_null" ) );
     }
     SECTION( "Special Attack" ) {
         test_monster.set_special( "EAT_CROP", 0 );
