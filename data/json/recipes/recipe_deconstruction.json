@@ -2276,10 +2276,10 @@
       [ [ "cable", 12 ] ],
       [ [ "chem_rdx", 20 ] ],
       [ [ "circuit", 6 ] ],
-      [ [ "plut_cell", 6 ] ],
+      [ [ "plutonium", 6 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 200 ] ],
-      [ [ "small_storage_battery", 2 ] ]
+      [ [ "plut_cell", 1 ] ]
     ]
   },
   {

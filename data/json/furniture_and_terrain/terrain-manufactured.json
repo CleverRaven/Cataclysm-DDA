@@ -295,7 +295,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_missile_exploded",
-      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plut_cell", "charges": [ 0, 3 ] } ]
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plutonium", "charges": [ 0, 3 ] } ]
     }
   },
   {
@@ -701,14 +701,13 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plut_cell", "charges": [ 0, 3 ] },
+        { "item": "plutonium", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
     "deconstruct": {
       "ter_set": "t_concrete",
       "items": [
-        { "item": "minireactor", "prob": 25 },
         { "item": "RAM", "count": [ 4, 8 ] },
         { "item": "cable", "charges": [ 8, 16 ] },
         { "item": "small_lcd_screen", "count": [ 2, 4 ] },
@@ -717,7 +716,7 @@
         { "item": "circuit", "count": [ 6, 10 ] },
         { "item": "power_supply", "count": [ 4, 8 ] },
         { "item": "amplifier", "count": [ 3, 6 ] },
-        { "item": "plut_cell", "charges": [ 2, 8 ] },
+        { "item": "plutonium", "charges": [ 2, 8 ] },
         { "item": "scrap", "count": [ 8, 16 ] }
       ]
     }
