@@ -1379,7 +1379,7 @@ std::tuple<point, bool> input_context::get_coordinates_text( const catacurses::w
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
 
-    if( !win_bounds.contains_inclusive( coordinate ) ) {
+    if( !win_bounds.contains_half_open( coordinate ) ) {
         return std::make_tuple( selected, false );
     }
 
