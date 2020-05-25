@@ -29,7 +29,7 @@
     "id": "f_sign",
     "name": "sign",
     "symbol": "P",
-    "description": "A simple signpost made of wood. Basically two planks alongside each other nailed to another plank that holds them up.",
+    "description": "A simple signpost made of wood.  Basically two planks alongside each other nailed to another plank that holds them up.",
     "color": "brown",
     "examine_action": "sign",
     "move_cost_mod": 1,

@@ -63,7 +63,7 @@
     "id": "f_bed_frame",
     "name": "bed frame",
     "symbol": "#",
-    "description": "A sturdy wooden bed frame built to hold most standard mattresses. Despite being one half of a bed, it's just about impossible to lay on by itself.",
+    "description": "A sturdy wooden bed frame built to hold most standard mattresses.  Despite being one half of a bed, it's just about impossible to lay on by itself.",
     "color": "brown",
     "move_cost_mod": 4,
     "coverage": 40,

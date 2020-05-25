@@ -882,7 +882,7 @@
     "type": "furniture",
     "id": "f_dumpster",
     "name": "dumpster",
-    "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon. Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",
+    "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 3,
