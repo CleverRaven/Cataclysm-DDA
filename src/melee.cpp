@@ -105,6 +105,7 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_KI_STRIKE( "KI_STRIKE" );
 static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
@@ -862,6 +863,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill = BIO_CQB_LEVEL;
     }
 
+    if( has_trait( trait_KI_STRIKE ) && unarmed && weap.is_null() ) {
+        // Pure unarmed doubles the bonuses from unarmed skill
+        skill *= 2;
+    }
+
     const int stat = get_str();
     /** @EFFECT_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
@@ -920,6 +926,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
+
+    if( has_trait( trait_KI_STRIKE ) && unarmed ) {
+        /** @EFFECT_UNARMED increases bashing damage with unarmed weapons */
+        weap_dam += skill;
+    }
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     if( skill < 5 ) {
