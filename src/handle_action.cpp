@@ -1309,7 +1309,7 @@ static void reach_attack( avatar &you )
 
 static void fire()
 {
-    player &u = g->u;
+    avatar &u = g->u;
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
@@ -1318,7 +1318,7 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( g->u, g->m, turret );
+            avatar_action::fire_turret_manual( u, g->m, turret );
             return;
         }
 
@@ -1362,18 +1362,18 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( g->u );
+        avatar_action::fire_wielded_weapon( u );
     } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( g->u );
+                reach_attack( u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( g->u );
+            reach_attack( u );
         }
     }
 }
