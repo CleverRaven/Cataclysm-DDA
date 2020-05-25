@@ -915,9 +915,11 @@ void monster::move()
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() || target->has_flag(MF_QUEEN) ) ) {
-                    continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
-                              // also, monsters should instinctively avoid attacking queens that regenerate their own population
+                } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ||
+                                                  target->has_flag( MF_QUEEN ) ) ) {
+                    // Friendly firing the player or an NPC is illegal for gameplay reasons.
+                    // Monsters should instinctively avoid attacking queens that regenerate their own population.
+                    continue;
                 } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
                     continue;
