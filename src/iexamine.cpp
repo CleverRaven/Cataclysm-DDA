@@ -122,6 +122,7 @@ static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_flour( "flour" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_industrial( "id_industrial" );
 static const itype_id itype_id_military( "id_military" );
 static const itype_id itype_id_science( "id_science" );
@@ -4244,6 +4245,11 @@ void iexamine::ledge( player &p, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+
+    if( p.has_amount( itype_grapnel, 1 ) ) {
+        cmenu.addentry( 3, true, 'g', _( "Use grappling hook." ) );
+    }
+
     cmenu.query();
 
     switch( cmenu.ret ) {
@@ -4289,7 +4295,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             const int height = examp.z - where.z;
             if( height == 0 ) {
-                p.add_msg_if_player( _( "You can't climb down there" ) );
+                p.add_msg_if_player( _( "You can't climb down there." ) );
                 return;
             }
 
@@ -4327,6 +4333,58 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
+                g->vertical_move( -1, true );
+            }
+            g->m.creature_on_trap( p );
+            break;
+        }
+        case 3: {
+            if( !g->m.has_zlevels() ) {
+                // No climbing down in 2D mode
+                return;
+            }
+
+            if( !g->m.valid_move( p.pos(), examp, false, true ) ) {
+                // Covered with something
+                return;
+            }
+
+            tripoint where = examp;
+            tripoint below = examp;
+            below.z--;
+            while( g->m.valid_move( where, below, false, true ) ) {
+                where.z--;
+                below.z--;
+            }
+
+            const int height = examp.z - where.z;
+            if( height == 0 ) {
+                p.add_msg_if_player( _( "You can't climb down there." ) );
+                return;
+            }
+
+            const int climb_cost = p.climbing_cost( where, examp );
+            const auto fall_mod = p.fall_damage_mod();
+
+            if( height > 1 ) {
+                p.add_msg_if_player( _( "This is too high for you to climb down safely." ) );
+                return;
+            } else if( height == 1 ) {
+                std::string query;
+                p.increase_activity_level( MODERATE_EXERCISE );
+                query = _( "You won't be able to climb up the same way.  Climb?" );
+
+                if( !query_yn( query.c_str() ) ) {
+                    return;
+                }
+
+                p.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
+            }
+
+            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
+            p.setpos( examp );
+
+            if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 g->vertical_move( -1, true );
             }
             g->m.creature_on_trap( p );
