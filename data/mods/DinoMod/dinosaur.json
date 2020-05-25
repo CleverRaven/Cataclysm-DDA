@@ -528,7 +528,7 @@
       "ACIDPROOF",
       "ELECTRIC"
     ],
-    "harvest": [ "CBM_DINO" ]
+    "harvest": "CBM_DINO"
   },
   {
     "type": "MONSTER",
