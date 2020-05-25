@@ -12304,7 +12304,7 @@ bool game::slip_down( bool check_for_traps )
 
     if( u.has_trait( trait_PARKOUR ) ) {
         climb *= 2;
-        add_msg( m_info, _( "Your skill in parkour make it easier to climb." ) );
+        add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     }
     if( u.has_trait( trait_BADKNEES ) ) {
         climb /= 2;
