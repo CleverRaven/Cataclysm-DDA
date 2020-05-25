@@ -322,6 +322,8 @@ class pocket_data
 
         units::volume max_contains_volume() const;
 
+        std::string check_definition() const;
+
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );
 };
