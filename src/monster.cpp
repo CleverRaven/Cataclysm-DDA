@@ -638,11 +638,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _( "It is nearly dead!" );
         col = c_red;
     }
-    /*
-    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
-    if( true ) ) {
-        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
-    }*/
 
     return std::make_pair( damage_info, col );
 }
@@ -650,42 +645,50 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
+    const int max_width = getmaxx( w ) - column - 1;
 
-    mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
-    wprintw( w, " " );
-    const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
+    // Print health bar, monster name, then statuses on the first line.
+    nc_color color = c_white;
+    std::string bar_str;
+    get_HP_Bar( color, bar_str );
+    mvwprintz( w, point( column, vStart ), color, bar_str );
+    const int bar_max_width = 5;
+    const int bar_width = utf8_width( bar_str );
+    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+        mvwprintz( w, point( column + 4 - i, vStart ), c_white, "." );
+    }
+    mvwprintz( w, point( column + bar_max_width + 1, vStart ), basic_symbol_color(), name() );
+    trim_and_print( w, point( column + bar_max_width + utf8_width( " " + name() + " " ), vStart ),
+                    max_width - bar_max_width - utf8_width( " " + name() + " " ), h_white, get_effect_status() );
 
-    if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    // Hostility indicator on the second line.
+    std::pair<std::string, nc_color> att = get_attitude();
+    mvwprintz( w, point( column, ++vStart ), att.second, att.first );
+
+    // Awareness indicator in the third line.
+    std::string senses_str = sees( g->u ) ? _( "Can see to your current location" ) :
+                             _( "Can't see to your current location" );
+    mvwprintz( w, point( column, ++vStart ), sees( g->u ) ? c_red : c_green, senses_str );
+
+    // Monster description on following lines.
+    std::vector<std::string> lines = foldstring( type->get_description(), max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
+        mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
     }
 
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
-    }
-
-    std::string effects = get_effect_status();
-    if( !effects.empty() ) {
-        trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
-    }
-
-    const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, ++vStart ), hp_desc.second, hp_desc.first );
+    // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
+    // Show monster size on the last line
     if( size_bonus > 0 ) {
-        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
+        mvwprintz( w, point( column, ++vStart ), c_light_gray, _( " It is %s." ),
+                   size_names.at( get_size() ) );
     }
 
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
-    int numlines = lines.size();
-    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
-    }
-
-    return vStart;
+    return ++vStart;
 }
 
 std::string monster::extended_description() const
