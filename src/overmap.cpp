@@ -226,7 +226,7 @@ int city::get_distance_from( const tripoint &p ) const
     return std::max( static_cast<int>( trig_dist( p, { pos, 0 } ) ) - size, 0 );
 }
 
-std::map<enum radio_type, std::string> radio_type_names =
+std::map<radio_type, std::string> radio_type_names =
 {{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
 
 /** @relates string_id */
