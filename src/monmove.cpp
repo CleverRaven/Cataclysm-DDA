@@ -283,7 +283,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( !smart ) {
-        return int( d );
+        return static_cast<int>( d );
     }
 
     float power = c.power_rating();
@@ -294,7 +294,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( power > 0 ) {
-        return int( d ) / power;
+        return static_cast<int>( d ) / power;
     }
 
     return FLT_MAX;

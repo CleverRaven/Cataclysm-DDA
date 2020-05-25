@@ -2746,24 +2746,24 @@ void overmap::place_river( point pa, point pb )
                 }
             }
         }
-        if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
+        if( pb.x > x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
+                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > pb.x - x &&
+                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x++;
         }
-        if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
+        if( pb.x < x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
+                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > x - pb.x &&
+                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x--;
         }
-        if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
+        if( pb.y > y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
+                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > pb.y - y &&
+                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y++;
         }
-        if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
+        if( pb.y < y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
+                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > y - pb.y &&
+                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y--;
         }
         x += rng( -1, 1 );

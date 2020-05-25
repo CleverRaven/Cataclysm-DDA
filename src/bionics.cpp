@@ -1658,7 +1658,7 @@ void Character::process_bionic( int b )
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
                     const body_part bp_healed = hp_to_bp( part_to_heal );
-                    int hp_percent = float( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
+                    int hp_percent = static_cast<float>( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
                     if( has_effect( effect_bleed, bp_healed ) && rng( 0, 100 ) < hp_percent ) {
                         remove_effect( effect_bleed, bp_healed );
                         try_to_heal_bleeding = false;

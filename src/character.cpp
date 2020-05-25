@@ -9743,7 +9743,7 @@ int Character::bodytemp_modifier_traits_floor() const
 
 int Character::temp_corrected_by_climate_control( int temperature ) const
 {
-    const int variation = int( BODYTEMP_NORM * 0.5 );
+    const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
     if( temperature < BODYTEMP_SCORCHING + variation &&
         temperature > BODYTEMP_FREEZING - variation ) {
         if( temperature > BODYTEMP_SCORCHING ) {

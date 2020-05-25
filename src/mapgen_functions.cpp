@@ -832,7 +832,7 @@ void mapgen_road( mapgendata &dat )
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
-            circle( m, t_pavement, double( SEEX ) - 0.5, double( SEEY ) - 0.5, 11.0 );
+            circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
         }
 
         // overwrite part of intersection with rotary/plaza
