@@ -982,19 +982,6 @@ struct tile_render_info {
     }
 };
 
-static int divide_round_down( int a, int b )
-{
-    if( b < 0 ) {
-        a = -a;
-        b = -b;
-    }
-    if( a >= 0 ) {
-        return a / b;
-    } else {
-        return -( ( -a + b - 1 ) / b );
-    }
-}
-
 void cata_tiles::draw( const point &dest, const tripoint &center, int width, int height,
                        std::multimap<point, formatted_text> &overlay_strings,
                        color_block_overlay_container &color_blocks )

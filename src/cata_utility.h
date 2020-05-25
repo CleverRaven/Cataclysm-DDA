@@ -84,7 +84,7 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
     return divide_round_up( num.value(), den.value() );
 }
 
-static int divide_round_down( int a, int b );
+int divide_round_down( int a, int b );
 
 /**
  * Determine whether a value is between two given boundaries.
