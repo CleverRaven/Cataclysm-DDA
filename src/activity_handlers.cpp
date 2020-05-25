@@ -4567,7 +4567,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
         !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
-            avatar &you = *p.as_avatar();
+            avatar &you = *p->as_avatar();
             std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
                                                no_mana );
             if( !trajectory.empty() ) {
