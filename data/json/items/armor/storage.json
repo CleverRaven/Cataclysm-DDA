@@ -1054,5 +1054,36 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "debug_backpack",
+    "type": "ARMOR",
+    "name": { "str": "debug pocket universe" },
+    "description": "A pocket universe. Can store approximately 384 * 10^6 bugs.",
+    "weight": "1 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "coverage": 0,
+    "encumbrance": 0,
+    "max_encumbrance": 0,
+    "pocket_data": [
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "100000 cm"
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 0,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]
