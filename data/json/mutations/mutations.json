@@ -301,8 +301,8 @@
     "id": "PACKMULE",
     "name": { "str": "Packmule" },
     "points": 1,
-    "description": "You pack things very efficiently!  You can retrieve things from containers 5% faster.",
-    "obtain_cost_multiplier": 0.95,
+    "description": "You pack things very efficiently!  You can retrieve things from containers 10% faster.",
+    "obtain_cost_multiplier": 0.9,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "DISORGANIZED" ]
