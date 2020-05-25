@@ -719,7 +719,7 @@ void inventory_column::order_by_parent()
         bool found = false;
         for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
             if( base_entry_iter->is_item() ) {
-                for( const item_location loc : base_entry_iter->locations ) {
+                for( const item_location &loc : base_entry_iter->locations ) {
                     if( loc == parent ) {
                         base_entries.insert( base_entry_iter + 1, possible );
                         child_entries.pop_back();
