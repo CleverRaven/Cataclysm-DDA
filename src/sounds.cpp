@@ -1435,8 +1435,9 @@ void sfx::do_obstacle( const std::string &obst )
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
     if( sfx::has_variant_sound( "plmove", obst ) ) {
         play_variant_sound( "plmove", obst, heard_volume, 0, 0.8, 1.2 );
-    } else if( ter_id( obst )->has_flag( TFLAG_SHALLOW_WATER ) ||
-               ter_id( obst )->has_flag( TFLAG_DEEP_WATER ) ) {
+    } else if( ter_str_id( obst ).is_valid() &&
+               ( ter_id( obst )->has_flag( TFLAG_SHALLOW_WATER ) ||
+                 ter_id( obst )->has_flag( TFLAG_DEEP_WATER ) ) ) {
         play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
