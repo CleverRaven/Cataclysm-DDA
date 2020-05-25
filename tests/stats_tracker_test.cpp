@@ -498,16 +498,22 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
         string_id<achievement> a_kill_10( "achievement_kill_10_monsters" );
         string_id<achievement> a_kill_100( "achievement_kill_100_monsters" );
+        string_id<achievement> c_pacifist( "conduct_zero_kills" );
+        string_id<achievement> c_merciful( "conduct_zero_character_kills" );
 
         b.send<event_type::game_start>( u_id );
 
         CHECK( !a.is_hidden( &*a_kill_10 ) );
         CHECK( a.is_hidden( &*a_kill_100 ) );
+        CHECK( !a.is_hidden( &*c_pacifist ) );
+        CHECK( a.is_hidden( &*c_merciful ) );
         for( int i = 0; i < 10; ++i ) {
             b.send( avatar_zombie_kill );
         }
         CHECK( !a.is_hidden( &*a_kill_10 ) );
         CHECK( !a.is_hidden( &*a_kill_100 ) );
+        CHECK( !a.is_hidden( &*c_pacifist ) );
+        CHECK( !a.is_hidden( &*c_merciful ) );
     }
 
     SECTION( "kills" ) {
@@ -520,6 +526,8 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
 
+        string_id<achievement> c_pacifist( "conduct_zero_kills" );
+        string_id<achievement> c_merciful( "conduct_zero_character_kills" );
         string_id<achievement> a_kill_zombie( "achievement_kill_zombie" );
         string_id<achievement> a_kill_in_first_minute( "achievement_kill_in_first_minute" );
 
@@ -540,7 +548,19 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
+        CHECK( a.ui_text_for( &*c_pacifist ) ==
+               "<color_c_light_green>Pacifist</color>\n"
+               "  <color_c_light_green>Kill nothing</color>\n"
+               "  <color_c_green>0/0 monsters killed</color>\n"
+               "  <color_c_green>0/0 NPCs killed</color>\n" );
+
+        CHECK( a.ui_text_for( &*c_merciful ) ==
+               "<color_c_light_green>Merciful</color>\n"
+               "  <color_c_light_green>Kill no characters</color>\n"
+               "  <color_c_green>0/0 NPCs killed</color>\n" );
+
         CHECK( achievements_completed.empty() );
+        CHECK( achievements_failed.empty() );
         b.send( avatar_zombie_kill );
 
         if( time_since_game_start < 1_minutes ) {
@@ -563,6 +583,20 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                    "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
+
+        CHECK( a.ui_text_for( &*c_pacifist ) ==
+               "<color_c_light_gray>Pacifist</color>\n"
+               "  <color_c_light_gray>Kill nothing</color>\n"
+               "  <color_c_yellow>1/0 monsters killed</color>\n"
+               "  <color_c_green>0/0 NPCs killed</color>\n" );
+
+        CHECK( a.ui_text_for( &*c_merciful ) ==
+               "<color_c_light_green>Merciful</color>\n"
+               "  <color_c_light_green>Kill no characters</color>\n"
+               "  <color_c_green>0/0 NPCs killed</color>\n" );
+
+        CHECK( achievements_failed.count( c_pacifist ) );
+        CHECK( !achievements_failed.count( c_merciful ) );
 
         // Advance a minute and kill again
         calendar::turn += 1_minutes;
