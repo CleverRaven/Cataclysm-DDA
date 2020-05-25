@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef __GETPOST_H__
 #define __GETPOST_H__
 
+#include <cstdlib>
 #include <cstring>
 #include <string>
-#include <stdlib.h>
 #include <map>
 #include <new>
 
