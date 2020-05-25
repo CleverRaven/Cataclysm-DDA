@@ -502,6 +502,7 @@ void achievement_state::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member_as_string( "completion", completion );
     jsout.member( "last_state_change", last_state_change );
+    jsout.member( "final_values", final_values );
     jsout.end_object();
 }
 
@@ -510,6 +511,7 @@ void achievement_state::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     jo.read( "completion", completion );
     jo.read( "last_state_change", last_state_change );
+    jo.read( "final_values", final_values );
 }
 
 achievement_tracker::achievement_tracker( const achievement &a, achievements_tracker &tracker,
