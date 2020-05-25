@@ -1291,15 +1291,15 @@ static void read()
 }
 
 // Perform a reach attach using wielded weapon
-static void reach_attack( player &u )
+static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, u.pos() );
+    g->m.draw( g->w_terrain, you.pos() );
 
-    target_handler::trajectory traj = target_handler::mode_reach( u, u.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
 
     if( !traj.empty() ) {
-        u.reach_attack( traj.back() );
+        you.reach_attack( traj.back() );
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1367,13 +1367,13 @@ static void fire()
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( u );
+                reach_attack( g->u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( u );
+            reach_attack( g->u );
         }
     }
 }
