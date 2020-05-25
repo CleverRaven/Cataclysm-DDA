@@ -28,6 +28,13 @@
     "drop_fields": [ "killer" ]
   },
   {
+    "id": "avatar_kills_character",
+    "type": "event_transformation",
+    "event_type": "character_kills_character",
+    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "killer" ]
+  },
+  {
     "id": "avatar_species_kills",
     "type": "event_transformation",
     "event_transformation": "avatar_kills_monster",
@@ -46,6 +53,13 @@
     "stat_type": "count",
     "event_transformation": "avatar_kills_monster",
     "description": { "str": "monster killed", "str_pl": "monsters killed" }
+  },
+  {
+    "id": "num_avatar_character_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_kills_character",
+    "description": { "str": "NPC killed", "str_pl": "NPCs killed" }
   },
   {
     "id": "num_avatar_zombie_kills",
