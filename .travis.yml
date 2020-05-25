@@ -81,13 +81,13 @@ jobs:
           packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
-      name: "Clang 8 Make build with sanitizers enabled, but long-running tests disabled"
+    - env: CLANG=clang++-10 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
+      name: "Clang 10 Make build with sanitizers enabled, but long-running tests disabled"
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8"]
-          sources: [*apt_sources, llvm-toolchain-xenial-8]
+          packages: ["clang-10"]
+          sources: [*apt_sources, llvm-toolchain-xenial-10]
 
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
@@ -197,6 +197,24 @@ jobs:
         apt:
           packages: ["clang-7"]
           sources: [*apt_sources, llvm-toolchain-xenial-7]
+
+   - env: CLANG=clang++-8
+      name: "Clang 8 Make build with Curses"
+      if: type != pull_request
+      compiler: clang
+      addons: &clang8
+        apt:
+          packages: ["clang-8"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
+
+   - env: CLANG=clang++-9
+      name: "Clang 9 Make build with Curses"
+      if: type != pull_request
+      compiler: clang
+      addons: &clang9
+        apt:
+          packages: ["clang-9"]
+          sources: [*apt_sources, llvm-toolchain-xenial-9]
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
