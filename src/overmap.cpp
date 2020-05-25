@@ -66,11 +66,11 @@ class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-#define BUILDINGCHANCE 4
-#define MIN_ANT_SIZE 8
-#define MAX_ANT_SIZE 20
-#define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 2
+static constexpr int BUILDINGCHANCE = 4;
+static constexpr int MIN_ANT_SIZE = 8;
+static constexpr int MAX_ANT_SIZE = 20;
+static constexpr int MIN_GOO_SIZE = 1;
+static constexpr int MAX_GOO_SIZE = 2;
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;

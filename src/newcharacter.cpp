@@ -94,9 +94,11 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 12 // The point after which stats cost double
+// The point after which stats cost double
+static constexpr int HIGH_STAT = 12;
 
-#define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
+// The ID of the rightmost tab
+static constexpr int NEWCHAR_TAB_MAX = 6 ;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 

@@ -71,7 +71,7 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
-#define MONSTER_FOLLOW_DIST 8
+static constexpr int MONSTER_FOLLOW_DIST = 8;
 
 bool monster::wander()
 {

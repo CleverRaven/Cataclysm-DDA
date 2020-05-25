@@ -170,7 +170,7 @@ struct pathfinding_settings;
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
-#define UPGRADE_MAX_ITERS 5
+static constexpr int UPGRADE_MAX_ITERS = 5;
 
 static const std::map<m_size, translation> size_names {
     { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },

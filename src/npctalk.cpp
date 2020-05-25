@@ -112,7 +112,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
-#define OWED_VAL 1000
+static constexpr int OWED_VAL = 1000;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
