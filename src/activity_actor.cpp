@@ -34,6 +34,8 @@
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
+static const efftype_id effect_sleep( "sleep" );
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 
@@ -952,6 +954,91 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
+void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = to_moves<int>( duration );
+    act.moves_left = act.moves_total;
+}
+
+void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.has_effect( effect_sleep ) ) {
+        return;
+    }
+    if( dynamic_cast<player *>( &who )->can_sleep() ) {
+        who.fall_asleep(); // calls act.set_to_null()
+        if( !who.has_effect( effect_sleep ) ) {
+            // Character can potentially have immunity for 'effect_sleep'
+            who.add_msg_if_player(
+                _( "You feel you should've fallen asleep by now, but somehow you're still awake." ) );
+        }
+        return;
+    }
+    if( one_in( 1000 ) ) {
+        who.add_msg_if_player( _( "You toss and turn…" ) );
+    }
+    if( calendar::once_every( 30_minutes ) ) {
+        query_keep_trying( act, who );
+    }
+}
+
+void try_sleep_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !who.has_effect( effect_sleep ) ) {
+        who.add_msg_if_player( _( "You try to sleep, but can't." ) );
+    }
+}
+
+void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
+{
+    if( disable_query || !who.is_avatar() ) {
+        return;
+    }
+
+    uilist sleep_query;
+    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
+    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
+    sleep_query.addentry( 3, true, 'C',
+                          _( "Continue trying to fall asleep and don't ask again." ) );
+    sleep_query.query();
+    switch( sleep_query.ret ) {
+        case UILIST_CANCEL:
+        case 1:
+            act.set_to_null();
+            break;
+        case 3:
+            disable_query = true;
+            break;
+        case 2:
+        default:
+            break;
+    }
+}
+
+void try_sleep_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "disable_query", disable_query );
+    jsout.member( "duration", duration );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &jsin )
+{
+    try_sleep_activity_actor actor = try_sleep_activity_actor( 0_seconds );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "disable_query", actor.disable_query );
+    data.read( "duration", actor.duration );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -967,6 +1054,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

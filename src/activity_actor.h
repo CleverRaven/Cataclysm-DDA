@@ -469,6 +469,37 @@ class consume_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class try_sleep_activity_actor : public activity_actor
+{
+    private:
+        bool disable_query = false;
+        time_duration duration;
+
+    public:
+        /*
+         * @param dur Total duration, from when the character starts
+         * trying to fall asleep to when they're supposed to wake up
+         */
+        try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_TRY_SLEEP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void query_keep_trying( player_activity &act, Character &who );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<try_sleep_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 namespace activity_actors
 {
 
