@@ -101,7 +101,7 @@ static nc_color color_from_completion( bool is_conduct, achievement_completion c
         case achievement_completion::completed:
             return c_light_green;
         case achievement_completion::failed:
-            return c_light_gray;
+            return c_red;
         case achievement_completion::last:
             break;
     }
@@ -471,6 +471,10 @@ std::string achievement_state::ui_text( const achievement *ach ) const
     if( completion == achievement_completion::completed ) {
         std::string message = string_format(
                                   _( "Completed %s" ), to_string( last_state_change ) );
+        result += "  " + colorize( message, c ) + "\n";
+    } else if( completion == achievement_completion::failed ) {
+        std::string message = string_format(
+                                  _( "Failed %s" ), to_string( last_state_change ) );
         result += "  " + colorize( message, c ) + "\n";
     } else {
         // Next: the time constraint

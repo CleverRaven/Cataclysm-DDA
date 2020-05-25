@@ -543,8 +543,8 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
-                   "<color_c_light_gray>Rude awakening</color>\n"
-                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "<color_c_red>Rude awakening</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0001.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
@@ -579,16 +579,26 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
-                   "<color_c_light_gray>Rude awakening</color>\n"
-                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "<color_c_red>Rude awakening</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
-        CHECK( a.ui_text_for( &*c_pacifist ) ==
-               "<color_c_light_gray>Pacifist</color>\n"
-               "  <color_c_light_gray>Kill nothing</color>\n"
-               "  <color_c_yellow>1/0 monsters killed</color>\n"
-               "  <color_c_green>0/0 NPCs killed</color>\n" );
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( a.ui_text_for( &*c_pacifist ) ==
+                   "<color_c_red>Pacifist</color>\n"
+                   "  <color_c_red>Kill nothing</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_yellow>1/0 monsters killed</color>\n"
+                   "  <color_c_green>0/0 NPCs killed</color>\n" );
+        } else {
+            CHECK( a.ui_text_for( &*c_pacifist ) ==
+                   "<color_c_red>Pacifist</color>\n"
+                   "  <color_c_red>Kill nothing</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_yellow>1/0 monsters killed</color>\n"
+                   "  <color_c_green>0/0 NPCs killed</color>\n" );
+        }
 
         CHECK( a.ui_text_for( &*c_merciful ) ==
                "<color_c_light_green>Merciful</color>\n"
@@ -618,8 +628,8 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
-                   "<color_c_light_gray>Rude awakening</color>\n"
-                   "  <color_c_light_gray>Within 1 minute of start of game (passed)</color>\n"
+                   "<color_c_red>Rude awakening</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
     }
