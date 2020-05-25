@@ -457,11 +457,15 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     override_option opt( "24_HOUR", "military" );
 
     std::map<string_id<achievement>, const achievement *> achievements_completed;
+    std::map<string_id<achievement>, const achievement *> achievements_failed;
     event_bus b;
     stats_tracker s;
     b.subscribe( &s );
     achievements_tracker a( s, [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_completed.emplace( a->id, a );
+    },
+    [&]( const achievement * a, bool /*achievements_enabled*/ ) {
+        achievements_failed.emplace( a->id, a );
     } );
     b.subscribe( &a );
 
