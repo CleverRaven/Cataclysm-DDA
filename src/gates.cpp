@@ -33,8 +33,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
-
 // Gates namespace
 
 namespace

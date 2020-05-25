@@ -257,17 +257,10 @@ static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_skeleton( "mon_skeleton" );
-static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
-
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );

@@ -58,7 +58,6 @@ static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
-static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
 static const itype_id itype_processor( "processor" );

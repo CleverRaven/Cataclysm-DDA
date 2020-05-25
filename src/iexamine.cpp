@@ -143,11 +143,8 @@ static const itype_id itype_water( "water" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
-static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 

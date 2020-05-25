@@ -67,7 +67,6 @@
 static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_hose( "hose" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
 static const skill_id skill_mechanics( "mechanics" );

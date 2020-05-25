@@ -119,24 +119,17 @@ static const itype_id itype_UPS( "UPS" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_lockpick( "lockpick" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-
-static const species_id HUMAN( "HUMAN" );
-static const species_id ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );

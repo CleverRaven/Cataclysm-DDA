@@ -50,8 +50,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-static const efftype_id effect_pet( "pet" );
-
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );

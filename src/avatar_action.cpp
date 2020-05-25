@@ -57,8 +57,6 @@
 
 class player;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -69,9 +67,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_grass( "grass" );
 static const itype_id itype_swim_fins( "swim_fins" );
-static const itype_id itype_underbrush( "underbrush" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 

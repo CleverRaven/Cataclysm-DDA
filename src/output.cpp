@@ -2000,9 +2000,10 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     oDir = p_oDir;
 
     // translate from player relative to screen relative direction
-    iso_mode = false;
 #if defined(TILES)
     iso_mode = tile_iso && use_tiles;
+#else
+    iso_mode = false;
 #endif
     oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
     oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;

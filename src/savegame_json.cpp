@@ -113,8 +113,6 @@
 struct mutation_branch;
 struct oter_type_t;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_riding( "riding" );
 
 static const itype_id itype_battery( "battery" );

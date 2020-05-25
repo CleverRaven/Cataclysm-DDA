@@ -68,8 +68,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );

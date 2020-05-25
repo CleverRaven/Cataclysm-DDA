@@ -112,7 +112,7 @@ inline void initializePost( std::map <std::string, std::string> &Post )
 
     try {
         buffer = new char[content_length * sizeof( char )];
-    } catch( std::bad_alloc &xa ) {
+    } catch( std::bad_alloc & ) {
         Post.clear();
         return;
     }

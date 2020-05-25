@@ -1973,20 +1973,6 @@ void Character::consume_installation_requirment( const bionic_id &bid )
 // bionic manipulation adjusted skill
 float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
 {
-    skill_id most_important_skill;
-    skill_id important_skill;
-    skill_id least_important_skill;
-
-    if( autodoc ) {
-        most_important_skill = skill_firstaid;
-        important_skill = skill_computer;
-        least_important_skill = skill_electronics;
-    } else {
-        most_important_skill = skill_electronics;
-        important_skill = skill_firstaid;
-        least_important_skill = skill_mechanics;
-    }
-
     int pl_skill = bionics_pl_skill( autodoc, skill_level );
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30

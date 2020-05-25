@@ -192,15 +192,12 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -214,7 +211,6 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
@@ -3115,7 +3111,7 @@ bool game::save()
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
             return true;
         }
-    } catch( std::ios::failure &err ) {
+    } catch( std::ios::failure & ) {
         popup( _( "Failed to save game data" ) );
         return false;
     }
