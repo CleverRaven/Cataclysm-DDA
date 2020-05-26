@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -88,6 +89,7 @@ static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
@@ -873,7 +875,17 @@ void Character::suffer_from_albinism()
         }
     }
 }
+void Character::suffer_item_dropping()
+{
+    if( has_effect( effect_incorporeal ) ) {
+        std::vector<item *> tmp = inv_dump();
+        for( auto i : tmp ) {
+            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *i } );
+            i_rem( i );
+        }
 
+    }
+}
 void Character::suffer_from_other_mutations()
 {
     if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
@@ -1460,6 +1472,7 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
+    suffer_item_dropping();
     suffer_from_other_mutations();
     suffer_from_artifacts();
     suffer_from_radiation();

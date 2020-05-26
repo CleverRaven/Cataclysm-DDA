@@ -1944,12 +1944,18 @@
   {
     "type": "effect_type",
     "id": "disrupted_sleep",
-	  "max_duration": "72 h"
+    "max_duration": "72 h"
   },
     {
     "type": "effect_type",
     "id": "nightmares",
 	  "max_duration": "72 h"
+  },
+  {
+    "type": "effect_type",
+    "id": "incorporeal",
+    "name": [ "Incorporeal" ],
+    "desc": [ "You have as much substance as mist does." ]
   },
   {
     "type": "effect_type",

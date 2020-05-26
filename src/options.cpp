@@ -2186,6 +2186,26 @@ void options_manager::add_options_world_default()
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
     "any"
        );
+
+    add_empty_line();
+
+    add( "MIST_ACTIVE", "world_default", translate_marker( "Mist active." ),
+         translate_marker( "Mist is active and will challenge player." ),
+         false
+       );
+
+    add( "MIST_SCALING", "world_default", translate_marker( "Mist scaling." ),
+         translate_marker( "Determines how fast the mist increases strength." ),
+         0, 5, 0
+       );
+
+    add( "MIST_TIME_BETWEEN", "world_default", translate_marker( "Mist time between apperances." ),
+         translate_marker( "Determines how frequently the mist appears." ),
+         1, 50, 7
+       );
+
+    get_option( "MIST_SCALING" ).setPrerequisite( "MIST" );
+    get_option( "MIST_TIME_BETWEEN" ).setPrerequisite( "MIST" );
 }
 
 void options_manager::add_options_android()

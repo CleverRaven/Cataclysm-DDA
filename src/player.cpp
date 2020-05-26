@@ -103,6 +103,7 @@ static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
@@ -2513,6 +2514,9 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
 
 ret_val<bool> player::can_wield( const item &it ) const
 {
+    if( has_effect( effect_incorporeal ) ) {
+        return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
+    }
     if( it.made_of_from_type( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }

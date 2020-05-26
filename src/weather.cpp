@@ -464,58 +464,51 @@ void weather_effect::snowstorm()
 void weather_effect::mist()
 {
     if( calendar::once_every( g->weather.mist_spawn_time ) && is_player_outside() ) {
-        mtype_id monster;
-        std::string category;
-        int rand = rng( 1, 3 );
-        switch( rand ) {
-            case 1:
-                monster = mon_mist_wraith;
-                category = "mist_summon_wraith";
-                break;
-            case 2:
-                monster = mon_mist_spectre;
-                category = "mist_summon_spectre";
-                break;
-            case 3:
-                monster = mon_mist_phantom;
-                category = "mist_summon_phantom";
-                break;
-            default:
-                debugmsg( "HUH?" );
-                break;
-        }
-
-        tripoint target;
-        bool found_location = false;
-        int radius = 4;
-        for( int i = 0; i < 15 && !found_location; i++ ) {
-            target = g->u.pos() + tripoint( rng( -radius, radius ), rng( -radius, radius ), 0 );
-            if( game::can_place_monster( monster, target ) && g->m.is_outside( target ) &&
-                rl_dist( target, g->u.pos() ) > 2 ) {
-                found_location = true;
+        for( int monsters_spawned = 0; monsters_spawned < g->weather.mist_intensity / 5;
+             monsters_spawned++ ) {
+            mtype_id monster;
+            std::string category;
+            int mist_type = std::min<int>( 3, g->weather.mist_intensity / 10 );
+            int rand = rng( 1, mist_type );
+            switch( rand ) {
+                case 1:
+                    monster = mon_mist_wraith;
+                    category = "mist_summon_wraith";
+                    break;
+                case 2:
+                    monster = mon_mist_spectre;
+                    category = "mist_summon_spectre";
+                    break;
+                case 3:
+                    monster = mon_mist_phantom;
+                    category = "mist_summon_phantom";
+                    break;
+                default:
+                    debugmsg( "HUH?" );
+                    break;
             }
-        }
 
-        if( found_location && g->place_critter_at( monster, target ) != nullptr ) {
-            g->u.add_msg_if_player( m_bad, "%s",
-                                    SNIPPET.random_from_category( category ).value_or( translation() ) );
+            tripoint target;
+            bool found_location = false;
+            int radius = 6 - mist_type;
+            for( int attempts = 0; attempts < 15; attempts++ ) {
+                target = g->u.pos() + tripoint( rng( -radius, radius ), rng( -radius, radius ), 0 );
+                if( game::can_place_monster( monster, target ) && g->m.is_outside( target ) &&
+                    rl_dist( target, g->u.pos() ) > 2 ) {
+                    found_location = true;
+                    break;
+                }
+            }
+
+            if( found_location && g->place_critter_at( monster, target ) != nullptr ) {
+                g->u.add_msg_if_player( m_bad, "%s",
+                                        SNIPPET.random_from_category( category ).value_or( translation() ) );
+            }
         }
     }
 
     if( calendar::once_every( g->weather.mist_intensity_increase_time ) ) {
-        g->weather.mist_intensity++;
-        if( g->weather.mist_intensity > g->weather.mist_max_intensity ) {
-            g->weather.mist_intensity = 0;
-            if( is_player_outside() ) {
-                g->u.add_msg_if_player( m_good, _( "The mist evaporates like it was never there." ) );
-            }
-        } else {
-            if( is_player_outside() ) {
-                g->u.add_msg_if_player( m_bad, "%s",
-                                        SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
-            }
-        }
-
+        g->weather.increase_mist_intensity();
     }
 }
 /**
@@ -1119,4 +1112,32 @@ void weather_manager::clear_temp_cache()
     temperature_cache.clear();
 }
 
+void weather_manager::increase_mist_intensity()
+{
+    if( !get_option<bool>( "MIST_ACTIVE" ) ) {
+        return;
+    }
+
+    if( mist_intensity <= mist_min_intensity ) {
+        mist_intensity = mist_min_intensity;
+        g->u.add_msg_if_player( m_bad, "%s",
+                                SNIPPET.random_from_category( "mist_arrives" ).value_or( translation() ) );
+    } else if( mist_intensity < mist_max_intensity ) {
+        mist_intensity++;
+        if( is_player_outside() ) {
+            g->u.add_msg_if_player( m_bad, "%s",
+                                    SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
+        }
+    } else {
+        mist_intensity = 0;
+        mist_min_intensity += mist_scaling;
+        mist_max_intensity += mist_scaling;
+        if( is_player_outside() ) {
+            g->u.add_msg_if_player( m_bad, "%s",
+                                    SNIPPET.random_from_category( "mist_leaves" ).value_or( translation() ) );
+            g->u.add_msg_if_player( m_good, _( "The mist evaporates like it was never there." ) );
+        }
+    }
+    set_nextweather( calendar::turn );
+}
 ///@}

@@ -5,14 +5,13 @@
     "text": [
       "You feel the mist react to you and a shape appears.",
 	  "The mist reacts to you and a hazy figure condenses."
-	  
     ]
   },
   {
     "type": "snippet",
     "category": "mist_summon_spectre",
     "text": [
-      "A shape appears in the mist that reminds you of a figure from a nightmare.",
+      "A nightmarish shape appears in the mist.",
       "You see a shape form in the mist that reminds you of a dream monster."
     ]
   },
@@ -20,8 +19,8 @@
     "type": "snippet",
     "category": "mist_summon_phantom",
     "text": [
-      "You see a shape form in the mist that reminds you of a creepy man that followed you when you were younger.",
-      "You see a shape form in the mist that reminds you of a teacher that hated you."
+      "A shape forms in the mist reminiscent of your childhood bully.",
+      "A shape forms in the mist reminiscent you of a teacher that hated you."
     ]
   },
   {
@@ -40,13 +39,21 @@
       "In an instant a thick mist descends upon the world, far too fast to be natural.  Or are you finally losing it?."
     ]
   },
+   {
+    "type": "snippet",
+    "category": "mist_leaves",
+    "text": [
+      "The mist evaporates like it was never there.",
+      "In a heartbeat the mist is gone."
+    ]
+  },
   {
     "type": "snippet",
     "category": "mist_shouts",
     "text": [
       "I'm sorry mommy!",
-      "Please stop, that hurts!",
-	  "Why? I tried my best!",
+      "Please stop sir, that hurts!",
+	  "Why?  I tried my best!",
 	  "No, please get up, please be ok!",
 	  "Why would you lie about THAT?",
 	  "I never loved you!",
@@ -56,7 +63,9 @@
 	  "Enjoy the funeral, you sicko!",
 	  "Help!",
 	  "Cmon I can still be fun, there's no need for that!",
-	  "I can do better, I promise, please!"
+	  "I can do better, I promise, please!",
+	  "I'm going to kill that son of a bitch!",
+	  "That's no excuse!"
     ]
   },
   {
@@ -64,7 +73,11 @@
     "category": "nightmares",
     "text": [
       "You awaken from a nightmare about being eaten alive while your friends applaud.",
-      "You awaken from a nightmare about being naked in a the artic tundra and freezing to death."
+      "You awaken from a nightmare about being naked in a the artic tundra and freezing to death.",
+	  "You awaken from a nightmare about an unseen predator slowly killing you.",
+	  "You awaken from a nightmare about killing those you love with your bare hands.",
+	  "You awaken from a nightmare about being finally judged for your ill deeds.",
+	  "You awaken from a nightmare about the cataclysm not having happened and being stuck in an office job."
     ]
   }
 ]

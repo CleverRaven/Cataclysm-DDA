@@ -104,6 +104,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_nightmares( "nightmares" );
@@ -5810,10 +5811,10 @@ bool mattack::dissipate_drain( monster *z )
         return false;
     }
 
-    foe->mod_fatigue( 50 );
-    foe->mod_stamina( -100 );
+    foe->mod_fatigue( 100 );
+    foe->mod_stamina( -200 );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you taking a little of your strength with it." ), z->name() );
+                            _( "The %s takes a little of your strength." ), z->name() );
 
     z->die( z );
     return true;
@@ -5825,10 +5826,10 @@ bool mattack::dissipate_nightmares( monster *z )
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
-    foe->add_effect( effect_disrupted_sleep, 8_hours );
-    foe->add_effect( effect_nightmares, 8_hours );
+    foe->add_effect( effect_disrupted_sleep, 12_hours );
+    foe->add_effect( effect_nightmares, 12_hours );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you leaving an unsettling feeling behind." ), z->name() );
+                            _( "The %s leaves an unsettling feeling behind." ), z->name() );
 
     z->die( z );
     return true;
@@ -5841,9 +5842,9 @@ bool mattack::dissipate_force_scream( monster *z )
         return false;
     }
 
-    foe->add_morale( MORALE_TRAUMATIC_MEMORY, -5, -15, 30_minutes );
+    foe->add_morale( MORALE_TRAUMATIC_MEMORY, -10, -15, 1_hours );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s touches you and you feel a memory surfacing so intensly you have no choice but to scream in response." ),
+                            _( "The %s surfaces an intense memory, that feels like your own." ),
                             z->name() );
     std::string shout_message = string_format( "%s",
                                 SNIPPET.random_from_category( "mist_shouts" ).value_or( translation() ) );
@@ -5852,6 +5853,20 @@ bool mattack::dissipate_force_scream( monster *z )
     foe->shout( shout_message );
     z->die( z );
 
+    return true;
+}
+
+bool mattack::dissipate_incorporeal( monster *z )
+{
+    Character *foe = dynamic_cast<Character *>( z->attack_target() );
+    if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
+        return false;
+    }
+    foe->add_effect( effect_incorporeal, 3_seconds );
+    foe->add_msg_if_player( m_bad,
+                            _( "The %s robs you of your form briefly." ), z->name() );
+
+    z->die( z );
     return true;
 }
 

@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
+#include "calendar.h"
 #include "color.h"
 #include "optional.h"
+#include "options.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
-#include "calendar.h"
 
 /**
  * @name BODYTEMP
@@ -55,7 +56,9 @@ enum weather_type : int {
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< snow glare effects
     WEATHER_SNOWSTORM,    //!< sight penalties
-    WEATHER_MIST,         //!< spawns mist monsters
+    WEATHER_LIGHT_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_MEDIUM_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_HEAVY_MIST,   //!< spawns mist monsters, sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -236,6 +239,8 @@ weather_type current_weather( const tripoint &location,
 int incident_sunlight( weather_type wtype,
                        const time_point &t = calendar::turn );
 
+void begin_mist();
+
 class weather_manager
 {
     public:
@@ -253,7 +258,10 @@ class weather_manager
 
         //Mist values
         int mist_intensity = 0;
+        int mist_min_intensity = 1;
         int mist_max_intensity = 10;
+        int mist_scaling = get_option<int>( "MIST_SCALING" );
+
         time_duration mist_intensity_increase_time = 10_seconds;
         time_duration mist_spawn_time = 5_seconds;
 
@@ -271,6 +279,8 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         void clear_temp_cache();
+        //increases mist intensity or begins it at min intensity if not started
+        void increase_mist_intensity();
 };
 
 #endif // CATA_SRC_WEATHER_H

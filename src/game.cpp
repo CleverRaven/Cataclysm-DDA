@@ -4839,8 +4839,8 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const trip
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
-    // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
+        debugmsg( "Tried to place null critter." );
         return nullptr;
     }
     return place_critter_around( make_shared_fast<monster>( id ), center, radius );

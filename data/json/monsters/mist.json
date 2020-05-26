@@ -36,7 +36,7 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
-	"special_attacks": [ [ "DISSIPATE_NIGHTMARES", 1 ] ],
+	"special_attacks": [ [ "DISSIPATE_NIGHTMARES", 1 ], [ "DISSIPATE_FORCE_SCREAM", 1 ] ],
     "death_function": [ "DISSIPATE" ],
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
   },
@@ -57,7 +57,7 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
-	"special_attacks": [ [ "DISSIPATE_FORCE_SCREAM", 1 ] ],
+	"special_attacks": [ [ "DISSIPATE_INCORPOREAL", 1 ] ],
     "death_function": [ "DISSIPATE" ],
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
   },

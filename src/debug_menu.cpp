@@ -169,7 +169,8 @@ enum debug_menu_index {
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS,
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
-    DEBUG_NESTED_MAPGEN
+    DEBUG_NESTED_MAPGEN,
+    DEBUG_MIST
 };
 
 class mission_debug
@@ -292,6 +293,7 @@ static int map_uilist()
         { uilist_entry( DEBUG_CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( DEBUG_WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( DEBUG_WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
+        { uilist_entry( DEBUG_MIST, true, 'i', _( "Change Mist" ) ) },
         { uilist_entry( DEBUG_KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
@@ -1404,6 +1406,64 @@ void debug()
                 g->weather.set_nextweather( calendar::turn );
             }
         }
+        break;
+
+        case DEBUG_MIST: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'i', "%s: %d", _( "Intensity" ), g->weather.mist_intensity );
+            smenu.addentry( 1, true, 'm', "%s: %d", _( "Min Intensity" ), g->weather.mist_min_intensity );
+            smenu.addentry( 2, true, 'x', "%s: %d", _( "Max Intensity" ), g->weather.mist_max_intensity );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Mist Scaling" ), g->weather.mist_scaling );
+            smenu.addentry( 4, true, 't', "%s: %s", _( "Intensity Increase Time" ),
+                            to_seconds<int>( g->weather.mist_intensity_increase_time ) );
+            smenu.addentry( 5, true, 'w', "%s: %s", _( "Spawn Time" ),
+                            to_seconds<int>( g->weather.mist_spawn_time ) );
+
+            smenu.query();
+            int value;
+            switch( smenu.ret ) {
+                case 0:
+                    if( query_int( value, _( "Set Intensity to?  Currently: %d" ), g->weather.mist_intensity ) ) {
+                        g->weather.mist_intensity = value;
+                    }
+                    break;
+
+                case 1:
+                    if( query_int( value, _( "Set Min Intensity to?  Currently: %d" ),
+                                   g->weather.mist_min_intensity ) ) {
+                        g->weather.mist_min_intensity = value;
+                    }
+                    break;
+
+                case 2:
+                    if( query_int( value, _( "Set Max Intensity to?  Currently: %d" ),
+                                   g->weather.mist_max_intensity ) ) {
+                        g->weather.mist_max_intensity = value;
+                    }
+                    break;
+
+                case 3:
+                    if( query_int( value, _( "Set Mist Scaling to?  Currently: %d" ), g->weather.mist_scaling ) ) {
+                        g->weather.mist_scaling = value;
+                    }
+                    break;
+
+                case 4:
+                    if( query_int( value, _( "Set Intensity Increase Time to?  Currently: %d" ),
+                                   to_seconds<int>( g->weather.mist_intensity_increase_time ) ) ) {
+                        g->weather.mist_intensity_increase_time = time_duration::from_seconds( value );
+                    }
+                    break;
+                case 5:
+                    if( query_int( value, _( "Set Spawn Time to?  Currently: %d" ),
+                                   to_seconds<int>( g->weather.mist_spawn_time ) ) ) {
+                        g->weather.mist_spawn_time = time_duration::from_seconds( value );
+                    }
+                default:
+                    break;
+            }
+        }
+        g->weather.set_nextweather( calendar::turn );
         break;
 
         case DEBUG_KILL_MONS: {
