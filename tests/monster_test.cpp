@@ -89,7 +89,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     player &test_player = g->u;
     // Strip off any potentially encumbering clothing.
     std::list<item> temp;
-    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
+    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) ) {}
 
     const tripoint center{ 65, 65, 0 };
     test_player.setpos( center );
