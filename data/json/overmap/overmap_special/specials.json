@@ -7081,10 +7081,8 @@
       { "point": [ -2, 0, 0 ], "terrain": "road", "existing": true }
     ],
     "locations": [ "land", "swamp" ],
-    "city_distance": [ 0, -1 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 3 ],
-    "required": false,
     "flags": [ "CLASSIC" ]
   }
 ]
