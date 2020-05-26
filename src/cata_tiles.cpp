@@ -2550,7 +2550,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
         itype_id it_id;
         mtype_id mon_id;
-        bool hilite;
+        bool hilite = false;
         const itype *it_type;
         if( it_overridden ) {
             it_id = std::get<0>( it_override->second );

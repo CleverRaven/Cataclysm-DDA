@@ -173,7 +173,7 @@ class target_ui
         };
 
         // Ui status (affects which UI controls are temporarily disabled)
-        Status status;
+        Status status = Status::Good;
 
         // Current trajectory
         std::vector<tripoint> traj;
@@ -189,21 +189,21 @@ class target_ui
         std::vector<Creature *> targets;
 
         // 'true' if map has z levels and 3D fov is on
-        bool allow_zlevel_shift;
+        bool allow_zlevel_shift = false;
         // Snap camera to cursor. Can be permanently toggled in settings
         // or temporarily in this window
-        bool snap_to_target;
+        bool snap_to_target = false;
         // If true, LEVEL_UP, LEVEL_DOWN and directional keys
         // responsible for moving cursor will shift view instead.
         bool shifting_view = false;
 
         // Compact layout
-        bool compact;
+        bool compact = false;
         // Tiny layout - when extremely short on space
-        bool tiny;
+        bool tiny = false;
         // Narrow layout - to keep in theme with
         // "compact" and "labels-narrow" sidebar styles.
-        bool narrow;
+        bool narrow = false;
         // Window
         catacurses::window w_target;
         // Input context
@@ -221,7 +221,7 @@ class target_ui
         // 'recoil' while they are actively spending moves to aim,
         // but increases the further away the new aim point will be
         // relative to the current one.
-        double predicted_recoil;
+        double predicted_recoil = 0;
 
         // For AOE spells, list of tiles affected by the spell
         // relevant for TargetMode::Spell
