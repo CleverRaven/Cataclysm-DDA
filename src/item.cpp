@@ -9375,7 +9375,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
-    contents.process( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+    contents.process( carrier, pos, activate, type->insulation_factor * insulation, flag, spoil_multiplier_parent );
     return process_internal( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
 }
 
