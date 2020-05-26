@@ -2204,8 +2204,8 @@ void options_manager::add_options_world_default()
          1, 50, 7
        );
 
-    get_option( "MIST_SCALING" ).setPrerequisite( "MIST" );
-    get_option( "MIST_TIME_BETWEEN" ).setPrerequisite( "MIST" );
+    get_option( "MIST_SCALING" ).setPrerequisite( "MIST_ACTIVE" );
+    get_option( "MIST_TIME_BETWEEN" ).setPrerequisite( "MIST_ACTIVE" );
 }
 
 void options_manager::add_options_android()

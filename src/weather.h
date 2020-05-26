@@ -239,8 +239,6 @@ weather_type current_weather( const tripoint &location,
 int incident_sunlight( weather_type wtype,
                        const time_point &t = calendar::turn );
 
-void begin_mist();
-
 class weather_manager
 {
     public:
