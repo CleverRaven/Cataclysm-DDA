@@ -376,9 +376,9 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     if( base.has_item_with( []( const item & it ) {
     return it.needs_processing();
     } ) ) {
-        temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        temperature_flag flag = temperature_flag::NORMAL;
         if( e_heater ) {
-            flag = temperature_flag::TEMP_HEATER;
+            flag = temperature_flag::HEATER;
         }
         base.process( nullptr, pos, false, 1, flag );
     }

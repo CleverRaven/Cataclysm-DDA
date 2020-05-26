@@ -26,12 +26,12 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum temperature_flag : int {
-    TEMP_NORMAL = 0,
-    TEMP_HEATER,
-    TEMP_FRIDGE,
-    TEMP_FREEZER,
-    TEMP_ROOT_CELLAR
+enum class temperature_flag : int {
+    NORMAL = 0,
+    HEATER,
+    FRIDGE,
+    FREEZER,
+    ROOT_CELLAR
 };
 
 //Used for autopickup and safemode rules

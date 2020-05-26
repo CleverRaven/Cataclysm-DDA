@@ -8421,7 +8421,7 @@ bool item::has_rotten_away() const
 bool item::has_rotten_away( const tripoint &pnt, float spoil_multiplier )
 {
     if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr, temperature_flag::TEMP_NORMAL, spoil_multiplier );
+        process_temperature_rot( 1, pnt, nullptr, temperature_flag::NORMAL, spoil_multiplier );
         return has_rotten_away();
     } else {
         contents.remove_rotten( pnt );
@@ -8583,19 +8583,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
     int temp = g->weather.get_temperature( pos );
 
     switch( flag ) {
-        case TEMP_NORMAL:
+        case temperature_flag::NORMAL:
             // Just use the temperature normally
             break;
-        case TEMP_FRIDGE:
+        case temperature_flag::FRIDGE:
             temp = std::min( temp, temperatures::fridge );
             break;
-        case TEMP_FREEZER:
+        case temperature_flag::FREEZER:
             temp = std::min( temp, temperatures::freezer );
             break;
-        case TEMP_HEATER:
+        case temperature_flag::HEATER:
             temp = std::max( temp, temperatures::normal );
             break;
-        case TEMP_ROOT_CELLAR:
+        case temperature_flag::ROOT_CELLAR:
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
@@ -8655,19 +8655,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
             }
 
             switch( flag ) {
-                case TEMP_NORMAL:
+                case temperature_flag::NORMAL:
                     // Just use the temperature normally
                     break;
-                case TEMP_FRIDGE:
+                case temperature_flag::FRIDGE:
                     env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
                     break;
-                case TEMP_FREEZER:
+                case temperature_flag::FREEZER:
                     env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
                     break;
-                case TEMP_HEATER:
+                case temperature_flag::HEATER:
                     env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
                     break;
-                case TEMP_ROOT_CELLAR:
+                case temperature_flag::ROOT_CELLAR:
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
