@@ -733,7 +733,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
-        if( sp.has_flag( PAIN_NORESIST ) ) {
+        if( sp.has_flag( spell_flag::PAIN_NORESIST ) ) {
             p->mod_pain_noresist( -healing );
         } else {
             p->mod_pain( -healing );

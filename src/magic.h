@@ -35,7 +35,7 @@ class event;
 }  // namespace cata
 template <typename E> struct enum_traits;
 
-enum spell_flag {
+enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     IGNORE_WALLS, // spell's aoe goes through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
