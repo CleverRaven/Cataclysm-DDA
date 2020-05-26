@@ -2349,6 +2349,18 @@ std::vector<item_location> Character::all_items_loc()
     return ret;
 }
 
+std::vector<item_location> Character::top_items_loc()
+{
+    std::vector<item_location> ret;
+    if( has_weapon() ) {
+        item_location weap_loc( *this, &weapon );
+    }
+    for( item &worn_it : worn ) {
+        item_location worn_loc( *this, &worn_it );
+    }
+    return ret;
+}
+
 item *Character::invlet_to_item( const int linvlet )
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
