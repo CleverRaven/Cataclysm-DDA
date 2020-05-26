@@ -1777,11 +1777,6 @@ void player::process_items()
         removed.remove_item();
     }
 
-    // worn items
-    remove_worn_items_with( [this]( item & itm ) {
-        return itm.needs_processing() && itm.process( this, pos(), false );
-    } );
-
     // Active item processing done, now we're recharging.
     item *cloak = nullptr;
     item *power_armor = nullptr;
