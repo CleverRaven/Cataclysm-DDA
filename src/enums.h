@@ -192,7 +192,12 @@ enum class liquid_source_type : int {
     MONSTER = 4
 };
 
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+enum class liquid_target_type : int {
+    CONTAINER = 1,
+    VEHICLE = 2,
+    MAP = 3,
+    MONSTER = 4
+};
 
 /**
  *  Possible layers that a piece of clothing/armor can occupy

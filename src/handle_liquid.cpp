@@ -59,7 +59,7 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
         return &i == &liquid;
     } );
     if( iter == stack.end() ) {
-        act.values.push_back( liquid_source_type::INFINITE_MAP );
+        act.values.push_back( static_cast<int>( liquid_source_type::INFINITE_MAP ) );
         act.values.push_back( 0 ); // dummy
     } else {
         act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
@@ -71,14 +71,14 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
 
 static void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
-    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
 }
 
 static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
-    act.values.push_back( LTT_CONTAINER );
+    act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
     act.values.push_back( 0 ); // dummy
     act.targets.push_back( container_item );
     act.coords.push_back( tripoint() ); // dummy
@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, const item_location &
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 {
-    act.values.push_back( LTT_MAP );
+    act.values.push_back( static_cast<int>( liquid_target_type::MAP ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( pos );
 }

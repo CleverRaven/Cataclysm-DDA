@@ -1592,17 +1592,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
-            case LTT_VEHICLE:
+            case liquid_target_type::VEHICLE:
                 if( const optional_vpart_position vp = g->m.veh_at( act_ref.coords.at( 1 ) ) ) {
                     p->pour_into( vp->vehicle(), liquid );
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
                 break;
-            case LTT_CONTAINER:
+            case liquid_target_type::CONTAINER:
                 p->pour_into( *act_ref.targets.at( 0 ), liquid );
                 break;
-            case LTT_MAP:
+            case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
                     iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
                 } else {
@@ -1611,7 +1611,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     liquid.charges = 0;
                 }
                 break;
-            case LTT_MONSTER:
+            case liquid_target_type::MONSTER:
                 liquid.charges = 0;
                 break;
         }
