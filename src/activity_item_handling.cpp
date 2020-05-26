@@ -738,8 +738,8 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
         }
     }
     const vpart_info &vp = veh->part_info( vpindex );
-    const vehicle_part part = veh->parts[ vpindex ];
     if( type == 'r' ) {
+        const vehicle_part part = veh->parts[ vpindex ];
         time_to_take = vp.repair_time( p ) * part.damage() / part.max_damage();
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( p );
@@ -849,7 +849,7 @@ static activity_reason_info find_base_construction(
     const inventory &inv,
     const tripoint &loc,
     const cata::optional<construction_id> &part_con_idx,
-    const construction_id idx,
+    const construction_id &idx,
     std::set<construction_id> &used )
 {
     const construction &build = idx.obj();
@@ -1715,7 +1715,6 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     // create the partial construction struct
     partial_con pc;
     pc.id = built_chosen.id;
-    pc.counter = 0;
     // Set the trap that has the examine function
     if( g->m.tr_at( src_loc ).loadid == tr_null ) {
         g->m.trap_set( src_loc, tr_unfinished_construction );
@@ -1854,10 +1853,10 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         leftovers.charges = 0;
                     }
                     it.set_var( "activity_var", p.name );
-                    const std::string item_name = it.tname();
                     p.i_add( it );
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
+                            const std::string item_name = it.tname();
                             add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), item_name );
                         } else {
                             add_msg( _( "%s picks up several items." ),  p.disp_name() );

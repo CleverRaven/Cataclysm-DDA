@@ -520,7 +520,7 @@ void draw_custom_border(
     const catacurses::window &w, const catacurses::chtype ls, const catacurses::chtype rs,
     const catacurses::chtype ts, const catacurses::chtype bs, const catacurses::chtype tl,
     const catacurses::chtype tr, const catacurses::chtype bl, const catacurses::chtype br,
-    const nc_color FG, const point &pos, int height, int width )
+    const nc_color &FG, const point &pos, int height, int width )
 {
     wattron( w, FG );
 
@@ -2000,9 +2000,10 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     oDir = p_oDir;
 
     // translate from player relative to screen relative direction
-    iso_mode = false;
 #if defined(TILES)
     iso_mode = tile_iso && use_tiles;
+#else
+    iso_mode = false;
 #endif
     oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
     oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;

@@ -679,7 +679,6 @@ void advanced_inventory::redraw_pane( side p )
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
-    std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
@@ -691,6 +690,7 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( !filter_edit && !pane.filter.empty() ) {
+        std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
         mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
                    pane.filter );
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",

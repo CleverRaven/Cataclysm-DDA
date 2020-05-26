@@ -76,7 +76,7 @@ static void serialize_liquid_target( player_activity &act, const vehicle &veh )
     act.coords.push_back( veh.global_pos3() );
 }
 
-static void serialize_liquid_target( player_activity &act, item_location container_item )
+static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
     act.values.push_back( LTT_CONTAINER );
     act.values.push_back( 0 ); // dummy

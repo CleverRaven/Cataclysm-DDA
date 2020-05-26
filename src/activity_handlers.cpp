@@ -257,17 +257,10 @@ static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_skeleton( "mon_skeleton" );
-static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
-
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
@@ -3383,7 +3376,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         is_autodoc = 3
     };
     const bionic_id bid( act->str_values[cbm_id] );
-    const bionic_id upbid = bid->upgraded_bionic;
     const bool autodoc = act->str_values[is_autodoc] == "true";
     const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
                        g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
@@ -3469,6 +3461,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
 
             if( bid.is_valid() ) {
+                const bionic_id upbid = bid->upgraded_bionic;
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
                                     act->str_values[installer_name], bid->canceled_mutations, p->pos() );
             } else {

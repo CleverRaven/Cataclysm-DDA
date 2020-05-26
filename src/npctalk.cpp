@@ -112,7 +112,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
-#define OWED_VAL 1000
+static constexpr int OWED_VAL = 1000;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1001,7 +1001,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             int miles = dist / 25; // *100, e.g. quarter mile is "25"
             miles -= miles % 25; // Round to nearest quarter-mile
             int fullmiles = ( miles - miles % 100 ) / 100; // Left of the decimal point
-            if( fullmiles <= 0 ) {
+            if( fullmiles < 0 ) {
                 fullmiles = 0;
             }
             response = string_format( _( "%d.%d miles." ), fullmiles, miles );

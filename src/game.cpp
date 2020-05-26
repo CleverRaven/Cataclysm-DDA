@@ -192,15 +192,12 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -214,7 +211,6 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
@@ -904,8 +900,6 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     }
     for( const std::string &search_type : search_types ) {
         omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types.emplace_back( search_type, ot_match_type::type );
         // find nearest road
         find_params.min_distance = min_distance;
@@ -2053,7 +2047,7 @@ void game::handle_key_blocking_activity()
 
 // call on_contents_changed() for the location's parent and all the way up the chain
 // used in game::inventory_item_menu()
-static void handle_contents_changed( item_location acted_item )
+static void handle_contents_changed( const item_location &acted_item )
 {
     if( acted_item.where() != item_location::type::container ) {
         return;
@@ -3117,7 +3111,7 @@ bool game::save()
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
             return true;
         }
-    } catch( std::ios::failure &err ) {
+    } catch( std::ios::failure & ) {
         popup( _( "Failed to save game data" ) );
         return false;
     }
@@ -8064,7 +8058,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     cata::optional<tripoint> trail_start;
     cata::optional<tripoint> trail_end;
-    bool trail_end_x;
+    bool trail_end_x = false;
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
@@ -8843,7 +8837,6 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
-    std::string name = loc->tname();
     if( u.is_armed() ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
@@ -8862,6 +8855,7 @@ void game::wield( item_location loc )
         }
     }
     if( !loc ) {
+        std::string name = loc->tname();
         /**
           * If we lost the location here, that means the thing we're
           * trying to wield was inside a wielded item.

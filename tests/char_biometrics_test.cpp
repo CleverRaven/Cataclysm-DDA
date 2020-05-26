@@ -314,7 +314,6 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
             REQUIRE( dummy.get_size() == MS_MEDIUM );
 
-
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 49.0 ).margin( 0.1f ) );
@@ -366,7 +365,6 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
             REQUIRE( dummy.get_size() == MS_MEDIUM );
-
 
             THEN( "bodyweight varies from ~57-126kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 57.8 ).margin( 0.1f ) );

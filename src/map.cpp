@@ -5556,8 +5556,6 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
         case VIS_DARK:
         // can't see this square at all
         case VIS_HIDDEN:
-            symbol = ' ';
-            color = c_black;
             break;
     }
     wputch( w, color, symbol );

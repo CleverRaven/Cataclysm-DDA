@@ -580,7 +580,7 @@ class Character : public Creature, public visitable<Character>
                          int intensity = 0, bool force = false, bool deferred = false ) override;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
-        void expose_to_disease( diseasetype_id dis_type );
+        void expose_to_disease( const diseasetype_id &dis_type );
         /**
          * Handles end-of-turn processing.
          */
@@ -1054,8 +1054,8 @@ class Character : public Creature, public visitable<Character>
         bool has_enough_anesth( const itype &cbm );
         void consume_anesth_requirment( const itype &cbm, player &patient );
         /**Has the required equipement for manual installation*/
-        bool has_installation_requirment( bionic_id bid );
-        void consume_installation_requirment( bionic_id bid );
+        bool has_installation_requirment( const bionic_id &bid );
+        void consume_installation_requirment( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );

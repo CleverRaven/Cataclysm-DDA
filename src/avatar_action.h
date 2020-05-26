@@ -18,7 +18,7 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you );
-void eat( avatar &you, item_location loc, bool open_consume_menu = false );
+void eat( avatar &you, const item_location &loc, bool open_consume_menu = false );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
@@ -55,7 +55,7 @@ void fire_wielded_weapon( avatar &you );
 void fire_ranged_mutation( avatar &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, const item &fake_gun, units::energy cost_per_shot );
+void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)

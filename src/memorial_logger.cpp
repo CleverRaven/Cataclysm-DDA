@@ -839,9 +839,9 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_skill_level: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
+                    skill_id skill = e.get<skill_id>( "skill" );
                     add( pgettext( "memorial_male",
                                    //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),

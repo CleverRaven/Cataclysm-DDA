@@ -5029,8 +5029,8 @@ bool mattack::tindalos_teleport( monster *z )
         }
     }
     const int distance_to_target = rl_dist( z->pos(), target->pos() );
-    const tripoint oldpos = z->pos();
     if( distance_to_target > 5 ) {
+        const tripoint oldpos = z->pos();
         for( const tripoint &dest : g->m.points_in_radius( target->pos(), 4 ) ) {
             if( g->m.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {

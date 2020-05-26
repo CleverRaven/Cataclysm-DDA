@@ -2124,9 +2124,9 @@ void spell_events::notify( const cata::event &e )
             spell_type spell_cast = spell_factory.obj( sid );
             for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
                  it != spell_cast.learn_spells.end(); ++it ) {
-                std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
+                    std::string learn_spell_id = it->first;
                     g->u.magic.learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(

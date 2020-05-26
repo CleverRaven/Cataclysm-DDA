@@ -116,8 +116,6 @@ static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
 static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_REACH3( "REACH3" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 

@@ -44,7 +44,6 @@ static const skill_id skill_computer( "computer" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );

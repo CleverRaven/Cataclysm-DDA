@@ -237,12 +237,10 @@ static const bionic_id bio_night_vision( "bio_night_vision" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
-static const bionic_id bio_storage( "bio_storage" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-static const bionic_id str_bio_cloak( "bio_cloak" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
@@ -263,7 +261,6 @@ static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
-static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -300,7 +297,6 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
@@ -314,7 +310,6 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
@@ -392,7 +387,6 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 }
 
 } // namespace io
-
 
 // *INDENT-OFF*
 Character::Character() :
@@ -1580,7 +1574,7 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, 
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
-void Character::expose_to_disease( const diseasetype_id dis_type )
+void Character::expose_to_disease( const diseasetype_id &dis_type )
 {
     const cata::optional<int> &healt_thresh = dis_type->health_threshold;
     if( healt_thresh && healt_thresh.value() < get_healthy() ) {
@@ -7588,7 +7582,6 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         }
     } );
 
-
     opts.emplace_back( dispose_option{
         _( "Drop item" ), true, '2', 0, [this, &obj] {
             put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { *obj } );
@@ -8659,8 +8652,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     } else if( bp == bodypart_id( "num_bp" ) ) {
         debugmsg( "Wacky body part hit!" );
     }
-
-
 
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
@@ -9747,7 +9738,7 @@ int Character::bodytemp_modifier_traits_floor() const
 
 int Character::temp_corrected_by_climate_control( int temperature ) const
 {
-    const int variation = int( BODYTEMP_NORM * 0.5 );
+    const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
     if( temperature < BODYTEMP_SCORCHING + variation &&
         temperature > BODYTEMP_FREEZING - variation ) {
         if( temperature > BODYTEMP_SCORCHING ) {
@@ -10390,7 +10381,6 @@ int Character::run_cost( int base_cost, bool diag ) const
 
     return static_cast<int>( movecost );
 }
-
 
 void Character::place_corpse()
 {

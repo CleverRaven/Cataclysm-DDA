@@ -950,9 +950,7 @@ void npc::finish_read( item &book )
         max_ex = std::max( min_ex, max_ex );
 
         skill_level.readBook( min_ex, max_ex, reading->level );
-
-        std::string skill_name = skill.obj().name();
-
+        const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
@@ -964,7 +962,7 @@ void npc::finish_read( item &book )
         } else {
             continuous = true;
             if( display_messages ) {
-                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill.obj().name() );
+                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill_name );
             }
         }
 
@@ -1378,8 +1376,8 @@ float npc::vehicle_danger( int radius ) const
 
             int ax = wrapped_veh.v->global_pos3().x;
             int ay = wrapped_veh.v->global_pos3().y;
-            int bx = int( ax + std::cos( facing * M_PI / 180.0 ) * radius );
-            int by = int( ay + std::sin( facing * M_PI / 180.0 ) * radius );
+            int bx = static_cast<int>( ax + std::cos( facing * M_PI / 180.0 ) * radius );
+            int by = static_cast<int>( ay + std::sin( facing * M_PI / 180.0 ) * radius );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized

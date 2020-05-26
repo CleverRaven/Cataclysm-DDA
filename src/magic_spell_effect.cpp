@@ -844,9 +844,8 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
     }
     if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
         veh->magic = true;
-        const time_duration summon_time = sp.duration_turns();
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
-            veh->summon_time_limit = summon_time;
+            veh->summon_time_limit = sp.duration_turns();
         }
         if( caster.as_character() ) {
             veh->set_owner( *caster.as_character() );

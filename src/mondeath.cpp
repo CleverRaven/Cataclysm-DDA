@@ -58,7 +58,6 @@ static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
-static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
 static const itype_id itype_processor( "processor" );
@@ -444,7 +443,6 @@ void mdeath::guilt( monster &z )
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
-        msgtype = m_bad;
         for( auto &guilt_treshold : guilt_tresholds ) {
             if( kill_count >= guilt_treshold.first ) {
                 msg = guilt_treshold.second;

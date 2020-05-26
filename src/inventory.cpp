@@ -36,7 +36,6 @@
 #include "inventory_ui.h" // auto inventory blocking
 
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_salt_water( "salt_water" );

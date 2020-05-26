@@ -335,7 +335,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
-        angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
@@ -1406,8 +1405,6 @@ int Creature::get_armor_bullet_bonus() const
 {
     return armor_bullet_bonus;
 }
-
-
 int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
@@ -1426,7 +1423,7 @@ anatomy_id Creature::get_anatomy() const
     return creature_anatomy;
 }
 
-void Creature::set_anatomy( anatomy_id anat )
+void Creature::set_anatomy( const anatomy_id &anat )
 {
     creature_anatomy = anat;
 }

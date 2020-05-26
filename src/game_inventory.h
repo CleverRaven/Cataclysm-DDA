@@ -64,7 +64,7 @@ item_location titled_filter_menu( item_location_filter filter, avatar &you,
 /*@{*/
 
 void common( avatar &you );
-void common( item_location loc, avatar &you );
+void common( item_location &loc, avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
@@ -98,8 +98,8 @@ item_location use( avatar &you );
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */
-drop_locations holster( player &p, item_location holster );
-void insert_items( avatar &you, item_location holster );
+drop_locations holster( player &p, const item_location &holster );
+void insert_items( avatar &you, item_location &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
 /** Choose item to wear. */

@@ -226,7 +226,7 @@ class mapgen_basic_container
         weighted_int_list<std::shared_ptr<mapgen_function>> weights_;
 
     public:
-        int add( const std::shared_ptr<mapgen_function> ptr ) {
+        int add( const std::shared_ptr<mapgen_function> &ptr ) {
             assert( ptr );
             mapgens_.push_back( ptr );
             return mapgens_.size() - 1;
@@ -334,7 +334,7 @@ class mapgen_factory
             return mapgens_.count( key ) != 0;
         }
         /// @see mapgen_basic_container::add
-        int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
+        int add( const std::string &key, const std::shared_ptr<mapgen_function> &ptr ) {
             return mapgens_[key].add( ptr );
         }
         /// @see mapgen_basic_container::generate
@@ -3687,7 +3687,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                             // Top left
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX - 2, int( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX - 2, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 1 );
                             } else {
                                 ter_set( point( SEEX / 2, SEEY - 2 ), t_door_glass_frosted_c );
@@ -3695,11 +3695,11 @@ void map::draw_lab( mapgendata &dat )
                             }
                             // Top right
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX + 1, int( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + 1, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 3 );
                             } else {
-                                ter_set( point( SEEX + int( SEEX / 2 ), SEEY - 2 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 2 ), t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 2 );
                             }
@@ -3709,17 +3709,17 @@ void map::draw_lab( mapgendata &dat )
                                 science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
-                                ter_set( point( SEEX - 2, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX - 2, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 1 );
                             }
                             // Bottom right
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX + int( SEEX / 2 ), SEEY + 1 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 1 ), t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
-                                ter_set( point( SEEX + 1, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + 1, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 3 );
                             }
@@ -3757,14 +3757,14 @@ void map::draw_lab( mapgendata &dat )
                                     stair_points.push_back( point( 2, SEEY ) );
                                     stair_points.push_back( point( 2, SEEY ) );
                                 }
-                                stair_points.push_back( point( int( SEEX / 2 ), SEEY ) );
-                                stair_points.push_back( point( int( SEEX / 2 ), SEEY - 1 ) );
-                                stair_points.push_back( point( int( SEEX / 2 ) + SEEX, SEEY ) );
-                                stair_points.push_back( point( int( SEEX / 2 ) + SEEX, SEEY - 1 ) );
-                                stair_points.push_back( point( SEEX, int( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX + 2, int( SEEY / 2 ) ) );
-                                stair_points.push_back( point( SEEX, int( SEEY / 2 ) + SEEY ) );
-                                stair_points.push_back( point( SEEX + 2, int( SEEY / 2 ) + SEEY ) );
+                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY ) );
+                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ), SEEY - 1 ) );
+                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY ) );
+                                stair_points.push_back( point( static_cast<int>( SEEX / 2 ) + SEEX, SEEY - 1 ) );
+                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) ) );
+                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) ) );
+                                stair_points.push_back( point( SEEX, static_cast<int>( SEEY / 2 ) + SEEY ) );
+                                stair_points.push_back( point( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY ) );
                                 const point p = random_entry( stair_points );
                                 ter_set( p, t_stairs_down );
                             }
@@ -3796,14 +3796,14 @@ void map::draw_lab( mapgendata &dat )
                             ter_set( point( SEEX - rng( 0, 1 ), SEEY + 3 ), t_door_glass_frosted_c );
                             ter_set( point( SEEX - 4, SEEY + rng( 0, 1 ) ), t_door_glass_frosted_c );
                             ter_set( point( SEEX + 3, SEEY + rng( 0, 1 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, int( SEEY / 2 ) ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
                             ter_set( point( SEEX / 2, SEEY - 4 ), t_door_glass_frosted_c );
                             ter_set( point( SEEX / 2, SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + int( SEEX / 2 ), SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + int( SEEX / 2 ), SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 4 ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 3 ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
                             science_room( this, point( lw, tw ), point( SEEX - 5, SEEY - 5 ), dat.zlevel(),
                                           rng( 1, 2 ) );
                             science_room( this, point( SEEX - 3, tw ), point( SEEX + 2, SEEY - 5 ), dat.zlevel(), 2 );
@@ -6013,8 +6013,6 @@ void map::rotate( int turns, const bool setpos_safe )
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
-        const point local_sq = getlocal( sq ).xy();
-
         real_coords np_rc;
         np_rc.fromabs( sq.x, sq.y );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
@@ -6037,6 +6035,7 @@ void map::rotate( int turns, const bool setpos_safe )
 
         const point new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
+            const point local_sq = getlocal( sq ).xy();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls

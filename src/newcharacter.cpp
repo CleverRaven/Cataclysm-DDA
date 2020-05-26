@@ -94,9 +94,11 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 12 // The point after which stats cost double
+// The point after which stats cost double
+static constexpr int HIGH_STAT = 12;
 
-#define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
+// The ID of the rightmost tab
+static constexpr int NEWCHAR_TAB_MAX = 6 ;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -2488,7 +2490,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
         }
         wrefresh( w_skills );
-
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "

@@ -436,8 +436,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
-                              units::volume carry_volume );
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
 std::string camp_trip_description( const time_duration &total_time,
                                    const time_duration &working_time,
@@ -685,7 +685,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
 {
     std::string entry;
-    std::string gather_bldg = "null";
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
@@ -723,6 +722,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 
     if( has_provides( "gathering", dir ) ) {
+        std::string gather_bldg = "null";
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes:\n"
@@ -1207,7 +1207,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
-    const std::string base_dir_abbr = base_data.bracket_abbr.translated();
     reset_camp_resources();
     std::string gather_bldg = "null";
 
@@ -1247,6 +1246,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         std::map<recipe_id, translation> craft_recipes = recipe_deck( base_camps::base_dir );
         add_available_recipes( mission_key, base_camps::base_dir, craft_recipes );
     } else {
+        const std::string base_dir_abbr = base_data.bracket_abbr.translated();
         entry = miss_info.action.translated();
         bool avail = update_time_left( entry, npc_list );
         mission_key.add_return( base_dir_id + miss_info.ret_miss_id,
@@ -3492,8 +3492,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
     return work + one_way * trips * 1_seconds;
 }
 
-int om_carry_weight_to_trips( units::mass mass, units::volume volume,
-                              units::mass carry_mass, units::volume carry_volume )
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume )
 {
     int trips_m = 1 + mass / carry_mass;
     int trips_v = 1 + volume / carry_volume;

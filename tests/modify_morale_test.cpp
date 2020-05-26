@@ -225,12 +225,10 @@ TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
     }
 }
 
-
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
     std::pair<int, int> fun;
-
 
     const std::vector<std::string> drugs_to_test = {
         {

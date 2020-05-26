@@ -1388,10 +1388,9 @@ void WORLD::load_legacy_options( std::istream &fin )
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
             const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
-            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
-                                      sLine.length() ) );
-
             if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
+                const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
+                                          sLine.length() ) );
                 WORLD_OPTIONS[name].setValue( value );
             }
         }

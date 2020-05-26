@@ -113,8 +113,6 @@
 struct mutation_branch;
 struct oter_type_t;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_riding( "riding" );
 
 static const itype_id itype_battery( "battery" );
@@ -3888,8 +3886,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                     tmp.legacy_fast_forward_time();
                 }
 
-                const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
+                    const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                     active_items.add( *it, p );
                 }
             }

@@ -196,7 +196,6 @@ void stats_tracker::unwatch( base_watcher *watcher )
         return false;
     };
 
-
     if( erase_from( event_type_watchers ) ||
         erase_from( event_transformation_watchers ) ||
         erase_from( stat_watchers ) ) {

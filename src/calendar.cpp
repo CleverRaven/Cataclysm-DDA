@@ -219,8 +219,6 @@ double current_daylight_level( const time_point &p )
 float sunlight( const time_point &p, const bool vision )
 {
     const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
     const double daylight = current_daylight_level( p );
 
@@ -234,9 +232,11 @@ float sunlight( const time_point &p, const bool vision )
     if( is_night( p ) ) {
         return moonlight;
     } else if( is_dawn( p ) ) {
+        const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
         const double percent = ( now - sunrise ) / twilight_duration;
         return moonlight * ( 1. - percent ) + daylight * percent;
     } else if( is_dusk( p ) ) {
+        const time_duration sunset = time_past_midnight( ::sunset( p ) );
         const double percent = ( now - sunset ) / twilight_duration;
         return daylight * ( 1. - percent ) + moonlight * percent;
     } else {

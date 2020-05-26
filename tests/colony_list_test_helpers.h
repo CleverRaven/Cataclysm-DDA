@@ -29,7 +29,7 @@ struct small_struct {
     int number;
     unsigned int empty_field4;
 
-    small_struct( const int num ) noexcept: number( num ) {};
+    small_struct( const int num ) noexcept: number( num ) {}
 };
 
 struct perfect_forwarding_test {

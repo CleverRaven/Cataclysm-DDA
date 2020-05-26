@@ -68,8 +68,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -737,7 +735,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     /** @EFFECT_SMG delays effects of recoil during automatic fire */
     /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
     /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
-    double absorb = std::min( get_skill_level( gun.gun_skill() ), MAX_SKILL ) / double( MAX_SKILL * 2 );
+    double absorb = std::min( get_skill_level( gun.gun_skill() ),
+                              MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
 
     tripoint aim = target;
     int curshot = 0;
@@ -1672,14 +1671,14 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     if( skill >= MAX_SKILL ) {
         return 0.0;
     }
-    double skill_shortfall = double( MAX_SKILL ) - skill;
+    double skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
     double dispersion_penalty = 3 * skill_shortfall;
     double skill_threshold = 5;
     if( skill >= skill_threshold ) {
-        double post_threshold_skill_shortfall = double( MAX_SKILL ) - skill;
+        double post_threshold_skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
         // Lack of mastery multiplies the dispersion of the weapon.
         return dispersion_penalty + ( weapon_dispersion * post_threshold_skill_shortfall * 1.25 ) /
-               ( double( MAX_SKILL ) - skill_threshold );
+               ( static_cast<double>( MAX_SKILL ) - skill_threshold );
     }
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;

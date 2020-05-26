@@ -3081,7 +3081,8 @@ struct ratio_index {
 };
 
 /* As of October 2019, this is buggy, do not use!! */
-void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
+void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
+                      int min_val )
 {
     /* Remove this when someone debugs it back to functionality */
     return;
@@ -4094,9 +4095,6 @@ void npc::set_omt_destination()
             temp_types.push_back( temp_pair );
         }
         find_params.search_range = 75;
-        find_params.min_distance = 0;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );

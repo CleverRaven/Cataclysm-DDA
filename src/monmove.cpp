@@ -71,7 +71,7 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
-#define MONSTER_FOLLOW_DIST 8
+static constexpr int MONSTER_FOLLOW_DIST = 8;
 
 bool monster::wander()
 {
@@ -202,12 +202,12 @@ bool monster::will_move_to( const tripoint &p ) const
 
         // Higher awareness is needed for identifying these as threats.
         if( avoid_complex ) {
-            const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
                 return false;
             }
             // Don't step on any traps (if we can see)
+            const trap &target_trap = g->m.tr_at( p );
             if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
                 return false;
             }
@@ -283,7 +283,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( !smart ) {
-        return int( d );
+        return static_cast<int>( d );
     }
 
     float power = c.power_rating();
@@ -294,7 +294,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( power > 0 ) {
-        return int( d ) / power;
+        return static_cast<int>( d ) / power;
     }
 
     return FLT_MAX;
@@ -502,7 +502,6 @@ void monster::plan()
 
     // Operating monster keep you safe while they operate, how nice....
     if( type->has_special_attack( "OPERATE" ) ) {
-        int prev_friendlyness = friendly;
         if( has_effect( effect_operating ) ) {
             friendly = 100;
             for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
@@ -513,8 +512,6 @@ void monster::plan()
                     anger = 0;
                 }
             }
-        } else {
-            friendly = prev_friendlyness;
         }
     }
 
@@ -966,8 +963,8 @@ void monster::move()
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
-    const tripoint local_next_step = g->m.getlocal( next_step );
     if( moved ) { // Actual effects of moving to the square we've chosen
+        const tripoint local_next_step = g->m.getlocal( next_step );
         const bool did_something =
             ( !pacified && attack_at( local_next_step ) ) ||
             ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||

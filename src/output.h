@@ -124,7 +124,6 @@ inline std::string string_from_int( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ch;
             break;
     }
     char buffer[2] = { static_cast<char>( charcode ), '\0' };
@@ -367,7 +366,7 @@ void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
     catacurses::chtype tr = 1, catacurses::chtype bl = 1, catacurses::chtype br = 1,
-    nc_color FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
+    const nc_color &FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
