@@ -6476,7 +6476,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_STORAGE",
-    "name": { "str": "Debug Carrying Capacity" },
+    "name": { "str": "Debug Very Strong Back" },
     "points": 99,
     "valid": false,
     "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
