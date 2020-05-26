@@ -21,7 +21,7 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
-enum requirement_check_result : int {
+enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
     CAN_DO_LOCATION,
     RETURN_EARLY       //another activity like a fetch activity has been started.

@@ -2446,10 +2446,10 @@ static requirement_check_result generic_multi_activity_check_requirement( player
     // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
-        return SKIP_LOCATION;
+        return requirement_check_result::SKIP_LOCATION;
     }
     if( can_do_it ) {
-        return CAN_DO_LOCATION;
+        return requirement_check_result::CAN_DO_LOCATION;
     }
     if( reason == do_activity_reason::DONT_HAVE_SKILL ||
         reason == do_activity_reason::NO_ZONE ||
@@ -2462,7 +2462,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
-        return SKIP_LOCATION;
+        return requirement_check_result::SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
                reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
                reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ||
@@ -2496,7 +2496,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             if( !act_info.con_idx ) {
                 debugmsg( "no construction selected" );
-                return SKIP_LOCATION;
+                return requirement_check_result::SKIP_LOCATION;
             }
             // its a construction and we need the components.
             const construction &built_chosen = act_info.con_idx->obj();
@@ -2507,7 +2507,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             // we already checked this in can_do_activity() but check again just incase.
             if( !veh ) {
                 p.activity_vehicle_part_index = 1;
-                return SKIP_LOCATION;
+                return requirement_check_result::SKIP_LOCATION;
             }
             const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
             requirement_data reqs;
@@ -2577,7 +2577,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
             }
-            return SKIP_LOCATION;
+            return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
                 p.backlog.push_front( act_id );
@@ -2604,17 +2604,17 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                         p.activity = player_activity();
                         p.backlog.clear();
                         check_npc_revert( p );
-                        return SKIP_LOCATION;
+                        return requirement_check_result::SKIP_LOCATION;
                     }
                     act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
                                                                       static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
                 act_prev.placement = src;
             }
-            return RETURN_EARLY;
+            return requirement_check_result::RETURN_EARLY;
         }
     }
-    return SKIP_LOCATION;
+    return requirement_check_result::SKIP_LOCATION;
 }
 
 /** Do activity at this location */
@@ -2772,9 +2772,9 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         // see activity_handlers.h enum for requirement_check_result
         const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
                 activity_to_restore, act_info, src, src_loc, src_set, check_only );
-        if( req_res == SKIP_LOCATION ) {
+        if( req_res == requirement_check_result::SKIP_LOCATION ) {
             continue;
-        } else if( req_res == RETURN_EARLY ) {
+        } else if( req_res == requirement_check_result::RETURN_EARLY ) {
             return true;
         }
 
