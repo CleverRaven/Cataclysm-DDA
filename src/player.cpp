@@ -1763,7 +1763,7 @@ void player::process_items()
     }
 
     std::vector<item_location> removed_items;
-    for( item_location it : all_items_loc() ) {
+    for( item_location it : top_items_loc() ) {
         if( !it ) {
             continue;
         }
@@ -1776,11 +1776,6 @@ void player::process_items()
     for( item_location removed : removed_items ) {
         removed.remove_item();
     }
-
-    // worn items
-    remove_worn_items_with( [this]( item & itm ) {
-        return itm.needs_processing() && itm.process( this, pos(), false );
-    } );
 
     // Active item processing done, now we're recharging.
     item *cloak = nullptr;
