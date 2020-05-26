@@ -3855,8 +3855,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // Track highest layer observed so far so we can penalize out-of-order
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
-    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               PERSONAL_LAYER );
+    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(), layer_level::PERSONAL );
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
@@ -7768,26 +7767,26 @@ int Character::item_wear_cost( const item &it ) const
     double mv = item_handling_cost( it );
 
     switch( it.get_layer() ) {
-        case PERSONAL_LAYER:
+        case layer_level::PERSONAL:
             break;
 
-        case UNDERWEAR_LAYER:
+        case layer_level::UNDERWEAR:
             mv *= 1.5;
             break;
 
-        case REGULAR_LAYER:
+        case layer_level::REGULAR:
             break;
 
-        case WAIST_LAYER:
-        case OUTER_LAYER:
+        case layer_level::WAIST:
+        case layer_level::OUTER:
             mv /= 1.5;
             break;
 
-        case BELTED_LAYER:
+        case layer_level::BELTED:
             mv /= 2.0;
             break;
 
-        case AURA_LAYER:
+        case layer_level::AURA:
             break;
 
         default:

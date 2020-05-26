@@ -5472,19 +5472,19 @@ layer_level item::get_layer() const
     }
 
     if( has_flag( flag_PERSONAL ) ) {
-        return PERSONAL_LAYER;
+        return layer_level::PERSONAL;
     } else if( has_flag( flag_SKINTIGHT ) ) {
-        return UNDERWEAR_LAYER;
+        return layer_level::UNDERWEAR;
     } else if( has_flag( flag_WAIST ) ) {
-        return WAIST_LAYER;
+        return layer_level::WAIST;
     } else if( has_flag( flag_OUTER ) ) {
-        return OUTER_LAYER;
+        return layer_level::OUTER;
     } else if( has_flag( flag_BELTED ) ) {
-        return BELTED_LAYER;
+        return layer_level::BELTED;
     } else if( has_flag( flag_AURA ) ) {
-        return AURA_LAYER;
+        return layer_level::AURA;
     } else {
-        return REGULAR_LAYER;
+        return layer_level::REGULAR;
     }
 }
 

@@ -435,19 +435,19 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.item_tags.count( "PERSONAL" ) ) {
-        obj.layer = PERSONAL_LAYER;
+        obj.layer = layer_level::PERSONAL;
     } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
-        obj.layer = UNDERWEAR_LAYER;
+        obj.layer = layer_level::UNDERWEAR;
     } else if( obj.item_tags.count( "WAIST" ) ) {
-        obj.layer = WAIST_LAYER;
+        obj.layer = layer_level::WAIST;
     } else if( obj.item_tags.count( "OUTER" ) ) {
-        obj.layer = OUTER_LAYER;
+        obj.layer = layer_level::OUTER;
     } else if( obj.item_tags.count( "BELTED" ) ) {
-        obj.layer = BELTED_LAYER;
+        obj.layer = layer_level::BELTED;
     } else if( obj.item_tags.count( "AURA" ) ) {
-        obj.layer = AURA_LAYER;
+        obj.layer = layer_level::AURA;
     } else {
-        obj.layer = REGULAR_LAYER;
+        obj.layer = layer_level::REGULAR;
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
