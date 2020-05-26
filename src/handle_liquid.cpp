@@ -44,7 +44,7 @@
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
-    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( serialize( liquid ) );
@@ -59,10 +59,10 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
         return &i == &liquid;
     } );
     if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( liquid_source_type::INFINITE_MAP );
         act.values.push_back( 0 ); // dummy
     } else {
-        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
     act.coords.push_back( pos );

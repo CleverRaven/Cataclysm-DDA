@@ -1548,7 +1548,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         int part_num = -1;
         int veh_charges = 0;
         switch( source_type ) {
-            case LST_VEHICLE:
+            case liquid_source_type::VEHICLE:
                 source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
@@ -1557,11 +1557,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
-            case LST_INFINITE_MAP:
+            case liquid_source_type::INFINITE_MAP:
                 deserialize( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
-            case LST_MAP_ITEM:
+            case liquid_source_type::MAP_ITEM:
                 if( static_cast<size_t>( act_ref.values.at( 1 ) ) >= source_stack.size() ) {
                     throw std::runtime_error( "could not find source item on ground for liquid transfer" );
                 }
@@ -1569,7 +1569,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 std::advance( on_ground, act_ref.values.at( 1 ) );
                 liquid = *on_ground;
                 break;
-            case LST_MONSTER:
+            case liquid_source_type::MONSTER:
                 Creature *c = g->critter_at( source_pos );
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
@@ -1625,7 +1625,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
 
         // 3. Remove charges from source.
         switch( source_type ) {
-            case LST_VEHICLE:
+            case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
                     source_veh->drain( part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
@@ -1648,7 +1648,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     act_ref.set_to_null();
                 }
                 break;
-            case LST_MAP_ITEM:
+            case liquid_source_type::MAP_ITEM:
                 on_ground->charges -= removed_charges;
                 if( on_ground->charges <= 0 ) {
                     source_stack.erase( on_ground );
@@ -1666,10 +1666,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     act_ref.set_to_null();
                 }
                 break;
-            case LST_INFINITE_MAP:
+            case liquid_source_type::INFINITE_MAP:
                 // nothing, the liquid source is infinite
                 break;
-            case LST_MONSTER:
+            case liquid_source_type::MONSTER:
                 // liquid source charges handled in monexamine::milk_source
                 if( liquid.charges == 0 ) {
                     act_ref.set_to_null();
