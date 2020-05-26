@@ -415,7 +415,6 @@
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
       [ "smart_lamp", 2 ],
-      [ "control_laptop", 1 ],
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
       [ "laptop", 4 ],

@@ -55,7 +55,7 @@ TEST_CASE( "recipe_subset" )
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
             THEN( "it uses water" ) {
-                const auto comp_recipes( subset.of_component( "water" ) );
+                const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
@@ -312,7 +312,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     // and just in case "used" skill difficulty is higher, set that too
     g->u.set_skill_level( r.skill_used, std::max( r.difficulty,
                           g->u.get_skill_level( r.skill_used ) ) );
-
+    g->u.moves--;
     const inventory &crafting_inv = g->u.crafting_inventory();
     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                          crafting_inv, r.get_component_filter() );
@@ -372,8 +372,8 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     item &ups = dummy.i_add( item( "UPS_off", -1, 500 ) );
     REQUIRE( dummy.has_item( ups ) );
     REQUIRE( ups.charges == 500 );
-    REQUIRE( dummy.charges_of( "UPS_off" ) == 500 );
-    REQUIRE( dummy.charges_of( "UPS" ) == 500 );
+    REQUIRE( dummy.charges_of( itype_id( "UPS_off" ) ) == 500 );
+    REQUIRE( dummy.charges_of( itype_id( "UPS" ) ) == 500 );
 }
 
 TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
@@ -405,8 +405,12 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            tools.push_back( tool_with_ammo( "hotplate", 20 ) );
-            tools.push_back( tool_with_ammo( "soldering_iron", 20 ) );
+            item hotplate = tool_with_ammo( "hotplate", 20 );
+            REQUIRE( hotplate.ammo_remaining() == 20 );
+            tools.push_back( hotplate );
+            item soldering = tool_with_ammo( "soldering_iron", 20 );
+            REQUIRE( soldering.ammo_remaining() == 20 );
+            tools.push_back( soldering );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
                 int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -434,7 +438,11 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             item soldering_iron( "soldering_iron" );
             soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( soldering_iron );
-            tools.emplace_back( "UPS_off", -1, 500 );
+            item UPS( "UPS_off" );
+            item UPS_mag( UPS.magazine_default() );
+            UPS_mag.ammo_set( UPS_mag.ammo_default(), 500 );
+            UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            tools.emplace_back( UPS );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -519,18 +527,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     std::ostringstream os;
     os << "Inventory:\n";
     for( const item *i : g->u.inv_dump() ) {
-        os << "  " << i->typeId() << " (" << i->charges << ")\n";
+        os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
     os << "Wielded:\n" << g->u.weapon.tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        const bool has_item =
+            player_has_item_of_type( i ) || g->u.weapon.type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        const bool hasnt_item =
+            !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }

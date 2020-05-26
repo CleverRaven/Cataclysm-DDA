@@ -171,14 +171,7 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 8> ter_water = {
-        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
-    };
-    auto ter_check = [this]
-    ( const ter_id & id ) {
-        return g->m.ter( this->pos ) == id;
-    };
-    if( std::any_of( ter_water.begin(), ter_water.end(), ter_check ) ) {
+    if( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || g->m.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 
@@ -336,14 +329,14 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.legacy_front().typeId() : "null";
+                it->contents.legacy_front().typeId() : itype_id::NULL_ID();
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
         uistate.adv_inv_container_index = 0;
         uistate.adv_inv_container_in_vehicle = false;
-        uistate.adv_inv_container_type = "null";
-        uistate.adv_inv_container_content_type = "null";
+        uistate.adv_inv_container_type = itype_id::NULL_ID();
+        uistate.adv_inv_container_content_type = itype_id::NULL_ID();
     }
 }
 
@@ -352,7 +345,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
     if( it != nullptr ) {
         if( it->typeId() == uistate.adv_inv_container_type ) {
             if( it->is_container_empty() ) {
-                if( uistate.adv_inv_container_content_type == "null" ) {
+                if( uistate.adv_inv_container_content_type.is_null() ) {
                     return true;
                 }
             } else {

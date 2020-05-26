@@ -54,5 +54,15 @@
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 8
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Cranium Bomb" },
+    "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
+    "price": 0,
+    "price_postapoc": 0,
+    "difficulty": 8
   }
 ]

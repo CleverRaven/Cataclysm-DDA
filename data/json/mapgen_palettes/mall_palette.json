@@ -73,8 +73,8 @@
       ",": "t_pavement_y",
       "-": "t_brick_wall",
       ".": "t_region_groundcover_urban",
-      "1": "t_linoleum_white_no_roof",
-      "2": "t_linoleum_gray_no_roof",
+      "1": "t_linoleum_white",
+      "2": "t_linoleum_gray",
       "3": "t_carpet_red",
       "4": "t_carpet_green",
       "5": "t_door_gray_c",
@@ -139,7 +139,7 @@
       "t": "t_floor",
       "u": "t_carpet_red",
       "v": "t_carpet_red",
-      "w": "t_water_sh",
+      "w": "t_water_pool_shallow_outdoors",
       "x": "t_floor",
       "y": "t_linoleum_gray_no_roof",
       "<": "t_stairs_up",
@@ -161,6 +161,7 @@
       "G": "f_lab_bench",
       "I": "f_desk",
       "J": "f_counter",
+      "ƃ": "f_counter_gate_c",
       "~": "f_cupboard",
       "K": "f_table",
       "L": "f_tourist_table",
@@ -197,6 +198,12 @@
       "v": "f_gun_safe_el",
       "w": "f_safe_l",
       "Я": "f_flower_tulip",
+      "ǝ": "f_coffee_table",
+      "Ħ": "f_rack_wood",
+      "Ʉ": "f_bed",
+      "ȣ": "f_washer",
+      "ȝ": "f_dryer",
+      "Ʃ": "f_entertainment_center",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
     },
@@ -216,6 +223,8 @@
       "Ƨ": "t_open_air_rooved",
       ".": "t_linoleum_gray",
       ",": "t_linoleum_white",
+      "°": "t_linoleum_gray_no_roof",
+      "³": "t_linoleum_white_no_roof",
       "_": "t_thconc_floor",
       "^": "t_floor",
       "E": "t_elevator",
@@ -235,8 +244,31 @@
       "7": "t_carpet_green",
       "8": "t_carpet_purple",
       "9": "t_carpet_yellow",
-      "?": "t_console_broken"
+      "?": "t_console_broken",
+      "§": "t_water_pool_shallow_outdoors"
     },
     "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "mall_palette_basement",
+    "terrain": {
+      ".": "t_thconc_floor",
+      "N": "t_chainfence",
+      "T": "t_chaingate_c",
+      "0": "t_door_metal_pickable",
+      "1": "t_door_metal_locked",
+      "=": [ "t_door_c", "t_door_locked" ],
+      "|": "t_concrete_wall",
+      " ": "t_rock",
+      "3": "t_gates_control_brick",
+      "E": "t_elevator",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "Ŋ": "t_elevator_control_off",
+      "H": "t_laminated_glass",
+      "+": "t_laminated_door_glass_c"
+    },
+    "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ], "F": "f_bench" }
   }
 ]

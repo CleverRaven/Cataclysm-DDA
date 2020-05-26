@@ -4,6 +4,7 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "clothing_mod.h"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
@@ -18,7 +19,15 @@
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
 {
-    g->u.clear_mutations();
+    int encumber = i.type->armor ? i.type->armor->encumber : -1;
+    int max_encumber = i.type->armor ? i.type->armor->max_encumber : -1;
+    CAPTURE( encumber );
+    CAPTURE( max_encumber );
+    CAPTURE( i.typeId() );
+    CAPTURE( i.has_flag( "FIT" ) );
+    CAPTURE( i.has_flag( "VARSIZE" ) );
+    CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
+    CAPTURE( i.get_sizing( g->u, true ) );
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     CHECK( info == reference );
@@ -27,7 +36,15 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
 static void test_info_contains( const item &i, const iteminfo_query &q,
                                 const std::string &reference )
 {
-    g->u.clear_mutations();
+    int encumber = i.type->armor ? i.type->armor->encumber : -1;
+    int max_encumber = i.type->armor ? i.type->armor->max_encumber : -1;
+    CAPTURE( encumber );
+    CAPTURE( max_encumber );
+    CAPTURE( i.typeId() );
+    CAPTURE( i.has_flag( "FIT" ) );
+    CAPTURE( i.has_flag( "VARSIZE" ) );
+    CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
+    CAPTURE( i.get_sizing( g->u, true ) );
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     using Catch::Matchers::Contains;
@@ -52,19 +69,21 @@ static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
     return iteminfo_query( part_flags );
 }
 
-TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary][!mayfail]" )
+TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
                                 iteminfo_parts::DESCRIPTION
                               } );
 
-    override_option opt( "USE_METRIC_WEIGHTS", "lbs" );
+    override_option opt_weight( "USE_METRIC_WEIGHTS", "lbs" );
+    override_option opt_vol( "VOLUME_UNITS", "l" );
     SECTION( "volume, weight, category, material, description" ) {
         test_info_equals(
             item( "test_jug_plastic" ), q,
             "Material: <color_c_light_blue>Plastic</color>\n"
-            "Volume: <color_c_yellow>3.750</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
+            "Volume: <color_c_yellow>3.75</color> L  Weight: <color_c_yellow>0.42</color> lbs\n"
             "Category: <color_c_magenta>CONTAINERS</color>\n"
             "--\n"
             "A standard plastic jug used for milk and household cleaning chemicals.\n" );
@@ -73,6 +92,7 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
 
 TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( std::vector<iteminfo_parts>( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } ) );
 
     SECTION( "owner and price" ) {
@@ -96,18 +116,22 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
     }
 
     SECTION( "zero price item with no owner" ) {
+        item nobodys_rock( "test_rock" );
+        REQUIRE( nobodys_rock.get_owner().is_null() );
         test_info_equals(
-            item( "test_rock" ), q,
+            nobodys_rock, q,
             "--\n"
             "Price: $<color_c_yellow>0.00</color>" );
     }
 }
 
-TEST_CASE( "item rigidity", "[item][iteminfo][rigidity][!mayfail]" )
+TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
+        // Waterskin uses the default encumbrance increase of 1 per 250ml
         test_info_equals(
             item( "test_waterskin" ), q,
             "--\n"
@@ -117,11 +141,22 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity][!mayfail]" )
             "* This item is <color_c_cyan>not rigid</color>."
             "  Its volume and encumbrance increase with contents.\n" );
 
+        // test_backpack has an explicit max_encumbrance
         test_info_equals(
             item( "test_backpack" ), q,
             "--\n"
             "<color_c_white>Encumbrance</color>: <color_c_yellow>2</color>"
             "  Encumbrance when full: <color_c_yellow>15</color>\n"
+            "--\n"
+            "* This item is <color_c_cyan>not rigid</color>."
+            "  Its volume and encumbrance increase with contents.\n" );
+
+        // quiver has no volume, only an implicit volume via ammo
+        test_info_equals(
+            item( "quiver" ), q,
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_yellow>3</color>"
+            "  Encumbrance when full: <color_c_yellow>11</color>\n"
             "--\n"
             "* This item is <color_c_cyan>not rigid</color>."
             "  Its volume and encumbrance increase with contents.\n" );
@@ -141,8 +176,8 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity][!mayfail]" )
 
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
-    // new DPS calculations depend on the avatar's stats, so make sure they're consistent
     clear_avatar();
+    // new DPS calculations depend on the avatar's stats, so make sure they're consistent
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
@@ -211,6 +246,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 
 TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_TECHNIQUES } );
 
     test_info_equals(
@@ -224,6 +260,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 
 TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                                 iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
                                 iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
@@ -254,6 +291,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 
 TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 {
+    clear_avatar();
 
     SECTION( "skill used" ) {
         iteminfo_query q = q_vec( { iteminfo_parts::GUN_USEDSKILL } );
@@ -331,6 +369,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 
 TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
                                 iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
                                 iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
@@ -348,8 +387,9 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     }
 }
 
-TEST_CASE( "nutrients in food", "[item][iteminfo][food][!mayfail]" )
+TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                                 iteminfo_parts::FOOD_QUENCH
                               } );
@@ -379,6 +419,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food][!mayfail]" )
 
 TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
 
     // Ensure test character has no skill estimating spoilage
@@ -408,6 +449,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 
 TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
 
     SECTION( "non-conductive items" ) {
@@ -435,6 +477,7 @@ TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 
 TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::QUALITIES } );
 
     SECTION( "Halligan bar" ) {
@@ -467,6 +510,7 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 
 TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
     test_info_contains(
@@ -486,6 +530,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
 TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE } );
 
     test_info_equals(
@@ -502,6 +547,7 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_FLAGS } );
 
     test_info_equals(
@@ -528,9 +574,9 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
 
 TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo][recipes]" )
 {
+    clear_avatar();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    g->u.clear_mutations();
     recipe_subset &known_recipes = const_cast<recipe_subset &>( g->u.get_learned_recipes() );
     known_recipes.clear();
 
@@ -572,7 +618,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
             WHEN( "they have the recipe in a book, but not memorized" ) {
                 item &textbook = g->u.i_add( item( "textbook_chemistry" ) );
                 g->u.do_read( textbook );
-                REQUIRE( g->u.has_identified( "textbook_chemistry" ) );
+                REQUIRE( g->u.has_identified( itype_id( "textbook_chemistry" ) ) );
                 // update the crafting inventory cache
                 g->u.moves++;
 
@@ -587,3 +633,142 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
         }
     }
 }
+
+TEST_CASE( "pocket info for a simple container", "[iteminfo][pocket][container]" )
+{
+    clear_avatar();
+
+    override_option opt_vol( "VOLUME_UNITS", "l" );
+    override_option opt_weight( "USE_METRIC_WEIGHTS", "kg" );
+    override_option opt_dist( "DISTANCE_UNITS", "metric" );
+
+    item test_waterskin( "test_waterskin" );
+
+    // Simple containers with only one pocket show a "Total capacity" section
+    // with all the pocket's restrictions and other attributes
+    test_info_equals(
+        test_waterskin, q_vec( { iteminfo_parts::DESCRIPTION_POCKETS } ),
+        "--\n"
+        "<color_c_white>Total capacity</color>:\n"
+        "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>3.00</color> kg\n"
+        "Maximum item length: <color_c_yellow>155</color> mm\n"
+        "Maximum item volume: <color_c_yellow>0.015 L</color>\n"
+        "Base moves to remove item: <color_c_yellow>100</color>\n"
+        "This pocket can <color_c_cyan>contain a liquid</color>.\n" );
+}
+
+TEST_CASE( "pocket info units - imperial or metric", "[iteminfo][pocket][units]" )
+{
+    clear_avatar();
+    item test_jug( "test_jug_plastic" );
+
+    GIVEN( "metric units" ) {
+        override_option opt_vol( "VOLUME_UNITS", "l" );
+        override_option opt_weight( "USE_METRIC_WEIGHTS", "kg" );
+        override_option opt_dist( "DISTANCE_UNITS", "metric" );
+
+        THEN( "pocket capacity is shown in liters, kilograms, and millimeters" ) {
+            test_info_equals(
+                test_jug, q_vec( { iteminfo_parts::DESCRIPTION_POCKETS } ),
+                "--\n"
+                "<color_c_white>Total capacity</color>:\n"
+                "Volume: <color_c_yellow>3.75</color> L  Weight: <color_c_yellow>5.00</color> kg\n"
+                "Maximum item length: <color_c_yellow>226</color> mm\n"
+                "Maximum item volume: <color_c_yellow>0.015 L</color>\n"
+                "Base moves to remove item: <color_c_yellow>100</color>\n"
+                "This pocket is <color_c_cyan>rigid</color>.\n"
+                "This pocket can <color_c_cyan>contain a liquid</color>.\n" );
+        }
+    }
+
+    GIVEN( "imperial units" ) {
+        override_option opt_vol( "VOLUME_UNITS", "qt" );
+        override_option opt_weight( "USE_METRIC_WEIGHTS", "lbs" );
+        override_option opt_dist( "DISTANCE_UNITS", "imperial" );
+
+        THEN( "pocket capacity is shown in quarts, pounds, and inches" ) {
+            test_info_equals(
+                test_jug, q_vec( { iteminfo_parts::DESCRIPTION_POCKETS } ),
+                "--\n"
+                "<color_c_white>Total capacity</color>:\n"
+                "Volume: <color_c_yellow>3.97</color> qt  Weight: <color_c_yellow>11.02</color> lbs\n"
+                "Maximum item length: <color_c_yellow>8</color> in.\n"
+                "Maximum item volume: <color_c_yellow>0.016 qt</color>\n"
+                "Base moves to remove item: <color_c_yellow>100</color>\n"
+                "This pocket is <color_c_cyan>rigid</color>.\n"
+                "This pocket can <color_c_cyan>contain a liquid</color>.\n" );
+        }
+    }
+}
+
+TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]" )
+{
+    clear_avatar();
+
+    override_option opt_vol( "VOLUME_UNITS", "l" );
+    override_option opt_weight( "USE_METRIC_WEIGHTS", "kg" );
+    override_option opt_dist( "DISTANCE_UNITS", "metric" );
+
+    item test_belt( "test_tool_belt" );
+
+    // When two pockets have the same attributes, they are combined with a heading like:
+    //
+    //  2 Pockets with capacity:
+    //  Volume: ...  Weight: ...
+    //
+    // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
+    test_info_equals(
+        test_belt, q_vec( { iteminfo_parts::DESCRIPTION_POCKETS } ),
+        "--\n"
+        "<color_c_white>Total capacity</color>:\n"
+        "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.00</color> kg\n"
+        "--\n"
+        "<color_c_white>4 Pockets</color> with capacity:\n"
+        "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.00</color> kg\n"
+        "Maximum item length: <color_c_yellow>155</color> mm\n"
+        "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
+        "Base moves to remove item: <color_c_yellow>50</color>\n" );
+}
+
+// Test vol_to_info function from item.cpp
+TEST_CASE( "vol_to_info", "[iteminfo][volume]" )
+{
+    override_option opt_vol( "VOLUME_UNITS", "l" );
+    iteminfo vol = vol_to_info( "BASE", "Volume", 3_liter );
+    // strings
+    CHECK( vol.sType == "BASE" );
+    CHECK( vol.sName == "Volume" );
+    CHECK( vol.sFmt == "<num> L" );
+    CHECK( vol.sValue == "3.00" );
+    // doubles
+    CHECK( vol.dValue == 3.0 );
+    // booleans
+    CHECK( vol.bDrawName == true );
+    CHECK( vol.bLowerIsBetter == true );
+    CHECK( vol.bNewLine == false );
+    CHECK( vol.bShowPlus == false );
+    CHECK( vol.is_int == false );
+    CHECK( vol.three_decimal == false );
+}
+
+// Test weight_to_info function from item.cpp
+TEST_CASE( "weight_to_info", "[iteminfo][weight]" )
+{
+    override_option opt( "USE_METRIC_WEIGHTS", "kg" );
+    iteminfo wt = weight_to_info( "BASE", "Weight", 3_kilogram );
+    // strings
+    CHECK( wt.sType == "BASE" );
+    CHECK( wt.sName == "Weight" );
+    CHECK( wt.sFmt == "<num> kg" );
+    CHECK( wt.sValue == "3.00" );
+    // doubles
+    CHECK( wt.dValue == 3.0 );
+    // booleans
+    CHECK( wt.bDrawName == true );
+    CHECK( wt.bLowerIsBetter == true );
+    CHECK( wt.bNewLine == false );
+    CHECK( wt.bShowPlus == false );
+    CHECK( wt.is_int == false );
+    CHECK( wt.three_decimal == false );
+}
+

@@ -373,7 +373,6 @@ damage_instance load_damage_instance( const JsonArray &jarr )
     return load_damage_instance_inherit( jarr, blank_damage_instance() );
 }
 
-
 damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent )
 {
     damage_instance di;

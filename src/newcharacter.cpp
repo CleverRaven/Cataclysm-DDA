@@ -94,9 +94,11 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 12 // The point after which stats cost double
+// The point after which stats cost double
+static constexpr int HIGH_STAT = 12;
 
-#define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
+// The ID of the rightmost tab
+static constexpr int NEWCHAR_TAB_MAX = 6 ;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -1527,7 +1529,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
 
-                    if( cbm.activated && cbm.toggled ) {
+                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
                         buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
@@ -1797,8 +1799,8 @@ tab_direction set_skills( avatar &u, points_left &points )
             std::sort( elem.second.begin(), elem.second.end(),
                        []( const std::pair<std::string, int> &lhs,
             const std::pair<std::string, int> &rhs ) {
-                return lhs.second < rhs.second ||
-                       ( lhs.second == rhs.second && lhs.first < rhs.first );
+                return localized_compare( std::make_pair( lhs.second, lhs.first ),
+                                          std::make_pair( rhs.second, rhs.first ) );
             } );
 
             const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
@@ -2163,6 +2165,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
+            if( sorted_scens[cur_id]->has_flag( "FUNGAL_INFECTION" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
             if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
                 sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
@@ -2484,7 +2490,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
         }
         wrefresh( w_skills );
-
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "

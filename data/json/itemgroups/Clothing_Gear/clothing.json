@@ -121,6 +121,10 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat" },
       {
+        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "prob": 25
+      },
+      {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
           { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
@@ -367,7 +371,8 @@
     "entries": [
       { "item": "gloves_leather", "prob": 30 },
       { "item": "gloves_rubber", "prob": 10 },
-      { "item": "gloves_work", "prob": 60 }
+      { "item": "gloves_work", "prob": 60 },
+      { "item": "gloves_cut_resistant", "prob": 10 }
     ]
   },
   {
@@ -446,6 +451,10 @@
       [ "mask_filter", 30 ],
       [ "glasses_safety", 30 ],
       [ "ear_plugs", 35 ],
+      [ "apron_cut_resistant", 5 ],
+      [ "gloves_cut_resistant", 10 ],
+      [ "chaps_cut_resistant", 5 ],
+      [ "armguard_cut_resistant", 5 ],
       [ "apron_leather", 10 ],
       [ "tool_belt", 30 ],
       [ "knee_pads", 20 ],
@@ -1823,6 +1832,24 @@
       [ "briefs", 90 ],
       [ "socks", 70 ],
       [ "sneakers", 70 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "eod_armor",
+    "entries": [
+      {
+        "collection": [
+          { "item": "helmet_eod" },
+          { "item": "jacket_eod" },
+          { "item": "trousers_eod" },
+          { "item": "foot_protectors_eod" },
+          { "item": "gloves_eod", "prob": 20 }
+        ],
+        "prob": 100
+      },
+      { "collection": [ { "item": "jacket_eod_light" }, { "item": "trousers_eod_light" } ], "prob": 20 }
     ]
   },
   {
@@ -3286,14 +3313,14 @@
     "//": "unisex personal accessories",
     "subtype": "collection",
     "items": [
-      { "group": "clothing_glasses", "prob": 10 },
-      { "group": "clothing_watch", "prob": 10 },
+      { "group": "clothing_glasses", "prob": 50 },
+      { "group": "clothing_watch", "prob": 15 },
       { "group": "accessory_ring", "prob": 15 },
-      { "group": "accessory_earring" },
+      { "group": "accessory_earring", "prob": 15 },
       { "group": "accessory_bracelet", "prob": 15 },
-      { "group": "accessory_teeth", "prob": 15 },
+      { "group": "accessory_teeth", "prob": 5 },
       { "group": "accessory_necklace", "prob": 15 },
-      { "group": "accessory_cat", "prob": 15 },
+      { "group": "accessory_cat", "prob": 5 },
       { "group": "accessory_weaponcarry", "prob": 15 },
       { "group": "accessory_sportsgear", "prob": 15 },
       { "item": "folding_poncho", "prob": 10 },

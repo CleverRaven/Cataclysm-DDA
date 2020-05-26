@@ -476,6 +476,7 @@
     "material": "plastic",
     "weight": "18 g",
     "volume": "5 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
     "to_hit": -3
   },
   {
@@ -1290,6 +1291,22 @@
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_speaker",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "broken loudspeaker" },
+    "category": "other",
+    "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "100 kg",
+    "volume": "50500 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -2465,6 +2482,7 @@
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "money": 200000000 } } ],
     "max_charges": 200000000,
     "rand_charges": [
       0,
@@ -2627,20 +2645,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "80 g",
     "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
-    "id": "cerberus_laser",
-    "type": "GENERIC",
-    "symbol": "(",
-    "color": "magenta",
-    "name": { "str": "TX-5LR Laser Cannon" },
-    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
-    "price": 5000000,
-    "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
-    "weight": "5000 g",
-    "volume": "750 ml",
     "category": "spare_parts"
   },
   {
@@ -2915,15 +2919,6 @@
     "color": "green",
     "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_laserturret",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken laser turret" },
-    "weight": "110 kg",
     "copy-from": "broken_turret"
   },
   {

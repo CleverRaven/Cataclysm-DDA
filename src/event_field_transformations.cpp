@@ -13,7 +13,7 @@ static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
     for( const std::string &s : flags ) {
-        result.push_back( cata_variant( s ) );
+        result.push_back( cata_variant::make<cata_variant_type::string>( s ) );
     }
     return result;
 }

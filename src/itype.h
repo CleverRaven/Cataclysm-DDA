@@ -37,7 +37,6 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-using itype_id = std::string;
 
 class gun_modifier_data
 {
@@ -97,7 +96,7 @@ struct islot_tool {
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
-    std::string subtype;
+    itype_id subtype;
 
     int max_charges = 0;
     int def_charges = 0;
@@ -117,7 +116,7 @@ struct islot_comestible {
         std::string comesttype;
 
         /** tool needed to consume (e.g. lighter for cigarettes) */
-        std::string tool = "null";
+        itype_id tool = itype_id::NULL_ID();
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
         int def_charges = 1;
@@ -197,7 +196,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<std::string> results;
+    std::vector<itype_id> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -259,6 +258,11 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_pet_armor {
@@ -294,6 +298,11 @@ struct islot_pet_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_book {
@@ -359,6 +368,11 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_mod {
@@ -622,7 +636,7 @@ struct islot_magazine {
     int count = 0;
 
     /** Default type of ammo contained by a magazine (often set for ammo belts) */
-    itype_id default_ammo = "NULL";
+    itype_id default_ammo = itype_id::NULL_ID();
 
     /**
      * How reliable this magazine on a range of 0 to 10?
@@ -658,7 +672,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Control chance for and state of any items dropped at ranged target
      *@{*/
-    itype_id drop = "null";
+    itype_id drop = itype_id::NULL_ID();
 
     float drop_chance = 1.0;
 
@@ -708,7 +722,7 @@ struct islot_ammo : common_ranged_data {
      */
     cata::optional<bool> force_stat_display;
 
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
@@ -730,6 +744,12 @@ struct islot_bionic {
 };
 
 struct islot_seed {
+    // Generic factory stuff
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
@@ -745,7 +765,7 @@ struct islot_seed {
     /**
      * Type id of the fruit item.
      */
-    std::string fruit_id;
+    itype_id fruit_id;
     /**
      * Whether to spawn seed items additionally to the fruit items.
      */
@@ -753,7 +773,7 @@ struct islot_seed {
     /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
-    std::vector<std::string> byproducts;
+    std::vector<itype_id> byproducts;
 
     islot_seed() = default;
 };
@@ -823,7 +843,7 @@ struct itype {
         /*@}*/
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
-        std::string looks_like;
+        itype_id looks_like;
 
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
@@ -903,6 +923,11 @@ struct itype {
          */
         units::volume integral_volume = -1_ml;
 
+        /**
+         * How long the longest side of this item is. If undefined, calculated from volume instead.
+         */
+        units::length longest_side = -1_mm;
+
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
@@ -975,7 +1000,7 @@ struct itype {
         /// @}
 
     protected:
-        std::string id = "null"; /** unique string identifier for this type */
+        itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
         // nname() is used for display purposes

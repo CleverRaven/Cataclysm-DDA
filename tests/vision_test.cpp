@@ -51,7 +51,6 @@ static void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
     const ter_id t_flat_roof( "t_flat_roof" );
-    const ter_id t_open_air( "t_open_air" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->u.worn.clear(); // Remove any light-emitting clothing

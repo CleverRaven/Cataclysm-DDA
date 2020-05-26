@@ -150,6 +150,13 @@ void ui_adaptor::invalidate_ui() const
     invalidation_consistency_and_optimization();
 }
 
+void ui_adaptor::reset()
+{
+    on_screen_resize( nullptr );
+    on_redraw( nullptr );
+    position( point_zero, point_zero );
+}
+
 void ui_adaptor::invalidate( const rectangle &rect )
 {
     if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
@@ -166,6 +173,14 @@ void ui_adaptor::invalidate( const rectangle &rect )
 }
 
 void ui_adaptor::redraw()
+{
+    if( !ui_stack.empty() ) {
+        ui_stack.back().get().invalidated = true;
+    }
+    redraw_invalidated();
+}
+
+void ui_adaptor::redraw_invalidated()
 {
     // apply deferred resizing
     auto first = ui_stack.rbegin();
@@ -188,7 +203,6 @@ void ui_adaptor::redraw()
     // redraw invalidated uis
     // TODO refresh only when all stacked UIs are drawn
     if( !ui_stack.empty() ) {
-        ui_stack.back().get().invalidated = true;
         auto first = ui_stack.crbegin();
         for( ; first != ui_stack.crend(); ++first ) {
             if( first->get().disabling_uis_below ) {
@@ -239,6 +253,11 @@ void invalidate( const rectangle &rect )
 void redraw()
 {
     ui_adaptor::redraw();
+}
+
+void redraw_invalidated()
+{
+    ui_adaptor::redraw_invalidated();
 }
 
 void screen_resized()

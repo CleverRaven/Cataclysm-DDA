@@ -25,9 +25,6 @@ class item;
 class nc_color;
 class player;
 
-// Denotes the id of an item type
-using itype_id = std::string;
-
 enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
@@ -54,7 +51,7 @@ struct quality {
 };
 
 struct component {
-    itype_id type = "null";
+    itype_id type = itype_id::NULL_ID();
     int count = 0;
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component

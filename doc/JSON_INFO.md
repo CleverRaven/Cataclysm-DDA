@@ -469,14 +469,13 @@ This section describes each json file and their contents. Each json has their ow
 |---                          |---
 | id                          | Unique ID. Must be one continuous word, use underscores if necessary.
 | name                        | In-game name displayed.
-| active                      | Whether the bionic is active or passive. (default: `passive`)
-| power_source                | Whether the bionic provides power. (default: `false`)
-| faulty                      | Whether it is a faulty type. (default: `false`)
-| act_cost                    | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost                  | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost                  | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                        | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description                 | In-game description.
+| act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
+| available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
@@ -500,14 +499,13 @@ This section describes each json file and their contents. Each json has their ow
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
 
 ```C++
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
     "active"       : false,
-    "power_source" : false,
-    "faulty"       : false,
     "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
@@ -517,6 +515,7 @@ This section describes each json file and their contents. Each json has their ow
     "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
+    "installation_requirement": "sewing_standard",
     "included_bionics": ["bio_blindfold"]
 },
 {
@@ -965,7 +964,7 @@ player will start with this as a nearby vehicle.
 
 A list of flags. TODO: document those flags here.
 
-- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession 
+- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
 
 Mods can modify this via `add:flags` and `remove:flags`.
 
@@ -1190,14 +1189,23 @@ Here are examples of each modification:
 "value_constraints" : { // A dictionary of constraints
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
-    // "equals" can be used to specify a constant string value the field must take.
+    // "equals" can be used to specify a constant cata_variant value the field must take.
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
-    "mount" : { "equals": "mon_horse" }
+    "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
 }
 // Since we are filtering to only those events where 'mount' is 'mon_horse', we
 // might as well drop the 'mount' field, since it provides no useful information.
 "drop_fields" : [ "mount" ]
 ```
+
+The parameter to `"equals"` is normally a length-two array specifying a
+`cata_variant_type` and a value.  As a short cut, you can simply specify an
+`int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
+those types.
+
+Value constraints are type-checked, so you should see an error message at game
+data verification time if the variant type you have specified doesn't match the
+type of the field you're matching.
 
 #### `event_statistic`
 
@@ -1419,6 +1427,7 @@ completed when you wake up for the first time after 24 hours into the game.
 "scent_intensity": 800,// int affecting the target scent toward which you current smell gravitates. (default: 500)
 "scent_mask": -200,// int added to your target scent value. (default: 0)
 "scent_type": "sc_flower",// scent_typeid, defined in scent_types.json, The type scent you emit. (default: empty)
+"consume_time_modifier": 1.0f,//time to eat or drink is multiplied by this
 "bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
 "fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
@@ -1682,7 +1691,7 @@ Armor can be defined like this:
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
-"max_encumbrance" : 0,    // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * character volume.
+"max_encumbrance" : 0,    // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
 "weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
@@ -1881,25 +1890,28 @@ CBMs can be defined like this:
 Any Item can be a container. To add the ability to contain things to an item, you need to add pocket_data. The below example is a typical container (shown with optional default values, or mandatory if the value is mandatory)
 
 ```C++
-"pocket_type": [ 
+"pocket_data": [
   {
-    "pocket_type": "CONTAINER",               // the typical container pocket. pockets can also be MAGAZINE
-    "min_item_volume": "0 ml",                // the minimum volume of item that can be placed into this pocket
-    "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
-    "max_contains_weight": mandatory,         // the maximum weight this pocket can hold, totaled among all container items
-    "ammo_restriction": { "ammotype": count }, // this overrides the three previous values to be an ammotype and count instead. you can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now.) if this is left out, it will be empty.
-    "spoil_multiplier": 1.0,                  // how putting an item in this pocket affects spoilage. less than 1.0 and the item will be preserved longer.
-    "weight_multiplier": 1.0,                 // the items in this pocket magically weigh less inside than outside
-    "magazine_well": "0 ml",                  // only works if rigid = false, this is the amount of space you can put items in the pocket before it starts expanding
-    "moves": 100,                             // the number of moves it takes to remove an item from this pocket, in best conditions
-    "fire_protection": false,                 // if the pocket protects the contained items from exploding in a fire or not
-    "watertight": false,                      // can contain liquid
-    "gastight": false,                        // can contain gas
-    "open_container": false,                  // the contents of this pocket will spill if this item is placed into another item.
-    "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
-    "rigid": false,                           // this pocket's contents do not contribute to this item's size
-    "holster": false, // if this value is set to true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
-    "sealed_data": { "spoil_multiplier": 0.0 } // have anything in sealed_data means the pocket cannot be resealed. Additionally, the sealed version of the pocket will override the unsealed version of the same datatype.
+    "pocket_type": "CONTAINER",       // Typical container pocket. Pockets can also be MAGAZINE.
+    "max_contains_volume": mandatory, // Maximum volume this pocket can hold, totaled among all contained items.  For example "2 L" or "2000 ml" would hold two liters of items.
+    "max_contains_weight": mandatory, // Maximum weight this pocket can hold, totaled among all container items.  For example "6 kg" is about enough to contain a bowling ball.
+    "min_item_volume": "0 ml",        // Minimum volume of item that can be placed into this pocket.  Items smaller than this cannot be placed in the pocket.
+    "max_item_volume": "0 ml",        // Maximum volume of item that can fit through the opening into this pocket.  For example, a 2-liter bottle has a "17 ml" opening.
+    "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.  Default is the diagonal opening length assuming volume is a cube (cube_root(vol)*square_root(2))
+    "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
+    "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
+    "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
+    "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
+    "magazine_well": "0 ml",          // Amount of space you can put items in the pocket before it starts expanding.  Only works if rigid = false.
+    "watertight": false,              // Default false. If true, can contain liquid.
+    "airtight": false,                // Default false. If true, can contain gas.
+    "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
+    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
+    "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
+    "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume and weight to use the given ammo type instead.  A pocket can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
+    "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
+
+    "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
@@ -2294,7 +2306,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "consume_drug", // A drug the player can consume.
     "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
     "effects" : { "high": 15 }, // Effects and their duration.
-    "damage_over_time": [ 
+    "damage_over_time": [
         {
           "damage_type": "true", // Type of damage
           "duration": "1 m", // For how long this damage will be applied
@@ -2315,8 +2327,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
-    "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
-    "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
+    "skills": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
@@ -2387,9 +2398,6 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "cauterize", // Cauterize the character.
     "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
-},
-"use_action": {
-    "type": "enzlave" // Make a zlave.
 },
 "use_action": {
     "type": "fireweapon_off", // Activate a fire based weapon.
@@ -2782,11 +2790,16 @@ Displayed name of the object. This will be translated.
 (Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
 
 Current values:
-- `CHAINFENCE`
-- `RAILING`
 - `WALL`
-- `WATER`
+- `CHAINFENCE`
 - `WOODFENCE`
+- `RAILING`
+- `WATER`
+- `POOLWATER`
+- `PAVEMENT`
+- `RAIL`
+
+
 
 Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
 
@@ -2947,7 +2960,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 
 ### clothing_mod
 
-```JSON
+```C++
 "type": "clothing_mod",
 "id": "leather_padded",   // Unique ID.
 "flag": "leather_padded", // flag to add to clothing.
@@ -3314,11 +3327,15 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
 
 # Field types
-
+```C++
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "intensity_levels": [
+      { "name": "shadow",  // name of this level of intensity
+        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
+     ],
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket
@@ -3337,3 +3354,4 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
       ]
     }
   }
+```

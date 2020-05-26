@@ -460,7 +460,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     event_bus b;
     stats_tracker s;
     b.subscribe( &s );
-    achievements_tracker a( s, [&]( const achievement * a ) {
+    achievements_tracker a( s, [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_completed.emplace( a->id, a );
     } );
     b.subscribe( &a );
@@ -622,25 +622,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                     }
                     THEN( "the achivement should be achieved" ) {
                         CHECK( achievements_completed.count( a_marathon ) > 0 );
-                    }
-                }
-            }
-        }
-
-        SECTION( "achievement_walk_1000_miles" ) {
-            string_id<achievement> a_proclaimers( "achievement_walk_1000_miles" );
-
-            GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
-                CHECK( achievements_completed.empty() );
-
-                WHEN( "the avatar walks the required distance" ) {
-                    for( int i = 0; i < 1609340; i++ ) {
-                        b.send( walk );
-                    }
-                    THEN( "the achivement should be achieved" ) {
-                        CHECK( achievements_completed.count( a_proclaimers ) > 0 );
                     }
                 }
             }

@@ -9,8 +9,11 @@
 
 #include "clone_ptr.h"
 #include "item_location.h"
+#include "item.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 class Character;
 class JsonIn;
@@ -61,6 +64,12 @@ class activity_actor
         virtual void finish( player_activity &act, Character &who ) = 0;
 
         /**
+         * Called just before Character::cancel_activity() executes.
+         * This may be used to perform cleanup
+         */
+        virtual void canceled( player_activity &/*act*/, Character &/*who*/ ) {};
+
+        /**
          * Called in player_activity::can_resume_with
          * which allows suspended activities to be resumed instead of
          * starting a new activity in certain cases.
@@ -94,6 +103,69 @@ class activity_actor
          * added to the `activity_actor_deserializers` hashmap in activity_actor.cpp
          */
         virtual void serialize( JsonOut &jsout ) const = 0;
+};
+
+class aim_activity_actor : public activity_actor
+{
+    public:
+        enum class WeaponSource {
+            Wielded,
+            Bionic,
+            Mutation,
+            NumWeaponSources
+        };
+
+        WeaponSource weapon_source = WeaponSource::Wielded;
+        shared_ptr_fast<item> fake_weapon = nullptr;
+        units::energy bp_cost_per_shot = 0_J;
+        bool first_turn = true;
+        std::string action = "";
+        bool snap_to_target = false;
+        bool shifting_view = false;
+        tripoint initial_view_offset;
+        /** Target UI requested to abort aiming */
+        bool aborted = false;
+        /** Target UI requested to fire */
+        bool finished = false;
+        /**
+         * Target UI requested to abort aiming and reload weapon
+         * Implies aborted = true
+         */
+        bool reload_requested = false;
+        std::vector<tripoint> fin_trajectory;
+
+        aim_activity_actor();
+
+        /** Aiming wielded gun */
+        static aim_activity_actor use_wielded();
+
+        /** Aiming fake gun provided by a bionic */
+        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+
+        /** Aiming fake gun provided by a mutation */
+        static aim_activity_actor use_mutation( const item &fake_gun );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_AIM" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<aim_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        item *get_weapon();
+        void restore_view();
+        // Load/unload a RELOAD_AND_SHOOT weapon
+        bool load_RAS_weapon();
+        void unload_RAS_weapon();
 };
 
 class dig_activity_actor : public activity_actor
@@ -361,22 +433,67 @@ class open_gate_activity_actor : public activity_actor
 class consume_activity_actor : public activity_actor
 {
     private:
-        item_location loc;
-
+        item_location consume_location;
+        item consume_item;
+        bool open_consume_menu = false;
+        bool force = false;
+        /**
+         * @pre @p other is a consume_activity_actor
+         */
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
+            return ( consume_location == c_actor.consume_location &&
+                     open_consume_menu == c_actor.open_consume_menu &&
+                     force == c_actor.force && &consume_item == &c_actor.consume_item );
+        }
     public:
-        consume_activity_actor( const item_location &loc ) :
-            loc( loc ) {}
+        consume_activity_actor( const item_location &consume_location, bool open_consume_menu = false ) :
+            consume_location( consume_location ), open_consume_menu( open_consume_menu ) {}
+
+        consume_activity_actor( item consume_item, bool open_consume_menu = false ) :
+            consume_item( consume_item ), open_consume_menu( open_consume_menu ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_CONSUME" );
         }
 
-        void start( player_activity &act, Character & ) override;
+        void start( player_activity &act, Character &guy ) override;
         void do_turn( player_activity &, Character & ) override {};
-        void finish( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class try_sleep_activity_actor : public activity_actor
+{
+    private:
+        bool disable_query = false;
+        time_duration duration;
+
+    public:
+        /*
+         * @param dur Total duration, from when the character starts
+         * trying to fall asleep to when they're supposed to wake up
+         */
+        try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_TRY_SLEEP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void query_keep_trying( player_activity &act, Character &who );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<try_sleep_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

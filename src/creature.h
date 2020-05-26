@@ -217,12 +217,12 @@ class Creature
         double ranged_target_size() const;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit( Creature *source, body_part &bp_hit,
+        virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
+        virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
@@ -453,7 +453,7 @@ class Creature
 
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         anatomy_id get_anatomy() const;
-        void set_anatomy( anatomy_id anat );
+        void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
@@ -741,8 +741,11 @@ class Creature
 
         virtual std::string extended_description() const = 0;
 
+        /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
+        /** Creature symbol color */
         virtual nc_color basic_symbol_color() const = 0;
+        /** Creature symbol */
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
@@ -801,7 +804,7 @@ class Creature
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
-        virtual void on_damage_of_type( int, damage_type, body_part ) {}
+        virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;

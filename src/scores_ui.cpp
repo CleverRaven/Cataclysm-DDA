@@ -20,6 +20,11 @@
 
 static std::string get_achievements_text( const achievements_tracker &achievements )
 {
+    if( !achievements.is_enabled() ) {
+        return _( "Achievements are disabled, probably due to use of the debug menu.  "
+                  "If you only used the debug menu to work around a game bug, then you "
+                  "can re-enable achievements via the debug menu (under the Game submenu)." );
+    }
     std::string os;
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
     valid_achievements.erase(
@@ -36,7 +41,7 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         achievement_completion comp = achievements.is_completed( ach->id );
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
-    std::sort( sortable_achievements.begin(), sortable_achievements.end() );
+    std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
     for( const sortable_achievement &ach : sortable_achievements ) {
         os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
     }
@@ -66,7 +71,7 @@ static std::string get_scores_text( stats_tracker &stats )
 void show_scores_ui( const achievements_tracker &achievements, stats_tracker &stats,
                      const kill_tracker &kills )
 {
-    catacurses::window w = new_centered_win( TERMY - 2, FULL_SCREEN_WIDTH );
+    catacurses::window w;
 
     enum class tab_mode {
         achievements,
@@ -86,25 +91,37 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    catacurses::window w_view = catacurses::newwin( getmaxy( w ) - 4, getmaxx( w ) - 1,
-                                point( getbegx( w ), getbegy( w ) + 3 ) );
+    catacurses::window w_view;
     scrolling_text_view view( w_view );
     bool new_tab = true;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui_adaptor ui;
+    const auto &init_windows = [&]( ui_adaptor & ui ) {
+        w = new_centered_win( TERMY - 2, FULL_SCREEN_WIDTH );
+        w_view = catacurses::newwin( getmaxy( w ) - 4, getmaxx( w ) - 1,
+                                     point( getbegx( w ), getbegy( w ) + 3 ) );
+        ui.position_from_window( w );
+    };
+    ui.on_screen_resize( init_windows );
+    // initialize explicitly here since w_view is used before first redraw
+    init_windows( ui );
 
-    while( true ) {
+    const std::vector<std::pair<tab_mode, std::string>> tabs = {
+        { tab_mode::achievements, _( "ACHIEVEMENTS" ) },
+        { tab_mode::scores, _( "SCORES" ) },
+        { tab_mode::kills, _( "KILLS" ) },
+    };
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-
-        const std::vector<std::pair<tab_mode, std::string>> tabs = {
-            { tab_mode::achievements, _( "ACHIEVEMENTS" ) },
-            { tab_mode::scores, _( "SCORES" ) },
-            { tab_mode::kills, _( "KILLS" ) },
-        };
         draw_tabs( w, tabs, tab );
         draw_border_below_tabs( w );
+        wrefresh( w );
 
+        view.draw( c_white );
+    } );
+
+    while( true ) {
         if( new_tab ) {
             switch( tab ) {
                 case tab_mode::achievements:
@@ -122,10 +139,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
             }
         }
 
-        wrefresh( w );
-
-        view.draw( c_white );
-
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         new_tab = false;
         if( action == "RIGHT" || action == "NEXT_TAB" ) {

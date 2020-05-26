@@ -14,9 +14,6 @@
 // - Character::get_dodge_base, monster::get_dodge_base
 // - player::get_dodge, monster::get_dodge
 
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
-
 // Return the avatar's `get_hit_base` with a given DEX stat.
 static float hit_base_with_dex( avatar &dummy, int dexterity )
 {

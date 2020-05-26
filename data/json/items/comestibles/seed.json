@@ -787,5 +787,14 @@
     "price": 100,
     "charges": 2,
     "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_bell_pepper",
+    "copy-from": "seed",
+    "price": 50,
+    "name": { "str_sp": "bell pepper seeds" },
+    "description": "Some bell pepper seeds.",
+    "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
   }
 ]

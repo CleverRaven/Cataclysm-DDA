@@ -39,6 +39,8 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
+        /** Controls whether this activity can be cancelled with 'pause' action */
+        bool interruptable_with_kb = true;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -137,6 +139,11 @@ class player_activity
          * any, are needed to conclude the activity.
          */
         void do_turn( player &p );
+
+        /**
+         * Performs activity-specific cleanup when Character::cancel_activity() is called
+         */
+        void canceled( Character &who );
 
         /**
          * Returns true if activities are similar enough that this activity

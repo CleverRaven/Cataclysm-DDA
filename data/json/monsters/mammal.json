@@ -148,7 +148,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_boar_wild_piglet",
@@ -1372,7 +1372,7 @@
     "vision_night": 6,
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
-    "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "flags": [
       "ANIMAL",
       "DOGFOOD",
@@ -1439,7 +1439,7 @@
     "harvest": "mammal_leather",
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
-    "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "flags": [
       "ANIMAL",
       "DOGFOOD",
@@ -2113,7 +2113,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -2217,7 +2217,7 @@
     "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   },
   {
     "id": "mon_squirrel_red",
@@ -2244,7 +2244,7 @@
     "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   },
   {
     "id": "mon_weasel",

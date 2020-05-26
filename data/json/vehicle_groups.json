@@ -706,6 +706,29 @@
     ]
   },
   {
+    "type": "vehicle_group",
+    "id": "dealership",
+    "vehicles": [
+      [ "car", 500 ],
+      [ "electric_car", 100 ],
+      [ "car_sports", 300 ],
+      [ "car_sports_atomic", 100 ],
+      [ "car_sports_electric", 300 ],
+      [ "suv", 500 ],
+      [ "suv_electric", 500 ],
+      [ "car_mini", 500 ],
+      [ "beetle", 500 ],
+      [ "motorcycle", 200 ],
+      [ "superbike", 200 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 150 ],
+      [ "pickup", 800 ],
+      [ "hippie_van", 200 ],
+      [ "rv", 50 ]
+    ]
+  },
+  {
     "id": "park_playground_vehicles",
     "type": "vehicle_group",
     "vehicles": [ [ "ice_cream_cart", 100 ], [ "food_cart", 200 ], [ "bicycle", 150 ], [ "bicycle_dirt", 125 ], [ "tricycle", 5 ] ]

@@ -13,10 +13,11 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"description": "This is a template to show off all the available values",
 	"valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
-	"effect_str": "template"                                  // special. see below
+	"effect_str": "template",                                 // special. see below
 	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"affected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ], // body parts affected by effects
-	"spell_class": "NONE"                                     //
+	"flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
+  "spell_class": "NONE",                                    //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
 	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
@@ -100,6 +101,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `cone_attack` | fires a cone toward the target up to your range.  The arc of the cone in degrees is aoe.  Stops at walls.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
 | `line_attack` | fires a line with width aoe toward the target, being blocked by walls on the way.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in affected_body_parts.
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
+| `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
 | `teleport_random` | teleports the player randomly range spaces with aoe variation
 | `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
 | `ter_transform` | transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
@@ -113,8 +115,47 @@ Below is a table of currently implemented effects, along with special rules for 
 | `charm_monster` | charms a monster that has less hp than damage() for approximately duration()
 | `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
 | `bash` | bashes the terrain at the target. uses damage() as the strength of the bash.
-| `WONDER` | Unlike the above, this is not an "effect" but a "flag".  This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
-| `RANDOM_TARGET` | A special spell flag (like wonder) that forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
+
+### Spell Flags
+
+Flags allow you to provide additional customizations for spell effects, behavior, and limitations.
+Spells may have any number of flags, for example:
+
+```json
+ {
+    "id": "bless",
+    "//": "Encumbrance on the mouth (verbal) or arms (somatic) affect casting success, but not legs.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ]
+ }
+```
+
+| Flag | Description
+| ---  | ---
+| `WONDER` | This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
+| `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
+| `RANDOM_DURATION` | picks random number between min+increment*level and max instead of normal behavior
+| `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
+| `RANDOM_AOE` | picks random number between min+increment*level and max instead of normal behavior
+| `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal
+| `IGNORE_WALLS` | spell's aoe goes through walls
+| `SWAP_POS` | a projectile spell swaps the positions of the caster and target
+| `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
+| `HOSTILE_50` | summoned monster spawns friendly 50% of the time
+| `SILENT` | spell makes no noise at target
+| `LOUD` | spell makes extra noise at target
+| `VERBAL` | spell makes noise at caster location, mouth encumbrance affects fail %
+| `SOMATIC` | arm encumbrance affects fail % and casting time (slightly)
+| `NO_HANDS` | hands do not affect spell energy cost
+| `NO_LEGS` | legs do not affect casting time
+| `CONCENTRATE` | focus affects spell fail %
+| `MUTATE_TRAIT` | overrides the mutate spell_effect to use a specific trait_id instead of a category
+| `PAIN_NORESIST` | pain altering spells can't be resisted (like with the deadened trait)
+| `WITH_CONTAINER` | items spawned with container
+| `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
+| `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+
+
+### Damage Types
 
 For Spells that have an attack type, these are the available damage types:
 

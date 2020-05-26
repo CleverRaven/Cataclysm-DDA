@@ -218,15 +218,15 @@
     "id": "default_zombie_items",
     "ammo": 30,
     "magazine": 100,
-    "groups": [
-      [ "default_zombie_items_bags", 16 ],
-      [ "default_zombie_items_pockets", 20 ],
-      [ "ammo_pistol_common", 2 ],
-      [ "ammo_shotgun_common", 1 ],
-      [ "guns_pistol_common", 2 ],
-      [ "guns_shotgun_common", 1 ],
-      [ "postman_gear", 5 ],
-      [ "hardware_plumbing", 5 ]
+    "entries": [
+      { "group": "default_zombie_items_bags", "prob": 16 },
+      { "group": "default_zombie_items_pockets", "prob": 20 },
+      { "group": "ammo_pistol_common", "prob": 2 },
+      { "group": "ammo_shotgun_common", "prob": 1 },
+      { "group": "guns_pistol_common", "prob": 2 },
+      { "group": "guns_shotgun_common", "prob": 1, "contents-item": "shoulder_strap" },
+      { "group": "postman_gear", "prob": 5 },
+      { "group": "hardware_plumbing", "prob": 5 }
     ]
   },
   {

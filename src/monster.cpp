@@ -85,6 +85,10 @@ static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_milk( "milk" );
+static const itype_id itype_milk_raw( "milk_raw" );
+
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
@@ -166,7 +170,7 @@ struct pathfinding_settings;
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
-#define UPGRADE_MAX_ITERS 5
+static constexpr int UPGRADE_MAX_ITERS = 5;
 
 static const std::map<m_size, translation> size_names {
     { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
@@ -182,7 +186,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
-    {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
@@ -228,7 +231,13 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    ammo = type->starting_ammo;
+    if( in_species( ROBOT ) ) {
+        for( const auto &ammo_entry : type->starting_ammo ) {
+            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
+        }
+    } else {
+        ammo = type->starting_ammo;
+    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
@@ -476,12 +485,12 @@ void monster::refill_udders()
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
     }
-    auto current_milk = ammo.find( "milk_raw" );
+    auto current_milk = ammo.find( itype_milk_raw );
     if( current_milk == ammo.end() ) {
-        current_milk = ammo.find( "milk" );
+        current_milk = ammo.find( itype_milk );
         if( current_milk != ammo.end() ) {
             // take this opportunity to update milk udders to raw_milk
-            ammo["milk_raw"] = current_milk->second;
+            ammo[itype_milk_raw] = current_milk->second;
             // Erase old key-value from map
             ammo.erase( current_milk );
         }
@@ -629,11 +638,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _( "It is nearly dead!" );
         col = c_red;
     }
-    /*
-    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
-    if( true ) ) {
-        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
-    }*/
 
     return std::make_pair( damage_info, col );
 }
@@ -641,42 +645,50 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
+    const int max_width = getmaxx( w ) - column - 1;
 
-    mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
-    wprintw( w, " " );
-    const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
+    // Print health bar, monster name, then statuses on the first line.
+    nc_color color = c_white;
+    std::string bar_str;
+    get_HP_Bar( color, bar_str );
+    mvwprintz( w, point( column, vStart ), color, bar_str );
+    const int bar_max_width = 5;
+    const int bar_width = utf8_width( bar_str );
+    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+        mvwprintz( w, point( column + 4 - i, vStart ), c_white, "." );
+    }
+    mvwprintz( w, point( column + bar_max_width + 1, vStart ), basic_symbol_color(), name() );
+    trim_and_print( w, point( column + bar_max_width + utf8_width( " " + name() + " " ), vStart ),
+                    max_width - bar_max_width - utf8_width( " " + name() + " " ), h_white, get_effect_status() );
 
-    if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+    // Hostility indicator on the second line.
+    std::pair<std::string, nc_color> att = get_attitude();
+    mvwprintz( w, point( column, ++vStart ), att.second, att.first );
+
+    // Awareness indicator in the third line.
+    std::string senses_str = sees( g->u ) ? _( "Can see to your current location" ) :
+                             _( "Can't see to your current location" );
+    mvwprintz( w, point( column, ++vStart ), sees( g->u ) ? c_red : c_green, senses_str );
+
+    // Monster description on following lines.
+    std::vector<std::string> lines = foldstring( type->get_description(), max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
+        mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
     }
 
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
-    }
-
-    std::string effects = get_effect_status();
-    if( !effects.empty() ) {
-        trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
-    }
-
-    const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, ++vStart ), hp_desc.second, hp_desc.first );
+    // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
+    // Show monster size on the last line
     if( size_bonus > 0 ) {
-        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
+        mvwprintz( w, point( column, ++vStart ), c_light_gray, _( " It is %s." ),
+                   size_names.at( get_size() ) );
     }
 
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
-    int numlines = lines.size();
-    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
-    }
-
-    return vStart;
+    return ++vStart;
 }
 
 std::string monster::extended_description() const
@@ -1015,7 +1027,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
-            case MATT_ZLAVE:
                 return A_FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
@@ -1053,9 +1064,6 @@ monster_attitude monster::attitude( const Character *u ) const
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
-    }
-    if( has_effect( effect_pacified ) ) {
-        return MATT_ZLAVE;
     }
 
     int effective_anger  = anger;
@@ -1322,12 +1330,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1378,7 +1386,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    body_part bp_hit = dealt_dam.bp_hit;
+    const bodypart_id &bp_hit = convert_bp( dealt_dam.bp_hit ).id();
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
@@ -1479,7 +1487,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
+            const body_part affected_bp = eff.affect_hit_bp ? bp_hit->token : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1507,7 +1515,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( target.is_player() || target.is_npc() ) {
             target.as_character()->make_bleed( bp_hit, 6_minutes );
         } else {
-            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+            target.add_effect( effect_bleed, 6_minutes, bp_hit->token );
         }
 
     }
@@ -2031,17 +2039,11 @@ void monster::disable_special( const std::string &special_name )
     special_attacks.at( special_name ).enabled = false;
 }
 
-int monster::shortest_special_cooldown() const
+bool monster::special_available( const std::string &special_name ) const
 {
-    int countdown = std::numeric_limits<int>::max();
-    for( const std::pair<const std::string, mon_special_attack> &sp_type : special_attacks ) {
-        const mon_special_attack &local_attack_data = sp_type.second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
-        countdown = std::min( countdown, local_attack_data.cooldown );
-    }
-    return countdown;
+    std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
+                special_name );
+    return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
 
 void monster::normalize_ammo( const int old_ammo )
@@ -2391,7 +2393,7 @@ void monster::drop_items_on_death()
 
     const auto dropped = g->m.spawn_items( pos(), items );
 
-    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
+    if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
@@ -2745,7 +2747,7 @@ bool monster::is_dead() const
 
 void monster::init_from_item( const item &itm )
 {
-    if( itm.typeId() == "corpse" ) {
+    if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
@@ -2775,7 +2777,7 @@ void monster::init_from_item( const item &itm )
 
 item monster::to_item() const
 {
-    if( type->revert_to_itype.empty() ) {
+    if( type->revert_to_itype.is_empty() ) {
         return item();
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).

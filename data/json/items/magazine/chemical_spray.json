@@ -15,6 +15,7 @@
     "ammo_type": [ "chemical_spray" ],
     "capacity": 800,
     "reliability": 9,
-    "reload_time": 3
+    "reload_time": 3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "chemical_spray": 800 }, "watertight": true } ]
   }
 ]

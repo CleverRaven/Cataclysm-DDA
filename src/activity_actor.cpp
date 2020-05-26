@@ -6,6 +6,7 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "character.h"
 #include "computer_session.h"
 #include "debug.h"
@@ -21,27 +22,315 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "ranged.h"
 #include "timed_event.h"
 #include "uistate.h"
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
+static const efftype_id effect_sleep( "sleep" );
+
+static const itype_id itype_bone_human( "bone_human" );
+static const itype_id itype_electrohack( "electrohack" );
+
 static const skill_id skill_computer( "computer" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
+template<>
+struct enum_traits<aim_activity_actor::WeaponSource> {
+    static constexpr aim_activity_actor::WeaponSource last =
+        aim_activity_actor::WeaponSource::NumWeaponSources;
+};
+
+namespace io
+{
+using WS = aim_activity_actor::WeaponSource;
+
+template<>
+std::string enum_to_string<WS>( WS data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case WS::Wielded: return "Wielded";
+        case WS::Bionic: return "Bionic";
+        case WS::Mutation: return "Mutation";
+            // *INDENT-ON*
+        case WS::NumWeaponSources:
+            break;
+    }
+    debugmsg( "Invalid weapon source" );
+    abort();
+}
+} // namespace io
+
+aim_activity_actor::aim_activity_actor()
+{
+    initial_view_offset = g->u.view_offset;
+}
+
+aim_activity_actor aim_activity_actor::use_wielded()
+{
+    return aim_activity_actor();
+}
+
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.weapon_source = WeaponSource::Bionic;
+    act.bp_cost_per_shot = cost_per_shot;
+    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    return act;
+}
+
+aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.weapon_source = WeaponSource::Mutation;
+    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    return act;
+}
+
+void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    // Time spent on aiming is determined on the go by the player
+    act.moves_total = 1;
+    act.moves_left = 1;
+    act.interruptable_with_kb = false;
+}
+
+void aim_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( aborted || finished ) {
+        // A shortcut that allows terminating this activity by setting 'aborted' or 'finished'
+        act.moves_left = 0;
+        return;
+    }
+    if( !who.is_avatar() ) {
+        debugmsg( "ACT_AIM not implemented for NPCs" );
+        aborted = true;
+        return;
+    }
+    avatar &you = g->u;
+
+    item *weapon = get_weapon();
+    if( !weapon || !avatar_action::can_fire_weapon( you, g->m, *weapon ) ) {
+        aborted = true;
+        return;
+    }
+
+    gun_mode gun = weapon->gun_current_mode();
+    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
+        if( !load_RAS_weapon() ) {
+            aborted = true;
+            return;
+        }
+    }
+
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, you.pos() );
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    g->reenter_fullscreen();
+
+    if( !aborted ) {
+        if( !trajectory.empty() ) {
+            finished = true;
+            fin_trajectory = trajectory;
+        }
+        // If aborting on the first turn, keep 'first_turn' as 'true'.
+        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
+        // to simulate avatar not loading them in the first place
+        first_turn = false;
+    }
+}
+
+void aim_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    restore_view();
+    if( aborted ) {
+        unload_RAS_weapon();
+        if( reload_requested ) {
+            // Reload the gun / select different arrows
+            // May assign ACT_RELOAD
+            g->reload_wielded( true );
+        }
+        return;
+    }
+
+    // Recenter our view
+    g->draw_ter();
+    wrefresh( g->w_terrain );
+    g->draw_panels();
+
+    // Fire!
+    item *weapon = get_weapon();
+    gun_mode gun = weapon->gun_current_mode();
+    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+
+    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
+    if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
+        who.mod_power_level( -bp_cost_per_shot * shots_fired );
+    }
+}
+
+void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
+{
+    restore_view();
+    unload_RAS_weapon();
+}
+
+void aim_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "weapon_source", weapon_source );
+    if( weapon_source == WeaponSource::Bionic || weapon_source == WeaponSource::Mutation ) {
+        jsout.member( "fake_weapon", *fake_weapon );
+    }
+    jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "first_turn", first_turn );
+    jsout.member( "action", action );
+    jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "shifting_view", shifting_view );
+    jsout.member( "initial_view_offset", initial_view_offset );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+{
+    aim_activity_actor actor = aim_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "weapon_source", actor.weapon_source );
+    if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
+        actor.fake_weapon = shared_ptr_fast<item>( new item() );
+        data.read( "fake_weapon", *actor.fake_weapon );
+    }
+    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "first_turn", actor.first_turn );
+    data.read( "action", actor.action );
+    data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "shifting_view", actor.shifting_view );
+    data.read( "initial_view_offset", actor.initial_view_offset );
+
+    return actor.clone();
+}
+
+item *aim_activity_actor::get_weapon()
+{
+    switch( weapon_source ) {
+        case WeaponSource::Wielded:
+            // Check for lost gun (e.g. yanked by zombie technician)
+            // TODO: check that this is the same gun that was used to start aiming
+            return g->u.weapon.is_null() ? nullptr : &g->u.weapon;
+        case WeaponSource::Bionic:
+        case WeaponSource::Mutation:
+            // TODO: check if the player lost relevant bionic/mutation
+            return fake_weapon.get();
+        default:
+            debugmsg( "Invalid weapon source value" );
+            return nullptr;
+    }
+}
+
+void aim_activity_actor::restore_view()
+{
+    bool changed_z = g->u.view_offset.z != initial_view_offset.z;
+    g->u.view_offset = initial_view_offset;
+    if( changed_z ) {
+        g->m.invalidate_map_cache( g->u.view_offset.z );
+        g->refresh_all();
+    }
+}
+
+bool aim_activity_actor::load_RAS_weapon()
+{
+    // TODO: use activity for fetching ammo and loading weapon
+    player &you = g->u;
+    item *weapon = get_weapon();
+    gun_mode gun = weapon->gun_current_mode();
+    const auto ammo_location_is_valid = [&]() -> bool {
+        if( !you.ammo_location )
+        {
+            return false;
+        }
+        if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+        {
+            return false;
+        }
+        if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+        {
+            return false;
+        }
+        return true;
+    };
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
+                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    if( !opt ) {
+        // Menu canceled
+        return false;
+    }
+    int reload_time = 0;
+    reload_time += opt.moves();
+    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
+        // Reload not allowed
+        return false;
+    }
+
+    // Burn 0.2% max base stamina x the strength required to fire.
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
+                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    // At low stamina levels, firing starts getting slow.
+    int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
+    reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+    you.moves -= reload_time;
+    g->refresh_all();
+    return true;
+}
+
+void aim_activity_actor::unload_RAS_weapon()
+{
+    // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
+    avatar &you = g->u;
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
+
+    gun_mode gun = weapon->gun_current_mode();
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        int moves_before_unload = you.moves;
+
+        // Note: this code works only for avatar
+        item_location loc = item_location( you, gun.target );
+        g->unload( loc );
+
+        // Give back time for unloading as essentially nothing has been done.
+        if( first_turn ) {
+            you.moves = moves_before_unload;
+        }
+        g->refresh_all();
+    }
+}
 
 void dig_activity_actor::start( player_activity &act, Character & )
 {
@@ -75,7 +364,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             g->m.furn_set( location, f_coffin_o );
             who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
-            g->m.spawn_item( location, "bone_human", rng( 5, 15 ) );
+            g->m.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             g->m.furn_set( location, f_coffin_c );
         }
         std::vector<item *> dropped = g->m.place_items( "allclothes", 50, location, location, false,
@@ -243,7 +532,7 @@ static hack_result hack_attempt( Character &who )
     if( who.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
-    const bool using_electrohack = who.has_charges( "electrohack", 25 ) &&
+    const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
     const bool using_fingerhack = !using_electrohack && who.has_bionic( bio_fingerhack ) &&
                                   who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
@@ -260,7 +549,7 @@ static hack_result hack_attempt( Character &who )
     if( using_fingerhack ) {
         who.mod_power_level( -25_kJ );
     } else {
-        who.use_charges( "electrohack", 25 );
+        who.use_charges( itype_electrohack, 25 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -272,13 +561,13 @@ static hack_result hack_attempt( Character &who )
         if( using_fingerhack ) {
             who.mod_power_level( -25_kJ );
         } else {
-            who.use_charges( "electrohack", 25 );
+            who.use_charges( itype_electrohack, 25 );
         }
 
         if( success <= -5 ) {
             if( using_electrohack ) {
                 who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
-                who.use_amount( "electrohack", 1 );
+                who.use_amount( itype_electrohack, 1 );
             } else {
                 who.add_msg_if_player( m_bad, _( "Your power is drained!" ) );
                 who.mod_power_level( units::from_kilojoule( -rng( 25,
@@ -487,7 +776,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         who.cancel_activity();
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            who.set_value( "THIEF_MODE", "THIF_ASK" );
+            who.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
 
         if( !keep_going ) {
@@ -585,46 +874,66 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
-void consume_activity_actor::start( player_activity &act, Character & )
+void consume_activity_actor::start( player_activity &act, Character &guy )
 {
-    const int charges = std::max( loc->charges, 1 );
-    int volume = units::to_milliliter( loc->volume() ) / charges;
-    time_duration time = 0_seconds;
-    const bool eat_verb  = loc->has_flag( flag_USE_EAT_VERB );
-    if( eat_verb || loc->get_comestible()->comesttype == "FOOD" ) {
-        time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-    } else if( !eat_verb && loc->get_comestible()->comesttype == "DRINK" ) {
-        time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-    } else if( loc->is_medication() ) {
-        time = time_duration::from_seconds(
-                   30 ); //Medicine/drugs takes 30 seconds this is pretty arbitrary and should probable be broken up more but seems ok for a start
+    int moves;
+    if( consume_location ) {
+        const auto ret = g->u.will_eat( *consume_location, true );
+        if( !ret.success() ) {
+            open_consume_menu = false;
+            return;
+        } else {
+            force = true;
+        }
+        moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
+    } else if( !consume_item.is_null() ) {
+        const auto ret = g->u.will_eat( consume_item, true );
+        if( !ret.success() ) {
+            open_consume_menu = false;
+            return;
+        } else {
+            force = true;
+        }
+        moves = to_moves<int>( guy.get_consume_time( consume_item ) );
     } else {
-        debugmsg( "Consumed something that was not food, drink or medicine/drugs" );
+        debugmsg( "Item/location to be consumed should not be null." );
+        return;
     }
 
-    act.moves_total = to_moves<int>( time );
-    act.moves_left = to_moves<int>( time );
+    act.moves_total = moves;
+    act.moves_left = moves;
 }
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
-    if( loc.where() == item_location::type::character ) {
-        g->u.consume( loc );
-
-    } else if( g->u.consume_item( *loc ) ) {
-        loc.remove_item();
-    }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    if( consume_location ) {
+        if( consume_location.where() == item_location::type::character ) {
+            g->u.consume( consume_location, force );
+        } else if( g->u.consume( *consume_location, force ) ) {
+            consume_location.remove_item();
+        }
+        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+        }
+    } else if( !consume_item.is_null() ) {
+        g->u.consume( consume_item, force );
+    } else {
+        debugmsg( "Item location/name to be consumed should not be null." );
     }
     act.set_to_null();
+    if( open_consume_menu ) {
+        avatar_action::eat( g->u );
+    }
 }
 
 void consume_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "loc", loc );
+    jsout.member( "consume_location", consume_location );
+    jsout.member( "consume_item", consume_item );
+    jsout.member( "open_consume_menu", open_consume_menu );
+    jsout.member( "force", force );
 
     jsout.end_object();
 }
@@ -636,7 +945,95 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
 
     JsonObject data = jsin.get_object();
 
-    data.read( "loc", actor.loc );
+    data.read( "consume_location", actor.consume_location );
+    data.read( "consume_item", actor.consume_item );
+    data.read( "open_consume_menu", actor.open_consume_menu );
+    data.read( "force", actor.force );
+
+    return actor.clone();
+}
+
+void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = to_moves<int>( duration );
+    act.moves_left = act.moves_total;
+}
+
+void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.has_effect( effect_sleep ) ) {
+        return;
+    }
+    if( dynamic_cast<player *>( &who )->can_sleep() ) {
+        who.fall_asleep(); // calls act.set_to_null()
+        if( !who.has_effect( effect_sleep ) ) {
+            // Character can potentially have immunity for 'effect_sleep'
+            who.add_msg_if_player(
+                _( "You feel you should've fallen asleep by now, but somehow you're still awake." ) );
+        }
+        return;
+    }
+    if( one_in( 1000 ) ) {
+        who.add_msg_if_player( _( "You toss and turn…" ) );
+    }
+    if( calendar::once_every( 30_minutes ) ) {
+        query_keep_trying( act, who );
+    }
+}
+
+void try_sleep_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !who.has_effect( effect_sleep ) ) {
+        who.add_msg_if_player( _( "You try to sleep, but can't." ) );
+    }
+}
+
+void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
+{
+    if( disable_query || !who.is_avatar() ) {
+        return;
+    }
+
+    uilist sleep_query;
+    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
+    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
+    sleep_query.addentry( 3, true, 'C',
+                          _( "Continue trying to fall asleep and don't ask again." ) );
+    sleep_query.query();
+    switch( sleep_query.ret ) {
+        case UILIST_CANCEL:
+        case 1:
+            act.set_to_null();
+            break;
+        case 3:
+            disable_query = true;
+            break;
+        case 2:
+        default:
+            break;
+    }
+}
+
+void try_sleep_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "disable_query", disable_query );
+    jsout.member( "duration", duration );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &jsin )
+{
+    try_sleep_activity_actor actor = try_sleep_activity_actor( 0_seconds );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "disable_query", actor.disable_query );
+    data.read( "duration", actor.duration );
 
     return actor.clone();
 }
@@ -647,6 +1044,7 @@ namespace activity_actors
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
@@ -655,6 +1053,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

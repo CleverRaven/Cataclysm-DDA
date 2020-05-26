@@ -63,9 +63,6 @@ class JsonOut;
 class dispersion_sources;
 struct bionic;
 struct dealt_projectile_attack;
-
-using itype_id = std::string;
-using faction_id = string_id<faction>;
 class profession;
 struct trap;
 
@@ -86,7 +83,6 @@ struct ret_val<edible_rating>::default_success : public
 template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
-
 
 struct stat_mod {
     int strength = 0;
@@ -141,9 +137,6 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
-
-        /** Returns what color the player should be drawn as */
-        nc_color basic_symbol_color() const override;
 
         // populate variables, inventory items, and misc from json object
         virtual void deserialize( JsonIn &jsin ) = 0;
@@ -258,7 +251,6 @@ class player : public Character
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
-
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
         double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
@@ -302,7 +294,7 @@ class player : public Character
          * @param dam: Type of damage to check for
          * @returns true if given damage can not reduce hp of given body part
          */
-        bool immune_to( body_part bp, damage_unit dam ) const;
+        bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -310,7 +302,7 @@ class player : public Character
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
-        void add_pain_msg( int val, body_part bp ) const;
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
 
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
@@ -333,16 +325,12 @@ class player : public Character
          */
         void siphon( vehicle &veh, const itype_id &desired_liquid );
 
-        /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
+        bool consume( item_location loc, bool force = false );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
+        bool consume( item &target, bool force = false );
 
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
 
@@ -400,7 +388,7 @@ class player : public Character
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
          */
-        bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -433,7 +421,7 @@ class player : public Character
           */
         bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
-        bool unload( item &it );
+        bool unload( item_location &loc );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -480,10 +468,10 @@ class player : public Character
 
         bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const std::string &item_id ) const = 0;
+        virtual bool has_identified( const itype_id &item_id ) const = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
-        void try_to_sleep( const time_duration &dur = 30_minutes );
+        void try_to_sleep( const time_duration &dur );
         /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
@@ -518,7 +506,7 @@ class player : public Character
         bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty();
+        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** This handles giving xp for a skill */
@@ -768,7 +756,6 @@ class player : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
          * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
@@ -785,15 +772,6 @@ class player : public Character
 
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
-
-    private:
-
-        /**
-         * Consumes an item as medication.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target );
 
     private:
 

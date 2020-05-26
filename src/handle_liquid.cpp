@@ -76,7 +76,7 @@ static void serialize_liquid_target( player_activity &act, const vehicle &veh )
     act.coords.push_back( veh.global_pos3() );
 }
 
-static void serialize_liquid_target( player_activity &act, item_location container_item )
+static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
     act.values.push_back( LTT_CONTAINER );
     act.values.push_back( 0 ); // dummy
@@ -333,7 +333,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( liquid );
+            g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
             transfer_ok = true;
             break;
         case LD_ITEM: {

@@ -59,7 +59,6 @@ enum monster_attitude {
     MATT_IGNORE,
     MATT_FOLLOW,
     MATT_ATTACK,
-    MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -305,8 +304,8 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
+        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
@@ -393,8 +392,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
-        /** Return the lowest cooldown for an enabled special */
-        int shortest_special_cooldown() const;
+        /** Test whether the specified special is ready. */
+        bool special_available( const std::string &special_name ) const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -501,7 +500,7 @@ class monster : public Creature
         int staircount;
 
         // Ammunition if we use a gun.
-        std::map<std::string, int> ammo;
+        std::map<itype_id, int> ammo;
 
         /**
          * Convert this monster into an item (see @ref mtype::revert_to_itype).

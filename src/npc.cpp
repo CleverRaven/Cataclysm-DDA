@@ -91,6 +91,8 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -166,7 +168,7 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,
-                            const std::vector<itype_id> &clothing,
+                            const std::vector<std::string> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
@@ -190,7 +192,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( const auto &e : clothing ) {
-        wear_item( item( e ) );
+        wear_item( item( e ), false );
     }
 
     for( item &e : worn ) {
@@ -592,23 +594,23 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_default() );
-        ammo = ammo.in_its_container();
-        if( ammo.made_of( LIQUID ) ) {
-            item container( "bottle_plastic" );
-            container.put_in( ammo, item_pocket::pocket_type::CONTAINER );
-            ammo = container;
-        }
+        item ammo;
+        if( !who.weapon.magazine_default().is_null() ) {
+            item mag( who.weapon.magazine_default() );
+            mag.ammo_set( mag.ammo_default() );
+            ammo = item( mag.ammo_default() );
+            res.push_back( mag );
+        } else if( !who.weapon.ammo_default().is_null() ) {
+            ammo = item( who.weapon.ammo_default() );
+            // TODO: Move to npc_class
+            // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
+            int qty = 1 + ( type == NC_COWBOY ||
+                            type == NC_BOUNTY_HUNTER );
+            qty = rng( qty, qty * 2 );
 
-        // TODO: Move to npc_class
-        // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        int qty = 1 + ( type == NC_COWBOY ||
-                        type == NC_BOUNTY_HUNTER );
-        qty = rng( qty, qty * 2 );
-
-        while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
-            // TODO: give NPC a default magazine instead
-            res.push_back( ammo );
+            while( qty-- != 0 && who.can_stash( ammo ) ) {
+                res.push_back( ammo );
+            }
         }
     }
 
@@ -827,7 +829,15 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( weapon.ammo_default() );
+        if( !weapon.magazine_default().is_null() ) {
+            item mag( weapon.magazine_default() );
+            mag.ammo_set( mag.ammo_default() );
+            weapon.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        } else if( !weapon.ammo_default().is_null() ) {
+            weapon.ammo_set( weapon.ammo_default() );
+        } else {
+            debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
+        }
     }
     weapon.set_owner( get_faction()->id );
 }
@@ -940,9 +950,7 @@ void npc::finish_read( item &book )
         max_ex = std::max( min_ex, max_ex );
 
         skill_level.readBook( min_ex, max_ex, reading->level );
-
-        std::string skill_name = skill.obj().name();
-
+        const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
@@ -954,7 +962,7 @@ void npc::finish_read( item &book )
         } else {
             continuous = true;
             if( display_messages ) {
-                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill.obj().name() );
+                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill_name );
             }
         }
 
@@ -1368,8 +1376,8 @@ float npc::vehicle_danger( int radius ) const
 
             int ax = wrapped_veh.v->global_pos3().x;
             int ay = wrapped_veh.v->global_pos3().y;
-            int bx = int( ax + std::cos( facing * M_PI / 180.0 ) * radius );
-            int by = int( ay + std::sin( facing * M_PI / 180.0 ) * radius );
+            int bx = static_cast<int>( ax + std::cos( facing * M_PI / 180.0 ) * radius );
+            int by = static_cast<int>( ay + std::sin( facing * M_PI / 180.0 ) * radius );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1470,8 +1478,8 @@ void npc::decide_needs()
     if( weapon.is_gun() ) {
         int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( "UPS_off", ups_drain ) +
-                              charges_of( "UPS_off", ups_drain );
+            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
+                              charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
@@ -1664,7 +1672,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
+        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2089,7 +2097,6 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FLEE:
             return A_NEUTRAL;
         case MATT_FRIEND:
-        case MATT_ZLAVE:
             return A_FRIENDLY;
         case MATT_ATTACK:
             return A_HOSTILE;
@@ -2121,7 +2128,7 @@ void npc::npc_dismount()
     }
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
-        !mounted_creature->type->mech_weapon.empty() ) {
+        !mounted_creature->type->mech_weapon.is_empty() ) {
         remove_item( weapon );
     }
     mounted_creature->remove_effect( effect_ridden );
@@ -2218,31 +2225,45 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
-    wprintz( w, basic_symbol_color(), name );
 
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
+    // Print health bar and NPC name on the first line.
+    std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
+    mvwprintz( w, point( column, line ), bar.second, bar.first );
+    const int bar_max_width = 5;
+    const int bar_width = utf8_width( bar.first );
+    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+        mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
     }
+    trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, basic_symbol_color(),
+                    name );
 
+    // Hostility indicator in the second line.
+    Attitude att = attitude_to( g->u );
+    const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
+    mvwprintz( w, point( column, ++line ), res.second, res.first.translated() );
+
+    // Awareness indicator on the third line.
+    std::string senses_str = sees( g->u ) ? _( "Aware of your presence" ) :
+                             _( "Unaware of you" );
+    mvwprintz( w, point( column, ++line ), sees( g->u ) ? c_yellow : c_green, senses_str );
+
+    // Print what item the NPC is holding if any on the fourth line.
     if( is_armed() ) {
-        trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wielding: " ) );
+        trim_and_print( w, point( column + utf8_width( _( "Wielding: " ) ), line ), iWidth, c_red,
+                        weapon.tname() );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
-    nc_color color ) {
-        const std::vector<std::string> folded = foldstring( str_in, iWidth );
-        for( auto it = folded.begin(); it < folded.end() && line < last_line; ++it, ++line ) {
-            trim_and_print( w, point( column, line ), iWidth, color, *it );
-        }
-    };
-
+    // Worn gear list on following lines.
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        const std::string wearing = _( "Wearing: " ) + worn_str;
-        enumerate_print( wearing, c_light_blue );
+        std::vector<std::string> worn_lines = foldstring( _( "Wearing: " ) + worn_str, iWidth );
+        int worn_numlines = worn_lines.size();
+        for( int i = 0; i < worn_numlines && line < last_line; i++ ) {
+            trim_and_print( w, point( column, ++line ), iWidth, c_light_gray, worn_lines[i] );
+        }
     }
 
     // as of now, visibility of mutations is between 0 and 10
@@ -2260,10 +2281,13 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         visibility_cap = std::round( dist * dist / 20.0 / ( per - 1 ) );
     }
 
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        const std::string mutations = _( "Traits: " ) + trait_str;
-        enumerate_print( mutations, c_green );
+        std::vector<std::string> trait_lines = foldstring( _( "Traits: " ) + trait_str, iWidth );
+        int trait_numlines = trait_lines.size();
+        for( int i = 0; i < trait_numlines && line < last_line; i++ ) {
+            trim_and_print( w, point( column, ++line ), iWidth, c_light_gray, trait_lines[i] );
+        }
     }
 
     return line;

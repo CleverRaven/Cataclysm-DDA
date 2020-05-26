@@ -700,6 +700,49 @@ void inventory_column::on_input( const inventory_input &input )
     }
 }
 
+void inventory_column::order_by_parent()
+{
+    std::vector<inventory_entry> base_entries;
+    std::vector<inventory_entry> child_entries;
+    for( const inventory_entry &entry : entries ) {
+        if( entry.is_item() && entry.locations.front().where() ==
+            item_location::type::container ) {
+            child_entries.push_back( entry );
+        } else {
+            base_entries.push_back( entry );
+        }
+    }
+
+    while( !child_entries.empty() ) {
+        const inventory_entry &possible = child_entries.back();
+        const item_location parent = possible.locations.front().parent_item();
+        bool found = false;
+        for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
+            if( base_entry_iter->is_item() ) {
+                for( const item_location &loc : base_entry_iter->locations ) {
+                    if( loc == parent ) {
+                        base_entries.insert( base_entry_iter + 1, possible );
+                        child_entries.pop_back();
+                        found = true;
+                        break;
+                    }
+                }
+                if( found ) {
+                    break;
+                }
+            }
+            ++base_entry_iter;
+        }
+        if( !found ) {
+            // move it to the front of the vector to check it again later
+            child_entries.insert( child_entries.begin(), possible );
+            child_entries.pop_back();
+        }
+    }
+
+    entries = base_entries;
+}
+
 void inventory_column::add_entry( const inventory_entry &entry )
 {
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
@@ -730,7 +773,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
         } );
         if( entry_with_loc != entries.end() ) {
             has_loc = true;
-            std::vector<item_location> locations = iter->locations;
+            std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             entries.erase( entry_with_loc );
             inventory_entry nentry( locations, entry.get_category_ptr() );
@@ -877,7 +920,7 @@ int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, 
     return cur_invlet;
 }
 
-static int num_parents( item_location loc )
+static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
         return 0;
@@ -1224,12 +1267,12 @@ void inventory_selector::add_items( inventory_column &target_column,
     }
 }
 
-void inventory_selector::add_contained_items( item_location container )
+void inventory_selector::add_contained_items( item_location &container )
 {
     add_contained_items( container, own_inv_column );
 }
 
-void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
@@ -1936,6 +1979,7 @@ void inventory_selector::toggle_categorize_contained()
                            &item_category_id( "ITEMS_WORN" ).obj() );
             }
         }
+        own_gear_column.order_by_parent();
         own_inv_column.clear();
     }
 
@@ -1992,6 +2036,18 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
     };
 
     return mode_data.at( m );
+}
+
+std::string inventory_selector::action_bound_to_key( char key ) const
+{
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
+            if( key == bound_key ) {
+                return action_descriptor;
+            }
+        }
+    }
+    return std::string();
 }
 
 item_location inventory_pick_selector::execute()
@@ -2221,8 +2277,8 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 }
 
 inventory_drop_selector::inventory_drop_selector( player &p,
-        const inventory_selector_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
+        const inventory_selector_preset &preset, const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
 #if defined(__ANDROID__)
@@ -2405,13 +2461,14 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            dropping.emplace_back( it, entry.chosen_count );
+            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
         } else {
             for( item_location loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
                 dropping.emplace_back( loc, 1 );
+                count--;
             }
         }
     }
