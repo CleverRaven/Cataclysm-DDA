@@ -496,10 +496,15 @@
   {
     "id": "book_fict_soft_satire_mandm",
     "type": "BOOK",
-    "name": "The Master and Margarita",
-    "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this is a satire on Stalinist tyranny written by Mikhail Bulgakov.",
+    "name": { "str": "The Master and Margarita", "str_pl": "copies of Master and Margarita" },
+    "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this novel by Mikhail Bulgakov explores philosophical issues on the nature of good and evil.",
+    "//isbn13": 9780802130112,
+    "weight": "441 g",
+    "volume": "719 ml",
+    "longest_side": "21 cm",
+    "chapters": 32,
     "copy-from": "book_fict_soft_satire_tpl",
-    "relative": { "chapters": 16, "fun": 1 }
+    "relative": { "fun": 1 }
   },
   {
     "id": "book_fict_soft_satire_dust",
