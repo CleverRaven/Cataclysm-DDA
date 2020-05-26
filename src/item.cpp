@@ -8562,6 +8562,7 @@ void item::apply_freezerburn()
 bool item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag, float spoil_modifier )
 {
+    debugmsg( _( "%s, insulation %f" ), tname(), insulation );
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
@@ -9375,7 +9376,8 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
-    contents.process( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+    contents.process( carrier, pos, activate, type->insulation_factor * insulation, flag,
+                      spoil_multiplier_parent );
     return process_internal( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
 }
 
