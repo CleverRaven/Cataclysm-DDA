@@ -70,21 +70,21 @@ enum energy_type {
     none_energy
 };
 
-enum valid_target {
-    target_ally,
-    target_hostile,
-    target_self,
-    target_ground,
-    target_none,
-    target_item,
-    target_fd_fire,
-    target_fd_blood,
-    _LAST
+enum class spell_target : int {
+    ally,
+    hostile,
+    self,
+    ground,
+    none,
+    item,
+    fire,
+    blood,
+    num_spell_targets
 };
 
 template<>
-struct enum_traits<valid_target> {
-    static constexpr auto last = valid_target::_LAST;
+struct enum_traits<spell_target> {
+    static constexpr auto last = spell_target::num_spell_targets;
 };
 
 template<>
@@ -256,10 +256,10 @@ class spell_type
         damage_type dmg_type = damage_type::DT_NULL;
 
         // list of valid targets to be affected by the area of effect.
-        enum_bitset<valid_target> effect_targets;
+        enum_bitset<spell_target> effect_targets;
 
         // list of valid targets enum
-        enum_bitset<valid_target> valid_targets;
+        enum_bitset<spell_target> valid_targets;
 
         std::set<mtype_id> targeted_monster_ids;
 
@@ -434,8 +434,8 @@ class spell
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
-        bool is_valid_target( valid_target t ) const;
-        bool is_valid_effect_target( valid_target t ) const;
+        bool is_valid_target( spell_target t ) const;
+        bool is_valid_effect_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area

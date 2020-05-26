@@ -4507,7 +4507,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     // choose target for spell (if the spell has a range > 0)
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
+    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
         !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
         do {
             std::vector<tripoint> trajectory = target_handler::mode_spell( *p, spell_being_cast, no_fail,
@@ -4515,7 +4515,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = spell_being_cast.is_valid_target( *p, target );
-                if( !( spell_being_cast.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+                if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
             } else {

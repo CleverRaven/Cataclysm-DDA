@@ -597,16 +597,16 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Moving creatures
-    bool can_target_creature = sp.is_valid_effect_target( target_self ) ||
-                               sp.is_valid_effect_target( target_ally ) ||
-                               sp.is_valid_effect_target( target_hostile );
+    bool can_target_creature = sp.is_valid_effect_target( spell_target::self ) ||
+                               sp.is_valid_effect_target( spell_target::ally ) ||
+                               sp.is_valid_effect_target( spell_target::hostile );
 
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
-            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
-            valid |= victim == &caster && sp.is_valid_effect_target( target_self );
+            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::hostile );
+            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
+            valid |= victim == &caster && sp.is_valid_effect_target( spell_target::self );
             if( valid ) {
                 victim->knock_back_to( to );
             }
@@ -614,7 +614,7 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Moving items
-    if( sp.is_valid_effect_target( target_item ) ) {
+    if( sp.is_valid_effect_target( spell_target::item ) ) {
         auto src_items = g->m.i_at( from );
         auto dst_items = g->m.i_at( to );
         for( const item &item : src_items ) {
@@ -624,7 +624,7 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Helper function to move particular field type if corresponding target flag is enabled.
-    auto move_field = [&sp, from, to]( valid_target target, field_type_id fid ) {
+    auto move_field = [&sp, from, to]( spell_target target, field_type_id fid ) {
         if( !sp.is_valid_effect_target( target ) ) {
             return;
         }
@@ -636,9 +636,9 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
     };
     // Moving fields.
-    move_field( target_fd_fire, fd_fire );
-    move_field( target_fd_blood, fd_blood );
-    move_field( target_fd_blood, fd_gibs_flesh );
+    move_field( spell_target::fire, fd_fire );
+    move_field( spell_target::blood, fd_blood );
+    move_field( spell_target::blood, fd_gibs_flesh );
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
@@ -909,7 +909,7 @@ void spell_effect::explosion( const spell &sp, Creature &, const tripoint &targe
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
 {
     explosion_handler::flashbang( target, caster.is_avatar() &&
-                                  !sp.is_valid_target( valid_target::target_self ) );
+                                  !sp.is_valid_target( spell_target::self ) );
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )

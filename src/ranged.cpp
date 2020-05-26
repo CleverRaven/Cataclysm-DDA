@@ -2419,7 +2419,7 @@ void target_ui::update_status()
         // Selected gun mode is empty
         status = Status::OutOfAmmo;
     } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
-                                    casting->is_valid_target( target_self ) ) ) {
+                                    casting->is_valid_target( spell_target::self ) ) ) {
         // TODO: consider allowing targeting yourself with turrets
         status = Status::BadTarget;
     } else if( dist_fn( dst ) > range ) {
