@@ -1387,6 +1387,7 @@ std::tuple<point, bool> input_context::get_coordinates_text( const catacurses::w
     }
 
     return std::make_tuple( selected, true );
+#endif
 }
 
 std::string input_context::get_action_name( const std::string &action_id ) const
