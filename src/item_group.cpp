@@ -74,7 +74,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp );
     } else {
-        int qty = item::INFINITE_CHARGES;
+        int qty = tmp.charges;
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
         }

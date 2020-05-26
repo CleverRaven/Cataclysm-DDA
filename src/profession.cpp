@@ -670,21 +670,17 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item, advanced_spawn_time() );
-        const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
+        int new_amount = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
-            for( int i = 0; i < new_amt; i++ ) {
+            for( int i = 0; i < new_amount; i++ ) {
                 ret.push_back( result.in_its_container() );
             }
         } else {
-            result.mod_charges( -result.charges + new_amt );
-            while( result.charges > 0 ) {
-                const item pushed = result.in_its_container();
+            while( new_amount > 0 ) {
+                const item pushed = result.in_its_container( new_amount );
+                new_amount -= pushed.charges_of( inf.new_item );
                 ret.push_back( pushed );
-                const int charges = pushed.contents.empty() ? -pushed.charges :
-                                    -pushed.contents.only_item().charges;
-                // get the first contained item (there's only one because of in_its_container())
-                result.mod_charges( charges );
             }
         }
     }
