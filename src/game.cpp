@@ -8254,7 +8254,7 @@ static void add_disassemblables( uilist &menu,
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
 {
-    auto cut_time = [&]( enum butcher_type bt ) {
+    auto cut_time = [&]( butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
             time_to_cut = butcher_time_to_cut( g->u, *corpses[corpse], bt );
