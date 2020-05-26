@@ -864,7 +864,7 @@
     "symbol": "[",
     "looks_like": "suitcase_m",
     "color": "red",
-    "covers": [ "ARM_EITHER", "HAND_EITHER", "LEG_EITHER" ],
+    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 5,
     "encumbrance": 50,
     "max_encumbrance": 100,
