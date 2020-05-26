@@ -1767,7 +1767,6 @@ void player::process_items()
         if( !it ) {
             continue;
         }
-        debugmsg( _( "%s" ), it->tname() );
         if( it->needs_processing() ) {
             if( it->process( this, pos(), false ) ) {
                 removed_items.push_back( it );
