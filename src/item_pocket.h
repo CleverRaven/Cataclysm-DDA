@@ -40,7 +40,7 @@ class item_pocket
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
-        enum class contain_code {
+        enum class contain_code : int {
             SUCCESS,
             // only mods can go into the pocket for mods
             ERR_MOD,

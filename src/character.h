@@ -218,7 +218,7 @@ enum edible_rating {
     NO_TOOL
 };
 
-enum class rechargeable_cbm {
+enum class rechargeable_cbm : int {
     none = 0,
     reactor,
     furnace,
@@ -337,7 +337,7 @@ class Character : public Creature, public visitable<Character>
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
 
-        enum class comfort_level {
+        enum class comfort_level : int {
             impossible = -999,
             uncomfortable = -7,
             neutral = 0,

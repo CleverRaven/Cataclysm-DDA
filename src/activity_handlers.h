@@ -106,7 +106,7 @@ void activity_on_turn_wear( player_activity &act, player &p );
 bool find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
-enum class item_drop_reason {
+enum class item_drop_reason : int {
     deliberate,
     too_large,
     too_heavy,

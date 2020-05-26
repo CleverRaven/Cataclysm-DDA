@@ -510,7 +510,7 @@ struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
 
-enum class mutagen_rejection {
+enum class mutagen_rejection : int {
     accepted,
     rejected,
     destroyed

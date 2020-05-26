@@ -67,7 +67,7 @@ class input_context;
 
 input_context get_default_mode_input_context();
 
-enum class dump_mode {
+enum class dump_mode : int {
     TSV,
     HTML
 };

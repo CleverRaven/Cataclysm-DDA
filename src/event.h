@@ -22,7 +22,7 @@ template <typename E> struct enum_traits;
 //
 // Each event is of a specific type, taken from the event_type enum.
 
-enum class event_type {
+enum class event_type : int {
     activates_artifact,
     activates_mininuke,
     administers_mutagen,

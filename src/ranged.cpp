@@ -121,7 +121,7 @@ class target_ui
     public:
         /* None of the public members (except ammo and range) should be modified during execution */
 
-        enum class TargetMode {
+        enum class TargetMode : int {
             Fire,
             Throw,
             ThrowBlind,
@@ -154,7 +154,7 @@ class target_ui
         // Relevant activity
         aim_activity_actor *activity = nullptr;
 
-        enum class ExitCode {
+        enum class ExitCode : int {
             Abort,
             Fire,
             Timeout,
@@ -165,7 +165,7 @@ class target_ui
         target_handler::trajectory run( player &pc );
 
     private:
-        enum class Status {
+        enum class Status : int {
             Good, // All UI elements are enabled
             BadTarget, // Bad 'dst' selected; forbid aiming/firing
             OutOfAmmo, // Selected gun mode is out of ammo; forbid moving cursor,aiming and firing

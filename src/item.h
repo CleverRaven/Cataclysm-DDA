@@ -1559,7 +1559,7 @@ class item : public visitable<item>
          */
         int get_coverage() const;
 
-        enum class encumber_flags {
+        enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
         };
@@ -2122,7 +2122,7 @@ class item : public visitable<item>
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
     public:
-        enum class sizing {
+        enum class sizing : int {
             human_sized_human_char = 0,
             big_sized_human_char,
             small_sized_human_char,

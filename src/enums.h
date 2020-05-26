@@ -159,7 +159,12 @@ enum artifact_natural_property {
 };
 
 enum class phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA, num_phases
+    PNULL,
+    SOLID,
+    LIQUID,
+    GAS,
+    PLASMA,
+    num_phases
 };
 
 template<>
@@ -234,7 +239,7 @@ inline layer_level &operator++( layer_level &l )
 }
 
 /** Possible reasons to interrupt an activity. */
-enum class distraction_type {
+enum class distraction_type : int {
     noise,
     pain,
     attacked,

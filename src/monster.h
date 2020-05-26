@@ -39,7 +39,7 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum class mon_trigger;
+enum class mon_trigger : int;
 
 class mon_special_attack
 {
