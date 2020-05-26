@@ -1359,6 +1359,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 std::tuple<point, bool> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
+#if !defined( TILES )
+    static_cast<void>( capture_win );
+    return std::make_tuple( point(), false );
+#else
     std::tuple<point, bool> tuple;
     if( !coordinate_input_received ) {
         return std::make_tuple( point(), false );
