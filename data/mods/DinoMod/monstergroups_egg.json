@@ -20,7 +20,7 @@
       { "monster": "mon_utahraptor_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_parasaurolophus_hatchling", "freq": 3, "cost_multiplier": 1 },
       { "monster": "mon_dimorphodon_hatchling", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_dilophosaurus_hatchling", "freq": 15, "cost_multiplier": 1 }
+      { "monster": "mon_dilophosaurus_hatchling", "freq": 1, "cost_multiplier": 1 }
     ]
   }
 ]
