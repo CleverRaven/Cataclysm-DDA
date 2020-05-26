@@ -1068,8 +1068,6 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
-    "covers": [ "TORSO" ],
-    "coverage": 0,
     "encumbrance": 0,
     "max_encumbrance": 0,
     "pocket_data": [
