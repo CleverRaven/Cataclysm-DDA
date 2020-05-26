@@ -95,6 +95,9 @@ static void full_map_test( const std::vector<std::string> &setup,
                     origin = g->u.pos() - point( x, y );
                     if( setup[y][x] == 'V' ) {
                         item headlamp( "wearable_light_on" );
+                        item battery( "light_battery_cell" );
+                        battery.ammo_set( battery.default_ammo(), -1 );
+                        headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
                         g->u.worn.push_back( headlamp );
                     }
                     break;
