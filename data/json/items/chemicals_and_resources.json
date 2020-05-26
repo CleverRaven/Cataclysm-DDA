@@ -731,6 +731,22 @@
     "container": "bottle_glass"
   },
   {
+    "type": "GENERIC",
+    "id": "plutonium",
+    "name": { "str": "plutonium" },
+    "category": "chems",
+    "//0": "Plutonium is about 5000 USD/gram",
+    "price": 495000000,
+    "//1": "Nobody wants raw plutonium, unless they have a deathwish",
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "light_gray",
+    "description": "Some plutonium.  You should probably get very far away from this, if you enjoy not being irradiated.",
+    "flags": [ "TRADER_AVOID", "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "volume": "50 ml",
+    "weight": "990 g"
+  },
+  {
     "type": "AMMO",
     "id": "chem_ammonium_nitrate",
     "category": "chems",
