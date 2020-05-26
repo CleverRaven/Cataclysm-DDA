@@ -8562,7 +8562,6 @@ void item::apply_freezerburn()
 bool item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag, float spoil_modifier )
 {
-    debugmsg( _( "%s, insulation %f" ), tname(), insulation );
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
