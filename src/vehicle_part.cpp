@@ -390,7 +390,11 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
-    liquid.charges -= base.fill_with( *liquid.type, qty );
+    // hotfix for issue #40369
+    // remove this once proper fix is implemented
+    int qty2 = qty == INT_MAX ? liquid.charges : qty;
+
+    liquid.charges -= base.fill_with( *liquid.type, qty2 );
     return true;
 }
 
