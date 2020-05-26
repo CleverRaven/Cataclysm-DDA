@@ -313,6 +313,7 @@
     "//3": "cats cradle (book_fict_soft_satire_cats) is satire and scifi",
     "entries": [
       { "item": "novel_scifi", "prob": 5 },
+      { "item": "book_fict_soft_scifi_brave", "prob": 1 },
       { "item": "book_fict_soft_scifi_f451", "prob": 1 },
       { "item": "book_fict_soft_scifi_cybrd", "prob": 1 },
       { "item": "book_fict_soft_satire_cats", "prob": 1 },
