@@ -5318,7 +5318,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     if( bash_dmg == 0 ) {
         for( auto &elem : m.i_at( point( x, y ) ) ) {
-            if( elem.made_of( LIQUID ) ) {
+            if( elem.made_of( phase_id::LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
             } else if( elem.volume() < 250_ml ) {
@@ -5334,7 +5334,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     if( m.has_flag( "NOITEM", point( x, y ) ) ) {
         map_stack items = m.i_at( point( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-            if( it->made_of( LIQUID ) ) {
+            if( it->made_of( phase_id::LIQUID ) ) {
                 it = items.erase( it );
                 continue;
             }
@@ -9939,7 +9939,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
     [&]( item & liquid_item ) {
-        return liquid_item.made_of_from_type( LIQUID );
+        return liquid_item.made_of_from_type( phase_id::LIQUID );
     } );
 
     const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
@@ -10731,7 +10731,7 @@ void game::start_hauling( const tripoint &pos )
     map_stack items = m.i_at( pos );
     for( item &it : items ) {
         // Liquid cannot be picked up
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             continue;
         }
         target_items.emplace_back( map_cursor( pos ), &it );

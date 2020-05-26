@@ -1729,7 +1729,8 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ||
+        it.made_of( phase_id::LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }

@@ -61,7 +61,6 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : int;
-enum phase_id : int;
 enum body_part : int;
 enum m_size : int;
 enum class side : int;

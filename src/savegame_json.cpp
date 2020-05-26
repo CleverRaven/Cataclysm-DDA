@@ -2308,8 +2308,8 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
-        current_phase = SOLID;
+    if( item_tags.count( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+        current_phase = phase_id::SOLID;
     }
 
     // Activate corpses from old saves
@@ -2332,7 +2332,7 @@ void item::migrate_content_item( const item &contained )
 {
     if( contained.is_gunmod() || contained.is_toolmod() ) {
         put_in( contained, item_pocket::pocket_type::MOD );
-    } else if( !contained.made_of( LIQUID )
+    } else if( !contained.made_of( phase_id::LIQUID )
                && ( contained.is_magazine() || contained.is_ammo() ) ) {
         put_in( contained, item_pocket::pocket_type::MAGAZINE );
     } else if( typeId() == itype_usb_drive ) {

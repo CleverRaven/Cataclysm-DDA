@@ -198,7 +198,7 @@ inventory &inventory::operator+= ( const item &rhs )
 inventory &inventory::operator+= ( const item_stack &rhs )
 {
     for( const auto &p : rhs ) {
-        if( !p.made_of( LIQUID ) ) {
+        if( !p.made_of( phase_id::LIQUID ) ) {
             add_item( p, true );
         }
     }
@@ -465,7 +465,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }
-                if( !i.made_of( LIQUID ) ) {
+                if( !i.made_of( phase_id::LIQUID ) ) {
                     add_item( i, false, assign_invlet );
                 }
             }
@@ -502,7 +502,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( m.furn( p ).obj().examine == &iexamine::keg ) {
             auto liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
-                if( i.made_of( LIQUID ) ) {
+                if( i.made_of( phase_id::LIQUID ) ) {
                     add_item( i );
                 }
             }
@@ -537,7 +537,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( faupart ) {
             for( const auto &it : veh->fuels_left() ) {
                 item fuel( it.first, 0 );
-                if( fuel.made_of( LIQUID ) ) {
+                if( fuel.made_of( phase_id::LIQUID ) ) {
                     fuel.charges = it.second;
                     add_item( fuel );
                 }

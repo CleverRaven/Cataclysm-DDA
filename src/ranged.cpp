@@ -1483,7 +1483,7 @@ static projectile make_gun_projectile( const item &gun )
 
     auto &fx = proj.proj_effects;
 
-    if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
+    if( ( gun.ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
         fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }

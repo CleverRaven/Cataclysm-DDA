@@ -158,7 +158,7 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id : int {
+enum class phase_id : int {
     PNULL, SOLID, LIQUID, GAS, PLASMA, num_phases
 };
 

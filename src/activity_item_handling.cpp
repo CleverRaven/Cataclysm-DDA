@@ -570,7 +570,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
     const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) );
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
     };
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
@@ -791,7 +791,7 @@ static void move_item( player &p, item &it, const int quantity, const tripoint &
     }
 
     // Check that we can pick it up.
-    if( !it.made_of_from_type( LIQUID ) ) {
+    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
         p.mod_moves( -move_cost( it, src, dest ) );
         if( activity_to_restore == ACT_TIDY_UP ) {
             it.erase_var( "activity_var" );
@@ -1026,7 +1026,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
         for( const auto &elem2 : g->m.i_at( elem ) ) {
-            if( in_loot_zones && elem2.made_of_from_type( LIQUID ) ) {
+            if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
             if( check_weight ) {
@@ -2091,7 +2091,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             item &thisitem = *it->first;
 
             // skip unpickable liquid
-            if( thisitem.made_of_from_type( LIQUID ) ) {
+            if( thisitem.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
 
@@ -2967,7 +2967,7 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && comest.made_of( SOLID ) ) {
+            if( !food && it.is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
                 // its frozen
                 continue;
             }
@@ -3017,7 +3017,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     for( item &it : fuel_on_fire ) {
         it.simulate_burn( fd );
         // Unconstrained fires grow below -50_minutes age
-        if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f && !it.made_of( LIQUID ) ) {
+        if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f &&
+            !it.made_of( phase_id::LIQUID ) ) {
             // Too much - we don't want a firestorm!
             // Move item back to refueling pile
             // Note: move_item() handles messages (they're the generic "you drop x")
@@ -3035,7 +3036,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     // We need to move fuel from stash to fire
     map_stack potential_fuel = g->m.i_at( *refuel_spot );
     for( item &it : potential_fuel ) {
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of( phase_id::LIQUID ) ) {
             continue;
         }
 

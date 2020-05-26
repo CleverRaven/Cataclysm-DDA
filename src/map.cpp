@@ -2673,7 +2673,7 @@ bool map::mop_spills( const tripoint &p )
     if( !has_flag( "LIQUIDCONT", p ) ) {
         auto items = i_at( p );
         auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
-            return it.made_of( LIQUID );
+            return it.made_of( phase_id::LIQUID );
         } );
         retval = new_end != items.end();
         while( new_end != items.end() ) {
@@ -2710,7 +2710,7 @@ bool map::mop_spills( const tripoint &p )
             //remove any liquids that somehow didn't fall through to the ground
             vehicle_stack here = veh->get_items( elem );
             auto new_end = std::remove_if( here.begin(), here.end(), []( const item & it ) {
-                return it.made_of( LIQUID );
+                return it.made_of( phase_id::LIQUID );
             } );
             retval |= ( new_end != here.end() );
             while( new_end != here.end() ) {
@@ -2829,7 +2829,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
-        if( i->made_of( LIQUID ) ) {
+        if( i->made_of( phase_id::LIQUID ) ) {
             i++;
             continue;
         }
@@ -4020,7 +4020,7 @@ item &map::spawn_an_item( const tripoint &p, item new_item,
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
-    if( ( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
+    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
         has_flag( "DESTROY_ITEM", p ) ) {
         return null_item_reference();
     }
@@ -4039,7 +4039,7 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
     const bool swimmable = has_flag( "SWIMMABLE", p );
     for( const item &new_item : new_items ) {
 
-        if( new_item.made_of( LIQUID ) && swimmable ) {
+        if( new_item.made_of( phase_id::LIQUID ) && swimmable ) {
             continue;
         }
         item &it = add_item_or_charges( p, new_item );
@@ -4117,7 +4117,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of_from_type( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+        if( obj.made_of_from_type( phase_id::LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 
@@ -4158,10 +4158,11 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return null_item_reference();
     }
 
-    if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
+    if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) &&
+                                          obj.made_of( phase_id::LIQUID ) ) )
         && valid_limits( pos ) ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
-        if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+        if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
             if( obj.on_drop( pos, *this ) ) {
                 return null_item_reference();
             }
@@ -4186,7 +4187,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( route( pos, e, setting ).empty() ) {
                 continue;
             }
-            if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+            if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
                 if( obj.on_drop( e, *this ) ) {
                     return null_item_reference();
                 }
@@ -4222,7 +4223,7 @@ item &map::add_item( const tripoint &p, item new_item )
         new_item.process( nullptr, p, false );
     }
 
-    if( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
+    if( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
         return null_item_reference();
     }
 
@@ -4720,7 +4721,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id &type, int &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
+        if( !a->made_of( phase_id::LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4737,7 +4738,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
             // looking for a liquid that matches
-            if( filter( *current_item ) && current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+            if( filter( *current_item ) && current_item->made_of( phase_id::LIQUID ) &&
+                type == current_item->typeId() ) {
                 ret.push_back( *current_item );
                 if( current_item->charges - quantity > 0 ) {
                     // Update the returned liquid amount to match the requested amount

@@ -398,7 +398,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     all.insert( all.end(), bps.begin(), bps.end() );
 
     for( const item &prod : all ) {
-        if( !prod.made_of( LIQUID ) ) {
+        if( !prod.made_of( phase_id::LIQUID ) ) {
             continue;
         }
 
@@ -636,7 +636,7 @@ static cata::optional<item_location> wield_craft( player &p, item &craft )
 static item *set_item_inventory( player &p, item &newit )
 {
     item *ret_val = nullptr;
-    if( newit.made_of( LIQUID ) ) {
+    if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         p.inv.assign_empty_invlet( newit, p );
@@ -1212,7 +1212,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             food_contained.set_owner( get_faction()->id );
         }
 
-        if( newit.made_of( LIQUID ) ) {
+        if( newit.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
@@ -1235,7 +1235,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             bp.set_owner( get_faction()->id );
-            if( bp.made_of( LIQUID ) ) {
+            if( bp.made_of( phase_id::LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
@@ -2218,7 +2218,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
                 // have their component count multiplied by the number of charges.
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
-            const bool is_liquid = newit.made_of( LIQUID );
+            const bool is_liquid = newit.made_of( phase_id::LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
                 // Spawn liquid item in its default container
                 compcount = compcount / newit.charges;
@@ -2293,7 +2293,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
             }
         }
 
-        if( act_item.made_of( LIQUID ) ) {
+        if( act_item.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
@@ -2329,7 +2329,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
-    if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
+    if( newit.made_of( phase_id::LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );

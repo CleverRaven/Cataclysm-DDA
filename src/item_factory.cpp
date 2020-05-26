@@ -1023,7 +1023,7 @@ void Item_factory::check_definitions() const
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";
         }
-        if( type->count_by_charges() || type->phase == LIQUID ) {
+        if( type->count_by_charges() || type->phase == phase_id::LIQUID ) {
             if( type->stack_size <= 0 ) {
                 msg += string_format( "invalid stack_size %d on type using charges\n", type->stack_size );
             }
@@ -3010,13 +3010,13 @@ std::string enum_to_string<phase_id>( phase_id data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case PNULL: return "null";
-        case LIQUID: return "liquid";
-        case SOLID: return "solid";
-        case GAS: return "gas";
-        case PLASMA: return "plasma";
+        case phase_id::PNULL: return "null";
+        case phase_id::LIQUID: return "liquid";
+        case phase_id::SOLID: return "solid";
+        case phase_id::GAS: return "gas";
+        case phase_id::PLASMA: return "plasma";
         // *INDENT-ON*
-        case num_phases:
+        case phase_id::num_phases:
             break;
     }
     debugmsg( "Invalid phase" );

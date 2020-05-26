@@ -76,7 +76,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     REQUIRE( actually_used.size() <= 1 );
     itype_id liquid_fuel = itype_id::NULL_ID();
     for( const auto &ft : actually_used ) {
-        if( item::find_type( ft )->phase == LIQUID ) {
+        if( item::find_type( ft )->phase == phase_id::LIQUID ) {
             liquid_fuel = ft;
             break;
         }

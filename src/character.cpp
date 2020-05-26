@@ -2452,7 +2452,7 @@ void Character::i_rem_keep_contents( const int idx )
 bool Character::i_add_or_drop( item &it, int qty )
 {
     bool retval = true;
-    bool drop = it.made_of( LIQUID );
+    bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
@@ -2605,7 +2605,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     return VisitResponse::SKIP;
                 }
 
-                if( ( parent->is_container() && node->made_of( LIQUID ) ) || node->is_frozen_liquid() ) {
+                if( ( parent->is_container() && node->made_of( phase_id::LIQUID ) ) || node->is_frozen_liquid() ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -2622,11 +2622,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of_from_type( SOLID ) && parent == nullptr ) {
+            if( !node->made_of_from_type( phase_id::SOLID ) && parent == nullptr ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of( SOLID ) && parent != nullptr ) {
+            if( !node->made_of( phase_id::SOLID ) && parent != nullptr ) {
                 for( const ammotype &at : ammo ) {
                     if( node->ammo_type() == at ) {
                         out = item_location( src, node );
@@ -3070,7 +3070,7 @@ void Character::drop_invalid_inventory()
     bool dropped_liquid = false;
     for( const std::list<item> *stack : inv.const_slice() ) {
         const item &it = stack->front();
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
             g->m.add_item_or_charges( pos(), it );
             // must be last

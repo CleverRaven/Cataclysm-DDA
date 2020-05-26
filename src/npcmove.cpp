@@ -2772,7 +2772,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -3024,7 +3024,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             iter++;
             continue;
         }

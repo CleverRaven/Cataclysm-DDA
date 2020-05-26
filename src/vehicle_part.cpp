@@ -250,7 +250,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     const itype *liquid = item::find_type( ammo );
 
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
-    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
+    if( is_tank() && liquid->phase >= phase_id::LIQUID && qty != 0 ) {
         base.contents.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         const int limit = units::from_milliliter( ammo_capacity( item::find_type(
@@ -345,11 +345,11 @@ bool vehicle_part::can_reload( const item &obj ) const
         }
 
         // forbid filling tanks with solids or non-material things
-        if( is_tank() && ( obj.made_of( SOLID ) || obj.made_of( PNULL ) ) ) {
+        if( is_tank() && ( obj.made_of( phase_id::SOLID ) || obj.made_of( phase_id::PNULL ) ) ) {
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( !obj.made_of( SOLID ) && !is_tank() ) {
+        else if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo

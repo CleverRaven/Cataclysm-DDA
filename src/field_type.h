@@ -25,9 +25,6 @@
 class JsonObject;
 template <typename E> struct enum_traits;
 
-enum phase_id : int;
-enum body_part : int;
-
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
     DESCRIPTION_AFFIX_COVERED_IN,
@@ -159,7 +156,7 @@ struct field_type {
 
         int priority = 0;
         time_duration half_life = 0_turns;
-        phase_id phase = PNULL;
+        phase_id phase = phase_id::PNULL;
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;

@@ -33,7 +33,7 @@ mtype::mtype()
     volume = 62499_ml;
     weight = 81499_gram;
     mat = { material_id( "flesh" ) };
-    phase = SOLID;
+    phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
     half_life = -1;

@@ -3226,7 +3226,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     const vehicle_part & rhs ) {
         // don't count frozen liquid
         if( rhs.is_tank() && !rhs.base.contents.empty() &&
-            rhs.base.contents.legacy_front().made_of( SOLID ) ) {
+            rhs.base.contents.legacy_front().made_of( phase_id::SOLID ) ) {
             return lhs;
         }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
@@ -3296,7 +3296,7 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     float total_mass = 0;
     for( auto vehicle_part : parts ) {
         if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype &&
-            vehicle_part.base.contents.legacy_front().made_of( LIQUID ) ) {
+            vehicle_part.base.contents.legacy_front().made_of( phase_id::LIQUID ) ) {
             float energy = vehicle_part.base.contents.legacy_front().specific_energy;
             float mass = to_gram( vehicle_part.base.contents.legacy_front().weight() );
             total_energy += energy * mass;

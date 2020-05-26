@@ -884,7 +884,7 @@ struct itype {
         int min_int = 0;
         int min_per = 0;
 
-        phase_id phase      = SOLID; // e.g. solid, liquid, gas
+        phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
         // How should the item explode
         explosion_data explosion;

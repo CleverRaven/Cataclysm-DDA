@@ -792,7 +792,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item *elemit : elem.items ) {
-            if( elemit->made_of_from_type( LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
                 liquid_items++;
             }
         }
@@ -1716,7 +1716,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     item &src_contents = src_container.contents.legacy_front();
 
-    if( !src_contents.made_of( LIQUID ) ) {
+    if( !src_contents.made_of( phase_id::LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
@@ -1756,7 +1756,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of_from_type( LIQUID ) && !it.is_frozen_liquid() ) {
+    if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "You can't pick up a liquid." ) );
         return false;
     }
