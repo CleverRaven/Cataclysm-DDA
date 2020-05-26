@@ -845,7 +845,6 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 void item_contents::process( player *carrier, const tripoint &pos, bool activate, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
-    //debugmsg("contents %f", insulation);
     for( item_pocket &pocket : contents ) {
         // no reason to check mods, they won't rot
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
