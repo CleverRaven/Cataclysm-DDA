@@ -229,6 +229,7 @@
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_deinonychus", "freq": 200, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_deino_bio_op", "freq": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 50, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 50, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 50, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
@@ -241,6 +242,7 @@
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_deinonychus", "freq": 500, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_deino_bio_op", "freq": 250, "cost_multiplier": 20, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 125, "cost_multiplier": 30, "starts": 72 },
       { "monster": "mon_zeinonychus", "freq": 125, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 125, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
