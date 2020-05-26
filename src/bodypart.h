@@ -130,17 +130,19 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+constexpr int number_of_parts = 12;
 class body_part_set
 {
     private:
-        std::bitset<num_bp> parts;
 
-        explicit body_part_set( const std::bitset<num_bp> &other ) : parts( other ) { }
+        std::bitset<number_of_parts> parts;
+
+        explicit body_part_set( const std::bitset<number_of_parts> &other ) : parts( other ) { }
 
     public:
         body_part_set() = default;
-        body_part_set( std::initializer_list<body_part> bps ) {
-            for( const auto &bp : bps ) {
+        body_part_set( std::initializer_list<bodypart_str_id> bps ) {
+            for( const bodypart_str_id &bp : bps ) {
                 set( bp );
             }
         }
@@ -169,14 +171,14 @@ class body_part_set
             return ~body_part_set();
         }
 
-        bool test( const body_part &bp ) const {
-            return parts.test( bp );
+        bool test( const bodypart_str_id &bp ) const {
+            return parts.test( bp->token );
         }
-        void set( const body_part &bp ) {
-            parts.set( bp );
+        void set( const bodypart_str_id &bp ) {
+            parts.set( bp->token );
         }
-        void reset( const body_part &bp ) {
-            parts.reset( bp );
+        void reset( const bodypart_str_id &bp ) {
+            parts.reset( bp->token );
         }
         bool any() const {
             return parts.any();
