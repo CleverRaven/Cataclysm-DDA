@@ -5478,7 +5478,7 @@ void map::update_visibility_cache( const int zlev )
         for( y = 0; y < MAPSIZE_Y; y++ ) {
             lit_level ll = apparent_light_at( p, visibility_variables_cache );
             visibility_cache[x][y] = ll;
-            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == LL_BRIGHT || ll == LL_LIT );
+            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == lit_level::BRIGHT || ll == lit_level::LIT );
         }
     }
 
@@ -5502,14 +5502,14 @@ const visibility_variables &map::get_visibility_variables_cache() const
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
 {
     switch( ll ) {
-        case LL_DARK:
+        case lit_level::DARK:
             // can't see this square at all
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER_DARK;
             } else {
                 return VIS_DARK;
             }
-        case LL_BRIGHT_ONLY:
+        case lit_level::BRIGHT_ONLY:
             // can only tell that this square is bright
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER;
@@ -5517,15 +5517,15 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
                 return VIS_LIT;
             }
 
-        case LL_LOW:
+        case lit_level::LOW:
         // low light, square visible in monochrome
-        case LL_LIT:
+        case lit_level::LIT:
         // normal light
-        case LL_BRIGHT:
+        case lit_level::BRIGHT:
             // bright light
             return VIS_CLEAR;
-        case LL_BLANK:
-        case LL_MEMORIZED:
+        case lit_level::BLANK:
+        case lit_level::MEMORIZED:
             return VIS_HIDDEN;
     }
     return VIS_HIDDEN;
@@ -5640,12 +5640,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                     const bool just_this_zlevel =
                         draw_maptile( w, g->u, p, curr_maptile,
                                       false, true, center,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                                      lighting == lit_level::LOW, lighting == lit_level::BRIGHT, true );
                     if( !just_this_zlevel ) {
                         p.z--;
                         const maptile tile_below = maptile( sm_below, l );
                         draw_from_above( w, g->u, p, tile_below, false, center,
-                                         lighting == LL_LOW, lighting == LL_BRIGHT, false );
+                                         lighting == lit_level::LOW, lighting == lit_level::BRIGHT, false );
                         p.z++;
                     }
                 } else if( do_map_memory && ( vis == VIS_HIDDEN || vis == VIS_DARK ) ) {
@@ -8274,7 +8274,7 @@ level_cache::level_cache()
     std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
+    std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
     max_populated_zlev = OVERMAP_HEIGHT;
