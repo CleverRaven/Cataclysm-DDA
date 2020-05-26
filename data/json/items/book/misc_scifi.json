@@ -107,7 +107,6 @@
         "text": "This is a copy of Heinlein's \"Stranger in a Strange Land\".  The cover is dog-eared and worn."
       },
       { "id": "scifi1_39", "text": "This is a copy of Orson Scott Card's \"Ender's Game\"." },
-      { "id": "scifi1_40", "text": "This is a weather worn copy of \"Brave New World\" by Aldous Huxley." },
       { "id": "scifi1_41", "text": "This is a copy of \"The Lost World\" by Arthur Conan Doyle." },
       { "id": "scifi1_42", "text": "This is a copy of \"Islands in the Sky\" by Arthur C. Clarke." },
       { "id": "scifi1_43", "text": "This is a copy of H. G. Wells' \"The Island of Doctor Moreau\"." },
@@ -169,6 +168,14 @@
     "//isbn13": 9780241467992,
     "price": 1069,
     "copy-from": "book_fict_soft_scifi_tpl"
+  },
+  {
+    "id": "book_fict_soft_scifi_brave",
+    "type": "BOOK",
+    "name": { "str": "Brave New World", "str_pl": "copies of Brave New World" },
+    "description": "This is weather worn copy of \"Brave New World\" by Aldous Huxley looks like it has been left out in rain.  The novel begins in a bleak building where fetuses are grown in bottles on an assembly line.",
+    "copy-from": "book_fict_soft_scifi_tpl",
+    "relative": { "chapters": -6, "price_postapoc": -1490 }
   },
   {
     "id": "book_fict_soft_scifi_f451",
