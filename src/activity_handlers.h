@@ -27,10 +27,10 @@ enum requirement_check_result : int {
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
 
-enum butcher_type : int {
-    BUTCHER,        // quick butchery
-    BUTCHER_FULL,   // full workshop butchery
-    F_DRESS,        // field dressing a corpse
+enum class butcher_type : int {
+    QUICK,          // quick butchery
+    FULL,           // full workshop butchery
+    FIELD_DRESS,    // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse

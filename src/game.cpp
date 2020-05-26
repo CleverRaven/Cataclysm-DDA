@@ -8300,8 +8300,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     const std::string cannot_see = colorize( _( "can't see!" ), c_red );
 
-    smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ),
-                        enough_light ? cut_time( BUTCHER ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), enough_light,
+                        'B', _( "Quick butchery" ),
+                        enough_light ? cut_time( butcher_type::QUICK ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "This technique is used when you are in a hurry, "
                                           "but still want to harvest something from the corpse. "
@@ -8309,8 +8310,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "but it's useful if you don't want to set up a workshop.  "
                                           "Prevents zombies from raising." ),
                                        msgFactor ) );
-    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
-                        enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::FULL ), enough_light,
+                        'b', _( "Full butchery" ),
+                        enough_light ? cut_time( butcher_type::FULL ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "This technique is used to properly butcher a corpse, "
                                           "and requires a rope & a tree or a butchering rack, "
@@ -8318,10 +8320,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "and good tools.  Yields are plentiful and varied, "
                                           "but it is time consuming." ),
                                        msgFactor ) );
-    smenu.addentry_col( F_DRESS, enough_light &&
-                        has_organs, 'f', _( "Field dress corpse" ),
-                        enough_light ? ( has_organs ? cut_time( F_DRESS ) : colorize( _( "has no organs" ),
-                                         c_red ) ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ), enough_light && has_organs,
+                        'f', _( "Field dress corpse" ),
+                        enough_light ? ( has_organs ? cut_time( butcher_type::FIELD_DRESS ) :
+                                         colorize( _( "has no organs" ), c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "Technique that involves removing internal organs and "
                                           "viscera to protect the corpse from rotting from inside.  "
@@ -8329,9 +8331,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "stay fresh longer.  Can be combined with other methods for "
                                           "better effects." ),
                                        msgFactor ) );
-    smenu.addentry_col( SKIN, enough_light &&
-                        has_skin, 's', _( "Skin corpse" ),
-                        enough_light ? ( has_skin ? cut_time( SKIN ) : colorize( _( "has no skin" ), c_red ) ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::SKIN ), enough_light && has_skin,
+                        's', _( "Skin corpse" ),
+                        enough_light ? ( has_skin ? cut_time( butcher_type::SKIN ) : colorize( _( "has no skin" ),
+                                         c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "Skinning a corpse is an involved and careful process that "
                                           "usually takes some time.  You need skill and an appropriately "
@@ -8339,8 +8342,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "too small to yield a full-sized hide and will instead produce "
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
-    smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ),
-                        enough_light ? cut_time( QUARTER ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ), enough_light,
+                        'k', _( "Quarter corpse" ),
+                        enough_light ? cut_time( butcher_type::QUARTER ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "By quartering a previously field dressed corpse you will "
                                           "acquire four parts with reduced weight and volume.  It "
@@ -8348,14 +8352,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "skin, hide, pelt, etc., so don't use it if you want to "
                                           "harvest them later." ),
                                        msgFactor ) );
-    smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
+    smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ), true,
+                        'm', _( "Dismember corpse" ),
+                        cut_time( butcher_type::DISMEMBER ),
                         string_format( "%s  %s",
                                        _( "If you're aiming to just destroy a body outright and don't "
                                           "care about harvesting it, dismembering it will hack it apart "
                                           "in a very short amount of time but yields little to no usable flesh." ),
                                        msgFactor ) );
-    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
-                        enough_light ? cut_time( DISSECT ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ), enough_light,
+                        'd', _( "Dissect corpse" ),
+                        enough_light ? cut_time( butcher_type::DISSECT ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "By careful dissection of the corpse, you will examine it for "
                                           "possible bionic implants, or discrete organs and harvest them "
@@ -8365,25 +8372,25 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                        msgFactorD ) );
     smenu.query();
     switch( smenu.ret ) {
-        case BUTCHER:
+        case static_cast<int>( butcher_type::QUICK ):
             g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
             break;
-        case BUTCHER_FULL:
+        case static_cast<int>( butcher_type::FULL ):
             g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
             break;
-        case F_DRESS:
+        case static_cast<int>( butcher_type::FIELD_DRESS ):
             g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
             break;
-        case SKIN:
+        case static_cast<int>( butcher_type::SKIN ):
             g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
             break;
-        case QUARTER:
+        case static_cast<int>( butcher_type::QUARTER ):
             g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
             break;
-        case DISMEMBER:
+        case static_cast<int>( butcher_type::DISMEMBER ):
             g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
             break;
-        case DISSECT:
+        case static_cast<int>( butcher_type::DISSECT ):
             g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
             break;
         default:
