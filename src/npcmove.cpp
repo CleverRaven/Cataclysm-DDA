@@ -1446,7 +1446,7 @@ static bool wants_to_reload( const npc &who, const item &it )
         return true;
     }
 
-    if( !it.ammo_data()->ammo ) {
+    if( !it.ammo_data() || !it.ammo_data()->ammo ) {
         return false;
     }
 
