@@ -54,6 +54,26 @@
     ]
   },
   {
+    "abstract": "pistol_mrds",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "roland special" },
+    "//": "non-competition oriented pistols with mini dot fitted, and the slide milled to accept such sights.  Sometimes has a compensator.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  },
+  {
     "abstract": "pistol_backup",
     "copy-from": "pistol_base",
     "type": "GUN",
@@ -65,12 +85,13 @@
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 2 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -88,8 +109,8 @@
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ]

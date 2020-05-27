@@ -4,8 +4,8 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "TDI Vector" },
-    "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
+    "name": { "str": "Kriss Vector" },
+    "description": "The Kriss Vector is a delayed blowback submachine gun with a unique, in-line design that places both the shooter's hand and shoulder in line with the bore axis, reducing muzzle climb during bursts.  This one is chambered in .45 ACP.",
     "weight": "3100 g",
     "volume": "4248 ml",
     "longest_side": "611 mm",
@@ -27,7 +27,7 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "grip_mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -37,6 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "default_mods": [ "folding_stock" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
