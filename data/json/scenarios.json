@@ -122,6 +122,8 @@
     "points": -8,
     "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
     "start_name": "In Town",
+    "blacklist_professions": true,
+    "professions": [ "bionic_patient" ],
     "allowed_locs": [
       "sloc_house",
       "sloc_house_boarded",
