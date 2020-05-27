@@ -186,7 +186,7 @@ class item_contents
          * NOTE: this destroys the items that get processed
          */
         void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         void migrate_item( item &obj, const std::set<itype_id> &migrations );
         bool item_has_uses_recursive() const;

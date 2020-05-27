@@ -7,18 +7,18 @@
 #include <functional>
 #include <string>
 
-enum class text_style_fix {
+enum class text_style_fix : int {
     removal,
     insertion,
     replacement
 };
 
-enum class fix_end_of_string_spaces {
+enum class fix_end_of_string_spaces : int {
     no,
     yes
 };
 
-enum class escape_unicode {
+enum class escape_unicode : int {
     no,
     yes
 };

@@ -570,7 +570,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
     const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) );
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
     };
     const inventory &crafting_inv = p->crafting_inventory();
     if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
@@ -791,7 +791,7 @@ static void move_item( player &p, item &it, const int quantity, const tripoint &
     }
 
     // Check that we can pick it up.
-    if( !it.made_of_from_type( LIQUID ) ) {
+    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
         p.mod_moves( -move_cost( it, src, dest ) );
         if( activity_to_restore == ACT_TIDY_UP ) {
             it.erase_var( "activity_var" );
@@ -1026,7 +1026,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
         for( const auto &elem2 : g->m.i_at( elem ) ) {
-            if( in_loot_zones && elem2.made_of_from_type( LIQUID ) ) {
+            if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
             if( check_weight ) {
@@ -2091,7 +2091,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             item &thisitem = *it->first;
 
             // skip unpickable liquid
-            if( thisitem.made_of_from_type( LIQUID ) ) {
+            if( thisitem.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
 
@@ -2446,10 +2446,10 @@ static requirement_check_result generic_multi_activity_check_requirement( player
     // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
-        return SKIP_LOCATION;
+        return requirement_check_result::SKIP_LOCATION;
     }
     if( can_do_it ) {
-        return CAN_DO_LOCATION;
+        return requirement_check_result::CAN_DO_LOCATION;
     }
     if( reason == do_activity_reason::DONT_HAVE_SKILL ||
         reason == do_activity_reason::NO_ZONE ||
@@ -2462,7 +2462,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
-        return SKIP_LOCATION;
+        return requirement_check_result::SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
                reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
                reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ||
@@ -2496,7 +2496,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             if( !act_info.con_idx ) {
                 debugmsg( "no construction selected" );
-                return SKIP_LOCATION;
+                return requirement_check_result::SKIP_LOCATION;
             }
             // its a construction and we need the components.
             const construction &built_chosen = act_info.con_idx->obj();
@@ -2507,7 +2507,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             // we already checked this in can_do_activity() but check again just incase.
             if( !veh ) {
                 p.activity_vehicle_part_index = 1;
-                return SKIP_LOCATION;
+                return requirement_check_result::SKIP_LOCATION;
             }
             const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
             requirement_data reqs;
@@ -2577,7 +2577,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
             }
-            return SKIP_LOCATION;
+            return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
                 p.backlog.push_front( act_id );
@@ -2604,17 +2604,17 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                         p.activity = player_activity();
                         p.backlog.clear();
                         check_npc_revert( p );
-                        return SKIP_LOCATION;
+                        return requirement_check_result::SKIP_LOCATION;
                     }
                     act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
                                                                       static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
                 act_prev.placement = src;
             }
-            return RETURN_EARLY;
+            return requirement_check_result::RETURN_EARLY;
         }
     }
-    return SKIP_LOCATION;
+    return requirement_check_result::SKIP_LOCATION;
 }
 
 /** Do activity at this location */
@@ -2772,9 +2772,9 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         // see activity_handlers.h enum for requirement_check_result
         const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
                 activity_to_restore, act_info, src, src_loc, src_set, check_only );
-        if( req_res == SKIP_LOCATION ) {
+        if( req_res == requirement_check_result::SKIP_LOCATION ) {
             continue;
-        } else if( req_res == RETURN_EARLY ) {
+        } else if( req_res == requirement_check_result::RETURN_EARLY ) {
             return true;
         }
 
@@ -2967,7 +2967,7 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && comest.made_of( SOLID ) ) {
+            if( !food && it.is_watertight_container() && comest.made_of( phase_id::SOLID ) ) {
                 // its frozen
                 continue;
             }
@@ -3017,7 +3017,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     for( item &it : fuel_on_fire ) {
         it.simulate_burn( fd );
         // Unconstrained fires grow below -50_minutes age
-        if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f && !it.made_of( LIQUID ) ) {
+        if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f &&
+            !it.made_of( phase_id::LIQUID ) ) {
             // Too much - we don't want a firestorm!
             // Move item back to refueling pile
             // Note: move_item() handles messages (they're the generic "you drop x")
@@ -3035,7 +3036,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     // We need to move fuel from stash to fire
     map_stack potential_fuel = g->m.i_at( *refuel_spot );
     for( item &it : potential_fuel ) {
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of( phase_id::LIQUID ) ) {
             continue;
         }
 

@@ -94,7 +94,7 @@ aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
     aim_activity_actor act = aim_activity_actor();
     act.weapon_source = WeaponSource::Bionic;
     act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    act.fake_weapon = make_shared_fast<item>( fake_gun );
     return act;
 }
 
@@ -102,7 +102,7 @@ aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
     act.weapon_source = WeaponSource::Mutation;
-    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    act.fake_weapon = make_shared_fast<item>( fake_gun );
     return act;
 }
 
@@ -221,7 +221,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "weapon_source", actor.weapon_source );
     if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
-        actor.fake_weapon = shared_ptr_fast<item>( new item() );
+        actor.fake_weapon = make_shared_fast<item>();
         data.read( "fake_weapon", *actor.fake_weapon );
     }
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
@@ -693,7 +693,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !newit.made_of_from_type( LIQUID ) ) {
+        if( !newit.made_of_from_type( phase_id::LIQUID ) ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             if( newit.is_owned_by( who, true ) ) {

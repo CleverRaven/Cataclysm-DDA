@@ -289,7 +289,7 @@ struct mission_type {
 class mission
 {
     public:
-        enum class mission_status {
+        enum class mission_status : int {
             yet_to_start,
             in_progress,
             success,

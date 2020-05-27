@@ -268,7 +268,7 @@ input_context game::get_player_input( std::string &action )
                         if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT );
+                                      lighting == lit_level::LOW, lighting == lit_level::BRIGHT );
                         }
                     }
 #if defined(TILES)
@@ -309,7 +309,7 @@ input_context game::get_player_input( std::string &action )
                                 if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
-                                              lighting == LL_LOW, lighting == LL_BRIGHT );
+                                              lighting == lit_level::LOW, lighting == lit_level::BRIGHT );
                                 }
                             }
                         }

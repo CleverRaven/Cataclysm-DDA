@@ -660,7 +660,7 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     return result;
 }
 
-enum class enumeration_conjunction {
+enum class enumeration_conjunction : int {
     none,
     and_,
     or_

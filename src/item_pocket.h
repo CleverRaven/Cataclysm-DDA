@@ -40,7 +40,7 @@ class item_pocket
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
-        enum class contain_code {
+        enum class contain_code : int {
             SUCCESS,
             // only mods can go into the pocket for mods
             ERR_MOD,
@@ -185,7 +185,7 @@ class item_pocket
          * NOTE: this destroys the items that get processed
          */
         void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;
         }

@@ -121,7 +121,7 @@ class target_ui
     public:
         /* None of the public members (except ammo and range) should be modified during execution */
 
-        enum class TargetMode {
+        enum class TargetMode : int {
             Fire,
             Throw,
             ThrowBlind,
@@ -156,7 +156,7 @@ class target_ui
         // Relevant activity
         aim_activity_actor *activity = nullptr;
 
-        enum class ExitCode {
+        enum class ExitCode : int {
             Abort,
             Fire,
             Timeout,
@@ -167,7 +167,7 @@ class target_ui
         target_handler::trajectory run();
 
     private:
-        enum class Status {
+        enum class Status : int {
             Good, // All UI elements are enabled
             BadTarget, // Bad 'dst' selected; forbid aiming/firing
             OutOfAmmo, // Selected gun mode is out of ammo; forbid moving cursor,aiming and firing
@@ -175,7 +175,7 @@ class target_ui
         };
 
         // Ui status (affects which UI controls are temporarily disabled)
-        Status status;
+        Status status = Status::Good;
 
         // Current trajectory
         std::vector<tripoint> traj;
@@ -191,21 +191,21 @@ class target_ui
         std::vector<Creature *> targets;
 
         // 'true' if map has z levels and 3D fov is on
-        bool allow_zlevel_shift;
+        bool allow_zlevel_shift = false;
         // Snap camera to cursor. Can be permanently toggled in settings
         // or temporarily in this window
-        bool snap_to_target;
+        bool snap_to_target = false;
         // If true, LEVEL_UP, LEVEL_DOWN and directional keys
         // responsible for moving cursor will shift view instead.
         bool shifting_view = false;
 
         // Compact layout
-        bool compact;
+        bool compact = false;
         // Tiny layout - when extremely short on space
-        bool tiny;
+        bool tiny = false;
         // Narrow layout - to keep in theme with
         // "compact" and "labels-narrow" sidebar styles.
-        bool narrow;
+        bool narrow = false;
         // Window
         catacurses::window w_target;
         // Input context
@@ -223,7 +223,7 @@ class target_ui
         // 'recoil' while they are actively spending moves to aim,
         // but increases the further away the new aim point will be
         // relative to the current one.
-        double predicted_recoil;
+        double predicted_recoil = 0;
 
         // For AOE spells, list of tiles affected by the spell
         // relevant for TargetMode::Spell
@@ -1491,7 +1491,7 @@ static projectile make_gun_projectile( const item &gun )
 
     auto &fx = proj.proj_effects;
 
-    if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
+    if( ( gun.ammo_data() && gun.ammo_data()->phase == phase_id::LIQUID ) ||
         fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
@@ -2427,7 +2427,7 @@ void target_ui::update_status()
         // Selected gun mode is empty
         status = Status::OutOfAmmo;
     } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
-                                    casting->is_valid_target( target_self ) ) ) {
+                                    casting->is_valid_target( spell_target::self ) ) ) {
         // TODO: consider allowing targeting yourself with turrets
         status = Status::BadTarget;
     } else if( dist_fn( dst ) > range ) {

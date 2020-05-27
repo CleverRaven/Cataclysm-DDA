@@ -21,16 +21,16 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
-enum requirement_check_result : int {
+enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
     CAN_DO_LOCATION,
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
 
-enum butcher_type : int {
-    BUTCHER,        // quick butchery
-    BUTCHER_FULL,   // full workshop butchery
-    F_DRESS,        // field dressing a corpse
+enum class butcher_type : int {
+    QUICK,          // quick butchery
+    FULL,           // full workshop butchery
+    FIELD_DRESS,    // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse
@@ -106,7 +106,7 @@ void activity_on_turn_wear( player_activity &act, player &p );
 bool find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
-enum class item_drop_reason {
+enum class item_drop_reason : int {
     deliberate,
     too_large,
     too_heavy,

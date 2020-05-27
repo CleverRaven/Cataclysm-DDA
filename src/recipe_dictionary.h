@@ -124,7 +124,7 @@ class recipe_subset
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
-        enum class search_type {
+        enum class search_type : int {
             name,
             skill,
             primary_skill,

@@ -109,19 +109,77 @@ struct enum_traits<character_movemode> {
     static constexpr auto last = character_movemode::CMM_COUNT;
 };
 
-enum fatigue_levels {
+enum class fatigue_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
 const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
-        { "TIRED", TIRED },
-        { "DEAD_TIRED", DEAD_TIRED },
-        { "EXHAUSTED", EXHAUSTED },
-        { "MASSIVE_FATIGUE", MASSIVE_FATIGUE }
+        { "TIRED", fatigue_levels::TIRED },
+        { "DEAD_TIRED", fatigue_levels::DEAD_TIRED },
+        { "EXHAUSTED", fatigue_levels::EXHAUSTED },
+        { "MASSIVE_FATIGUE", fatigue_levels::MASSIVE_FATIGUE }
     }
 };
+
+constexpr inline bool operator>=( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) >= static_cast<int>( rhs );
+}
+
+constexpr inline bool operator<( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) < static_cast<int>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs >= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs > static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs <= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs < static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline int operator/( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) / rhs;
+}
+
+template<typename T>
+constexpr inline int operator+( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) - rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs - static_cast<T>( rhs );
+}
 
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
@@ -160,7 +218,7 @@ enum edible_rating {
     NO_TOOL
 };
 
-enum class rechargeable_cbm {
+enum class rechargeable_cbm : int {
     none = 0,
     reactor,
     furnace,
@@ -188,7 +246,7 @@ struct encumbrance_data {
     int armor_encumbrance = 0;
     int layer_penalty = 0;
 
-    std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
+    std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
     void layer( const layer_level level, const int encumbrance ) {
@@ -279,7 +337,7 @@ class Character : public Creature, public visitable<Character>
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
 
-        enum class comfort_level {
+        enum class comfort_level : int {
             impossible = -999,
             uncomfortable = -7,
             neutral = 0,
@@ -390,6 +448,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_hunger( int nhunger );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
+        virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;

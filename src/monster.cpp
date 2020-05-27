@@ -563,7 +563,7 @@ std::string monster::name_with_armor() const
         ret = _( "thick hide" );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = _( "armor plating" );
-    } else if( made_of( LIQUID ) ) {
+    } else if( made_of( phase_id::LIQUID ) ) {
         ret = _( "dense jelly mass" );
     } else {
         ret = _( "armor" );
@@ -1261,7 +1261,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == effect_onfire ) {
         return is_immune_damage( DT_HEAT ) ||
-               made_of( LIQUID ) ||
+               made_of( phase_id::LIQUID ) ||
                has_flag( MF_FIREY );
     }
 
@@ -2120,7 +2120,7 @@ void monster::process_turn()
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
                 for( const auto &item : items ) {
-                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
+                    if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;

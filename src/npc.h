@@ -346,7 +346,7 @@ const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
     }
 };
 
-enum class ally_rule {
+enum class ally_rule : int {
     DEFAULT = 0,
     use_guns = 1,
     use_grenades = 2,
@@ -1417,7 +1417,7 @@ class npc_template
         npc guy;
         translation name_unique;
         translation name_suffix;
-        enum class gender {
+        enum class gender : int {
             random,
             male,
             female

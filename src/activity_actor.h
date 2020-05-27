@@ -108,7 +108,7 @@ class activity_actor
 class aim_activity_actor : public activity_actor
 {
     public:
-        enum class WeaponSource {
+        enum class WeaponSource : int {
             Wielded,
             Bionic,
             Mutation,

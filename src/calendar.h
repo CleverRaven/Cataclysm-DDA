@@ -376,12 +376,12 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  */
 std::string to_string( const time_duration &d );
 
-enum class clipped_align {
+enum class clipped_align : int {
     none,
     right,
 };
 
-enum class clipped_unit {
+enum class clipped_unit : int {
     forever,
     second,
     minute,

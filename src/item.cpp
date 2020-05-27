@@ -409,7 +409,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         snip_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
-    if( current_phase == PNULL ) {
+    if( current_phase == phase_id::PNULL ) {
         current_phase = type->phase;
     }
     // item always has any relic properties from itype.
@@ -739,7 +739,7 @@ bool item::is_unarmed_weapon() const
 
 bool item::is_frozen_liquid() const
 {
-    return made_of( SOLID ) && made_of_from_type( LIQUID );
+    return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
 }
 
 bool item::covers( const body_part bp ) const
@@ -3401,7 +3401,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
             const translation &description = contents_item->type->description;
 
-            if( contents_item->made_of_from_type( LIQUID ) ) {
+            if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
                 units::volume contents_volume = contents_item->volume() * batch;
                 info.emplace_back( "DESCRIPTION", contents_item->display_name() );
                 info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
@@ -4276,7 +4276,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string burntext;
-    if( with_prefix && !made_of_from_type( LIQUID ) ) {
+    if( with_prefix && !made_of_from_type( phase_id::LIQUID ) ) {
         if( volume() >= 1_liter && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if( burnt > 0 ) {
@@ -4309,7 +4309,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext += string_format( " (%d%%)", percent_progress );
     } else if( contents.num_item_stacks() == 1 ) {
         const item &contents_item = contents.only_item();
-        if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
+        if( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
             //~ %1$s: item name, %2$s: content liquid, food, or drink name
             maintext = string_format( pgettext( "item name", "%1$s of %2$s" ), label( quantity ),
@@ -4608,7 +4608,7 @@ int item::price( bool practical ) const
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
         }
 
-        if( e->count_by_charges() || e->made_of( LIQUID ) ) {
+        if( e->count_by_charges() || e->made_of( phase_id::LIQUID ) ) {
             // price from json data is for default-sized stack
             child *= e->charges / static_cast<double>( e->type->stack_size );
 
@@ -4724,7 +4724,7 @@ units::mass item::weight( bool, bool integral ) const
 
 units::length item::length() const
 {
-    if( made_of( LIQUID ) || is_soft() ) {
+    if( made_of( phase_id::LIQUID ) || is_soft() ) {
         return 0_mm;
     }
     if( is_corpse() ) {
@@ -4811,7 +4811,7 @@ units::volume item::volume( bool integral ) const
         ret = type->volume;
     }
 
-    if( count_by_charges() || made_of( LIQUID ) ) {
+    if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
         units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
                 ( charges );
         if( type->stack_size <= 0 ) {
@@ -5472,19 +5472,19 @@ layer_level item::get_layer() const
     }
 
     if( has_flag( flag_PERSONAL ) ) {
-        return PERSONAL_LAYER;
+        return layer_level::PERSONAL;
     } else if( has_flag( flag_SKINTIGHT ) ) {
-        return UNDERWEAR_LAYER;
+        return layer_level::UNDERWEAR;
     } else if( has_flag( flag_WAIST ) ) {
-        return WAIST_LAYER;
+        return layer_level::WAIST;
     } else if( has_flag( flag_OUTER ) ) {
-        return OUTER_LAYER;
+        return layer_level::OUTER;
     } else if( has_flag( flag_BELTED ) ) {
-        return BELTED_LAYER;
+        return layer_level::BELTED;
     } else if( has_flag( flag_AURA ) ) {
-        return AURA_LAYER;
+        return layer_level::AURA;
     } else {
-        return REGULAR_LAYER;
+        return layer_level::REGULAR;
     }
 }
 
@@ -7554,7 +7554,7 @@ void item::reload_option::qty( int val )
                      *ammo->contents.all_items_top( item_pocket::pocket_type::CONTAINER ).front() : *ammo;
 
     if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
-        ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
+        ( ammo_in_liquid_container && !ammo_obj.made_of( phase_id::LIQUID ) ) ) {
         debugmsg( "Invalid reload option: %s", ammo_obj.tname() );
         return;
     }
@@ -7680,7 +7680,7 @@ bool item::reload( player &u, item_location ammo, int qty )
             put_in( item_copy, item_pocket::pocket_type::MAGAZINE );
         }
     } else if( is_watertight_container() ) {
-        if( !ammo->made_of_from_type( LIQUID ) ) {
+        if( !ammo->made_of_from_type( phase_id::LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
         }
@@ -7744,7 +7744,7 @@ float item::simulate_burn( fire_data &frd ) const
     }
 
     // Liquids that don't burn well smother fire well instead
-    if( made_of( LIQUID ) && time_added < 200 ) {
+    if( made_of( phase_id::LIQUID ) && time_added < 200 ) {
         time_added -= rng( 400.0 * to_liter( vol ), 1200.0 * to_liter( vol ) );
     } else if( mats.size() > 1 ) {
         // Average the materials
@@ -8063,7 +8063,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
-        current_phase = SOLID;
+        current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -8140,7 +8140,7 @@ void item::set_item_temperature( float new_temperature )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
-        current_phase = SOLID;
+        current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -8421,7 +8421,7 @@ bool item::has_rotten_away() const
 bool item::has_rotten_away( const tripoint &pnt, float spoil_multiplier )
 {
     if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr, temperature_flag::TEMP_NORMAL, spoil_multiplier );
+        process_temperature_rot( 1, pnt, nullptr, temperature_flag::NORMAL, spoil_multiplier );
         return has_rotten_away();
     } else {
         contents.remove_rotten( pnt );
@@ -8583,19 +8583,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
     int temp = g->weather.get_temperature( pos );
 
     switch( flag ) {
-        case TEMP_NORMAL:
+        case temperature_flag::NORMAL:
             // Just use the temperature normally
             break;
-        case TEMP_FRIDGE:
+        case temperature_flag::FRIDGE:
             temp = std::min( temp, temperatures::fridge );
             break;
-        case TEMP_FREEZER:
+        case temperature_flag::FREEZER:
             temp = std::min( temp, temperatures::freezer );
             break;
-        case TEMP_HEATER:
+        case temperature_flag::HEATER:
             temp = std::max( temp, temperatures::normal );
             break;
-        case TEMP_ROOT_CELLAR:
+        case temperature_flag::ROOT_CELLAR:
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
@@ -8655,19 +8655,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
             }
 
             switch( flag ) {
-                case TEMP_NORMAL:
+                case temperature_flag::NORMAL:
                     // Just use the temperature normally
                     break;
-                case TEMP_FRIDGE:
+                case temperature_flag::FRIDGE:
                     env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
                     break;
-                case TEMP_FREEZER:
+                case temperature_flag::FREEZER:
                     env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
                     break;
-                case TEMP_HEATER:
+                case temperature_flag::HEATER:
                     env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
                     break;
-                case TEMP_ROOT_CELLAR:
+                case temperature_flag::ROOT_CELLAR:
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
@@ -8878,7 +8878,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
-        current_phase = SOLID;
+        current_phase = phase_id::SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -9755,7 +9755,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
-    if( made_of_from_type( LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
+    if( made_of_from_type( phase_id::LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
         !item_tags.count( "DIRTY" ) ) {
         item_tags.insert( "DIRTY" );
     }
