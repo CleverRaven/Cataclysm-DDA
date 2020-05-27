@@ -3,6 +3,7 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
