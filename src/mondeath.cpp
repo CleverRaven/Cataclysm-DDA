@@ -637,8 +637,8 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-        for( const std::pair<const itype_id, int> &ammo_entry : z.type->starting_ammo ) {
-            if( z.ammo[ammo_entry.first] > 0 ) {
+        for( const std::pair<const itype_id, int> &ammo_entry : z.ammo ) {
+            if( ammo_entry.second > 0 ) {
                 bool spawned = false;
                 for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
@@ -653,7 +653,7 @@ void mdeath::broken( monster &z )
                         const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {
                             std::vector<item> mags;
-                            int ammo_count = z.ammo[ammo_entry.first];
+                            int ammo_count = ammo_entry.second;
                             while( ammo_count > 0 ) {
                                 item mag = item( gun.type->magazine_default.find( item( ammo_entry.first ).ammo_type() )->second );
                                 mag.ammo_set( ammo_entry.first,
@@ -668,7 +668,7 @@ void mdeath::broken( monster &z )
                     }
                 }
                 if( !spawned ) {
-                    g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
+                    g->m.spawn_item( z.pos(), ammo_entry.first, ammo_entry.second, 1,
                                      calendar::turn );
                 }
             }

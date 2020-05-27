@@ -231,13 +231,6 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    if( in_species( ROBOT ) ) {
-        for( const auto &ammo_entry : type->starting_ammo ) {
-            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
-        }
-    } else {
-        ammo = type->starting_ammo;
-    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
@@ -2043,24 +2036,6 @@ bool monster::special_available( const std::string &special_name ) const
     std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
                 special_name );
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
-}
-
-void monster::normalize_ammo( const int old_ammo )
-{
-    int total_ammo = 0;
-    // Sum up the ammo entries to get a ratio.
-    for( const auto &ammo_entry : type->starting_ammo ) {
-        total_ammo += ammo_entry.second;
-    }
-    if( total_ammo == 0 ) {
-        // Should never happen, but protect us from a div/0 if it does.
-        return;
-    }
-    // Previous code gave robots 100 rounds of ammo.
-    // This reassigns whatever is left from that in the appropriate proportions.
-    for( const auto &ammo_entry : type->starting_ammo ) {
-        ammo[ammo_entry.first] = old_ammo * ammo_entry.second / ( 100 * total_ammo );
-    }
 }
 
 void monster::explode()

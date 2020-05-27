@@ -1244,6 +1244,7 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
+        struct spawn_data data;
         jmapgen_monster( const JsonObject &jsi ) :
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
@@ -1283,6 +1284,16 @@ class jmapgen_monster : public jmapgen_piece
                 }
                 ids.add( id, 100 );
             }
+
+            if( jsi.has_object( "spawn_data" ) ) {
+                const JsonObject &sd = jsi.get_object( "spawn_data" );
+                if( sd.has_array( "ammo" ) ) {
+                    const JsonArray &ammos = sd.get_array( "ammo" );
+                    for( const JsonObject &adata : ammos ) {
+                        data.ammo.emplace( adata.get_string( "ammo_id" ), jmapgen_int( adata, "qty" ) );
+                    }
+                }
+            }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
 
@@ -1321,11 +1332,11 @@ class jmapgen_monster : public jmapgen_piece
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
                 dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
-                friendly, -1, mission_id, name );
+                friendly, -1, mission_id, name, data );
             } else {
                 dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
-                friendly, -1, mission_id, name );
+                friendly, -1, mission_id, name, data );
             }
         }
 };
@@ -2796,11 +2807,11 @@ void jmapgen_objects::apply( mapgendata &dat, const point &offset ) const
         return;
     }
 
-    for( auto &obj : objects ) {
-        auto where = obj.first;
+    for( const jmapgen_obj &obj : objects ) {
+        jmapgen_place where = obj.first;
         where.offset( -offset );
 
-        const auto &what = *obj.second;
+        const jmapgen_piece &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
@@ -5634,8 +5645,14 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
+        const MonsterGroup &mg = group.obj();
+        auto mon_selected = std::find_if( mg.monsters.begin(), mg.monsters.end(),
+        [spawn_details]( const MonsterGroupEntry & mon ) {
+            return mon.name == spawn_details.name;
+        } );
+
         add_spawn( spawn_details.name, spawn_details.pack_size, { x, y, abs_sub.z },
-                   friendly, -1, mission_id, name );
+                   friendly, -1, mission_id, name, mon_selected->data );
     }
 }
 
@@ -5775,7 +5792,7 @@ std::vector<item *> map::put_items_from_loc( const items_location &loc, const tr
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name ) const
+                     int faction_id, int mission_id, const std::string &name, spawn_data data ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
@@ -5792,7 +5809,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
+    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name, data );
     place_on_submap->spawns.push_back( tmp );
 }
 
