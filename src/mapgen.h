@@ -3,7 +3,6 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -128,11 +127,9 @@ struct jmapgen_setmap {
 };
 
 struct spawn_data {
-    std::map<itype_id, jmapgen_int> ammo;
+    std::map<std::string, jmapgen_int> ammo;
 
-    spawn_data() {
-        ammo.emplace( itype_id::NULL_ID(), jmapgen_int( 0 ) );
-    }
+    spawn_data() : ammo() {};
 };
 
 /**
