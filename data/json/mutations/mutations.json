@@ -6586,5 +6586,14 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "PROF_HELI_PILOT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAST_REFLEXES",
+    "name": { "str": "Fast Reflexes" },
+    "points": 3,
+    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
+    "starting_trait": true,
+    "dodge_modifier": 2
   }
 ]
