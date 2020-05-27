@@ -418,7 +418,11 @@ item recipe::create_result() const
     }
 
     if( contained ) {
-        newit = newit.in_container( container );
+        if( newit.count_by_charges() ) {
+            newit = newit.in_container( container, newit.charges );
+        } else {
+            newit = newit.in_container( container );
+        }
     }
 
     return newit;
