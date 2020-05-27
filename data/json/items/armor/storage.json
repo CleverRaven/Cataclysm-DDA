@@ -1059,7 +1059,7 @@
     "id": "debug_backpack",
     "type": "ARMOR",
     "name": { "str": "debug pocket universe" },
-    "description": "A pocket universe. Can store approximately 384 * 10^6 bugs.",
+    "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.",
     "weight": "1 g",
     "volume": "1 L",
     "price": 0,
