@@ -345,7 +345,7 @@ void Item_modifier::modify( item &new_item ) const
             }
         }
         // Make sure the item is in valid state
-        if( new_item.ammo_data() && new_item.magazine_integral() ) {
+        if( new_item.magazine_integral() ) {
             new_item.charges = std::min( new_item.charges,
                                          new_item.ammo_capacity( item_controller->find_template( new_item.ammo_default() )->ammo->type ) );
         } else {

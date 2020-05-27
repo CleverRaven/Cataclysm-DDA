@@ -576,7 +576,7 @@ units::energy item::set_energy( const units::energy &qty )
 item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( !ammo->ammo ) {
-        debugmsg( "can't set ammo %s as it is not an ammo", ammo.c_str() );
+        debugmsg( "can't set ammo %s in %s as it is not an ammo", ammo.c_str(), type_name() );
         return *this;
     }
     const ammotype &ammo_type = ammo->ammo->type;
@@ -602,7 +602,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo.is_null() && ammo_types().empty() ) || is_money() ) {
+    if( ammo.is_null() && ammo_types().empty() ) {
         if( magazine_integral() ) {
             if( is_tool() ) {
                 curammo = nullptr;
