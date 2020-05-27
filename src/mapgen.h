@@ -130,7 +130,9 @@ struct jmapgen_setmap {
 struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
 
-    spawn_data() : ammo() {};
+    spawn_data() {
+        ammo.emplace( itype_id::NULL_ID(), jmapgen_int( 0 ) );
+    }
 };
 
 /**
