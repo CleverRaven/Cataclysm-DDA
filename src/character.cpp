@@ -2349,6 +2349,20 @@ std::vector<item_location> Character::all_items_loc()
     return ret;
 }
 
+std::vector<item_location> Character::top_items_loc()
+{
+    std::vector<item_location> ret;
+    if( has_weapon() ) {
+        item_location weap_loc( *this, &weapon );
+        ret.push_back( weap_loc );
+    }
+    for( item &worn_it : worn ) {
+        item_location worn_loc( *this, &worn_it );
+        ret.push_back( worn_loc );
+    }
+    return ret;
+}
+
 item *Character::invlet_to_item( const int linvlet )
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
@@ -6879,6 +6893,7 @@ mutation_value_map = {
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
+    { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
 };
 

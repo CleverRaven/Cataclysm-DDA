@@ -304,7 +304,7 @@ bool melee_actor::call( monster &z ) const
 
     target->on_hit( &z, convert_bp( bp_hit ).id() );
     dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
-    dealt_damage.bp_hit = bp_hit;
+    dealt_damage.bp_hit = convert_bp( bp_hit ).id();
 
     int damage_total = dealt_damage.total_damage();
     add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
@@ -328,7 +328,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
     auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
-    const bodypart_id &bp = convert_bp( dealt.bp_hit ).id();
+    const bodypart_id &bp = dealt.bp_hit ;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
 
@@ -357,13 +357,13 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
-        const body_part hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit ) ) {
-            target.add_effect( effect_bite, 40_minutes, hit, true );
-        } else if( target.has_effect( effect_infected, hit ) ) {
-            target.add_effect( effect_infected, 25_minutes, hit, true );
+        const bodypart_id &hit = dealt.bp_hit;
+        if( target.has_effect( effect_bite, hit->token ) ) {
+            target.add_effect( effect_bite, 40_minutes, hit->token, true );
+        } else if( target.has_effect( effect_infected, hit->token ) ) {
+            target.add_effect( effect_infected, 25_minutes, hit->token, true );
         } else {
-            target.add_effect( effect_bite, 1_turns, hit, true );
+            target.add_effect( effect_bite, 1_turns, hit->token, true );
         }
     }
     if( target.has_trait( trait_TOXICFLESH ) ) {

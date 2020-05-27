@@ -1289,15 +1289,15 @@ static void read()
 }
 
 // Perform a reach attach using wielded weapon
-static void reach_attack( player &u )
+static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, u.pos() );
+    g->m.draw( g->w_terrain, you.pos() );
 
-    target_handler::trajectory traj = target_handler::mode_reach( u, u.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
 
     if( !traj.empty() ) {
-        u.reach_attack( traj.back() );
+        you.reach_attack( traj.back() );
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1307,7 +1307,7 @@ static void reach_attack( player &u )
 
 static void fire()
 {
-    player &u = g->u;
+    avatar &u = g->u;
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
@@ -1316,7 +1316,7 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( g->u, g->m, turret );
+            avatar_action::fire_turret_manual( u, g->m, turret );
             return;
         }
 
@@ -1360,7 +1360,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( g->u );
+        avatar_action::fire_wielded_weapon( u );
     } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {

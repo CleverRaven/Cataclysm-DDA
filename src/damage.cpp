@@ -163,6 +163,7 @@ void damage_instance::deserialize( JsonIn &jsin )
 dealt_damage_instance::dealt_damage_instance()
 {
     dealt_dams.fill( 0 );
+    bp_hit  = bodypart_id( "torso" );
 }
 
 void dealt_damage_instance::set_damage( damage_type dt, int amount )

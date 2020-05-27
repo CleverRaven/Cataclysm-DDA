@@ -276,11 +276,18 @@ static void achievement_attained( const achievement *a, bool achievements_enable
     }
 }
 
+static void achievement_failed( const achievement *a, bool achievements_enabled )
+{
+    if( achievements_enabled && a->is_conduct() ) {
+        g->u.add_msg_if_player( m_bad, _( "You lost the conduct \"%s\"." ), a->name() );
+    }
+}
+
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
