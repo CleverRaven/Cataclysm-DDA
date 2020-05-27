@@ -129,7 +129,8 @@
     "type": "technique",
     "id": "WRAP",
     "name": "Wrap Attack",
-    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You wrap up %s", "<npcname> wraps up %s" ],
     "description": "Stun 2 turns"
@@ -138,7 +139,8 @@
     "type": "technique",
     "id": "SWEEP",
     "name": "Sweep Attack",
-    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
     "down_dur": 2,
     "messages": [ "You sweep %s", "<npcname> sweeps %s" ],
     "description": "Down 2 turns"
