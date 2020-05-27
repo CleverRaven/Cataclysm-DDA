@@ -288,7 +288,7 @@
     "id": "chain",
     "category": "spare_parts",
     "name": { "str": "steel chain" },
-    "description": "A heavy steel chain.  Useful as a weapon, or for crafting.  It has a chance to wrap around your target, allowing for a bonus unarmed attack.",
+    "description": "A heavy steel chain.  Useful as a weapon, or for crafting.  It has a chance to wrap around your target, stunning it.",
     "weight": "3628 g",
     "color": "dark_gray",
     "symbol": "/",
