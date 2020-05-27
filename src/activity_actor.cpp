@@ -94,7 +94,7 @@ aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
     aim_activity_actor act = aim_activity_actor();
     act.weapon_source = WeaponSource::Bionic;
     act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = std::make_shared<item>( fake_gun );
+    act.fake_weapon = make_shared_fast<item>( fake_gun );
     return act;
 }
 
@@ -102,7 +102,7 @@ aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
     act.weapon_source = WeaponSource::Mutation;
-    act.fake_weapon = std::make_shared<item>( fake_gun );
+    act.fake_weapon = make_shared_fast<item>( fake_gun );
     return act;
 }
 
@@ -221,7 +221,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "weapon_source", actor.weapon_source );
     if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
-        actor.fake_weapon = std::make_shared<item>();
+        actor.fake_weapon = make_shared_fast<item>();
         data.read( "fake_weapon", *actor.fake_weapon );
     }
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
