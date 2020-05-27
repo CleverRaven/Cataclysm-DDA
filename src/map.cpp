@@ -7336,7 +7336,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
             if( !i.data.ammo.empty() ) {
                 for( std::pair<itype_id, jmapgen_int> ap : i.data.ammo ) {
-                    tmp.ammo.emplace( itype_id( ap.first ), ap.second.get() );
+                    tmp.ammo.emplace( ap.first, ap.second.get() );
                 }
             } else {
                 tmp.ammo = tmp.type->starting_ammo;
