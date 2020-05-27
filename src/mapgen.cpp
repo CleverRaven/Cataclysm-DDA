@@ -1290,7 +1290,7 @@ class jmapgen_monster : public jmapgen_piece
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
                     for( const JsonObject &adata : ammos ) {
-                        data.ammo.emplace( adata.get_string( "ammo_id" ), jmapgen_int( adata, "qty" ) );
+                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
                     }
                 }
             }
