@@ -7066,17 +7066,25 @@
     "id": "o_airport",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_air_term_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_air_term_roof_south" },
       { "point": [ 1, 0, 0 ], "overmap": "s_air_parking_south" },
       { "point": [ -2, 0, 0 ], "overmap": "s_air_hangars_south" },
+      { "point": [ -2, 0, 1 ], "overmap": "s_air_hangars_roof_south" },
+      { "point": [ -3, 0, 0 ], "overmap": "s_air_helicopter_pad_north" },
       { "point": [ -1, 0, 0 ], "overmap": "s_air_atc_south" },
       { "point": [ -1, 0, 1 ], "overmap": "s_air_atc_2_south" },
       { "point": [ -1, 0, 2 ], "overmap": "s_air_atc_3_south" },
-      { "point": [ -3, 1, 0 ], "overmap": "s_air_runway_r_south" },
+      { "point": [ -5, 1, 0 ], "overmap": "s_air_runway_r_south" },
+      { "point": [ -4, 1, 0 ], "overmap": "s_air_runway_south" },
+      { "point": [ -3, 1, 0 ], "overmap": "s_air_runway_south" },
       { "point": [ -2, 1, 0 ], "overmap": "s_air_runway_hangars_south" },
       { "point": [ -1, 1, 0 ], "overmap": "s_air_runway_south" },
       { "point": [ 0, 1, 0 ], "overmap": "s_air_runway_term_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "s_air_runway_south" },
-      { "point": [ 2, 1, 0 ], "overmap": "s_air_runway_l_south" }
+      { "point": [ 1, 1, 0 ], "overmap": "s_air_runway_B_south" },
+      { "point": [ 2, 1, 0 ], "overmap": "s_air_runway_B_south" },
+      { "point": [ 3, 1, 0 ], "overmap": "s_air_runway_B_south" },
+      { "point": [ 4, 1, 0 ], "overmap": "s_air_runway_B_south" },
+      { "point": [ 5, 1, 0 ], "overmap": "s_air_runway_l_south" }
     ],
     "connections": [
       { "point": [ -1, -1, 0 ], "terrain": "road", "existing": false },
