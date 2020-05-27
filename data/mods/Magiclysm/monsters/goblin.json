@@ -97,5 +97,11 @@
         { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
       ]
     }
+  },
+  {
+    "id": "mon_troll_goblin_tamed",
+    "type": "MONSTER",
+    "copy-from": "mon_troll",
+    "default_faction": "goblin"
   }
 ]
