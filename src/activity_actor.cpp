@@ -621,15 +621,17 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             break;
         case HACK_SUCCESS:
             if( type == HACK_GAS ) {
-                int tankGasUnits;
-                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
+                int tankUnits;
+                std::string fuelType;
+                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
+                                                        fuelType );
                 if( !pTank_ ) {
                     break;
                 }
                 const tripoint pTank = *pTank_;
                 const cata::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
                         uistate.ags_pay_gas_selected_pump );
-                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
+                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankUnits ) ) {
                     who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
                     sounds::sound( examp, 6, sounds::sound_t::activity,
                                    _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
