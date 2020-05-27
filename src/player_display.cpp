@@ -280,7 +280,7 @@ static bool is_cqb_skill( const skill_id &id )
 
 namespace
 {
-enum class player_display_tab {
+enum class player_display_tab : int {
     stats,
     encumbrance,
     skills,

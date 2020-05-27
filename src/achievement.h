@@ -19,7 +19,7 @@ class achievements_tracker;
 class requirement_watcher;
 class stats_tracker;
 
-enum class achievement_comparison {
+enum class achievement_comparison : int {
     less_equal,
     greater_equal,
     anything,
@@ -31,7 +31,7 @@ struct enum_traits<achievement_comparison> {
     static constexpr achievement_comparison last = achievement_comparison::last;
 };
 
-enum class achievement_completion {
+enum class achievement_completion : int {
     pending,
     completed,
     failed,
@@ -78,7 +78,7 @@ class achievement
         class time_bound
         {
             public:
-                enum class epoch {
+                enum class epoch : int {
                     cataclysm,
                     game_start,
                     last

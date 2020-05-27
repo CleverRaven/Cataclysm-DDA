@@ -231,13 +231,6 @@ monster::monster( const mtype_id &id ) : monster()
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    if( in_species( ROBOT ) ) {
-        for( const auto &ammo_entry : type->starting_ammo ) {
-            ammo[ammo_entry.first] = rng( 1, ammo_entry.second );
-        }
-    } else {
-        ammo = type->starting_ammo;
-    }
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
@@ -570,7 +563,7 @@ std::string monster::name_with_armor() const
         ret = _( "thick hide" );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = _( "armor plating" );
-    } else if( made_of( LIQUID ) ) {
+    } else if( made_of( phase_id::LIQUID ) ) {
         ret = _( "dense jelly mass" );
     } else {
         ret = _( "armor" );
@@ -1268,7 +1261,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == effect_onfire ) {
         return is_immune_damage( DT_HEAT ) ||
-               made_of( LIQUID ) ||
+               made_of( phase_id::LIQUID ) ||
                has_flag( MF_FIREY );
     }
 
@@ -2045,24 +2038,6 @@ bool monster::special_available( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled && iter->second.cooldown == 0;
 }
 
-void monster::normalize_ammo( const int old_ammo )
-{
-    int total_ammo = 0;
-    // Sum up the ammo entries to get a ratio.
-    for( const auto &ammo_entry : type->starting_ammo ) {
-        total_ammo += ammo_entry.second;
-    }
-    if( total_ammo == 0 ) {
-        // Should never happen, but protect us from a div/0 if it does.
-        return;
-    }
-    // Previous code gave robots 100 rounds of ammo.
-    // This reassigns whatever is left from that in the appropriate proportions.
-    for( const auto &ammo_entry : type->starting_ammo ) {
-        ammo[ammo_entry.first] = old_ammo * ammo_entry.second / ( 100 * total_ammo );
-    }
-}
-
 void monster::explode()
 {
     // Handled in mondeath::normal
@@ -2145,7 +2120,7 @@ void monster::process_turn()
                 const bool player_sees = g->u.sees( zap );
                 const auto items = g->m.i_at( zap );
                 for( const auto &item : items ) {
-                    if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
+                    if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;

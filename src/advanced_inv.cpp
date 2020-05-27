@@ -792,7 +792,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item *elemit : elem.items ) {
-            if( elemit->made_of_from_type( LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
                 liquid_items++;
             }
         }
@@ -1297,7 +1297,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             // important if item is worn
-            if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
+            if( g->u.can_unwield( *sitem->items.front() ).success() ) {
                 g->u.assign_activity( ACT_DROP );
                 g->u.activity.placement = squares[destarea].off;
 
@@ -1306,7 +1306,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     g->u.activity.str_values.push_back( "force_ground" );
                 }
 
-                g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
+                g->u.activity.targets.push_back( item_location( g->u, sitem->items.front() ) );
                 g->u.activity.values.push_back( amount_to_move );
 
                 // exit so that the activity can be carried out
@@ -1345,9 +1345,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         return colstart + ( src == advanced_inventory::side::left ? w_width / 2 : 0 );
     };
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
-                  player::worn_position_to_index( sitem->idx );
-        item_location loc( g->u, &g->u.i_at( idx ) );
+        item_location loc( g->u, sitem->items.front() );
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
         // "return to AIM". Once the new activity is finished, "return to AIM" comes back
@@ -1716,7 +1714,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     item &src_contents = src_container.contents.legacy_front();
 
-    if( !src_contents.made_of( LIQUID ) ) {
+    if( !src_contents.made_of( phase_id::LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
@@ -1756,7 +1754,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of_from_type( LIQUID ) && !it.is_frozen_liquid() ) {
+    if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "You can't pick up a liquid." ) );
         return false;
     }

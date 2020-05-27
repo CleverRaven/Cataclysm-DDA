@@ -29,6 +29,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "mapdata.h"
+#include "mapgen.h"
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
@@ -1350,7 +1351,7 @@ class map
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::string &name = "NONE" ) const;
+                        const std::string &name = "NONE", spawn_data data = spawn_data() ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );

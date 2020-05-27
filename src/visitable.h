@@ -13,7 +13,7 @@
 
 class item;
 
-enum class VisitResponse {
+enum class VisitResponse : int {
     ABORT, // Stop processing after this node
     NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
     SKIP   // Skip any child nodes and move directly to the next sibling

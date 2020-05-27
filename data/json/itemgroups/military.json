@@ -226,7 +226,6 @@
       { "item": "rm614_lmg", "prob": 1 },
       { "item": "rm2000_smg", "prob": 1 },
       { "item": "8mm_caseless", "prob": 2 },
-      { "item": "rm99_pistol", "prob": 1 },
       { "item": "8mm_jhp", "prob": 2 },
       { "item": "8mm_fmj", "prob": 2 },
       { "item": "laser_rifle", "prob": 1 },

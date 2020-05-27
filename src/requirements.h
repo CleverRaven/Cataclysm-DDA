@@ -157,7 +157,7 @@ struct quality_requirement {
     }
 };
 
-enum class requirement_display_flags {
+enum class requirement_display_flags : int {
     none = 0,
     no_unavailable = 1,
 };

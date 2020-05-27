@@ -232,7 +232,7 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
             // Exhausted
-            if( get_fatigue() >= EXHAUSTED ) {
+            if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -1595,7 +1595,7 @@ void Character::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( get_fatigue() > DEAD_TIRED ) {
+    } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     } else {

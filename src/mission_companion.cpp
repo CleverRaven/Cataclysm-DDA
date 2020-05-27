@@ -2080,7 +2080,7 @@ void talk_function::loot_building( const tripoint &site )
         map_stack items = bay.i_at( p );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( ( ( it->is_food() || it->is_food_container() ) && !one_in( 8 ) ) ||
-                ( it->made_of( LIQUID ) && !one_in( 8 ) ) ||
+                ( it->made_of( phase_id::LIQUID ) && !one_in( 8 ) ) ||
                 ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {
                 it = items.erase( it );
             } else {

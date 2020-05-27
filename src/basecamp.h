@@ -26,7 +26,7 @@ class character_id;
 class npc;
 class time_duration;
 
-enum class farm_ops;
+enum class farm_ops : int;
 class item;
 class mission_data;
 class recipe;
