@@ -271,5 +271,18 @@
       [ [ "forge", 60 ] ]
     ],
     "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "material_aluminium_ingot",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ], [ "oxy_torch", 15 ] ] ],
+    "components": [ [ [ "can_drink", 52  ], ["can_drink_unsealed", 52 ] ] ]
   }
 ]
