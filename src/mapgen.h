@@ -127,7 +127,7 @@ struct jmapgen_setmap {
 };
 
 struct spawn_data {
-    std::map<std::string, jmapgen_int> ammo;
+    std::map<itype_id, jmapgen_int> ammo;
 
     spawn_data() : ammo() {};
 };
