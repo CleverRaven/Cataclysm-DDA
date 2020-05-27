@@ -133,7 +133,7 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You wrap up %s", "<npcname> wraps up %s" ],
-    "description": "Stun 2 turns"
+    "description": "Stun 2 turns, crit only"
   },
   {
     "type": "technique",
@@ -143,7 +143,7 @@
     "crit_tec": true,
     "down_dur": 2,
     "messages": [ "You sweep %s", "<npcname> sweeps %s" ],
-    "description": "Down 2 turns"
+    "description": "Down 2 turns, crit only"
   },
   {
     "type": "technique",
