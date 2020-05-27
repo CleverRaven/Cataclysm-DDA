@@ -361,7 +361,7 @@
       "bio_carbon",
       "bio_power_storage_mkII"
     ],
-    "points": 20,
+    "points": 15,
     "skills": [
       { "level": 10, "name": "gun" },
       { "level": 10, "name": "launcher" },
@@ -421,7 +421,7 @@
       "bio_dex_enhancer",
       "bio_power_storage_mkII"
     ],
-    "points": 18,
+    "points": 15,
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -716,7 +716,7 @@
       "THIRST2",
       "SUNBURN"
     ],
-    "points": 16,
+    "points": 10,
     "skills": [ { "level": 5, "name": "cooking" }, { "level": 3, "name": "fabrication" }, { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {

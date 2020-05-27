@@ -5,11 +5,12 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "5.56x45mm ammo belt" },
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 500,
     "count": 100,
     "default_ammo": "556",
-    "linkage": "ammolink223"
+    "linkage": "ammolink223",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 500 } } ]
   },
   {
     "id": "famasmag",
@@ -24,10 +25,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 25,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 25 } } ]
   },
   {
     "id": "ruger5",
@@ -42,10 +44,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 5,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5 } } ]
   },
   {
     "looks_like": "stanag30",
@@ -63,7 +66,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10, "300blk": 10 } } ]
   },
   {
     "id": "ruger10",
@@ -72,7 +76,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Ruger .223 10-round magazine" },
     "description": "A compact 10-round box magazine used with the Ruger Mini-14 rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "ruger20",
@@ -81,7 +85,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Ruger .223 20-round magazine" },
     "description": "A 20-round box magazine used with the Ruger Mini-14 rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "ruger30",
@@ -96,10 +100,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 30,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 30 } } ]
   },
   {
     "id": "ruger90",
@@ -108,7 +113,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Ruger .223 90-round snail drum magazine" },
     "description": "A bulky 90-round snail drum magazine for use with the Ruger Mini-14 rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "ruger100",
@@ -117,7 +122,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Ruger .223 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Ruger Mini-14 rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "stanag5",
@@ -134,7 +139,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 5,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5, "300blk": 5 } } ]
   },
   {
     "id": "stanag20",
@@ -151,7 +157,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 20, "300blk": 20 } } ]
   },
   {
     "id": "stanag30",
@@ -159,8 +166,8 @@
     "name": { "str": "STANAG 30-round magazine" },
     "//": "Tileset whitelist for rifle magazines",
     "description": "A standard capacity 30-round box magazine for use with STANAG compatible rifles.",
-    "weight": "245 g",
-    "volume": "500 ml",
+    "weight": "360 g",
+    "volume": "290 ml",
     "price": 8000,
     "price_postapoc": 250,
     "material": "steel",
@@ -169,7 +176,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 30,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 30, "300blk": 30 } } ]
   },
   {
     "id": "stanag40",
@@ -186,7 +194,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 40,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 40, "300blk": 40 } } ]
   },
   {
     "id": "stanag50",
@@ -207,7 +216,8 @@
     "capacity": 50,
     "reliability": 7,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 50, "300blk": 50 } } ]
   },
   {
     "id": "stanag60",
@@ -224,7 +234,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 60,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 60, "300blk": 60 } } ]
   },
   {
     "id": "stanag60drum",
@@ -244,7 +255,8 @@
     "capacity": 60,
     "reliability": 7,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 60, "300blk": 60 } } ]
   },
   {
     "id": "stanag90",
@@ -264,7 +276,8 @@
     "capacity": 90,
     "reliability": 6,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 90, "300blk": 90 } } ]
   },
   {
     "id": "stanag100",
@@ -281,7 +294,8 @@
     "ammo_type": [ "223", "300blk" ],
     "capacity": 100,
     "reliability": 7,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 100, "300blk": 100 } } ]
   },
   {
     "id": "stanag100drum",
@@ -299,7 +313,8 @@
     "capacity": 100,
     "reliability": 6,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 100, "300blk": 100 } } ]
   },
   {
     "id": "stanag150",
@@ -317,7 +332,8 @@
     "capacity": 150,
     "reliability": 7,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 150, "300blk": 150 } } ]
   },
   {
     "id": "g36mag_30rd",
@@ -326,7 +342,7 @@
     "type": "MAGAZINE",
     "name": { "str": "G36 30-round magazine" },
     "description": "A standard capacity box magazine for use with the G36 assault rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "g36mag_100rd",
@@ -335,7 +351,7 @@
     "type": "MAGAZINE",
     "name": { "str": "G36 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the G36 assault rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "augmag_10rd",
@@ -345,7 +361,7 @@
     "name": { "str": "AUG 10-round magazine" },
     "description": "A compact 10-round box magazine for use with the Steyr AUG assault rifle.",
     "material": [ "steel", "plastic" ],
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "augmag_30rd",
@@ -355,7 +371,7 @@
     "name": { "str": "AUG 30-round magazine" },
     "description": "A standard capacity 30-round box magazine for use with the Steyr AUG assault rifle.",
     "material": [ "steel", "plastic" ],
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "augmag_42rd",
@@ -369,10 +385,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 42,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 42 } } ]
   },
   {
     "id": "augmag_100rd",
@@ -382,7 +399,7 @@
     "name": { "str": "AUG 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Steyr AUG assault rifle.",
     "material": [ "steel", "plastic" ],
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   },
   {
     "id": "survivor223mag",
@@ -401,7 +418,8 @@
     "capacity": 5,
     "reliability": 1,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5, "300blk": 5 } } ]
   },
   {
     "id": "ruger_makeshiftmag",
@@ -410,6 +428,6 @@
     "price_postapoc": 50,
     "name": { "str": "Ruger makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Ruger Mini-14 rifle.",
-    "ammo_type": "223"
+    "ammo_type": [ "223" ]
   }
 ]

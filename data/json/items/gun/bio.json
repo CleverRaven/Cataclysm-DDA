@@ -13,14 +13,15 @@
     "symbol": "(",
     "color": "magenta",
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "//": "Damage is using a 6 inch barrel.",
-    "ranged_damage": -11,
+    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bio_emp_gun",
@@ -58,7 +59,7 @@
     "color": "magenta",
     "skill": "pistol",
     "range": 30,
-    "ranged_damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 15 },
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
     "dispersion": 10,
     "durability": 10,
     "loudness": 7,

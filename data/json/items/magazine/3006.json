@@ -13,9 +13,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "3006",
+    "ammo_type": [ "3006" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } } ]
   },
   {
     "id": "blrmag",
@@ -30,10 +31,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "3006",
+    "ammo_type": [ "3006" ],
     "capacity": 4,
     "reliability": 10,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
   },
   {
     "id": "garandclip",
@@ -48,11 +50,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "3006",
+    "ammo_type": [ "3006" ],
     "capacity": 8,
     "reliability": 8,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT", "MAG_EJECT" ]
+    "flags": [ "MAG_COMPACT", "MAG_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 8 } } ]
   },
   {
     "id": "m1918bigmag",
@@ -67,11 +70,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "3006",
+    "ammo_type": [ "3006" ],
     "capacity": 30,
     "reliability": 7,
     "reload_time": 120,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 30 } } ]
   },
   {
     "id": "m1918mag",
@@ -87,9 +91,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "3006",
+    "ammo_type": [ "3006" ],
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 20 } } ]
   }
 ]

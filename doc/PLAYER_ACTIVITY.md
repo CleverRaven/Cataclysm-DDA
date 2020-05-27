@@ -18,9 +18,11 @@ new activity.
 functions needed for the new actor as well as the required serialization
 functions. Don't forget to add the deserialization function of your new
 activity actor to the `deserialize_functions` map towards the bottom of
-`activity_actor.cpp`.
+`activity_actor.cpp`. Define `canceled` function if activity modifies
+some complex state that should be restored upon cancellation / interruption.
 
-4. `player_activity.cpp` Optionally update `can_resume_with`.
+4. If this activity is resumable, `override` 
+`activity_actor::can_resume_with_internal`
 
 5. Construct your activity actor and then pass it to the constructor for
 `player_activity`. The newly constructed activity can then be assigned
@@ -86,8 +88,8 @@ There are several ways an activity can be ended:
 
     Canceling an activity prevents the `activity_actor::finish`
     function from running, and the activity does therefore not yield a
-    result. A copy of the activity is written to `Character::backlog`
-    if it's suspendable.
+    result. Instead, `activity_actor::canceled` is called. If activity is
+    suspendable, a copy of it is written to `Character::backlog`.
 
 ## Notes
 

@@ -12,7 +12,7 @@
     "material": "aluminum",
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BACKBLAST", "NEVER_JAMS", "TRADER_AVOID" ],
     "skill": "launcher",
-    "ammo": "66mm",
+    "ammo": [ "66mm" ],
     "weight": "700 g",
     "volume": "2500 ml",
     "price_postapoc": 3500,
@@ -29,7 +29,8 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "66mm": 1 } } ]
   },
   {
     "id": "RPG",
@@ -46,7 +47,7 @@
     "material": [ "steel", "wood" ],
     "flags": [ "BACKBLAST", "NEVER_JAMS" ],
     "skill": "launcher",
-    "ammo": "RPG-7",
+    "ammo": [ "RPG-7" ],
     "weight": "7000 g",
     "volume": "4500 ml",
     "bashing": 10,
@@ -63,7 +64,8 @@
       [ "sling", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "RPG-7": 1 } } ]
   },
   {
     "id": "surv_rocket_launcher",
@@ -77,7 +79,7 @@
     "price": 5000,
     "material": "steel",
     "skill": "launcher",
-    "ammo": "homebrew_rocket",
+    "ammo": [ "homebrew_rocket" ],
     "weight": "7430 g",
     "volume": "5 L",
     "price_postapoc": 500,
@@ -89,7 +91,8 @@
     "clip_size": 1,
     "reload": 800,
     "loudness": 200,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "homebrew_rocket": 1 } } ]
   },
   {
     "id": "watercannon",
@@ -104,7 +107,7 @@
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD", "NON-FOULING" ],
     "ammo_effects": [ "JET", "BEANBAG", "NEVER_MISFIRES", "RECOVER_10" ],
     "skill": "launcher",
-    "ammo": "water",
+    "ammo": [ "water" ],
     "weight": "24500 g",
     "volume": "12500 ml",
     "price_postapoc": 500,
@@ -116,6 +119,7 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "clip_size": 100,
     "reload": 0,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 }, "watertight": true } ]
   }
 ]

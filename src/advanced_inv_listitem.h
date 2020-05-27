@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 
+#include "type_id.h"
 #include "units.h"
 
 // see item_factory.h
@@ -21,7 +22,6 @@ enum aim_location : char;
 class advanced_inv_listitem
 {
     public:
-        using itype_id = std::string;
         /**
          * Index of the item in the itemstack.
          */

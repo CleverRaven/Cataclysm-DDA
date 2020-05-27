@@ -17,7 +17,7 @@
     "ammo_type": "357mag",
     "casing": "357mag_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 28, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
     "dispersion": 30,
     "recoil": 700,
     "effects": [ "COOKOFF" ]
@@ -28,7 +28,7 @@
     "type": "AMMO",
     "name": { "str": ".357 magnum JHP" },
     "description": "Jacketed hollow point .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure.",
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": -2 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -2 } }
   },
   {
     "id": "bp_357mag_fmj",
@@ -37,7 +37,7 @@
     "name": { "str": ".357 Magnum FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -51,7 +51,7 @@
     "name": { "str": ".357 Magnum JHP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -63,13 +63,13 @@
     "copy-from": "357mag_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
   },
   {
     "id": "reloaded_357mag_jhp",
     "copy-from": "357mag_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".357 Magnum JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
   }
 ]

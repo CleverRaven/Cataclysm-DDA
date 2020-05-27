@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
         header = "Content-type: application/json\n\n";
     }
 
-    if( in.str().size() == 0 ) {
+    if( in.str().empty() ) {
         std::cout << "Error, input empty." << std::endl;
         exit( EXIT_FAILURE );
     }

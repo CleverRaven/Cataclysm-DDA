@@ -13,14 +13,17 @@
     "material": "steel",
     "symbol": "!",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 7500,
     "use_action": "ECIG",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -29,9 +32,8 @@
           "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "crackpipe",

@@ -57,8 +57,12 @@ class ui_adaptor
         // to redraw.
         void invalidate_ui() const;
 
+        // Reset all callbacks and dimensions
+        void reset();
+
         static void invalidate( const rectangle &rect );
         static void redraw();
+        static void redraw_invalidated();
         static void screen_resized();
     private:
         static void invalidation_consistency_and_optimization();
@@ -91,6 +95,8 @@ namespace ui_manager
 void invalidate( const rectangle &rect );
 // invalidate the top window and redraw all invalidated windows
 void redraw();
+// redraw all invalidated windows without invalidating the top window
+void redraw_invalidated();
 void screen_resized();
 } // namespace ui_manager
 

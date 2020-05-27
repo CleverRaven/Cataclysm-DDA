@@ -58,7 +58,7 @@ matype_id martial_art_learned_from( const itype &type )
 
     if( !type.book || type.book->martial_art.is_null() ) {
         debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
-                  type.get_id() );
+                  type.get_id().str() );
         return {};
     }
 
@@ -1463,9 +1463,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( !ma.weapons.empty() ) {
             std::vector<std::string> weapons;
             std::transform( ma.weapons.begin(), ma.weapons.end(),
-                            std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
+                            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string { return item::nname( wid ); } );
             // Sorting alphabetically makes it easier to find a specific weapon
-            std::sort( weapons.begin(), weapons.end() );
+            std::sort( weapons.begin(), weapons.end(), localized_compare );
             // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );

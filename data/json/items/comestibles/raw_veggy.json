@@ -881,5 +881,25 @@
     "healthy": -2,
     "//": "Fiddleheads that haven't been boiled can make you sick.",
     "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bell_pepper",
+    "name": { "str": "bell pepper" },
+    "weight": "113 g",
+    "color": "green",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "healthy": 1,
+    "calories": 31,
+    "description": "A green bell pepper.  It could be cooked.",
+    "price": 20,
+    "material": "veggy",
+    "volume": "250 ml",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "fun": -5,
+    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ] ]
   }
 ]

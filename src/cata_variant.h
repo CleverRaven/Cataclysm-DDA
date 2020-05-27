@@ -25,8 +25,6 @@ enum class mutagen_technique : int;
 enum hp_part : int;
 enum character_movemode : int;
 
-using itype_id = std::string;
-
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
 
@@ -217,7 +215,7 @@ struct convert<cata_variant_type::int_> {
 };
 
 template<>
-struct convert<cata_variant_type::itype_id> : convert_string<itype_id> {};
+struct convert<cata_variant_type::itype_id> : convert_string_id<itype_id> {};
 
 template<>
 struct convert<cata_variant_type::matype_id> : convert_string_id<matype_id> {};
@@ -324,10 +322,10 @@ class cata_variant
     }
         CATA_VARIANT_OPERATOR( == );
         CATA_VARIANT_OPERATOR( != );
-        CATA_VARIANT_OPERATOR( < );
-        CATA_VARIANT_OPERATOR( <= );
-        CATA_VARIANT_OPERATOR( > );
-        CATA_VARIANT_OPERATOR( >= );
+        CATA_VARIANT_OPERATOR( < ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( <= ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( > ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( >= ); // NOLINT( cata-use-localized-sorting )
 #undef CATA_VARIANT_OPERATOR
     private:
         explicit cata_variant( cata_variant_type t, std::string &&v )

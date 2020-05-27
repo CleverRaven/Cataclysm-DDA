@@ -1,24 +1,5 @@
 [
   {
-    "abstract": "paperback_novel",
-    "type": "BOOK",
-    "name": { "str": "paperback abstract" },
-    "description": "An ordinary paperback book.  Or is it?  It is.",
-    "weight": "371 g",
-    "volume": "700 ml",
-    "price": 750,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "story_book",
-    "color": "light_cyan",
-    "flags": [ "TINDER", "FLAMMABLE" ],
-    "intelligence": 4,
-    "time": "15 m",
-    "chapters": 16,
-    "fun": 2
-  },
-  {
     "id": "ZSG",
     "type": "BOOK",
     "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
@@ -52,22 +33,6 @@
     "intelligence": 8,
     "time": "30 m",
     "fun": -1
-  },
-  {
-    "id": "child_book",
-    "type": "BOOK",
-    "name": { "str": "children's book" },
-    "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
-    "weight": "52 g",
-    "volume": "250 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_cyan",
-    "time": "4 m",
-    "chapters": 4,
-    "fun": 1
   },
   {
     "id": "commune_prospectus",
@@ -119,104 +84,6 @@
     "fun": 3
   },
   {
-    "id": "fairy_tales",
-    "type": "BOOK",
-    "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
-    "description": "An amusing collection of folklore featuring the usual cast of fairies, goblins, and trolls.",
-    "weight": "410 g",
-    "volume": "750 ml",
-    "price": 950,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "intelligence": 6,
-    "time": "18 m",
-    "chapters": 24,
-    "fun": 3,
-    "//": "The ids below represent the Aarne-Thompson System of folklore classification.  Do not change.",
-    "snippet_category": [
-      {
-        "id": "fairyat_41",
-        "text": "This fairy tale is about a wolf who eats so much salted meat she becomes trapped in the butcher's cellar."
-      },
-      {
-        "id": "fairyat_50",
-        "text": "In this traditional story of beastly intrigue a clever fox convinces an elderly lion to kill a derogatory wolf."
-      },
-      {
-        "id": "fairyat_111",
-        "text": "This is an illustrated fairy tale book about a conversation between a mouse and a cat."
-      },
-      {
-        "id": "fairyat_171",
-        "text": "An amusing collection of stories featuring \"Goldilocks and The Three Bears\" on the cover."
-      },
-      {
-        "id": "fairyat_222",
-        "text": "This is a well illustrated fairy tale about a war between the birds and the beasts, with particulars on the wartime conduct and eventual fate of the bat."
-      },
-      {
-        "id": "fairyat_285",
-        "text": "This book, titled \"The Rattlesnake's Vengeance\" is a collection of Cherokee myths and legends.  \"285D\" is hand-written in pencil on the title page."
-      },
-      { "id": "fairyat_328", "text": "This fairy tale book is a regional variant of \"Jack and the Beanstalk.\"" },
-      {
-        "id": "fairyat_333",
-        "text": "This fairy tale book is entitled \"Little Red Cap\".  It details a red-cloaked child's various encounters with talking wolves."
-      },
-      {
-        "id": "fairyat_366",
-        "text": "A collection of ghost stories warning about the dangers of stealing from the dead."
-      },
-      {
-        "id": "fairyat_402",
-        "text": "An Irish fairy tale in which a Celtic poet marries a princess who has been cursed with the head of a pig."
-      },
-      {
-        "id": "fairyat_408",
-        "text": "A book of Italian fairy tales translated into English.  The cover features an orange fairy juggling a lemon, a lime, and a tangerine."
-      },
-      { "id": "fairyat_451", "text": "A book of fables about people who change into birds." },
-      {
-        "id": "fairyat_475",
-        "text": "This compendium of amusing folk tales about the devil is titled \"Hell's Kettle: Legends of the Devil.\""
-      },
-      {
-        "id": "fairyat_530",
-        "text": "This charming book of Swedish fables is titled, \"The Glass Mountain and the Princess.\""
-      },
-      {
-        "id": "fairyat_555",
-        "text": "This is a collection of fairy tale stories warning against the consequences of extreme greed."
-      },
-      { "id": "fairyat_591", "text": "This book is titled, \"The Thieving Pot: Folktales of the Arab World.\"" },
-      { "id": "fairyat_653", "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s." },
-      { "id": "fairyat_758", "text": "A book by the Brothers Grimm titled, \"Eve's Unequal Children.\"" },
-      { "id": "fairyat_766", "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus." },
-      {
-        "id": "fairyat_1060",
-        "text": "In this fairy tale a strong man frightens an ogre by squeezing water out of a stone."
-      },
-      {
-        "id": "fairyat_1084",
-        "text": "This book of rustic folk tales bears the title: \"How to Shout Down the Devil.\""
-      },
-      {
-        "id": "fairyat_1287",
-        "text": "The title of this book is \"Village Folk-tales of Ceylon.\"  It includes fables about logical errors and foolish misjudgements of the Kadambawa men."
-      },
-      {
-        "id": "fairyat_1461",
-        "text": "This book of folk tales is titled, \"The Girl with the Ugly Name, and Other Stories.\""
-      },
-      {
-        "id": "fairyat_2025",
-        "text": "Titled \"The Fleeing Pancake\", this collection of silly folk tales is suitable for small children."
-      }
-    ]
-  },
-  {
     "id": "guidebook",
     "type": "BOOK",
     "name": { "str": "The Hitchhiker's Guide to the Cataclysm", "str_pl": "copies of The Hitchhiker's Guide to the Cataclysm" },
@@ -231,349 +98,6 @@
     "color": "green",
     "intelligence": 3,
     "time": "1 m"
-  },
-  {
-    "id": "mycenacean_hymns",
-    "type": "BOOK",
-    "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
-    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
-    "weight": "368 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "cyan",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_bible1",
-    "type": "BOOK",
-    "name": { "str": "King James Bible", "str_pl": "copies of King James Bible" },
-    "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
-    "weight": "368 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_bible2",
-    "type": "BOOK",
-    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
-    "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
-    "weight": "428 g",
-    "volume": "1250 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_bible3",
-    "type": "BOOK",
-    "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
-    "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
-    "weight": "368 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_granth",
-    "type": "BOOK",
-    "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
-    "description": "A single-volume copy of the central religious texts of Sikhism.",
-    "weight": "590 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_hadith",
-    "type": "BOOK",
-    "name": { "str": "Hadith", "str_pl": "copies of Hadith" },
-    "description": "A Muslim religious text containing an account of the sayings and actions of the prophet Muhammad.",
-    "weight": "398 g",
-    "volume": "500 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_kallisti",
-    "type": "BOOK",
-    "name": { "str": "Principia Discordia", "str_pl": "copies of Principia Discordia" },
-    "description": "A book that embodies the main beliefs of Discordianism.  It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
-    "weight": "292 g",
-    "volume": "150 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_kojiki",
-    "type": "BOOK",
-    "name": { "str": "The Kojiki", "str_pl": "copies of The Kojiki" },
-    "description": "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
-    "weight": "368 g",
-    "volume": "600 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_mormon",
-    "type": "BOOK",
-    "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
-    "description": "The sacred text of the Latter Day Saint movement of Christianity, originally published in 1830 by Joseph Smith.",
-    "weight": "368 g",
-    "volume": "600 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_pastafarian",
-    "type": "BOOK",
-    "name": {
-      "str": "The Gospel of the Flying Spaghetti Monster",
-      "str_pl": "copies of The Gospel of the Flying Spaghetti Monster"
-    },
-    "description": "A book that embodies the main beliefs of the Church of the Flying Spaghetti Monster.  It seems to involve a lot of pirates and some sort of invisible drunken monster made of pasta.",
-    "weight": "292 g",
-    "volume": "500 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_quran",
-    "type": "BOOK",
-    "name": { "str": "Quran", "str_pl": "copies of Quran" },
-    "description": "An English translation of the Muslim book of holy scriptures, with explanatory notes and commentaries to aid in understanding.",
-    "weight": "412 g",
-    "volume": "600 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_scientology",
-    "type": "BOOK",
-    "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
-    "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
-    "weight": "486 g",
-    "volume": "1300 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_slack",
-    "type": "BOOK",
-    "name": { "str": "The Book of the SubGenius", "str_pl": "copies of The Book of the SubGenius" },
-    "description": "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
-    "weight": "292 g",
-    "volume": "600 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_sutras",
-    "type": "BOOK",
-    "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
-    "description": "A collection of discourses attributed to the Buddha and his close disciples.",
-    "weight": "496 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_talmud",
-    "type": "BOOK",
-    "name": { "str": "Talmud", "str_pl": "copies of Talmud" },
-    "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
-    "weight": "460 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_tanakh",
-    "type": "BOOK",
-    "name": { "str": "Tanakh", "str_pl": "copies of Tanakh" },
-    "description": "A single-volume book containing the complete canon of the Jewish Bible.",
-    "weight": "512 g",
-    "volume": "1800 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_tripitaka",
-    "type": "BOOK",
-    "name": { "str": "The Tripitaka", "str_pl": "copies of The Tripitaka" },
-    "description": "A collection of sacred Buddhist writings describing their canons of scriptures.",
-    "weight": "513 g",
-    "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_upanishads",
-    "type": "BOOK",
-    "name": { "str": "The Upanishads", "str_pl": "copies of The Upanishads" },
-    "description": "A collection of sacred Hindu writings regarding the nature of reality and describing the character and form of human salvation.",
-    "weight": "482 g",
-    "volume": "750 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_vedas",
-    "type": "BOOK",
-    "name": { "str": "The Four Vedas", "str_pl": "copies of The Four Vedas" },
-    "description": "A single volume containing all four Vedas, which are the oldest scriptures of Hinduism.",
-    "weight": "540 g",
-    "volume": "1700 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_satanic",
-    "type": "BOOK",
-    "name": { "str": "The Satanic Bible", "str_pl": "copies of The Satanic Bible" },
-    "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
-    "weight": "130 g",
-    "volume": "250 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
   },
   {
     "id": "mag_comic",
@@ -611,16 +135,15 @@
     "type": "BOOK",
     "name": { "str": "TIME magazine" },
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 400,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "pink",
-    "intelligence": 7,
-    "time": "10 m",
-    "fun": 2
+    "copy-from": "book_nonf_zine_news_tpl"
+  },
+  {
+    "id": "book_nonf_zine_news_anlyst",
+    "type": "BOOK",
+    "name": { "str": "The Analyst", "str_pl": "issues of The Analyst" },
+    "//": "ie The Economist",
+    "description": "This news magazine has been described as \"a kind of Reader's Digest for America's corporate elite.\"  These concerns are, of course, behind us now.",
+    "copy-from": "book_nonf_zine_news_tpl"
   },
   {
     "id": "mag_porn",
@@ -675,7 +198,7 @@
     "type": "BOOK",
     "name": { "str": "adventure novel" },
     "description": "The stirring tale of a race against time, in search of a lost city located in the dark heart of the African continent.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "price": 850,
     "price_postapoc": 50,
     "time": "20 m",
@@ -686,7 +209,7 @@
     "type": "BOOK",
     "name": { "str": "buddy novel" },
     "description": "A gripping tale of two friends struggling to survive on the streets of New York City.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "244 g",
     "volume": "500 ml",
     "price": 650,
@@ -715,20 +238,15 @@
     "name": { "str": "coming of age novel" },
     "copy-from": "novel_coa",
     "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
-    "relative": { "time": -4, "chapters": -2, "fun": 1 }
+    "time": "16 m",
+    "relative": { "chapters": -2, "fun": 1 }
   },
   {
     "id": "novel_crime",
     "type": "BOOK",
     "name": { "str": "crime novel" },
+    "copy-from": "book_fict_soft_tpl",
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
-    "weight": "227 g",
-    "volume": "750 ml",
-    "price": 850,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
     "intelligence": 6,
     "time": "20 m",
     "chapters": 24,
@@ -740,21 +258,31 @@
     "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
     "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
-    "relative": { "time": -3, "chapters": -3 }
+    "time": "18 m",
+    "relative": { "chapters": -3 }
   },
   {
     "id": "novel_crime_murdergrape",
     "type": "BOOK",
     "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
     "description": "This cheap paperback tells the story of a mob boss done in by mere suspicion.  She never breaks a confidence, never rats out an accomplice, and never turns her back on a friend.  Nonetheless her grip on the reigns of the underworld is eroded by rumor and paranoia.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
+    "id": "novel_crime_midnight",
+    "type": "BOOK",
+    "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
+    "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
+    "time": "24 m",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "chapters": -8 }
   },
   {
     "id": "novel_drama",
     "type": "BOOK",
     "name": { "str": "drama novel" },
     "description": "A real book for real adults.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "25 m",
     "chapters": 28,
@@ -765,7 +293,7 @@
     "type": "BOOK",
     "name": { "str": "erotic novel" },
     "description": "A hackneyed fictional narrative concealing low-grade literary smut.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "200 g",
     "volume": "500 ml",
     "time": "18 m",
@@ -776,7 +304,7 @@
     "type": "BOOK",
     "name": { "str": "experimental novel" },
     "description": "A bizarre play about the philosophy of existential absurdity.  Or maybe it's about two guys waiting for their friend to show up.  It's confusing.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "142 g",
     "volume": "500 ml",
     "intelligence": 7,
@@ -788,31 +316,33 @@
     "type": "BOOK",
     "name": { "str": "fantasy novel" },
     "description": "Basic sword & sorcery.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "227 g",
     "volume": "1 L",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
-    "fun": 3
+    "fun": 3,
+    "looks_like": "dnd_handbook"
   },
   {
     "id": "novel_horror",
     "type": "BOOK",
     "name": { "str": "horror novel" },
     "description": "Maybe not the best reading material considering the situation.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "227 g",
     "intelligence": 7,
     "time": "18 m",
-    "chapters": 28
+    "chapters": 28,
+    "fun": 1
   },
   {
     "id": "novel_mystery",
     "type": "BOOK",
     "name": { "str": "mystery novel" },
     "description": "A detective investigates an unusual murder in a secluded location.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
@@ -823,18 +353,46 @@
     "type": "BOOK",
     "name": { "str": "pulp novel" },
     "description": "A hardboiled detective tale filled with hard hitting action and intrigue.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 6,
     "time": "18 m",
     "chapters": 24,
     "fun": 3
   },
   {
+    "id": "book_fict_soft_pulp_squids",
+    "type": "BOOK",
+    "name": "Planet of the Murderous Squids that Time Forgot!",
+    "description": "In this psychedelic adventure novel of cosmic exploration, an elderly assassin discovers a planet too good to be true.  Only once it is too late does she discover the harrowing truth at the center of \"The Planet of the Murderous Squids that Time Forgot!\"",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_gcapes",
+    "type": "BOOK",
+    "name": "The Great Capes of Metropolis",
+    "description": "In this classic pulp paperback of superheroic exploits, a group of masked vigilantes with diverse superpowers learn to work together to defeat the ultimate villain.",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_yesmurd",
+    "type": "BOOK",
+    "name": "Yesterday's Murdered",
+    "description": "In this fast paced pulp noir, a hard-drinking detective with nerves of steel has one last shot at vengeance.",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_flashcc",
+    "type": "BOOK",
+    "name": "Flashgun Condor and the Crimson Criminal",
+    "description": "A hot-blooded photographer who fights crime with film, footage, and fists, Condor is more than a mere shutterbug on the crime beat.  But will she be able to unravel a devious deception and bring the \"Crimson Criminal\" to justice?",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
     "id": "novel_road",
     "type": "BOOK",
     "name": { "str": "road novel" },
     "description": "A tale about a group of friends who wander the USA in the 1960s against a backdrop of jazz, poetry and drug use.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "244 g",
     "volume": "500 ml",
     "time": "20 m",
@@ -845,7 +403,81 @@
     "type": "BOOK",
     "name": { "str": "romance novel" },
     "description": "Drama and mild smut.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
+    "id": "paperback_romance_circuses",
+    "type": "BOOK",
+    "name": "Love and Circuses",
+    "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
+    "copy-from": "paperback_romance_spb",
+    "relative": { "chapters": 2, "weight": 111 }
+  },
+  {
+    "id": "paperback_romance_cloven",
+    "type": "BOOK",
+    "name": "Cloven Kisses",
+    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulphur condemn love's flames to hellfire?",
+    "copy-from": "paperback_romance_lnl",
+    "relative": { "chapters": -2 }
+  },
+  {
+    "id": "paperback_romance_conq",
+    "type": "BOOK",
+    "name": "Conquer Me Sweetly",
+    "description": "Sweet Providence Books is delighted to offer you this romantic tale of delicious dalliances and daring delights.",
+    "copy-from": "paperback_romance_spb",
+    "relative": { "chapters": -1 }
+  },
+  {
+    "id": "paperback_romance_dd",
+    "type": "BOOK",
+    "name": "Dubliner's Debutante",
+    "description": "His love songs were only for me, but I preferred the banjo over bagpipes.  How could I ever love a kilted yankee of foreign breeding?",
+    "copy-from": "paperback_romance_spb"
+  },
+  {
+    "id": "paperback_romance_diodes",
+    "type": "BOOK",
+    "name": "Blood Diodes",
+    "description": "He is an automaton, she is a reformed vampire, can love find a way?  In this edgy romance by acclaimed author Kea Dekker, heartbreak is just the beginning.",
+    "copy-from": "paperback_romance_lnl",
+    "relative": { "chapters": 1 }
+  },
+  {
+    "id": "paperback_romance_envyh",
+    "type": "BOOK",
+    "name": "Envying Heaven",
+    "description": "When her fiancee names a star for her Wanda begins to wonder if an astronomer's wife can ever compete with the allure of the cosmos.",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_grue",
+    "type": "BOOK",
+    "name": "Tall, Dark, and Gruesome",
+    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm. ",
+    "copy-from": "paperback_romance_lnl"
+  },
+  {
+    "id": "paperback_romance_rider",
+    "type": "BOOK",
+    "name": "Along Came a Rider",
+    "description": "When Beth's career as a pro steeplechase jockey threatens to divide her from her lover, Beth has to act fast.  Will she ever find a man that can keep up with her racing heart?",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_rogue",
+    "type": "BOOK",
+    "name": "Rogue's Virtue",
+    "description": "Can Victoria reform the fugitive from justice who wooed her with false pretenses and true passion?",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_secret",
+    "type": "BOOK",
+    "name": "The Death of My Secret Life",
+    "description": "Makeda comes out to her family, but she's still got plenty of skeletons in her closet.  Best selling authoress Kea Dekker breaks all the rules in this macabre story of love and lies.",
+    "copy-from": "paperback_romance_lnl"
   },
   {
     "id": "novel_samurai",
@@ -868,18 +500,51 @@
     "id": "novel_satire",
     "type": "BOOK",
     "name": { "str": "satire novel" },
+    "copy-from": "book_fict_soft_satire_tpl",
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
     "weight": "520 g",
-    "volume": "750 ml",
-    "price": 850,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "intelligence": 7,
-    "time": "36 m",
-    "chapters": 28,
-    "fun": 2
+    "relative": { "chapters": 7 }
+  },
+  {
+    "id": "book_fict_soft_satire_hgod",
+    "type": "BOOK",
+    "name": "The House of God",
+    "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem’s novel dives deep into the agony of absurdity.",
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_satire_catch",
+    "type": "BOOK",
+    "name": "Catch-22",
+    "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller’s excruciatingly brilliant war satire was \"Catch-11.\"",
+    "weight": "480 g",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "chapters": 26 }
+  },
+  {
+    "id": "book_fict_soft_satire_mandm",
+    "type": "BOOK",
+    "name": "The Master and Margarita",
+    "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this is a satire on Stalinist tyranny written by Mikhail Bulgakov.",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "chapters": 16, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_satire_dust",
+    "type": "BOOK",
+    "name": "A Handful of Dust",
+    "description": "Laced with cynicism, Evelyn Waugh's \"A Handful of Dust\" satirizes a stratum of characters who have wealth, but lack any other credentials.",
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_satire_cats",
+    "type": "BOOK",
+    "name": "Cat’s Cradle",
+    "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
+    "weight": "360 g",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "time": "1 m",
+    "relative": { "chapters": 111, "fun": -1 }
   },
   {
     "id": "novel_scifi",
@@ -1043,22 +708,11 @@
     ]
   },
   {
-    "id": "novel_sports",
-    "type": "BOOK",
-    "name": { "str": "sports novel" },
-    "description": "The dramatic tale of a small-time boxer who gets a rare chance to fight the heavy-weight champion, and seize his one chance to make a better life for himself while impressing the cute girl who works in the pet store.",
-    "copy-from": "paperback_novel",
-    "intelligence": 7,
-    "time": "20 m",
-    "chapters": 28,
-    "fun": 3
-  },
-  {
     "id": "novel_spy",
     "type": "BOOK",
     "name": { "str": "spy novel" },
     "description": "A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
@@ -1069,14 +723,14 @@
     "type": "BOOK",
     "name": { "str": "Come Fly the Treacherous Skies", "str_pl": "copies of Come Fly the Treacherous Skies" },
     "description": "This tale of intrigue betrays the story of a debonair mechanic driven by a lust for revenge.  As she uncovers a sophisticated network of amateur pilots turned smugglers, the good guys and the bad guys begin to all look the same.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_spy_rocketsci",
     "type": "BOOK",
     "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "copies of Lies, Damn Lies, and Rocket Science" },
     "description": "This spy novel tells the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_swash",
@@ -1085,18 +739,42 @@
     "description": "An exciting seventeenth century tale of how an enslaved Irish doctor and his comrades-in-chains escape and become heroic pirates of the Robin Hood variety.",
     "weight": "582 g",
     "volume": "750 ml",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
   {
+    "id": "book_fict_soft_swash_blkfreight",
+    "type": "BOOK",
+    "name": { "str": "The Black Freighter", "str_pl": "copies of The Black Freighter" },
+    "description": "Who watches the watchmen?  Pirate Jenny, that's who!  This swashbuckling adventure novel will make you feel swell.",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "fun": 2, "chapters": -8 }
+  },
+  {
+    "id": "book_fict_soft_swash_searovers",
+    "type": "BOOK",
+    "name": { "str": "Captain Gosgold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
+    "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosgold.  The British consider him an outlaw, but in America he is a patriot.",
+    "copy-from": "book_fict_soft_tpl",
+    "time": "12 m",
+    "relative": { "weight": 186, "price": 250, "chapters": 8 }
+  },
+  {
+    "id": "book_fict_soft_swash_buccaneer",
+    "type": "BOOK",
+    "name": { "str": "The Code of the Buccaneer", "str_pl": "copies of The Buccaneer" },
+    "description": "The cover of this paperback pirate story shows a shirtless man and a near shirtless woman.  Clearly it is not a dress code.",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
     "id": "novel_thriller",
     "type": "BOOK",
     "name": { "str": "thriller novel" },
     "description": "A suspenseful tale of betrayal and revenge.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
@@ -1107,7 +785,7 @@
     "type": "BOOK",
     "name": { "str": "tragedy novel" },
     "description": "The story of two young lovers whose feuding families threaten to keep them apart.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "263 g",
     "volume": "1 L",
     "intelligence": 7,
@@ -1119,7 +797,7 @@
     "type": "BOOK",
     "name": { "str": "war novel" },
     "description": "A thrilling narrative of survival in a prisoner of war camp during the Second World War, filled with riveting subplots about rat farming and dysentery.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "686 g",
     "price_postapoc": 50,
     "intelligence": 7,
@@ -1133,184 +811,73 @@
     "name": { "str": "war novel" },
     "copy-from": "novel_war",
     "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia.",
-    "relative": { "time": -4, "chapters": -4 }
+    "time": "16 m",
+    "relative": { "chapters": -4 }
   },
   {
     "id": "novel_western",
     "type": "BOOK",
     "name": { "str": "western novel" },
     "description": "The classic tale of a gunfighting stranger who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
   {
-    "id": "philosophy_book",
+    "id": "book_fict_soft_west_atwixt",
     "type": "BOOK",
-    "name": { "str": "book of philosophy", "str_pl": "books of philosophy" },
-    "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
-    "snippet_category": [
-      {
-        "id": "philosophy1",
-        "text": "This is a copy of Nietzsche's \"Beyond Good and Evil\".  Its cover is dog-eared and creased."
-      },
-      {
-        "id": "philosophy2",
-        "text": "This is a copy of \"The Unique and Its Property\" by Max Stirner.  A modern translation by Wolfi Landstreicher."
-      },
-      {
-        "id": "philosophy3",
-        "text": "This is a copy of Jean-Paul Sartre's \"Being and Nothingness\".  A key work in the existentialist tradition."
-      },
-      {
-        "id": "philosophy4",
-        "text": "A large, extended version of \"Madness and Civilisation\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison."
-      },
-      {
-        "id": "philosophy5",
-        "text": "This is a copy of \"The Postmodern Condition: A Report on Knowledge\" by Lyotard."
-      },
-      {
-        "id": "philosophy6",
-        "text": "A collection of texts and essays by Jacques Derrida.  Its pages are loose and yellowed - you should probably handle it with care."
-      },
-      {
-        "id": "philosophy7",
-        "text": "This is a copy of \"Society of the Spectacle\" by Guy Debord.  Its cover shows rows of adults staring placidly into a screen."
-      },
-      {
-        "id": "philosophy8",
-        "text": "This is a split copy of both \"An Ethic of Sexual Difference\" and \"This Sex Which Is Not One\" by Luce Irigaray."
-      },
-      {
-        "id": "philosophy9",
-        "text": "This is a copy of Baudrillard's \"Simulation and Simulacra\".  The cover contains an image of a man holding a colored pill in each hand, with the caption \"Welcome to the Desert of the Real.\".  You think you've seen this movie."
-      },
-      {
-        "id": "philosophy10",
-        "text": "This is a small, pocket version of Sartre's \"Existentialism and Humanism\".  It looks to have been used as a coaster in a past life."
-      },
-      {
-        "id": "philosophy11",
-        "text": "This is a copy of \"Practical Ethics\" by Peter Singer.  From the local university press."
-      },
-      {
-        "id": "philosophy12",
-        "text": "This is a photocopied spiral-bound copy of \"Industrial Society and Its Future\" by 'Freedom Club'.  The original looks to have been written on a typewriter before being copied."
-      },
-      {
-        "id": "philosophy13",
-        "text": "This is a copy of \"Industrial Society and Its Future\" by Ted Kaczynski.  Its cover is an image of a hand-crafted wooden box filled with wiring and an ominous looking metal tube.  Provocative."
-      },
-      { "id": "philosophy14", "text": "This is a small reader on Hegel's Dialectics." },
-      {
-        "id": "philosophy15",
-        "text": "This is a copy of \"The State and Revolution\" by Vladimir Lenin.  In English, thankfully."
-      },
-      { "id": "philosophy16", "text": "This is a copy of \"In Defense of Marxism\" by Leon Trotsky." },
-      {
-        "id": "philosophy17",
-        "text": "This is a copy of \"Steal This Book\" by Abbie Hoffman.  There is a security tag on the back cover.  It appears to still be active."
-      },
-      {
-        "id": "philosophy18",
-        "text": "This is a copy of \"Walden: Or Life In The Woods\" by Henry David Thoreau.  It contains a dried and pressed leaf as a bookmark."
-      },
-      {
-        "id": "philosophy19",
-        "text": "This is a copy of \"The Female Eunuch\" by Germaine Greer.  A child has scribbled over the contents page in red crayon."
-      },
-      { "id": "philosophy20", "text": "This is a copy of \"An Introduction to Metaphysics\" by Bergson." },
-      {
-        "id": "philosophy21",
-        "text": "This is a copy of \"The Four Fundamental Concepts of Psychoanalysis\" by Jacques Lacan."
-      },
-      { "id": "philosophy22", "text": "This is a copy of Machiavelli's \"The Prince\".  With intro by Q. Skinner." },
-      { "id": "philosophy23", "text": "This is a copy of \"On The Revolution of Everyday Life\" by Raul Vangeigem." },
-      {
-        "id": "philosophy24",
-        "text": "This is a pocket copy of \"An Essay on Liberation\" by Herbert Marcuse.  The cover contains an image of a pelican."
-      },
-      { "id": "philosophy25", "text": "This is a copy of \"Either-Or\" by Søren Kierkegaard." },
-      { "id": "philosophy26", "text": "This is a copy of \"Allegory of the Cave\" by Plato." },
-      { "id": "philosophy27", "text": "This is a copy of \"Leviathan\" by Thomas Hobbes." },
-      { "id": "philosophy28", "text": "This is a copy of \"Critique Of Pure Reason\" by Immanuel Kant." },
-      { "id": "philosophy29", "text": "This is a copy of \"Principles of Philosophy\" by Descartes." },
-      {
-        "id": "philosophy30",
-        "text": "This is a copy of both \"On The Genealogy of Morals\" and \"The Gay Science\" by Friederich Nietzsche."
-      },
-      {
-        "id": "philosophy31",
-        "text": "This is a copy of \"The Myth of Sisyphus\", and other essays, by Albert Camus.  The cover depicts a bare-chested man and a large boulder."
-      },
-      {
-        "id": "philosophy32",
-        "text": "This is a copy of \"The Sickness Unto Death\" by Søren Kierkegaard.  The pages are dotted with post-it notes."
-      },
-      {
-        "id": "philosophy33",
-        "text": "This is a copy of \"The Defence of Terrorism\" by Leon Trotsky.  Despite the title, it does not actually appear to be defending terrorism."
-      },
-      {
-        "id": "philosophy34",
-        "text": "This is a copy of \"Enquiry Concerning Political Justice\" by William Godwin.  This thick book is filled with antiquated phrases."
-      },
-      {
-        "id": "philosophy35",
-        "text": "This is a copy of \"The Abolition of Work and Other Essays\" by Bob Black.  It is likely that \"The Abolition of Work\" is the most famous essay in this book."
-      },
-      {
-        "id": "philosophy36",
-        "text": "This is a copy of \"What is Property?\" by Pierre-Joseph Proudhon.  It looks like this book has a surprisingly long track record of owners."
-      },
-      {
-        "id": "philosophy37",
-        "text": "This is a copy of \"The Conquest of Bread\" by Peter Kropotkin.  There is a picture of an old philosopher with magnificent beard, instead of bread, on the cover."
-      },
-      {
-        "id": "philosophy38",
-        "text": "This is a copy of \"The Trouble with Being Born\" by Emil Cioran.  This book might have been printed decades before the Cataclysm since the cover is quite weathered."
-      },
-      {
-        "id": "philosophy39",
-        "text": "This is a copy of \"The World as Will and Representation\" by Arthur Schopenhauer.  It contains a few undecipherable notes and scribbles."
-      },
-      {
-        "id": "philosophy40",
-        "text": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030.  It seems that the author's real name is Fereidoun M. Esfandiary."
-      },
-      {
-        "id": "philosophy41",
-        "text": "This is a copy of \"The Bastiat Collection\", a large collection of essays by Frederic Bastiat."
-      },
-      {
-        "id": "philosophy42",
-        "text": "This is a copy of \"Anarchy, State, and Utopia\" by Robert Nozick, one of the most influential books of modern libertarianism."
-      },
-      {
-        "id": "philosophy43",
-        "text": "This is a copy of \"Socialism\" by Ludwig von Mises, a critical examination of socialism."
-      },
-      {
-        "id": "philosophy44",
-        "text": "This is a copy of \"The ABC of Communism\" by Nikolai Bukharin, one of the most influential books of early Marxism-Leninism."
-      },
-      { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
-    ],
-    "weight": "350 g",
-    "volume": "750 ml",
-    "price": 1250,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "intelligence": 9,
-    "time": "36 m",
-    "chapters": 44,
-    "fun": 3
+    "name": "Atwixt a Brace of Cacti",
+    "description": "A grizzled clodhopper interviews a mess of rangehands, flummoxing longhorns and tenderfoot alike in a flusteration of jawing.",
+    "copy-from": "paperback_western_em",
+    "relative": { "price": 400, "intelligence": 4, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_bart",
+    "type": "BOOK",
+    "name": "Stinky Bart Puts on Starch",
+    "description": "A local bandit, driven by sadistic impulses, begins offering unlicensed dentistry to brave frontiersmen with few options and fewer teeth.",
+    "copy-from": "paperback_western_em"
+  },
+  {
+    "id": "book_fict_soft_west_beans",
+    "type": "BOOK",
+    "name": "Six Beans in the Wheel",
+    "description": "The safety is off in this gun slinging tale of revenge and redemption by acclaimed author El Amor.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -2, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_calico",
+    "type": "BOOK",
+    "name": "Irons at Calico Queen Annex",
+    "description": "The establishment of a telegraph line into the recently named town of Calico Queen threatens to bring with it the long arm of the law.  A trio of enterprising gunfighters hatches a plan to keep Calico Queen wild by looting the supply wagons.",
+    "copy-from": "paperback_western_em"
+  },
+  {
+    "id": "book_fict_soft_west_riot",
+    "type": "BOOK",
+    "name": "Riot on the Range",
+    "description": "Best selling author El Amor paints a visceral study in red with his latest western saga: Riot on the Range.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -1, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_vaq",
+    "type": "BOOK",
+    "name": "Vaquero Sun",
+    "description": "Western author El Amor relates the story of a dispossessed young man inspired by a heat stroke delusion to pursue justice against an evil land baron.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": 2, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_vride",
+    "type": "BOOK",
+    "name": "The Vendetta Riders",
+    "description": "A wild young man, fast on the draw, who thinks he has nothing to lose, falls in with a group of gun runners.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -1, "fun": -1 }
   },
   {
     "id": "phonebook",
@@ -1385,7 +952,7 @@
     "id": "priest_diary",
     "type": "BOOK",
     "name": { "str": "priest's diary", "str_pl": "priests' diaries" },
-    "description": "A small book filled with journal entries in Latin.",
+    "description": "A small book filled with journal entries in Latin.  You can read Latin, right?",
     "weight": "340 g",
     "volume": "750 ml",
     "price": 1500,
@@ -1500,23 +1067,6 @@
     "intelligence": 6,
     "time": "30 m",
     "fun": 2,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
-    "id": "holybook_havamal",
-    "type": "BOOK",
-    "name": { "str": "Hávamál", "str_pl": "copies of Hávamál" },
-    "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
-    "weight": "292 g",
-    "volume": "750 ml",
-    "price": 550,
-    "price_postapoc": 50,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "dark_gray",
-    "intelligence": 8,
-    "time": "10 m",
-    "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
   {
@@ -1729,5 +1279,33 @@
     "time": "28 m",
     "chapters": 40,
     "fun": 4
+  },
+  {
+    "id": "occult_economicon",
+    "type": "BOOK",
+    "name": { "str": "The Economicon of Dobbs", "str_pl": "copies of The Economicon" },
+    "description": "These are the prescriptures Pile 18 Disk sg30 File 14.  \"Look, small brain of pink earth inside my null-grasping, and she/he receives Logos; and it lay with the Wor.\"",
+    "copy-from": "paperback_occult",
+    "weight": "120 g",
+    "volume": "300 ml",
+    "time": "10 m",
+    "relative": { "price": -251, "chapters": -26, "fun": 1 }
+  },
+  {
+    "id": "occult_bobliographon",
+    "type": "BOOK",
+    "name": { "str": "The Bobliographon", "str_pl": "copies of The Bobliographon" },
+    "description": "The back cover of this cheaply published paperback reads: \"These newly-released SubGenius revelations will SHOCK those who think they know Bob!  Unpredictables are not alone and possess amazing hidden powers of their own!  In a world without slack, a yeti lust revival saunters about.  WARNING: Do not fail to pay full price for this book; JHVH-1's wrath knows some bounds.\"",
+    "copy-from": "paperback_occult",
+    "time": "12 m",
+    "relative": { "fun": 1 }
+  },
+  {
+    "id": "occult_glimpses",
+    "type": "BOOK",
+    "name": { "str": "Glimpses of Solomon in Yellow", "str_pl": "copies of Solomon in Yellow" },
+    "description": "This paperback is titled \"Glimpses of Solomon in Yellow; The Initiation Rites of the Starry Wisdom Covenant, by Dr. Enoch Craven.\"  It describes not just the investiture of new adherents, but the history and beliefs of the Church of Starry Wisdom.  Someone has defaced the sparse citations section by scrawling \"PUPPETS OF ROME!\" over its few pages.  The book does not provide any biography for Dr. Craven, let alone academic credentials.",
+    "copy-from": "paperback_occult",
+    "relative": { "weight": 186, "price": 250, "chapters": 10 }
   }
 ]

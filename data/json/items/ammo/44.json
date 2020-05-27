@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": ".44 Magnum FMJ" },
     "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -4, "armor_penetration": 8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
     "id": "44magnum",
@@ -25,7 +25,7 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 4 },
     "dispersion": 30,
     "recoil": 1570,
     "effects": [ "COOKOFF" ]
@@ -35,7 +35,7 @@
     "copy-from": "44fmj",
     "type": "AMMO",
     "name": { "str": ".44 Magnum FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -44,7 +44,7 @@
     "copy-from": "44magnum",
     "type": "AMMO",
     "name": { "str": ".44 Magnum, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -55,7 +55,7 @@
     "name": { "str": ".44 Magnum, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -69,7 +69,7 @@
     "name": { "str": ".44 Magnum FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },

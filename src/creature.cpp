@@ -126,6 +126,7 @@ void Creature::reset_bonuses()
 
     armor_bash_bonus = 0;
     armor_cut_bonus = 0;
+    armor_bullet_bonus = 0;
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -151,6 +152,8 @@ void Creature::process_turn()
     reset_bonuses();
 
     process_effects();
+
+    process_damage_over_time();
 
     // Call this in case any effects have changed our stats
     reset_stats();
@@ -219,7 +222,7 @@ bool Creature::sees( const Creature &critter ) const
     if( wanted_range <= 1 && ( posz() == critter.posz() || g->m.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
+               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
@@ -332,7 +335,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( g->m.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
-        angle_iff = true;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
@@ -480,6 +482,13 @@ int Creature::size_melee_penalty() const
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     int hit_spread = hitroll - dodge_roll() - size_melee_penalty();
+    if( has_flag( MF_IMMOBILE ) ) {
+        // Under normal circumstances, even a clumsy person would
+        // not miss a turret.  It should, however, be possible to
+        // miss a smaller target, especially when wielding a
+        // clumsy weapon or when severely encumbered.
+        hit_spread += 40;
+    }
 
     // If attacker missed call targets on_dodge event
     if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
@@ -493,7 +502,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part()->token;
+        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part();
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
@@ -509,9 +518,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    const bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
-    body_part bp_token = bp_hit->token;
-    block_hit( source, bp_token, d );
+    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    block_hit( source, bp_hit, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
@@ -543,7 +551,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
-    dealt_dam.bp_hit = bp_token;
+    dealt_dam.bp_hit = bp_hit;
 }
 
 /**
@@ -613,22 +621,22 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_bounced, 1_turns );
     }
 
-    body_part bp_hit;
+    bodypart_id bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 || magic ) {
-        bp_hit = bp_torso;
+        bp_hit = bodypart_id( "torso" );
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
-            bp_hit = bp_leg_l;
+            bp_hit = bodypart_id( "leg_l" );
         } else {
-            bp_hit = bp_leg_r;
+            bp_hit = bodypart_id( "leg_r" );
         }
     } else {
         if( one_in( 2 ) ) {
-            bp_hit = bp_arm_l;
+            bp_hit = bodypart_id( "arm_l" );
         } else {
-            bp_hit = bp_arm_r;
+            bp_hit = bodypart_id( "arm_r" );
         }
     }
 
@@ -645,7 +653,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 0.95, 1.05 );
         damage_mult *= crit_multiplier;
-        bp_hit = bp_head; // headshot hits the head, of course
+        bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
     } else if( goodhit < accuracy_critical && max_damage * crit_multiplier > get_hp_max( hp_torso ) ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
@@ -681,14 +689,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
         float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( player::bp_to_hp(
-                              bp_hit ) );
+                              bp_hit->token ) );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
 
-    const bodypart_id bp_hit_id = convert_bp( bp_hit ).id();
-    dealt_dam = deal_damage( source, bp_hit_id, impact );
+    dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -715,19 +722,19 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( proj.proj_effects.count( "INCENDIARY" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit );
+            add_effect( effect_onfire, 6_turns, bp_hit->token );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit );
+            add_effect( effect_onfire, 10_turns, bp_hit->token );
         }
     }
 
-    if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
+    if( bp_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
         add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
     }
@@ -830,8 +837,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    const body_part bp_token = bp->token;
-    absorb_hit( bp_token, d );
+    absorb_hit( bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
@@ -891,10 +897,14 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp->token );
+    on_damage_of_type( adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
+{
 }
 
 /*
@@ -1365,6 +1375,10 @@ int Creature::get_armor_cut( bodypart_id ) const
 {
     return armor_cut_bonus;
 }
+int Creature::get_armor_bullet( bodypart_id ) const
+{
+    return armor_bullet_bonus;
+}
 int Creature::get_armor_bash_base( bodypart_id ) const
 {
     return armor_bash_bonus;
@@ -1372,6 +1386,10 @@ int Creature::get_armor_bash_base( bodypart_id ) const
 int Creature::get_armor_cut_base( bodypart_id ) const
 {
     return armor_cut_bonus;
+}
+int Creature::get_armor_bullet_base( bodypart_id ) const
+{
+    return armor_bullet_bonus;
 }
 int Creature::get_armor_bash_bonus() const
 {
@@ -1381,7 +1399,10 @@ int Creature::get_armor_cut_bonus() const
 {
     return armor_cut_bonus;
 }
-
+int Creature::get_armor_bullet_bonus() const
+{
+    return armor_bullet_bonus;
+}
 int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
@@ -1400,7 +1421,7 @@ anatomy_id Creature::get_anatomy() const
     return creature_anatomy;
 }
 
-void Creature::set_anatomy( anatomy_id anat )
+void Creature::set_anatomy( const anatomy_id &anat )
 {
     creature_anatomy = anat;
 }
@@ -1518,6 +1539,10 @@ void Creature::set_armor_bash_bonus( int nbasharm )
 void Creature::set_armor_cut_bonus( int ncutarm )
 {
     armor_cut_bonus = ncutarm;
+}
+void Creature::set_armor_bullet_bonus( int nbulletarm )
+{
+    armor_bullet_bonus = nbulletarm;
 }
 
 void Creature::set_speed_base( int nspeed )
@@ -1664,6 +1689,31 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "difference = %d", szdif );
 
     return human_anatomy->select_body_part( szdif, hit_roll )->token;
+}
+
+void Creature::add_damage_over_time( const damage_over_time_data &DoT )
+{
+    damage_over_time_map.emplace_back( DoT );
+}
+
+void Creature::process_damage_over_time()
+{
+    for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
+        if( DoT->duration > 0_turns ) {
+            for( const bodypart_str_id &bp : DoT->bps ) {
+                const int dmg_amount = DoT->amount;
+                if( dmg_amount < 0 ) {
+                    heal_bp( bp.id(), -dmg_amount );
+                } else {
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
+                }
+            }
+            DoT->duration -= 1_turns;
+            ++DoT;
+        } else {
+            damage_over_time_map.erase( DoT );
+        }
+    }
 }
 
 void Creature::check_dead_state()

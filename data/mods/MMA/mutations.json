@@ -13,7 +13,7 @@
     "type": "mutation",
     "id": "MMA_MARTIAL_ARTS_PANZER",
     "name": { "str": "Künstler" },
-    "points": 3,
+    "points": 2,
     "description": "You have lingering memories of training to fight cyborgs and war machines in zero gravity using the obscure Panzer Kunst.",
     "starting_trait": true,
     "initial_ma_styles": [ "style_mma_panzer" ],

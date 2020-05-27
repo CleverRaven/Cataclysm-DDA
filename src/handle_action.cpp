@@ -96,6 +96,10 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 
+static const itype_id itype_radio_car_on( "radio_car_on" );
+static const itype_id itype_radiocontrol( "radiocontrol" );
+static const itype_id itype_shoulder_strap( "shoulder_strap" );
+
 static const skill_id skill_melee( "melee" );
 
 static const quality_id qual_CUT( "CUT" );
@@ -112,8 +116,6 @@ static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
 static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_REACH3( "REACH3" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
@@ -266,7 +268,7 @@ input_context game::get_player_input( std::string &action )
                         if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
                                       u.pos() + u.view_offset,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT );
+                                      lighting == lit_level::LOW, lighting == lit_level::BRIGHT );
                         }
                     }
 #if defined(TILES)
@@ -307,7 +309,7 @@ input_context game::get_player_input( std::string &action )
                                 if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
                                               u.pos() + u.view_offset,
-                                              lighting == LL_LOW, lighting == LL_BRIGHT );
+                                              lighting == lit_level::LOW, lighting == lit_level::BRIGHT );
                                 }
                             }
                         }
@@ -401,7 +403,7 @@ inline static void rcdrive( const point &d )
     auto rc_pairs = m.get_rc_items( tripoint( cx, cy, cz ) );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
+        if( rc_pair->second->typeId() == itype_radio_car_on && rc_pair->second->active ) {
             break;
         }
     }
@@ -474,13 +476,19 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    if( p.z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
-        u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
-        return;
-    }
-    if( p.z != 0 && !g->m.has_zlevels() ) {
-        u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
-        return;
+    if( p.z != 0 ) {
+        if( !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+            u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
+            return;
+        }
+        if( !veh->is_flyable() ) {
+            u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
+            return;
+        }
+        if( !g->m.has_zlevels() ) {
+            u.add_msg_if_player( m_info, _( "This vehicle cannot be flown without z levels." ) );
+            return;
+        }
     }
     if( p.z == -1 ) {
         if( veh->check_heli_descend( u ) ) {
@@ -784,9 +792,10 @@ static void smash()
         if( !mech_smash ) {
             u.increase_activity_level( MODERATE_EXERCISE );
             u.handle_melee_wear( u.weapon );
-            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
-                                  ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
+
+            const int mod_sta = 2 * u.get_standard_stamina_cost();
             u.mod_stamina( mod_sta );
+
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
@@ -1011,7 +1020,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().sleep_friendly ) {
+        if( bio.info().has_flag( "BIONIC_SLEEP_FRIENDLY" ) ) {
             continue;
         }
 
@@ -1279,17 +1288,16 @@ static void read()
     }
 }
 
-// Perform a reach attach
-// range - the range of the current weapon.
-// u - player
-static void reach_attack( int range, player &u )
+// Perform a reach attach using wielded weapon
+static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
-                                       range );
-    if( !trajectory.empty() ) {
-        u.reach_attack( trajectory.back() );
+    g->m.draw( g->w_terrain, you.pos() );
+
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
+
+    if( !traj.empty() ) {
+        you.reach_attack( traj.back() );
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
@@ -1299,7 +1307,7 @@ static void reach_attack( int range, player &u )
 
 static void fire()
 {
-    player &u = g->u;
+    avatar &u = g->u;
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
@@ -1308,7 +1316,7 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( g->u, g->m, turret );
+            avatar_action::fire_turret_manual( u, g->m, turret );
             return;
         }
 
@@ -1322,18 +1330,22 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+
+            std::vector<item *> guns = w.items_with( []( const item & it ) {
+                return it.is_gun();
+            } );
+
+            if( !guns.empty() && w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
+                                                  guns.front()->tname(),
                                                   w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  guns.front()->ammo_remaining() ) );
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
                 actions.emplace_back( [&] { u.wield( w ); } );
@@ -1348,32 +1360,18 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( g->u, g->m );
-    } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
+        avatar_action::fire_wielded_weapon( u );
+    } else if( u.weapon.current_reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
+                reach_attack( u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( range, u );
-        }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-            }
-        } else {
-            reach_attack( range, u );
+            reach_attack( u );
         }
     }
 }
@@ -1765,7 +1763,8 @@ bool game::handle_action()
             case ACTION_MOVE_LEFT:
             case ACTION_MOVE_FORTH_LEFT:
                 if( !u.get_value( "remote_controlling" ).empty() &&
-                    ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
+                    ( u.has_active_item( itype_radiocontrol ) ||
+                      u.has_active_bionic( bio_remote ) ) ) {
                     rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
                 } else if( veh_ctrl ) {
                     // vehicle control uses x for steering and y for ac/deceleration,
@@ -2054,7 +2053,7 @@ bool game::handle_action()
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    avatar_action::fire_wielded_weapon( u, m );
+                    avatar_action::fire_wielded_weapon( u );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;

@@ -19,6 +19,28 @@
     ]
   },
   {
+    "id": "bread_sandwich",
+    "type": "requirement",
+    "//": "Bread appropriate for sandwiches.",
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "biscuit", 1 ],
+        [ "brioche", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_peanutbutter",
+    "type": "requirement",
+    "//": "Peanut butter of all types and other peanut butter substitutes",
+    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
+  },
+  {
     "id": "eggs_bird",
     "type": "requirement",
     "//": "All of the different bird eggs",
@@ -462,7 +484,6 @@
         [ "blackberries", 1 ],
         [ "blueberries", 1 ],
         [ "cherries", 1 ],
-        [ "cranberries", 1 ],
         [ "grapefruit", 1 ],
         [ "grapes", 1 ],
         [ "kiwi", 2 ],
@@ -497,7 +518,6 @@
         [ "irradiated_blackberries", 1 ],
         [ "irradiated_blueberries", 1 ],
         [ "irradiated_cherries", 1 ],
-        [ "irradiated_cranberries", 1 ],
         [ "irradiated_grapefruit", 1 ],
         [ "irradiated_grapes", 1 ],
         [ "irradiated_kiwi", 2 ],

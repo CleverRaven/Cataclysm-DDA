@@ -91,6 +91,7 @@ Given you're building from source you have a number of choices to make:
   * `CLANG=1` - use Clang instead of GCC
   * `CCACHE=1` - use ccache
   * `USE_LIBCXX=1` - use libc++ instead of libstdc++ with Clang (default on OS X)
+  * `PREFIX=DIR` - causes `make install` to place binaries and data files to DIR (see note below)
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
@@ -106,6 +107,9 @@ The above will build a debug-enabled curses version for the architecture you are
 
 **Note on debug**:
 You should probably always build with `RELEASE=1` unless you experience segfaults and are willing to provide stack traces.
+
+**Note on PREFIX**:
+PREFIX specifies a directory which will be the prefix for binaries, resources, and documentation files. Compiling with PREFIX means cataclysm will read files from PREFIX directory. This can be overridden with --datadir (e.g. if you used PREFIX=DIR in earlier build, then specify --datadir DIR/share/cataclysm-dda).
 
 ## Compiling localization files
 

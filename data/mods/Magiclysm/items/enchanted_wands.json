@@ -13,9 +13,16 @@
     "color": "brown",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "charges_per_use": 1,
-    "ammo": "crystallized_mana",
-    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
-    "magazine_well": 1
+    "ammo": [ "crystallized_mana" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "small_mana_crystal" ]
+      }
+    ]
   },
   {
     "abstract": "disp_wand",

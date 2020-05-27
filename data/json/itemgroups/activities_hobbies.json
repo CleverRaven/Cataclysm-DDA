@@ -85,6 +85,7 @@
       [ "knee_pads", 40 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "wheel_skate", 50 ],
       [ "manual_throw", 12 ],
       {
         "item": "protein_powder",
@@ -335,6 +336,30 @@
       [ "mess_tin", 10 ],
       [ "survival_kit", 30 ],
       [ "premium_survival_kit", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "games",
+    "items": [
+      [ "chess", 50 ],
+      [ "checkers", 50 ],
+      [ "deck_of_cards", 50 ],
+      [ "cards_magic", 50 ],
+      [ "pictionary", 50 ],
+      [ "monopoly", 50 ],
+      [ "dnd", 50 ],
+      [ "g_warhammer", 50 ],
+      [ "g_warhammer40k", 50 ],
+      [ "catan", 50 ],
+      [ "battleship", 50 ],
+      [ "clue", 50 ],
+      [ "metal_RPG_die", 30 ],
+      [ "RPG_die", 40 ],
+      [ "character_sheet", 20 ],
+      [ "scorecard", 10 ],
+      [ "dnd_handbook", 5 ],
+      [ "portable_game", 5 ]
     ]
   }
 ]

@@ -94,9 +94,11 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 12 // The point after which stats cost double
+// The point after which stats cost double
+static constexpr int HIGH_STAT = 12;
 
-#define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
+// The ID of the rightmost tab
+static constexpr int NEWCHAR_TAB_MAX = 6 ;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -365,6 +367,38 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 }
 
+void avatar::add_profession_items()
+{
+    std::list<item> prof_items = prof->items( male, get_mutations() );
+
+    for( item &it : prof_items ) {
+        if( it.has_flag( flag_WET ) ) {
+            it.active = true;
+            it.item_counter = 450; // Give it some time to dry off
+        }
+        // TODO: debugmsg if food that isn't a seed is inedible
+        if( it.has_flag( "no_auto_equip" ) ) {
+            it.unset_flag( "no_auto_equip" );
+            inv.push_back( it );
+        } else if( it.has_flag( "auto_wield" ) ) {
+            it.unset_flag( "auto_wield" );
+            if( !is_armed() ) {
+                wield( it );
+            } else {
+                inv.push_back( it );
+            }
+        } else if( it.is_armor() ) {
+            // TODO: debugmsg if wearing fails
+            wear_item( it, false );
+        } else {
+            inv.push_back( it );
+        }
+        if( it.is_book() ) {
+            items_identified.insert( it.typeId() );
+        }
+    }
+}
+
 bool avatar::create( character_type type, const std::string &tempname )
 {
     weapon = item( "null", 0 );
@@ -538,34 +572,10 @@ bool avatar::create( character_type type, const std::string &tempname )
         starting_vehicle = prof->vehicle();
     }
 
-    std::list<item> prof_items = prof->items( male, get_mutations() );
+    add_profession_items();
 
-    for( item &it : prof_items ) {
-        if( it.has_flag( flag_WET ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
-        }
-        // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( "no_auto_equip" ) ) {
-            it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
-        } else if( it.has_flag( "auto_wield" ) ) {
-            it.unset_flag( "auto_wield" );
-            if( !is_armed() ) {
-                wield( it );
-            } else {
-                inv.push_back( it );
-            }
-        } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false );
-        } else {
-            inv.push_back( it );
-        }
-        if( it.is_book() ) {
-            items_identified.insert( it.typeId() );
-        }
-    }
+    // move items from the inventory. eventually the inventory should not contain items at all.
+    migrate_items_to_storage( true );
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( std::vector<addiction>::const_iterator iter = prof_addictions.begin();
@@ -1015,20 +1025,34 @@ tab_direction set_traits( avatar &u, points_left &points )
             continue;
         }
 
+
+        const std::set<trait_id> scentraits = g->scen->get_locked_traits();
+        const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
+                                             traits_iter.id ) != scentraits.end();
+
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
                                              traits_iter.id ) != proftraits.end();
+
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
+
+                if( is_proftrait || is_scentrait ) {
+                    continue;
+                }
 
                 if( u.has_trait( traits_iter.id ) ) {
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
                 vStartingTraits[1].push_back( traits_iter.id );
+
+                if( is_proftrait || is_scentrait ) {
+                    continue;
+                }
 
                 if( u.has_trait( traits_iter.id ) ) {
                     num_bad += traits_iter.points;
@@ -1519,7 +1543,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
 
-                    if( cbm.activated && cbm.toggled ) {
+                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
                         buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
@@ -1789,8 +1813,8 @@ tab_direction set_skills( avatar &u, points_left &points )
             std::sort( elem.second.begin(), elem.second.end(),
                        []( const std::pair<std::string, int> &lhs,
             const std::pair<std::string, int> &rhs ) {
-                return lhs.second < rhs.second ||
-                       ( lhs.second == rhs.second && lhs.first < rhs.first );
+                return localized_compare( std::make_pair( lhs.second, lhs.first ),
+                                          std::make_pair( rhs.second, rhs.first ) );
             } );
 
             const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
@@ -2155,6 +2179,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
+            if( sorted_scens[cur_id]->has_flag( "FUNGAL_INFECTION" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
             if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
                 sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
@@ -2476,7 +2504,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
         }
         wrefresh( w_skills );
-
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "

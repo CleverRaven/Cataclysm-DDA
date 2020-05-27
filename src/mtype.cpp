@@ -12,6 +12,15 @@
 #include "monstergenerator.h"
 #include "translations.h"
 
+static const itype_id itype_bone( "bone" );
+static const itype_id itype_bone_tainted( "bone_tainted" );
+static const itype_id itype_fish( "fish" );
+static const itype_id itype_human_flesh( "human_flesh" );
+static const itype_id itype_meat( "meat" );
+static const itype_id itype_meat_tainted( "meat_tainted" );
+static const itype_id itype_veggy( "veggy" );
+static const itype_id itype_veggy_tainted( "veggy_tainted" );
+
 static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
@@ -24,7 +33,7 @@ mtype::mtype()
     volume = 62499_ml;
     weight = 81499_gram;
     mat = { material_id( "flesh" ) };
-    phase = SOLID;
+    phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
     half_life = -1;
@@ -35,10 +44,10 @@ mtype::mtype()
     reproduces = false;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
-    baby_egg = "null";
+    baby_egg = itype_id::NULL_ID();
 
     biosignatures = false;
-    biosig_item = "null";
+    biosig_item = itype_id::NULL_ID();
 
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
@@ -187,34 +196,34 @@ itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
-            return "meat_tainted";
+            return itype_meat_tainted;
         } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
-            return "meat_tainted";
+            return itype_meat_tainted;
         } else if( made_of( material_id( "veggy" ) ) ) {
-            return "veggy_tainted";
+            return itype_veggy_tainted;
         } else if( made_of( material_id( "bone" ) ) ) {
-            return "bone_tainted";
+            return itype_bone_tainted;
         }
     } else {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             if( has_flag( MF_HUMAN ) ) {
-                return "human_flesh";
+                return itype_human_flesh;
             } else if( has_flag( MF_AQUATIC ) ) {
-                return "fish";
+                return itype_fish;
             } else {
-                return "meat";
+                return itype_meat;
             }
         } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
-            return "meat";
+            return itype_meat;
         } else if( made_of( material_id( "veggy" ) ) ) {
-            return "veggy";
+            return itype_veggy;
         } else if( made_of( material_id( "bone" ) ) ) {
-            return "bone";
+            return itype_bone;
         }
     }
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 int mtype::get_meat_chunks_count() const

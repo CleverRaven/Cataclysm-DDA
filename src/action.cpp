@@ -618,7 +618,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
         if( movez == -1 ) {
             return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
+            return g->u.swim_speed() < 500 || g->u.is_wearing( itype_id( "swim_fins" ) );
         }
     }
 

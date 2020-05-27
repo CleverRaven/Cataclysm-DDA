@@ -34,6 +34,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -55,18 +56,18 @@ namespace io
 {
 // *INDENT-OFF*
 template<>
-std::string enum_to_string<valid_target>( valid_target data )
+std::string enum_to_string<spell_target>( spell_target data )
 {
     switch( data ) {
-        case valid_target::target_ally: return "ally";
-        case valid_target::target_hostile: return "hostile";
-        case valid_target::target_self: return "self";
-        case valid_target::target_ground: return "ground";
-        case valid_target::target_none: return "none";
-        case valid_target::target_item: return "item";
-        case valid_target::target_fd_fire: return "fd_fire";
-        case valid_target::target_fd_blood: return "fd_blood";
-        case valid_target::_LAST: break;
+        case spell_target::ally: return "ally";
+        case spell_target::hostile: return "hostile";
+        case spell_target::self: return "self";
+        case spell_target::ground: return "ground";
+        case spell_target::none: return "none";
+        case spell_target::item: return "item";
+        case spell_target::fire: return "fd_fire";
+        case spell_target::blood: return "fd_blood";
+        case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
     abort();
@@ -115,6 +116,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
+        case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
+        case spell_flag::SPAWN_GROUP: return "SPAWN_GROUP";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -184,6 +187,8 @@ static damage_type damage_type_from_string( const std::string &str )
         return DT_COLD;
     } else if( str == "cut" ) {
         return DT_CUT;
+    } else if( str == "bullet" ) {
+        return DT_BULLET;
     } else if( str == "electric" ) {
         return DT_ELECTRIC;
     } else if( str == "stab" ) {
@@ -258,14 +263,14 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         effect = found_effect->second;
     }
 
-    const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
+    const auto effect_targets_reader = enum_flags_reader<spell_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
 
     const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
-    const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
+    const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
     if( jo.has_array( "extra_effects" ) ) {
@@ -495,6 +500,31 @@ int spell::damage() const
     }
 }
 
+int spell::min_leveled_dot() const
+{
+    return type->min_dot + std::round( get_level() * type->dot_increment );
+}
+
+int spell::damage_dot() const
+{
+    const int leveled_dot = min_leveled_dot();
+    if( type->min_dot >= 0 || type->max_dot >= type->min_dot ) {
+        return std::min( leveled_dot, type->max_dot );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_dot, type->max_dot );
+    }
+}
+
+damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps ) const
+{
+    damage_over_time_data temp;
+    temp.bps = bps;
+    temp.duration = duration_turns();
+    temp.amount = damage_dot();
+    temp.type = dmg_type();
+    return temp;
+}
+
 std::string spell::damage_string() const
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
@@ -598,6 +628,22 @@ void spell::gain_level()
     gain_exp( exp_to_next_level() );
 }
 
+void spell::gain_levels( int gains )
+{
+    if( gains < 1 ) {
+        return;
+    }
+    for( int gained = 0; gained < gains && !is_max_level(); gained++ ) {
+        gain_level();
+    }
+}
+
+void spell::set_level( int nlevel )
+{
+    experience = 0;
+    gain_levels( nlevel );
+}
+
 bool spell::is_max_level() const
 {
     return get_level() >= type->max_level;
@@ -669,7 +715,7 @@ bool spell::can_cast( const Character &guy ) const
         case bionic_energy:
             return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
         case fatigue_energy:
-            return guy.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
         case none_energy:
         default:
             return true;
@@ -926,7 +972,7 @@ bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) cons
     return rl_dist( caster.pos(), p ) <= range();
 }
 
-bool spell::is_valid_target( valid_target t ) const
+bool spell::is_valid_target( spell_target t ) const
 {
     return type->valid_targets[t];
 }
@@ -936,18 +982,18 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
         Creature::Attitude cr_att = cr->attitude_to( caster );
-        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) );
-        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
+        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( spell_target::hostile ) );
+        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( spell_target::ally ) &&
                            p != caster.pos() );
-        valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
+        valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
     } else {
-        valid = is_valid_target( target_ground );
+        valid = is_valid_target( spell_target::ground );
     }
     return valid;
 }
 
-bool spell::is_valid_effect_target( valid_target t ) const
+bool spell::is_valid_effect_target( spell_target t ) const
 {
     return type->effect_targets[t];
 }
@@ -988,6 +1034,8 @@ nc_color spell::damage_type_color() const
             return c_light_gray;
         case DT_ELECTRIC:
             return c_light_blue;
+        case DT_BULLET:
+        /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:
@@ -1067,10 +1115,10 @@ int spell::casting_exp( const Character &guy ) const
 std::string spell::enumerate_targets() const
 {
     std::vector<std::string> all_valid_targets;
-    int last_target = static_cast<int>( valid_target::_LAST );
+    int last_target = static_cast<int>( spell_target::num_spell_targets );
     for( int i = 0; i < last_target; ++i ) {
-        valid_target t = static_cast<valid_target>( i );
-        if( is_valid_target( t ) && t != target_none ) {
+        spell_target t = static_cast<spell_target>( i );
+        if( is_valid_target( t ) && t != spell_target::none ) {
             all_valid_targets.emplace_back( io::enum_to_string( t ) );
         }
     }
@@ -1172,7 +1220,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             // if a message is added to the casting spell, it will be sent as well.
             source.add_msg_if_player( sp.message() );
 
-            if( sp.has_flag( RANDOM_TARGET ) ) {
+            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
                 if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
                         _self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
@@ -1190,7 +1238,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
-            if( sp.has_flag( RANDOM_TARGET ) ) {
+            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
                 if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
                         extra_spell.self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
@@ -1449,7 +1497,7 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
             }
             return false;
         case fatigue_energy:
-            return guy.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
         case none_energy:
             return true;
         default:
@@ -1661,7 +1709,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     }
 
     std::string targets;
-    if( sp.is_valid_target( target_none ) ) {
+    if( sp.is_valid_target( spell_target::none ) ) {
         targets = _( "self" );
     } else {
         targets = sp.enumerate_targets();
@@ -1682,14 +1730,20 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const int damage = sp.damage();
     std::string damage_string;
+    std::string range_string;
     std::string aoe_string;
     // if it's any type of attack spell, the stats are normal.
     if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
         fx == "line_attack" ) {
         if( damage > 0 ) {
-            damage_string = string_format( "%s: %s %s", _( "Damage" ), colorize( sp.damage_string(),
-                                           sp.damage_type_color() ),
-                                           colorize( sp.damage_type_string(), sp.damage_type_color() ) );
+            std::string dot_string;
+            if( sp.damage_dot() != 0 ) {
+                //~ amount of damage per second, abbreviated
+                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot() );
+            }
+            damage_string = string_format( "%s: %s %s%s", _( "Damage" ), sp.damage_string(),
+                                           sp.damage_type_string(), dot_string );
+            damage_string = colorize( damage_string, sp.damage_type_color() );
         } else if( damage < 0 ) {
             damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string(),
                                            light_green ) );
@@ -1710,21 +1764,35 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
     } else if( fx == "spawn_item" ) {
-        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(), item::nname( sp.effect_data(),
-                                       sp.damage() ) );
+        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(),
+                                       item::nname( itype_id( sp.effect_data() ), sp.damage() ) );
     } else if( fx == "summon" ) {
-        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
-                                       _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
+        std::string monster_name = "FIXME";
+        if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // TODO: Get a more user-friendly group name
+            if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
+                monster_name = "from " + sp.effect_data();
+            } else {
+                debugmsg( "Unknown monster group: %s", sp.effect_data() );
+            }
+        } else {
+            monster_name = monster( mtype_id( sp.effect_data() ) ).get_name( );
+        }
+        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(), _( monster_name ) );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }
 
-    print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
+    range_string = string_format( "%s: %s", _( "Range" ),
+                                  sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) );
+
+    // Range / AOE in two columns
+    print_colored_text( w_menu, point( h_col1, line ), gray, gray, range_string );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
+    // One line for damage / healing / spawn / summon effect
+    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, damage_string );
 
     // todo: damage over time here, when it gets implemeted
 
@@ -1783,11 +1851,16 @@ int known_magic::select_spell( const Character &guy )
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
-    spell_menu.w_height = clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
-    spell_menu.w_width = std::max( 80, TERMX * 3 / 8 );
-    spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
-    spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
-    spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;
+    spell_menu.w_height_setup = [&]() -> int {
+        return clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+    };
+    const auto calc_width = []() -> int {
+        return std::max( 80, TERMX * 3 / 8 );
+    };
+    spell_menu.w_width_setup = calc_width;
+    spell_menu.pad_right_setup = [&]() -> int {
+        return calc_width() - max_spell_name_length - 5;
+    };
     spell_menu.title = _( "Choose a Spell" );
     spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
@@ -2051,9 +2124,9 @@ void spell_events::notify( const cata::event &e )
             spell_type spell_cast = spell_factory.obj( sid );
             for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
                  it != spell_cast.learn_spells.end(); ++it ) {
-                std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
+                    std::string learn_spell_id = it->first;
                     g->u.magic.learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(

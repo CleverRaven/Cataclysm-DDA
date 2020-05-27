@@ -39,7 +39,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 15,
-    "material_thickness": 20,
+    "material_thickness": 16,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ]
   },
   {
@@ -54,7 +54,7 @@
     "price_postapoc": 6000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "lightceramic", "kevlar" ],
+    "material": [ "lightceramic", "kevlar_layered" ],
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_red",
@@ -79,7 +79,7 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar" ],
+    "material": [ "kevlar_layered" ],
     "symbol": "[",
     "looks_like": "dragonskin",
     "color": "light_red",

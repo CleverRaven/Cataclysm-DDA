@@ -12,10 +12,11 @@
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_cyan",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 2500,
     "//": "58Ah @ 12VDC. Could supply ~700 watts for an hour",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 2500 } } ]
   },
   {
     "id": "battery_motorbike",
@@ -28,7 +29,8 @@
     "price": 2000,
     "price_postapoc": 250,
     "capacity": 500,
-    "//": "12Ah @ 12VDC. Could supply ~140 watts for an hour"
+    "//": "12Ah @ 12VDC. Could supply ~140 watts for an hour",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "battery_motorbike_small",
@@ -41,7 +43,8 @@
     "price": 20000,
     "price_postapoc": 100,
     "capacity": 150,
-    "//": "~2.4Ah @ 12VDC. Could supply ~140 watts 10 minutes or so"
+    "//": "~2.4Ah @ 12VDC. Could supply ~140 watts 10 minutes or so",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 150 } } ]
   },
   {
     "type": "GENERIC",
@@ -70,7 +73,8 @@
     "price": 400000,
     "price_postapoc": 2500,
     "bashing": 40,
-    "capacity": 80000
+    "capacity": 80000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 80000 } } ]
   },
   {
     "id": "medium_storage_battery",
@@ -83,7 +87,8 @@
     "price": 50000,
     "price_postapoc": 750,
     "bashing": 14,
-    "capacity": 7000
+    "capacity": 7000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 7000 } } ]
   },
   {
     "id": "small_storage_battery",
@@ -96,7 +101,8 @@
     "price": 5000,
     "price_postapoc": 500,
     "bashing": 7,
-    "capacity": 500
+    "capacity": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "storage_battery",
@@ -113,8 +119,9 @@
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "light_cyan",
-    "ammo_type": "battery",
+    "ammo_type": [ "battery" ],
     "capacity": 40000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 40000 } } ]
   }
 ]

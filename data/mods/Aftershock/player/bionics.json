@@ -4,7 +4,7 @@
     "type": "bionic",
     "name": { "str": "Solar Panels" },
     "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "sunlight" ],
     "fuel_efficiency": 1.0,
     "time": 1,
@@ -15,7 +15,7 @@
     "type": "bionic",
     "name": { "str": "Wind Turbines" },
     "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "wind" ],
     "fuel_efficiency": 0.25,
     "time": 1,
@@ -26,7 +26,7 @@
     "type": "bionic",
     "name": { "str": "Precision Solderers" },
     "description": "Your hands have been outfitted with precise soldering tools, wire cutters, and cable spools.  They're too small to use in most crafting, but in the absence of proper machinery, they're essential for creating bionics without better tools.",
-    "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "afs_solderers_item"
   },
   {
@@ -35,7 +35,7 @@
     "//": "Watch those wrist rockets!",
     "name": { "str": "Deployable Grenade Launcher" },
     "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances.",
-    "occupied_bodyparts": [ [ "HAND_R", 3 ] ],
+    "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "fake_item": "afs_bionic_rocket",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
     "act_cost": 5
@@ -45,17 +45,25 @@
     "type": "bionic",
     "name": { "str": "Linguistic Coprocessor" },
     "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 15% increase to reading speed.",
-    "occupied_bodyparts": [ [ "HEAD", 2 ] ]
+    "occupied_bodyparts": [ [ "head", 2 ] ]
   },
   {
     "id": "afs_bio_dopamine_stimulators",
     "type": "bionic",
     "name": { "str": "Dopamine Stimulators" },
     "description": "Tiny cybernetic stimulators have been installed throughout your ventral tegmental area, and trigger at set intervals using bionic power.  This slowly releases a stream of reward chemicals and hormones into your brain, inducing a state of euphoria that notably elevates mood.",
-    "occupied_bodyparts": [ [ "HEAD", 5 ] ],
+    "occupied_bodyparts": [ [ "head", 5 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 5,
     "react_cost": 5,
     "time": 200
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "type": "bionic",
+    "name": { "str": "Cranium Bomb" },
+    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  You need this out and fast.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "enchantments": [ "cranial_explosion" ]
   }
 ]

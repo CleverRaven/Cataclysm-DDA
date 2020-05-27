@@ -323,8 +323,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -343,8 +341,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -441,7 +437,7 @@ void memorial_logger::notify( const cata::event &e )
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( part ) );
+                     body_part_name( convert_bp( part ).id() ) );
             }
             break;
         }
@@ -843,9 +839,9 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_skill_level: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
+                    skill_id skill = e.get<skill_id>( "skill" );
                     add( pgettext( "memorial_male",
                                    //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),

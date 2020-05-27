@@ -102,12 +102,12 @@ int turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-int turret_data::ammo_capacity() const
+int turret_data::ammo_capacity( const ammotype &ammo ) const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
     }
-    return part->base.ammo_capacity();
+    return part->base.ammo_capacity( ammo );
 }
 
 const itype *turret_data::ammo_data() const
@@ -116,7 +116,7 @@ const itype *turret_data::ammo_data() const
         return nullptr;
     }
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        return ammo_current() != "null" ? item::find_type( ammo_current() ) : nullptr;
+        return !ammo_current().is_null() ? item::find_type( ammo_current() ) : nullptr;
     }
     return part->base.ammo_data();
 }
@@ -133,7 +133,7 @@ itype_id turret_data::ammo_current() const
     if( opts.count( part->base.ammo_default() ) ) {
         return part->base.ammo_default();
     }
-    return opts.empty() ? "null" : *opts.begin();
+    return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
 }
 
 std::set<itype_id> turret_data::ammo_options() const
@@ -145,7 +145,7 @@ std::set<itype_id> turret_data::ammo_options() const
     }
 
     if( !part->info().has_flag( "USE_TANKS" ) ) {
-        if( part->base.ammo_current() != "null" ) {
+        if( !part->base.ammo_current().is_null() ) {
             opts.insert( part->base.ammo_current() );
         }
 
@@ -216,7 +216,11 @@ bool turret_data::can_reload() const
         // always allow changing of magazines
         return true;
     }
-    return part->base.ammo_remaining() < part->base.ammo_capacity();
+    if( part->base.ammo_remaining() == 0 ) {
+        return true;
+    }
+    return part->base.ammo_remaining() <
+           part->base.ammo_capacity( part->base.ammo_data()->ammo->type );
 }
 
 bool turret_data::can_unload() const
@@ -388,25 +392,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         t->reset_target( global_part_pos3( *t ) );
     }
 
-    // Find radius of a circle centered at u encompassing all points turrets can aim at
-    // FIXME: this calculation is fine for square distances, but results in an underestimation
-    //        when used with real circles
-    int range_total = 0;
-    for( vehicle_part *t : turrets ) {
-        int range = turret_query( *t ).range();
-        tripoint pos = global_part_pos3( *t );
-
-        int res = 0;
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( range, 0 ) ) );
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( -range, 0 ) ) );
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, range ) ) );
-        res = std::max( res, rl_dist( g->u.pos(), pos + point( 0, -range ) ) );
-        range_total = std::max( range_total, res );
-    }
-
     // Get target
-    std::vector<tripoint> trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr,
-                                       range_total, nullptr, nullptr, this, turrets );
+    target_handler::trajectory trajectory = target_handler::mode_turrets( g->u, *this, turrets );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {
@@ -458,7 +445,7 @@ void vehicle::turrets_set_targeting()
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
-        menu.w_y = 2;
+        menu.w_y_setup = 2;
 
         for( auto &p : turrets ) {
             menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
@@ -514,7 +501,7 @@ void vehicle::turrets_set_mode()
         menu.callback = &callback;
         menu.selected = sel;
         menu.fselected = sel;
-        menu.w_y = 2;
+        menu.w_y_setup = 2;
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",

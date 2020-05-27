@@ -77,12 +77,12 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 240,
-    "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still, it is delicious, and rich with the most beneficial substances the hive can produce.",
+    "description": "A translucent hexagonal chunk of wax, filled with dense, milky, bitter and acidic-tasting jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still it is rich with the most beneficial substances the hive can produce.",
     "price": 20000,
     "price_postapoc": 4000,
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "fun": 7
+    "fun": -5
   },
   {
     "type": "COMESTIBLE",
@@ -469,6 +469,25 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "foodplace_snack_bar",
+    "name": { "str_sp": "Foodplace's appropriate snack™" },
+    "weight": "12g",
+    "color": "magenta",
+    "comestible_type": "FOOD",
+    "container": "wrapper",
+    "symbol": "f",
+    "calories": 12,
+    "description": "Real foodstuff now in a pocket size format!",
+    "price": 50,
+    "price_postapoc": 500,
+    "material": "foodplace_foodstuff",
+    "volume": "12 ml",
+    "flags": [ "EDIBLE_FROZEN", "IRREPLACEABLE_CONSUMABLE" ],
+    "addiction_potential": 1,
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "lentils_cooked",
     "name": { "str_sp": "cooked lentils" },
     "weight": "198 g",
@@ -721,5 +740,29 @@
     "price_postapoc": 0,
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
+  },
+  {
+    "id": "tea_bag",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "tea bag" },
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
+    "weight": "5 g",
+    "volume": "10 ml",
+    "color": "white",
+    "symbol": "?",
+    "container": "box_tea",
+    "material": "paper",
+    "price": 50,
+    "price_postapoc": 200,
+    "description": "Paper sachet with tea leafs inside.  Put it into boiling water to get your cup of tea."
+  },
+  {
+    "id": "herbal_tea_bag",
+    "type": "COMESTIBLE",
+    "name": { "str": "herbal tea bag" },
+    "copy-from": "tea_bag",
+    "color": "green",
+    "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
   }
 ]

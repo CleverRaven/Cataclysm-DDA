@@ -60,6 +60,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rock( "rock" );
+
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id SPIDER( "SPIDER" );
@@ -1110,7 +1113,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_push_items ) {
                     map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
-                        if( pushee->typeId() != "rock" ||
+                        if( pushee->typeId() != itype_rock ||
                             pushee->age() < 1_turns ) {
                             pushee++;
                         } else {
@@ -1442,7 +1445,7 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( "rm13_armor_on" ) ) {
+            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1563,7 +1566,7 @@ void map::player_in_field( player &u )
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
                 if( !u.has_active_bionic( bio_heatsink ) &&
-                    !u.is_wearing( "rm13_armor_on" ) ) {
+                    !u.is_wearing( itype_rm13_armor_on ) ) {
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
                     u.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -1631,7 +1634,7 @@ void map::player_in_field( player &u )
                     if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
                         u.add_env_effect( effect_stung, bp->token, intensity, 9_minutes ) ) {
                         u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
-                                             body_part_name_accusative( bp->token ) );
+                                             body_part_name_accusative( bp ) );
                     }
                 }
             }
@@ -1805,7 +1808,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
-            if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 20;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
@@ -1919,7 +1922,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
-            if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 50;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
@@ -1950,7 +1953,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
-            if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 20;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
@@ -1962,13 +1965,13 @@ void map::monster_in_field( monster &z )
             } else if( cur.get_field_intensity() == 2 ) {
                 dam += rng( 6, 12 );
                 z.moves -= 20;
-                if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
+                if( !z.made_of( phase_id::LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                     z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                 }
             } else if( cur.get_field_intensity() == 3 ) {
                 dam += rng( 10, 20 );
                 z.moves -= 40;
-                if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
+                if( !z.made_of( phase_id::LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                     z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                 }
             }
@@ -2060,7 +2063,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     std::set<tripoint> closed;
     open.push( { 0.0f, center } );
 
-    const bool not_gas = type.obj().phase != GAS;
+    const bool not_gas = type.obj().phase != phase_id::GAS;
 
     while( amount > 0 && !open.empty() ) {
         if( closed.count( open.top().second ) ) {

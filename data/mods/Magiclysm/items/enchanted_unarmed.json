@@ -80,7 +80,7 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "min_strength": 7,
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 855,
     "durability": 6,
     "blackpowder_tolerance": 66,
@@ -91,7 +91,8 @@
     "barrel_length": 2,
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "type": "GENERIC",

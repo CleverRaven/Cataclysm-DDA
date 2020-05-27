@@ -12,11 +12,12 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "8x40mm",
+    "ammo_type": [ "8x40mm" ],
     "capacity": 100,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 100 } } ]
   },
   {
     "id": "8x40_10_mag",
@@ -31,11 +32,12 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "8x40mm",
+    "ammo_type": [ "8x40mm" ],
     "capacity": 10,
     "reliability": 10,
     "reload_time": 40,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 10 } } ]
   },
   {
     "id": "8x40_250_mag",
@@ -50,10 +52,11 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "8x40mm",
+    "ammo_type": [ "8x40mm" ],
     "capacity": 250,
     "reliability": 10,
-    "reload_time": 60
+    "reload_time": 60,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 250 } } ]
   },
   {
     "id": "8x40_25_mag",
@@ -68,11 +71,12 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "8x40mm",
+    "ammo_type": [ "8x40mm" ],
     "capacity": 25,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 25 } } ]
   },
   {
     "id": "8x40_500_mag",
@@ -87,9 +91,10 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "8x40mm",
+    "ammo_type": [ "8x40mm" ],
     "capacity": 500,
-    "reliability": 10
+    "reliability": 10,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 500 } } ]
   },
   {
     "id": "8x40_50_mag",
@@ -104,27 +109,10 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "8x40mm",
+    "ammo_type": [ "8x40mm" ],
     "capacity": 50,
     "reliability": 10,
     "reload_time": 50,
     "flags": [ "MAG_COMPACT" ]
-  },
-  {
-    "id": "8x40_speedloader5",
-    "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
-    "name": { "str": "RMGS5 8x40mm speedloader" },
-    "description": "This speedloader, made by Rivtech for use with RM99 revolver, can hold 5 rounds of 8x40mm caseless rounds and quickly reload a compatible revolver.",
-    "weight": "92 g",
-    "volume": "250 ml",
-    "price": 8000,
-    "price_postapoc": 250,
-    "material": [ "superalloy", "plastic" ],
-    "symbol": "#",
-    "color": "dark_gray",
-    "ammo_type": "8x40mm",
-    "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
   }
 ]

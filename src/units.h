@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -473,6 +474,80 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
     return to_usd( v ) / 1000.0;
 }
 
+class length_in_millimeter_tag
+{
+};
+
+using length = quantity<int, length_in_millimeter_tag>;
+
+const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
+                          units::length::unit_type{} );
+
+const length length_max = units::length( std::numeric_limits<units::length::value_type>::max(),
+                          units::length::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, length_in_millimeter_tag> from_millimeter(
+    const value_type v )
+{
+    return quantity<value_type, length_in_millimeter_tag>( v, length_in_millimeter_tag{} );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, length_in_millimeter_tag> from_centimeter(
+    const value_type v )
+{
+    return from_millimeter<value_type>( v * 10 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, length_in_millimeter_tag> from_meter(
+    const value_type v )
+{
+    return from_millimeter<value_type>( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, length_in_millimeter_tag> from_kilometer(
+    const value_type v )
+{
+    return from_millimeter<value_type>( v * 1'000'000 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_millimeter( const quantity<value_type, length_in_millimeter_tag> &v )
+{
+    return v / from_millimeter<value_type>( 1 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_centimeter( const quantity<value_type, length_in_millimeter_tag> &v )
+{
+    return to_millimeter( v ) / 10.0;
+}
+
+template<typename value_type>
+inline constexpr value_type to_meter( const quantity<value_type, length_in_millimeter_tag> &v )
+{
+    return to_millimeter( v ) / 1'000.0;
+}
+
+template<typename value_type>
+inline constexpr value_type to_kilometer( const quantity<value_type, length_in_millimeter_tag> &v )
+{
+    return to_millimeter( v ) / 1'000'000.0;
+}
+
+// converts a volume as if it were a cube to the length of one side
+template<typename value_type>
+inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
+    const quantity<value_type, volume_in_milliliter_tag> &v )
+{
+    return units::from_centimeter<int>(
+               std::round(
+                   std::cbrt( units::to_milliliter( v ) ) ) );
+}
+
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
@@ -496,6 +571,11 @@ inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
     return o << "cent";
 }
 
+inline std::ostream &operator<<( std::ostream &o, length_in_millimeter_tag )
+{
+    return o << "mm";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
@@ -507,12 +587,12 @@ inline std::string display( const units::energy v )
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
-    if( kj >= 1 && float( j ) / kj == 1000 ) {
+    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
         return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
-    if( j >= 1 && float( mj ) / j  == 1000 ) {
+    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
         return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
     return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
@@ -643,6 +723,50 @@ inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _k
     return units::from_kusd( v );
 }
 
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _mm(
+    const long double v )
+{
+    return units::from_millimeter( v );
+}
+
+inline constexpr units::length operator"" _mm( const unsigned long long v )
+{
+    return units::from_millimeter( v );
+}
+
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _cm(
+    const long double v )
+{
+    return units::from_centimeter( v );
+}
+
+inline constexpr units::length operator"" _cm( const unsigned long long v )
+{
+    return units::from_centimeter( v );
+}
+
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _meter(
+    const long double v )
+{
+    return units::from_meter( v );
+}
+
+inline constexpr units::length operator"" _meter( const unsigned long long v )
+{
+    return units::from_meter( v );
+}
+
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _km(
+    const long double v )
+{
+    return units::from_kilometer( v );
+}
+
+inline constexpr units::length operator"" _km( const unsigned long long v )
+{
+    return units::from_kilometer( v );
+}
+
 namespace units
 {
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
@@ -666,6 +790,13 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
 static const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
+    }
+};
+static const std::vector<std::pair<std::string, length>> length_units = { {
+        { "mm", 1_mm },
+        { "cm", 1_cm },
+        { "meter", 1_meter },
+        { "km", 1_km }
     }
 };
 } // namespace units
@@ -701,7 +832,7 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
         }
         error( "invalid quantity string: unknown unit" );
         // above always throws but lambdas cannot be marked [[noreturn]]
-        throw;
+        throw std::string( "Exceptionally impossible" );
     };
 
     if( skip_spaces() ) {

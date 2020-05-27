@@ -1,0 +1,226 @@
+[
+  {
+    "abstract": "holybook_abstract",
+    "type": "BOOK",
+    "name": "holybook abstract",
+    "description": "theoretically this isn't a book at all",
+    "price": 550,
+    "price_postapoc": 550,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "dark_gray",
+    "flags": [ "INSPIRATIONAL", "TINDER", "FLAMMABLE" ],
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": 1
+  },
+  {
+    "id": "mycenacean_hymns",
+    "type": "BOOK",
+    "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
+    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible1",
+    "type": "BOOK",
+    "name": { "str": "King James Bible", "str_pl": "copies of King James Bible" },
+    "description": "An English translation of the Christian Bible, which originated in England in the early 1600s.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible2",
+    "type": "BOOK",
+    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
+    "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
+    "weight": "428 g",
+    "volume": "1250 ml",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible3",
+    "type": "BOOK",
+    "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
+    "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_granth",
+    "type": "BOOK",
+    "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
+    "description": "A single-volume copy of the central religious texts of Sikhism.",
+    "weight": "590 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_hadith",
+    "type": "BOOK",
+    "name": { "str": "Hadith", "str_pl": "copies of Hadith" },
+    "description": "A Muslim religious text containing an account of the sayings and actions of the prophet Muhammad.",
+    "weight": "398 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_kallisti",
+    "type": "BOOK",
+    "name": { "str": "Principia Discordia", "str_pl": "copies of Principia Discordia" },
+    "description": "A book that embodies the main beliefs of Discordianism.  It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
+    "weight": "292 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_kojiki",
+    "type": "BOOK",
+    "name": { "str": "The Kojiki", "str_pl": "copies of The Kojiki" },
+    "description": "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_mormon",
+    "type": "BOOK",
+    "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
+    "description": "The sacred text of the Latter Day Saint movement of Christianity, originally published in 1830 by Joseph Smith.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_pastafarian",
+    "type": "BOOK",
+    "name": {
+      "str": "The Gospel of the Flying Spaghetti Monster",
+      "str_pl": "copies of The Gospel of the Flying Spaghetti Monster"
+    },
+    "description": "A book that embodies the main beliefs of the Church of the Flying Spaghetti Monster.  It seems to involve a lot of pirates and some sort of invisible drunken monster made of pasta.",
+    "weight": "292 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_quran",
+    "type": "BOOK",
+    "name": { "str": "Quran", "str_pl": "copies of Quran" },
+    "description": "An English translation of the Muslim book of holy scriptures, with explanatory notes and commentaries to aid in understanding.",
+    "weight": "412 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_satanic",
+    "type": "BOOK",
+    "name": { "str": "The Satanic Bible", "str_pl": "copies of The Satanic Bible" },
+    "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
+    "weight": "130 g",
+    "volume": "250 ml",
+    "price": 550,
+    "price_postapoc": 50,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": 1,
+    "flags": [ "INSPIRATIONAL" ]
+  },
+  {
+    "id": "holybook_scientology",
+    "type": "BOOK",
+    "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
+    "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
+    "weight": "486 g",
+    "volume": "1 L",
+    "price": 550,
+    "price_postapoc": 550,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "dark_gray",
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": -1,
+    "flags": [ "INSPIRATIONAL" ]
+  },
+  {
+    "id": "holybook_slack",
+    "type": "BOOK",
+    "name": { "str": "The Book of the SubGenius", "str_pl": "copies of The Book of the SubGenius" },
+    "description": "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
+    "weight": "292 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_sutras",
+    "type": "BOOK",
+    "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
+    "description": "A collection of discourses attributed to the Buddha and his close disciples.",
+    "weight": "496 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_talmud",
+    "type": "BOOK",
+    "name": { "str": "Talmud", "str_pl": "copies of the Talmud" },
+    "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
+    "weight": "460 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tanakh",
+    "type": "BOOK",
+    "name": { "str": "Tanakh", "str_pl": "copies of Tanakh" },
+    "description": "A single-volume book containing the complete canon of the Jewish Bible.",
+    "weight": "512 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_tripitaka",
+    "type": "BOOK",
+    "name": { "str": "The Tripitaka", "str_pl": "copies of The Tripitaka" },
+    "description": "A collection of sacred Buddhist writings describing their canons of scriptures.",
+    "weight": "513 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_upanishads",
+    "type": "BOOK",
+    "name": { "str": "The Upanishads", "str_pl": "copies of The Upanishads" },
+    "description": "A collection of sacred Hindu writings regarding the nature of reality and describing the character and form of human salvation.",
+    "weight": "482 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_vedas",
+    "type": "BOOK",
+    "name": { "str": "The Four Vedas", "str_pl": "copies of The Four Vedas" },
+    "description": "A single volume containing all four Vedas, which are the oldest scriptures of Hinduism.",
+    "weight": "540 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_havamal",
+    "type": "BOOK",
+    "name": { "str": "Hávamál", "str_pl": "copies of Hávamál" },
+    "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
+    "weight": "292 g",
+    "volume": "750 ml",
+    "copy-from": "holybook_abstract"
+  }
+]

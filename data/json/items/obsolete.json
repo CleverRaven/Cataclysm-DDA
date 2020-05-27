@@ -75,7 +75,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "damage_modifier": 1,
+    "damage_modifier": { "damage_type": "bullet", "amount": 1 },
     "dispersion_modifier": -90,
     "min_skills": [ [ "weapon", 4 ] ]
   },
@@ -108,7 +108,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "shotgun" ],
-    "damage_modifier": -8,
+    "damage_modifier": { "damage_type": "bullet", "amount": -8 },
     "dispersion_modifier": -200,
     "min_skills": [ [ "weapon", 5 ] ]
   },
@@ -378,7 +378,8 @@
     "durability": 8,
     "clip_size": 100,
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
-    "relative": { "reload": 4 }
+    "relative": { "reload": 4 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 }, "watertight": true } ]
   },
   {
     "type": "effect_type",
@@ -421,7 +422,15 @@
     "dispersion": 600,
     "durability": 6,
     "relative": { "reload": 2 },
-    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "aux_pressurized_tank", "pressurized_tank" ]
+      }
+    ]
   },
   {
     "id": "bio_advreactor",
@@ -478,7 +487,7 @@
     "color": "magenta",
     "skill": "pistol",
     "range": 30,
-    "ranged_damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 6 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 6 },
     "dispersion": 180,
     "durability": 4,
     "loudness": 7,
@@ -950,7 +959,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "tinder",
+    "ammo": [ "tinder" ],
     "max_charges": 100,
     "charges_per_use": 25,
     "turns_per_charge": 300,
@@ -1007,7 +1016,7 @@
     "type": "AMMO",
     "name": { "str": "40mm slug" },
     "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
-    "damage": { "damage_type": "stab", "amount": 130 },
+    "damage": { "damage_type": "bullet", "amount": 130 },
     "recoil": 875,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
@@ -1053,8 +1062,7 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1080,8 +1088,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1108,8 +1115,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1134,8 +1140,7 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1222,7 +1227,7 @@
     "price": 99999999,
     "material": "steel",
     "skill": "launcher",
-    "ammo": "120mm",
+    "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
     "bashing": 6,
@@ -1230,7 +1235,8 @@
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
-    "loudness": 300
+    "loudness": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {
     "type": "GENERIC",
@@ -1259,7 +1265,15 @@
     "material": "stone",
     "symbol": ";",
     "color": "dark_gray",
-    "container_data": { "contains": "1500 ml", "watertight": true },
+    "pocket_data": [
+      {
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -1287,7 +1301,8 @@
     ],
     "blackpowder_tolerance": 60,
     "relative": { "durability": -3 },
-    "proportional": { "reload": 4.0 }
+    "proportional": { "reload": 4.0 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
   },
   {
     "id": "shishkebab_off",
@@ -1303,7 +1318,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "use_action": {
@@ -1359,7 +1374,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": "WBLOCK_2",
@@ -1391,7 +1406,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "red",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firemachete_off",
@@ -1426,7 +1441,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -1455,7 +1470,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "red",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
@@ -1488,7 +1503,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": "WBLOCK_2",
@@ -1539,7 +1554,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
@@ -1569,7 +1584,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "red",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
@@ -1749,19 +1764,19 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "range": -6,
-    "ranged_damage": -16,
+    "ranged_damage": { "damage_type": "bullet", "amount": -16 },
     "dispersion": 380,
     "durability": 8,
     "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
-    "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "223": 5 } } ]
   },
   {
     "id": "223_speedloader5",
@@ -1774,9 +1789,10 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "223",
+    "ammo_type": [ "223" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5 } } ]
   },
   {
     "id": "lwfeed",
@@ -1814,7 +1830,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "damage_modifier": 3,
+    "damage_modifier": { "damage_type": "bullet", "amount": 3 },
     "dispersion_modifier": -45,
     "range_modifier": 3,
     "min_skills": [ [ "weapon", 4 ] ],
@@ -1843,10 +1859,17 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
-    "magazine_well": 1,
-    "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
+    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "aux_pressurized_tank" ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -1993,12 +2016,12 @@
     "material": [ "steel", "wood" ],
     "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON-FOULING" ],
     "skill": "rifle",
-    "ammo": "pebble",
+    "ammo": [ "pebble" ],
     "weight": "4211 g",
     "volume": "2750 ml",
     "bashing": 8,
     "to_hit": -1,
-    "ranged_damage": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 15,
     "dispersion": 75,
     "durability": 7,
@@ -2015,7 +2038,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 15 } } ]
   },
   {
     "id": "helsing",
@@ -2031,12 +2055,12 @@
     "material": [ "steel", "wood" ],
     "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
     "skill": "rifle",
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "3110 g",
     "volume": "3 L",
     "bashing": 12,
     "to_hit": -1,
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "stab", "amount": 5 },
     "range": 20,
     "dispersion": 30,
     "durability": 7,
@@ -2052,7 +2076,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 8 } } ]
   },
   {
     "id": "pneumatic_shotgun",
@@ -2067,13 +2092,13 @@
     "material": [ "steel", "wood" ],
     "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
     "skill": "shotgun",
-    "ammo": "shotcanister",
+    "ammo": [ "shotcanister" ],
     "weight": "3410 g",
     "volume": "2500 ml",
     "price_postapoc": 12000,
     "bashing": 8,
     "to_hit": -1,
-    "ranged_damage": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 3,
     "dispersion": 350,
     "durability": 7,
@@ -2090,7 +2115,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shotcanister": 2 } } ]
   },
   {
     "id": "mininuke_launcher",
@@ -2106,7 +2132,7 @@
     "material": [ "aluminum", "wood" ],
     "flags": [ "STR_RELOAD", "NEVER_JAMS" ],
     "skill": "launcher",
-    "ammo": "mininuke_mod",
+    "ammo": [ "mininuke_mod" ],
     "weight": "11260 g",
     "volume": "2750 ml",
     "bashing": 12,
@@ -2116,7 +2142,8 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "mininuke_mod": 1 } } ]
   },
   {
     "id": "heavy_rail_rifle",
@@ -2134,10 +2161,10 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "metal_rail",
+    "ammo": [ "metal_rail" ],
     "skill": "rifle",
     "range": 40,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "dispersion": 100,
     "durability": 7,
     "clip_size": 10,
@@ -2154,7 +2181,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 10 } } ]
   },
   {
     "id": "rebar_rifle",
@@ -2172,7 +2200,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "metal_rail",
+    "ammo": [ "metal_rail" ],
     "skill": "rifle",
     "dispersion": 90,
     "durability": 6,
@@ -2188,7 +2216,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 1 } } ]
   },
   {
     "id": "coilgun",
@@ -2205,11 +2234,10 @@
     "to_hit": -2,
     "bashing": 10,
     "material": [ "copper", "steel" ],
-    "ammo": "nail",
+    "ammo": [ "nail" ],
     "skill": "rifle",
     "range": 12,
-    "ranged_damage": 4,
-    "pierce": 20,
+    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
     "dispersion": 180,
     "durability": 5,
     "ups_charges": 5,
@@ -2222,7 +2250,15 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "nailmag" ]
+      }
+    ]
   },
   {
     "id": "nailrifle",
@@ -2236,7 +2272,6 @@
     "price_postapoc": 750,
     "skill": "rifle",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "clip_size": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -2247,9 +2282,17 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": 4 },
-    "proportional": { "price": 3, "dispersion": 0.5 }
+    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
+    "proportional": { "price": 3, "dispersion": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "nailmag" ]
+      }
+    ]
   },
   {
     "id": "nailmag",
@@ -2263,11 +2306,12 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "nail",
+    "ammo_type": [ "nail" ],
     "capacity": 50,
     "reliability": 6,
     "reload_time": 300,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nail": 50 } } ]
   },
   {
     "id": "recipe_mininuke_launch",
@@ -2301,7 +2345,7 @@
     "weight": "34500 g",
     "bashing": 8,
     "ammo_type": "mininuke_mod",
-    "damage": 14,
+    "damage": { "damage_type": "stab", "amount": 14 },
     "stack_size": 2,
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ]
   },
@@ -2383,19 +2427,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 7,
-    "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2417,19 +2451,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 9,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2451,19 +2475,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 25,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 5,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2485,19 +2499,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 12,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2519,19 +2523,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 20,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 7,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2553,19 +2547,9 @@
     "covers": [ "TORSO" ],
     "coverage": 85,
     "encumbrance": 15,
-    "storage": "1 L",
     "warmth": 15,
     "material_thickness": 6,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Stash ammo",
-      "holster_msg": "You stash your %s.",
-      "multi": 4,
-      "min_volume": "250 ml",
-      "max_volume": "1 L",
-      "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
-    },
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "flags": [ "STURDY", "OUTER" ]
   },
   {
@@ -2661,5 +2645,159 @@
     "id": "shotcanister",
     "name": "shotcanisters",
     "default": "shotcanister_scrap"
+  },
+  {
+    "id": "control_laptop",
+    "type": "TOOL",
+    "name": { "str": "control laptop" },
+    "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
+    "weight": "2721 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 8000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 2,
+    "use_action": "ROBOTCONTROL",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "an94",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "AN-94" },
+    "description": "Intended to replace the AK-74, this rifle uses a sophisticated mechanism to delay felt recoil, along with a very fast two-round burst mode.  While its increased complexity prevented it from being adopted by the Russian military, it has seen service among their special forces.",
+    "weight": "3850 g",
+    "volume": "4147 ml",
+    "longest_side": "95 cm",
+    "price": 420000,
+    "price_postapoc": 4500,
+    "to_hit": -1,
+    "bashing": 11,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "545x39",
+    "skill": "rifle",
+    "dispersion": 150,
+    "durability": 7,
+    "barrel_length": "250 ml",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ak74mag", "rpk74mag" ]
+      }
+    ]
+  },
+  {
+    "id": "bot_laserturret",
+    "type": "TOOL",
+    "name": { "str": "inactive laser turret" },
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "price_postapoc": 12000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_laserturret",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "id": "cerberus_laser",
+    "type": "GENERIC",
+    "symbol": "(",
+    "color": "magenta",
+    "name": { "str": "TX-5LR Laser Cannon" },
+    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
+    "price": 5000000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "5000 g",
+    "volume": "750 ml",
+    "category": "spare_parts"
+  },
+  {
+    "id": "laser_cannon",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "handheld laser cannon" },
+    "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
+    "weight": "5140 g",
+    "volume": "1500 ml",
+    "price": 400000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
+    "dispersion": 90,
+    "durability": 7,
+    "loudness": 8,
+    "ups_charges": 25,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "lens", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

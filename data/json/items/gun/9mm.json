@@ -14,13 +14,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "range": 1,
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m9mag", "m9bigmag" ]
+      }
+    ]
   },
   {
     "id": "calico",
@@ -39,9 +46,9 @@
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 450,
@@ -61,8 +68,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "calicomag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "calicomag" ]
+      }
+    ]
   },
   {
     "id": "cx4",
@@ -80,10 +94,10 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "rifle",
     "range": 20,
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 10,
     "min_cycle_recoil": 450,
@@ -103,8 +117,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m9bigmag", "m9mag" ]
+      }
+    ]
   },
   {
     "id": "glock_19",
@@ -122,14 +143,21 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ]
   },
   {
     "id": "hk_mp5",
@@ -147,9 +175,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 450,
@@ -170,7 +198,15 @@
       [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mp5mag", "mp5bigmag" ]
+      }
+    ]
   },
   {
     "id": "hk_mp5sd",
@@ -268,7 +304,15 @@
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 2 },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
-    "magazines": [ [ "9mm", [ "mp5mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mp5mag" ]
+      }
+    ]
   },
   {
     "id": "ksub2000",
@@ -286,10 +330,10 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "rifle",
     "range": 18,
-    "ranged_damage": { "damage_type": "stab", "amount": 3 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
@@ -308,8 +352,15 @@
       [ "sling", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ]
   },
   {
     "id": "m9",
@@ -327,13 +378,20 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "range": 1,
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m9mag", "m9bigmag" ]
+      }
+    ]
   },
   {
     "id": "px4",
@@ -350,13 +408,20 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "range": 1,
     "dispersion": 440,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "px4mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "px4mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_9mm",
@@ -375,9 +440,9 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -396,7 +461,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 1 } } ]
   },
   {
     "id": "smg_9mm",
@@ -414,8 +480,8 @@
     "bashing": 10,
     "material": "steel",
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -3 },
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
@@ -436,7 +502,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "9mm", [ "survivor9mm_mag", "stenmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "survivor9mm_mag", "stenmag" ]
+      }
+    ]
   },
   {
     "id": "sten",
@@ -453,9 +527,9 @@
     "material": "steel",
     "symbol": "[",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 360,
     "durability": 5,
     "blackpowder_tolerance": 24,
@@ -472,7 +546,15 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stenmag", "survivor9mm_mag" ]
+      }
+    ]
   },
   {
     "id": "tec9",
@@ -490,7 +572,7 @@
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
     "dispersion": 520,
     "durability": 6,
@@ -511,8 +593,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tec9mag" ]
+      }
+    ]
   },
   {
     "id": "usp_9mm",
@@ -530,14 +619,21 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 400,
     "durability": 9,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "usp9mag" ]
+      }
+    ]
   },
   {
     "id": "uzi",
@@ -555,8 +651,8 @@
     "bashing": 10,
     "material": "steel",
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 450,
@@ -576,8 +672,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "uzimag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "uzimag" ]
+      }
+    ]
   },
   {
     "id": "glock_17",
@@ -594,15 +697,22 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": 1,
-    "//": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
-    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
+    "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+      }
+    ]
   },
   {
     "id": "glock_18c",
@@ -624,14 +734,21 @@
     "description": "The Kel-Tec PF-9 remains one of the most popular backup pistols due to its history of reliability, affordability, and concealability.  Chambered in 9x19mm, recoil is best described as unpleasant, and follow-up shots are difficult to place quickly.",
     "weight": "360 g",
     "volume": "218ml",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "price": 18000,
     "price_postapoc": 2000,
     "bashing": 2,
-    "ammo": "9mm",
-    "magazine_well": "65 ml",
+    "ammo": [ "9mm" ],
     "min_cycle_recoil": 450,
-    "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "kpf9mag" ]
+      }
+    ]
   },
   {
     "id": "m17",
@@ -648,12 +765,19 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p320mag_17rd_9x19mm" ]
+      }
+    ]
   },
   {
     "id": "hi_power_9mm",
@@ -670,11 +794,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "bhp9mag_13rd", "bhp9mag_15rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ]
+      }
+    ]
   },
   {
     "id": "walther_p38",
@@ -691,11 +822,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "p38mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p38mag" ]
+      }
+    ]
   },
   {
     "id": "walther_ppq_9mm",
@@ -711,11 +849,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ]
+      }
+    ]
   },
   {
     "id": "hptc9",
@@ -732,11 +877,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
+      }
+    ]
   },
   {
     "id": "cz75",
@@ -753,11 +905,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ]
+      }
+    ]
   },
   {
     "id": "walther_ccp",
@@ -774,10 +933,17 @@
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ccpmag" ]
+      }
+    ]
   }
 ]

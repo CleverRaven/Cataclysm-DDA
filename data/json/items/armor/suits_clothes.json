@@ -39,8 +39,13 @@
     "color": "pink",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 30,
-    "storage": "3250 ml",
+    "encumbrance": 17,
+    "max_encumbrance": 30,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
@@ -62,8 +67,9 @@
     "color": "light_green",
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
-    "encumbrance": 30,
-    "storage": "1 L",
+    "encumbrance": 26,
+    "max_encumbrance": 30,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
@@ -85,8 +91,14 @@
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
-    "encumbrance": 2,
-    "storage": "2 L",
+    "encumbrance": 1,
+    "max_encumbrance": 2,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "POCKETS" ]
@@ -107,8 +119,14 @@
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
-    "encumbrance": 2,
-    "storage": "2500 ml",
+    "encumbrance": 1,
+    "max_encumbrance": 2,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "POCKETS", "OVERSIZE" ]
@@ -140,8 +158,12 @@
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
-    "encumbrance": 7,
-    "storage": "1 L",
+    "encumbrance": 3,
+    "max_encumbrance": 7,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
     "warmth": 15,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
@@ -182,8 +204,12 @@
     "color": "light_gray",
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
-    "encumbrance": 30,
-    "storage": "1 L",
+    "encumbrance": 26,
+    "max_encumbrance": 30,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 2,

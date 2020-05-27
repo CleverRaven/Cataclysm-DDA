@@ -290,6 +290,24 @@
     "width": 3
   },
   {
+    "id": "wheel_skate",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": { "str": "skate wheel" },
+    "description": "A very small plastic wheel with a punk attitude.  This wheel was made for skating.",
+    "weight": "200 g",
+    "volume": "200 ml",
+    "price": 1400,
+    "price_postapoc": 10,
+    "bashing": 1,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 3,
+    "width": 1
+  },
+  {
     "id": "wheel_tricycle",
     "category": "veh_parts",
     "type": "WHEEL",

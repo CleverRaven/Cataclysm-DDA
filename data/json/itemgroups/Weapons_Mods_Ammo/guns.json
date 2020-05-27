@@ -151,7 +151,6 @@
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
@@ -311,6 +310,8 @@
       { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
       { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 20 },
+      { "item": "fs2000", "prob": 6, "charges-min": 0, "charges-max": 30 },
+      { "item": "m249_semi", "prob": 5, "charges-min": 0, "charges-max": 100 },
       { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 20 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 30 },
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 10 },
@@ -338,6 +339,7 @@
       { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "m249_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -402,11 +404,11 @@
     "items": [
       { "item": "ak47", "prob": 100, "charges-min": 0, "charges-max": 30 },
       { "item": "ak74", "prob": 60, "charges-min": 0, "charges-max": 30 },
-      { "item": "an94", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 7 },
       { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 1 },
       { "item": "carbine_flintlock", "prob": 140 },
       { "item": "famas", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "m60_semi", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "rifle_flintlock", "prob": 180 },
       { "item": "oa93", "prob": 3, "charges-min": 0, "charges-max": 30 },
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
@@ -702,28 +704,39 @@
   },
   {
     "type": "item_group",
+    "id": "longguns_cop",
+    "items": [
+      { "item": "ar15", "prob": 15, "charges": [ 0, 30 ] },
+      { "item": "cx4", "prob": 20, "charges": [ 0, 15 ] },
+      { "item": "fn_p90", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "hk_mp5", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "mossberg_500", "prob": 15, "charges": [ 0, 8 ] },
+      { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ] },
+      { "item": "remington_870", "prob": 20, "charges": [ 0, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop",
+    "items": [
+      { "item": "fn57", "prob": 20, "charges": [ 0, 20 ] },
+      { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      { "item": "glock_22", "prob": 20, "charges": [ 0, 15 ] },
+      { "item": "m9", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
+      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] },
+      { "item": "kp32", "prob": 1, "charges": [ 0, 7 ] },
+      { "item": "kp3at", "prob": 2, "charges": [ 0, 6 ] },
+      { "item": "rugerlcp", "prob": 2, "charges": [ 0, 6 ] },
+      { "item": "kpf9", "prob": 3, "charges": [ 0, 7 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_cop",
     "//": "Police issue weapons of all types",
-    "items": [
-      { "item": "ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
-      { "item": "cx4", "prob": 20, "charges-min": 0, "charges-max": 15 },
-      { "item": "fn57", "prob": 20, "charges-min": 0, "charges-max": 20 },
-      { "item": "fn_p90", "prob": 5, "charges-min": 0, "charges-max": 50 },
-      { "item": "glock_19", "prob": 15, "charges-min": 0, "charges-max": 15 },
-      { "item": "glock_22", "prob": 20, "charges-min": 0, "charges-max": 15 },
-      { "item": "hk_mp5", "prob": 10, "charges-min": 0, "charges-max": 30 },
-      { "item": "m9", "prob": 5, "charges-min": 0, "charges-max": 15 },
-      { "item": "mossberg_500", "prob": 15, "charges-min": 0, "charges-max": 8 },
-      { "item": "remington_700", "prob": 5, "charges-min": 0, "charges-max": 4 },
-      { "item": "remington_870", "prob": 20, "charges-min": 0, "charges-max": 6 },
-      { "item": "sig_40", "prob": 20, "charges-min": 0, "charges-max": 12 },
-      { "item": "usp_45", "prob": 10, "charges-min": 0, "charges-max": 12 },
-      { "item": "usp_9mm", "prob": 10, "charges-min": 0, "charges-max": 15 },
-      { "item": "kp32", "prob": 1, "charges-min": 0, "charges-max": 7 },
-      { "item": "kp3at", "prob": 2, "charges-min": 0, "charges-max": 6 },
-      { "item": "rugerlcp", "prob": 2, "charges-min": 0, "charges-max": 6 },
-      { "item": "kpf9", "prob": 3, "charges-min": 0, "charges-max": 7 }
-    ]
+    "items": [ { "group": "longguns_cop", "prob": 50 }, { "group": "sidearms_cop", "prob": 50 } ]
   },
   {
     "type": "item_group",

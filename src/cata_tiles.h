@@ -29,8 +29,6 @@ class Character;
 class JsonObject;
 class pixel_minimap;
 
-using itype_id = std::string;
-
 extern void set_displaybuffer_rendertarget();
 
 /** Structures */
@@ -39,6 +37,7 @@ struct tile_type {
     weighted_int_list<std::vector<int>> fg, bg;
     bool multitile = false;
     bool rotates = false;
+    bool animated = false;
     int height_3d = 0;
     point offset = point_zero;
 

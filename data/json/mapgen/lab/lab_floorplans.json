@@ -488,7 +488,7 @@
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] },
         "c": { "items": [ { "item": "chem_lab", "chance": 30 }, { "item": "tools_science", "chance": 30 } ] }
       },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": 11, "y": 9, "chance": 20 } ],
+      "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 0, 11 ], "y": [ 8, 9 ], "chance": 20, "repeat": 7 } ],
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 12, "y": 2 },
@@ -542,7 +542,7 @@
         "7": "t_console",
         "r": "t_floor_blue"
       },
-      "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11 } ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11, "ammo": 100 } ],
       "mapping": {
         "r": {
           "items": [

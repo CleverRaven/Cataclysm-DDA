@@ -71,6 +71,11 @@ float field_entry::light_emitted() const
     return type.obj().get_light_emitted( intensity - 1 );
 }
 
+float field_entry::local_light_override() const
+{
+    return type.obj().get_local_light_override( intensity - 1 );
+}
+
 float field_entry::translucency() const
 {
     return type.obj().get_translucency( intensity - 1 );

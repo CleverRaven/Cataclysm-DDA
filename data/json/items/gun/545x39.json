@@ -8,7 +8,8 @@
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
     "description": "The successor to the well-known AK-47 rifle.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge.",
     "weight": "3400 g",
-    "volume": "1750 ml",
+    "volume": "2418 ml",
+    "longest_side": "94 cm",
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -16,7 +17,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "545x39",
+    "ammo": [ "545x39" ],
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
@@ -36,45 +37,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
-  },
-  {
-    "id": "an94",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "AN-94" },
-    "description": "Intended to replace the AK-74, this rifle uses a sophisticated mechanism to delay felt recoil, along with a very fast two-round burst mode.  While its increased complexity prevented it from being adopted by the Russian military, it has seen service among their special forces.",
-    "weight": "3850 g",
-    "volume": "1750 ml",
-    "price": 420000,
-    "price_postapoc": 4500,
-    "to_hit": -1,
-    "bashing": 11,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "545x39",
-    "skill": "rifle",
-    "dispersion": 150,
-    "durability": 7,
-    "barrel_length": "250 ml",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ak74mag", "rpk74mag" ]
+      }
+    ]
   }
 ]

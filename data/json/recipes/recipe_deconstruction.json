@@ -91,6 +91,14 @@
     "components": [ [ [ "silver_small", 2 ] ], [ [ "gold_small", 2 ] ] ]
   },
   {
+    "result": "vac_oven_small_done",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "components": [ [ [ "hi_q_shatter", 420 ] ], [ [ "vac_oven_small", 1 ] ] ]
+  },
+  {
     "result": "ear_spool",
     "type": "uncraft",
     "time": "30 s",
@@ -938,28 +946,6 @@
       [ [ "robot_controls", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ]
-    ]
-  },
-  {
-    "result": "broken_laserturret",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "1 h",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "laser_cannon", 1 ] ],
-      [ [ "medium_storage_battery", 1 ] ],
-      [ [ "solar_cell", 4 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -2268,10 +2254,10 @@
       [ [ "cable", 12 ] ],
       [ [ "chem_rdx", 20 ] ],
       [ [ "circuit", 6 ] ],
-      [ [ "plut_cell", 6 ] ],
+      [ [ "plutonium", 6 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 200 ] ],
-      [ [ "small_storage_battery", 2 ] ]
+      [ [ "plut_cell", 1 ] ]
     ]
   },
   {

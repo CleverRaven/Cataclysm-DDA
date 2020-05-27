@@ -86,9 +86,8 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "jp8",
-    "damage": 5,
+    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 34.7,
@@ -114,9 +113,8 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "avgas",
-    "damage": 5,
+    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 45.8,

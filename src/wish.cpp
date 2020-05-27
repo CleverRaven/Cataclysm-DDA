@@ -47,7 +47,6 @@ class wish_mutate_callback: public uilist_callback
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
         player *p;
-        std::string padding;
 
         nc_color mcolor( const trait_id &m ) {
             if( pTraits[ m ] ) {
@@ -77,12 +76,13 @@ class wish_mutate_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             if( !started ) {
                 started = true;
-                padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
                 }
             }
+
+            const std::string padding = std::string( menu->pad_right - 1, ' ' );
 
             const int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
@@ -195,7 +195,7 @@ class wish_mutate_callback: public uilist_callback
             lastlen = line2 + 1;
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
-            msg = padding;
+            msg.clear();
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
@@ -225,10 +225,13 @@ void debug_menu::wishmutate( player *p )
         }
         c++;
     }
-    wmenu.w_x = 0;
-    wmenu.w_width = TERMX;
-    // Disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = wmenu.w_width - 40;
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = []() -> int {
+        return TERMX;
+    };
+    wmenu.pad_right_setup = []() -> int {
+        return TERMX - 40;
+    };
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.p = p;
@@ -299,31 +302,16 @@ class wish_monster_callback: public uilist_callback
         bool hallucination;
         // Number of monsters to spawn.
         int group;
-        // ui_parent menu's padding area
-        catacurses::window w_info;
         // scrap critter for monster::print_info
         monster tmp;
-        // if unset, initialize window
-        bool started;
-        // ' ' x window width
-        std::string padding;
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
             : mtypes( mtypes ) {
-            started = false;
             friendly = false;
             hallucination = false;
             group = 0;
             lastent = -2;
-        }
-
-        void setup( uilist *menu ) {
-            w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
-                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
-            padding = std::string( getmaxx( w_info ), ' ' );
-            werase( w_info );
-            wrefresh( w_info );
         }
 
         bool key( const input_context &, const input_event &event, int /*entnum*/,
@@ -348,10 +336,10 @@ class wish_monster_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            if( !started ) {
-                started = true;
-                setup( menu );
-            }
+            catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
+                                        point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
+            const std::string padding = std::string( getmaxx( w_info ), ' ' );
+
             const int entnum = menu->selected;
             const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
             if( entnum != lastent ) {
@@ -376,7 +364,7 @@ class wish_monster_callback: public uilist_callback
             }
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
-            msg = padding;
+            msg.clear();
             input_context ctxt( menu->input_category );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
@@ -385,10 +373,7 @@ class wish_monster_callback: public uilist_callback
             wrefresh( w_info );
         }
 
-        ~wish_monster_callback() override {
-            werase( w_info );
-            wrefresh( w_info );
-        }
+        ~wish_monster_callback() override = default;
 };
 
 void debug_menu::wishmonster( const cata::optional<tripoint> &p )
@@ -396,10 +381,13 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     std::vector<const mtype *> mtypes;
 
     uilist wmenu;
-    wmenu.w_x = 0;
-    wmenu.w_width = TERMX;
-    // Disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = wmenu.w_width - 30;
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = []() -> int {
+        return TERMX;
+    };
+    wmenu.pad_right_setup = []() -> int {
+        return TERMX - 30;
+    };
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -457,8 +445,21 @@ class wish_item_callback: public uilist_callback
         wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
+
+        void select( uilist *menu ) override {
+            if( menu->selected < 0 ) {
+                return;
+            }
+            if( standard_itype_ids[menu->selected]->phase == phase_id::LIQUID ) {
+                incontainer = true;
+            } else {
+                incontainer = false;
+            }
+        }
+
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
+
             if( event.get_first_input() == 'f' ) {
                 incontainer = !incontainer;
                 return true;
@@ -527,17 +528,20 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     int prev_amount = 1;
     int amount = 1;
     uilist wmenu;
-    wmenu.w_x = 0;
-    wmenu.w_width = TERMX;
-    wmenu.pad_right = std::max( TERMX / 2, TERMX - 50 );
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = []() -> int {
+        return TERMX;
+    };
+    wmenu.pad_right_setup = []() -> int {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
         item ity( opts[i], 0 );
-        wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
-                        ity.tname( 1, false ) ) );
+        wmenu.addentry( i, true, 0, ity.tname( 1, false ) );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
         entry_extra_text.color = ity.color();
@@ -558,7 +562,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 granted.item_tags.insert( cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( granted.ammo_default() != "NULL" ) {
+            if( !granted.ammo_default().is_null() ) {
                 granted.ammo_set( granted.ammo_default(), -1 );
             }
 
@@ -636,6 +640,8 @@ void debug_menu::wishskill( player *p )
         origskills.push_back( level );
     }
 
+    shared_ptr_fast<ui_adaptor> skmenu_ui = skmenu.create_or_get_ui_adaptor();
+
     do {
         skmenu.query();
         int skill_id = -1;
@@ -654,9 +660,13 @@ void debug_menu::wishskill( player *p )
             const Skill &skill = *sorted_skills[skill_id];
             const int NUM_SKILL_LVL = 21;
             uilist sksetmenu;
-            sksetmenu.w_height = NUM_SKILL_LVL + 4;
-            sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
-            sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
+            sksetmenu.w_height_setup = NUM_SKILL_LVL + 4;
+            sksetmenu.w_x_setup = [&]( int ) -> int {
+                return skmenu.w_x + skmenu.w_width + 1;
+            };
+            sksetmenu.w_y_setup = [&]( const int height ) {
+                return std::max( 0, skmenu.w_y + ( skmenu.w_height - height ) / 2 );
+            };
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;

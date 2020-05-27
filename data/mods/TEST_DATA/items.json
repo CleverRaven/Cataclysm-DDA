@@ -13,7 +13,7 @@
     "weight": "657 g",
     "volume": "250 ml",
     "bashing": 7,
-    "damage": 7,
+    "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
@@ -61,16 +61,72 @@
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
     "category": "spare_parts",
     "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "50 cm",
     "to_hit": 1,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "volume": "1 L",
     "bashing": 12,
     "price": 7500,
     "price_postapoc": 300
+  },
+  {
+    "id": "test_tool_belt",
+    "type": "ARMOR",
+    "name": { "str": "tool belt" },
+    "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
+    "weight": "2000 g",
+    "volume": "2250 ml",
+    "price": 4500,
+    "price_postapoc": 1500,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 2,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "type": "GENERIC",
@@ -115,6 +171,7 @@
     "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "3600 g",
     "volume": "1250 ml",
+    "longest_side": "76 cm",
     "price": 7500,
     "to_hit": 2,
     "bashing": 20,
@@ -152,7 +209,8 @@
     "name": "TEST screwdriver",
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
-    "volume": "250 ml",
+    "volume": "40 ml",
+    "longest_side": "15 cm",
     "price": 450,
     "to_hit": -1,
     "bashing": 2,
@@ -170,6 +228,7 @@
     "description": "This is a sonic screwdriver.  Like a normal screwdriver, but sonic.",
     "weight": "170 g",
     "volume": "250 ml",
+    "longest_side": "25 cm",
     "price": 450,
     "to_hit": -1,
     "bashing": 2,
@@ -194,7 +253,7 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -208,10 +267,13 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
@@ -220,9 +282,8 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "test_jack_small",
@@ -325,14 +386,14 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
     "min_strength": 6,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "907 g",
     "volume": "1500 ml",
     "bashing": 8,
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
-    "ranged_damage": 18,
+    "ranged_damage": { "damage_type": "stab", "amount": 18 },
     "range": 18,
     "dispersion": 850,
     "durability": 6,
@@ -345,7 +406,8 @@
       "target": "compbow_high",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "type": "COMESTIBLE",
@@ -371,7 +433,7 @@
   },
   {
     "id": "test_jug_plastic",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "container",
     "name": "TEST gallon jug",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
@@ -382,13 +444,21 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": "3750 ml",
-    "seals": true,
-    "watertight": true
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3750 ml",
+        "max_item_volume": "15 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 100
+      }
+    ]
   },
   {
     "id": "test_waterskin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "container",
     "name": "TEST small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
@@ -397,15 +467,47 @@
     "price": 2000,
     "to_hit": -1,
     "bashing": 1,
-    "rigid": false,
     "material": "leather",
     "symbol": ")",
     "color": "brown",
-    "contains": "1500 ml",
-    "seals": true,
-    "watertight": true,
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "pocket_data": [
+      {
+        "max_item_volume": "15 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "watertight": true,
+        "rigid": false
+      }
+    ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_balloon",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test balloon" },
+    "description": "Stretchy, watertight, and airtight - the perfect trial balloon.",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": 0,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "airtight": true,
+        "watertight": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "moves": 1000
+      }
+    ],
+    "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
     "id": "test_backpack",
@@ -416,7 +518,6 @@
     "volume": "2 L",
     "price": 3900,
     "price_postapoc": 16000,
-    "rigid": false,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -425,7 +526,7 @@
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 15,
-    "storage": "15 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "30 kg", "moves": 300 } ],
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -448,7 +549,15 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 30,
-    "storage": "15 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "30 kg",
+        "moves": 300,
+        "rigid": true
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -459,11 +568,12 @@
     "description": "A poorly balanced sword for test purposes",
     "category": "spare_parts",
     "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "1 meter",
     "to_hit": -1,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "volume": "1 L",
     "bashing": 32,
     "cutting": 32,
     "price": 7500,
@@ -476,11 +586,12 @@
     "description": "A sword for test purposes",
     "category": "spare_parts",
     "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "1 meter",
     "to_hit": 1,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "volume": "1 L",
     "bashing": 32,
     "cutting": 32,
     "price": 7500,
@@ -493,14 +604,169 @@
     "description": "A well-balanced sword for test purposes",
     "category": "spare_parts",
     "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "1 meter",
     "to_hit": 3,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "volume": "1 L",
     "bashing": 32,
     "cutting": 32,
     "price": 7500,
     "price_postapoc": 300
+  },
+  {
+    "id": "test_glock",
+    "type": "GUN",
+    "name": { "str": "Test Glock" },
+    "description": "A handgun for testing, based on the Glock 9mm.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": 69000,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "durability": 6,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
+    "skill": "pistol",
+    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag" ] ] ]
+  },
+  {
+    "id": "test_9mm_ammo",
+    "type": "AMMO",
+    "name": { "str": "Test 9mm ammo" },
+    "description": "Generic 9mm ammo based on JHP.",
+    "weight": "7 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "9mm",
+    "casing": "9mm_casing",
+    "range": 14,
+    "damage": { "damage_type": "bullet", "amount": 26 },
+    "dispersion": 60,
+    "recoil": 500,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "test_45_ammo",
+    "type": "AMMO",
+    "name": { "str": "Test .45 ammo" },
+    "description": "Test ammo based on the .45 JHP.",
+    "weight": "10 g",
+    "volume": "250 ml",
+    "price": 180,
+    "price_postapoc": 600,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 30,
+    "stack_size": 30,
+    "ammo_type": "45",
+    "casing": "45_casing",
+    "range": 16,
+    "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 2 },
+    "dispersion": 50,
+    "recoil": 600,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "test_liquid",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": { "str_sp": "test liquid" },
+    "description": "No clue what it's made of, but it's definitely liquid.  Only for testing, do not drink!",
+    "phase": "liquid",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 50,
+    "symbol": "~",
+    "color": "light_blue"
+  },
+  {
+    "id": "test_gas",
+    "type": "ammunition_type",
+    "name": "heady vapours",
+    "default": "test_gas"
+  },
+  {
+    "id": "test_gas",
+    "type": "AMMO",
+    "ammo_type": "test_gas",
+    "category": "chems",
+    "name": { "str_sp": "test gas" },
+    "description": "Some mysterious substance in the form of a gas.  Only for testing, do not inhale!",
+    "phase": "gas",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 50,
+    "symbol": "~",
+    "color": "light_gray"
+  },
+  {
+    "id": "test_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test box" },
+    "description": "A simple 1-liter cardboard box of deliberately undefined proportions.",
+    "weight": "100 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 25,
+    "material": "cardboard",
+    "symbol": "[",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "//": "max_item_length is left undefined on purpose, to test default length from volume",
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_item_volume": "1 L",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "10 kg",
+        "moves": 200
+      }
+    ]
+  },
+  {
+    "id": "test_rod_14cm",
+    "type": "GENERIC",
+    "name": "test 14 cm rod",
+    "description": "A thin rod exactly 14 cm in length",
+    "category": "spare_parts",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "longest_side": "14 cm",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": "steel"
+  },
+  {
+    "id": "test_rod_15cm",
+    "type": "GENERIC",
+    "name": "test 15 cm rod",
+    "description": "A thin rod exactly 15 cm in length",
+    "category": "spare_parts",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "longest_side": "15 cm",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": "steel"
   }
 ]

@@ -44,7 +44,7 @@
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
-    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( serialize( liquid ) );
@@ -59,10 +59,10 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
         return &i == &liquid;
     } );
     if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( static_cast<int>( liquid_source_type::INFINITE_MAP ) );
         act.values.push_back( 0 ); // dummy
     } else {
-        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
     act.coords.push_back( pos );
@@ -71,21 +71,22 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
 
 static void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
-    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
 }
 
-static void serialize_liquid_target( player_activity &act, int container_item_pos )
+static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
-    act.values.push_back( LTT_CONTAINER );
-    act.values.push_back( container_item_pos );
+    act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
+    act.values.push_back( 0 ); // dummy
+    act.targets.push_back( container_item );
     act.coords.push_back( tripoint() ); // dummy
 }
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 {
-    act.values.push_back( LTT_MAP );
+    act.values.push_back( static_cast<int>( liquid_target_type::MAP ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( pos );
 }
@@ -159,7 +160,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
                                const monster *const source_mon,
                                liquid_dest_opt &target )
 {
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -210,7 +211,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && &cont->contents.front() == &liquid ) ) {
+        if( cont == source || ( !cont->contents.empty() && cont->has_item( liquid ) ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -307,7 +308,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                                      const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -332,18 +333,16 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( liquid );
+            g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
             transfer_ok = true;
             break;
         case LD_ITEM: {
-            item *const cont = target.item_loc.get_item();
-            const int item_index = g->u.get_item_position( cont );
             // Currently activities can only store item position in the players inventory,
             // not on ground or similar. TODO: implement storing arbitrary container locations.
-            if( item_index != INT_MIN && create_activity() ) {
-                serialize_liquid_target( g->u.activity, item_index );
-            } else if( g->u.pour_into( *cont, liquid ) ) {
-                if( cont->needs_processing() ) {
+            if( target.item_loc && create_activity() ) {
+                serialize_liquid_target( g->u.activity, target.item_loc );
+            } else if( g->u.pour_into( *target.item_loc, liquid ) ) {
+                if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {
                         case item_location::type::map:
@@ -401,13 +400,13 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
-    if( liquid.made_of_from_type( SOLID ) ) {
+    if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( phase_id::LIQUID ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname() );
         return false;
     }

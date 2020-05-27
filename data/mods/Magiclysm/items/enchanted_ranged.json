@@ -55,7 +55,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "9x18": 6, "380": 6, "357mag": 6, "38": 6 } } ]
   },
   {
     "id": "gunblade",
@@ -74,19 +75,20 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
     "skill": "shotgun",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 600,
     "durability": 6,
     "blackpowder_tolerance": 66,
     "clip_size": 3,
     "range": -4,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "reload": 200,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "reload_noise": "chuk chuk.",
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
   }
 ]

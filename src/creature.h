@@ -12,6 +12,7 @@
 
 #include "anatomy.h"
 #include "bodypart.h"
+#include "damage.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -216,12 +217,12 @@ class Creature
         double ranged_target_size() const;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit( Creature *source, body_part &bp_hit,
+        virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
+        virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
@@ -264,6 +265,8 @@ class Creature
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
+
+        virtual void heal_bp( bodypart_id bp, int dam );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -410,10 +413,13 @@ class Creature
 
         virtual int get_armor_bash( bodypart_id bp ) const;
         virtual int get_armor_cut( bodypart_id bp ) const;
+        virtual int get_armor_bullet( bodypart_id bp ) const;
         virtual int get_armor_bash_base( bodypart_id bp ) const;
         virtual int get_armor_cut_base( bodypart_id bp ) const;
+        virtual int get_armor_bullet_base( bodypart_id bp ) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+        virtual int get_armor_bullet_bonus() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
@@ -447,7 +453,7 @@ class Creature
 
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         anatomy_id get_anatomy() const;
-        void set_anatomy( anatomy_id anat );
+        void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
@@ -485,6 +491,7 @@ class Creature
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
+        virtual void set_armor_bullet_bonus( int nbulletarm );
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
@@ -734,8 +741,11 @@ class Creature
 
         virtual std::string extended_description() const = 0;
 
+        /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
+        /** Creature symbol color */
         virtual nc_color basic_symbol_color() const = 0;
+        /** Creature symbol */
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
@@ -750,6 +760,9 @@ class Creature
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
+
+        std::vector<damage_over_time_data> damage_over_time_map;
+
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
@@ -763,6 +776,7 @@ class Creature
 
         int armor_bash_bonus;
         int armor_cut_bonus;
+        int armor_bullet_bonus;
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus;
@@ -790,10 +804,13 @@ class Creature
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
-        virtual void on_damage_of_type( int, damage_type, body_part ) {}
+        virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
+
+        void add_damage_over_time( const damage_over_time_data &DoT );
+        void process_damage_over_time();
 
         static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.

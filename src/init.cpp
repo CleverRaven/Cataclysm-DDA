@@ -205,7 +205,7 @@ void DynamicDataLoader::initialize()
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
-    add( "bionic", &load_bionic );
+    add( "bionic", &bionic_data::load_bionic );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
@@ -283,9 +283,6 @@ void DynamicDataLoader::initialize()
     } );
     add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_comestible( jo, src );
-    } );
-    add( "CONTAINER", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_container( jo, src );
     } );
     add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_engine( jo, src );
@@ -400,6 +397,7 @@ void DynamicDataLoader::initialize()
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
+    add( "conduct", &achievement::load_achievement );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -519,6 +517,7 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     profession::reset();
     quality::reset();
+    reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
@@ -585,7 +584,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Vehicle parts" ), &vpart_info::finalize },
             { _( "Traps" ), &trap::finalize },
-            { _( "Bionics" ), &finalize_bionics },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
@@ -596,6 +594,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()
                 {
@@ -611,11 +610,10 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
-            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
-            { _( "Achivements" ), &achievement::finalize },
+            { _( "Achievements" ), &achievement::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -687,7 +685,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
-            { _( "Bionics" ), &check_bionics },
+            { _( "Bionics" ), &bionic_data::check_bionic_consistency },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
             { _( "Behaviors" ), &behavior::check_consistency },

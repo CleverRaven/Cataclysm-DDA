@@ -12,10 +12,11 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "38super",
+    "ammo_type": [ "38super" ],
     "capacity": 16,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38super": 16 } } ]
   },
   {
     "id": "m1911mag_10rd_38super",
@@ -30,9 +31,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "38super",
+    "ammo_type": [ "38super" ],
     "capacity": 9,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38super": 9 } } ]
   }
 ]

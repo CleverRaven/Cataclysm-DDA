@@ -65,7 +65,7 @@ save_t save_t::from_base_path( const std::string &base_path )
 
 static std::string get_next_valid_worldname()
 {
-    std::string worldname = Name::get( nameIsWorldName );
+    std::string worldname = Name::get( nameFlags::IsWorldName );
 
     return worldname;
 }
@@ -261,17 +261,17 @@ void worldfactory::init()
 {
     load_last_world_info();
 
-    std::vector<std::string> qualifiers;
-    qualifiers.push_back( PATH_INFO::worldoptions() );
-    qualifiers.push_back( PATH_INFO::legacy_worldoptions() );
-    qualifiers.push_back( SAVE_MASTER );
-
     all_worlds.clear();
 
-    // get the master files. These determine the validity of a world
-    // worlds exist by having an option file
-    // create worlds
-    for( const auto &world_dir : get_directories_with( qualifiers, PATH_INFO::savedir(), true ) ) {
+    // The validity of a world is determined by the existance of any
+    // option files or the master save file.
+    static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
+        return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
+               file_exist( maybe_save_dir + "/" + PATH_INFO::legacy_worldoptions() ) ||
+               file_exist( maybe_save_dir + "/" + SAVE_MASTER );
+    };
+
+    const auto add_existing_world = [&]( const std::string & world_dir ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -280,6 +280,7 @@ void worldfactory::init()
             world_sav_file = world_sav_file.substr( world_dir.size() + 1,
                                                     save_index - ( world_dir.size() + 1 ) );
         }
+
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
@@ -301,11 +302,24 @@ void worldfactory::init()
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
             all_worlds[worldname]->save();
         }
+    };
+
+    // This returns files as well, but they are going to be discared later as
+    // we look for files *within* these dirs. If it's a file, there won't be
+    // be any of those inside it and is_save_dir will return false.
+    for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
+        if( !is_save_dir( dir ) ) {
+            continue;
+        }
+        add_existing_world( dir );
     }
 
-    // check to see if there exists a worldname "save" which denotes that a world exists in the save
-    // directory and not in a sub-world directory
-    if( has_world( "save" ) ) {
+    // In old versions, there was only one world, stored directly in the "save" directory.
+    // If that directory contains the expected files, it's an old save and must be converted.
+    if( is_save_dir( "save" ) ) {
+        // @TODO import directly into the new world instead of having this dummy "save" world.
+        add_existing_world( "save" );
+
         const WORLD &old_world = *all_worlds["save"];
 
         std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
@@ -1374,10 +1388,9 @@ void WORLD::load_legacy_options( std::istream &fin )
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
             const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
-            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
-                                      sLine.length() ) );
-
             if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
+                const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
+                                          sLine.length() ) );
                 WORLD_OPTIONS[name].setValue( value );
             }
         }

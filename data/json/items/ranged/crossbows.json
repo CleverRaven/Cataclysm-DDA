@@ -76,7 +76,7 @@
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "bolt",
-    "prop_damage": 1.25,
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "dispersion": 180,
     "loudness": 0,
     "count": 10,
@@ -289,17 +289,17 @@
     "symbol": "(",
     "color": "green",
     "name": { "str": "bullet crossbow" },
-    "description": "A modified version of the classic crossbow which utilizes stones as projectiles instead of the traditional quarrel.  Primarily intended for hunting small game, stronger people can reload it much faster.",
+    "description": "A modified version of the classic crossbow which utilizes stones as projectiles instead of the traditional quarrel.  Primarily intended for hunting small game.",
     "price": 20000,
     "price_postapoc": 2000,
     "material": [ "wood", "iron" ],
-    "flags": [ "STR_RELOAD", "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "rifle",
-    "ammo": "pebble",
+    "ammo": [ "pebble" ],
     "weight": "1906 g",
     "volume": "1250 ml",
     "bashing": 9,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "range": 10,
     "dispersion": 55,
     "durability": 6,
@@ -315,7 +315,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
   },
   {
     "id": "hand_crossbow",
@@ -332,7 +333,7 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "pistol",
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "900 g",
     "volume": "500 ml",
     "bashing": 4,
@@ -351,7 +352,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "crossbow",
@@ -361,15 +363,15 @@
     "symbol": "(",
     "color": "green",
     "name": { "str": "crossbow" },
-    "description": "A slow-loading hand weapon that launches bolts.  Stronger people can reload it much faster.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
-    "//": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
+    "description": "A slow-loading hand weapon that launches bolts.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
+    "//2": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
     "price": 6000,
     "price_postapoc": 3500,
     "material": [ "wood" ],
     "flags": "PRIMITIVE_RANGED_WEAPON",
     "skill": "rifle",
     "min_strength": 8,
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "2728 g",
     "volume": "1500 ml",
     "bashing": 11,
@@ -381,7 +383,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "compositecrossbow",
@@ -399,7 +402,7 @@
     "flags": "PRIMITIVE_RANGED_WEAPON",
     "skill": "rifle",
     "min_strength": 9,
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "3500 g",
     "volume": "1750 ml",
     "bashing": 11,
@@ -421,7 +424,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "compcrossbow",
@@ -438,7 +442,7 @@
     "flags": "PRIMITIVE_RANGED_WEAPON",
     "skill": "rifle",
     "min_strength": 7,
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "3000 g",
     "volume": "1750 ml",
     "price_postapoc": 6000,
@@ -461,7 +465,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "huge_crossbow",
@@ -477,7 +482,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
     "skill": "rifle",
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "6803 g",
     "volume": "5 L",
     "price_postapoc": 4000,
@@ -490,7 +495,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 6000,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "rep_crossbow",
@@ -506,7 +512,7 @@
     "material": [ "steel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
     "skill": "smg",
-    "ammo": "bolt",
+    "ammo": [ "bolt" ],
     "weight": "3628 g",
     "volume": "2500 ml",
     "price_postapoc": 6000,
@@ -519,6 +525,7 @@
     "durability": 6,
     "clip_size": 10,
     "reload": 900,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 10 } } ]
   }
 ]

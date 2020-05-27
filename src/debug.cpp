@@ -1279,9 +1279,10 @@ std::string game_info::game_report()
 
     std::string lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
-    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
+    for( const options_manager::id_and_option &vItem : options_manager::get_lang_options() ) {
         if( vItem.first == lang ) {
             lang_translated = vItem.second.translated();
+            break;
         }
     }
 

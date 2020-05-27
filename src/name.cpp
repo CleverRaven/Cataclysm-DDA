@@ -17,19 +17,19 @@ namespace Name
 static std::map< nameFlags, std::vector< std::string > > names;
 
 static const std::map< std::string, nameFlags > usage_flags = {
-    { "given",     nameIsGivenName },
-    { "family",    nameIsFamilyName },
-    { "universal", nameIsGivenName | nameIsFamilyName },
-    { "nick",      nameIsNickName },
-    { "backer",    nameIsFullName },
-    { "city",      nameIsTownName },
-    { "world",     nameIsWorldName }
+    { "given",     nameFlags::IsGivenName },
+    { "family",    nameFlags::IsFamilyName },
+    { "universal", nameFlags::IsGivenName | nameFlags::IsFamilyName },
+    { "nick",      nameFlags::IsNickName },
+    { "backer",    nameFlags::IsFullName },
+    { "city",      nameFlags::IsTownName },
+    { "world",     nameFlags::IsWorldName }
 };
 
 static const std::map< std::string, nameFlags > gender_flags {
-    { "male",   nameIsMaleName },
-    { "female", nameIsFemaleName },
-    { "unisex", nameIsUnisexName }
+    { "male",   nameFlags::IsMaleName },
+    { "female", nameFlags::IsFemaleName },
+    { "unisex", nameFlags::IsUnisexName }
 };
 
 static nameFlags usage_flag( const std::string &usage )
@@ -71,8 +71,14 @@ static void load( JsonIn &jsin )
             usage_flag( jo.get_string( "usage" ) )
             | gender_flag( jo.get_string( "gender", "" ) );
 
-        // find group type and add name to group
-        names[type].push_back( jo.get_string( "name" ) );
+        // find group type and add name(s) to group
+        if( jo.has_array( "name" ) ) {
+            for( const std::string &n : jo.get_array( "name" ) ) {
+                names[type].push_back( n );
+            }
+        } else {
+            names[type].push_back( jo.get_string( "name" ) );
+        }
     }
 }
 
@@ -126,10 +132,10 @@ std::string get( nameFlags searchFlags )
 
 std::string generate( bool is_male )
 {
-    const nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
+    const nameFlags baseSearchFlags = is_male ? nameFlags::IsMaleName : nameFlags::IsFemaleName;
     //One in twenty chance to pull from the backer list, otherwise generate a name from the parts list
     if( one_in( 20 ) ) {
-        return get( baseSearchFlags | nameIsFullName );
+        return get( baseSearchFlags | nameFlags::IsFullName );
     } else {
         //~ Used for constructing full name: %1$s is `given name`, %2$s is `family name`
         translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
@@ -139,9 +145,9 @@ std::string generate( bool is_male )
             full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
         }
         return string_format( full_name_format,
-                              get( baseSearchFlags | nameIsGivenName ).c_str(),
-                              get( baseSearchFlags | nameIsFamilyName ).c_str(),
-                              get( nameIsNickName ).c_str()
+                              get( baseSearchFlags | nameFlags::IsGivenName ).c_str(),
+                              get( baseSearchFlags | nameFlags::IsFamilyName ).c_str(),
+                              get( nameFlags::IsNickName ).c_str()
                             );
     }
 }

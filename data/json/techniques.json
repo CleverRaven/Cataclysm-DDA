@@ -1089,7 +1089,7 @@
   {
     "type": "technique",
     "id": "tec_swordsmanship_mordhau",
-    "name": "Deathblow",
+    "name": "Mordhau",
     "messages": [
       "You flip your weapon around and deliver a mordhau to %s",
       "<npcname> flips their weapon around and smashes down on %s"

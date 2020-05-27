@@ -89,7 +89,7 @@
     "weight": "5140 g",
     "volume": "1500 ml",
     "price": 400000,
-    "ammo": "acidic_bore",
+    "ammo": [ "acidic_bore" ],
     "to_hit": -1,
     "bashing": 4,
     "material": [ "alien_resin" ],
@@ -97,13 +97,13 @@
     "color": "magenta",
     "skill": "launcher",
     "range": 30,
-    "ranged_damage": 19,
-    "pierce": 12,
+    "ranged_damage": { "damage_type": "stab", "amount": 19, "armor_penetration": 12 },
     "dispersion": 90,
     "durability": 7,
     "loudness": 4,
     "clip_size": 80,
     "ammo_effects": "ACID",
-    "flags": [ "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NO_UNLOAD", "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ]
   }
 ]

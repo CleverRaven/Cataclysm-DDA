@@ -10,12 +10,14 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 
 struct real_coords;
 class Creature;
 class field;
+class ui_adaptor;
 class uilist;
 class vehicle;
 class map;
@@ -69,10 +71,6 @@ class editmap
         void update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
-        int width;
-        int height;
-        int offsetX;
-        int infoHeight;
 
         void recalc_target( shapetype shape );
         bool move_target( const std::string &action, int moveorigin = -1 );
@@ -91,11 +89,34 @@ class editmap
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
-        point tmax;
         bool uberdraw;
 
         editmap();
         ~editmap();
+
+    private:
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+
+        weak_ptr_fast<ui_adaptor> ui;
+
+        std::string info_txt_curr;
+        std::string info_title_curr;
+
+        tinymap *tmpmap_ptr = nullptr;
+
+        const int width = 45;
+        const int offsetX = 0;
+        const int infoHeight = 20;
+
+        point tmax;
+
+        void draw_main_ui_overlay();
+        void do_ui_invalidation();
+
+        // work around the limitation that you can't forward declare an inner class
+        class game_draw_callback_t_container;
+        std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
+        game_draw_callback_t_container &draw_cb_container();
 };
 
 #endif // CATA_SRC_EDITMAP_H

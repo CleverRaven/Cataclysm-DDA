@@ -2,7 +2,9 @@
 #define CATA_SRC_STATS_TRACKER_H
 
 #include <memory>
+#include <set>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -104,6 +106,40 @@ class event_multiset_watcher : public base_watcher
         virtual void events_reset( const event_multiset &, stats_tracker & ) = 0;
 };
 
+template<typename Watcher>
+class watcher_set
+{
+        static_assert( std::is_base_of<base_watcher, Watcher>::value,
+                       "Watcher must be derived from base_watcher" );
+    public:
+        void insert( Watcher *watcher ) {
+            watchers_.insert( watcher );
+        }
+
+        bool erase( base_watcher *watcher ) {
+            return watchers_.erase( watcher );
+        }
+
+        template<typename Class, typename... FnArgs, typename... Args>
+        void send_to_all( void ( Class::*mem_fn )( FnArgs... ), Args &&... args ) const {
+            static_assert( std::is_base_of<Class, Watcher>::value,
+                           "Watcher must be derived from Class" );
+            // Sending an event to a watcher can cause it to be erased, so we
+            // need to always ensure we have the next iterator prepared in
+            // advance.
+            auto current = watchers_.begin();
+
+            while( current != watchers_.end() ) {
+                auto next = current;
+                ++next;
+                ( static_cast<Watcher *>( *current )->*mem_fn )( args... );
+                current = next;
+            }
+        }
+    private:
+        std::set<base_watcher *> watchers_;
+};
+
 class stats_tracker_state
 {
     public:
@@ -146,10 +182,10 @@ class stats_tracker : public event_subscriber
 
         std::unordered_map<event_type, event_multiset> data;
 
-        std::unordered_map<event_type, std::vector<event_multiset_watcher *>> event_type_watchers;
-        std::unordered_map<string_id<event_transformation>, std::vector<event_multiset_watcher *>>
+        std::unordered_map<event_type, watcher_set<event_multiset_watcher>> event_type_watchers;
+        std::unordered_map<string_id<event_transformation>, watcher_set<event_multiset_watcher>>
                 event_transformation_watchers;
-        std::unordered_map<string_id<event_statistic>, std::vector<stat_watcher *>> stat_watchers;
+        std::unordered_map<string_id<event_statistic>, watcher_set<stat_watcher>> stat_watchers;
         std::unordered_map<string_id<event_transformation>, std::unique_ptr<stats_tracker_state>>
                 event_transformation_states;
         std::unordered_map<string_id<event_statistic>, std::unique_ptr<stats_tracker_state>>

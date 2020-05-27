@@ -53,6 +53,12 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_albertosaurus",
+    "name": "albertosaurus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_triceratops",
     "name": "triceratops egg",
     "copy-from": "egg_dino"

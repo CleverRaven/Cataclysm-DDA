@@ -9,6 +9,7 @@
 #include "output.h"
 #include "point.h"
 #include "translations.h"
+#include "ui_manager.h"
 
 void dialogue_window::open_dialogue( bool text_only )
 {
@@ -16,11 +17,21 @@ void dialogue_window::open_dialogue( bool text_only )
         this->text_only = true;
         return;
     }
-    int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
-    int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
-    int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
-    d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
+}
+
+void dialogue_window::resize_dialogue( ui_adaptor &ui )
+{
+    if( text_only ) {
+        ui.position( point_zero, point_zero );
+    } else {
+        int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+        int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+        int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
+        int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
+        d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
+        ui.position_from_window( d_win );
+    }
+    yoffset = 0;
 }
 
 void dialogue_window::print_header( const std::string &name )
@@ -132,25 +143,13 @@ void dialogue_window::refresh_response_display()
     can_scroll_up = false;
 }
 
-void dialogue_window::display_responses( const int hilight_lines,
-        const std::vector<talk_data> &responses,
-        const int &ch )
+void dialogue_window::handle_scrolling( const int ch )
 {
     if( text_only ) {
         return;
     }
-#if defined(__ANDROID__)
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    for( size_t i = 0; i < responses.size(); i++ ) {
-        ctxt.register_manual_key( 'a' + i );
-    }
-    ctxt.register_manual_key( 'L', "Look at" );
-    ctxt.register_manual_key( 'S', "Size up stats" );
-    ctxt.register_manual_key( 'Y', "Yell" );
-    ctxt.register_manual_key( 'O', "Check opinion" );
-#endif
     // adjust scrolling from the last key pressed
-    int win_maxy = getmaxy( d_win );
+    const int win_maxy = getmaxy( d_win );
     switch( ch ) {
         case KEY_DOWN:
         case KEY_NPAGE:
@@ -167,6 +166,15 @@ void dialogue_window::display_responses( const int hilight_lines,
         default:
             break;
     }
+}
+
+void dialogue_window::display_responses( const int hilight_lines,
+        const std::vector<talk_data> &responses )
+{
+    if( text_only ) {
+        return;
+    }
+    const int win_maxy = getmaxy( d_win );
     clear_window_texts();
     print_history( hilight_lines );
     can_scroll_down = print_responses( yoffset, responses );
