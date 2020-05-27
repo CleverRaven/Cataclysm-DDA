@@ -1445,6 +1445,11 @@ static bool wants_to_reload( const npc &who, const item &it )
     if( remaining < required ) {
         return true;
     }
+
+    if( !it.ammo_data()->ammo ) {
+        return false;
+    }
+
     return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
 }
 
