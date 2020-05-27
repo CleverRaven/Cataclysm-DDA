@@ -453,7 +453,7 @@ class Creature
 
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         anatomy_id get_anatomy() const;
-        void set_anatomy( anatomy_id anat );
+        void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**

@@ -128,7 +128,6 @@ class recipe
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
 
-
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
         std::string batch_savings_string() const;

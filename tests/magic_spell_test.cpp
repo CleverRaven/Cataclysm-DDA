@@ -23,7 +23,6 @@
 // All these test cases use spells from data/mods/TEST_DATA/magic.json, to have predictable data
 // unaffected by in-game balance and mods.
 
-
 // Spell name
 // ----------
 //
@@ -51,7 +50,6 @@ TEST_CASE( "spell name", "[magic][spell][name]" )
     CHECK( kiss_spell.name() == "Kiss the Owie" );
     CHECK( montage_spell.name() == "Sports Training Montage" );
 }
-
 
 // Spell level
 // -----------

@@ -157,14 +157,14 @@ cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )
 
 void stats_tracker::add_watcher( event_type type, event_multiset_watcher *watcher )
 {
-    event_type_watchers[type].push_back( watcher );
+    event_type_watchers[type].insert( watcher );
     watcher->on_subscribe( this );
 }
 
 void stats_tracker::add_watcher( const string_id<event_transformation> &id,
                                  event_multiset_watcher *watcher )
 {
-    event_transformation_watchers[id].push_back( watcher );
+    event_transformation_watchers[id].insert( watcher );
     watcher->on_subscribe( this );
     std::unique_ptr<stats_tracker_state> &state = event_transformation_states[ id ];
     if( !state ) {
@@ -174,7 +174,7 @@ void stats_tracker::add_watcher( const string_id<event_transformation> &id,
 
 void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher )
 {
-    stat_watchers[id].push_back( watcher );
+    stat_watchers[id].insert( watcher );
     watcher->on_subscribe( this );
     std::unique_ptr<stats_tracker_state> &state = stat_states[ id ];
     if( !state ) {
@@ -186,18 +186,15 @@ void stats_tracker::unwatch( base_watcher *watcher )
 {
     // Use a slow O(n) approach for now; if it proves problematic we can build
     // an index, but that seems over-complex.
-    auto erase_from = [watcher]( auto & map_of_vectors ) {
-        for( auto &p : map_of_vectors ) {
-            auto &vector = p.second;
-            auto it = std::find( vector.begin(), vector.end(), watcher );
-            if( it != vector.end() ) {
-                vector.erase( it );
+    auto erase_from = [watcher]( auto & map_of_watcher_sets ) {
+        for( auto &p : map_of_watcher_sets ) {
+            auto &set = p.second;
+            if( set.erase( watcher ) ) {
                 return true;
             }
         }
         return false;
     };
-
 
     if( erase_from( event_type_watchers ) ||
         erase_from( event_transformation_watchers ) ||
@@ -212,9 +209,7 @@ void stats_tracker::transformed_set_changed( const string_id<event_transformatio
 {
     auto it = event_transformation_watchers.find( id );
     if( it != event_transformation_watchers.end() ) {
-        for( event_multiset_watcher *watcher : it->second ) {
-            watcher->event_added( new_element, *this );
-        }
+        it->second.send_to_all( &event_multiset_watcher::event_added, new_element, *this );
     }
 }
 
@@ -223,9 +218,7 @@ void stats_tracker::transformed_set_changed( const string_id<event_transformatio
 {
     auto it = event_transformation_watchers.find( id );
     if( it != event_transformation_watchers.end() ) {
-        for( event_multiset_watcher *watcher : it->second ) {
-            watcher->events_reset( new_value, *this );
-        }
+        it->second.send_to_all( &event_multiset_watcher::events_reset, new_value, *this );
     }
 }
 
@@ -234,9 +227,7 @@ void stats_tracker::stat_value_changed( const string_id<event_statistic> &id,
 {
     auto it = stat_watchers.find( id );
     if( it != stat_watchers.end() ) {
-        for( stat_watcher *watcher : it->second ) {
-            watcher->new_value( new_value, *this );
-        }
+        it->second.send_to_all( &stat_watcher::new_value, new_value, *this );
     }
 }
 
@@ -262,14 +253,12 @@ void stats_tracker::clear()
 
 void stats_tracker::unwatch_all()
 {
-    auto unsub_all = [&]( auto & map_of_vectors ) {
-        for( auto const &p : map_of_vectors ) {
-            const auto &vector = p.second;
-            for( base_watcher *watcher : vector ) {
-                watcher->on_unsubscribe( this );
-            }
+    auto unsub_all = [&]( auto & map_of_watcher_sets ) {
+        for( auto const &p : map_of_watcher_sets ) {
+            const auto &set = p.second;
+            set.send_to_all( &base_watcher::on_unsubscribe, this );
         }
-        map_of_vectors.clear();
+        map_of_watcher_sets.clear();
     };
     unsub_all( event_type_watchers );
     unsub_all( event_transformation_watchers );
@@ -283,9 +272,7 @@ void stats_tracker::notify( const cata::event &e )
 
     auto it = event_type_watchers.find( type );
     if( it != event_type_watchers.end() ) {
-        for( event_multiset_watcher *watcher : it->second ) {
-            watcher->event_added( e, *this );
-        }
+        it->second.send_to_all( &event_multiset_watcher::event_added, e, *this );
     }
 
     if( e.type() == event_type::game_start ) {

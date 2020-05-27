@@ -928,7 +928,6 @@ void place_construction( const std::string &desc )
     // create the partial construction struct
     partial_con pc;
     pc.id = con.id;
-    pc.counter = 0;
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
@@ -1477,8 +1476,6 @@ void load_construction( const JsonObject &jo )
         && con.pre_terrain[0] == 'f'
         && con.pre_terrain[1] == '_' ) {
         con.pre_is_furniture = true;
-    } else {
-        con.pre_is_furniture = false;
     }
 
     con.post_terrain = jo.get_string( "post_terrain", "" );
@@ -1486,8 +1483,6 @@ void load_construction( const JsonObject &jo )
         && con.post_terrain[0] == 'f'
         && con.post_terrain[1] == '_' ) {
         con.post_is_furniture = true;
-    } else {
-        con.post_is_furniture = false;
     }
 
     con.pre_flags = jo.get_tags( "pre_flags" );

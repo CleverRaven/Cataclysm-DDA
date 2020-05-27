@@ -45,11 +45,12 @@ Use the `Home` key to return to the top.
     + [Recipes](#recipes)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
-    + [Scores and Achievements](#scores-and-achievements)
+    + [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
+      - [`conduct`](#conduct)
     + [Skills](#skills)
     + [Traits/Mutations](#traits-mutations)
     + [Vehicle Groups](#vehicle-groups)
@@ -190,6 +191,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
 | clothing_mods.json          | definition of clothing mods
+| conducts.json               | conducts
 | construction.json           | definition of construction menu tasks
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
@@ -713,6 +715,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 | `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
 | `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)
 | `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)
+| `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
 
 ```C++
 {
@@ -1105,7 +1108,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
   }
 ```
 
-### Scores and Achievements
+### Scores, Achievements, and Conducts
 
 Scores are defined in two or three steps based on *events*.  To see what events
 exist and what data they contain, read [`event.h`](../src/event.h).
@@ -1343,6 +1346,26 @@ add an `"anything"` constraint on it.  For example:
 
 This is a simple "survive a day" but is triggered by waking up, so it will be
 completed when you wake up for the first time after 24 hours into the game.
+
+#### `conduct`
+
+A conduct is a self-imposed constraint that players can choose to aspire to
+maintain.  In some ways a conduct is the opposite of an achievement: it
+specifies a set of conditions which can be true at the start of a game, but
+might cease to be true at some point.
+
+The implementation of conducts shares a lot with achievements, and their
+specification in JSON uses all the same fields.  Simply change the `"type"`
+from `"achievement"` to `"conduct"`.
+
+The game enforces that any requirements you specify for a conduct must "become
+false" in the sense that once they are false, they can never become true again.
+So, for example, an upper bound on some monotonically increasing statistic is
+acceptable, but you cannot use a constraint on a statistic which might go down
+and up arbitrarily.
+
+With a good motivating example, this constraint might be weakened, but for now
+it is present to help catch errors.
 
 ### Skills
 

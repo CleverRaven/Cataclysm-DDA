@@ -256,7 +256,7 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string )
+void bionic_data::load( const JsonObject &jsobj, const std::string & )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -581,8 +581,6 @@ bool Character::activate_bionic( int b, bool eff_only )
     };
 
     item tmp_item;
-    const w_point weatherPoint = *g->weather.weather_precise;
-
     // On activation effects go here
     if( bio.info().has_flag( flag_BIO_GUN ) ) {
         add_msg_activate();
@@ -981,6 +979,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         double windpower = 100.0f * get_local_windpower( g->weather.windspeed + vehwindspeed,
                            cur_om_ter, pos(), g->weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
+        const w_point weatherPoint = *g->weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, g->weather.weather,
@@ -1531,7 +1530,6 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
                               int rate = 1 )
 {
     const bionic_data &info = bio.info();
-    const units::energy armor_power_cost = 1_kJ;
     units::energy power_cost = info.power_over_time * factor;
     bool recharged = false;
 
@@ -1543,6 +1541,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
                 return w.active && w.is_power_armor();
             } );
             if( !powered_armor ) {
+                const units::energy armor_power_cost = 1_kJ;
                 power_cost -= armor_power_cost * factor;
             }
         }
@@ -1659,7 +1658,7 @@ void Character::process_bionic( int b )
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
                     const body_part bp_healed = hp_to_bp( part_to_heal );
-                    int hp_percent = float( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
+                    int hp_percent = static_cast<float>( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
                     if( has_effect( effect_bleed, bp_healed ) && rng( 0, 100 ) < hp_percent ) {
                         remove_effect( effect_bleed, bp_healed );
                         try_to_heal_bleeding = false;
@@ -1942,7 +1941,7 @@ void Character::consume_anesth_requirment( const itype &cbm, player &patient )
     invalidate_crafting_inventory();
 }
 
-bool Character::has_installation_requirment( bionic_id bid )
+bool Character::has_installation_requirment( const bionic_id &bid )
 {
     if( bid->installation_requirement.is_empty() ) {
         return false;
@@ -1960,7 +1959,7 @@ bool Character::has_installation_requirment( bionic_id bid )
     return true;
 }
 
-void Character::consume_installation_requirment( bionic_id bid )
+void Character::consume_installation_requirment( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
         as_player()->consume_items( e, 1, is_crafting_component );
@@ -1974,20 +1973,6 @@ void Character::consume_installation_requirment( bionic_id bid )
 // bionic manipulation adjusted skill
 float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
 {
-    skill_id most_important_skill;
-    skill_id important_skill;
-    skill_id least_important_skill;
-
-    if( autodoc ) {
-        most_important_skill = skill_firstaid;
-        important_skill = skill_computer;
-        least_important_skill = skill_electronics;
-    } else {
-        most_important_skill = skill_electronics;
-        important_skill = skill_firstaid;
-        least_important_skill = skill_mechanics;
-    }
-
     int pl_skill = bionics_pl_skill( autodoc, skill_level );
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30

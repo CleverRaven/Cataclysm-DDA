@@ -237,12 +237,10 @@ static const bionic_id bio_night_vision( "bio_night_vision" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
-static const bionic_id bio_storage( "bio_storage" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-static const bionic_id str_bio_cloak( "bio_cloak" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
@@ -263,7 +261,6 @@ static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
-static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -300,7 +297,6 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
@@ -314,7 +310,6 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
@@ -392,7 +387,6 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 }
 
 } // namespace io
-
 
 // *INDENT-OFF*
 Character::Character() :
@@ -1580,7 +1574,7 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, 
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
-void Character::expose_to_disease( const diseasetype_id dis_type )
+void Character::expose_to_disease( const diseasetype_id &dis_type )
 {
     const cata::optional<int> &healt_thresh = dis_type->health_threshold;
     if( healt_thresh && healt_thresh.value() < get_healthy() ) {
@@ -2355,6 +2349,20 @@ std::vector<item_location> Character::all_items_loc()
     return ret;
 }
 
+std::vector<item_location> Character::top_items_loc()
+{
+    std::vector<item_location> ret;
+    if( has_weapon() ) {
+        item_location weap_loc( *this, &weapon );
+        ret.push_back( weap_loc );
+    }
+    for( item &worn_it : worn ) {
+        item_location worn_loc( *this, &worn_it );
+        ret.push_back( worn_loc );
+    }
+    return ret;
+}
+
 item *Character::invlet_to_item( const int linvlet )
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
@@ -2458,7 +2466,7 @@ void Character::i_rem_keep_contents( const int idx )
 bool Character::i_add_or_drop( item &it, int qty )
 {
     bool retval = true;
-    bool drop = it.made_of( LIQUID );
+    bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
@@ -2611,7 +2619,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     return VisitResponse::SKIP;
                 }
 
-                if( ( parent->is_container() && node->made_of( LIQUID ) ) || node->is_frozen_liquid() ) {
+                if( ( parent->is_container() && node->made_of( phase_id::LIQUID ) ) || node->is_frozen_liquid() ) {
                     out = item_location( src, node );
                 }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -2628,11 +2636,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of_from_type( SOLID ) && parent == nullptr ) {
+            if( !node->made_of_from_type( phase_id::SOLID ) && parent == nullptr ) {
                 // some liquids are ammo but we can't reload with them unless within a container or frozen
                 return VisitResponse::SKIP;
             }
-            if( !node->made_of( SOLID ) && parent != nullptr ) {
+            if( !node->made_of( phase_id::SOLID ) && parent != nullptr ) {
                 for( const ammotype &at : ammo ) {
                     if( node->ammo_type() == at ) {
                         out = item_location( src, node );
@@ -3076,7 +3084,7 @@ void Character::drop_invalid_inventory()
     bool dropped_liquid = false;
     for( const std::list<item> *stack : inv.const_slice() ) {
         const item &it = stack->front();
-        if( it.made_of( LIQUID ) ) {
+        if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
             g->m.add_item_or_charges( pos(), it );
             // must be last
@@ -3861,8 +3869,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     // Track highest layer observed so far so we can penalize out-of-order
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
-    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               PERSONAL_LAYER );
+    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(), layer_level::PERSONAL );
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
@@ -4322,13 +4329,13 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
     int fatigue = get_fatigue();
     std::string fatigue_string;
     nc_color fatigue_color = c_white;
-    if( fatigue > EXHAUSTED ) {
+    if( fatigue > fatigue_levels::EXHAUSTED ) {
         fatigue_color = c_red;
         fatigue_string = _( "Exhausted" );
-    } else if( fatigue > DEAD_TIRED ) {
+    } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
         fatigue_color = c_light_red;
         fatigue_string = _( "Dead Tired" );
-    } else if( fatigue > TIRED ) {
+    } else if( fatigue > fatigue_levels::TIRED ) {
         fatigue_color = c_yellow;
         fatigue_string = _( "Tired" );
     }
@@ -4368,6 +4375,11 @@ void Character::set_fatigue( int nfatigue )
         fatigue = nfatigue;
         on_stat_change( "fatigue", fatigue );
     }
+}
+
+void Character::set_fatigue( fatigue_levels nfatigue )
+{
+    set_fatigue( static_cast<int>( nfatigue ) );
 }
 
 void Character::set_sleep_deprivation( int nsleep_deprivation )
@@ -4808,7 +4820,7 @@ void Character::update_needs( int rate_multiplier )
 
     needs_rates rates = calc_needs_rates();
 
-    const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
+    const bool wasnt_fatigued = get_fatigue() <= fatigue_levels::DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         if( rates.fatigue > 0.0f ) {
@@ -4825,8 +4837,8 @@ void Character::update_needs( int rate_multiplier )
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
 
-            if( npc_no_food && get_fatigue() > TIRED ) {
-                set_fatigue( TIRED );
+            if( npc_no_food && get_fatigue() > fatigue_levels::TIRED ) {
+                set_fatigue( fatigue_levels::TIRED );
                 set_sleep_deprivation( 0 );
             }
         }
@@ -4868,9 +4880,9 @@ void Character::update_needs( int rate_multiplier )
 
                 // If we're just tired, we'll get a decent boost to our sleep quality.
                 // The opposite is true for very tired characters.
-                if( get_fatigue() < DEAD_TIRED ) {
+                if( get_fatigue() < fatigue_levels::DEAD_TIRED ) {
                     rest_modifier += 2;
-                } else if( get_fatigue() >= EXHAUSTED ) {
+                } else if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                     rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
                 }
 
@@ -4880,7 +4892,7 @@ void Character::update_needs( int rate_multiplier )
             }
         }
     }
-    if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !lying ) {
+    if( is_player() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
         if( !activity ) {
             add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
                                press_x( ACTION_SLEEP ) );
@@ -5093,8 +5105,8 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
-        if( get_fatigue() >= MASSIVE_FATIGUE ) {
+    if( get_fatigue() >= fatigue_levels::EXHAUSTED + 25 && !in_sleep_state() ) {
+        if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
             g->events().send<event_type::falls_asleep_from_exhaustion>( getID() );
             mod_fatigue( -10 );
@@ -5108,7 +5120,7 @@ void Character::check_needs_extremes()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
+    if( get_fatigue() >= fatigue_levels::DEAD_TIRED && !in_sleep_state() ) {
         if( get_fatigue() >= 700 ) {
             if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _( "You're too physically tired to stop yawning." ) );
@@ -5119,7 +5131,7 @@ void Character::check_needs_extremes()
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep( 30_seconds );
             }
-        } else if( get_fatigue() >= EXHAUSTED ) {
+        } else if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _( "How much longer until bedtime?" ) );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
@@ -5128,7 +5140,7 @@ void Character::check_needs_extremes()
             if( one_in( 100 + int_cur ) ) {
                 fall_asleep( 30_seconds );
             }
-        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
+        } else if( get_fatigue() >= fatigue_levels::DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
@@ -5187,8 +5199,8 @@ void Character::check_needs_extremes()
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
                                            , _( "<npcname> collapses to the ground from exhaustion." ) );
-                    if( get_fatigue() < EXHAUSTED ) {
-                        set_fatigue( EXHAUSTED );
+                    if( get_fatigue() < fatigue_levels::EXHAUSTED ) {
+                        set_fatigue( fatigue_levels::EXHAUSTED );
                     }
 
                     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
@@ -6885,6 +6897,7 @@ mutation_value_map = {
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
+    { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
 };
 
@@ -7588,7 +7601,6 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         }
     } );
 
-
     opts.emplace_back( dispose_option{
         _( "Drop item" ), true, '2', 0, [this, &obj] {
             put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { *obj } );
@@ -7770,26 +7782,26 @@ int Character::item_wear_cost( const item &it ) const
     double mv = item_handling_cost( it );
 
     switch( it.get_layer() ) {
-        case PERSONAL_LAYER:
+        case layer_level::PERSONAL:
             break;
 
-        case UNDERWEAR_LAYER:
+        case layer_level::UNDERWEAR:
             mv *= 1.5;
             break;
 
-        case REGULAR_LAYER:
+        case layer_level::REGULAR:
             break;
 
-        case WAIST_LAYER:
-        case OUTER_LAYER:
+        case layer_level::WAIST:
+        case layer_level::OUTER:
             mv /= 1.5;
             break;
 
-        case BELTED_LAYER:
+        case layer_level::BELTED:
             mv /= 2.0;
             break;
 
-        case AURA_LAYER:
+        case layer_level::AURA:
             break;
 
         default:
@@ -8660,8 +8672,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         debugmsg( "Wacky body part hit!" );
     }
 
-
-
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
     recoil = std::min( MAX_RECOIL, recoil );
@@ -9436,9 +9446,6 @@ void Character::cancel_activity()
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
-    if( has_activity( ACT_TRY_SLEEP ) ) {
-        remove_value( "sleep_query" );
-    }
     if( has_activity( ACT_LOCKPICK ) ) {
         std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
             return itm.typeId() == itype_pseudo_bio_picklock;
@@ -9750,7 +9757,7 @@ int Character::bodytemp_modifier_traits_floor() const
 
 int Character::temp_corrected_by_climate_control( int temperature ) const
 {
-    const int variation = int( BODYTEMP_NORM * 0.5 );
+    const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
     if( temperature < BODYTEMP_SCORCHING + variation &&
         temperature > BODYTEMP_FREEZING - variation ) {
         if( temperature > BODYTEMP_SCORCHING ) {
@@ -10393,7 +10400,6 @@ int Character::run_cost( int base_cost, bool diag ) const
 
     return static_cast<int>( movecost );
 }
-
 
 void Character::place_corpse()
 {

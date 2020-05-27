@@ -884,7 +884,7 @@ struct itype {
         int min_int = 0;
         int min_per = 0;
 
-        phase_id phase      = SOLID; // e.g. solid, liquid, gas
+        phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
         // How should the item explode
         explosion_data explosion;
@@ -971,7 +971,7 @@ struct itype {
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
 
-        layer_level layer = layer_level::MAX_CLOTHING_LAYER;
+        layer_level layer = layer_level::NUM_LAYER_LEVELS;
 
         /**
          * How much insulation this item provides, either as a container, or as

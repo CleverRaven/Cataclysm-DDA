@@ -1445,6 +1445,11 @@ static bool wants_to_reload( const npc &who, const item &it )
     if( remaining < required ) {
         return true;
     }
+
+    if( !it.ammo_data() || !it.ammo_data()->ammo ) {
+        return false;
+    }
+
     return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
 }
 
@@ -1867,10 +1872,10 @@ npc_action npc::address_needs( float danger )
 
     const auto could_sleep = [&]() {
         if( danger <= 0.01 ) {
-            if( get_fatigue() >= TIRED ) {
+            if( get_fatigue() >= fatigue_levels::TIRED ) {
                 return true;
             } else if( is_walking_with() && g->u.in_sleep_state() &&
-                       get_fatigue() > ( TIRED / 2 ) ) {
+                       get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1884,7 +1889,7 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
@@ -2772,7 +2777,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -3024,7 +3029,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             iter++;
             continue;
         }
@@ -3081,7 +3086,8 @@ struct ratio_index {
 };
 
 /* As of October 2019, this is buggy, do not use!! */
-void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
+void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
+                      int min_val )
 {
     /* Remove this when someone debugs it back to functionality */
     return;
@@ -4094,9 +4100,6 @@ void npc::set_omt_destination()
             temp_types.push_back( temp_pair );
         }
         find_params.search_range = 75;
-        find_params.min_distance = 0;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
@@ -4429,8 +4432,9 @@ bool npc::complain()
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( get_fatigue() > TIRED && complain_about( fatigue_string, 30_minutes, _( "<yawn>" ),
-            get_fatigue() > MASSIVE_FATIGUE - 100 ) )  {
+    if( get_fatigue() > fatigue_levels::TIRED &&
+        complain_about( fatigue_string, 30_minutes, _( "<yawn>" ),
+                        get_fatigue() > fatigue_levels::MASSIVE_FATIGUE - 100 ) )  {
         return true;
     }
 

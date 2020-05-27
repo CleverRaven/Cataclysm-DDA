@@ -44,7 +44,7 @@
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
-    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( serialize( liquid ) );
@@ -59,10 +59,10 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
         return &i == &liquid;
     } );
     if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( static_cast<int>( liquid_source_type::INFINITE_MAP ) );
         act.values.push_back( 0 ); // dummy
     } else {
-        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
     act.coords.push_back( pos );
@@ -71,14 +71,14 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
 
 static void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
-    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
 }
 
-static void serialize_liquid_target( player_activity &act, item_location container_item )
+static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
-    act.values.push_back( LTT_CONTAINER );
+    act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
     act.values.push_back( 0 ); // dummy
     act.targets.push_back( container_item );
     act.coords.push_back( tripoint() ); // dummy
@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, item_location contain
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 {
-    act.values.push_back( LTT_MAP );
+    act.values.push_back( static_cast<int>( liquid_target_type::MAP ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( pos );
 }
@@ -160,7 +160,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
                                const monster *const source_mon,
                                liquid_dest_opt &target )
 {
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -308,7 +308,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                                      const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -400,13 +400,13 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
-    if( liquid.made_of_from_type( SOLID ) ) {
+    if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( phase_id::LIQUID ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname() );
         return false;
     }

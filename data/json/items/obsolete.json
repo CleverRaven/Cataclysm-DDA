@@ -2717,5 +2717,87 @@
         "item_restriction": [ "ak74mag", "rpk74mag" ]
       }
     ]
+  },
+  {
+    "id": "bot_laserturret",
+    "type": "TOOL",
+    "name": { "str": "inactive laser turret" },
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "price_postapoc": 12000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_laserturret",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "id": "cerberus_laser",
+    "type": "GENERIC",
+    "symbol": "(",
+    "color": "magenta",
+    "name": { "str": "TX-5LR Laser Cannon" },
+    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
+    "price": 5000000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "5000 g",
+    "volume": "750 ml",
+    "category": "spare_parts"
+  },
+  {
+    "id": "laser_cannon",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "handheld laser cannon" },
+    "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
+    "weight": "5140 g",
+    "volume": "1500 ml",
+    "price": 400000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
+    "dispersion": 90,
+    "durability": 7,
+    "loudness": 8,
+    "ups_charges": 25,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "lens", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

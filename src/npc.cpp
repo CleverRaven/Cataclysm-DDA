@@ -950,9 +950,7 @@ void npc::finish_read( item &book )
         max_ex = std::max( min_ex, max_ex );
 
         skill_level.readBook( min_ex, max_ex, reading->level );
-
-        std::string skill_name = skill.obj().name();
-
+        const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
             g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
@@ -964,7 +962,7 @@ void npc::finish_read( item &book )
         } else {
             continuous = true;
             if( display_messages ) {
-                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill.obj().name() );
+                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill_name );
             }
         }
 
@@ -1378,8 +1376,8 @@ float npc::vehicle_danger( int radius ) const
 
             int ax = wrapped_veh.v->global_pos3().x;
             int ay = wrapped_veh.v->global_pos3().y;
-            int bx = int( ax + std::cos( facing * M_PI / 180.0 ) * radius );
-            int by = int( ay + std::sin( facing * M_PI / 180.0 ) * radius );
+            int bx = static_cast<int>( ax + std::cos( facing * M_PI / 180.0 ) * radius );
+            int by = static_cast<int>( ay + std::sin( facing * M_PI / 180.0 ) * radius );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1731,7 +1729,8 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) ||
+        it.made_of( phase_id::LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -2227,31 +2226,45 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
-    wprintz( w, basic_symbol_color(), name );
 
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
+    // Print health bar and NPC name on the first line.
+    std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
+    mvwprintz( w, point( column, line ), bar.second, bar.first );
+    const int bar_max_width = 5;
+    const int bar_width = utf8_width( bar.first );
+    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+        mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
     }
+    trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, basic_symbol_color(),
+                    name );
 
+    // Hostility indicator in the second line.
+    Attitude att = attitude_to( g->u );
+    const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
+    mvwprintz( w, point( column, ++line ), res.second, res.first.translated() );
+
+    // Awareness indicator on the third line.
+    std::string senses_str = sees( g->u ) ? _( "Aware of your presence" ) :
+                             _( "Unaware of you" );
+    mvwprintz( w, point( column, ++line ), sees( g->u ) ? c_yellow : c_green, senses_str );
+
+    // Print what item the NPC is holding if any on the fourth line.
     if( is_armed() ) {
-        trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
+        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wielding: " ) );
+        trim_and_print( w, point( column + utf8_width( _( "Wielding: " ) ), line ), iWidth, c_red,
+                        weapon.tname() );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
-    nc_color color ) {
-        const std::vector<std::string> folded = foldstring( str_in, iWidth );
-        for( auto it = folded.begin(); it < folded.end() && line < last_line; ++it, ++line ) {
-            trim_and_print( w, point( column, line ), iWidth, color, *it );
-        }
-    };
-
+    // Worn gear list on following lines.
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        const std::string wearing = _( "Wearing: " ) + worn_str;
-        enumerate_print( wearing, c_light_blue );
+        std::vector<std::string> worn_lines = foldstring( _( "Wearing: " ) + worn_str, iWidth );
+        int worn_numlines = worn_lines.size();
+        for( int i = 0; i < worn_numlines && line < last_line; i++ ) {
+            trim_and_print( w, point( column, ++line ), iWidth, c_light_gray, worn_lines[i] );
+        }
     }
 
     // as of now, visibility of mutations is between 0 and 10
@@ -2269,10 +2282,13 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         visibility_cap = std::round( dist * dist / 20.0 / ( per - 1 ) );
     }
 
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        const std::string mutations = _( "Traits: " ) + trait_str;
-        enumerate_print( mutations, c_green );
+        std::vector<std::string> trait_lines = foldstring( _( "Traits: " ) + trait_str, iWidth );
+        int trait_numlines = trait_lines.size();
+        for( int i = 0; i < trait_numlines && line < last_line; i++ ) {
+            trim_and_print( w, point( column, ++line ), iWidth, c_light_gray, trait_lines[i] );
+        }
     }
 
     return line;
@@ -2750,7 +2766,7 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
         if( e.can_holster( *obj ) ) {
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
-                item_store_cost( *obj, e, false, e.contents.obtain_cost( *obj ) ),
+                item_store_cost( *obj, e, false, obj.obtain_cost( *this ) ),
                 [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }
             } );
         }

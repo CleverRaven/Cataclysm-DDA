@@ -110,7 +110,6 @@ static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 

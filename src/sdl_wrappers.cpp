@@ -10,13 +10,11 @@
 #include "debug.h"
 #include "point.h"
 
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL_image.h>
-#   else
-#       include <SDL_image.h>
-#   endif
-#endif // TILES
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

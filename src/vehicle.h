@@ -542,7 +542,7 @@ class turret_data
         bool can_reload() const;
         bool can_unload() const;
 
-        enum class status {
+        enum class status : int {
             invalid,
             no_ammo,
             no_power,

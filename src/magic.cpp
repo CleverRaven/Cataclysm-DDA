@@ -56,18 +56,18 @@ namespace io
 {
 // *INDENT-OFF*
 template<>
-std::string enum_to_string<valid_target>( valid_target data )
+std::string enum_to_string<spell_target>( spell_target data )
 {
     switch( data ) {
-        case valid_target::target_ally: return "ally";
-        case valid_target::target_hostile: return "hostile";
-        case valid_target::target_self: return "self";
-        case valid_target::target_ground: return "ground";
-        case valid_target::target_none: return "none";
-        case valid_target::target_item: return "item";
-        case valid_target::target_fd_fire: return "fd_fire";
-        case valid_target::target_fd_blood: return "fd_blood";
-        case valid_target::_LAST: break;
+        case spell_target::ally: return "ally";
+        case spell_target::hostile: return "hostile";
+        case spell_target::self: return "self";
+        case spell_target::ground: return "ground";
+        case spell_target::none: return "none";
+        case spell_target::item: return "item";
+        case spell_target::fire: return "fd_fire";
+        case spell_target::blood: return "fd_blood";
+        case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
     abort();
@@ -263,14 +263,14 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         effect = found_effect->second;
     }
 
-    const auto effect_targets_reader = enum_flags_reader<valid_target> { "effect_targets" };
+    const auto effect_targets_reader = enum_flags_reader<spell_target> { "effect_targets" };
     optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
 
     const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
-    const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
+    const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
     if( jo.has_array( "extra_effects" ) ) {
@@ -715,7 +715,7 @@ bool spell::can_cast( const Character &guy ) const
         case bionic_energy:
             return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
         case fatigue_energy:
-            return guy.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
         case none_energy:
         default:
             return true;
@@ -972,7 +972,7 @@ bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) cons
     return rl_dist( caster.pos(), p ) <= range();
 }
 
-bool spell::is_valid_target( valid_target t ) const
+bool spell::is_valid_target( spell_target t ) const
 {
     return type->valid_targets[t];
 }
@@ -982,18 +982,18 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
         Creature::Attitude cr_att = cr->attitude_to( caster );
-        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) );
-        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
+        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( spell_target::hostile ) );
+        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( spell_target::ally ) &&
                            p != caster.pos() );
-        valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
+        valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
     } else {
-        valid = is_valid_target( target_ground );
+        valid = is_valid_target( spell_target::ground );
     }
     return valid;
 }
 
-bool spell::is_valid_effect_target( valid_target t ) const
+bool spell::is_valid_effect_target( spell_target t ) const
 {
     return type->effect_targets[t];
 }
@@ -1115,10 +1115,10 @@ int spell::casting_exp( const Character &guy ) const
 std::string spell::enumerate_targets() const
 {
     std::vector<std::string> all_valid_targets;
-    int last_target = static_cast<int>( valid_target::_LAST );
+    int last_target = static_cast<int>( spell_target::num_spell_targets );
     for( int i = 0; i < last_target; ++i ) {
-        valid_target t = static_cast<valid_target>( i );
-        if( is_valid_target( t ) && t != target_none ) {
+        spell_target t = static_cast<spell_target>( i );
+        if( is_valid_target( t ) && t != spell_target::none ) {
             all_valid_targets.emplace_back( io::enum_to_string( t ) );
         }
     }
@@ -1220,7 +1220,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             // if a message is added to the casting spell, it will be sent as well.
             source.add_msg_if_player( sp.message() );
 
-            if( sp.has_flag( RANDOM_TARGET ) ) {
+            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
                 if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
                         _self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
@@ -1238,7 +1238,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
-            if( sp.has_flag( RANDOM_TARGET ) ) {
+            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
                 if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
                         extra_spell.self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
@@ -1497,7 +1497,7 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
             }
             return false;
         case fatigue_energy:
-            return guy.get_fatigue() < EXHAUSTED;
+            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
         case none_energy:
             return true;
         default:
@@ -1709,7 +1709,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     }
 
     std::string targets;
-    if( sp.is_valid_target( target_none ) ) {
+    if( sp.is_valid_target( spell_target::none ) ) {
         targets = _( "self" );
     } else {
         targets = sp.enumerate_targets();
@@ -2124,9 +2124,9 @@ void spell_events::notify( const cata::event &e )
             spell_type spell_cast = spell_factory.obj( sid );
             for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
                  it != spell_cast.learn_spells.end(); ++it ) {
-                std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
+                    std::string learn_spell_id = it->first;
                     g->u.magic.learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(

@@ -997,7 +997,7 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of( material_id( "veggy" ) ) ) {
             dam = 80;
         }
-        if( z->made_of( LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
+        if( z->made_of( phase_id::LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
         if( z->made_of( material_id( "stone" ) ) ) {

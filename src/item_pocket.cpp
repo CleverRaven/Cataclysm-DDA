@@ -163,7 +163,7 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
     }
-    if( it.made_of( SOLID ) ) {
+    if( it.made_of( phase_id::SOLID ) ) {
         if( data->watertight != rhs.data->watertight ) {
             return !rhs.data->watertight;
         }
@@ -463,7 +463,7 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 void item_pocket::handle_liquid_or_spill( Character &guy )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->made_of( LIQUID ) ) {
+        if( iter->made_of( phase_id::LIQUID ) ) {
             item liquid( *iter );
             iter = contents.erase( iter );
             liquid_handler::handle_all_liquid( liquid, 1 );
@@ -753,7 +753,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
             const translation &description = contents_item.type->description;
 
-            if( contents_item.made_of_from_type( LIQUID ) ) {
+            if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
                 info.emplace_back( "DESCRIPTION", contents_item.display_name() );
                 info.emplace_back( vol_to_info( "CONTAINER", description + space,
                                                 contents_item.volume() ) );
@@ -866,7 +866,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
 
     // liquids and gases avoid the size limit altogether
     // soft items also avoid the size limit
-    if( !it.made_of( LIQUID ) && !it.made_of( GAS ) &&
+    if( !it.made_of( phase_id::LIQUID ) && !it.made_of( phase_id::GAS ) &&
         !it.is_soft() && data->max_item_volume &&
         it.volume() > *data->max_item_volume ) {
         return ret_val<item_pocket::contain_code>::make_failure(
@@ -1173,7 +1173,8 @@ bool item_pocket::can_unload_liquid() const
     }
 
     const item &cts = contents.front();
-    bool cts_is_frozen_liquid = cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID );
+    bool cts_is_frozen_liquid = cts.made_of_from_type( phase_id::LIQUID ) &&
+                                cts.made_of( phase_id::SOLID );
     return will_spill() || !cts_is_frozen_liquid;
 }
 

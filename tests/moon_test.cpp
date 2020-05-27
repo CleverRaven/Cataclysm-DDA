@@ -29,7 +29,6 @@
 // At night, moonlight prevails. At dawn, light gradually goes from moonlight-level to
 // sunlight-level over the course of the twilight time (1 hour), and at dusk the reverse occurs.
 
-
 // ------
 // Phases
 // ------

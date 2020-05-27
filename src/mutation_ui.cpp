@@ -34,7 +34,7 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
 
-enum class mutation_menu_mode {
+enum class mutation_menu_mode : int {
     activating,
     examining,
     reassigning,

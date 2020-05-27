@@ -1808,7 +1808,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
-            if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 20;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
@@ -1922,7 +1922,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
-            if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 50;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
@@ -1953,7 +1953,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
-            if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 20;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
@@ -1965,13 +1965,13 @@ void map::monster_in_field( monster &z )
             } else if( cur.get_field_intensity() == 2 ) {
                 dam += rng( 6, 12 );
                 z.moves -= 20;
-                if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
+                if( !z.made_of( phase_id::LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                     z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                 }
             } else if( cur.get_field_intensity() == 3 ) {
                 dam += rng( 10, 20 );
                 z.moves -= 40;
-                if( !z.made_of( LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
+                if( !z.made_of( phase_id::LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                     z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                 }
             }
@@ -2063,7 +2063,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     std::set<tripoint> closed;
     open.push( { 0.0f, center } );
 
-    const bool not_gas = type.obj().phase != GAS;
+    const bool not_gas = type.obj().phase != phase_id::GAS;
 
     while( amount > 0 && !open.empty() ) {
         if( closed.count( open.top().second ) ) {

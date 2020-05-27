@@ -2796,7 +2796,6 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
 static bool mx_corpses( map &m, const tripoint &abs_sub )
 {
     const int num_corpses = rng( 1, 5 );
-    const auto gibs = item_group::items_from( "remains_human_generic", calendar::start_of_cataclysm );
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
@@ -2814,6 +2813,8 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     //10% chance to spawn a flock of stray dogs feeding on human flesh
     if( one_in( 10 ) && num_corpses <= 4 ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        const std::vector<item> gibs = item_group::items_from( "remains_human_generic",
+                                       calendar::start_of_cataclysm );
         m.spawn_items( corpse_location, gibs );
         m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
         //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius

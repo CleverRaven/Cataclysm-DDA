@@ -1635,11 +1635,12 @@
     "ident": "biker",
     "name": "Biker",
     "description": "You spent most of your life on a Harley, out on the open road with your club.  Now they're all dead.  Time to ride or die.",
-    "points": 1,
+    "points": 3,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "vehicle": "motorcycle",
     "items": {
       "both": {
-        "items": [ "jeans", "tank_top", "chaps_leather", "socks", "boots", "bandana", "jacket_leather", "wristwatch" ],
+        "items": [ "jeans", "tank_top", "chaps_leather", "socks", "boots", "bandana", "jacket_leather", "wristwatch", "multitool" ],
         "entries": [ { "group": "charged_cell_phone" }, { "item": "sheath", "contents-item": "knife_trench" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -2437,7 +2438,7 @@
     "ident": "death_row_convict",
     "name": "Death Row Convict",
     "description": "You were a serial killer, ready to walk the green mile, but in a twist of fate you're one of the few still alive.  True death comes only from your hands, so you're in for a job.",
-    "points": 0,
+    "points": 2,
     "skills": [ { "level": 1, "name": "melee" } ],
     "traits": [ "KILLER" ],
     "items": {
@@ -2499,7 +2500,7 @@
     "ident": "convict_ratman",
     "name": { "male": "Rat Prince", "female": "Rat Princess" },
     "description": "You probably needed psychiatric help instead of a prison sentence.  At least your loyal subjects have agreed to hold the line as you make your daring escape.",
-    "points": 3,
+    "points": 4,
     "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "traits": [ "ANIMALEMPATH" ],
     "pets": [ { "name": "mon_black_rat", "amount": 13 } ],
@@ -3680,7 +3681,7 @@
     "ident": "parkour_practitioner",
     "name": { "male": "Traceur", "female": "Traceuse" },
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
-    "points": 3,
+    "points": 5,
     "traits": [ "PARKOUR" ],
     "skills": [ { "level": 4, "name": "dodge" } ],
     "items": {
@@ -3803,7 +3804,7 @@
     "ident": "zoo_keeper",
     "name": "Zoo Keeper",
     "description": "You were called in on your day off to feed the animals at the zoo.  For some reason, none of your coworkers bothered showing up for work today.",
-    "points": 0,
+    "points": 1,
     "traits": [ "ANIMALEMPATH" ],
     "skills": [ { "level": 1, "name": "firstaid" }, { "level": 1, "name": "survival" } ],
     "items": {
@@ -3931,7 +3932,7 @@
     "ident": "politician",
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
-    "points": 4,
+    "points": 5,
     "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
     "traits": [ "LIAR" ],
     "items": {

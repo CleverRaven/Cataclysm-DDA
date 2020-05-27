@@ -152,7 +152,7 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
-enum class DebugOutput {
+enum class DebugOutput : int {
     std_err,
     file,
 };

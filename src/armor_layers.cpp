@@ -204,19 +204,19 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
         std::string layer_description = [&]() {
             switch( worn_item_it->get_layer() ) {
-                case PERSONAL_LAYER:
+                case layer_level::PERSONAL:
                     return _( "in your <color_light_blue>personal aura</color>" );
-                case UNDERWEAR_LAYER:
+                case layer_level::UNDERWEAR:
                     return _( "<color_light_blue>close to your skin</color>" );
-                case REGULAR_LAYER:
+                case layer_level::REGULAR:
                     return _( "of <color_light_blue>normal</color> clothing" );
-                case WAIST_LAYER:
+                case layer_level::WAIST:
                     return _( "on your <color_light_blue>waist</color>" );
-                case OUTER_LAYER:
+                case layer_level::OUTER:
                     return _( "of <color_light_blue>outer</color> clothing" );
-                case BELTED_LAYER:
+                case layer_level::BELTED:
                     return _( "<color_light_blue>strapped</color> to you" );
-                case AURA_LAYER:
+                case layer_level::AURA:
                     return _( "an <color_light_blue>aura</color> around you" );
                 default:
                     return _( "Unexpected layer" );

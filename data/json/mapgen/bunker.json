@@ -200,7 +200,7 @@
         { "item": "whiskey", "x": 5, "y": 3 },
         { "item": "glass", "x": 5, "y": 3 },
         { "item": "militarymap", "x": 5, "y": 3 },
-        { "item": "anesthetic_kit", "x": 17, "y": 4 },
+        { "item": "anesthetic_kit", "x": 17, "y": 4, "ammo": 100 },
         { "item": "television", "x": 17, "y": 13, "chance": 95 },
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
       ],
@@ -295,7 +295,7 @@
         { "group": "alcohol", "x": 5, "y": 3 },
         { "item": "glass", "x": 5, "y": 3 },
         { "item": "militarymap", "x": 5, "y": 3, "chance": 80 },
-        { "item": "anesthetic_kit", "x": 17, "y": 4 },
+        { "item": "anesthetic_kit", "x": 17, "y": 4, "ammo": 100 },
         { "item": "television", "x": 17, "y": 13, "chance": 95 },
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
       ],

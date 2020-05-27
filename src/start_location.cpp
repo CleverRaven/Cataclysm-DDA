@@ -73,8 +73,8 @@ void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     std::string ter;
-    ot_match_type ter_match_type = ot_match_type::type;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        ot_match_type ter_match_type = ot_match_type::type;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {

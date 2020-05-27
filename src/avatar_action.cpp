@@ -57,8 +57,6 @@
 
 class player;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -69,9 +67,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_grass( "grass" );
 static const itype_id itype_swim_fins( "swim_fins" );
-static const itype_id itype_underbrush( "underbrush" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -853,7 +849,7 @@ void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
-                                        units::energy cost_per_shot )
+                                        const units::energy &cost_per_shot )
 {
     you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
 }
@@ -950,7 +946,7 @@ void avatar_action::eat( avatar &you )
     avatar_action::eat( you, loc, true );
 }
 
-void avatar_action::eat( avatar &you, item_location loc, bool open_consume_menu )
+void avatar_action::eat( avatar &you, const item_location &loc, bool open_consume_menu )
 {
     if( !loc ) {
         you.cancel_activity();

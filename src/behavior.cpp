@@ -18,9 +18,11 @@ void node_t::set_strategy( const strategy_t *new_strategy )
 {
     strategy = new_strategy;
 }
-void node_t::set_predicate( std::function<status_t ( const oracle_t * )> new_predicate )
+void node_t::set_predicate( std::function<status_t ( const oracle_t *, const std::string & )>
+                            new_predicate, const std::string &argument )
 {
     predicate = new_predicate;
+    predicate_argument = argument;
 }
 void node_t::set_goal( const std::string &new_goal )
 {
@@ -35,10 +37,10 @@ behavior_return node_t::tick( const oracle_t *subject ) const
 {
     assert( predicate );
     if( children.empty() ) {
-        return { predicate( subject ), this };
+        return { predicate( subject, predicate_argument ), this };
     } else {
         assert( strategy != nullptr );
-        status_t result = predicate( subject );
+        status_t result = predicate( subject, predicate_argument );
         if( result == running ) {
             return strategy->evaluate( subject, children );
         } else {
@@ -82,6 +84,13 @@ namespace
 generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
 } // namespace
+
+/** @relates string_id */
+template<>
+bool string_id<node_t>::is_valid() const
+{
+    return behavior_factory.is_valid( *this );
+}
 
 template<>
 const node_t &string_id<node_t>::obj() const
@@ -127,7 +136,10 @@ void node_t::load( const JsonObject &jo, const std::string & )
         } else {
             debugmsg( "While loading %s, failed to find predicate %s.",
                       id.str(), jo.get_string( "predicate" ) );
-            jo.throw_error( "Invalid strategy in behavior." );
+            jo.throw_error( "Invalid predicate in behavior." );
+        }
+        if( jo.has_string( "predicate_argument" ) ) {
+            predicate_argument = jo.get_string( "predicate_argument" );
         }
     }
     optional( jo, was_loaded, "goal", _goal );

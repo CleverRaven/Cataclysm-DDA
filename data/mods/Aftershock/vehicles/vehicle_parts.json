@@ -36,21 +36,6 @@
     "damage_reduction": { "all": 4 }
   },
   {
-    "id": "laser_cannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted laser cannon" },
-    "item": "laser_cannon",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "looks_like": "laser_rifle",
-    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "type": "vehicle_part",
     "id": "afs_fridge",
     "copy-from": "minifridge",

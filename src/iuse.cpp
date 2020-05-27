@@ -1087,7 +1087,7 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 int iuse::blech( player *p, item *it, bool, const tripoint & )
 {
     // TODO: Add more effects?
-    if( it->made_of( LIQUID ) ) {
+    if( it->made_of( phase_id::LIQUID ) ) {
         if( !p->query_yn( _( "This looks unhealthy, sure you want to drink it?" ) ) ) {
             return 0;
         }
@@ -1122,7 +1122,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
 int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
 {
     if( !p->is_npc() ) {
-        if( it->made_of( LIQUID ) ) {
+        if( it->made_of( phase_id::LIQUID ) ) {
             if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
                 return 0;
             }
@@ -2026,7 +2026,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
                 p->add_msg_if_player( _( "The %s looks blinded." ), critter.name() );
             }
         }
-        if( critter.made_of( LIQUID ) ) {
+        if( critter.made_of( phase_id::LIQUID ) ) {
             if( g->u.sees( critter ) ) {
                 p->add_msg_if_player( _( "The %s is frozen!" ), critter.name() );
             }
@@ -4594,7 +4594,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "It's not waterproof enough to work underwater." ) );
         return 0;
     }
-    if( p->get_fatigue() >= DEAD_TIRED ) {
+    if( p->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
         p->add_msg_if_player( m_info, _( "You're too exhausted to keep cranking." ) );
         return 0;
     }
@@ -4640,7 +4640,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
-    if( p->get_fatigue() >= DEAD_TIRED ) {
+    if( p->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return 0;
     } else {
@@ -5233,7 +5233,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         if( !g->m.has_flag( "LIQUIDCONT", pnt ) ) {
             map_stack items = g->m.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.made_of( LIQUID );
+                return it.made_of( phase_id::LIQUID );
             } );
             if( found != items.end() ) {
                 return true;
@@ -5254,7 +5254,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
                 }
                 vehicle_stack items = veh->get_items( elem );
                 auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                    return it.made_of( LIQUID );
+                    return it.made_of( phase_id::LIQUID );
                 } );
                 if( found != items.end() ) {
                     return true;
@@ -8792,7 +8792,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
             const std::string dish_name = dish.tname( dish.charges, false );
             const bool is_delicious = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
-            if( dish.made_of( LIQUID ) ) {
+            if( dish.made_of( phase_id::LIQUID ) ) {
                 if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
                     p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
                                           dish_name );
@@ -9713,7 +9713,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     const inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {
-        return it.made_of( LIQUID );
+        return it.made_of( phase_id::LIQUID );
     };
     int available_water = std::max(
                               crafting_inv.charges_of( itype_water, INT_MAX, is_liquid ),

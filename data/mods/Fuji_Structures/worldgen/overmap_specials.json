@@ -30,28 +30,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "o_lightindustry",
-    "overmaps": [
-      { "point": [ 1, 0, 0 ], "overmap": "s_lightindustry_road_0_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "s_lightindustry_road_1_south" },
-      { "point": [ 1, -1, 0 ], "overmap": "s_lightindustry_00_south" },
-      { "point": [ 0, -1, 0 ], "overmap": "s_lightindustry_01_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "s_lightindustry_10_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_lightindustry_11_south" }
-    ],
-    "connections": [
-      { "point": [ -1, 0, 0 ], "terrain": "road", "existing": false },
-      { "point": [ -2, 0, 0 ], "terrain": "road", "existing": true }
-    ],
-    "locations": [ "land", "swamp" ],
-    "city_distance": [ 0, -1 ],
-    "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 3 ],
-    "required": false,
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "o_gas_spc",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_south" },
