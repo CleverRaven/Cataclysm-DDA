@@ -2979,10 +2979,17 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     } else if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
         if( !ammo_types().empty() ) {
             for( const ammotype &at : ammo_types() ) {
-                info.emplace_back( "TOOL", string_format(
-                                       //~ "%s" is ammunition type. This types can't be plural.
-                                       ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.",
-                                                 ammo_capacity( at ) ), at->name() ) );
+                info.emplace_back(
+                    "TOOL",
+                    "",
+                    string_format(
+                        ngettext(
+                            "Maximum <num> charge of %s.",
+                            "Maximum <num> charges of %s.",
+                            ammo_capacity( at ) ),
+                        at->name() ),
+                    iteminfo::no_flags,
+                    ammo_capacity( at ) );
             }
 
             // No need to display max charges, since charges are always equal to bionic power
