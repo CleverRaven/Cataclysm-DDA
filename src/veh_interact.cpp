@@ -1357,8 +1357,8 @@ bool veh_interact::do_refill( std::string &msg )
     return overview( can_refill, act );
 }
 
-bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enable,
-                             std::function<bool( vehicle_part &pt )> action )
+bool veh_interact::overview( const std::function<bool( const vehicle_part &pt )> &enable,
+                             const std::function<bool( vehicle_part &pt )> &action )
 {
     struct part_option {
         part_option( const std::string &key, vehicle_part *part, char hotkey,

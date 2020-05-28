@@ -442,8 +442,8 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_spell( avatar &you, spell_id sp, bool no_fail,
-        bool no_mana )
+target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_id &sp,
+        bool no_fail, bool no_mana )
 {
     return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
 }

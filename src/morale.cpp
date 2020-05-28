@@ -285,7 +285,7 @@ player_morale::player_morale() :
     mutations[trait_CENOBITE]      = mutation_data( update_masochist );
 }
 
-void player_morale::add( morale_type type, int bonus, int max_bonus,
+void player_morale::add( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {

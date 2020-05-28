@@ -33,7 +33,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
     // Count the number of mx_minefield map extras that have been generated.
     const string_id<map_extra> mx_minefield( "mx_minefield" );
     int successes = std::count_if( extras.begin(),
-    extras.end(), [&mx_minefield]( std::pair<point, string_id<map_extra>> e ) {
+    extras.end(), [&mx_minefield]( const std::pair<point, string_id<map_extra>> &e ) {
         return e.second == mx_minefield;
     } );
 

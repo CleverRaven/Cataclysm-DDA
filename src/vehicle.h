@@ -1461,7 +1461,7 @@ class vehicle
 
         // remove item from part's cargo
         bool remove_item( int part, item *it );
-        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
+        vehicle_stack::iterator remove_item( int part, const vehicle_stack::const_iterator &it );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );

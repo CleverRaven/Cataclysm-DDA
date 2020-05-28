@@ -155,8 +155,8 @@ static void load_ignored_type( const JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
-                             f )
+                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             &f )
 {
     const auto pair = type_function_map.emplace( type, f );
     if( !pair.second ) {
@@ -165,7 +165,7 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( const JsonObject &, const std::string & )> f )
+                             const std::function<void( const JsonObject &, const std::string & )> &f )
 {
     const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
                       const std::string & src,
@@ -177,7 +177,8 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void DynamicDataLoader::add( const std::string &type, std::function<void( const JsonObject & )> f )
+void DynamicDataLoader::add( const std::string &type,
+                             const std::function<void( const JsonObject & )> &f )
 {
     const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
     const std::string &, const std::string & ) {

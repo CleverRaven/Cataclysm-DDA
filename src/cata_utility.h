@@ -463,7 +463,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.

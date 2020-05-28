@@ -200,7 +200,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -209,7 +209,7 @@ void JsonObject::throw_error( std::string err, const std::string &name ) const
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err )
+void JsonArray::throw_error( const std::string &err )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -217,7 +217,7 @@ void JsonArray::throw_error( std::string err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -228,7 +228,7 @@ void JsonArray::throw_error( std::string err, int idx )
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err ) const
+void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );

@@ -244,7 +244,7 @@ class game
          * Otherwise the callback may not take effect until the main ui is invalidated
          * due to resizing or other menus closing. The callback is disabled once all
          * shared pointers to the callback are deconstructed, and is removed afterwards. */
-        void add_draw_callback( shared_ptr_fast<draw_callback_t> cb );
+        void add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb );
     private:
         bool is_looking = false;
         std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
@@ -602,7 +602,7 @@ class game
         inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+        item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
 
         bool has_gametype() const;

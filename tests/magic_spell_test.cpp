@@ -97,7 +97,7 @@ TEST_CASE( "spell level", "[magic][spell][level]" )
 }
 
 // Return experience points needed to level up a spell, starting at from_level
-static int spell_xp_to_next_level( const spell_id sp_id, const int from_level )
+static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( from_level );
@@ -221,7 +221,7 @@ TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
 // spell::damage
 
 // Return spell damage at a given level
-static int spell_damage( const spell_id sp_id, const int spell_level )
+static int spell_damage( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -273,7 +273,7 @@ TEST_CASE( "spell damage", "[magic][spell][damage]" )
 // spell::duration_string
 
 // Return spell duration at a given level
-static std::string spell_duration_string( const spell_id sp_id, const int spell_level )
+static std::string spell_duration_string( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -339,7 +339,7 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
 // spell::range
 
 // Return spell range at a given level
-static int spell_range( const spell_id sp_id, const int spell_level )
+static int spell_range( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -393,7 +393,7 @@ TEST_CASE( "spell range", "[magic][spell][range]" )
 // spell::aoe
 
 // Return spell AOE at a given level
-static int spell_aoe( const spell_id sp_id, const int spell_level )
+static int spell_aoe( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
