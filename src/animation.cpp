@@ -705,9 +705,9 @@ void game::draw_weather( const weather_printable &w )
         case WEATHER_SNOWSTORM:
             weather_name = weather_snowflake;
             break;
-        case WEATHER_LIGHT_MIST:
-        case WEATHER_MEDIUM_MIST:
-        case WEATHER_HEAVY_MIST:
+        case WEATHER_MIST:
+        case WEATHER_THICK_MIST:
+        case WEATHER_STIFLING_MIST:
             weather_name = weather_mist;
             break;
         default:

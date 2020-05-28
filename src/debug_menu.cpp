@@ -1414,50 +1414,57 @@ void debug()
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Min Intensity" ), g->weather.mist_min_intensity );
             smenu.addentry( 2, true, 'x', "%s: %d", _( "Max Intensity" ), g->weather.mist_max_intensity );
             smenu.addentry( 3, true, 's', "%s: %d", _( "Mist Scaling" ), g->weather.mist_scaling );
-            smenu.addentry( 4, true, 't', "%s: %s", _( "Intensity Increase Time" ),
+            smenu.addentry( 4, true, 't', "%s: %d", _( "Intensity Increase Time" ),
                             to_seconds<int>( g->weather.mist_intensity_increase_time ) );
-            smenu.addentry( 5, true, 'w', "%s: %s", _( "Spawn Time" ),
+            smenu.addentry( 5, true, 'w', "%s: %d", _( "Spawn Time" ),
                             to_seconds<int>( g->weather.mist_spawn_time ) );
+            smenu.addentry( 6, true, 'w', "%s: %s", _( "Next Instance" ),
+                            to_string( g->weather.mist_next_instance ) );
 
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set Intensity to?  Currently: %d" ), g->weather.mist_intensity ) ) {
+                    if( query_int( value, _( "Set intensity to?  Currently: %d" ), g->weather.mist_intensity ) ) {
                         g->weather.mist_intensity = value;
                     }
                     break;
 
                 case 1:
-                    if( query_int( value, _( "Set Min Intensity to?  Currently: %d" ),
+                    if( query_int( value, _( "Set min intensity to?  Currently: %d" ),
                                    g->weather.mist_min_intensity ) ) {
                         g->weather.mist_min_intensity = value;
                     }
                     break;
 
                 case 2:
-                    if( query_int( value, _( "Set Max Intensity to?  Currently: %d" ),
+                    if( query_int( value, _( "Set max intensity to?  Currently: %d" ),
                                    g->weather.mist_max_intensity ) ) {
                         g->weather.mist_max_intensity = value;
                     }
                     break;
 
                 case 3:
-                    if( query_int( value, _( "Set Mist Scaling to?  Currently: %d" ), g->weather.mist_scaling ) ) {
+                    if( query_int( value, _( "Set mist scaling to?  Currently: %d" ), g->weather.mist_scaling ) ) {
                         g->weather.mist_scaling = value;
                     }
                     break;
 
                 case 4:
-                    if( query_int( value, _( "Set Intensity Increase Time to?  Currently: %d" ),
+                    if( query_int( value, _( "Set intensity increase time to?  Currently: %d" ),
                                    to_seconds<int>( g->weather.mist_intensity_increase_time ) ) ) {
                         g->weather.mist_intensity_increase_time = time_duration::from_seconds( value );
                     }
                     break;
                 case 5:
-                    if( query_int( value, _( "Set Spawn Time to?  Currently: %d" ),
+                    if( query_int( value, _( "Set spawn time to?  Currently: %d" ),
                                    to_seconds<int>( g->weather.mist_spawn_time ) ) ) {
                         g->weather.mist_spawn_time = time_duration::from_seconds( value );
+                    }
+                case 6:
+                    if( query_int( value, _( "Set next instance to how many minutes in future?  Currently: %s" ),
+                                   to_string( g->weather.mist_next_instance - calendar::turn ) ) ) {
+                        g->weather.mist_next_instance = calendar::turn + time_duration::from_minutes( value );
                     }
                 default:
                     break;

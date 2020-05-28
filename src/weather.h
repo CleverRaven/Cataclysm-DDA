@@ -56,9 +56,9 @@ enum weather_type : int {
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< snow glare effects
     WEATHER_SNOWSTORM,    //!< sight penalties
-    WEATHER_LIGHT_MIST,   //!< spawns mist monsters, sight penalties
-    WEATHER_MEDIUM_MIST,   //!< spawns mist monsters, sight penalties
-    WEATHER_HEAVY_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_THICK_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_STIFLING_MIST,   //!< spawns mist monsters, sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -243,6 +243,7 @@ class weather_manager
 {
     public:
         weather_manager();
+        void initialize();
         const weather_generator &get_cur_weather_gen() const;
         // Updates the temperature and weather patten
         void update_weather();
@@ -258,10 +259,12 @@ class weather_manager
         int mist_intensity = 0;
         int mist_min_intensity = 1;
         int mist_max_intensity = 10;
-        int mist_scaling = get_option<int>( "MIST_SCALING" );
-
+        int mist_scaling = 1;
+        time_point mist_next_instance = calendar::turn;
         time_duration mist_intensity_increase_time = 10_seconds;
         time_duration mist_spawn_time = 5_seconds;
+        int mist_thick_threshold = 10;
+        int mist_stifling_threshold = 20;
 
         // Cached weather data
         pimpl<w_point> weather_precise;
@@ -277,6 +280,7 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         void clear_temp_cache();
+        void set_next_mist_time();
         //increases mist intensity or begins it at min intensity if not started
         void increase_mist_intensity();
 };

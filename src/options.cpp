@@ -2196,7 +2196,7 @@ void options_manager::add_options_world_default()
 
     add( "MIST_SCALING", "world_default", translate_marker( "Mist scaling." ),
          translate_marker( "Determines how fast the mist increases strength." ),
-         0, 5, 0
+         0, 5, 1
        );
 
     add( "MIST_TIME_BETWEEN", "world_default", translate_marker( "Mist time between apperances." ),

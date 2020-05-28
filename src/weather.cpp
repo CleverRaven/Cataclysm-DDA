@@ -11,6 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "enums.h"
@@ -22,6 +23,7 @@
 #include "map.h"
 #include "math_defines.h"
 #include "messages.h"
+//#include "monster.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -50,6 +52,9 @@ static const mtype_id mon_mist_phantom( "mon_mist_phantom" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
+static const species_id species_MIST( "MIST" );
+static const species_id species_HUMAN( "HUMAN" );
+
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
@@ -57,9 +62,9 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
-static bool is_player_outside()
+static bool is_creature_outside( const Creature &target )
 {
-    return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
+    return g->m.is_outside( point( target.posx(), target.posy() ) ) && g->get_levz() >= 0;
 }
 
 #define THUNDER_CHANCE 50
@@ -73,7 +78,7 @@ static bool is_player_outside()
 void weather_effect::glare( sun_intensity intensity )
 {
     //General prepequisites for glare
-    if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
+    if( !is_creature_outside( g->u ) || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
         g->u.worn_with_flag( flag_SUN_GLASSES ) ||
         g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
@@ -379,7 +384,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  */
 static void wet_player( int amount )
 {
-    if( !is_player_outside() ||
+    if( !is_creature_outside( g->u ) ||
         g->u.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
@@ -463,44 +468,69 @@ void weather_effect::snowstorm()
 
 void weather_effect::mist()
 {
-    if( calendar::once_every( g->weather.mist_spawn_time ) && is_player_outside() ) {
-        for( int monsters_spawned = 0; monsters_spawned < g->weather.mist_intensity / 5;
-             monsters_spawned++ ) {
-            mtype_id monster;
+    Character &target_character = g->u;//todo npcs, also
+    if( calendar::once_every( g->weather.mist_spawn_time ) &&
+        is_creature_outside( target_character ) ) {
+        int monsters_to_spawn = std::max<int>( 1, g->weather.mist_intensity / 5 );
+        for( int monsters_spawned = 0; monsters_spawned < monsters_to_spawn; monsters_spawned++ ) {
+            mtype_id monster_id;
             std::string category;
+            bool is_hallucination = false;
             int mist_type = std::min<int>( 3, g->weather.mist_intensity / 10 );
-            int rand = rng( 1, mist_type );
+            int rand = ( 1, 4 );
             switch( rand ) {
                 case 1:
-                    monster = mon_mist_wraith;
+                    monster_id = mon_mist_wraith;
                     category = "mist_summon_wraith";
                     break;
                 case 2:
-                    monster = mon_mist_spectre;
+                    monster_id = mon_mist_spectre;
                     category = "mist_summon_spectre";
                     break;
                 case 3:
-                    monster = mon_mist_phantom;
+                    monster_id = mon_mist_phantom;
                     category = "mist_summon_phantom";
                     break;
+                case 4: {
+                    Creature *copy = g->get_creature_if( [&target_character]( const Creature & critter ) -> bool {
+                        bool in_mist = is_creature_outside( critter );
+                        bool not_self = target_character.pos() != critter.pos();
+                        bool in_range = std::round( rl_dist_exact( target_character.pos(), critter.pos() ) ) <= 30;
+                        bool valid_species = !critter.in_species( species_MIST );
+                        bool valid_target = target_character.attitude_to( critter ) == Creature::Attitude::A_HOSTILE;
+
+                        return in_mist && not_self && in_range && valid_species && valid_target;
+                    } );
+                    monster *copy_monster = dynamic_cast<monster *>( copy );
+                    if( copy_monster != nullptr ) {
+                        monster_id = copy_monster->type->id;
+                        is_hallucination = true;
+                    } else {
+                        monster_id = mon_mist_wraith;
+                        category = "mist_summon_wraith";
+                    }
+                    break;
+                }
                 default:
                     debugmsg( "HUH?" );
                     break;
             }
 
-            tripoint target;
+            tripoint target_point;
             bool found_location = false;
             int radius = 6 - mist_type;
             for( int attempts = 0; attempts < 15; attempts++ ) {
-                target = g->u.pos() + tripoint( rng( -radius, radius ), rng( -radius, radius ), 0 );
-                if( game::can_place_monster( monster, target ) && g->m.is_outside( target ) &&
-                    rl_dist( target, g->u.pos() ) > 2 ) {
+                target_point = g->u.pos() + tripoint( rng( -radius, radius ), rng( -radius, radius ), 0 );
+                if( game::can_place_monster( monster_id, target_point ) && g->m.is_outside( target_point ) &&
+                    rl_dist( target_point, g->u.pos() ) > 2 ) {
                     found_location = true;
                     break;
                 }
             }
-
-            if( found_location && g->place_critter_at( monster, target ) != nullptr ) {
+            if( found_location && is_hallucination ) {
+                g->u.add_msg_if_player( m_bad, "Hallucinate!" );
+                g->spawn_hallucination( target_point, monster_id );
+            } else if( found_location && g->place_critter_at( monster_id, target_point ) != nullptr ) {
                 g->u.add_msg_if_player( m_bad, "%s",
                                         SNIPPET.random_from_category( category ).value_or( translation() ) );
             }
@@ -558,7 +588,7 @@ void weather_effect::lightning()
  */
 void weather_effect::light_acid()
 {
-    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
+    if( calendar::once_every( 1_minutes ) && is_creature_outside( g->u ) ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
         } else {
@@ -585,7 +615,7 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
+    if( calendar::once_every( 2_turns ) && is_creature_outside( g->u ) ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
             add_msg( _( "Your umbrella protects you from the acid rain." ) );
         } else {
@@ -1027,6 +1057,15 @@ weather_manager::weather_manager()
     weather = WEATHER_CLEAR;
 }
 
+void weather_manager::initialize()
+{
+    nextweather = calendar::turn;
+    set_next_mist_time();
+    mist_scaling = get_option<int>( "MIST_SCALING" );
+    temperature = SPRING_TEMPERATURE;
+    update_weather();
+}
+
 const weather_generator &weather_manager::get_cur_weather_gen() const
 {
     const overmap &om = g->get_cur_om();
@@ -1036,6 +1075,11 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
+    if( calendar::turn > mist_next_instance ) {
+        increase_mist_intensity();
+        set_next_mist_time();
+    }
+
     w_point &w = *weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
@@ -1112,19 +1156,26 @@ void weather_manager::clear_temp_cache()
     temperature_cache.clear();
 }
 
+void weather_manager::set_next_mist_time()
+{
+    int days = get_option<int>( "MIST_TIME_BETWEEN" );
+    mist_next_instance = calendar::turn + time_duration::from_days( rng( .5 * days,
+                         1.5 * days ) ) + time_duration::from_seconds( rng( 0, to_seconds<int>( 24_hours ) ) );
+}
+
 void weather_manager::increase_mist_intensity()
 {
     if( !get_option<bool>( "MIST_ACTIVE" ) ) {
         return;
     }
 
-    if( mist_intensity <= mist_min_intensity ) {
+    if( mist_intensity < mist_min_intensity ) {
         mist_intensity = mist_min_intensity;
         g->u.add_msg_if_player( m_bad, "%s",
                                 SNIPPET.random_from_category( "mist_arrives" ).value_or( translation() ) );
     } else if( mist_intensity < mist_max_intensity ) {
         mist_intensity++;
-        if( is_player_outside() ) {
+        if( is_creature_outside( g->u ) ) {
             g->u.add_msg_if_player( m_bad, "%s",
                                     SNIPPET.random_from_category( "mist_increase_intensity" ).value_or( translation() ) );
         }
@@ -1132,12 +1183,11 @@ void weather_manager::increase_mist_intensity()
         mist_intensity = 0;
         mist_min_intensity += mist_scaling;
         mist_max_intensity += mist_scaling;
-        if( is_player_outside() ) {
+        if( is_creature_outside( g->u ) ) {
             g->u.add_msg_if_player( m_bad, "%s",
                                     SNIPPET.random_from_category( "mist_leaves" ).value_or( translation() ) );
-            g->u.add_msg_if_player( m_good, _( "The mist evaporates like it was never there." ) );
         }
     }
-    set_nextweather( calendar::turn );
+    nextweather = calendar::turn;
 }
 ///@}

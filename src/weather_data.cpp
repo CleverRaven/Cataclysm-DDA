@@ -26,9 +26,9 @@ weather_animation_t get_weather_animation( weather_type const type )
         {WEATHER_FLURRIES,     weather_animation_t {0.01f, c_white,   '.'}},
         {WEATHER_SNOW,         weather_animation_t {0.02f, c_white,   ','}},
         {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}},
-        {WEATHER_LIGHT_MIST,   weather_animation_t {0.4f, c_light_gray,   '#'}},
-        {WEATHER_MEDIUM_MIST,  weather_animation_t {0.6f, c_dark_gray,   '#'}},
-        {WEATHER_HEAVY_MIST,   weather_animation_t {0.8f, c_dark_gray,   '#'}}
+        {WEATHER_MIST,         weather_animation_t {0.4f, c_light_gray,   '#'}},
+        {WEATHER_THICK_MIST,   weather_animation_t {0.6f, c_dark_gray,   '#'}},
+        {WEATHER_STIFLING_MIST, weather_animation_t {0.8f, c_dark_gray,   '#'}}
     };
 
     const auto it = map.find( type );
@@ -114,11 +114,11 @@ static weather_result weather_data_internal( weather_type const type )
                 PRECIP_NONE, false, false, &weather_effect::mist
             },
             weather_datum {
-                translate_marker( "Heavy Mist" ), c_light_gray, c_dark_gray, '*', 8, 8.0f, -30, 0, true,
+                translate_marker( "Thick Mist" ), c_light_gray, c_dark_gray, '*', 8, 8.0f, -30, 0, true,
                 PRECIP_NONE, false, false, &weather_effect::mist
             },
             weather_datum {
-                translate_marker( "Thick and Heavy Mist" ), c_light_gray, c_dark_gray, '*', 12, 12.4f, -50, 0, true,
+                translate_marker( "Stifling Mist" ), c_light_gray, c_dark_gray, '*', 12, 12.4f, -50, 0, true,
                 PRECIP_NONE, false, false, &weather_effect::mist
             }
         }};

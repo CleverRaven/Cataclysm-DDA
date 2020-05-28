@@ -945,9 +945,9 @@ void sfx::do_ambient()
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
                                             1000 );
                 break;
-            case WEATHER_LIGHT_MIST:
-            case WEATHER_MEDIUM_MIST:
-            case WEATHER_HEAVY_MIST:
+            case WEATHER_MIST:
+            case WEATHER_THICK_MIST:
+            case WEATHER_STIFLING_MIST:
                 play_ambient_variant_sound( "environment", "WEATHER_MIST", heard_volume, channel::outdoors_mist,
                                             1000 );
                 break;
