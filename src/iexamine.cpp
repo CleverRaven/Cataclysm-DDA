@@ -620,7 +620,7 @@ class atm_menu
                 dst = cash_cards_on_hand.front();
             }
 
-            for( auto &i : cash_cards_on_hand ) {
+            for( item *i : cash_cards_on_hand ) {
                 if( i == dst || i->ammo_remaining() <= 0 || i->typeId() != itype_cash_card ) {
                     continue;
                 }
