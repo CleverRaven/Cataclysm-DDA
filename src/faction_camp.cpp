@@ -89,8 +89,8 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
-static const zone_type_id zone_type_camp_food( "CAMP_FOOD" );
-static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -649,8 +649,8 @@ void talk_function::basecamp_mission( npc &p )
         }
         tripoint src_loc;
         const auto abspos = p.global_square_location();
-        if( mgr.has_near( zone_type_camp_storage, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
+        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {
@@ -3587,15 +3587,15 @@ bool basecamp::validate_sort_points()
     }
     tripoint src_loc = g->m.getlocal( bb_pos ) + point_north;
     const tripoint abspos = g->m.getabs( g->u.pos() );
-    if( !mgr.has_near( zone_type_camp_storage, abspos, 60 ) ||
-        !mgr.has_near( zone_type_camp_food, abspos, 60 ) ) {
+    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
+        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
             return false;
         }
     } else {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_camp_storage, abspos );
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src : src_sorted ) {
@@ -3889,7 +3889,7 @@ bool basecamp::distribute_food()
         mgr.cache_vzones();
     }
     const tripoint &abspos = get_dumping_spot();
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
+    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
     tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
 
@@ -3988,8 +3988,8 @@ void basecamp::place_results( item result )
             mgr.cache_vzones();
         }
         const auto abspos = g->m.getabs( g->u.pos() );
-        if( mgr.has_near( zone_type_camp_storage, abspos ) ) {
-            const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
+        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
+            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {

@@ -248,7 +248,7 @@ static const trait_id trait_THICKSKIN( "THICKSKIN" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const faction_id your_followers( "your_followers" );
+static const faction_id faction_your_followers( "your_followers" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -1943,7 +1943,7 @@ void game::remove_npc_follower( const character_id &id )
 static void update_faction_api( npc *guy )
 {
     if( guy->get_faction_ver() < 2 ) {
-        guy->set_fac( your_followers );
+        guy->set_fac( faction_your_followers );
         guy->set_faction_ver( 2 );
     }
 }

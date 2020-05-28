@@ -93,7 +93,7 @@ static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_iron( "iron" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 

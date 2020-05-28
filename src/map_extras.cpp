@@ -112,14 +112,14 @@ static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
 static const itype_id itype_wrench( "wrench" );
 
-static const ter_str_id ter_dirt( "t_dirt" );
-static const ter_str_id ter_grass_dead( "t_grass_dead" );
-static const ter_str_id ter_stump( "t_stump" );
-static const ter_str_id ter_tree_dead( "t_tree_dead" );
-static const ter_str_id ter_tree_deadpine( "t_tree_deadpine" );
-static const ter_str_id ter_tree_birch_harvested( "t_tree_birch_harvested" );
-static const ter_str_id ter_tree_hickory_dead( "t_tree_hickory_dead" );
-static const ter_str_id ter_trunk( "t_trunk" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
@@ -217,17 +217,17 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     // terrain specific conversions
     const ter_id tid = m.ter( loc );
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_grass_dead},
-            {t_grass_long, ter_grass_dead},
-            {t_grass_tall, ter_grass_dead},
-            {t_moss, ter_grass_dead},
-            {t_tree_pine, ter_tree_deadpine},
-            {t_tree_birch, ter_tree_birch_harvested},
-            {t_tree_willow, ter_tree_dead},
-            {t_tree_hickory, ter_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_tree_hickory_dead},
-            {t_grass_golf, ter_grass_dead},
-            {t_grass_white, ter_grass_dead},
+            {t_grass, ter_t_grass_dead},
+            {t_grass_long, ter_t_grass_dead},
+            {t_grass_tall, ter_t_grass_dead},
+            {t_moss, ter_t_grass_dead},
+            {t_tree_pine, ter_t_tree_deadpine},
+            {t_tree_birch, ter_t_tree_birch_harvested},
+            {t_tree_willow, ter_t_tree_dead},
+            {t_tree_hickory, ter_t_tree_hickory_dead},
+            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
+            {t_grass_golf, ter_t_grass_dead},
+            {t_grass_white, ter_t_grass_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -243,14 +243,14 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
         }
     } else if( tr.has_flag( flag_TREE ) ) {
         if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_trunk );
+            m.ter_set( loc, ter_t_trunk );
         } else if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_stump );
+            m.ter_set( loc, ter_t_stump );
         } else {
-            m.ter_set( loc, ter_tree_dead );
+            m.ter_set( loc, ter_t_tree_dead );
         }
     } else if( tr.has_flag( flag_YOUNG ) ) {
-        m.ter_set( loc, ter_dirt );
+        m.ter_set( loc, ter_t_dirt );
         if( one_in( 2 ) ) {
             m.spawn_item( loc, itype_stick_long );
         }
@@ -2095,13 +2095,13 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // this method is deliberate to allow adding new post-terrains
     // (TODO: expand this list when new destroyed terrain is added)
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_grass_dead},
-            {t_grass_long, ter_grass_dead},
-            {t_grass_tall, ter_grass_dead},
-            {t_moss, ter_grass_dead},
-            {t_fungus, ter_dirt},
-            {t_grass_golf, ter_grass_dead},
-            {t_grass_white, ter_grass_dead},
+            {t_grass, ter_t_grass_dead},
+            {t_grass_long, ter_t_grass_dead},
+            {t_grass_tall, ter_t_grass_dead},
+            {t_moss, ter_t_grass_dead},
+            {t_fungus, ter_t_dirt},
+            {t_grass_golf, ter_t_grass_dead},
+            {t_grass_white, ter_t_grass_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -2131,13 +2131,13 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // destruction of trees is not absolute
     if( tr.has_flag( flag_TREE ) ) {
         if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_trunk );
+            m.ter_set( loc, ter_t_trunk );
         } else if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_stump );
+            m.ter_set( loc, ter_t_stump );
         } else if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_tree_dead );
+            m.ter_set( loc, ter_t_tree_dead );
         } else {
-            m.ter_set( loc, ter_dirt );
+            m.ter_set( loc, ter_t_dirt );
             m.furn_set( loc, f_ash );
             m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
         }

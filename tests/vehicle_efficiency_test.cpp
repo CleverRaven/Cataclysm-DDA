@@ -32,7 +32,7 @@
 
 using efficiency_stat = statistics<int>;
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
 static void clear_game( const ter_id &terrain )
 {

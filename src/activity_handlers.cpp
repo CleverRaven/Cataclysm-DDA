@@ -205,7 +205,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
@@ -3396,7 +3396,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                              flag_AUTODOC );
 
         if( !g->m.has_flag_furn( flag_AUTODOC_COUCH, p->pos() ) || autodocs.empty() ) {
-            p->remove_effect( effect_under_op );
+            p->remove_effect( effect_under_operation );
             act->set_to_null();
 
             if( u_see ) {
@@ -3455,7 +3455,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                       units::from_millijoule( act->values[2] ), act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
-                p->remove_effect( effect_under_op );
+                p->remove_effect( effect_under_operation );
                 act->set_to_null();
             }
         } else {
@@ -3469,7 +3469,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                     act->str_values[installer_name], bid->canceled_mutations, p->pos() );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
-                p->remove_effect( effect_under_op );
+                p->remove_effect( effect_under_operation );
                 act->set_to_null();
             }
         }
@@ -3543,7 +3543,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                      _( "The operation is a failure." ) );
         }
     }
-    p->remove_effect( effect_under_op );
+    p->remove_effect( effect_under_operation );
     act->set_to_null();
 }
 

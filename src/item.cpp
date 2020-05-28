@@ -263,7 +263,7 @@ static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
-static const matec_id rapid_strike( "RAPID" );
+static const matec_id RAPID( "RAPID" );
 
 class npc_class;
 
@@ -1401,7 +1401,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
         subtotal_damage = damage_per_hit * num_strikes;
         double subtotal_moves = moves_per_attack * num_strikes;
 
-        if( has_technique( rapid_strike ) ) {
+        if( has_technique( RAPID ) ) {
             monster temp_rs_mon = mon;
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this );

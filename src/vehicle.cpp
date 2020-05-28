@@ -78,10 +78,10 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const fault_id fault_belt( "fault_engine_belt_drive" );
-static const fault_id fault_filter_air( "fault_engine_filter_air" );
-static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_engine_belt_drive( "fault_engine_belt_drive" );
+static const fault_id fault_engine_filter_air( "fault_engine_filter_air" );
+static const fault_id fault_engine_filter_fuel( "fault_engine_filter_fuel" );
+static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
@@ -637,7 +637,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
             if( one_in( 2 ) ) {
                 // if vehicle has immobilizer 50% chance to add additional fault
-                pt.fault_set( fault_immobiliser );
+                pt.fault_set( fault_engine_immobiliser );
             }
         }
     }
@@ -1168,7 +1168,7 @@ bool vehicle::is_alternator_on( const int a ) const
         auto &eng = parts [ idx ];
         //fuel_left checks that the engine can produce power to be absorbed
         return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
-               eng.mount == alt.mount && !eng.faults().count( fault_belt );
+               eng.mount == alt.mount && !eng.faults().count( fault_engine_belt_drive );
     } );
 }
 
@@ -3369,7 +3369,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 
             } else if( !is_perpetual_type( e ) ) {
                 fcon += part_vpower_w( engines[e] );
-                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                if( parts[ e ].faults().count( fault_engine_filter_air ) ) {
                     fcon *= 2;
                 }
             }
@@ -3419,7 +3419,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
         int p = engines[e];
         if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
-            if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
+            if( parts[ engines[e] ].faults().count( fault_engine_filter_fuel ) ) {
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
@@ -3761,7 +3761,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
                 combustion = true;
                 double health = parts[p].health_percent();
-                if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
+                if( parts[ p ].base.faults.count( fault_engine_filter_fuel ) ) {
                     health = 0.0;
                 }
                 if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
@@ -3769,7 +3769,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
                 double j = cur_stress * to_turns<int>( time ) * muffle * 1000;
 
-                if( parts[ p ].base.faults.count( fault_filter_air ) ) {
+                if( parts[ p ].base.faults.count( fault_engine_filter_air ) ) {
                     bad_filter = true;
                     j *= j;
                 }
@@ -4452,7 +4452,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
         if( !is_perpetual_type( i ) ) {
             int usage = info.energy_consumption;
-            if( parts[ e ].faults().count( fault_filter_air ) ) {
+            if( parts[ e ].faults().count( fault_engine_filter_air ) ) {
                 usage *= 2;
             }
 

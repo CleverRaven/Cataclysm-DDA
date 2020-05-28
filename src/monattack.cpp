@@ -119,7 +119,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id itype_ant_egg( "ant_egg" );
 static const itype_id itype_badge_cybercop( "badge_cybercop" );
@@ -147,7 +147,7 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_BLOB( "BLOB" );
+static const species_id BLOB( "BLOB" );
 static const species_id LEECH_PLANT( "LEECH_PLANT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -179,7 +179,7 @@ static const mtype_id mon_breather( "mon_breather" );
 static const mtype_id mon_breather_hub( "mon_breather_hub" );
 static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-static const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
+static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
@@ -2360,7 +2360,7 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( species_BLOB ) ) {
+        if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
@@ -2418,7 +2418,7 @@ bool mattack::callblobs( monster *z )
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
+        if( candidate.type->in_species( BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( &candidate );
@@ -2766,7 +2766,7 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
-    if( target->has_effect( effect_under_op ) ) {
+    if( target->has_effect( effect_under_operation ) ) {
         target->add_msg_player_or_npc( m_good,
                                        _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
                                        _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
@@ -3087,7 +3087,7 @@ bool mattack::nurse_operate( monster *z )
             for( auto critter : g->m.get_creatures_in_radius( target->pos(), 1 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon != z ) {
-                    if( mon->type->id != mon_defective_robot_nurse ) {
+                    if( mon->type->id != mon_nursebot_defective ) {
                         sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                                        string_format(
                                            _( "a soft robotic voice say, \"Unhand this patient immediately!  If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );

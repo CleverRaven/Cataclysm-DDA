@@ -63,7 +63,7 @@ static const efftype_id effect_rat( "rat" );
 static const itype_id itype_processor( "processor" );
 static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
-static const species_id species_BLOB( "BLOB" );
+static const species_id BLOB( "BLOB" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_blob( "mon_blob" );
@@ -503,7 +503,7 @@ void mdeath::blobsplit( monster &z )
 void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
+        if( critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
             critter.remove_effect( effect_controlled );
         }
     }
