@@ -5,7 +5,7 @@
     "name": "dinosaur egg",
     "weight": 75,
     "color": "green",
-    "spoils_in": "14 days",
+    "spoils_in": "4 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
