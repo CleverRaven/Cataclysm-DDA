@@ -17,57 +17,43 @@
     "name": "GROUP_EGG_CHICKEN",
     "type": "monstergroup",
     "default": "mon_chicken_chick",
-    "monsters": [
-      { "monster": "mon_chicken_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_chicken_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_GROUSE",
     "type": "monstergroup",
     "default": "mon_grouse_chick",
-    "monsters": [
-      { "monster": "mon_grouse_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_grouse_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_CROW",
     "type": "monstergroup",
     "default": "mon_crow_chick",
-    "monsters": [
-      { "monster": "mon_crow_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_crow_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_DUCK",
     "type": "monstergroup",
     "default": "mon_duck_chick",
-    "monsters": [
-      { "monster": "mon_duck_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_duck_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_GOOSE_CANADIAN",
     "type": "monstergroup",
     "default": "mon_goose_canadian_chick",
-    "monsters": [
-      { "monster": "mon_goose_canadian_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_goose_canadian_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TURKEY",
     "type": "monstergroup",
     "default": "mon_turkey_chick",
-    "monsters": [
-      { "monster": "mon_turkey_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_turkey_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_PHEASANT",
     "type": "monstergroup",
     "default": "mon_pheasant_chick",
-    "monsters": [
-      { "monster": "mon_pheasant_chick", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_pheasant_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_COCKATRICE",
@@ -79,9 +65,7 @@
     "name": "GROUP_EGG_SNAKE",
     "type": "monstergroup",
     "default": "mon_rattlesnake",
-    "monsters": [
-      { "monster": "mon_rattlesnake", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_rattlesnake", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_ROACH",
