@@ -64,7 +64,7 @@ static const itype_id itype_processor( "processor" );
 static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 static const species_id species_BLOB( "BLOB" );
-static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -90,7 +90,7 @@ void mdeath::normal( monster &z )
         return;
     }
 
-    if( z.type->in_species( ZOMBIE ) ) {
+    if( z.type->in_species( species_ZOMBIE ) ) {
         sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
     }
 
@@ -457,7 +457,7 @@ void mdeath::guilt( monster &z )
     int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    if( z.type->in_species( ZOMBIE ) ) {
+    if( z.type->in_species( species_ZOMBIE ) ) {
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;

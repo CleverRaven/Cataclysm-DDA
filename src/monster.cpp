@@ -89,14 +89,14 @@ static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
-static const species_id FISH( "FISH" );
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id INSECT( "INSECT" );
-static const species_id MAMMAL( "MAMMAL" );
-static const species_id MOLLUSK( "MOLLUSK" );
-static const species_id ROBOT( "ROBOT" );
-static const species_id SPIDER( "SPIDER" );
-static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id species_FISH( "FISH" );
+static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_INSECT( "INSECT" );
+static const species_id species_MAMMAL( "MAMMAL" );
+static const species_id species_MOLLUSK( "MOLLUSK" );
+static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_SPIDER( "SPIDER" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
 static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
@@ -552,7 +552,7 @@ std::string monster::name( unsigned int quantity ) const
 std::string monster::name_with_armor() const
 {
     std::string ret;
-    if( type->in_species( INSECT ) ) {
+    if( type->in_species( species_INSECT ) ) {
         ret = _( "carapace" );
     } else if( made_of( material_id( "veggy" ) ) ) {
         ret = _( "thick bark" );
@@ -1048,7 +1048,7 @@ monster_attitude monster::attitude( const Character *u ) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         const npc *np = dynamic_cast< const npc * >( u );
-        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
+        if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( species_ZOMBIE ) ) {
             return MATT_FRIEND;
         }
         if( np != nullptr && np->is_hallucination() ) {
@@ -1073,14 +1073,14 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
-                                            u->has_trait( trait_MYCUS_FRIEND ) ) ) {
+        if( type->in_species( species_FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
+                u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
-              ( type->in_species( INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
+            ( ( type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
+              ( type->in_species( species_INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
             effective_anger -= 20;
         }
 
@@ -1654,8 +1654,8 @@ bool monster::move_effects( bool )
         }
         // non-friendly monster will struggle to get free occasionally.
         // some monsters can't be tangled up with a net/bolas/lasso etc.
-        bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
-                               type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
+        bool immediate_break = type->in_species( species_FISH ) || type->in_species( species_MOLLUSK ) ||
+                               type->in_species( species_ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
             if( u_see_me ) {
                 add_msg( _( "The %s struggles to break free of its bonds." ), name() );
@@ -2507,7 +2507,7 @@ bool monster::make_fungus()
     }
     char polypick = 0;
     const mtype_id &tid = type->id;
-    if( type->in_species( FUNGUS ) ) { // No friendly-fungalizing ;-)
+    if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
     if( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "hflesh" ) ) &&
@@ -2546,7 +2546,7 @@ bool monster::make_fungus()
         polypick = 7;
     } else if( tid == mon_zombie_gasbag ) {
         polypick = 8;
-    } else if( type->in_species( SPIDER ) && get_size() > MS_TINY ) {
+    } else if( type->in_species( species_SPIDER ) && get_size() > MS_TINY ) {
         polypick = 9;
     }
 

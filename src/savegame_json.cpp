@@ -121,12 +121,12 @@ static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
-static const ter_str_id t_ash( "t_ash" );
-static const ter_str_id t_rubble( "t_rubble" );
-static const ter_str_id t_pwr_sb_support_l( "t_pwr_sb_support_l" );
-static const ter_str_id t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
-static const ter_str_id t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
-static const ter_str_id t_wreckage( "t_wreckage" );
+static const ter_str_id ter_t_ash( "t_ash" );
+static const ter_str_id ter_t_rubble( "t_rubble" );
+static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
+static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
+static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
+static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const trap_str_id tr_brazier( "tr_brazier" );
 
@@ -3779,24 +3779,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 for( int i = 0; i < SEEX; i++ ) {
                     const ter_str_id tid( jsin.get_string() );
 
-                    if( tid == t_rubble ) {
+                    if( tid == ter_t_rubble ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_rubble" );
                         itm[i][j].insert( rock );
                         itm[i][j].insert( rock );
-                    } else if( tid == t_wreckage ) {
+                    } else if( tid == ter_t_wreckage ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_wreckage" );
                         itm[i][j].insert( chunk );
                         itm[i][j].insert( chunk );
-                    } else if( tid == t_ash ) {
+                    } else if( tid == ter_t_ash ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_ash" );
-                    } else if( tid == t_pwr_sb_support_l ) {
+                    } else if( tid == ter_t_pwr_sb_support_l ) {
                         ter[i][j] = ter_id( "t_support_l" );
-                    } else if( tid == t_pwr_sb_switchgear_l ) {
+                    } else if( tid == ter_t_pwr_sb_switchgear_l ) {
                         ter[i][j] = ter_id( "t_switchgear_l" );
-                    } else if( tid == t_pwr_sb_switchgear_s ) {
+                    } else if( tid == ter_t_pwr_sb_switchgear_s ) {
                         ter[i][j] = ter_id( "t_switchgear_s" );
                     } else {
                         ter[i][j] = tid.id();

@@ -113,7 +113,7 @@ static const trait_id trait_VINES3( "VINES3" );
 
 static const efftype_id effect_amigara( "amigara" );
 
-static const species_id HUMAN( "HUMAN" );
+static const species_id species_HUMAN( "HUMAN" );
 
 void player_hit_message( Character *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
@@ -1188,7 +1188,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         }
 
         // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !t.in_species( HUMAN ) ) {
+        if( tec.human_target && !t.in_species( species_HUMAN ) ) {
             continue;
         }
         // if aoe, check if there are valid targets

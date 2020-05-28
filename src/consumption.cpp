@@ -74,7 +74,7 @@ static const efftype_id effect_visuals( "visuals" );
 
 static const item_category_id item_category_chems( "chems" );
 
-static const itype_id itype_apparatus( "dab_pen_on" );
+static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_dab_pen_on( "dab_pen_on" );
 static const itype_id itype_syringe( "syringe" );
 

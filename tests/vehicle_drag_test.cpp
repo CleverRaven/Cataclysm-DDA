@@ -19,7 +19,7 @@
 
 using efficiency_stat = statistics<long>;
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
 static void clear_game_drag( const ter_id &terrain )
 {
