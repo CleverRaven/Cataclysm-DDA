@@ -603,7 +603,7 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
-            auto cash_cards_on_hand = u.items_with( []( const item &i ) {
+            auto cash_cards_on_hand = u.items_with( []( const item & i ) {
                 return i.typeId() == itype_cash_card;
             } );
             if( u.activity.id() == ACT_ATM ) {
