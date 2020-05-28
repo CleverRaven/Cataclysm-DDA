@@ -48,25 +48,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
-    "id": "combination_gun_shotgun_pipe",
-    "type": "GUNMOD",
-    "name": { "str": "pipe combination gun shotgun" },
-    "description": "The integrated underbarrel shotgun of a pipe combination gun which holds two shots.  It's irremovable.",
-    "weight": "1134 g",
-    "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "underbarrel",
-    "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
-  },
-  {
     "id": "factory_handguard",
     "type": "GUNMOD",
     "name": "factory handguard",
