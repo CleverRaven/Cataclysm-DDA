@@ -1,6 +1,58 @@
 [
   {
     "type": "technique",
+    "id": "mma_tec_desert_wind_strike",
+    "name": "Burning Blade",
+    "messages": [ "You unleash a fiery attack against %s", "<npcname> unleash a fiery attack against %s" ],
+    "melee_allowed": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 3.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_desert_wind_crit",
+    "name": "Inferno Blade",
+    "messages": [ "You strike %s with powerful inferno", "<npcname> strikes %s with powerful inferno" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_desert_wind_impale",
+    "name": "Firesnake",
+    "messages": [ "You strike through %s with a snaking flame", "<npcname> strikes through %s with a snaking flame" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "aoe": "impale",
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_desert_wind_spin",
+    "name": "Ring of Fire",
+    "messages": [
+      "You become a flaming blur as you strike %s and those around you",
+      "<npcname> becomes a flaming blur as they strike %s and those around them"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "aoe": "spin",
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 10.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_desert_wind_wide",
+    "name": "Flashing Sun",
+    "messages": [ "You carve an arc through %s and those nearby", "<npcname> carve an arc through %s and those nearby" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
     "id": "mma_tec_panzer_counter",
     "name": "Ausstoß",
     "//": "Outer Thrust.",
