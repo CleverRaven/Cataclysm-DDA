@@ -223,7 +223,7 @@ class overmap
         tripoint find_random_omt( const std::string &omt_base_type,
                                   ot_match_type match_type = ot_match_type::type ) const {
             return find_random_omt( std::make_pair( omt_base_type, match_type ) );
-        };
+        }
         /**
          * Return a vector containing the absolute coordinates of
          * every matching terrain on the current z level of the current overmap.

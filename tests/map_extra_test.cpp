@@ -9,7 +9,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
-    const tripoint origin = tripoint( 90, 90, 0 );;
+    const tripoint origin = tripoint( 90, 90, 0 );
 
     // Find all of the bridges within a 180 OMT radius of this location.
     omt_find_params find_params;

@@ -67,7 +67,7 @@ class activity_actor
          * Called just before Character::cancel_activity() executes.
          * This may be used to perform cleanup
          */
-        virtual void canceled( player_activity &/*act*/, Character &/*who*/ ) {};
+        virtual void canceled( player_activity &/*act*/, Character &/*who*/ ) {}
 
         /**
          * Called in player_activity::can_resume_with
@@ -297,7 +297,7 @@ class hacking_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -326,9 +326,9 @@ class move_items_activity_actor : public activity_actor
             return activity_id( "ACT_MOVE_ITEMS" );
         }
 
-        void start( player_activity &, Character & ) override {};
+        void start( player_activity &, Character & ) override {}
         void do_turn( player_activity &act, Character &who ) override;
-        void finish( player_activity &, Character & ) override {};
+        void finish( player_activity &, Character & ) override {}
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<move_items_activity_actor>( *this );
@@ -363,9 +363,9 @@ class pickup_activity_actor : public activity_actor
             return activity_id( "ACT_PICKUP" );
         }
 
-        void start( player_activity &, Character & ) override {};
+        void start( player_activity &, Character & ) override {}
         void do_turn( player_activity &act, Character &who ) override;
-        void finish( player_activity &, Character & ) override {};
+        void finish( player_activity &, Character & ) override {}
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<pickup_activity_actor>( *this );
@@ -384,9 +384,9 @@ class migration_cancel_activity_actor : public activity_actor
             return activity_id( "ACT_MIGRATION_CANCEL" );
         }
 
-        void start( player_activity &, Character & ) override {};
+        void start( player_activity &, Character & ) override {}
         void do_turn( player_activity &act, Character &who ) override;
-        void finish( player_activity &, Character & ) override {};
+        void finish( player_activity &, Character & ) override {}
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<migration_cancel_activity_actor>( *this );
@@ -419,7 +419,7 @@ class open_gate_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -458,7 +458,7 @@ class consume_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &guy ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -480,7 +480,7 @@ class try_sleep_activity_actor : public activity_actor
          * @param dur Total duration, from when the character starts
          * trying to fall asleep to when they're supposed to wake up
          */
-        try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {};
+        try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_TRY_SLEEP" );

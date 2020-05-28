@@ -320,12 +320,12 @@ class cata_variant
     friend bool operator op( const cata_variant &l, const cata_variant &r ) { \
         return l.as_pair() op r.as_pair(); \
     }
-        CATA_VARIANT_OPERATOR( == );
-        CATA_VARIANT_OPERATOR( != );
-        CATA_VARIANT_OPERATOR( < ); // NOLINT( cata-use-localized-sorting )
-        CATA_VARIANT_OPERATOR( <= ); // NOLINT( cata-use-localized-sorting )
-        CATA_VARIANT_OPERATOR( > ); // NOLINT( cata-use-localized-sorting )
-        CATA_VARIANT_OPERATOR( >= ); // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( == )
+        CATA_VARIANT_OPERATOR( != )
+        CATA_VARIANT_OPERATOR( < ) // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( <= ) // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( > ) // NOLINT( cata-use-localized-sorting )
+        CATA_VARIANT_OPERATOR( >= ) // NOLINT( cata-use-localized-sorting )
 #undef CATA_VARIANT_OPERATOR
     private:
         explicit cata_variant( cata_variant_type t, std::string &&v )

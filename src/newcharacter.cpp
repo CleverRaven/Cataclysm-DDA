@@ -1025,7 +1025,6 @@ tab_direction set_traits( avatar &u, points_left &points )
             continue;
         }
 
-
         const std::set<trait_id> scentraits = g->scen->get_locked_traits();
         const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
                                              traits_iter.id ) != scentraits.end();

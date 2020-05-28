@@ -123,8 +123,8 @@ struct int_like {
     friend bool operator op( int_like l, int_like r ) { \
         return l.i op r.i; \
     }
-    INT_LIKE_OPERATOR( == );
-    INT_LIKE_OPERATOR( < );
+    INT_LIKE_OPERATOR( == )
+    INT_LIKE_OPERATOR( < )
 };
 
 TEST_CASE( "flat_set_transparent_lookup", "[flat_set]" )
