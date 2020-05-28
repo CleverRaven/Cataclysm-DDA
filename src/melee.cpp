@@ -105,11 +105,9 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
@@ -359,6 +357,7 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
     roll_bash_damage( crit, di, average, weap );
     roll_cut_damage( crit, di, average, weap );
     roll_stab_damage( crit, di, average, weap );
+    roll_other_damage( crit, di, average, weap );
 }
 
 static void melee_train( Character &p, int lo, int hi, const item &weap )
@@ -1088,6 +1087,30 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     }
 
     di.add_damage( DT_STAB, cut_dam, 0, armor_mult, stab_mul );
+}
+
+void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
+                                   const item &weap ) const
+{
+    std::map<std::string, damage_type> dt_map = get_dt_map();
+
+    for( const std::pair<const std::string, damage_type> &dt : dt_map ) {
+        damage_type type_name = dt.second;
+
+        if( type_name == DT_BASH || type_name == DT_CUT || type_name == DT_STAB ) {
+            continue;
+        }
+
+        float other_dam = mabuff_damage_bonus( type_name ) + weap.damage_melee( type_name );
+
+        // No negative damage!
+        if( other_dam > 0 ) {
+            float other_mul = 1.0f * mabuff_damage_mult( type_name );
+            float armor_mult = 1.0f;
+
+            di.add_damage( type_name, other_dam, 0, armor_mult, other_mul );
+        }
+    }
 }
 
 matec_id Character::pick_technique( Creature &t, const item &weap,

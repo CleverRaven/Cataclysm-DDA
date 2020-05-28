@@ -113,8 +113,6 @@
 struct mutation_branch;
 struct oter_type_t;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_riding( "riding" );
 
 static const itype_id itype_battery( "battery" );
@@ -1966,20 +1964,7 @@ void monster::load( const JsonObject &data )
     data.read( "inv", inv );
     data.read( "dragged_foe_id", dragged_foe_id );
 
-    if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
-        // Legacy loading for ammo.
-        normalize_ammo( data.get_int( "ammo" ) );
-    } else {
-        data.read( "ammo", ammo );
-        // legacy loading for milkable creatures, fix mismatch.
-        if( has_flag( MF_MILKABLE ) && !type->starting_ammo.empty() && !ammo.empty() &&
-            type->starting_ammo.begin()->first != ammo.begin()->first ) {
-            const itype_id old_type = ammo.begin()->first;
-            const int old_value = ammo.begin()->second;
-            ammo[type->starting_ammo.begin()->first] = old_value;
-            ammo.erase( old_type );
-        }
-    }
+    data.read( "ammo", ammo );
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
     if( !data.read( "last_updated", last_updated ) ) {
@@ -2310,8 +2295,8 @@ void item::io( Archive &archive )
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
-        current_phase = SOLID;
+    if( item_tags.count( "FROZEN" ) && current_phase == phase_id::LIQUID ) {
+        current_phase = phase_id::SOLID;
     }
 
     // Activate corpses from old saves
@@ -2334,7 +2319,7 @@ void item::migrate_content_item( const item &contained )
 {
     if( contained.is_gunmod() || contained.is_toolmod() ) {
         put_in( contained, item_pocket::pocket_type::MOD );
-    } else if( !contained.made_of( LIQUID )
+    } else if( !contained.made_of( phase_id::LIQUID )
                && ( contained.is_magazine() || contained.is_ammo() ) ) {
         put_in( contained, item_pocket::pocket_type::MAGAZINE );
     } else if( typeId() == itype_usb_drive ) {

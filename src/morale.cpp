@@ -490,13 +490,13 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     class morale_line
     {
         public:
-            enum class number_format {
+            enum class number_format : int {
                 normal,
                 signed_or_dash,
                 percent,
             };
 
-            enum class line_color {
+            enum class line_color : int {
                 normal,
                 green_gray_red,
                 red_gray_green,

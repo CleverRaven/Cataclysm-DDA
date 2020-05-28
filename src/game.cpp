@@ -192,15 +192,12 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -214,7 +211,6 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
@@ -280,11 +276,18 @@ static void achievement_attained( const achievement *a, bool achievements_enable
     }
 }
 
+static void achievement_failed( const achievement *a, bool achievements_enabled )
+{
+    if( achievements_enabled && a->is_conduct() ) {
+        g->u.add_msg_if_player( m_bad, _( "You lost the conduct \"%s\"." ), a->name() );
+    }
+}
+
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained, achievement_failed ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
@@ -904,8 +907,6 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     }
     for( const std::string &search_type : search_types ) {
         omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types.emplace_back( search_type, ot_match_type::type );
         // find nearest road
         find_params.min_distance = min_distance;
@@ -2053,7 +2054,7 @@ void game::handle_key_blocking_activity()
 
 // call on_contents_changed() for the location's parent and all the way up the chain
 // used in game::inventory_item_menu()
-static void handle_contents_changed( item_location acted_item )
+static void handle_contents_changed( const item_location &acted_item )
 {
     if( acted_item.where() != item_location::type::container ) {
         return;
@@ -3117,7 +3118,7 @@ bool game::save()
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
             return true;
         }
-    } catch( std::ios::failure &err ) {
+    } catch( std::ios::failure & ) {
         popup( _( "Failed to save game data" ) );
         return false;
     }
@@ -5324,7 +5325,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     if( bash_dmg == 0 ) {
         for( auto &elem : m.i_at( point( x, y ) ) ) {
-            if( elem.made_of( LIQUID ) ) {
+            if( elem.made_of( phase_id::LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
             } else if( elem.volume() < 250_ml ) {
@@ -5340,7 +5341,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     if( m.has_flag( "NOITEM", point( x, y ) ) ) {
         map_stack items = m.i_at( point( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-            if( it->made_of( LIQUID ) ) {
+            if( it->made_of( phase_id::LIQUID ) ) {
                 it = items.erase( it );
                 continue;
             }
@@ -6026,70 +6027,77 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             break;
     }
 
-    mvwprintw( w_look, point( line, column ), visibility_message );
+    mvwprintz( w_look, point( line, column ), c_light_gray, visibility_message );
     line += 2;
 }
 
 void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
-                               const std::string &area_name, int column,
-                               int &line )
+                               const std::string &area_name, int column, int &line )
 {
     const int max_width = getmaxx( w_look ) - column - 1;
-    int lines;
+
+    // Print OMT type and terrain type on first line.
     std::string tile = m.tername( lp );
-    tile = "(" + area_name + ") " + tile;
+    trim_and_print( w_look, point( column, line ), max_width, c_white, area_name );
+    trim_and_print( w_look, point( column + utf8_width( area_name ) + 1, line ), max_width,
+                    c_light_gray, tile );
+
+    // Furniture on second line if any.
     if( m.has_furn( lp ) ) {
-        tile += "; " + m.furnname( lp );
+        mvwprintz( w_look, point( column, ++line ), c_light_blue, m.furnname( lp ) );
     }
 
+    // Cover percentage from terrain and furniture next.
+    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
+                    m.coverage( lp ) );
+    // Terrain and furniture flags next. These can be several lines for some combinations of
+    // furnitures and terrains.
+    std::vector<std::string> lines = foldstring( m.features( lp ), max_width );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines; i++ ) {
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
+    }
+
+    // Move cost from terrain and furntiure and vehicle parts.
+    // Vehicle part information is printed in a different function.
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
-                                _( "%s; Impassable" ),
-                                tile );
+        mvwprintz( w_look, point( column, ++line ), c_light_red, _( "Impassable" ) );
     } else {
-        lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
-                                _( "%s; Movement cost %d" ),
-                                tile, m.move_cost( lp ) * 50 );
-
-        const auto ll = get_light_level( std::max( 1.0,
-                                         LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintw( w_look, point( column, ++lines ), _( "Lighting: " ) );
-        wprintz( w_look, ll.second, ll.first );
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Move cost: %d" ),
+                   m.move_cost( lp ) * 50 );
     }
 
+    // Next print the string on any SIGN flagged furniture if any.
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
-        trim_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-                        u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage );
+        std::string sign_string = u.has_trait( trait_ILLITERATE ) ? "???" : signage;
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Sign: %s" ), sign_string );
     }
 
+    // Print light level on the selected tile.
+    std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
+                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+    mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Lighting: " ) );
+    mvwprintz( w_look, point( column + utf8_width( _( "Lighting: " ) ), line ), ll.second, ll.first );
+
+    // Print the terrain and any furntiure on the tile below and whether it is walkable.
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
-        // Print info about stuff below
         tripoint below( lp.xy(), lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
-            tile_below += "; " + m.furnname( below );
+            tile_below += ", " + m.furnname( below );
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                            _( "Below: %s; No support" ),
-                            tile_below );
+            fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray,
+                            _( "Below: %s; No support" ), tile_below );
         } else {
-            fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                            _( "Below: %s; Walkable" ),
+            fold_and_print( w_look, point( column, ++line ), max_width, c_dark_gray, _( "Below: %s; Walkable" ),
                             tile_below );
         }
     }
 
-    int map_features = fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                                       m.features( lp ) );
-    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Coverage: %d%%" ),
-                    m.coverage( lp ) );
-    if( line < lines ) {
-        line = lines + map_features - 1;
-    }
+    ++line;
 }
 
 void game::print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -6107,6 +6115,11 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
         } else {
             mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
         }
+    }
+
+    int size = std::distance( tmpfield.begin(), tmpfield.end() );
+    if( size > 0 ) {
+        mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
     }
 }
 
@@ -6127,6 +6140,8 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 
         mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
     }
+
+    ++line;
 }
 
 void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
@@ -6142,7 +6157,11 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if( veh ) {
-        mvwprintw( w_look, point( column, ++line ), _( "There is a %s there.  Parts:" ), veh->name );
+        // Print the name of the vehicle.
+        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Vehicle: " ) );
+        mvwprintz( w_look, point( column + utf8_width( _( "Vehicle: " ) ), line ), c_white, "%s",
+                   veh->name );
+        // Then the list of parts on that tile.
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
@@ -6190,9 +6209,10 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                    _( "There's something there, but you can't see what it is." ) );
         return;
     } else {
-        std::map<std::string, int> item_names;
+        std::map<std::string, std::pair<int, nc_color>> item_names;
         for( auto &item : m.i_at( lp ) ) {
-            ++item_names[item.tname()];
+            ++item_names[item.tname()].first;
+            item_names[item.tname()].second = item.color_in_inventory();
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
@@ -6203,12 +6223,12 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                 break;
             }
 
-            if( it->second > 1 ) {
-                trim_and_print( w_look, point( column, ++line ), max_width, c_white,
+            if( it->second.first > 1 ) {
+                trim_and_print( w_look, point( column, ++line ), max_width, it->second.second,
                                 pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
-                                it->first.c_str(), it->second );
+                                it->first.c_str(), it->second.first );
             } else {
-                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it->first );
+                trim_and_print( w_look, point( column, ++line ), max_width, it->second.second, it->first );
             }
         }
     }
@@ -7979,6 +7999,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
                     mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    const int bar_max_width = 5;
+                    const int bar_width = utf8_width( sText );
+                    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
+                        mvwprintz( w_monsters, point( width - 21 - i, y ), c_white, "." );
+                    }
 
                     if( m != nullptr ) {
                         const auto att = m->get_attitude();
@@ -8040,7 +8065,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     cata::optional<tripoint> trail_start;
     cata::optional<tripoint> trail_end;
-    bool trail_end_x;
+    bool trail_end_x = false;
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
@@ -8236,7 +8261,7 @@ static void add_disassemblables( uilist &menu,
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
 {
-    auto cut_time = [&]( enum butcher_type bt ) {
+    auto cut_time = [&]( butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
             time_to_cut = butcher_time_to_cut( g->u, *corpses[corpse], bt );
@@ -8282,8 +8307,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     const std::string cannot_see = colorize( _( "can't see!" ), c_red );
 
-    smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ),
-                        enough_light ? cut_time( BUTCHER ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), enough_light,
+                        'B', _( "Quick butchery" ),
+                        enough_light ? cut_time( butcher_type::QUICK ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "This technique is used when you are in a hurry, "
                                           "but still want to harvest something from the corpse. "
@@ -8291,8 +8317,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "but it's useful if you don't want to set up a workshop.  "
                                           "Prevents zombies from raising." ),
                                        msgFactor ) );
-    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
-                        enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::FULL ), enough_light,
+                        'b', _( "Full butchery" ),
+                        enough_light ? cut_time( butcher_type::FULL ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "This technique is used to properly butcher a corpse, "
                                           "and requires a rope & a tree or a butchering rack, "
@@ -8300,10 +8327,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "and good tools.  Yields are plentiful and varied, "
                                           "but it is time consuming." ),
                                        msgFactor ) );
-    smenu.addentry_col( F_DRESS, enough_light &&
-                        has_organs, 'f', _( "Field dress corpse" ),
-                        enough_light ? ( has_organs ? cut_time( F_DRESS ) : colorize( _( "has no organs" ),
-                                         c_red ) ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ), enough_light && has_organs,
+                        'f', _( "Field dress corpse" ),
+                        enough_light ? ( has_organs ? cut_time( butcher_type::FIELD_DRESS ) :
+                                         colorize( _( "has no organs" ), c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "Technique that involves removing internal organs and "
                                           "viscera to protect the corpse from rotting from inside.  "
@@ -8311,9 +8338,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "stay fresh longer.  Can be combined with other methods for "
                                           "better effects." ),
                                        msgFactor ) );
-    smenu.addentry_col( SKIN, enough_light &&
-                        has_skin, 's', _( "Skin corpse" ),
-                        enough_light ? ( has_skin ? cut_time( SKIN ) : colorize( _( "has no skin" ), c_red ) ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::SKIN ), enough_light && has_skin,
+                        's', _( "Skin corpse" ),
+                        enough_light ? ( has_skin ? cut_time( butcher_type::SKIN ) : colorize( _( "has no skin" ),
+                                         c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "Skinning a corpse is an involved and careful process that "
                                           "usually takes some time.  You need skill and an appropriately "
@@ -8321,8 +8349,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "too small to yield a full-sized hide and will instead produce "
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
-    smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ),
-                        enough_light ? cut_time( QUARTER ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ), enough_light,
+                        'k', _( "Quarter corpse" ),
+                        enough_light ? cut_time( butcher_type::QUARTER ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "By quartering a previously field dressed corpse you will "
                                           "acquire four parts with reduced weight and volume.  It "
@@ -8330,14 +8359,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "skin, hide, pelt, etc., so don't use it if you want to "
                                           "harvest them later." ),
                                        msgFactor ) );
-    smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
+    smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ), true,
+                        'm', _( "Dismember corpse" ),
+                        cut_time( butcher_type::DISMEMBER ),
                         string_format( "%s  %s",
                                        _( "If you're aiming to just destroy a body outright and don't "
                                           "care about harvesting it, dismembering it will hack it apart "
                                           "in a very short amount of time but yields little to no usable flesh." ),
                                        msgFactor ) );
-    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
-                        enough_light ? cut_time( DISSECT ) : cannot_see,
+    smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ), enough_light,
+                        'd', _( "Dissect corpse" ),
+                        enough_light ? cut_time( butcher_type::DISSECT ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "By careful dissection of the corpse, you will examine it for "
                                           "possible bionic implants, or discrete organs and harvest them "
@@ -8347,25 +8379,25 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                        msgFactorD ) );
     smenu.query();
     switch( smenu.ret ) {
-        case BUTCHER:
+        case static_cast<int>( butcher_type::QUICK ):
             g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
             break;
-        case BUTCHER_FULL:
+        case static_cast<int>( butcher_type::FULL ):
             g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
             break;
-        case F_DRESS:
+        case static_cast<int>( butcher_type::FIELD_DRESS ):
             g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
             break;
-        case SKIN:
+        case static_cast<int>( butcher_type::SKIN ):
             g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
             break;
-        case QUARTER:
+        case static_cast<int>( butcher_type::QUARTER ):
             g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
             break;
-        case DISMEMBER:
+        case static_cast<int>( butcher_type::DISMEMBER ):
             g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
             break;
-        case DISSECT:
+        case static_cast<int>( butcher_type::DISSECT ):
             g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
             break;
         default:
@@ -8819,7 +8851,6 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
-    std::string name = loc->tname();
     if( u.is_armed() ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
@@ -8838,6 +8869,7 @@ void game::wield( item_location loc )
         }
     }
     if( !loc ) {
+        std::string name = loc->tname();
         /**
           * If we lost the location here, that means the thing we're
           * trying to wield was inside a wielded item.
@@ -9921,7 +9953,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
     [&]( item & liquid_item ) {
-        return liquid_item.made_of_from_type( LIQUID );
+        return liquid_item.made_of_from_type( phase_id::LIQUID );
     } );
 
     const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
@@ -10713,7 +10745,7 @@ void game::start_hauling( const tripoint &pos )
     map_stack items = m.i_at( pos );
     for( item &it : items ) {
         // Liquid cannot be picked up
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             continue;
         }
         target_items.emplace_back( map_cursor( pos ), &it );

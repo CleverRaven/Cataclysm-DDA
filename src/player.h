@@ -84,7 +84,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
 
-
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -251,7 +250,6 @@ class player : public Character
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
 
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
@@ -473,7 +471,7 @@ class player : public Character
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
-        void try_to_sleep( const time_duration &dur = 30_minutes );
+        void try_to_sleep( const time_duration &dur );
         /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
@@ -508,7 +506,7 @@ class player : public Character
         bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty();
+        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** This handles giving xp for a skill */
@@ -757,7 +755,6 @@ class player : public Character
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
-
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,

@@ -68,8 +68,8 @@ options_manager::options_manager() :
     general_page_( "general", to_translation( "General" ) ),
     interface_page_( "interface", to_translation( "Interface" ) ),
     graphics_page_( "graphics", to_translation( "Graphics" ) ),
-    debug_page_( "debug", to_translation( "Debug" ) ),
     world_default_page_( "world_default", to_translation( "World Defaults" ) ),
+    debug_page_( "debug", to_translation( "Debug" ) ),
     android_page_( "android", to_translation( "Android" ) )
 {
     pages_.emplace_back( general_page_ );
@@ -77,12 +77,10 @@ options_manager::options_manager() :
     pages_.emplace_back( graphics_page_ );
     // when sharing maps only admin is allowed to change these.
     if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
+        pages_.emplace_back( world_default_page_ );
         pages_.emplace_back( debug_page_ );
     }
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        pages_.emplace_back( world_default_page_ );
-    }
+
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
@@ -1112,8 +1110,8 @@ void options_manager::init()
     add_options_general();
     add_options_interface();
     add_options_graphics();
-    add_options_debug();
     add_options_world_default();
+    add_options_debug();
     add_options_android();
 
     for( Page &p : pages_ ) {
@@ -1997,82 +1995,6 @@ void options_manager::add_options_graphics()
 
 }
 
-void options_manager::add_options_debug()
-{
-    const auto add_empty_line = [&]() {
-        debug_page_.items_.emplace_back();
-    };
-
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
-         translate_marker( "Determines the scope, which is known in the beginning of the game." ),
-         3, 20, 15
-       );
-
-    add_empty_line();
-
-    add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
-         translate_marker( "Initial points available to spend on stats on character generation." ),
-         0, 1000, 6
-       );
-
-    add( "INITIAL_TRAIT_POINTS", "debug", translate_marker( "Initial trait points" ),
-         translate_marker( "Initial points available to spend on traits on character generation." ),
-         0, 1000, 0
-       );
-
-    add( "INITIAL_SKILL_POINTS", "debug", translate_marker( "Initial skill points" ),
-         translate_marker( "Initial points available to spend on skills on character generation." ),
-         0, 1000, 2
-       );
-
-    add( "MAX_TRAIT_POINTS", "debug", translate_marker( "Maximum trait points" ),
-         translate_marker( "Maximum trait points available for character generation." ),
-         0, 1000, 12
-       );
-
-    add_empty_line();
-
-    add( "SKILL_TRAINING_SPEED", "debug", translate_marker( "Skill training speed" ),
-         translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
-         translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
-         //~ plain, default, normal
-    {   { "vanilla", translate_marker( "Vanilla" ) },
-        //~ capped at a value
-        { "capped", translate_marker( "Capped" ) },
-        //~ based on intelligence
-        { "int", translate_marker( "Int" ) },
-        //~ based on intelligence and capped
-        { "intcap", translate_marker( "IntCap" ) },
-        { "off", translate_marker( "Off" ) }
-    },
-    "off" );
-
-    add_empty_line();
-
-    add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
-         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
-         false
-       );
-
-    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
-         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
-         0, OVERMAP_LAYERS, 4
-       );
-
-    get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
-
-    add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
-         translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
-         true
-       );
-}
-
 void options_manager::add_options_world_default()
 {
     const auto add_empty_line = [&]() {
@@ -2234,6 +2156,82 @@ void options_manager::add_options_world_default()
          translate_marker( "Allowed point pools for character generation." ),
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
     "any"
+       );
+}
+
+void options_manager::add_options_debug()
+{
+    const auto add_empty_line = [&]() {
+        debug_page_.items_.emplace_back();
+    };
+
+    add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
+         translate_marker( "Determines the scope, which is known in the beginning of the game." ),
+         3, 20, 15
+       );
+
+    add_empty_line();
+
+    add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
+         translate_marker( "Initial points available to spend on stats on character generation." ),
+         0, 1000, 6
+       );
+
+    add( "INITIAL_TRAIT_POINTS", "debug", translate_marker( "Initial trait points" ),
+         translate_marker( "Initial points available to spend on traits on character generation." ),
+         0, 1000, 0
+       );
+
+    add( "INITIAL_SKILL_POINTS", "debug", translate_marker( "Initial skill points" ),
+         translate_marker( "Initial points available to spend on skills on character generation." ),
+         0, 1000, 2
+       );
+
+    add( "MAX_TRAIT_POINTS", "debug", translate_marker( "Maximum trait points" ),
+         translate_marker( "Maximum trait points available for character generation." ),
+         0, 1000, 12
+       );
+
+    add_empty_line();
+
+    add( "SKILL_TRAINING_SPEED", "debug", translate_marker( "Skill training speed" ),
+         translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
+         0.0, 100.0, 1.0, 0.1
+       );
+
+    add_empty_line();
+
+    add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
+         translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
+         //~ plain, default, normal
+    {   { "vanilla", translate_marker( "Vanilla" ) },
+        //~ capped at a value
+        { "capped", translate_marker( "Capped" ) },
+        //~ based on intelligence
+        { "int", translate_marker( "Int" ) },
+        //~ based on intelligence and capped
+        { "intcap", translate_marker( "IntCap" ) },
+        { "off", translate_marker( "Off" ) }
+    },
+    "off" );
+
+    add_empty_line();
+
+    add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
+         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
+         false
+       );
+
+    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
+         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
+         0, OVERMAP_LAYERS, 4
+       );
+
+    get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
+
+    add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
+         translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
+         true
        );
 }
 
@@ -3208,7 +3206,7 @@ void options_manager::update_global_locale()
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
         }
-    } catch( std::runtime_error &e ) {
+    } catch( std::runtime_error & ) {
         std::locale::global( std::locale() );
     }
 

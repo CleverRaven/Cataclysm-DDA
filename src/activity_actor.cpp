@@ -34,6 +34,8 @@
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
+static const efftype_id effect_sleep( "sleep" );
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 
@@ -42,7 +44,6 @@ static const skill_id skill_computer( "computer" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
@@ -93,7 +94,7 @@ aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
     aim_activity_actor act = aim_activity_actor();
     act.weapon_source = WeaponSource::Bionic;
     act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    act.fake_weapon = make_shared_fast<item>( fake_gun );
     return act;
 }
 
@@ -101,7 +102,7 @@ aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
     act.weapon_source = WeaponSource::Mutation;
-    act.fake_weapon = shared_ptr_fast<item>( new item( fake_gun ) );
+    act.fake_weapon = make_shared_fast<item>( fake_gun );
     return act;
 }
 
@@ -220,7 +221,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "weapon_source", actor.weapon_source );
     if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
-        actor.fake_weapon = shared_ptr_fast<item>( new item() );
+        actor.fake_weapon = make_shared_fast<item>();
         data.read( "fake_weapon", *actor.fake_weapon );
     }
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
@@ -620,15 +621,17 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             break;
         case HACK_SUCCESS:
             if( type == HACK_GAS ) {
-                int tankGasUnits;
-                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankGasUnits );
+                int tankUnits;
+                std::string fuelType;
+                const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
+                                                        fuelType );
                 if( !pTank_ ) {
                     break;
                 }
                 const tripoint pTank = *pTank_;
                 const cata::optional<tripoint> pGasPump = iexamine::getGasPumpByNumber( examp,
                         uistate.ags_pay_gas_selected_pump );
-                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
+                if( pGasPump && iexamine::toPumpFuel( pTank, *pGasPump, tankUnits ) ) {
                     who.add_msg_if_player( _( "You hack the terminal and route all available fuel to your pump!" ) );
                     sounds::sound( examp, 6, sounds::sound_t::activity,
                                    _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
@@ -692,7 +695,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !newit.made_of_from_type( LIQUID ) ) {
+        if( !newit.made_of_from_type( phase_id::LIQUID ) ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             if( newit.is_owned_by( who, true ) ) {
@@ -952,6 +955,91 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
+void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    act.moves_total = to_moves<int>( duration );
+    act.moves_left = act.moves_total;
+}
+
+void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.has_effect( effect_sleep ) ) {
+        return;
+    }
+    if( dynamic_cast<player *>( &who )->can_sleep() ) {
+        who.fall_asleep(); // calls act.set_to_null()
+        if( !who.has_effect( effect_sleep ) ) {
+            // Character can potentially have immunity for 'effect_sleep'
+            who.add_msg_if_player(
+                _( "You feel you should've fallen asleep by now, but somehow you're still awake." ) );
+        }
+        return;
+    }
+    if( one_in( 1000 ) ) {
+        who.add_msg_if_player( _( "You toss and turn…" ) );
+    }
+    if( calendar::once_every( 30_minutes ) ) {
+        query_keep_trying( act, who );
+    }
+}
+
+void try_sleep_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    if( !who.has_effect( effect_sleep ) ) {
+        who.add_msg_if_player( _( "You try to sleep, but can't." ) );
+    }
+}
+
+void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
+{
+    if( disable_query || !who.is_avatar() ) {
+        return;
+    }
+
+    uilist sleep_query;
+    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
+    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
+    sleep_query.addentry( 3, true, 'C',
+                          _( "Continue trying to fall asleep and don't ask again." ) );
+    sleep_query.query();
+    switch( sleep_query.ret ) {
+        case UILIST_CANCEL:
+        case 1:
+            act.set_to_null();
+            break;
+        case 3:
+            disable_query = true;
+            break;
+        case 2:
+        default:
+            break;
+    }
+}
+
+void try_sleep_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "disable_query", disable_query );
+    jsout.member( "duration", duration );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &jsin )
+{
+    try_sleep_activity_actor actor = try_sleep_activity_actor( 0_seconds );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "disable_query", actor.disable_query );
+    data.read( "duration", actor.duration );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -967,6 +1055,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

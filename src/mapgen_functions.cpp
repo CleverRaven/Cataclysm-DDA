@@ -42,14 +42,10 @@ static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_bat( "mon_bat" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_rat_king( "mon_rat_king" );
-static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-static const mongroup_id GROUP_CAVE( "GROUP_CAVE" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class npc_template;
@@ -832,7 +828,7 @@ void mapgen_road( mapgendata &dat )
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
-            circle( m, t_pavement, double( SEEX ) - 0.5, double( SEEY ) - 0.5, 11.0 );
+            circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
         }
 
         // overwrite part of intersection with rotary/plaza

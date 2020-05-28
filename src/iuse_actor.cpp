@@ -119,24 +119,17 @@ static const itype_id itype_UPS( "UPS" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_lockpick( "lockpick" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-
-static const species_id HUMAN( "HUMAN" );
-static const species_id ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
@@ -922,7 +915,10 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                  newmon.name() );
             amdef.second = ammo_item.charges;
         }
+    } else {
+        newmon.ammo = newmon.type->starting_ammo;
     }
+
     int skill_offset = 0;
     for( skill_id sk : skills ) {
         skill_offset += p.get_skill_level( sk ) / 2;
@@ -941,10 +937,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }
         newmon.friendly = -1;
-    }
-    // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
-        p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     return 1;
 }
@@ -1668,7 +1660,7 @@ std::unique_ptr<iuse_actor> inscribe_actor::clone() const
 
 bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
-    if( !cut.made_of( SOLID ) ) {
+    if( !cut.made_of( phase_id::SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
         return false;
     }
@@ -2482,7 +2474,8 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        game_menus::inv::insert_items( *p.as_avatar(), item_location( p, &it ) );
+        item_location item_loc( p, &it );
+        game_menus::inv::insert_items( *p.as_avatar(), item_loc );
     }
 
     return 0;

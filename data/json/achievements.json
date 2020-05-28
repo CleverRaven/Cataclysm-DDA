@@ -10,20 +10,20 @@
     "type": "achievement",
     "name": "Rude awakening",
     "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
     "name": "Decamate",
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 10 } ]
   },
   {
     "id": "achievement_kill_100_monsters",
     "type": "achievement",
     "name": "Centinel",
     "hidden_by": [ "achievement_kill_10_monsters" ],
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 100 } ]
   },
   {
     "id": "achievement_survive_one_day",

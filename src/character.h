@@ -109,19 +109,77 @@ struct enum_traits<character_movemode> {
     static constexpr auto last = character_movemode::CMM_COUNT;
 };
 
-enum fatigue_levels {
+enum class fatigue_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
 const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
-        { "TIRED", TIRED },
-        { "DEAD_TIRED", DEAD_TIRED },
-        { "EXHAUSTED", EXHAUSTED },
-        { "MASSIVE_FATIGUE", MASSIVE_FATIGUE }
+        { "TIRED", fatigue_levels::TIRED },
+        { "DEAD_TIRED", fatigue_levels::DEAD_TIRED },
+        { "EXHAUSTED", fatigue_levels::EXHAUSTED },
+        { "MASSIVE_FATIGUE", fatigue_levels::MASSIVE_FATIGUE }
     }
 };
+
+constexpr inline bool operator>=( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) >= static_cast<int>( rhs );
+}
+
+constexpr inline bool operator<( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) < static_cast<int>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs >= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs > static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs <= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs < static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline int operator/( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) / rhs;
+}
+
+template<typename T>
+constexpr inline int operator+( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) - rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs - static_cast<T>( rhs );
+}
 
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
@@ -160,7 +218,7 @@ enum edible_rating {
     NO_TOOL
 };
 
-enum class rechargeable_cbm {
+enum class rechargeable_cbm : int {
     none = 0,
     reactor,
     furnace,
@@ -188,7 +246,7 @@ struct encumbrance_data {
     int armor_encumbrance = 0;
     int layer_penalty = 0;
 
-    std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
+    std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
     void layer( const layer_level level, const int encumbrance ) {
@@ -279,7 +337,7 @@ class Character : public Creature, public visitable<Character>
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
 
-        enum class comfort_level {
+        enum class comfort_level : int {
             impossible = -999,
             uncomfortable = -7,
             neutral = 0,
@@ -390,6 +448,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_hunger( int nhunger );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
+        virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -580,7 +639,7 @@ class Character : public Creature, public visitable<Character>
                          int intensity = 0, bool force = false, bool deferred = false ) override;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
-        void expose_to_disease( diseasetype_id dis_type );
+        void expose_to_disease( const diseasetype_id &dis_type );
         /**
          * Handles end-of-turn processing.
          */
@@ -688,6 +747,8 @@ class Character : public Creature, public visitable<Character>
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
+        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
     private:
         /** Check if an area-of-effect technique has valid targets */
@@ -1052,8 +1113,8 @@ class Character : public Creature, public visitable<Character>
         bool has_enough_anesth( const itype &cbm );
         void consume_anesth_requirment( const itype &cbm, player &patient );
         /**Has the required equipement for manual installation*/
-        bool has_installation_requirment( bionic_id bid );
-        void consume_installation_requirment( bionic_id bid );
+        bool has_installation_requirment( const bionic_id &bid );
+        void consume_installation_requirment( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -1227,6 +1288,8 @@ class Character : public Creature, public visitable<Character>
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
         std::vector<item_location> all_items_loc();
+        // Returns list of all the top level item_lodation the character has. Includes worn and held items.
+        std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */

@@ -91,7 +91,7 @@ class field_entry
         }
 
         bool gas_can_spread() {
-            return is_field_alive() && type.obj().phase == GAS && type.obj().percent_spread > 0;
+            return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
         time_duration get_underwater_age_speedup() const {

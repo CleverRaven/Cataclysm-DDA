@@ -50,8 +50,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-static const efftype_id effect_pet( "pet" );
-
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
@@ -66,11 +64,11 @@ class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-#define BUILDINGCHANCE 4
-#define MIN_ANT_SIZE 8
-#define MAX_ANT_SIZE 20
-#define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 2
+static constexpr int BUILDINGCHANCE = 4;
+static constexpr int MIN_ANT_SIZE = 8;
+static constexpr int MAX_ANT_SIZE = 20;
+static constexpr int MIN_GOO_SIZE = 1;
+static constexpr int MAX_GOO_SIZE = 2;
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -226,7 +224,7 @@ int city::get_distance_from( const tripoint &p ) const
     return std::max( static_cast<int>( trig_dist( p, { pos, 0 } ) ) - size, 0 );
 }
 
-std::map<enum radio_type, std::string> radio_type_names =
+std::map<radio_type, std::string> radio_type_names =
 {{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
 
 /** @relates string_id */
@@ -2746,24 +2744,24 @@ void overmap::place_river( point pa, point pb )
                 }
             }
         }
-        if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
+        if( pb.x > x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
+                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > pb.x - x &&
+                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x++;
         }
-        if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
+        if( pb.x < x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
+                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > x - pb.x &&
+                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x--;
         }
-        if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
+        if( pb.y > y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
+                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > pb.y - y &&
+                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y++;
         }
-        if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
+        if( pb.y < y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
+                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > y - pb.y &&
+                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y--;
         }
         x += rng( -1, 1 );

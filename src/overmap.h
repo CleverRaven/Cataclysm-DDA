@@ -79,7 +79,7 @@ enum class radio_type : int {
     WEATHER_RADIO
 };
 
-extern std::map<enum radio_type, std::string> radio_type_names;
+extern std::map<radio_type, std::string> radio_type_names;
 
 #define RADIO_MIN_STRENGTH 80
 #define RADIO_MAX_STRENGTH 200

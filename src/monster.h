@@ -39,7 +39,7 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum class mon_trigger;
+enum class mon_trigger : int;
 
 class mon_special_attack
 {
@@ -392,8 +392,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
-        /** Return the lowest cooldown for an enabled special */
-        int shortest_special_cooldown() const;
+        /** Test whether the specified special is ready. */
+        bool special_available( const std::string &special_name ) const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -544,8 +544,6 @@ class monster : public Creature
         tripoint goal;
         tripoint position;
         bool dead;
-        /** Legacy loading logic for monsters that are packing ammo. **/
-        void normalize_ammo( int old_ammo );
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades;

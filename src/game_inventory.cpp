@@ -57,13 +57,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const efftype_id effect_assisted( "assisted" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_firstaid( "firstaid" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
@@ -78,7 +72,6 @@ static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
@@ -242,7 +235,7 @@ void game_menus::inv::common( avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-void game_menus::inv::common( item_location loc, avatar &you )
+void game_menus::inv::common( item_location &loc, avatar &you )
 {
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
@@ -443,7 +436,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
-                if( loc->made_of_from_type( LIQUID ) ) {
+                if( loc->made_of_from_type( phase_id::LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
@@ -628,7 +621,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             const item &med = *loc;
 
-            if( loc->made_of_from_type( LIQUID ) && loc.where() != item_location::type::container ) {
+            if( loc->made_of_from_type( phase_id::LIQUID ) && loc.where() != item_location::type::container ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -1274,7 +1267,7 @@ class holster_inventory_preset: public weapon_inventory_preset
         const item &holster;
 };
 
-drop_locations game_menus::inv::holster( player &p, item_location holster )
+drop_locations game_menus::inv::holster( player &p, const item_location &holster )
 {
     const std::string holster_name = holster->tname( 1, false );
     const use_function *use = holster->type->get_use( "holster" );
@@ -1300,7 +1293,7 @@ drop_locations game_menus::inv::holster( player &p, item_location holster )
     return insert_menu.execute();
 }
 
-void game_menus::inv::insert_items( avatar &you, item_location holster )
+void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     for( drop_location holstered_item : holstered_list ) {

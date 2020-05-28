@@ -26,12 +26,12 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum temperature_flag : int {
-    TEMP_NORMAL = 0,
-    TEMP_HEATER,
-    TEMP_FRIDGE,
-    TEMP_FREEZER,
-    TEMP_ROOT_CELLAR
+enum class temperature_flag : int {
+    NORMAL = 0,
+    HEATER,
+    FRIDGE,
+    FREEZER,
+    ROOT_CELLAR
 };
 
 //Used for autopickup and safemode rules
@@ -158,8 +158,13 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA, num_phases
+enum class phase_id : int {
+    PNULL,
+    SOLID,
+    LIQUID,
+    GAS,
+    PLASMA,
+    num_phases
 };
 
 template<>
@@ -185,9 +190,19 @@ enum object_type {
     NUM_OBJECTS,
 };
 
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+enum class liquid_source_type : int {
+    INFINITE_MAP = 1,
+    MAP_ITEM = 2,
+    VEHICLE = 3,
+    MONSTER = 4
+};
 
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+enum class liquid_target_type : int {
+    CONTAINER = 1,
+    VEHICLE = 2,
+    MAP = 3,
+    MONSTER = 4
+};
 
 /**
  *  Possible layers that a piece of clothing/armor can occupy
@@ -198,33 +213,33 @@ enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_M
  *  and by @ref profession to place the characters' clothing in a sane order
  *  when starting the game.
  */
-enum layer_level {
+enum class layer_level : int {
     /* "Personal effects" layer, corresponds to PERSONAL flag */
-    PERSONAL_LAYER = 0,
+    PERSONAL = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR_LAYER,
+    UNDERWEAR,
     /* "Normal" layer, default if no flags set */
-    REGULAR_LAYER,
+    REGULAR,
     /* "Waist" layer, corresponds to WAIST flag. */
-    WAIST_LAYER,
+    WAIST,
     /* "Outer" layer, corresponds to OUTER flag. */
-    OUTER_LAYER,
+    OUTER,
     /* "Strapped" layer, corresponds to BELTED flag */
-    BELTED_LAYER,
+    BELTED,
     /* "Aura" layer, corresponds to AURA flag */
-    AURA_LAYER,
+    AURA,
     /* Not a valid layer; used for C-style iteration through this enum */
-    MAX_CLOTHING_LAYER
+    NUM_LAYER_LEVELS
 };
 
 inline layer_level &operator++( layer_level &l )
 {
-    l = static_cast<layer_level>( l + 1 );
+    l = static_cast<layer_level>( static_cast<int>( l ) + 1 );
     return l;
 }
 
 /** Possible reasons to interrupt an activity. */
-enum class distraction_type {
+enum class distraction_type : int {
     noise,
     pain,
     attacked,

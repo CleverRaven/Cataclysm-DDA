@@ -778,6 +778,17 @@ std::set<itype_id> item_contents::magazine_compatible() const
     return ret;
 }
 
+units::mass item_contents::total_container_weight_capacity() const
+{
+    units::mass total_weight = 0_gram;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            total_weight += pocket.weight_capacity();
+        }
+    }
+    return total_weight;
+}
+
 units::volume item_contents::total_container_capacity() const
 {
     units::volume total_vol = 0_ml;
@@ -953,12 +964,32 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         }
     }
     if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
+        // If multiple pockets and/or multiple kinds of pocket, show total capacity section
+        if( found_pockets.size() > 1 || pocket_num[0] > 1 ) {
+            insert_separation_line( info );
+            info.emplace_back( "CONTAINER", _( "<bold>Total capacity</bold>:" ) );
+            info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), total_container_capacity() ) );
+            info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ),
+                                            total_container_weight_capacity() ) );
+            info.back().bNewLine = true;
+        }
+
         int idx = 0;
         for( const item_pocket &pocket : found_pockets ) {
             insert_separation_line( info );
+            // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {
-                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets (%d)</bold>" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d Pockets</bold> with capacity:" ),
                                    pocket_num[idx] ) );
+            } else {
+                // If this is the only pocket the item has, label it "Total capacity"
+                // Otherwise, give it a generic "Pocket" heading (is one of several pockets)
+                bool only_one_pocket = ( found_pockets.size() == 1 && pocket_num[0] == 1 );
+                if( only_one_pocket ) {
+                    info.emplace_back( "DESCRIPTION", _( "<bold>Total capacity</bold>:" ) );
+                } else {
+                    info.emplace_back( "DESCRIPTION", _( "<bold>Pocket</bold> with capacity:" ) );
+                }
             }
             idx++;
             pocket.general_info( info, idx, false );

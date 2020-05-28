@@ -67,7 +67,6 @@
 static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_hose( "hose" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
 static const skill_id skill_mechanics( "mechanics" );
@@ -575,7 +574,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = false;
             for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
                 if( vp.part().base.has_item_with( []( const item & it ) {
-                return it.made_of( LIQUID );
+                return it.made_of( phase_id::LIQUID );
                 } ) ) {
                     valid_target = true;
                     break;
@@ -589,7 +588,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = false;
             has_tools = true;
             for( auto &e : veh->fuels_left() ) {
-                if( e.first != fuel_type_battery && item::find_type( e.first )->phase == SOLID ) {
+                if( e.first != fuel_type_battery && item::find_type( e.first )->phase == phase_id::SOLID ) {
                     valid_target = true;
                     break;
                 }
@@ -668,7 +667,7 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-static void print_message_to( catacurses::window &w_msg, const nc_color col,
+static void print_message_to( catacurses::window &w_msg, const nc_color &col,
                               const std::string &msg )
 {
     werase( w_msg );
@@ -777,7 +776,6 @@ bool veh_interact::can_install_part()
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
-    item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         qual = qual_JACK;
         lvl = jack_quality( *veh );
@@ -785,6 +783,7 @@ bool veh_interact::can_install_part()
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
+        item base( sel_vpart_info->item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
@@ -1789,7 +1788,6 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     quality_id qual;
     bool use_aid = false;
     bool use_str = false;
-    item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
         qual = qual_JACK;
         lvl = jack_quality( *veh );
@@ -1797,6 +1795,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
+        item base( sel_vpart_info->item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
@@ -1948,7 +1947,7 @@ bool veh_interact::do_siphon( std::string &msg )
 
     auto sel = [&]( const vehicle_part & pt ) {
         return( pt.is_tank() && !pt.base.contents.empty() &&
-                pt.base.contents.only_item().made_of( LIQUID ) );
+                pt.base.contents.only_item().made_of( phase_id::LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -2855,7 +2854,7 @@ void act_vehicle_siphon( vehicle *veh )
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        if( vp.part().get_base().contents.legacy_front().made_of( LIQUID ) ) {
+        if( vp.part().get_base().contents.legacy_front().made_of( phase_id::LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2867,7 +2866,7 @@ void act_vehicle_siphon( vehicle *veh )
 
     std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.get_base().contents.legacy_front().made_of( LIQUID );
+        return pt.is_tank() && pt.get_base().contents.legacy_front().made_of( phase_id::LIQUID );
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
@@ -2888,7 +2887,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     for( auto &e : veh->fuels_left() ) {
         const itype *type = item::find_type( e.first );
 
-        if( e.first == fuel_type_battery || type->phase != SOLID ) {
+        if( e.first == fuel_type_battery || type->phase != phase_id::SOLID ) {
             // This skips battery and plutonium cells
             continue;
         }

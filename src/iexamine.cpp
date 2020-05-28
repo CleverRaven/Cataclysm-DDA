@@ -143,11 +143,8 @@ static const itype_id itype_water( "water" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
-static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -329,7 +326,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 
     auto items = g->m.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( LIQUID ) ) {
+        if( item_it->made_of( phase_id::LIQUID ) ) {
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in( 10 + p.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
@@ -830,7 +827,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
 
     if( water == items.end() ) {
         add_msg( m_info, _( "This toilet is empty." ) );
-    } else if( !water->made_of( LIQUID ) ) {
+    } else if( !water->made_of( phase_id::LIQUID ) ) {
         add_msg( m_info, _( "The toilet water is frozen solid!" ) );
     } else {
         // Use a different poison value each time water is drawn from the toilet.
@@ -2880,7 +2877,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         selectmenu.text = _( "Select an action" );
         selectmenu.addentry( ADD_BREW, ( p.charges_of( brew_type ) > 0 ), MENU_AUTOASSIGN,
                              _( "Add more %s to the vat" ), brew_nname );
-        selectmenu.addentry( REMOVE_BREW, brew.made_of( LIQUID ), MENU_AUTOASSIGN,
+        selectmenu.addentry( REMOVE_BREW, brew.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
                              _( "Remove %s from the vat" ), brew.tname() );
         selectmenu.addentry( START_FERMENT, true, MENU_AUTOASSIGN, _( "Start fermenting cycle" ) );
         selectmenu.query();
@@ -2945,7 +2942,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     for( item &it : items_here ) {
-        if( !it.made_of_from_type( LIQUID ) ) {
+        if( !it.made_of_from_type( phase_id::LIQUID ) ) {
             add_msg( _( "You remove %s from the vat." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, &it );
@@ -2986,7 +2983,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
                 // TODO: Different age based on settings
                 item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
-                if( booze.made_of_from_type( LIQUID ) ) {
+                if( booze.made_of_from_type( phase_id::LIQUID ) ) {
                     add_msg( _( "The %s is now ready for bottling." ), booze.tname() );
                 }
             }
@@ -3030,7 +3027,7 @@ static void displace_items_except_one_liquid( const tripoint &examp )
     bool liquid_present = false;
     map_stack items = g->m.i_at( examp );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-        if( !it->made_of_from_type( LIQUID ) || liquid_present ) {
+        if( !it->made_of_from_type( phase_id::LIQUID ) || liquid_present ) {
             // This isn't a liquid or there was already another kind of liquid inside,
             // so this has to be moved.
             // This will add items to a space near the vat, because it's flagged as NOITEM.
@@ -3056,14 +3053,14 @@ void iexamine::keg( player &p, const tripoint &examp )
         return !it.is_container_empty() && it.can_unload_liquid();
     } );
     const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
-        return it.made_of_from_type( LIQUID );
+        return it.made_of_from_type( phase_id::LIQUID );
     } );
 
     if( !liquid_present || has_container_with_liquid ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item & it ) {
-            return it.made_of( LIQUID );
+            return it.made_of( phase_id::LIQUID );
         } );
         if( drinks_inv.empty() ) {
             add_msg( m_info, _( "You don't have any drinks to fill the %s with." ), keg_name );
@@ -3143,9 +3140,9 @@ void iexamine::keg( player &p, const tripoint &examp )
             EXAMINE,
         };
         uilist selectmenu;
-        selectmenu.addentry( DISPENSE, drink.made_of( LIQUID ), MENU_AUTOASSIGN,
+        selectmenu.addentry( DISPENSE, drink.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
                              _( "Dispense or dump %s" ), drink_tname );
-        selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( LIQUID ),
+        selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( phase_id::LIQUID ),
                              MENU_AUTOASSIGN, _( "Have a drink" ) );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _( "Refill" ) );
         selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _( "Examine" ) );
@@ -3867,27 +3864,41 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 }
 
-static int getNearPumpCount( const tripoint &p )
+static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
 {
     int result = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
         if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
+            fuel_type = "gasoline";
+        } else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
+            result++;
+            fuel_type = "diesel";
         }
     }
     return result;
 }
 
-cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
+cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
+        const std::string &fuel_type )
 {
     cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
-    gas_units = 0;
+    fuel_units = 0;
 
     for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
-        if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
-            continue;
+
+        auto checkingTerr = g->m.ter( tmp );
+
+        if( fuel_type == "gasoline" ) {
+            if( checkingTerr != ter_str_id( "t_gas_tank" ) ) {
+                continue;
+            }
+        } else if( fuel_type == "diesel" ) {
+            if( checkingTerr != ter_str_id( "t_diesel_tank" ) ) {
+                continue;
+            }
         }
 
         const int new_distance = rl_dist( center, tmp );
@@ -3900,10 +3911,10 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
             tank_loc.emplace( tmp );
         }
         for( auto &k : g->m.i_at( tmp ) ) {
-            if( k.made_of( LIQUID ) ) {
+            if( k.made_of( phase_id::LIQUID ) ) {
                 distance = new_distance;
                 tank_loc.emplace( tmp );
-                gas_units = k.charges;
+                fuel_units = k.charges;
                 break;
             }
         }
@@ -3992,7 +4003,8 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
+        if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" )
+              || t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) && number == k++ ) {
             return tmp;
         }
     }
@@ -4003,7 +4015,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 {
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( LIQUID ) ) {
+        if( item_it->made_of( phase_id::LIQUID ) ) {
             if( item_it->charges < units ) {
                 return false;
             }
@@ -4032,7 +4044,7 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
 {
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of( LIQUID ) ) {
+        if( item_it->made_of( phase_id::LIQUID ) ) {
             // how much do we have in the pump?
             item liq_d( item_it->type, calendar::turn, item_it->charges );
 
@@ -4051,16 +4063,26 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     return -1;
 }
 
-static void turnOnSelectedPump( const tripoint &p, int number )
+static void turnOnSelectedPump( const tripoint &p, int number, const std::string &fuel_type )
 {
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
-            if( number == k++ ) {
-                g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
-            } else {
-                g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
+        if( fuel_type == "gasoline" ) {
+            if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
+                if( number == k++ ) {
+                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
+                } else {
+                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
+                }
+            }
+        } else if( fuel_type == "diesel" ) {
+            if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
+                if( number == k++ ) {
+                    g->m.ter_set( tmp, ter_str_id( "t_diesel_pump_a" ) );
+                } else {
+                    g->m.ter_set( tmp, ter_str_id( "t_diesel_pump" ) );
+                }
             }
         }
     }
@@ -4079,23 +4101,25 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         popup( _( "You're illiterate, and can't read the screen." ) );
     }
 
-    int pumpCount = getNearPumpCount( examp );
+    std::string fuelType;
+    int pumpCount = getNearPumpCount( examp, fuelType );
     if( pumpCount == 0 ) {
-        popup( str_to_illiterate_str( _( "Failure!  No gas pumps found!" ) ) );
+        popup( str_to_illiterate_str( string_format( _( "Failure!  No %s pumps found!" ), fuelType ) ) );
         return;
     }
 
-    int tankGasUnits;
-    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
+    int tankUnits;
+    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankUnits, fuelType );
     if( !pTank_ ) {
-        popup( str_to_illiterate_str( _( "Failure!  No gas tank found!" ) ) );
+        popup( str_to_illiterate_str( string_format( _( "Failure!  No %s tank found!" ), fuelType ) ) );
         return;
     }
     const tripoint pTank = *pTank_;
 
-    if( tankGasUnits == 0 ) {
+    if( tankUnits == 0 ) {
         popup( str_to_illiterate_str(
-                   _( "This station is out of fuel.  We apologize for the inconvenience." ) ) );
+                   string_format( _( "This station is out of %s.  We apologize for the inconvenience." ),
+                                  fuelType ) ) );
         return;
     }
 
@@ -4117,16 +4141,21 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.text = str_to_illiterate_str( _( "Welcome to AutoGas!" ) );
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "What would you like to do?" ) ) );
 
-    amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( _( "Buy gas." ) ) );
+    amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( string_format( _( "Buy %s." ),
+                    fuelType ) ) );
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
-    std::string gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 );
+    std::string gaspumpselected = str_to_illiterate_str( string_format( _( "Current %s pump: " ),
+                                  fuelType ) +
+                                  to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
-    amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a gas pump." ) ) );
+    amenu.addentry( choose_pump, true, 'p',
+                    str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelType ) ) );
 
     amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
-    amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your price per gasoline unit: " ) ) +
+    amenu.addentry( 0, false, -1, string_format( str_to_illiterate_str(
+                        _( "Your price per %s unit: " ) ), fuelType )
+                    +
                     format_money( pricePerUnit ) );
 
     if( can_hack ) {
@@ -4139,7 +4168,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     if( choose_pump == choice ) {
         uilist amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump;
-        amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
+        amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
@@ -4154,7 +4183,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         uistate.ags_pay_gas_selected_pump = choice;
 
-        turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump );
+        turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump, fuelType );
 
         return;
 
@@ -4169,10 +4198,10 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             return;
         }
 
-        int maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
+        int maximum_liters = std::min( money / pricePerUnit, tankUnits / 1000 );
 
-        std::string popupmsg = string_format(
-                                   _( "How many liters of gasoline to buy?  Max: %d L.  (0 to cancel)" ), maximum_liters );
+        std::string popupmsg = str_to_illiterate_str( string_format(
+                                   _( "How many liters of %s to buy?  Max: %d L.  (0 to cancel)" ), fuelType, maximum_liters ) );
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )

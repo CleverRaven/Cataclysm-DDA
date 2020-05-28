@@ -90,6 +90,9 @@ class item_contents
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
 
+        // gets the total weight capacity of all pockets
+        units::mass total_container_weight_capacity() const;
+
         /**
           * gets the total volume available to be used.
           * does not guarantee that an item of that size can be inserted.
@@ -111,6 +114,8 @@ class item_contents
         int best_quality( const quality_id &id ) const;
 
         // what will the move cost be of taking @it out of this container?
+        // should only be used from item_location if possible, to account for
+        // player inventory handling penalties from traits
         int obtain_cost( const item &it ) const;
         // what will the move cost be of storing @it into this container? (CONTAINER pocket type)
         int insert_cost( const item &it ) const;
@@ -181,7 +186,7 @@ class item_contents
          * NOTE: this destroys the items that get processed
          */
         void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         void migrate_item( item &obj, const std::set<itype_id> &migrations );
         bool item_has_uses_recursive() const;

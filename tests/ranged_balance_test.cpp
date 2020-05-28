@@ -402,7 +402,7 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
             }
             // The intent here is to skip over dispersion values proportionally to how far from converging we are.
             // As long as we check several adjacent dispersion values before a hit, we're good.
-            d -= int( ( 1 - ( stats.avg() / test_threshold.chance() ) ) * 15 ) * 5;
+            d -= static_cast<int>( ( 1 - ( stats.avg() / test_threshold.chance() ) ) * 15 ) * 5;
         }
         if( found_dispersion == -1 ) {
             WARN( "No matching dispersion found" );

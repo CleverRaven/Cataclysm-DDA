@@ -243,7 +243,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
               description_affix::DESCRIPTION_AFFIX_IN );
     if( jo.has_member( "phase" ) ) {
-        phase = jo.get_enum_value<phase_id>( "phase", PNULL );
+        phase = jo.get_enum_value<phase_id>( "phase", phase_id::PNULL );
     }
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );

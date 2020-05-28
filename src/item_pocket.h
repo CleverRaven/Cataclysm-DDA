@@ -40,7 +40,7 @@ class item_pocket
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
-        enum class contain_code {
+        enum class contain_code : int {
             SUCCESS,
             // only mods can go into the pocket for mods
             ERR_MOD,
@@ -76,8 +76,10 @@ class item_pocket
         bool empty() const;
         bool full( bool allow_bucket ) const;
 
+        // Convenience accessors for pocket data attributes with the same name
         bool rigid() const;
         bool watertight() const;
+        bool airtight() const;
 
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
@@ -104,6 +106,7 @@ class item_pocket
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
+        units::mass weight_capacity() const;
         // The largest volume of contents this pocket can have.  Different from
         // volume_capacity because that doesn't take into account ammo containers.
         units::volume max_contains_volume() const;
@@ -182,7 +185,7 @@ class item_pocket
          * NOTE: this destroys the items that get processed
          */
         void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;
         }

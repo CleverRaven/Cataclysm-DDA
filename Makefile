@@ -177,6 +177,11 @@ ifdef MSYSTEM
   MSYS2 = 1
 endif
 
+# Default to disabling clang
+ifndef CLANG
+  CLANG = 0
+endif
+
 # Determine JSON formatter binary name
 JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 ifeq ($(MSYS2), 1)
@@ -229,7 +234,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 # This sets CXX and so must be up here
-ifdef CLANG
+ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
@@ -309,7 +314,7 @@ ifeq ($(RELEASE), 1)
   endif
 
   ifeq ($(LTO), 1)
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       # LLVM's LTO will complain if the optimization level isn't between O0 and
       # O3 (inclusive)
       OPTLEVEL = -O3
@@ -319,14 +324,14 @@ ifeq ($(RELEASE), 1)
 
   ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
-      ifdef CLANG
+      ifneq ($(CLANG), 0)
         LTOFLAGS += -flto=full
       endif
     else
       LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
     endif
 
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       LTOFLAGS += -flto
     else
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
@@ -426,7 +431,7 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifdef CLANG
+  ifneq ($(CLANG), 0)
     OSX_MIN = 10.7
   else
     OSX_MIN = 10.5
@@ -817,7 +822,7 @@ ifeq ($(LTO), 1)
   LDFLAGS += $(CXXFLAGS)
 
   # If GCC or CLANG, use a wrapper for AR (if it exists) else test fails to build
-  ifndef CLANG
+  ifeq ($(CLANG), 0)
     GCCAR := $(shell command -v gcc-ar 2> /dev/null)
     ifdef GCCAR
       ifneq (,$(findstring gcc version,$(shell $(CXX) -v </dev/null 2>&1)))

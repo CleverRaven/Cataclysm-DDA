@@ -21,16 +21,23 @@
     "description": { "str": "wake up", "str_pl": "times woken up" }
   },
   {
-    "id": "avatar_kills",
+    "id": "avatar_kills_monster",
     "type": "event_transformation",
     "event_type": "character_kills_monster",
     "value_constraints": { "killer": { "equals_statistic": "avatar_id" } },
     "drop_fields": [ "killer" ]
   },
   {
+    "id": "avatar_kills_character",
+    "type": "event_transformation",
+    "event_type": "character_kills_character",
+    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "killer" ]
+  },
+  {
     "id": "avatar_species_kills",
     "type": "event_transformation",
-    "event_transformation": "avatar_kills",
+    "event_transformation": "avatar_kills_monster",
     "new_fields": { "species": { "species_of_monster": "victim_type" } },
     "drop_fields": [ "victim_type" ]
   },
@@ -38,14 +45,21 @@
     "id": "avatar_zombie_kills",
     "type": "event_transformation",
     "event_transformation": "avatar_species_kills",
-    "value_constraints": { "species": { "equals": "ZOMBIE" } }
+    "value_constraints": { "species": { "equals": [ "species_id", "ZOMBIE" ] } }
   },
   {
-    "id": "num_avatar_kills",
+    "id": "num_avatar_monster_kills",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_kills",
+    "event_transformation": "avatar_kills_monster",
     "description": { "str": "monster killed", "str_pl": "monsters killed" }
+  },
+  {
+    "id": "num_avatar_character_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_kills_character",
+    "description": { "str": "NPC killed", "str_pl": "NPCs killed" }
   },
   {
     "id": "num_avatar_zombie_kills",
@@ -118,7 +132,11 @@
     "id": "moves_walked",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "walk" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": [ "character_movemode", "walk" ] },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_mounted",
@@ -130,13 +148,21 @@
     "id": "moves_ran",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "run" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": [ "character_movemode", "run" ] },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_crouched",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "crouch" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": [ "character_movemode", "crouch" ] },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_swam",
@@ -154,7 +180,7 @@
     "id": "moves_sharp_terrain",
     "type": "event_transformation",
     "event_transformation": "moves_with_terrain_flags",
-    "value_constraints": { "terrain_flag": { "equals": "SHARP" } }
+    "value_constraints": { "terrain_flag": { "equals": [ "string", "SHARP" ] } }
   },
   {
     "id": "num_moves_walked",

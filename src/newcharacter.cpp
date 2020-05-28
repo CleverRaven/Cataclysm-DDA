@@ -94,9 +94,11 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 12 // The point after which stats cost double
+// The point after which stats cost double
+static constexpr int HIGH_STAT = 12;
 
-#define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
+// The ID of the rightmost tab
+static constexpr int NEWCHAR_TAB_MAX = 6 ;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -1023,20 +1025,34 @@ tab_direction set_traits( avatar &u, points_left &points )
             continue;
         }
 
+
+        const std::set<trait_id> scentraits = g->scen->get_locked_traits();
+        const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
+                                             traits_iter.id ) != scentraits.end();
+
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
                                              traits_iter.id ) != proftraits.end();
+
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
         if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
+
+                if( is_proftrait || is_scentrait ) {
+                    continue;
+                }
 
                 if( u.has_trait( traits_iter.id ) ) {
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
                 vStartingTraits[1].push_back( traits_iter.id );
+
+                if( is_proftrait || is_scentrait ) {
+                    continue;
+                }
 
                 if( u.has_trait( traits_iter.id ) ) {
                     num_bad += traits_iter.points;
@@ -2488,7 +2504,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
         }
         wrefresh( w_skills );
-
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "

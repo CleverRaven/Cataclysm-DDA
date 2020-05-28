@@ -76,7 +76,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     REQUIRE( actually_used.size() <= 1 );
     itype_id liquid_fuel = itype_id::NULL_ID();
     for( const auto &ft : actually_used ) {
-        if( item::find_type( ft )->phase == LIQUID ) {
+        if( item::find_type( ft )->phase == phase_id::LIQUID ) {
             liquid_fuel = ft;
             break;
         }
@@ -415,10 +415,10 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 815669, 277800, 211800, 70490, 53160 );
+    test_vehicle( "beetle", 816469, 277800, 211800, 70490, 53160 );
     test_vehicle( "car", 1120618, 473700, 277500, 45440, 25170 );
-    test_vehicle( "car_sports", 1154214, 360300, 260700, 36450, 20770 );
-    test_vehicle( "electric_car", 1046335, 220900, 127900, 18490, 9907 );
+    test_vehicle( "car_sports", 1155014, 360300, 260700, 36420, 20740 );
+    test_vehicle( "electric_car", 1047135, 220900, 127900, 18490, 9907 );
     test_vehicle( "suv", 1320286, 902100, 451700, 67740, 30810 );
     test_vehicle( "motorcycle", 163085, 74030, 61180, 46200, 38100 );
     test_vehicle( "quad_bike", 265345, 73170, 73170, 34300, 34300 );

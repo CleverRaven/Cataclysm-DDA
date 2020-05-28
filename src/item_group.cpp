@@ -74,8 +74,12 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp );
     } else {
+        int qty = tmp.charges;
+        if( modifier ) {
+            qty = rng( modifier->charges.first, modifier->charges.second );
+        }
         // TODO: change the spawn lists to contain proper references to containers
-        tmp = tmp.in_its_container();
+        tmp = tmp.in_its_container( qty );
     }
     return tmp;
 }
@@ -272,7 +276,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( LIQUID ) ||
+    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
             ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
         max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
     }
@@ -298,12 +302,12 @@ void Item_modifier::modify( item &new_item ) const
 
         ch = charges_min == charges_max ? charges_min : rng( charges_min,
                 charges_max );
-    } else if( !cont.is_null() && new_item.made_of( LIQUID ) ) {
+    } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
         new_item.charges = std::max( 1, max_capacity );
     }
 
     if( ch != -1 ) {
-        if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
+        if( new_item.count_by_charges() || new_item.made_of( phase_id::LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
@@ -341,7 +345,7 @@ void Item_modifier::modify( item &new_item ) const
             }
         }
         // Make sure the item is in valid state
-        if( new_item.ammo_data() && new_item.magazine_integral() ) {
+        if( new_item.magazine_integral() ) {
             new_item.charges = std::min( new_item.charges,
                                          new_item.ammo_capacity( item_controller->find_template( new_item.ammo_default() )->ammo->type ) );
         } else {
