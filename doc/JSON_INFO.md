@@ -1318,6 +1318,9 @@ been completed.
 
 Use this to prevent spoilers or to reduce clutter in the list of achievements.
 
+If you want an achievement to be hidden until completed, then mark it as
+`hidden_by` its own id.
+
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
 ```
