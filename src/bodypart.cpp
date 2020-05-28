@@ -366,13 +366,6 @@ body_part_set body_part_set::substract_set( const body_part_set &rhs )
     return *this;
 }
 
-body_part_set body_part_set::make_union( const body_part_set &rhs )
-{
-    body_part_set new_union;
-    new_union.parts = parts;
-    return new_union.unify_set( rhs );
-}
-
 body_part_set body_part_set::make_intersection( const body_part_set &rhs )
 {
     body_part_set new_intersection;
