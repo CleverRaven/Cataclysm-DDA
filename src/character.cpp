@@ -8054,9 +8054,7 @@ std::string get_stat_name( Character::stat Stat )
     case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
         // *INDENT-ON*
         default:
-            return pgettext( "fake stat there's an error", "ERR" );
             break;
-
     }
     return pgettext( "fake stat there's an error", "ERR" );
 }

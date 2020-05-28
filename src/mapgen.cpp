@@ -561,12 +561,10 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
 
     if( x.valmax > mapgensize.x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
-        return false;
     }
 
     if( y.valmax > mapgensize.y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
-        return false;
     }
 
     return true;

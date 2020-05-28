@@ -209,7 +209,6 @@ static distribution load_distribution( const JsonObject &jo )
     }
 
     jo.throw_error( "Invalid distribution" );
-    return distribution();
 }
 
 static distribution load_distribution( const JsonObject &jo, const std::string &name )
@@ -228,7 +227,6 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     }
 
     jo.throw_error( "Invalid distribution type", name );
-    return distribution();
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )

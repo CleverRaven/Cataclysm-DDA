@@ -1241,7 +1241,6 @@ bool JsonIn::get_bool()
     }
     err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
-    throw JsonError( "warnings are silly" );
 }
 
 JsonObject JsonIn::get_object()
