@@ -31,6 +31,15 @@
   },
   {
     "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "Ki Strike" },
+    "points": 2,
+    "description": "Who needs weapons?  You deal more melee damage while unarmed.  This damage improves as your unarmed skill increases.",
+    "starting_trait": true,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
     "extend": { "cancels": [ "DRUNKEN" ] }
