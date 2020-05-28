@@ -82,7 +82,6 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 550,
     "durability": 6,
-    "blackpowder_tolerance": 60,
     "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -101,7 +100,6 @@
     "clip_size": 6,
     "extend": { "flags": [ "RELOAD_ONE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
-    ]
   },
   {
     "id": "browning_a5",
