@@ -1306,7 +1306,14 @@ an `event_statistic`.  For example:
 The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
 `"anything"` the `"target"` must be present, and must be an integer.
 
-There are further optional fields:
+Additional optional fields for each entry in `requirements` are:
+
+* `"visible"`, which can take the values `"always"`,
+  `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
+  to dictate when a requirement is visible.  Non-visible requirements will be
+  hidden in the UI.
+
+There are further optional fields for the `achievement`:
 
 ```C++
 "hidden_by": [ "other_achievement_id" ]
