@@ -504,8 +504,7 @@ struct item_info_data {
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
             : sItemName( sItemName ), sTypeName( sTypeName ),
-              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( 0 ), ptr_selected( &selected ) {}
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ) {}
 
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,

@@ -293,18 +293,12 @@ game::game() :
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
-    new_game( false ),
     safe_mode( SAFE_MODE_ON ),
-    pixel_minimap_option( 0 ),
-    mostseen( 0 ),
     u_shared_ptr( &u, null_deleter{} ),
-    safe_mode_warning_logged( false ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
-    user_action_counter( 0 ),
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
-    seed( 0 ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
     player_was_sleeping = false;

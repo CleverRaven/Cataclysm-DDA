@@ -260,7 +260,7 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
     trait_factory.load( jo, src );
 }
 
-mut_transform::mut_transform() : active( false ), moves( 0 ) {}
+mut_transform::mut_transform() = default;
 
 bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 {
