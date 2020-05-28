@@ -685,12 +685,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [
-      [
-        [ "small_repairkit", 150 ],
-        [ "large_repairkit", 30 ]
-      ]
-    ],
+    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -849,23 +844,19 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 7,
     "time": "3 h",
-    "book_learn": [ "manual_gun", 3 ],
+    "book_learn": [ [ "manual_gun", 3 ] ],
     "reversible": true,
     "autolearn": false,
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "DRILL", "level": 3 },
+      { "id": "CUT", "level": 2 }
     ],
-    "tools": [
-      [
-        [ "large_repairkit", 75 ],
-        [ "small_repairkit", 150 ],
-
-      ]
-    ],
+    "tools": [ [ [ "large_repairkit", 75 ], [ "small_repairkit", 150 ] ] ],
     "using": [ [ "welding_standard", 15 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 5 ] ], [ [ "2x4", 2 ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -876,20 +867,11 @@
     "skills_required": [ "gun", 5 ],
     "difficulty": 7,
     "time": "4 h 30 m",
-    "book_learn": [ "manual_gun", 3 ],
+    "book_learn": [ [ "manual_gun", 3 ] ],
     "autolearn": false,
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
-    "tools": [
-      [
-        [ "small_repairkit", 180 ],
-        [ "large_repairkit", 75 ]
-      ]
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "small_repairkit", 180 ], [ "large_repairkit", 75 ] ] ],
     "using": [ [ "welding_standard", 4 ] ],
-    ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 2 ] ], [ [ "spring", 1 ] ], [ [ "scrap", 3 ] ], [ [ "shotgun_d", 1 ] ] ]
   },
   {
@@ -915,7 +897,7 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 7,
     "time": "3 h",
-    "book_learn": [ "manual_gun", 2 ],
+    "book_learn": [ [ "manual_gun", 2 ] ],
     "reversible": true,
     "autolearn": false,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -930,16 +912,17 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 7,
     "time": "3 h",
-    "book_learn": [ "manual_gun", 3 ],
+    "book_learn": [ [ "manual_gun", 3 ] ],
     "autolearn": false,
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "DRILL", "level": 3 },
+      { "id": "CUT", "level": 2 }
     ],
     "using": [ [ "welding_standard", 3 ] ],
-    ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 5 ] ], [ [ "2x4", 2 ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -950,7 +933,7 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 6,
     "time": "2 h",
-    "book_learn": [ "manual_gun", 2 ],
+    "book_learn": [ [ "manual_gun", 2 ] ],
     "autolearn": false,
     "using": [ [ "welding_standard", 3 ] ],
     "components": [ [ [ "pipe", 3 ] ], [ [ "spring", 2 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
@@ -965,11 +948,7 @@
     "difficulty": 7,
     "time": "4 h",
     "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 20 ] ],
     "components": [ [ [ "pipe", 3 ] ], [ [ "nail", 3 ] ], [ [ "scrap", 3 ] ], [ [ "2x4", 1 ] ] ]
   },
@@ -1176,11 +1155,7 @@
       [ "manual_rifle", 4 ],
       [ "manual_launcher", 4 ]
     ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1195,11 +1170,7 @@
     "time": "25 m",
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "manual_shotgun", 4 ], [ "manual_smg", 4 ], [ "manual_rifle", 4 ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1233,11 +1204,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 2 ], [ "manual_rifle", 3 ], [ "manual_launcher", 3 ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1309,11 +1276,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "manual_pistol", 4 ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1334,11 +1297,7 @@
       [ "manual_rifle", 4 ],
       [ "manual_launcher", 4 ]
     ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
   },
@@ -1542,11 +1501,7 @@
     "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ] ],
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 10 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -2615,9 +2570,7 @@
     "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [
-      [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ]
-    ],
+    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "components": [ [ [ "m2browning", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
