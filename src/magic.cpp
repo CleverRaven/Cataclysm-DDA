@@ -153,23 +153,23 @@ void spell_type::load_spell( const JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
-static energy_type energy_source_from_string( const std::string &str )
+static magic_energy_type energy_source_from_string( const std::string &str )
 {
     if( str == "MANA" ) {
-        return mana_energy;
+        return magic_energy_type::mana;
     } else if( str == "HP" ) {
-        return hp_energy;
+        return magic_energy_type::hp;
     } else if( str == "BIONIC" ) {
-        return bionic_energy;
+        return magic_energy_type::bionic;
     } else if( str == "STAMINA" ) {
-        return stamina_energy;
+        return magic_energy_type::stamina;
     } else if( str == "FATIGUE" ) {
-        return fatigue_energy;
+        return magic_energy_type::fatigue;
     } else if( str == "NONE" ) {
-        return none_energy;
+        return magic_energy_type::none;
     } else {
-        debugmsg( _( "ERROR: Invalid energy string.  Defaulting to NONE" ) );
-        return none_energy;
+        debugmsg( _( "ERROR: Invalid magic_energy_type string.  Defaulting to NONE" ) );
+        return magic_energy_type::none;
     }
 }
 
@@ -676,10 +676,10 @@ int spell::energy_cost( const Character &guy ) const
             default:
                 cost += 10 * hands_encumb;
                 break;
-            case hp_energy:
+            case magic_energy_type::hp:
                 cost += hands_encumb;
                 break;
-            case stamina_energy:
+            case magic_energy_type::stamina:
                 cost += 100 * hands_encumb;
                 break;
         }
@@ -700,11 +700,11 @@ bool spell::is_spell_class( const trait_id &mid ) const
 bool spell::can_cast( const Character &guy ) const
 {
     switch( type->energy_source ) {
-        case mana_energy:
+        case magic_energy_type::mana:
             return guy.magic.available_mana() >= energy_cost( guy );
-        case stamina_energy:
+        case magic_energy_type::stamina:
             return guy.get_stamina() >= energy_cost( guy );
-        case hp_energy: {
+        case magic_energy_type::hp: {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( energy_cost( guy ) < guy.hp_cur[i] ) {
                     return true;
@@ -712,11 +712,11 @@ bool spell::can_cast( const Character &guy ) const
             }
             return false;
         }
-        case bionic_energy:
+        case magic_energy_type::bionic:
             return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
-        case fatigue_energy:
+        case magic_energy_type::fatigue:
             return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
-        case none_energy:
+        case magic_energy_type::none:
         default:
             return true;
     }
@@ -846,15 +846,15 @@ void spell::set_exp( int nxp )
 std::string spell::energy_string() const
 {
     switch( type->energy_source ) {
-        case hp_energy:
+        case magic_energy_type::hp:
             return _( "health" );
-        case mana_energy:
+        case magic_energy_type::mana:
             return _( "mana" );
-        case stamina_energy:
+        case magic_energy_type::stamina:
             return _( "stamina" );
-        case bionic_energy:
+        case magic_energy_type::bionic:
             return _( "bionic power" );
-        case fatigue_energy:
+        case magic_energy_type::fatigue:
             return _( "fatigue" );
         default:
             return "";
@@ -863,21 +863,21 @@ std::string spell::energy_string() const
 
 std::string spell::energy_cost_string( const Character &guy ) const
 {
-    if( energy_source() == none_energy ) {
+    if( energy_source() == magic_energy_type::none ) {
         return _( "none" );
     }
-    if( energy_source() == bionic_energy || energy_source() == mana_energy ) {
+    if( energy_source() == magic_energy_type::bionic || energy_source() == magic_energy_type::mana ) {
         return colorize( to_string( energy_cost( guy ) ), c_light_blue );
     }
-    if( energy_source() == hp_energy ) {
+    if( energy_source() == magic_energy_type::hp ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
         return colorize( pair.first, pair.second );
     }
-    if( energy_source() == stamina_energy ) {
+    if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
-    if( energy_source() == fatigue_energy ) {
+    if( energy_source() == magic_energy_type::fatigue ) {
         return colorize( to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
@@ -886,23 +886,23 @@ std::string spell::energy_cost_string( const Character &guy ) const
 
 std::string spell::energy_cur_string( const Character &guy ) const
 {
-    if( energy_source() == none_energy ) {
+    if( energy_source() == magic_energy_type::none ) {
         return _( "infinite" );
     }
-    if( energy_source() == bionic_energy ) {
+    if( energy_source() == magic_energy_type::bionic ) {
         return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
-    if( energy_source() == mana_energy ) {
+    if( energy_source() == magic_energy_type::mana ) {
         return colorize( to_string( guy.magic.available_mana() ), c_light_blue );
     }
-    if( energy_source() == stamina_energy ) {
+    if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
-    if( energy_source() == hp_energy ) {
+    if( energy_source() == magic_energy_type::hp ) {
         return "";
     }
-    if( energy_source() == fatigue_energy ) {
+    if( energy_source() == magic_energy_type::fatigue ) {
         const std::pair<std::string, nc_color> pair = guy.get_fatigue_description();
         return colorize( pair.first, pair.second );
     }
@@ -962,7 +962,7 @@ std::string spell::effect() const
     return type->effect_name;
 }
 
-energy_type spell::energy_source() const
+magic_energy_type spell::energy_source() const
 {
     return type->energy_source;
 }
@@ -1483,22 +1483,22 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
 {
     int cost = sp.energy_cost( guy );
     switch( sp.energy_source() ) {
-        case mana_energy:
+        case magic_energy_type::mana:
             return available_mana() >= cost;
-        case bionic_energy:
+        case magic_energy_type::bionic:
             return guy.get_power_level() >= units::from_kilojoule( cost );
-        case stamina_energy:
+        case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
-        case hp_energy:
+        case magic_energy_type::hp:
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( guy.hp_cur[i] > cost ) {
                     return true;
                 }
             }
             return false;
-        case fatigue_energy:
+        case magic_energy_type::fatigue:
             return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
-        case none_energy:
+        case magic_energy_type::none:
             return true;
         default:
             return false;
@@ -1689,8 +1689,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( _( " (%s current)" ),
-                             sp.energy_cur_string( g->u ) );
+    std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                             string_format( _( " (%s current)" ), sp.energy_cur_string( g->u ) );
     if( !sp.can_cast( g->u ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
         energy_cur = "";

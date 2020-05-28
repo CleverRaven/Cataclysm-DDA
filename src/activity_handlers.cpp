@@ -4566,22 +4566,22 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         // pay the cost
         int cost = spell_being_cast.energy_cost( *p );
         switch( spell_being_cast.energy_source() ) {
-            case mana_energy:
+            case magic_energy_type::mana:
                 p->magic.mod_mana( *p, -cost );
                 break;
-            case stamina_energy:
+            case magic_energy_type::stamina:
                 p->mod_stamina( -cost );
                 break;
-            case bionic_energy:
+            case magic_energy_type::bionic:
                 p->mod_power_level( -units::from_kilojoule( cost ) );
                 break;
-            case hp_energy:
+            case magic_energy_type::hp:
                 blood_magic( p, cost );
                 break;
-            case fatigue_energy:
+            case magic_energy_type::fatigue:
                 p->mod_fatigue( cost );
                 break;
-            case none_energy:
+            case magic_energy_type::none:
             default:
                 break;
         }

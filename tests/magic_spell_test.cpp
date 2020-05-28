@@ -566,7 +566,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.effect_str == "STAMINA" );
         // at the cost of a substantial amount of mana
         REQUIRE( montage_type.base_energy_cost == 800 );
-        REQUIRE( montage_type.energy_source == mana_energy );
+        REQUIRE( montage_type.energy_source == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
         REQUIRE( montage_type.min_damage == 1000 );
