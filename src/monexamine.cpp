@@ -60,7 +60,7 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
 static const skill_id skill_survival( "survival" );
-static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -90,7 +90,7 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool is_zombie = z.type->in_species( ZOMBIE );
+    bool is_zombie = z.type->in_species( species_ZOMBIE );
     if( is_zombie ) {
         pet_name = _( "zombie slave" );
     }
