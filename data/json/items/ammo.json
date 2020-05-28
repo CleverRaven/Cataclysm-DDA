@@ -109,7 +109,7 @@
     "name": { "str": "cent" },
     "symbol": "=",
     "color": "light_gray",
-    "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
+    "description": "A unit of currency equivalent to 0.01 US dollars.",
     "flags": [ "TRADER_AVOID" ],
     "volume": "0 ml",
     "ammo_type": "money"
