@@ -550,7 +550,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
-    for( auto vit : vitamins ) {
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
         vitamin_mod( vit.first, vit.second, capped );
     }
 }
@@ -1826,4 +1826,3 @@ bool player::consume( item_location loc, bool force )
 
     return true;
 }
-

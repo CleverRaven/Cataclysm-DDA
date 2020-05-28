@@ -1412,7 +1412,7 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
-    for( spell_id sp : spells ) {
+    for( const spell_id &sp : spells ) {
         spell temp_spell = u.magic.get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;

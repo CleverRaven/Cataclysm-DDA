@@ -1818,7 +1818,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     const point mount_zero = point_zero;
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
-        for( auto carry_map : carry_data ) {
+        for( const mapping &carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
             std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
@@ -5284,7 +5284,7 @@ void vehicle::place_spawn_items()
                 }
                 for( const std::string &e : spawn.item_groups ) {
                     item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
-                    for( auto spawn_item : group_items ) {
+                    for( const auto &spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }
                 }

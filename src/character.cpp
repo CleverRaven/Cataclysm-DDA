@@ -2252,7 +2252,7 @@ item *Character::try_add( item it, const item *avoid )
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const invlets_bitset cur_inv = allocated_invlets();
-    for( auto iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv.assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;

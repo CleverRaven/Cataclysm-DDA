@@ -1027,7 +1027,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
 
     invlets_bitset cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for( auto iter : assigned_invlet ) {
+    for( const auto &iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             return;

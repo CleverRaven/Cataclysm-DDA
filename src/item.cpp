@@ -8527,7 +8527,7 @@ uint64_t item::make_component_hash() const
     }
 
     std::string concatenated_ids;
-    for( std::string id : id_set ) {
+    for( const std::string &id : id_set ) {
         concatenated_ids += id;
     }
 

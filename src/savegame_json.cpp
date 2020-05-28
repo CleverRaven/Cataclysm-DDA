@@ -1048,7 +1048,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "assigned_invlet" );
     json.start_array();
-    for( auto iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv.assigned_invlet ) {
         json.start_array();
         json.write( iter.first );
         json.write( iter.second );
@@ -2995,7 +2995,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for( auto maps : *effects ) {
+    for( const auto &maps : *effects ) {
         for( const auto i : maps.second ) {
             std::ostringstream convert;
             convert << i.first;
@@ -3050,18 +3050,18 @@ void Creature::load( const JsonObject &jsin )
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
             jsin.read( "effects", tmp_map );
             int key_num = 0;
-            for( auto maps : tmp_map ) {
+            for( const auto &maps : tmp_map ) {
                 const efftype_id id( maps.first );
                 if( !id.is_valid() ) {
                     debugmsg( "Invalid effect: %s", id.c_str() );
                     continue;
                 }
-                for( auto i : maps.second ) {
+                for( const auto &i : maps.second ) {
                     if( !( std::istringstream( i.first ) >> key_num ) ) {
                         key_num = 0;
                     }
                     const body_part bp = static_cast<body_part>( key_num );
-                    effect &e = i.second;
+                    const effect &e = i.second;
 
                     ( *effects )[id][bp] = e;
                     on_effect_int_change( id, e.get_intensity(), bp );

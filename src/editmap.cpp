@@ -834,12 +834,11 @@ static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     alts["_v_alarm"] = "_h_alarm";
     const std::string tersid = sel_ter.obj().id.str();
     const int sidlen = tersid.size();
-    for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
-         ++it ) {
-        const std::string suffix = isvert ? it->first : it->second;
+    for( const auto &it : alts ) {
+        const std::string suffix = isvert ? it.first : it.second;
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
-            const std::string asuffix = isvert ? it->second : it->first;
+            const std::string asuffix = isvert ? it.second : it.first;
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
             const ter_str_id tid( terasid );
 

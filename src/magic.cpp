@@ -1472,7 +1472,7 @@ void known_magic::update_mana( const Character &guy, float turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
-    for( auto pair : spellbook ) {
+    for( const std::pair<const spell_id, spell> &pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
     return spell_ids;

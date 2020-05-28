@@ -562,7 +562,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-    for( mtype_id elem : prof->pets() ) {
+    for( const mtype_id &elem : prof->pets() ) {
         starting_pets.push_back( elem );
     }
 
@@ -578,9 +578,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     migrate_items_to_storage( true );
 
     std::vector<addiction> prof_addictions = prof->addictions();
-    for( std::vector<addiction>::const_iterator iter = prof_addictions.begin();
-         iter != prof_addictions.end(); ++iter ) {
-        addictions.push_back( *iter );
+    for( const addiction &iter : prof_addictions ) {
+        addictions.push_back( iter );
     }
 
     for( auto &bio : prof->CBMs() ) {
@@ -1554,7 +1553,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             // Profession pet
             if( !sorted_profs[cur_id]->pets().empty() ) {
                 buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
-                for( auto elem : sorted_profs[cur_id]->pets() ) {
+                for( const auto &elem : sorted_profs[cur_id]->pets() ) {
                     monster mon( elem );
                     buffer += mon.get_name() + "\n";
                 }
