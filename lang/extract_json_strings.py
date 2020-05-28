@@ -125,6 +125,7 @@ automatically_convertible = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
+    "conduct",
     "construction_category",
     "CONTAINER",
     "dream",
