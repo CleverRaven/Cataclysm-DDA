@@ -147,7 +147,8 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
     names.reserve( parts.size() );
     for( size_t i = 0; i < parts.size(); ++i ) {
         const bodypart_id &part = parts[i];
-        if( i + 1 < parts.size() && parts[i + 1] == static_cast<bodypart_id>( bp_aiOther[part->token] ) ) {
+        if( i + 1 < parts.size() &&
+            parts[i + 1] == convert_bp( static_cast<body_part>( bp_aiOther[part->token] ) ).id() ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;
