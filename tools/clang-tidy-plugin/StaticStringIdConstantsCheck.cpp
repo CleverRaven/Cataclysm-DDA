@@ -70,7 +70,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
         { "quality", "qual_" },
         { "Skill", "skill_" },
         { "species_type", "" },
-        { "ter_t", "" },
+        { "ter_t", "ter_" },
         { "trap", "" },
         { "zone_type", "zone_type_" },
     };
