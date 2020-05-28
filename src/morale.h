@@ -25,7 +25,7 @@ class player_morale
     public:
         player_morale();
 
-        player_morale( player_morale && ) = default;
+        player_morale( player_morale && ) noexcept = default;
         player_morale( const player_morale & ) = default;
         player_morale &operator =( player_morale && ) = default;
         player_morale &operator =( const player_morale & ) = default;

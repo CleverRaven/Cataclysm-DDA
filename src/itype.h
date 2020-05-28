@@ -559,7 +559,7 @@ namespace std
 
 template<>
 struct hash<gun_type_type> {
-    size_t operator()( const gun_type_type &t ) const {
+    size_t operator()( const gun_type_type &t ) const noexcept {
         return hash<std::string>()( t.name_ );
     }
 };
