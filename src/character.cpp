@@ -176,7 +176,7 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_beartrap( "breatrap" );
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );

@@ -127,7 +127,7 @@ static const itype_id fuel_type_wind( "wind" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
-static const itype_id itype_pseudo_bio_picklock( "psuedo_bio_picklock" );
+static const itype_id itype_psuedo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_UPS( "UPS" );
@@ -940,9 +940,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
         if( pnt && g->m.has_flag( "PICKABLE", *pnt ) ) {
-            g->u.i_add( item( itype_pseudo_bio_picklock ) );
+            g->u.i_add( item( itype_psuedo_bio_picklock ) );
             std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
-                return itm.typeId() == itype_pseudo_bio_picklock;
+                return itm.typeId() == itype_psuedo_bio_picklock;
             } );
             if( !bio_picklocks.empty() ) {
                 add_msg_activate();
