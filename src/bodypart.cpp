@@ -14,6 +14,8 @@
 #include "pldata.h"
 #include "type_id.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -317,7 +319,7 @@ std::string encumb_text( const bodypart_id &bp )
 
 body_part random_body_part( bool main_parts_only )
 {
-    const auto &part = human_anatomy->random_body_part();
+    const auto &part = anatomy_human_anatomy->random_body_part();
     return main_parts_only ? part->main_part->token : part->token;
 }
 

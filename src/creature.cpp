@@ -46,6 +46,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -1688,7 +1690,7 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
 
-    return human_anatomy->select_body_part( szdif, hit_roll )->token;
+    return anatomy_human_anatomy->select_body_part( szdif, hit_roll )->token;
 }
 
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )
