@@ -548,7 +548,7 @@ class atm_menu
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
 
-            auto cash_cards_on_hand = u.items_with( []( const item & i ) {
+            std::vector<item *> cash_cards_on_hand = u.items_with( []( const item & i ) {
                 return i.typeId() == itype_cash_card;
             } );
             if( !cash_cards_on_hand.size() ) {
