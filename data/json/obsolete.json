@@ -1112,22 +1112,22 @@
   {
     "type": "recipe",
     "result": "pipe_combination_gun",
-    "obsolete": true,
+    "obsolete": true
   },
   {
     "type": "recipe",
     "result": "rifle_308",
-    "obsolete": true,
+    "obsolete": true
   },
   {
     "type": "recipe",
     "result": "surv_carbine_223",
-    "obsolete": true,
+    "obsolete": true
   },
   {
     "type": "recipe",
     "result": "rifle_3006",
-    "obsolete": true,
+    "obsolete": true
   },
   {
     "type": "recipe",
