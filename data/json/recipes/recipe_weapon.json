@@ -637,7 +637,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 3,
-    "time": "1 h",
+    "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_pistol", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "GLARE", "level": 2 } ],
@@ -854,6 +854,35 @@
   },
   {
     "type": "recipe",
+    "result": "lever_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [
+      [
+        [ "oxy_torch", 30 ],
+        [ "welder", 150 ],
+        [ "large_repairkit", 75 ],
+        [ "small_repairkit", 150 ],
+        [ "welder_crude", 225 ],
+        [ "toolset", 225 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pipe_combination_gun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -902,7 +931,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 3 ],
     "difficulty": 7,
-    "time": "30 m",
+    "time": "3 h",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -916,9 +945,24 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 3 ],
     "difficulty": 7,
-    "time": "2 h",
+    "time": "3 h",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [
+      [
+        [ "oxy_torch", 30 ],
+        [ "welder", 150 ],
+        [ "large_repairkit", 75 ],
+        [ "small_repairkit", 150 ],
+        [ "welder_crude", 225 ],
+        [ "toolset", 225 ]
+      ]
+    ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
@@ -929,7 +973,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "gun", 4 ],
     "difficulty": 6,
-    "time": "4 h",
+    "time": "2 h",
     "autolearn": true,
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
