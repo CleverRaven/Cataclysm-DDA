@@ -44,8 +44,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     CHECK( mag.is_reloadable_with( ammo_id ) == true );
     CHECK( mag.is_reloadable_with( alt_ammo ) == true );
     CHECK( mag.is_reloadable_with( bad_ammo ) == false );
-    // player does not have the proper ammo to reload the gun
-    CHECK( p.can_reload( mag ) == false );
+    CHECK( p.can_reload( mag ) == true );
     CHECK( p.can_reload( mag, ammo_id ) == true );
     CHECK( p.can_reload( mag, alt_ammo ) == true );
     CHECK( p.can_reload( mag, bad_ammo ) == false );
