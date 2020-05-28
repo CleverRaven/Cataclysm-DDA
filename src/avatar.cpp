@@ -124,7 +124,7 @@ avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
-    grab_type = OBJECT_NONE;
+    grab_type = object_type::NONE;
 }
 
 void avatar::toggle_map_memory()
@@ -674,7 +674,7 @@ void avatar::grab( object_type grab_type, const tripoint &grab_point )
     this->grab_type = grab_type;
     this->grab_point = grab_point;
 
-    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+    path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }
 
 object_type avatar::get_grab_type() const
