@@ -335,3 +335,54 @@ std::string get_body_part_id( body_part bp )
 {
     return get_bp( bp ).legacy_id;
 }
+
+body_part_set body_part_set::unify_set( const body_part_set &rhs )
+{
+    for( auto i = rhs.parts.begin(); i != rhs.parts.end(); i++ ) {
+        if( parts.count( *i ) == 0 ) {
+            parts.insert( *i );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::intersect_set( const body_part_set &rhs )
+{
+    for( auto j = parts.begin(); j != parts.end(); j++ ) {
+        if( rhs.parts.count( *j ) == 0 ) {
+            parts.erase( *j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::substract_set( const body_part_set &rhs )
+{
+    for( auto j = rhs.parts.begin(); j != rhs.parts.end(); j++ ) {
+        if( parts.count( *j ) > 0 ) {
+            parts.erase( *j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::make_union( const body_part_set &rhs )
+{
+    body_part_set new_union;
+    new_union.parts = parts;
+    return new_union.unify_set( rhs );
+}
+
+body_part_set body_part_set::make_intersection( const body_part_set &rhs )
+{
+    body_part_set new_intersection;
+    new_intersection.parts = parts;
+    return new_intersection.intersect_set( rhs );
+}
+
+void body_part_set::fill( const std::vector<bodypart_id> &bps )
+{
+    for( const bodypart_id &bp : bps ) {
+        parts.insert( bp.id() );
+    }
+}

@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include <string>
 
+#include "flat_set.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
@@ -130,14 +131,13 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
-constexpr int number_of_parts = 12;
 class body_part_set
 {
     private:
 
-        std::bitset<number_of_parts> parts;
+        cata::flat_set<bodypart_str_id> parts;
 
-        explicit body_part_set( const std::bitset<number_of_parts> &other ) : parts( other ) { }
+        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
 
     public:
         body_part_set() = default;
@@ -146,48 +146,32 @@ class body_part_set
                 set( bp );
             }
         }
+        body_part_set unify_set( const body_part_set &rhs );
+        body_part_set intersect_set( const body_part_set &rhs );
+        body_part_set make_union( const body_part_set &rhs );
+        body_part_set make_intersection( const body_part_set &rhs );
+        body_part_set substract_set( const body_part_set &rhs );
 
-        body_part_set &operator|=( const body_part_set &rhs ) {
-            parts |= rhs.parts;
-            return *this;
-        }
-        body_part_set &operator&=( const body_part_set &rhs ) {
-            parts &= rhs.parts;
-            return *this;
-        }
+        void fill( const std::vector<bodypart_id> &bps );
 
-        body_part_set operator|( const body_part_set &rhs ) const {
-            return body_part_set( parts | rhs.parts );
-        }
-        body_part_set operator&( const body_part_set &rhs ) const {
-            return body_part_set( parts & rhs.parts );
-        }
-
-        body_part_set operator~() const {
-            return body_part_set( ~parts );
-        }
-
-        static body_part_set all() {
-            return ~body_part_set();
-        }
 
         bool test( const bodypart_str_id &bp ) const {
-            return parts.test( bp->token );
+            return parts.count( bp ) > 0;
         }
         void set( const bodypart_str_id &bp ) {
-            parts.set( bp->token );
+            parts.insert( bp );
         }
         void reset( const bodypart_str_id &bp ) {
-            parts.reset( bp->token );
+            parts.erase( bp );
         }
         bool any() const {
-            return parts.any();
+            return !parts.empty();
         }
         bool none() const {
-            return parts.none();
+            return parts.empty();
         }
         size_t count() const {
-            return parts.count();
+            return parts.size();
         }
 
         template<typename Stream>

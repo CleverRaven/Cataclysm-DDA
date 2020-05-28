@@ -767,7 +767,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
         return res;
     }
 
-    res |= armor->covers;
+    res.unify_set( armor->covers );
 
     if( !armor->sided ) {
         return res; // Just ignore the side.
