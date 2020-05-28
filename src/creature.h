@@ -453,7 +453,7 @@ class Creature
 
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         anatomy_id get_anatomy() const;
-        void set_anatomy( anatomy_id anat );
+        void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
@@ -741,8 +741,11 @@ class Creature
 
         virtual std::string extended_description() const = 0;
 
+        /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
+        /** Creature symbol color */
         virtual nc_color basic_symbol_color() const = 0;
+        /** Creature symbol */
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 

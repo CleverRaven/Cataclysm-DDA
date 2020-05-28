@@ -18,7 +18,7 @@
     "description": "A heavy mattress-like armor of cloth, leather and thick linings of Kevlar, originally used as protection in bullfighting.  You could put this on a friendly horse.",
     "price": 50000,
     "price_postapoc": 5000,
-    "material": [ "cotton", "leather", "kevlar" ],
+    "material": [ "cotton", "leather", "kevlar_layered" ],
     "weight": "30 kg",
     "volume": "150 L",
     "material_thickness": 10
@@ -161,6 +161,23 @@
     "encumbrance": 30,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "//": "each 15 L bag is ~ 60 x 25 x 10 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "60 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "60 cm",
+        "moves": 200
+      }
+    ]
   }
 ]

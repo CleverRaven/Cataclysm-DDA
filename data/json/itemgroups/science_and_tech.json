@@ -434,7 +434,7 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
-      [ "anesthetic_kit", 10 ]
+      { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },
   {

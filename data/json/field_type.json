@@ -519,6 +519,13 @@
     "looks_like": "fd_fire"
   },
   {
+    "id": "fd_shadow",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "shadow", "light_override": 3.7 } ],
+    "half_life": "10 seconds",
+    "percent_spread": 50
+  },
+  {
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,

@@ -26,7 +26,15 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "pressurized_tank" ]
+      }
+    ]
   },
   {
     "id": "rm451_flamethrower",
@@ -50,6 +58,14 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
     "delete": { "flags": [ "FIRE_100" ] },
-    "magazines": [ [ "flammable", [ "rm4502", "rm4504" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rm4502", "rm4504" ]
+      }
+    ]
   }
 ]

@@ -791,36 +791,36 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
 TEST_CASE( "invlet_favourites_can_erase", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', "a" );
+    fav.set( 'a', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "a" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "a" );
     fav.erase( 'a' );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ).empty() );
+    CHECK( fav.invlets_for( itype_id( "a" ) ).empty() );
 }
 
 TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', "a" );
+    fav.set( 'a', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "a" );
-    CHECK( fav.invlets_for( "b" ).empty() );
-    fav.set( 'a', "b" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "a" );
+    CHECK( fav.invlets_for( itype_id( "b" ) ).empty() );
+    fav.set( 'a', itype_id( "b" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ).empty() );
-    CHECK( fav.invlets_for( "b" ) == "a" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ).empty() );
+    CHECK( fav.invlets_for( itype_id( "b" ) ) == "a" );
 }
 
 TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', "a" );
-    fav.set( 'b', "a" );
-    fav.set( 'c', "a" );
+    fav.set( 'a', itype_id( "a" ) );
+    fav.set( 'b', itype_id( "a" ) );
+    fav.set( 'c', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "abc" );
-    fav.set( 'b', "a" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "abc" );
+    fav.set( 'b', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "abc" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "abc" );
 }

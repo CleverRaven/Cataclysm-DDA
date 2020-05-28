@@ -146,8 +146,8 @@ std::string body_part_names( const std::vector<body_part> &parts )
     std::vector<std::string> names;
     names.reserve( parts.size() );
     for( size_t i = 0; i < parts.size(); ++i ) {
-        const body_part part = parts[i];
-        if( i + 1 < parts.size() && parts[i + 1] == static_cast<body_part>( bp_aiOther[part] ) ) {
+        const bodypart_id &part = convert_bp( parts[i] ).id();
+        if( i + 1 < parts.size() && parts[i + 1] == static_cast<body_part>( bp_aiOther[part->token] ) ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;
@@ -204,19 +204,19 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     if( !penalties.body_parts_with_stacking_penalty.empty() ) {
         std::string layer_description = [&]() {
             switch( worn_item_it->get_layer() ) {
-                case PERSONAL_LAYER:
+                case layer_level::PERSONAL:
                     return _( "in your <color_light_blue>personal aura</color>" );
-                case UNDERWEAR_LAYER:
+                case layer_level::UNDERWEAR:
                     return _( "<color_light_blue>close to your skin</color>" );
-                case REGULAR_LAYER:
+                case layer_level::REGULAR:
                     return _( "of <color_light_blue>normal</color> clothing" );
-                case WAIST_LAYER:
+                case layer_level::WAIST:
                     return _( "on your <color_light_blue>waist</color>" );
-                case OUTER_LAYER:
+                case layer_level::OUTER:
                     return _( "of <color_light_blue>outer</color> clothing" );
-                case BELTED_LAYER:
+                case layer_level::BELTED:
                     return _( "<color_light_blue>strapped</color> to you" );
-                case AURA_LAYER:
+                case layer_level::AURA:
                     return _( "an <color_light_blue>aura</color> around you" );
                 default:
                     return _( "Unexpected layer" );
@@ -649,7 +649,7 @@ void player::sort_armor()
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {
                 mvwprintz( w_sort_right, point( 1, pos ), ( cover == tabindex ? c_yellow : c_white ),
-                           "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ) );
+                           "%s:", body_part_name_as_heading( convert_bp( all_body_parts[cover] ).id(), combined ? 2 : 1 ) );
                 pos++;
             }
             curr++;

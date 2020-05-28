@@ -930,7 +930,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     werase( w );
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
@@ -1166,7 +1166,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
@@ -1190,7 +1190,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first->token ), 5 ) );
+                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
@@ -1577,7 +1577,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
         wmove( w, point( 14, i ) );
@@ -1801,10 +1801,10 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );

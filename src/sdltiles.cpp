@@ -3606,7 +3606,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
         try {
             return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
                                           PATH_INFO::user_font() + typeface ) );
-        } catch( std::exception &err ) {
+        } catch( std::exception & ) {
             try {
                 return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
                                               PATH_INFO::fontdir() + typeface ) );

@@ -373,7 +373,7 @@
     "price_postapoc": 250,
     "to_hit": 2,
     "bashing": 1,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "dark_gray",
@@ -641,7 +641,7 @@
     "volume": "2500 ml",
     "price": 6700,
     "price_postapoc": 1500,
-    "material": [ "cotton", "kevlar" ],
+    "material": [ "cotton", "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
@@ -1054,5 +1054,34 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "debug_backpack",
+    "type": "ARMOR",
+    "name": { "str": "debug pocket universe" },
+    "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.",
+    "weight": "1 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "yellow",
+    "encumbrance": 0,
+    "max_encumbrance": 0,
+    "pocket_data": [
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km"
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 0,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]

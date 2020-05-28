@@ -52,7 +52,6 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
     return dummy.healing_rate( rest_quality );
 }
 
-
 // At baseline human defaults, with no treatment or traits, the character only heals while sleeping.
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
 TEST_CASE( "baseline healing rate with no healing traits", "[heal][baseline]" )

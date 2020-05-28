@@ -20,10 +20,20 @@ enum class character_type : int {
 
 enum class add_type : int {
     NONE,
-    CAFFEINE, ALCOHOL, SLEEP, PKILLER, SPEED, CIG,
-    COKE, CRACK, MUTAGEN, DIAZEPAM,
-    MARLOSS_R, MARLOSS_B, MARLOSS_Y,
-    NUM_ADD_TYPES // last
+    CAFFEINE,
+    ALCOHOL,
+    SLEEP,
+    PKILLER,
+    SPEED,
+    CIG,
+    COKE,
+    CRACK,
+    MUTAGEN,
+    DIAZEPAM,
+    MARLOSS_R,
+    MARLOSS_B,
+    MARLOSS_Y,
+    NUM_ADD_TYPES
 };
 
 template<>

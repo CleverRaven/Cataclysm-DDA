@@ -17,14 +17,12 @@
 
 template <typename E> struct enum_traits;
 
-using itype_id = std::string;
-
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
 //
 // Each event is of a specific type, taken from the event_type enum.
 
-enum class event_type {
+enum class event_type : int {
     activates_artifact,
     activates_mininuke,
     administers_mutagen,

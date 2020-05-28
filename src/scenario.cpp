@@ -395,7 +395,6 @@ std::string scenario::start_name() const
     return _start_name.translated();
 }
 
-
 int scenario::start_location_count() const
 {
     return _allowed_locs.size();

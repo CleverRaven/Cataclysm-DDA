@@ -36,11 +36,9 @@ using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
 
-using itype_id = std::string;
-
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum class mon_trigger {
+enum class mon_trigger : int {
     STALK,              // Increases when following the player
     MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
@@ -176,7 +174,7 @@ enum m_flag : int {
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
-    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
+    MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -227,7 +225,7 @@ struct mtype {
     public:
         mtype_id id;
 
-        std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
+        std::map<itype_id, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
 

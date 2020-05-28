@@ -61,13 +61,10 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : int;
-enum phase_id : int;
 enum body_part : int;
 enum m_size : int;
 enum class side : int;
 class body_part_set;
-
-using itype_id = std::string;
 class map;
 struct damage_instance;
 struct damage_unit;
@@ -155,9 +152,9 @@ struct iteminfo {
 };
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol );
+                      const units::volume &vol, int decimal_places = 2 );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight );
+                         const units::mass &weight, int decimal_places = 2 );
 
 inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 {
@@ -197,6 +194,13 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+
+        // Legacy constructor for constructing from string rather than itype_id
+        // TODO: remove this and migrate code using it.
+        template<typename... Args>
+        item( const std::string &itype, Args &&... args ) :
+            item( itype_id( itype ), std::forward<Args>( args )... )
+        {}
 
         ~item();
 
@@ -725,8 +729,8 @@ class item : public visitable<item>
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
          */
-        item in_its_container() const;
-        item in_container( const itype_id &container_type ) const;
+        item in_its_container( int qty = INFINITE_CHARGES ) const;
+        item in_container( const itype_id &container_type, int qty = INFINITE_CHARGES ) const;
 
         bool item_has_uses_recursive() const;
 
@@ -791,7 +795,7 @@ class item : public visitable<item>
          * @return true if the item is fully rotten and is ready to be removed
          */
         bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
-                                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_modifier = 1.0f );
+                                      temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
         /** Set the item to HOT */
         void heat_up();
@@ -1099,7 +1103,7 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1555,7 +1559,7 @@ class item : public visitable<item>
          */
         int get_coverage() const;
 
-        enum class encumber_flags {
+        enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
         };
@@ -1697,10 +1701,15 @@ class item : public visitable<item>
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
-        /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
-        int ammo_capacity() const;
-        /** @param potential_capacity whether to try a default magazine if necessary */
-        int ammo_capacity( bool potential_capacity ) const;
+        /**
+         * ammo capacity for a specific ammo
+         */
+        int ammo_capacity( const ammotype &ammo ) const;
+        /**
+         * how much more ammo can fit into this item
+         * if this item is not loaded, gives remaining capacity of its default ammo
+         */
+        int remaining_ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
 
@@ -1733,15 +1742,16 @@ class item : public visitable<item>
         /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
+        std::set<ammotype> ammo_types( bool conversion = true ) const;
 
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
-        /** Get default ammo used by item or "NULL" if item does not have a default ammo type
+        /** Get default ammo used by item or a null id if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+         *  @return itype_id::NULL_ID() if item does not use a specific ammo type
+         *  (and is consequently not reloadable) */
         itype_id ammo_default( bool conversion = true ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
@@ -2091,7 +2101,7 @@ class item : public visitable<item>
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_modifier = 1.0f );
+                               temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -2112,7 +2122,7 @@ class item : public visitable<item>
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
     public:
-        enum class sizing {
+        enum class sizing : int {
             human_sized_human_char = 0,
             big_sized_human_char,
             small_sized_human_char,

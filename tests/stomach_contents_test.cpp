@@ -80,7 +80,7 @@ static void eat_all_nutrients( player &p )
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
     item f( "debug_nutrition" );
-    p.eat( f );
+    p.consume( f );
 }
 
 // how long does it take to starve to death
@@ -244,9 +244,9 @@ TEST_CASE( "hunger" )
     CHECK( hunger_time <= 270 );
     CHECK( hunger_time >= 240 );
     item f( "meat_cooked" );
-    dummy.eat( f );
+    dummy.consume( f );
     f = item( "meat_cooked" );
-    dummy.eat( f );
+    dummy.consume( f );
     dummy.set_thirst( 0 );
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );
@@ -259,9 +259,9 @@ TEST_CASE( "hunger" )
     CHECK( hunger_time <= 240 );
     CHECK( hunger_time >= 210 );
     f = item( "beansnrice" );
-    dummy.eat( f );
+    dummy.consume( f );
     f = item( "beansnrice" );
-    dummy.eat( f );
+    dummy.consume( f );
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );
     hunger_time = to_minutes<int>( time_until_hungry( dummy ) );
@@ -276,7 +276,7 @@ TEST_CASE( "hunger" )
     }
     for( int i = 0; i < 16; i++ ) {
         f = item( "veggy" );
-        dummy.eat( f );
+        dummy.consume( f );
     }
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );
@@ -295,7 +295,7 @@ TEST_CASE( "hunger" )
     }
     for( int i = 0; i < 16; i++ ) {
         f = item( "veggy" );
-        dummy.eat( f );
+        dummy.consume( f );
     }
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );

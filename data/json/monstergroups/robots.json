@@ -33,7 +33,14 @@
     "type": "monstergroup",
     "name": "GROUP_ROBOT_SECUBOT",
     "default": "mon_secubot",
-    "monsters": [ { "monster": "mon_secubot", "freq": 100, "cost_multiplier": 0 } ]
+    "monsters": [
+      {
+        "monster": "mon_secubot",
+        "freq": 100,
+        "cost_multiplier": 0,
+        "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": 30 } ] }
+      }
+    ]
   },
   {
     "type": "monstergroup",

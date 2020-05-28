@@ -80,6 +80,8 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
 
+static const itype_id itype_plut_cell( "plut_cell" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -396,7 +398,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     all.insert( all.end(), bps.begin(), bps.end() );
 
     for( const item &prod : all ) {
-        if( !prod.made_of( LIQUID ) ) {
+        if( !prod.made_of( phase_id::LIQUID ) ) {
             continue;
         }
 
@@ -548,7 +550,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.empty() ) {
+            !bio_data.fake_item.is_empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
@@ -634,7 +636,7 @@ static cata::optional<item_location> wield_craft( player &p, item &craft )
 static item *set_item_inventory( player &p, item &newit )
 {
     item *ret_val = nullptr;
-    if( newit.made_of( LIQUID ) ) {
+    if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         p.inv.assign_empty_invlet( newit, p );
@@ -1155,7 +1157,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
+                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
@@ -1210,7 +1212,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             food_contained.set_owner( get_faction()->id );
         }
 
-        if( newit.made_of( LIQUID ) ) {
+        if( newit.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
@@ -1233,7 +1235,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             bp.set_owner( get_faction()->id );
-            if( bp.made_of( LIQUID ) ) {
+            if( bp.made_of( phase_id::LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
@@ -2060,7 +2062,7 @@ bool player::disassemble( item_location target, bool interactive )
     // index is used as a bool that indicates if we want recursive uncraft.
     activity.index = false;
     activity.targets.emplace_back( std::move( target ) );
-    activity.str_values.push_back( r.result() );
+    activity.str_values.push_back( r.result().str() );
     // Unused position attribute used to store ammo to disassemble
     activity.position = std::min( num_dis, obj.charges );
 
@@ -2102,7 +2104,7 @@ void player::complete_disassemble()
 
     // Disassembly has 2 parallel vectors:
     // item location, and recipe id
-    const recipe &rec = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe &rec = recipe_dictionary::get_uncraft( itype_id( activity.str_values.back() ) );
 
     if( rec ) {
         complete_disassemble( activity.targets.back(), rec );
@@ -2129,7 +2131,8 @@ void player::complete_disassemble()
     }
 
     // Set get and set duration of next uncraft
-    const recipe &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( itype_id(
+                                    activity.str_values.back() ) );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
@@ -2215,7 +2218,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
                 // have their component count multiplied by the number of charges.
                 compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
-            const bool is_liquid = newit.made_of( LIQUID );
+            const bool is_liquid = newit.made_of( phase_id::LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
                 // Spawn liquid item in its default container
                 compcount = compcount / newit.charges;
@@ -2238,7 +2241,8 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
             if( newit.is_magazine() && dis.has_flag( flag_FULL_MAGAZINE ) ) {
-                newit.ammo_set( newit.ammo_default(), newit.ammo_capacity() );
+                newit.ammo_set( newit.ammo_default(),
+                                newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
             }
 
             for( ; compcount > 0; compcount-- ) {
@@ -2289,7 +2293,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
             }
         }
 
-        if( act_item.made_of( LIQUID ) ) {
+        if( act_item.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
@@ -2325,7 +2329,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
-    if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
+    if( newit.made_of( phase_id::LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
@@ -2346,16 +2350,16 @@ void remove_ammo( item &dis_item, player &p )
     if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;
     }
-    if( dis_item.is_gun() && dis_item.ammo_current() != "null" ) {
+    if( dis_item.is_gun() && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
         drop_or_handle( ammodrop, p );
         dis_item.charges = 0;
     }
-    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
+    if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_current() == "plut_cell" ) {
+        if( dis_item.ammo_current() == itype_plut_cell ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );

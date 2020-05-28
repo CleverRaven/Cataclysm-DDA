@@ -109,19 +109,77 @@ struct enum_traits<character_movemode> {
     static constexpr auto last = character_movemode::CMM_COUNT;
 };
 
-enum fatigue_levels {
+enum class fatigue_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
 const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
-        { "TIRED", TIRED },
-        { "DEAD_TIRED", DEAD_TIRED },
-        { "EXHAUSTED", EXHAUSTED },
-        { "MASSIVE_FATIGUE", MASSIVE_FATIGUE }
+        { "TIRED", fatigue_levels::TIRED },
+        { "DEAD_TIRED", fatigue_levels::DEAD_TIRED },
+        { "EXHAUSTED", fatigue_levels::EXHAUSTED },
+        { "MASSIVE_FATIGUE", fatigue_levels::MASSIVE_FATIGUE }
     }
 };
+
+constexpr inline bool operator>=( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) >= static_cast<int>( rhs );
+}
+
+constexpr inline bool operator<( const fatigue_levels &lhs, const fatigue_levels &rhs )
+{
+    return static_cast<int>( lhs ) < static_cast<int>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs >= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator>( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs > static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<=( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs <= static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline bool operator<( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs < static_cast<T>( rhs );
+}
+
+template<typename T>
+constexpr inline int operator/( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) / rhs;
+}
+
+template<typename T>
+constexpr inline int operator+( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const fatigue_levels &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) - rhs;
+}
+
+template<typename T>
+constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
+{
+    return lhs - static_cast<T>( rhs );
+}
 
 // Sleep deprivation is defined in minutes, and although most calculations scale linearly,
 // maluses are bestowed only upon reaching the tiers defined below.
@@ -160,7 +218,7 @@ enum edible_rating {
     NO_TOOL
 };
 
-enum class rechargeable_cbm {
+enum class rechargeable_cbm : int {
     none = 0,
     reactor,
     furnace,
@@ -188,7 +246,7 @@ struct encumbrance_data {
     int armor_encumbrance = 0;
     int layer_penalty = 0;
 
-    std::array<layer_details, static_cast<size_t>( layer_level::MAX_CLOTHING_LAYER )>
+    std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
     void layer( const layer_level level, const int encumbrance ) {
@@ -278,9 +336,8 @@ class Character : public Creature, public visitable<Character>
         bool in_species( const species_id &spec ) const override;
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
-        const std::string &symbol() const override;
 
-        enum class comfort_level {
+        enum class comfort_level : int {
             impossible = -999,
             uncomfortable = -7,
             neutral = 0,
@@ -391,9 +448,12 @@ class Character : public Creature, public visitable<Character>
         virtual void set_hunger( int nhunger );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
+        virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;
+
+        int get_standard_stamina_cost( item *thrown_item = nullptr );
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
@@ -579,7 +639,7 @@ class Character : public Creature, public visitable<Character>
                          int intensity = 0, bool force = false, bool deferred = false ) override;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
-        void expose_to_disease( diseasetype_id dis_type );
+        void expose_to_disease( const diseasetype_id &dis_type );
         /**
          * Handles end-of-turn processing.
          */
@@ -687,6 +747,8 @@ class Character : public Creature, public visitable<Character>
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
+        /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
+        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
     private:
         /** Check if an area-of-effect technique has valid targets */
@@ -785,8 +847,6 @@ class Character : public Creature, public visitable<Character>
         int get_working_leg_count() const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( hp_part limb ) const;
-        /** Returns true if the limb is hindered(40% or less hp) */
-        bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
         /** source of truth of whether a Character can run */
@@ -1053,8 +1113,8 @@ class Character : public Creature, public visitable<Character>
         bool has_enough_anesth( const itype &cbm );
         void consume_anesth_requirment( const itype &cbm, player &patient );
         /**Has the required equipement for manual installation*/
-        bool has_installation_requirment( bionic_id bid );
-        void consume_installation_requirment( bionic_id bid );
+        bool has_installation_requirment( const bionic_id &bid );
+        void consume_installation_requirment( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -1063,17 +1123,11 @@ class Character : public Creature, public visitable<Character>
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
         /**Calculate skill bonus from tiles in radius*/
-        float env_surgery_bonus( int radius );
+        float env_surgery_bonus( int radius ) const;
         /** Calculate skill for (un)installing bionics */
-        float bionics_adjusted_skill( const skill_id &most_important_skill,
-                                      const skill_id &important_skill,
-                                      const skill_id &least_important_skill,
-                                      int skill_level = -1 );
+        float bionics_adjusted_skill( bool autodoc, int skill_level = -1 ) const;
         /** Calculate non adjusted skill for (un)installing bionics */
-        int bionics_pl_skill( const skill_id &most_important_skill,
-                              const skill_id &important_skill,
-                              const skill_id &least_important_skill,
-                              int skill_level = -1 );
+        int bionics_pl_skill( bool autodoc, int skill_level = -1 ) const;
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
@@ -1234,6 +1288,8 @@ class Character : public Creature, public visitable<Character>
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
         std::vector<item_location> all_items_loc();
+        // Returns list of all the top level item_lodation the character has. Includes worn and held items.
+        std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
@@ -1572,8 +1628,9 @@ class Character : public Creature, public visitable<Character>
          */
         social_modifiers get_mutation_social_mods() const;
 
-        /** Color's character's tile's background */
+        // Display
         nc_color symbol_color() const override;
+        const std::string &symbol() const override;
 
         std::string extended_description() const override;
 
@@ -1901,7 +1958,7 @@ class Character : public Creature, public visitable<Character>
          * As above, but includes all creatures the player can detect well enough to target
          * with ranged weapons, e.g. with infrared vision.
          */
-        std::vector<Creature *> get_targetable_creatures( int range ) const;
+        std::vector<Creature *> get_targetable_creatures( int range, bool melee ) const;
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( int visibility_cap ) const;
         player_activity get_destination_activity() const;
@@ -1930,10 +1987,7 @@ class Character : public Creature, public visitable<Character>
         /** Value of the body temperature corrected by climate control **/
         int temp_corrected_by_climate_control( int temperature ) const;
 
-        bool in_sleep_state() const override {
-            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
-        }
-
+        bool in_sleep_state() const override;
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
         /**
@@ -2112,7 +2166,6 @@ class Character : public Creature, public visitable<Character>
         int heartrate_bpm() const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
-        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.
@@ -2199,8 +2252,9 @@ class Character : public Creature, public visitable<Character>
         float activity_level = NO_EXERCISE;
 
         trap_map known_traps;
-        std::array<encumbrance_data, num_bp> encumbrance_cache;
         mutable std::map<std::string, double> cached_info;
+        mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
+        mutable bool encumbrance_cache_dirty = true;
         bool bio_soporific_powered_at_last_sleep_check;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;

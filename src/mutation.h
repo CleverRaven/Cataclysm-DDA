@@ -28,8 +28,6 @@ class player;
 struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
-
-using itype_id = std::string;
 class JsonArray;
 
 extern std::vector<dream> dreams;
@@ -202,6 +200,8 @@ struct mutation_branch {
         float fatigue_regen_modifier = 0.0f;
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;
+        // the modifier for obtaining an item from a container as a handling penalty
+        float obtain_cost_multiplier = 1.0f;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
         float overmap_sight = 0.0f;
@@ -512,7 +512,7 @@ struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
 
-enum class mutagen_rejection {
+enum class mutagen_rejection : int {
     accepted,
     rejected,
     destroyed

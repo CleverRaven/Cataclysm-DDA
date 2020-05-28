@@ -3,7 +3,7 @@
     "type": "recipe",
     "result": "brew_mycus_wine",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREWING",
+    "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 40000,

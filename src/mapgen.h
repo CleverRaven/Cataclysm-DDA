@@ -126,6 +126,12 @@ struct jmapgen_setmap {
     bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 };
 
+struct spawn_data {
+    std::map<itype_id, jmapgen_int> ammo;
+
+    spawn_data() : ammo() {};
+};
+
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.

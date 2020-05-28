@@ -22,6 +22,7 @@
 #include "optional.h"
 
 static const std::string part_location_structure( "structure" );
+static const itype_id itype_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 std::string vehicle::disp_name() const
@@ -155,10 +156,11 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
 
         std::string partname = vp.name();
 
-        if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
+        if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
-                if( vp.ammo_current() == "battery" ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+                if( vp.ammo_current() == itype_battery ) {
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
+                                               vp.ammo_capacity( ammotype( "battery" ) ) );
                 } else {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
@@ -305,7 +307,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_fuel_store() && pt.ammo_current() != "null" ) {
+        if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
     }

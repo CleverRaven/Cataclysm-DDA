@@ -69,6 +69,10 @@ static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
 
 static const itype_id fuel_type_none( "null" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+
 static const species_id ROBOT( "ROBOT" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -170,6 +174,7 @@ static void do_blast( const tripoint &p, const float power,
     std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp_first >
     open;
     std::set<tripoint> closed;
+    std::set<tripoint> bashed{ p };
     std::map<tripoint, float> dist_map;
     open.push( std::make_pair( 0.0f, p ) );
     dist_map[p] = 0.0f;
@@ -214,21 +219,24 @@ static void do_blast( const tripoint &p, const float power,
                 continue;
             }
 
-            // Up to 200% bonus for shaped charge
-            // But not if the explosion is fiery, then only half the force and no bonus
-            const float bash_force = !fire ?
-                                     force + ( 2 * force / empty_neighbors ) :
-                                     force / 2;
-            if( z_offset[i] == 0 ) {
-                // Horizontal - no floor bashing
-                g->m.bash( dest, bash_force, true, false, false );
-            } else if( z_offset[i] > 0 ) {
-                // Should actually bash through the floor first, but that's not really possible yet
-                g->m.bash( dest, bash_force, true, false, true );
-            } else if( !g->m.valid_move( pt, dest, false, true ) ) {
-                // Only bash through floor if it doesn't exist
-                // Bash the current tile's floor, not the one's below
-                g->m.bash( pt, bash_force, true, false, true );
+            if( bashed.count( dest ) != 0 ) {
+                bashed.insert( dest );
+                // Up to 200% bonus for shaped charge
+                // But not if the explosion is fiery, then only half the force and no bonus
+                const float bash_force = !fire ?
+                                         force + ( 2 * force / empty_neighbors ) :
+                                         force / 2;
+                if( z_offset[i] == 0 ) {
+                    // Horizontal - no floor bashing
+                    g->m.bash( dest, bash_force, true, false, false );
+                } else if( z_offset[i] > 0 ) {
+                    // Should actually bash through the floor first, but that's not really possible yet
+                    g->m.bash( dest, bash_force, true, false, true );
+                } else if( !g->m.valid_move( pt, dest, false, true ) ) {
+                    // Only bash through floor if it doesn't exist
+                    // Bash the current tile's floor, not the one's below
+                    g->m.bash( pt, bash_force, true, false, true );
+                }
             }
 
             float next_dist = distance;
@@ -275,7 +283,9 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        g->m.smash_items( pt, force, _( "force of the explosion" ) );
+        if( g->m.has_items( pt ) ) {
+            g->m.smash_items( pt, force, _( "force of the explosion" ) );
+        }
 
         if( fire ) {
             int intensity = ( force > 50.0f ) + ( force > 100.0f );
@@ -339,7 +349,7 @@ static void do_blast( const tripoint &p, const float power,
 
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
-            const std::string hit_part_name = body_part_name_accusative( blp.bp->token );
+            const std::string hit_part_name = body_part_name_accusative( blp.bp );
             const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
@@ -515,7 +525,7 @@ void explosion( const tripoint &p, const explosion_data &ex )
         auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
 
         // If explosion drops shrapnel...
-        if( shr.recovery > 0 && shr.drop != "null" ) {
+        if( shr.recovery > 0 && !shr.drop.is_null() ) {
 
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
@@ -543,7 +553,7 @@ void flashbang( const tripoint &p, bool player_immune )
     draw_explosion( p, 8, c_white );
     int dist = rl_dist( g->u.pos(), p );
     if( dist <= 8 && !player_immune ) {
-        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( "rm13_armor_on" ) ) {
+        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
         if( g->m.sees( g->u.pos(), p, 8 ) ) {
@@ -555,7 +565,7 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( g->u.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if( g->u.has_bionic( bio_sunglasses ) ||
-                       g->u.is_wearing( "rm13_armor_on" ) ) {
+                       g->u.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
             } else if( g->u.worn_with_flag( flag_BLIND ) || g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
@@ -691,7 +701,7 @@ void emp_blast( const tripoint &p )
                     // Maybe export this to json?
                     break;
             }
-            if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
+            if( !mon_item_id.is_empty() && deact_chance != 0 && one_in( deact_chance ) ) {
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
@@ -739,7 +749,7 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( g->u.weapon.typeId() == "e_handcuffs" && g->u.weapon.charges > 0 ) {
+        if( g->u.weapon.typeId() == itype_e_handcuffs && g->u.weapon.charges > 0 ) {
             g->u.weapon.item_tags.erase( "NO_UNWIELD" );
             g->u.weapon.charges = 0;
             g->u.weapon.active = false;
@@ -749,7 +759,7 @@ void emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto &it : g->m.i_at( point( x, y ) ) ) {
-        if( it.is_tool() && it.ammo_current() == "battery" ) {
+        if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }
     }

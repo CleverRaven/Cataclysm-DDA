@@ -278,8 +278,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     bool npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
 
     // Colors for hinting if the trade will be accepted or not.
-    const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
-    const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
+    const nc_color trade_color = npc_will_accept_trade( np ) ? c_green : c_red;
 
     input_context ctxt( "NPC_TRADE" );
 
@@ -316,6 +315,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                trade_color, cost_str );
 
     if( !deal.empty() ) {
+        const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
         mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                    trade_color_light, deal );
     }

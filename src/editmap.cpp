@@ -284,6 +284,37 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     return true;
 }
 
+class editmap::game_draw_callback_t_container
+{
+    public:
+        game_draw_callback_t_container( editmap *em ) : em( em ) {}
+        shared_ptr_fast<game::draw_callback_t> create_or_get();
+    private:
+        editmap *em;
+        weak_ptr_fast<game::draw_callback_t> cbw;
+};
+
+shared_ptr_fast<game::draw_callback_t> editmap::game_draw_callback_t_container::create_or_get()
+{
+    shared_ptr_fast<game::draw_callback_t> cb = cbw.lock();
+    if( !cb ) {
+        cbw = cb = make_shared_fast<game::draw_callback_t>(
+        [this]() {
+            em->draw_main_ui_overlay();
+        } );
+        g->add_draw_callback( cb );
+    }
+    return cb;
+}
+
+editmap::game_draw_callback_t_container &editmap::draw_cb_container()
+{
+    if( !draw_cb_container_ ) {
+        draw_cb_container_ = std::make_unique<game_draw_callback_t_container>( this );
+    }
+    return *draw_cb_container_;
+}
+
 shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -292,9 +323,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
         current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
             tmax = point( getmaxx( g->w_terrain ), getmaxy( g->w_terrain ) );
-            // We redraw the entire terrain window along with our own window, so
-            // set the position to that of catacurses::stdscr.
-            ui.position_from_window( catacurses::stdscr );
+            ui.position_from_window( w_info );
         } );
         current_ui->mark_resize();
 
@@ -307,6 +336,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 
 cata::optional<tripoint> editmap::edit()
 {
+    restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -334,9 +364,10 @@ cata::optional<tripoint> editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     blink = true;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -363,7 +394,7 @@ cata::optional<tripoint> editmap::edit()
                                        ctxt.describe_key_and_name( "EDIT_ITEMS" ),
                                        ctxt.describe_key_and_name( "QUIT" ) );
         info_title_curr = pgettext( "map editor state", "Looking around" );
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         ui_manager::redraw();
 
@@ -461,18 +492,22 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     }
 }
 
-void editmap::update_view_with_help( const std::string &txt, const std::string &title )
+void editmap::do_ui_invalidation()
 {
-    // updating map
+    g->u.view_offset = target - g->u.pos();
+    g->invalidate_main_ui_adaptor();
+    create_or_get_ui_adaptor()->invalidate_ui();
+}
+
+void editmap::draw_main_ui_overlay()
+{
     const Creature *critter = g->critter_at( target );
 
-    werase( g->w_terrain );
-
+#if !defined( TILES )
     if( uberdraw ) {
         uber_draw_ter( g->w_terrain, &g->m ); // Bypassing the usual draw methods; not versatile enough
-    } else {
-        g->draw_ter( target ); // But it's optional
     }
+#endif
 
     // update target point
     if( critter != nullptr ) {
@@ -594,7 +629,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         g->draw_item_override( map_p, itm.typeId(), mon ? mon->id : mtype_id::NULL_ID(),
                                                tile.get_item_count() > 1 );
                     } else {
-                        g->draw_item_override( map_p, "null", mtype_id::NULL_ID(), false );
+                        g->draw_item_override( map_p, itype_id::NULL_ID(), mtype_id::NULL_ID(),
+                                               false );
                     }
                     const optional_vpart_position vp = tmpmap.veh_at( tmp_p );
                     if( vp ) {
@@ -649,9 +685,10 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         }
 #endif
     }
-    wrefresh( g->w_terrain );
-    g->draw_panels();
+}
 
+void editmap::update_view_with_help( const std::string &txt, const std::string &title )
+{
     // updating info
     werase( w_info );
 
@@ -743,6 +780,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         off++; // 11
     }
 
+    const Creature *critter = g->critter_at( target );
     if( critter != nullptr ) {
         off = critter->print_info( w_info, off, 5, 1 );
     } else if( vp ) {
@@ -1063,9 +1101,10 @@ void editmap::edit_feature()
     int current_feature = emenu.selected = feature<T_id>( target ).to_i();
     emenu.entries[current_feature].text_color = c_green;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -1090,7 +1129,7 @@ void editmap::edit_feature()
                                        ctxt.describe_key_and_name( "EDITMAP_TAB" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ) );
         info_title_curr = info_title<T_t>();
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         emenu.query( false, BLINK_SPEED );
         if( emenu.ret == UILIST_CANCEL ) {
@@ -1178,9 +1217,10 @@ void editmap::edit_fld()
     };
     fmenu.allow_additional = true;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -1207,7 +1247,7 @@ void editmap::edit_fld()
                                        ctxt.describe_key_and_name( "QUIT" ),
                                        ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         fmenu.query( false, BLINK_SPEED );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
@@ -1349,9 +1389,10 @@ void editmap::edit_itm()
     };
     ilmenu.allow_additional = true;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -1361,7 +1402,7 @@ void editmap::edit_itm()
     do {
         info_txt_curr.clear();
         info_title_curr.clear();
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
@@ -1594,9 +1635,10 @@ int editmap::select_shape( shapetype shape, int mode )
     }
     altblink = moveall;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -1622,7 +1664,7 @@ int editmap::select_shape( shapetype shape, int mode )
                                            ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
             info_title_curr = _( "Resizing selection" );
         }
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
         ui_manager::redraw();
         action = ctxt.handle_input( BLINK_SPEED );
         if( action == "RESIZE" ) {
@@ -1642,8 +1684,8 @@ int editmap::select_shape( shapetype shape, int mode )
                 };
                 smenu.allow_additional = true;
 
-                on_out_of_scope invalidate_current_ui_2( [current_ui]() {
-                    current_ui->invalidate_ui();
+                on_out_of_scope invalidate_current_ui_2( [this]() {
+                    do_ui_invalidation();
                 } );
                 restore_on_out_of_scope<std::string> info_txt_prev_2( info_txt_curr );
                 restore_on_out_of_scope<std::string> info_title_prev_2( info_title_curr );
@@ -1651,7 +1693,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 do {
                     info_txt_curr.clear();
                     info_title_curr = pgettext( "map editor state", "Select a shape" );
-                    current_ui->invalidate_ui();
+                    do_ui_invalidation();
 
                     smenu.query();
                     if( smenu.ret == UILIST_CANCEL ) {
@@ -1758,9 +1800,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     };
     gpmenu.allow_additional = true;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<tinymap *> tinymap_ptr_prev( tmpmap_ptr );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
@@ -1791,7 +1834,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                                        ctxt.describe_key_and_name( "QUIT" ) );
         info_title_curr = string_format( pgettext( "map editor state", "Mapgen: %s" ),
                                          oter_id( gmenu.selected ).id().str() );
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         gpmenu.query( false, BLINK_SPEED * 3 );
 
@@ -1942,9 +1985,10 @@ void editmap::mapgen_retarget()
     std::string action;
     tripoint origm = target;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -1955,7 +1999,7 @@ void editmap::mapgen_retarget()
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "QUIT" ) );
         info_title_curr = pgettext( "map generator", "Mapgen: Moving target" );
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         ui_manager::redraw();
         action = ctxt.handle_input( BLINK_SPEED );
@@ -2014,9 +2058,10 @@ void editmap::edit_mapgen()
     }
     real_coords tc;
 
+    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [current_ui]() {
-        current_ui->invalidate_ui();
+    on_out_of_scope invalidate_current_ui( [this]() {
+        do_ui_invalidation();
     } );
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
@@ -2048,7 +2093,7 @@ void editmap::edit_mapgen()
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "QUIT" ) );
         info_title_curr = pgettext( "map generator", "Mapgen stamp" );
-        current_ui->invalidate_ui();
+        do_ui_invalidation();
 
         gmenu.query();
 

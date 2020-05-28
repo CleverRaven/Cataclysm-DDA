@@ -219,15 +219,15 @@ struct mission_type {
         bool has_generic_rewards = true;
 
         // A limited subset of the talk_effects on the mission
-        std::vector<std::pair<int, std::string>> likely_rewards;
+        std::vector<std::pair<int, itype_id>> likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
-        itype_id item_id = "null";
+        itype_id item_id = itype_id::NULL_ID();
         Group_tag group_id = "null";
-        itype_id container_id = "null";
+        itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
-        itype_id empty_container = "null";
+        itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
         npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
         character_id target_npc_id;
@@ -289,7 +289,7 @@ struct mission_type {
 class mission
 {
     public:
-        enum class mission_status {
+        enum class mission_status : int {
             yet_to_start,
             in_progress,
             success,
@@ -363,9 +363,9 @@ class mission
         mission_type_id get_follow_up() const;
         int get_value() const;
         int get_id() const;
-        const std::string &get_item_id() const;
+        const itype_id &get_item_id() const;
         character_id get_npc_id() const;
-        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and

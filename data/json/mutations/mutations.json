@@ -300,8 +300,9 @@
     "type": "mutation",
     "id": "PACKMULE",
     "name": { "str": "Packmule" },
-    "points": 2,
-    "description": "You can manage to find space for anything!  You can carry 40% more volume.",
+    "points": 1,
+    "description": "You pack things very efficiently!  You can retrieve things from containers 10% faster.",
+    "obtain_cost_multiplier": 0.9,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "DISORGANIZED" ]
@@ -866,8 +867,9 @@
     "type": "mutation",
     "id": "DISORGANIZED",
     "name": { "str": "Disorganized" },
-    "points": -3,
-    "description": "You are terrible at organizing and storing your possessions.  You can carry 40% less volume.",
+    "points": -1,
+    "description": "You are terrible at organizing and storing your possessions.  You retrieve things from containers 10% slower.",
+    "obtain_cost_multiplier": 1.1,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "PACKMULE" ]
@@ -6474,7 +6476,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_STORAGE",
-    "name": { "str": "Debug Carrying Capacity" },
+    "name": { "str": "Debug Very Strong Back" },
     "points": 99,
     "valid": false,
     "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
@@ -6584,5 +6586,14 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "PROF_HELI_PILOT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAST_REFLEXES",
+    "name": { "str": "Fast Reflexes" },
+    "points": 3,
+    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
+    "starting_trait": true,
+    "dodge_modifier": 2
   }
 ]

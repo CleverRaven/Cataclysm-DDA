@@ -67,7 +67,7 @@ TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]
 
     // Remove first worn item until there are none left.
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
 
     // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
     // As we aren't modeling metabolic rate, assume 2 METS when not sleeping.

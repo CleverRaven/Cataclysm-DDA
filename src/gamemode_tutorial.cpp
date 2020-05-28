@@ -34,6 +34,12 @@
 #include "units.h"
 #include "weather.h"
 
+static const itype_id itype_cig( "cig" );
+static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_grenade_act( "grenade_act" );
+static const itype_id itype_water( "water" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 
@@ -161,7 +167,7 @@ void tutorial_game::per_turn()
     add_message( tut_lesson::LESSON_LOOK );
 
     if( g->light_level( g->u.posz() ) == 1 ) {
-        if( g->u.has_amount( "flashlight", 1 ) ) {
+        if( g->u.has_amount( itype_flashlight, 1 ) ) {
             add_message( tut_lesson::LESSON_DARK );
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
@@ -247,7 +253,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_USE:
-            if( g->u.has_amount( "grenade_act", 1 ) ) {
+            if( g->u.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
@@ -258,11 +264,11 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_EAT:
-            if( g->u.last_item == "codeine" ) {
+            if( g->u.last_item == itype_codeine ) {
                 add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
-            } else if( g->u.last_item == "cig" ) {
+            } else if( g->u.last_item == itype_cig ) {
                 add_message( tut_lesson::LESSON_TOOK_CIG );
-            } else if( g->u.last_item == "water" ) {
+            } else if( g->u.last_item == itype_water ) {
                 add_message( tut_lesson::LESSON_DRANK_WATER );
             }
             break;

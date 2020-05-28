@@ -445,8 +445,21 @@ class wish_item_callback: public uilist_callback
         wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
+
+        void select( uilist *menu ) override {
+            if( menu->selected < 0 ) {
+                return;
+            }
+            if( standard_itype_ids[menu->selected]->phase == phase_id::LIQUID ) {
+                incontainer = true;
+            } else {
+                incontainer = false;
+            }
+        }
+
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
+
             if( event.get_first_input() == 'f' ) {
                 incontainer = !incontainer;
                 return true;
@@ -549,7 +562,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 granted.item_tags.insert( cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( granted.ammo_default() != "NULL" ) {
+            if( !granted.ammo_default().is_null() ) {
                 granted.ammo_set( granted.ammo_default(), -1 );
             }
 

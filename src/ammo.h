@@ -5,9 +5,9 @@
 #include <string>
 #include <utility>
 
-class JsonObject;
+#include"type_id.h"
 
-using itype_id = std::string;
+class JsonObject;
 
 class ammunition_type
 {
