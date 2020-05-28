@@ -576,7 +576,7 @@ class atm_menu
             } );
 
 
-            for( auto const &cc : cash_cards_on_hand ) {
+            for( item * const &cc : cash_cards_on_hand ) {
                 if( inserted == amount ) {
                     break;
                 }
