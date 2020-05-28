@@ -1306,7 +1306,14 @@ an `event_statistic`.  For example:
 The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
 `"anything"` the `"target"` must be present, and must be an integer.
 
-There are further optional fields:
+Additional optional fields for each entry in `requirements` are:
+
+* `"visible"`, which can take the values `"always"`,
+  `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
+  to dictate when a requirement is visible.  Non-visible requirements will be
+  hidden in the UI.
+
+There are further optional fields for the `achievement`:
 
 ```C++
 "hidden_by": [ "other_achievement_id" ]
@@ -1317,6 +1324,9 @@ not appear in the achievements UI) until all of the achievements listed have
 been completed.
 
 Use this to prevent spoilers or to reduce clutter in the list of achievements.
+
+If you want an achievement to be hidden until completed, then mark it as
+`hidden_by` its own id.
 
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
