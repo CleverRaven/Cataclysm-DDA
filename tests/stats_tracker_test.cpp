@@ -760,3 +760,53 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
     g->events().send( e );
     CHECK( g->stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
+
+struct test_subscriber : public event_subscriber {
+    void notify( const cata::event &e ) override {
+        if( e.type() == event_type::player_gets_achievement ||
+            e.type() == event_type::player_fails_conduct ) {
+            events.push_back( e );
+        }
+    }
+
+    std::vector<cata::event> events;
+};
+
+TEST_CASE( "achievements_tracker_in_game", "[stats]" )
+{
+    g->achievements().clear();
+    test_subscriber sub;
+    g->events().subscribe( &sub );
+
+    const character_id u_id = g->u.getID();
+    g->events().send<event_type::game_start>( u_id );
+
+    const mtype_id mon_zombie( "mon_zombie" );
+    const cata::event avatar_zombie_kill =
+        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+    g->events().send( avatar_zombie_kill );
+
+    achievement_id c_pacifist( "conduct_zero_kills" );
+    achievement_id a_kill_zombie( "achievement_kill_zombie" );
+
+    {
+        auto e = std::find_if( sub.events.begin(), sub.events.end(),
+        [&]( const cata::event & e ) {
+            return e.type() == event_type::player_fails_conduct &&
+                   e.get<achievement_id>( "conduct" ) == c_pacifist;
+        }
+                             );
+        REQUIRE( e != sub.events.end() );
+        CHECK( e->get<bool>( "achievements_enabled" ) == true );
+    }
+    {
+        auto e = std::find_if( sub.events.begin(), sub.events.end(),
+        [&]( const cata::event & e ) {
+            return e.type() == event_type::player_gets_achievement &&
+                   e.get<achievement_id>( "achievement" ) == a_kill_zombie;
+        }
+                             );
+        REQUIRE( e != sub.events.end() );
+        CHECK( e->get<bool>( "achievements_enabled" ) == true );
+    }
+}
