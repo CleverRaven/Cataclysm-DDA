@@ -1297,6 +1297,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     for( drop_location holstered_item : holstered_list ) {
+        if( !holstered_item.first ) {
+            continue;
+        }
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() || it.count() == holstered_item.second ) {
