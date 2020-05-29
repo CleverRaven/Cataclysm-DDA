@@ -1,0 +1,46 @@
+[
+  {
+    "id": "avatar_levels_spell",
+    "type": "event_transformation",
+    "event_type": "player_levels_spell",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_learns_spell",
+    "type": "event_transformation",
+    "event_type": "character_learns_spell",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "spell" ]
+  },
+  {
+    "id": "num_spells_learned",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_learns_spell",
+    "description": { "str": "learned a spell", "str_pl": "number of spells learned" }
+  },
+  {
+    "id": "avatar_forgets_spell",
+    "type": "event_transformation",
+    "event_type": "character_forgets_spell",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "spell" ]
+  },
+  {
+    "id": "num_spells_forgotten",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_forgets_spell",
+    "description": { "str": "forgot a spell", "str_pl": "number of spells forgotten" }
+  },
+  {
+    "type": "score",
+    "id": "score_spells_learned",
+    "statistic": "num_spells_learned"
+  },
+  {
+    "type": "score",
+    "id": "score_spells_forgotten",
+    "statistic": "num_spells_forgotten"
+  }
+]

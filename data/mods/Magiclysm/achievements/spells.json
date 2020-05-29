@@ -1,0 +1,14 @@
+[
+  {
+    "id": "achievement_learn_any_spell",
+    "type": "achievement",
+    "name": "Would-be Wizard",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_forget_any_spell",
+    "type": "achievement",
+    "name": "Senile Wizard",
+    "requirements": [ { "event_statistic": "num_spells_forgotten", "is": ">=", "target": 1 } ]
+  }
+]

@@ -349,7 +349,8 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             display_veh();
 
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part, true );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part,
+                                  true );
             wrefresh( w_parts );
 
             werase( w_msg );
@@ -864,7 +865,8 @@ void veh_interact::do_install()
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose new part to install here:" );
 
-    restore_on_out_of_scope<std::unique_ptr<install_info_t>> prev_install_info( std::move( install_info ) );
+    restore_on_out_of_scope<std::unique_ptr<install_info_t>> prev_install_info( std::move(
+                install_info ) );
     install_info = std::make_unique<install_info_t>();
 
     std::array<std::string, 8> &tab_list = install_info->tab_list = { {
@@ -2121,7 +2123,8 @@ void veh_interact::display_grid()
         // |
         mvwputch( w_border, point( getmaxx( w_disp ) + 1, i + 1 ), BORDER_COLOR, LINE_XOXO );
         // |
-        mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), i + 1 ), BORDER_COLOR, LINE_XOXO );
+        mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), i + 1 ), BORDER_COLOR,
+                  LINE_XOXO );
     }
     // Two lines dividing the vertical menu sections.
     for( int i = 0; i < grid_w; ++i ) {
@@ -2131,7 +2134,8 @@ void veh_interact::display_grid()
         mvwputch( w_border, point( i + 1, getmaxy( w_mode ) + 2 + page_size ), BORDER_COLOR, LINE_OXOX );
     }
     // Fix up the line intersections.
-    mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 1 ), BORDER_COLOR, LINE_OXXX );
+    mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 1 ), BORDER_COLOR,
+              LINE_OXXX );
     // _|_
     mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 2 + page_size ), BORDER_COLOR,
               LINE_XXOX );
@@ -2139,7 +2143,7 @@ void veh_interact::display_grid()
               BORDER_COLOR, LINE_OXXX );
     // _|_
     mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ),
-                             getmaxy( w_mode ) + 2 + page_size ),
+                               getmaxy( w_mode ) + 2 + page_size ),
               BORDER_COLOR, LINE_XXOX );
 
     wrefresh( w_border );

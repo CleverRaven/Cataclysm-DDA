@@ -954,6 +954,18 @@ void memorial_logger::notify( const cata::event &e )
                  e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
             break;
         }
+        case event_type::character_forgets_spell: {
+            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+            add( pgettext( "memorial_male", "Forgot the spell %s." ),
+                 pgettext( "memorial_female", "Forgot the spell %s." ),
+                 spell_name );
+        }
+        case event_type::character_learns_spell: {
+            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+            add( pgettext( "memorial_male", "Learned the spell %s." ),
+                 pgettext( "memorial_female", "Learned the spell %s." ),
+                 spell_name );
+        }
         case event_type::player_levels_spell: {
             std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
             add( pgettext( "memorial_male", "Gained a spell level on %s." ),

@@ -209,8 +209,14 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
+    check_memorial<event_type::character_forgets_spell>(
+        m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_learns_spell>(
+        m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
+
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", spell_id( "pain_damage" ), 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

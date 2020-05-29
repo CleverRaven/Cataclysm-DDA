@@ -18,11 +18,13 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::broken_bone_mends: return "broken_bone_mends";
         case event_type::buries_corpse: return "buries_corpse";
         case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
+        case event_type::character_forgets_spell: return "character_forgets_spell";
         case event_type::character_gains_effect: return "character_gains_effect";
         case event_type::character_gets_headshot: return "character_gets_headshot";
         case event_type::character_heals_damage: return "character_heals_damage";
         case event_type::character_kills_character: return "character_kills_character";
         case event_type::character_kills_monster: return "character_kills_monster";
+        case event_type::character_learns_spell: return "character_learns_spell";
         case event_type::character_loses_effect: return "character_loses_effect";
         case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
@@ -109,10 +111,12 @@ DEFINE_EVENT_FIELDS( administers_mutagen )
 DEFINE_EVENT_FIELDS( avatar_moves )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )
+DEFINE_EVENT_FIELDS( character_forgets_spell )
 DEFINE_EVENT_FIELDS( character_gains_effect )
 DEFINE_EVENT_FIELDS( character_heals_damage )
 DEFINE_EVENT_FIELDS( character_kills_character )
 DEFINE_EVENT_FIELDS( character_kills_monster )
+DEFINE_EVENT_FIELDS( character_learns_spell )
 DEFINE_EVENT_FIELDS( character_loses_effect )
 DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )

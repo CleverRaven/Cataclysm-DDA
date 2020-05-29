@@ -33,11 +33,13 @@ enum class event_type : int {
     broken_bone_mends,
     buries_corpse,
     causes_resonance_cascade,
+    character_forgets_spell,
     character_gains_effect,
     character_gets_headshot,
     character_heals_damage,
     character_kills_character,
     character_kills_monster,
+    character_learns_spell,
     character_loses_effect,
     character_takes_damage,
     character_triggers_trap,
@@ -506,9 +508,28 @@ struct event_spec<event_type::player_gets_achievement> {
 
 template<>
 struct event_spec<event_type::player_levels_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
             { "new_level", cata_variant_type::int_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_learns_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id }
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_forgets_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id }
         }
     };
 };
