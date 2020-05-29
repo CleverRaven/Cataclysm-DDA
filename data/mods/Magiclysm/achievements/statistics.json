@@ -34,6 +34,14 @@
     "description": { "str": "forgot a spell", "str_pl": "number of spells forgotten" }
   },
   {
+    "id": "avatar_max_spell_level",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "new_level",
+    "event_transformation": "avatar_levels_spell",
+    "description": { "str_sp": "maximum spell level earned" }
+  },
+  {
     "type": "score",
     "id": "score_spells_learned",
     "statistic": "num_spells_learned"

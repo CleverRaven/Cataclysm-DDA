@@ -37,5 +37,48 @@
     "type": "achievement",
     "name": "Senile Wizard",
     "requirements": [ { "event_statistic": "num_spells_forgotten", "is": ">=", "target": 1 } ]
-  }
+  },
+  {
+    "id": "achievement_max_spell_level_1",
+    "type": "achievement",
+    "name": "Cast a Spell",
+    "description": "The first great milestone to becoming a full-fledged wizard is to cast a spell.",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_5",
+    "type": "achievement",
+    "name": "Spell Level 5",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 5 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_10",
+    "type": "achievement",
+    "name": "Spell Level 10",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_15",
+    "type": "achievement",
+    "name": "Spell Level 15",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 15 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_20",
+    "type": "achievement",
+    "name": "Spell Level 20",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 20 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_25",
+    "type": "achievement",
+    "name": "Spell Level 25",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 25 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_30",
+    "type": "achievement",
+    "name": "Spell Level 30",
+    "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 30 } ]
+  },
 ]
