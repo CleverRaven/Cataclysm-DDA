@@ -6,6 +6,33 @@
     "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 1 } ]
   },
   {
+    "id": "achievement_learn_any_spell_3",
+    "type": "achievement",
+    "name": "Wizard's Apprentice",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 3 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_10",
+    "type": "achievement",
+    "name": "Journeyman Wizard",
+    "description": "You have learned enough spells that in more reasonable times you would have graduated from your apprenticeship.",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_20",
+    "type": "achievement",
+    "name": "Archmage",
+    "description": "You have learned a large number of spells, and would be qualified for the Archmage title.",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 20 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_50",
+    "type": "achievement",
+    "name": "Master Archmage",
+    "description": "You have learned so many spells, that you would have been a major source of knowledge for many wizards.  Also known as a Sage, Master Archmages enjoy a wide variety of perks due to their lifelong commitment to learning and helping others learn.",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 50 } ]
+  },
+  {
     "id": "achievement_forget_any_spell",
     "type": "achievement",
     "name": "Senile Wizard",
