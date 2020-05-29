@@ -2,18 +2,20 @@
 
 **Summary**:
 
-Technology in Cataclysm should, except in specific situations, be *at a modern real life level*.  The design rationale for this is simple: it allows straightforward answers to questions about things like "is this idea reasonable", "how much ____ should this do", and more.  If it is possible in real life (and you can prove it), it's probably appropriate for Cataclysm.  Likewise, if it's not possible in real life, it is probably not possible in Cataclysm... the exceptions will be enumerated in this document.
+Technology native to Cataclysm Earth should, except in specific situations, be *at a modern real life level*.  The design rationale for this is simple: it allows straightforward answers to questions about things like "is this idea reasonable", "how much ____ should this do", and more.  If it is possible in real life (and you can prove it), it's probably appropriate for Cataclysm.  Likewise, if it's not possible in real life, it is probably not possible in Cataclysm... the exceptions will be enumerated in this document.
 
 See [the timeline](./lore-background.md) for lore explanations of the divergent technology in this world.
+
+*Note: this section has recently changed**. Previously, CBMs were a CDDA-Earth technology, but we're changing that lore.
 
 ## Civilian Tech
 In terms of civilian technology there are a handful of things that differ from our world.  All of these are very rare and expensive.
 
 ### Cybernetics
-CBMs have been available to the public for four years at the time of the Cataclysm.  This is vaguely analogous in scope to how common smartphones were in 1998-2002: while they exist, they are too expensive and too hard to find support for to be even somewhat widespread among civilians.
+Cybernetics were not available on CDDA-Earth prior to the portal storms.  Note that this is a recent major change to the lore, and not yet borne out in play.
 
 #### Prosthetics
-Prosthetic limbs available to civilians are not markedly above the level available on our Earth, but may be a bit more widespread using the same anti-infection technology employed by CBMs.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.
+Prosthetic limbs available to civilians are not markedly above the level available on our Earth.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.
 
 ### Robots
 Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.  They are, however, deeply stupid, especially without their central controllers.
@@ -30,9 +32,6 @@ Due to the availability of fuel cells, powered exoskeletons for industrial work 
 ## Widespread Military Technology
 The military at large has access to technology that far exceeds civilian capacity, but whose existence doesn't potentially compromise the secrets of interdimensional travel and research.
 
-### Cybernetics
-Cybernetics are much more common in the military, given the drive to create supersoldiers. Military bio-operators represent the pinnacle of what is allowed to potentially reach public or enemy ears.  Common military cybernetics should avoid miracle tech based around crazy stuff like folding time and space.
-
 #### Advanced prosthetics
 Military grade prosthetic limbs are able to offer somewhat increased strength and endurance over their living counterpart, at the cost of dexterity and tactile sense.  They still have some degree of feedback and are not insensate.  A common way of establishing prostheses in advanced cases would likely be to put a short range transmitter inside the limb stump, and the prosthetic would fit overtop the closed skin like a sleeve, receiving signals and power transcutaneously.
 
@@ -48,6 +47,8 @@ Milspec power armor relies on plutonium cells to function, this is what enables 
 
 ### Weaponry
 Like power armor, the major divergence point for weaponry is the existence of high density fictionalized power cells.  All other technology should be as realistic as possible.  Due to the extreme rarity and "one and done" nature of plutonium cells, military lasers and things are rare.  Technology that hasn't even been prototyped, or at the very least modeled theoretically, in our world is probably not appropriate for Cataclysm.
+
+When designing a high-tech weapon for the game, first ask yourself "why". Why would this weapon have been in production?  If it is a prototype, it should be unreliable and impractical for day to day use.  It is possible that high tech special use weapons exist, but they should definitely not be in major circulation.  CDDA-Earth only started majorly branching from our own timeline quite recently.
 
 ## Top Secret Technology
 
@@ -67,3 +68,12 @@ Mutation is not so much a technology as taking advantage of the blob infection i
 Mutations in Cataclysm are governed by the latent blob infection in all living things.  They are not the same as what is generally meant by mutation in a scientific sense, nor what we generally see in pulp scifi.  Cataclysm mutations are non genetic (more accurately, they don't *have* to be genetic.  The blob is keen on reusing stuff, and might alter gene expression to achieve a goal when it's quick and easy).
 
 A quick analogy to explain this: DNA serves like a blueprint for the architecture of the cell.  These mutations have an intermediary, like an architect standing at the building site offering new advice that supercedes tbe blueprint.
+
+
+## Alien Technology
+The biggest branch point in CDDA tech is the availability of sci-fi technology from other dimensions.  We're still fine tuning the rules about this, so this section is under construction.
+
+The basic rule of thumb is that the more advanced or unbelievable the technology, the less player modifiable it should be.  An alien chemical propellant weapon might be modified to accept earth bullets because the principles are quite similar, but no player is going to be dismantling a mi-go slaver rifle and salvaging recognizable components. 
+
+### Cybernetics
+Cybernetics were brought to earth after the cataclysm.  A readily available CBM should not contain technology that can't be explained by modern technology, except for the details of it being attached to the body without harm.  We can handwave away neural interfacing with CBMs.  Unique advanced CBMs may possess greater capabilities but access to these should be strictly gated through story advancement through one of several factions.
