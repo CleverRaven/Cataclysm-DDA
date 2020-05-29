@@ -402,6 +402,7 @@
       { "item": "milk_powder", "prob": 65 },
       { "item": "salt", "prob": 15 },
       { "item": "sugar", "prob": 70 },
+      { "item": "artificial_sweetener", "prob": 15 },
       { "item": "tea_raw", "prob": 15 },
       { "item": "wrapper", "prob": 75 },
       { "group": "teabag_box", "prob": 10 }
@@ -547,6 +548,7 @@
       { "item": "seasoning_italian", "prob": 50 },
       { "item": "can_chicken", "prob": 30 },
       { "item": "sugar", "prob": 40 },
+      { "item": "artificial_sweetener", "prob": 10 },
       { "item": "soysauce", "prob": 10 },
       { "item": "flour", "prob": 40 },
       { "item": "curry_powder", "prob": 40 },
@@ -699,6 +701,7 @@
       { "item": "salt", "prob": 50 },
       { "item": "soysauce", "prob": 25 },
       { "item": "sugar", "prob": 60 },
+      { "item": "artificial_sweetener", "prob": 15 },
       { "item": "dry_rice", "prob": 65 }
     ]
   },
