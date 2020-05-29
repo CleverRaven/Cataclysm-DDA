@@ -64,9 +64,12 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
-const std::map<std::string, m_size> Creature::size_map = {
-    {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
-    {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
+const std::map<std::string, creature_size> Creature::size_map = {
+    {"TINY",   creature_size::tiny},
+    {"SMALL",  creature_size::small},
+    {"MEDIUM", creature_size::medium},
+    {"LARGE",  creature_size::large},
+    {"HUGE",   creature_size::huge}
 };
 
 const std::set<material_id> Creature::cmat_flesh{
@@ -239,18 +242,18 @@ bool Creature::sees( const Creature &critter ) const
             }
             float size_modifier = 1.0;
             switch( ch->get_size() ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     size_modifier = 2.0;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     size_modifier = 1.4;
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     size_modifier = 0.6;
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     size_modifier = 0.15;
                     break;
             }
@@ -465,15 +468,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 int Creature::size_melee_penalty() const
 {
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 30;
-        case MS_SMALL:
+        case creature_size::small:
             return 15;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 0;
-        case MS_LARGE:
+        case creature_size::large:
             return -10;
-        case MS_HUGE:
+        case creature_size::huge:
             return -20;
     }
 
@@ -758,19 +761,19 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( stun_strength > 0 ) {
         switch( get_size() ) {
-            case MS_TINY:
+            case creature_size::tiny:
                 stun_strength *= 4;
                 break;
-            case MS_SMALL:
+            case creature_size::small:
                 stun_strength *= 2;
                 break;
-            case MS_MEDIUM:
+            case creature_size::medium:
             default:
                 break;
-            case MS_LARGE:
+            case creature_size::large:
                 stun_strength /= 2;
                 break;
-            case MS_HUGE:
+            case creature_size::huge:
                 stun_strength /= 4;
                 break;
         }
@@ -1631,19 +1634,19 @@ units::mass Creature::weight_capacity() const
 {
     units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             base_carry /= 4;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             base_carry /= 2;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
         default:
             break;
-        case MS_LARGE:
+        case creature_size::large:
             base_carry *= 2;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             base_carry *= 4;
             break;
     }

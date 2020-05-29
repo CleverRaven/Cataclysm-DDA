@@ -103,6 +103,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+enum class creature_size : int;
+
 static const efftype_id effect_sheared( "sheared" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -615,7 +617,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                               u.has_amount( itype_vine_30, 1 ) ||
                               u.has_amount( itype_grapnel, 1 ) ||
                               u.has_amount( itype_chain, 1 );
-        const bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool big_corpse = corpse.size >= creature_size::medium;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -667,7 +669,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     }
 
     if( action == butcher_type::QUARTER ) {
-        if( corpse.size == MS_TINY ) {
+        if( corpse.size == creature_size::tiny ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname() );
             act.targets.pop_back();
@@ -734,19 +736,19 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     int time_to_cut = 0;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
+        case creature_size::tiny:
             time_to_cut = 150;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             time_to_cut = 300;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             time_to_cut = 450;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             time_to_cut = 600;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             time_to_cut = 1800;
             break;
     }
@@ -972,7 +974,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -1161,9 +1163,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 
     if( action == butcher_type::DISSECT ) {
-        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     } else {
-        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     }
 }
 

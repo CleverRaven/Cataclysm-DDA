@@ -629,7 +629,7 @@ void player::reach_attack( const tripoint &p )
 
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
-    int target_size = critter != nullptr ? critter->get_size() : 2;
+    const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
     last_target_pos = cata::nullopt;
     // Max out recoil

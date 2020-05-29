@@ -459,7 +459,7 @@ class Character : public Creature, public visitable<Character>
         int get_fat_to_hp() const;
 
         /** Get size class of character **/
-        m_size get_size() const override;
+        creature_size get_size() const override;
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -2246,7 +2246,7 @@ class Character : public Creature, public visitable<Character>
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */
-        m_size size_class = MS_MEDIUM;
+        creature_size size_class = creature_size::medium;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
@@ -2391,7 +2391,7 @@ class Character : public Creature, public visitable<Character>
 };
 
 // Little size helper, exposed for use in deserialization code.
-m_size calculate_size( const Character &c );
+creature_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<Character::stat> {
