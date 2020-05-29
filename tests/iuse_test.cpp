@@ -323,7 +323,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
-        dummy.drench( 100, { bp_torso, bp_head, bp_arm_l, bp_arm_r }, false );
+        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+                      false );
         REQUIRE( dummy.body_wetness[bp_torso] > 0 );
         REQUIRE( dummy.body_wetness[bp_head] > 0 );
         REQUIRE( dummy.body_wetness[bp_arm_l] > 0 );
