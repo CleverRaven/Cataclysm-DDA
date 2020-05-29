@@ -4463,12 +4463,12 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case exact: return "EXACT";
-        case type: return "TYPE";
-        case prefix: return "PREFIX";
-        case contains: return "CONTAINS";
+        case ot_match_type::exact: return "EXACT";
+        case ot_match_type::type: return "TYPE";
+        case ot_match_type::prefix: return "PREFIX";
+        case ot_match_type::contains: return "CONTAINS";
         // *INDENT-ON*
-        case num_ot_match_type:
+        case ot_match_type::num_ot_match_type:
             break;
     }
     debugmsg( "Invalid ot_match_type" );
