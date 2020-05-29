@@ -143,7 +143,7 @@ struct achievement_requirement {
         abort();
     }
 
-    void check( const string_id<achievement> &id ) const {
+    void check( const achievement_id &id ) const {
         if( !statistic.is_valid() ) {
             debugmsg( "score %s refers to invalid statistic %s", id.str(), statistic.str() );
         }
@@ -190,7 +190,7 @@ void achievement::time_bound::deserialize( JsonIn &jin )
     }
 }
 
-void achievement::time_bound::check( const string_id<achievement> &id ) const
+void achievement::time_bound::check( const achievement_id &id ) const
 {
     if( comparison_ == achievement_comparison::anything ) {
         debugmsg( "Achievement %s has unconstrained \"anything\" time_constraint.  "
@@ -341,7 +341,7 @@ void achievement::load( const JsonObject &jo, const std::string & )
 
 void achievement::check() const
 {
-    for( const string_id<achievement> &a : hidden_by_ ) {
+    for( const achievement_id &a : hidden_by_ ) {
         if( !a.is_valid() ) {
             debugmsg( "Achievement %s specifies hidden_by achievement %s, but the latter does not "
                       "exist.", id.str(), a.str() );
@@ -650,7 +650,7 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
     trackers_.erase( tracker_it );
 }
 
-achievement_completion achievements_tracker::is_completed( const string_id<achievement> &id ) const
+achievement_completion achievements_tracker::is_completed( const achievement_id &id ) const
 {
     auto it = achievements_status_.find( id );
     if( it == achievements_status_.end() ) {
@@ -672,7 +672,7 @@ bool achievements_tracker::is_hidden( const achievement *ach ) const
         return false;
     }
 
-    for( const string_id<achievement> &hidden_by : ach->hidden_by() ) {
+    for( const achievement_id &hidden_by : ach->hidden_by() ) {
         if( is_completed( hidden_by ) != end_state ) {
             return true;
         }
