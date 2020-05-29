@@ -36,10 +36,11 @@
       "FILTHY",
       "WARM"
     ],
+    "vision_night": 3,
     "harvest": "zombie_large_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
     "type": "MONSTER",
@@ -66,10 +67,12 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.",
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "BLEED", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "BLEED", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "vision_day": 30,
+    "vision_night": 10,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR", "CLASSIC" ]
   }
 ]
