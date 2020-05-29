@@ -21,6 +21,7 @@
     "armor_cut": 8,
     "hp": 500,
     "death_function": [ "NORMAL" ],
+    "death_drops": [ "spider", "science", "remains_soldier" ],
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
     "flags": [
       "SEES",
@@ -37,7 +38,7 @@
       "WARM"
     ],
     "vision_night": 3,
-    "harvest": "zombie_large_leather",
+    "harvest": "zed_dino_feather_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "categories": [ "DINOSAUR", "CLASSIC" ]
@@ -65,12 +66,13 @@
     "armor_bullet": 2,
     "hp": 100,
     "death_function": [ "NORMAL" ],
+    "death_drops": [ "spider", "science", "corpses" ],
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.",
     "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "BLEED", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_day": 30,
     "vision_night": 10,
-    "harvest": "zombie_leather",
+    "harvest": "zed_dino_feather_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "categories": [ "DINOSAUR", "CLASSIC" ]
