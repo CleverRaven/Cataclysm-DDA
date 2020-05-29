@@ -677,6 +677,9 @@ item &item::ammo_unset()
     if( !is_tool() && !is_gun() && !is_magazine() ) {
         // do nothing
     } else if( is_magazine() ) {
+        if( is_money() ) { // charges are set wrong on cash cards.
+            charges = 0;
+        }
         contents.clear_items();
     } else if( magazine_integral() ) {
         curammo = nullptr;

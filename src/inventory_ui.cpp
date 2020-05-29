@@ -87,7 +87,6 @@ class selection_column_preset : public inventory_selector_preset
 {
     public:
         selection_column_preset() = default;
-
         std::string get_caption( const inventory_entry &entry ) const override {
             std::string res;
             const size_t available_count = entry.get_available_count();
@@ -103,10 +102,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, entry.get_total_charges(),
+                    res += item->display_money( available_count, item->ammo_remaining(),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, entry.get_total_charges() );
+                    res += item->display_money( available_count, item->ammo_remaining() );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -264,7 +263,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     const size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.get_total_charges() );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
     } else {
         disp_name = entry.any_item()->display_name( count );
     }

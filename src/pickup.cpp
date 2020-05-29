@@ -707,7 +707,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         // TODO: transition to the item_location system used for the inventory
                         unsigned int charges_total = 0;
                         for( const item_stack::iterator &it : stacked_here[true_it] ) {
-                            charges_total += it->charges;
+                            charges_total += it->ammo_remaining();
                         }
                         //Picking up none or all the cards in a stack
                         if( !getitem[true_it].pick || getitem[true_it].count == 0 ) {
@@ -718,7 +718,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             int c = getitem[true_it].count;
                             for( std::list<item_stack::iterator>::iterator it = stacked_here[true_it].begin();
                                  it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
-                                charges += ( *it )->charges;
+                                charges += ( *it )->ammo_remaining();
                             }
                             item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
                                         charges );
