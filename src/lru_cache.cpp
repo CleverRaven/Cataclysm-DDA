@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <iterator>
+#include <memory>
 
 #include "map_memory.h"
 #include "point.h"

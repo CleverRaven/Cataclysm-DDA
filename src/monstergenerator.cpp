@@ -2,12 +2,19 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 #include <utility>
 
+#include "assign.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
@@ -17,15 +24,13 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "optional.h"
 #include "options.h"
-#include "rng.h"
-#include "assign.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "game.h"
 #include "pathfinding.h"
-#include "units.h"
+#include "rng.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 namespace io
 {
@@ -98,6 +103,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FIREPROOF: return "FIREPROOF";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
+        case MF_COLDPROOF: return "COLDPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
@@ -108,7 +114,9 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CBM_CIV: return "CBM_CIV";
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";
+        case MF_CONSOLE_DESPAWN: return "CONSOLE_DESPAWN";
         case MF_IMMOBILE: return "IMMOBILE";
+        case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
         case MF_RIDEABLE_MECH: return "RIDEABLE_MECH";
         case MF_MILITARY_MECH: return "MILITARY_MECH";
         case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
@@ -159,6 +167,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
         case MF_MILKABLE: return "MILKABLE";
+        case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
@@ -299,6 +308,11 @@ void monster_adjustment::apply( mtype &mon )
 
 static std::vector<monster_adjustment> adjustments;
 
+void reset_monster_adjustment()
+{
+    adjustments.clear();
+}
+
 void load_monster_adjustment( const JsonObject &jsobj )
 {
     monster_adjustment adj;
@@ -317,6 +331,19 @@ void load_monster_adjustment( const JsonObject &jsobj )
         jsobj.read( "special", adj.special );
     }
     adjustments.push_back( adj );
+}
+
+static void build_behavior_tree( mtype &type )
+{
+    type.set_strategy();
+    if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
+        type.add_goal( "absorb_items" );
+    }
+    for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
+        if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
+            type.add_goal( attack.first );
+        } /* TODO: Make this an error once all the special attacks are migrated. */
+    }
 }
 
 void MonsterGenerator::finalize_mtypes()
@@ -349,6 +376,9 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_stab < 0 ) {
             mon.armor_stab = mon.armor_cut * 0.8;
         }
+        if( mon.armor_bullet < 0 ) {
+            mon.armor_bullet = 0;
+        }
         if( mon.armor_acid < 0 ) {
             mon.armor_acid = mon.armor_cut * 0.5;
         }
@@ -359,6 +389,7 @@ void MonsterGenerator::finalize_mtypes()
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
 
+        build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
     }
 
@@ -401,11 +432,11 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
 
 void MonsterGenerator::init_phases()
 {
-    phase_map["NULL"] = PNULL;
-    phase_map["SOLID"] = SOLID;
-    phase_map["LIQUID"] = LIQUID;
-    phase_map["GAS"] = GAS;
-    phase_map["PLASMA"] = PLASMA;
+    phase_map["NULL"] = phase_id::PNULL;
+    phase_map["SOLID"] = phase_id::SOLID;
+    phase_map["LIQUID"] = phase_id::LIQUID;
+    phase_map["GAS"] = phase_id::GAS;
+    phase_map["PLASMA"] = phase_id::PLASMA;
 }
 
 void MonsterGenerator::init_death()
@@ -470,8 +501,6 @@ void MonsterGenerator::init_death()
     death_map["FUNGALBURST"] = &mdeath::fungalburst;
     // Snicker-snack!
     death_map["JABBERWOCKY"] = &mdeath::jabberwock;
-    // Take them with you
-    death_map["DETONATE"] = &mdeath::detonate;
     // Game over!  Defense mode
     death_map["GAMEOVER"] = &mdeath::gameover;
     // Spawn some cockroach nymphs
@@ -480,6 +509,8 @@ void MonsterGenerator::init_death()
     death_map["FIREBALL"] = &mdeath::fireball;
     // Explode in a huge fireball
     death_map["CONFLAGRATION"] = &mdeath::conflagration;
+    // resurrect all zombies in the area and upgrade all zombies in the area
+    death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
 
     /* Currently Unimplemented */
     // Screams loudly
@@ -549,6 +580,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
     add_hardcoded_attack( "TAZER", mattack::tazer );
     add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
+    add_hardcoded_attack( "SPEAKER", mattack::speaker );
     add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
     add_hardcoded_attack( "COPBOT", mattack::copbot );
     add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
@@ -572,7 +604,10 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "MON_LEECH_EVOLUTION", mattack::mon_leech_evolution );
     add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
+    add_hardcoded_attack( "BIO_OP_BIOJUTSU", mattack::bio_op_random_biojutsu );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
+    add_hardcoded_attack( "BIO_OP_IMPALE", mattack::bio_op_impale );
+    add_hardcoded_attack( "BIO_OP_DISARM", mattack::bio_op_disarm );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
     add_hardcoded_attack( "KAMIKAZE", mattack::kamikaze );
     add_hardcoded_attack( "GRENADIER", mattack::grenadier );
@@ -647,14 +682,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    if( jo.has_string( "name_plural" ) && jo.has_string( "name" ) ) {
-        // Legacy format
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
-    } else {
-        name.make_plural();
-        mandatory( jo, was_loaded, "name", name );
-    }
+    name.make_plural();
+    mandatory( jo, was_loaded, "name", name );
+
     optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
@@ -683,7 +713,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "volume", volume, strict, 0_ml );
     assign( jo, "weight", weight, strict, 0_gram );
 
-    optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ), SOLID );
+    optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
+              phase_id::SOLID );
 
     assign( jo, "diff", difficulty_base, strict, 0 );
     assign( jo, "hp", hp, strict, 1 );
@@ -703,6 +734,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_bullet", armor_bullet, strict, 0 );
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
@@ -716,11 +748,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
-    optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
+    optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
-    optional( jo, was_loaded, "mech_weapon", mech_weapon, "" );
+    optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
-    optional( jo, was_loaded, "mech_battery", mech_battery, "" );
+    optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -760,7 +792,20 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         dies.push_back( mdeath::normal );
     }
 
-    assign( jo, "emit_fields", emit_fields );
+    if( jo.has_array( "emit_fields" ) ) {
+        JsonArray jar = jo.get_array( "emit_fields" );
+        if( jar.has_string( 0 ) ) { // TEMPORARY until 0.F
+            for( const std::string id : jar ) {
+                emit_fields.emplace( emit_id( id ), 1_seconds );
+            }
+        } else {
+            while( jar.has_more() ) {
+                JsonObject obj = jar.next_object();
+                emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
+                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+            }
+        }
+    }
 
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
@@ -824,7 +869,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
                   mtype_id::NULL_ID() );
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
-                  "null" );
+                  itype_id::NULL_ID() );
         reproduces = true;
     }
 
@@ -846,7 +891,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
 
         optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
-                  "null" );
+                  itype_id::NULL_ID() );
         biosignatures = true;
     }
 
@@ -872,6 +917,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
+        optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
     difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
@@ -888,8 +934,7 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
 void species_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "footsteps", footsteps, "footsteps." );
-    footsteps = _( footsteps );
+    optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
@@ -1100,8 +1145,19 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+        if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
+            debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
+        }
+        if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
+            !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
+            debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
+                      mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
+        }
+        if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
+            debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
         }
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
@@ -1117,15 +1173,15 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.c_str() );
             }
         }
-        if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
+        if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
         }
-        if( !mon.mech_weapon.empty() && !item::type_is_defined( mon.mech_weapon ) ) {
+        if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
                       mon.mech_weapon.c_str() );
         }
-        if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
+        if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
         }
@@ -1150,9 +1206,10 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const auto &e : mon.emit_fields ) {
-            if( !e.is_valid() ) {
-                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
+        for( const std::pair<const emit_id, time_duration> &e : mon.emit_fields ) {
+            const emit_id emid = e.first;
+            if( !emid.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );
             }
         }
 
@@ -1186,10 +1243,10 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Number of children (%d) is invalid for %s",
                           mon.baby_count, mon.id.c_str() );
             }
-            if( !mon.baby_monster && mon.baby_egg == "null" ) {
+            if( !mon.baby_monster && mon.baby_egg.is_null() ) {
                 debugmsg( "No baby or egg defined for monster %s", mon.id.c_str() );
             }
-            if( mon.baby_monster && mon.baby_egg != "null" ) {
+            if( mon.baby_monster && !mon.baby_egg.is_null() ) {
                 debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
             }
             if( !mon.baby_monster.is_valid() ) {
@@ -1207,7 +1264,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Time between biosignature drops (%d) is invalid for %s",
                           mon.biosig_timer ? to_turns<int>( *mon.biosig_timer ) : -1, mon.id.c_str() );
             }
-            if( mon.biosig_item == "null" ) {
+            if( mon.biosig_item.is_null() ) {
                 debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
             }
             if( !item::type_is_defined( mon.biosig_item ) ) {

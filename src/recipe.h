@@ -1,24 +1,23 @@
 #pragma once
-#ifndef RECIPE_H
-#define RECIPE_H
+#ifndef CATA_SRC_RECIPE_H
+#define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <set>
-#include <vector>
-#include <functional>
 #include <string>
 #include <utility>
+#include <vector>
 
+#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
-class item;
 class JsonObject;
+class item;
 class time_duration;
-
-using itype_id = std::string; // From itype.h
 class Character;
 
 enum class recipe_filter_flags : int {
@@ -37,13 +36,13 @@ class recipe
         friend class recipe_dictionary;
 
     private:
-        itype_id result_ = "null";
+        itype_id result_ = itype_id::NULL_ID();
 
     public:
         recipe();
 
         operator bool() const {
-            return result_ != "null";
+            return !result_.is_null();
         }
 
         const itype_id &result() const {
@@ -116,9 +115,18 @@ class recipe
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
-        std::string required_skills_string( const Character *, bool print_skill_level ) const;
-        std::string required_skills_string( const Character * ) const;
-        std::string required_skills_string() const;
+
+        // These are primarily used by the crafting menu.
+        // Format the primary skill string.
+        std::string primary_skill_string( const Character *c, bool print_skill_level ) const;
+
+        // Format the other skills string.  This is also used for searching within the crafting
+        // menu which includes the primary skill.
+        std::string required_skills_string( const Character *, bool include_primary_skill,
+                                            bool print_skill_level ) const;
+
+        // This is used by the basecamp bulletin board.
+        std::string required_all_skills_string() const;
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -157,11 +165,13 @@ class recipe
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
-        /** Retrieves a map of changed ter_id/furn_id to the number of tiles changed, then
-         *  converts that to requirement_ids and counts.  The requirements later need to be
-         *  consolidated and duplicate tools/qualities eliminated.
+        /**
+         * Calculate blueprint requirements according to changed terrain and furniture
+         * tiles, then check the calculated requirements against blueprint requirements
+         * specified in JSON.  If there's any inconsistency, it issues a debug message.
+         * This is only used in unit tests so as to speed up data loading in gameplay.
          */
-        void add_bp_autocalc_requirements();
+        void check_blueprint_requirements();
 
         bool hot_result() const;
 
@@ -184,7 +194,7 @@ class recipe
         bool reversible = false;
 
         /** What does the item spawn contained in? Unset ("null") means default container. */
-        itype_id container = "null";
+        itype_id container = itype_id::NULL_ID();
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;
@@ -214,7 +224,13 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
-        bool bp_autocalc = false;
+
+        /** Blueprint requirements to be checked in unit test */
+        bool has_blueprint_needs = false;
+        bool check_blueprint_needs = false;
+        int time_blueprint = 0;
+        std::map<skill_id, int> skills_blueprint;
+        std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };
 
-#endif // RECIPE_H
+#endif // CATA_SRC_RECIPE_H

@@ -1,13 +1,24 @@
 #include "magic_enchantment.h"
 
+#include <cstdlib>
+#include <memory>
+#include <set>
+
 #include "character.h"
+#include "creature.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "item.h"
 #include "json.h"
 #include "map.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 #include "units.h"
+
+template <typename E> struct enum_traits;
 
 template<>
 struct enum_traits<enchantment::has> {
@@ -97,9 +108,11 @@ namespace io
             case enchantment::mod::ARMOR_ELEC: return "ARMOR_ELEC";
             case enchantment::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchantment::mod::ARMOR_STAB: return "ARMOR_STAB";
+            case enchantment::mod::ARMOR_BULLET: return "ARMOR_BULLET";
             case enchantment::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchantment::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchantment::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
+            case enchantment::mod::ITEM_DAMAGE_BULLET: return "ITEM_DAMAGE_BULLET";
             case enchantment::mod::ITEM_DAMAGE_HEAT: return "ITEM_DAMAGE_HEAT";
             case enchantment::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
             case enchantment::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
@@ -109,6 +122,7 @@ namespace io
             case enchantment::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
             case enchantment::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
             case enchantment::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
+            case enchantment::mod::ITEM_ARMOR_BULLET: return "ITEM_ARMOR_BULLET";
             case enchantment::mod::ITEM_ARMOR_HEAT: return "ITEM_ARMOR_HEAT";
             case enchantment::mod::ITEM_ARMOR_COLD: return "ITEM_ARMOR_COLD";
             case enchantment::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";
@@ -167,6 +181,12 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
+    return is_active( guy );
+}
+
+bool enchantment::is_active( const Character &guy ) const
+{
+
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
@@ -197,10 +217,11 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
+    jo.read( "emitter", emitter );
 
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
-        for( const JsonObject effect_obj : jo.get_array( "effects" ) ) {
+        for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
             time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
@@ -222,6 +243,10 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
                                "ALWAYS" ) );
 
+    for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
+        ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
+    }
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
@@ -241,8 +266,18 @@ void enchantment::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    if( !id.is_empty() ) {
+        jsout.member( "id", id );
+        jsout.end_object();
+        // if the enchantment has an id then it is defined elsewhere and does not need to be serialized.
+        return;
+    }
+
     jsout.member( "has", io::enum_to_string<has>( active_conditions.first ) );
     jsout.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
+    if( emitter ) {
+        jsout.member( "emitter", emitter );
+    }
 
     if( !hit_you_effect.empty() ) {
         jsout.member( "hit_you_effect", hit_you_effect );
@@ -317,6 +352,12 @@ void enchantment::force_add( const enchantment &rhs )
 
     hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
 
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
@@ -367,18 +408,65 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_num_dodges_bonus( get_value_add( mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
-}
 
-void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const
-{
-    for( const fake_spell &sp : hit_you_effect ) {
-        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+    if( emitter ) {
+        g->m.emit_field( guy.pos(), *emitter );
+    }
+    for( const std::pair<efftype_id, int> eff : ench_effects ) {
+        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
+    }
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
+         intermittent_activation ) {
+        // a random approximation!
+        if( one_in( to_seconds<int>( activation.first ) ) ) {
+            for( const fake_spell &fake : activation.second ) {
+                fake.get_spell( 0 ).cast_all_effects( guy, guy.pos() );
+            }
+        }
     }
 }
 
-void enchantment::cast_hit_me( Character &caster ) const
+void enchantment::cast_hit_you( Character &caster, const Creature &target ) const
+{
+    for( const fake_spell &sp : hit_you_effect ) {
+        cast_enchantment_spell( caster, &target, sp );
+    }
+}
+
+void enchantment::cast_hit_me( Character &caster, const Creature *target ) const
 {
     for( const fake_spell &sp : hit_me_effect ) {
+        cast_enchantment_spell( caster, target, sp );
+    }
+}
+
+void enchantment::cast_enchantment_spell( Character &caster, const Creature *target,
+        const fake_spell &sp ) const
+{
+    // check the chances
+    if( !one_in( sp.trigger_once_in ) ) {
+        return;
+    }
+
+    if( sp.self ) {
+        caster.add_msg_player_or_npc( m_good,
+                                      sp.trigger_message,
+                                      sp.npc_trigger_message,
+                                      caster.name );
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+    } else  if( target != nullptr ) {
+        const Creature &trg_crtr = *target;
+        const spell &spell_lvl = sp.get_spell( sp.level );
+        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
+            !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
+            return;
+        }
+
+        caster.add_msg_player_or_npc( m_good,
+                                      sp.trigger_message,
+                                      sp.npc_trigger_message,
+                                      caster.name, trg_crtr.disp_name() );
+
+        spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
 }

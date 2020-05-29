@@ -1,24 +1,8 @@
 [
   {
     "type": "GENERIC",
-    "id": "afs_hauling_space",
-    "name": "hauling space",
-    "description": "A huge metal space used in conjunction with extension of a vehicle's roof to create a very large amount of space for transporting goods.",
-    "weight": "120 kg",
-    "to_hit": -6,
-    "color": "cyan",
-    "symbol": "]",
-    "looks_like": "cargo_aisle",
-    "material": [ "steel" ],
-    "volume": "100 L",
-    "bashing": 2,
-    "category": "veh_parts",
-    "price": 50000
-  },
-  {
-    "type": "GENERIC",
     "id": "afs_titanium_frame",
-    "name": "ultralight frame",
+    "name": { "str": "ultralight frame" },
     "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
     "weight": "1 kg",
     "to_hit": -3,
@@ -36,30 +20,27 @@
     "type": "GENERIC",
     "id": "afs_metal_rig",
     "copy-from": "vehicle_rig",
-    "name": "MetalMaster forge buddy",
-    "name_plural": "MetalMaster forge buddies",
+    "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
     "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
   },
   {
     "type": "GENERIC",
     "id": "afs_kitchen_rig",
     "copy-from": "vehicle_rig",
-    "name": "KitchenMaster cooking buddy",
-    "name_plural": "KitchenMaster cooking buddies",
+    "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
     "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
   },
   {
     "type": "GENERIC",
     "id": "afs_cooking_rig",
     "copy-from": "vehicle_rig",
-    "name": "cooking rig",
-    "name_plural": "cooking rigs",
+    "name": { "str": "cooking rig" },
     "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
   },
   {
     "type": "GENERIC",
     "id": "afs_control_station",
-    "name": "control station",
+    "name": { "str": "control station" },
     "looks_like": "vehicle_dashboard",
     "description": "A large and complex piloting station from a military vehicle, including a camera station, steering tools, and electronics controls.",
     "weight": "9 kg",
@@ -71,5 +52,16 @@
     "bashing": 2,
     "category": "veh_parts",
     "price": 60000
+  },
+  {
+    "type": "GENERIC",
+    "id": "solar_panel_v3",
+    "name": "quantum solar panel",
+    "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
+    "to_hit": -5,
+    "material": [ "glass", "steel" ],
+    "volume": "4500 ml",
+    "price": 900000,
+    "copy-from": "solar_panel"
   }
 ]

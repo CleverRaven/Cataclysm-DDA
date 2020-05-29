@@ -1,20 +1,20 @@
 #pragma once
-#ifndef CRAFT_COMMAND_H
-#define CRAFT_COMMAND_H
+#ifndef CATA_SRC_CRAFT_COMMAND_H
+#define CATA_SRC_CRAFT_COMMAND_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 class player;
-class recipe;
-class JsonIn;
-class JsonOut;
 template<typename T> struct enum_traits;
 
 /**
@@ -37,7 +37,7 @@ struct enum_traits<usage> {
 /**
 *   Struct that represents a selection of a component for crafting.
 */
-template<typename CompType = component>
+template<typename CompType>
 struct comp_selection {
     /** Tells us where the selected component should be used from. */
     usage use_from = use_from_none;
@@ -118,4 +118,4 @@ class craft_command
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
-#endif
+#endif // CATA_SRC_CRAFT_COMMAND_H

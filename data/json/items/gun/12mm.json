@@ -4,15 +4,16 @@
     "copy-from": "gun_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "H&K G80 railgun",
+    "name": { "str": "H&K G80 railgun" },
     "description": "Developed by Heckler & Koch, this railgun magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
     "weight": "3914 g",
     "volume": "2750 ml",
     "price": 1920000,
+    "price_postapoc": 12000,
     "to_hit": -1,
     "bashing": 12,
     "material": "steel",
-    "ammo": "12mm",
+    "ammo": [ "12mm" ],
     "skill": "rifle",
     "range": 60,
     "dispersion": 45,
@@ -28,7 +29,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hk_g80mag" ]
+      }
+    ]
   }
 ]

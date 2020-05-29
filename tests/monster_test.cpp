@@ -14,6 +14,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "options.h"
 #include "player.h"
 #include "test_statistics.h"
@@ -88,7 +89,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     player &test_player = g->u;
     // Strip off any potentially encumbering clothing.
     std::list<item> temp;
-    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
+    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) ) {}
 
     const tripoint center{ 65, 65, 0 };
     test_player.setpos( center );
@@ -110,10 +111,10 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         test_player.mod_moves( target_speed );
         while( test_player.moves >= 0 ) {
             test_player.setpos( test_player.pos() + direction_of_flight );
-            if( test_player.pos().x < SEEX * int( MAPSIZE / 2 ) ||
-                test_player.pos().y < SEEY * int( MAPSIZE / 2 ) ||
-                test_player.pos().x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) ||
-                test_player.pos().y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+            if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.pos().x >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                test_player.pos().y >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
                 tripoint offset = center - test_player.pos();
                 test_player.setpos( center );
                 test_monster.setpos( test_monster.pos() + offset );
@@ -296,7 +297,7 @@ static void monster_check()
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
+    override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
@@ -305,7 +306,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
+    override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
@@ -316,7 +317,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
+    override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
 }
@@ -324,7 +325,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
+    override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
 }

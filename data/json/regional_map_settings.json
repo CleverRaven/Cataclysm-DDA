@@ -10,27 +10,32 @@
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
+        "t_region_grass": { "t_grass": 1 },
+        "t_region_soil": { "t_dirt": 1 },
         "t_region_shrub": {
           "t_underbrush": 30,
-          "t_shrub": 5,
-          "t_fern": 2,
-          "t_shrub_blueberry": 1,
-          "t_shrub_strawberry": 1,
-          "t_shrub_blackberry": 1,
-          "t_shrub_raspberry": 1,
-          "t_shrub_huckleberry": 1,
+          "t_shrub": 10,
+          "t_fern": 5,
+          "t_shrub_blueberry": 2,
+          "t_shrub_strawberry": 2,
+          "t_shrub_blackberry": 2,
+          "t_shrub_raspberry": 2,
+          "t_shrub_huckleberry": 2,
           "t_shrub_grape": 1,
-          "t_shrub_rose": 1,
-          "t_shrub_hydrangea": 1,
-          "t_shrub_lilac": 1
+          "t_shrub_rose": 2,
+          "t_shrub_hydrangea": 2,
+          "t_shrub_lilac": 2,
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_fruit": {
-          "t_shrub_blueberry": 3,
-          "t_shrub_strawberry": 3,
-          "t_shrub_raspberry": 2,
-          "t_shrub_grape": 2,
-          "t_shrub_blackberry": 1,
-          "t_shrub_huckleberry": 1
+          "t_shrub_blueberry": 6,
+          "t_shrub_strawberry": 6,
+          "t_shrub_raspberry": 4,
+          "t_shrub_grape": 4,
+          "t_shrub_blackberry": 2,
+          "t_shrub_huckleberry": 2,
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
         "t_region_tree": {
@@ -138,7 +143,8 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_mutpoppy": 1,
-          "f_sunflower": 1
+          "f_sunflower": 1,
+          "f_mustard": 1
         },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
@@ -205,13 +211,15 @@
         "f_dahlia": 3.5,
         "f_datura": 0.2,
         "f_dandelion": 5.0,
-        "f_sunflower": 3.5
+        "f_sunflower": 3.5,
+        "f_mustard": 0.2
       },
       "boosted_other_percent": 50.0
     },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [
         { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
@@ -357,13 +365,14 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -383,13 +392,14 @@
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_mass_grave": 5
         }
       },
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -411,13 +421,14 @@
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_mass_grave": 5
         }
       },
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 8,
+          "mx_helicopter": 1,
           "mx_military": 8,
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -438,13 +449,14 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_nest_dermatik": 10
+          "mx_nest_dermatik": 10,
+          "mx_mass_grave": 5
         }
       },
       "field": {
         "chance": 6,
         "extras": {
-          "mx_helicopter": 6,
+          "mx_helicopter": 1,
           "mx_military": 2,
           "mx_science": 1,
           "mx_collegekids": 3,
@@ -461,13 +473,15 @@
           "mx_point_burned_ground": 50,
           "mx_casings": 20,
           "mx_corpses": 3,
-          "mx_nest_wasp": 2
+          "mx_nest_wasp": 2,
+          "mx_mass_grave": 5,
+          "mx_grave": 5
         }
       },
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 25,
+          "mx_helicopter": 1,
           "mx_military": 25,
           "mx_science": 40,
           "mx_collegekids": 50,
@@ -476,7 +490,6 @@
           "mx_drugdeal": 30,
           "mx_supplydrop": 10,
           "mx_portal": 5,
-          "mx_minefield": 80,
           "mx_crater": 10,
           "mx_portal_in": 4,
           "mx_roadworks": 100,
@@ -486,6 +499,8 @@
           "mx_prison_bus": 15
         }
       },
+      "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
+      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -511,7 +526,7 @@
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 65,
+          "mx_helicopter": 15,
           "mx_military": 65,
           "mx_collegekids": 1,
           "mx_portal": 200,
@@ -539,16 +554,17 @@
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
-      "house_basement_chance": 5,
       "houses": {
+        "2storyModern01": 5,
         "house_w_1": 50,
         "house_two_story_basement": 50,
-        "house": 50,
+        "house_crack1": 5,
+        "house_crack2": 5,
+        "house_crack3": 5,
         "house_wooded": 50,
         "house_prepper": 20,
         "house_prepper2": 10,
         "house_fortified": 20,
-        "house_base": 0,
         "duplex": 50,
         "house_duplex2": 50,
         "house_duplex3": 50,
@@ -574,7 +590,8 @@
         "house_06": 50,
         "house_07": 50,
         "house_08": 50,
-        "house_09": 50,
+        "house_09": 20,
+        "house_09b": 50,
         "house_10": 50,
         "house_11": 50,
         "house_12": 50,
@@ -591,6 +608,23 @@
         "house_23": 50,
         "house_24": 50,
         "house_25": 50,
+        "house_26": 50,
+        "house_27": 50,
+        "house_28": 50,
+        "house_29": 50,
+        "house_30": 50,
+        "house_31": 50,
+        "house_32": 50,
+        "house_33": 50,
+        "house_34": 50,
+        "house_35": 50,
+        "house_36": 50,
+        "house_37": 50,
+        "house_38": 50,
+        "house_39": 50,
+        "house_40": 50,
+        "house_41": 50,
+        "house_42": 50,
         "house_garage": 50,
         "house_garage2": 50,
         "house_garage3": 50,
@@ -622,18 +656,25 @@
         "house_dogs": 50,
         "house_gardener": 50,
         "house_inner_garden": 50,
+        "urban_1_house": 50,
+        "urban_2_house": 50,
+        "urban_3_house": 50,
+        "urban_4_house_basement": 50,
+        "urban_5_house": 50,
+        "urban_6_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
+        "s_apt": 30,
+        "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
         "fishing_pond_city": 10,
         "trailerpark_city": 15,
         "railroad_city": 10
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
       "parks": {
         "park": 400,
         "pool": 20,
@@ -669,6 +710,10 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "s_apt": 50,
+        "s_apt_2": 50,
+        "urban_13_dense_house_apt_house": 300,
+        "urban_14_dense_house_mart_food": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,
@@ -696,6 +741,7 @@
         "s_gun_2": 200,
         "s_gun_3": 200,
         "s_gun_4": 200,
+        "s_gunstore": 200,
         "s_clothes": 450,
         "s_clothes_1": 200,
         "s_clothes_2": 200,
@@ -714,6 +760,7 @@
         "s_restaurant_1": 400,
         "s_restaurant_2": 400,
         "s_restaurant_3": 400,
+        "s_diner": 400,
         "sub_station": 1600,
         "bank": 300,
         "bank_1": 300,
@@ -723,6 +770,7 @@
         "bar_1": 400,
         "s_electronics": 400,
         "s_electronics_1": 400,
+        "s_electronicstore": 400,
         "pawn": 300,
         "pawn_1": 300,
         "pawn_pf": 50,
@@ -762,6 +810,7 @@
         "home_improvement": 200,
         "s_lot": 400,
         "s_arcade": 200,
+        "s_games": 200,
         "s_jewelry": 200,
         "s_antique": 200,
         "s_gardening": 200,
@@ -847,8 +896,10 @@
         "movie_theater": 75,
         "garage_gas_city": 250,
         "2fmotel_city": 50,
-        "cs_car_dealership": 100,
+        "cs_car_dealership": 200,
         "cs_car_showroom": 100,
+        "s_cardealer": 200,
+        "s_camping": 300,
         "cs_gardening_allotment": 100,
         "cs_internet_cafe": 100,
         "cs_market_small": 100,

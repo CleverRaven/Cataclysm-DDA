@@ -2,36 +2,38 @@
 
 #include "pixel_minimap.h"
 
+#include <algorithm>
+#include <array>
+#include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <functional>
+#include <iterator>
+#include <memory>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
-#include "coordinate_conversions.h"
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "monster.h"
-#include "sdl_utils.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "creature.h"
+#include "debug.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "lightmap.h"
+#include "map.h"
+#include "mapdata.h"
 #include "math_defines.h"
+#include "monster.h"
 #include "optional.h"
-
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <bitset>
-#include <cmath>
-#include <iterator>
-#include <memory>
-#include <set>
-#include <cstdlib>
-#include <utility>
-#include <vector>
+#include "pixel_minimap_projectors.h"
+#include "sdl_utils.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 extern void set_displaybuffer_rendertarget();
 
@@ -280,7 +282,7 @@ void pixel_minimap::flush_cache_updates()
 
             if( pixel_size.x == 1 && pixel_size.y == 1 ) {
                 SetRenderDrawColor( renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a );
-                RenderDrawPoint( renderer, tile_pos.x, tile_pos.y );
+                RenderDrawPoint( renderer, tile_pos );
             } else {
                 const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, pixel_size.x, pixel_size.y };
                 render_fill_rect( renderer, rect, tile_color.r, tile_color.g, tile_color.b );
@@ -308,7 +310,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             SDL_Color color;
 
-            if( lighting == LL_BLANK || lighting == LL_DARK ) {
+            if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
                 color = { 0x00, 0x00, 0x00, 0xFF };
             } else {
@@ -316,12 +318,12 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
                 //color terrain according to lighting conditions
                 if( nv_goggle ) {
-                    if( lighting == LL_LOW ) {
+                    if( lighting == lit_level::LOW ) {
                         color = color_pixel_nightvision( color );
-                    } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
+                    } else if( lighting != lit_level::DARK && lighting != lit_level::BLANK ) {
                         color = color_pixel_overexposed( color );
                     }
-                } else if( lighting == LL_LOW ) {
+                } else if( lighting == lit_level::LOW ) {
                     color = color_pixel_grayscale( color );
                 }
 
@@ -507,7 +509,7 @@ void pixel_minimap::render_critters( const tripoint &center )
             const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
-            if( lighting == LL_DARK || lighting == LL_BLANK ) {
+            if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
                 continue;
             }
 
@@ -549,7 +551,7 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
             const int divisor = 2 * ( std::abs( y ) == rect.h - std::abs( x ) ? 1 : 0 ) + 1;
 
             SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
-            RenderDrawPoint( renderer, rect.x + x, rect.y + y );
+            RenderDrawPoint( renderer, point( rect.x + x, rect.y + y ) );
         }
     }
 }

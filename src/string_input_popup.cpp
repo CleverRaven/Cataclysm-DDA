@@ -8,9 +8,11 @@
 #include "input.h"
 #include "optional.h"
 #include "output.h"
-#include "ui.h"
-#include "uistate.h"
+#include "point.h"
 #include "translations.h"
+#include "ui.h"
+#include "ui_manager.h"
+#include "uistate.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -18,8 +20,8 @@
 #include "options.h"
 #endif
 
-#include <cstdlib>
 #include <algorithm>
+#include <cstdlib>
 #include <memory>
 #include <vector>
 
@@ -29,15 +31,15 @@ string_input_popup::~string_input_popup() = default;
 
 void string_input_popup::create_window()
 {
-    int titlesize = utf8_width( remove_color_tags( _title ) ); // Occupied horizontal space
+    titlesize = utf8_width( remove_color_tags( _title ) ); // Occupied horizontal space
     if( _max_length <= 0 ) {
         _max_length = _width;
     }
     // 2 for border (top and bottom) and 1 for the input text line.
-    int w_height = 2 + 1;
+    w_height = 2 + 1;
 
     // |"w_width = width + titlesize (this text) + 5": _____  |
-    int w_width = FULL_SCREEN_WIDTH;
+    w_width = FULL_SCREEN_WIDTH;
     if( _width <= 0 ) {
         _width = std::max( 5, FULL_SCREEN_WIDTH - titlesize - 5 ); // Default if unspecified
     } else {
@@ -45,7 +47,7 @@ void string_input_popup::create_window()
         w_width = _width + titlesize + 5;
     }
 
-    std::vector<std::string> title_split = { _title };
+    title_split = { _title };
     if( w_width > FULL_SCREEN_WIDTH ) {
         // Out of horizontal space- wrap the title
         titlesize = FULL_SCREEN_WIDTH - _width - 5;
@@ -60,7 +62,7 @@ void string_input_popup::create_window()
         w_height += static_cast<int>( title_split.size() ) - 1;
     }
 
-    std::vector<std::string> descformatted;
+    descformatted.clear();
     if( !_description.empty() ) {
         const int twidth = std::min( utf8_width( remove_color_tags( _description ) ), w_width - 4 );
         descformatted = foldstring( _description, twidth );
@@ -68,29 +70,19 @@ void string_input_popup::create_window()
     }
     // length of title + border (left) + space
     _startx = titlesize + 2;
-    // Below the description and below the top border
-    _starty = 1 + descformatted.size();
 
     if( _max_length <= 0 ) {
         _max_length = 1024;
     }
     _endx = w_width - 3;
-    _position = -1;
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
-    draw_border( w );
-
-    for( size_t i = 0; i < descformatted.size(); ++i ) {
-        trim_and_print( w, point( 1, 1 + i ), w_width - 2, _desc_color, descformatted[i] );
-    }
-    for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-        mvwprintz( w, point( i + 1, _starty++ ), _title_color, title_split[i] );
-    }
-    right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
+
+    custom_window = false;
 }
 
 void string_input_popup::create_context()
@@ -120,14 +112,21 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     if( !hmenu.entries.empty() ) {
         hmenu.selected = hmenu.entries.size() - 1;
 
-        // number of lines that make up the menu window: 2*border+entries
-        hmenu.w_height = 2 + hmenu.entries.size();
-        hmenu.w_y = getbegy( w ) - hmenu.w_height;
-        if( hmenu.w_y < 0 ) {
-            hmenu.w_y = 0;
-            hmenu.w_height = std::max( getbegy( w ), 4 );
-        }
-        hmenu.w_x = getbegx( w );
+        hmenu.w_height_setup = [&]() -> int {
+            // number of lines that make up the menu window: 2*border+entries
+            int height = 2 + hmenu.entries.size();
+            if( getbegy( w ) < height )
+            {
+                height = std::max( getbegy( w ), 4 );
+            }
+            return height;
+        };
+        hmenu.w_x_setup = [&]( int ) -> int {
+            return getbegx( w );
+        };
+        hmenu.w_y_setup = [&]( const int height ) -> int {
+            return std::max( getbegy( w ) - height, 0 );
+        };
 
         bool finished = false;
         do {
@@ -209,6 +208,19 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
                                const int shift ) const
 {
+    if( !custom_window ) {
+        draw_border( w );
+
+        for( size_t i = 0; i < descformatted.size(); ++i ) {
+            trim_and_print( w, point( 1, 1 + i ), w_width - 2, _desc_color, descformatted[i] );
+        }
+        int pos_y = descformatted.size() + 1;
+        for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
+            mvwprintz( w, point( i + 1, pos_y++ ), _title_color, title_split[i] );
+        }
+        right_print( w, pos_y, w_width - titlesize - 1, _title_color, title_split.back() );
+    }
+
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
@@ -219,7 +231,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     mvwprintz( w, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
-    if( _position < static_cast<int>( ret.length() ) ) {
+    if( _position >= 0 && static_cast<size_t>( _position ) < ret.length() ) {
         utf8_wrapper cursor = ret.substr( _position, 1 );
         size_t a = _position;
         while( a > 0 && cursor.display_width() == 0 ) {
@@ -260,6 +272,8 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     if( !edit.empty() ) {
         mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
+
+    wrefresh( w );
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )
@@ -279,12 +293,14 @@ int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only
 
 const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
 {
-    if( !w ) {
+    if( !custom_window && !w ) {
         create_window();
+        _position = -1;
     }
     if( !ctxt ) {
         create_context();
     }
+
     cata::optional<ime_sentry> sentry;
     if( !draw_only && loop ) {
         sentry.emplace();
@@ -297,7 +313,19 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     const int scrmax = _endx - _startx;
     // in output (console) cells, not characters of the string!
     int shift = 0;
-    bool redraw = true;
+
+    std::unique_ptr<ui_adaptor> ui;
+    if( !draw_only && !custom_window ) {
+        ui = std::make_unique<ui_adaptor>();
+        ui->position_from_window( w );
+        ui->on_screen_resize( [this]( ui_adaptor & ui ) {
+            create_window();
+            ui.position_from_window( w );
+        } );
+        ui->on_redraw( [&]( const ui_adaptor & ) {
+            draw( ret, edit, shift );
+        } );
+    }
 
     int ch = 0;
 
@@ -333,13 +361,11 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             shift++;
         }
 
-        if( redraw ) {
-            redraw = false;
+        if( ui ) {
+            ui_manager::redraw();
+        } else {
             draw( ret, edit, shift );
-            wrefresh( w );
         }
-
-        wrefresh( w );
 
         if( draw_only ) {
             return _text;
@@ -387,26 +413,21 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             } else {
                 update_input_history( ret, true );
             }
-            redraw = true;
         } else if( ch == KEY_DOWN && !_hist_use_uilist ) {
             update_input_history( ret, false );
-            redraw = true;
         } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
             /* absolutely nothing */
         } else if( ch == KEY_RIGHT ) {
             if( _position + 1 <= static_cast<int>( ret.size() ) ) {
                 _position++;
             }
-            redraw = true;
         } else if( ch == KEY_LEFT ) {
             if( _position > 0 ) {
                 _position--;
             }
-            redraw = true;
         } else if( ch == 0x15 ) {                      // ctrl-u: delete all the things
             _position = 0;
             ret.erase( 0 );
-            redraw = true;
             // Move the cursor back and re-draw it
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
@@ -414,18 +435,14 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
-                redraw = true;
             }
         } else if( ch == KEY_HOME ) {
             _position = 0;
-            redraw = true;
         } else if( ch == KEY_END ) {
             _position = ret.size();
-            redraw = true;
         } else if( ch == KEY_DC ) {
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
-                redraw = true;
             }
         } else if( ch == KEY_F( 2 ) ) {
             std::string tmp = get_input_string_from_file();
@@ -443,30 +460,32 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             _position += t.length();
             edit.erase( 0 );
             ctxt->set_edittext( edit.c_str() );
-            redraw = true;
         } else if( ev.edit_refresh ) {
             const utf8_wrapper t( ev.edit );
             edit.erase( 0 );
             edit.insert( 0, t );
             ctxt->set_edittext( edit.c_str() );
-            redraw = true;
         } else if( ev.edit.empty() ) {
             edit.erase( 0 );
             ctxt->set_edittext( edit.c_str() );
-            redraw = true;
         }
     } while( loop );
     _text = ret.str();
     return _text;
 }
 
-string_input_popup &string_input_popup::window( const catacurses::window &w, int startx, int starty,
+string_input_popup &string_input_popup::window( const catacurses::window &w, const point &start,
         int endx )
 {
+    if( !custom_window && this->w ) {
+        // default window already created
+        return *this;
+    }
     this->w = w;
-    _startx = startx;
-    _starty = starty;
+    _startx = start.x;
+    _starty = start.y;
     _endx = endx;
+    custom_window = true;
     return *this;
 }
 

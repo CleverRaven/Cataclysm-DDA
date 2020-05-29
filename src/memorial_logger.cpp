@@ -1,24 +1,49 @@
 #include "memorial_logger.h"
 
+#include <istream>
+#include <list>
+#include <map>
+#include <memory>
+#include <tuple>
+#include <utility>
+
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_variant.h"
+#include "character_id.h"
+#include "debug.h"
 #include "effect.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "kill_tracker.h"
+#include "magic.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "monstergenerator.h"
+#include "mtype.h"
 #include "mutation.h"
+#include "omdata.h"
+#include "output.h"
 #include "overmapbuffer.h"
+#include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -298,8 +323,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -318,8 +341,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -416,7 +437,7 @@ void memorial_logger::notify( const cata::event &e )
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( part ) );
+                     body_part_name( convert_bp( part ).id() ) );
             }
             break;
         }
@@ -818,9 +839,9 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_skill_level: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
+                    skill_id skill = e.get<skill_id>( "skill" );
                     add( pgettext( "memorial_male",
                                    //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
@@ -996,6 +1017,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
+        case event_type::character_wakes_up:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

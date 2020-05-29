@@ -1,97 +1,142 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "basecamp.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "editmap.h"
+#include "enums.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "iexamine.h"
 #include "input.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "line.h"
 #include "kill_tracker.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
-#include "basecamp.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "ui.h"
-#include "units.h"
-#include "weighted_list.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
+#include "ui.h"
+#include "ui_manager.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
+#include "weighted_list.h"
 
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
+class character_id;
+
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_TREE( "TREE" );
+
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+
 static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_melee( "melee" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_survival( "survival" );
+static const skill_id skill_gun( "gun" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
 static const skill_id skill_speech( "speech" );
-static const skill_id skill_traps( "traps" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const mtype_id mon_bear( "mon_bear" );
+static const mtype_id mon_beaver( "mon_beaver" );
+static const mtype_id mon_black_rat( "mon_black_rat" );
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_chipmunk( "mon_chipmunk" );
+static const mtype_id mon_cockatrice( "mon_cockatrice" );
+static const mtype_id mon_cougar( "mon_cougar" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_coyote( "mon_coyote" );
+static const mtype_id mon_deer( "mon_deer" );
+static const mtype_id mon_duck( "mon_duck" );
+static const mtype_id mon_fox_gray( "mon_fox_gray" );
+static const mtype_id mon_fox_red( "mon_fox_red" );
+static const mtype_id mon_groundhog( "mon_groundhog" );
+static const mtype_id mon_grouse( "mon_grouse" );
+static const mtype_id mon_hare( "mon_hare" );
+static const mtype_id mon_lemming( "mon_lemming" );
+static const mtype_id mon_mink( "mon_mink" );
+static const mtype_id mon_moose( "mon_moose" );
+static const mtype_id mon_muskrat( "mon_muskrat" );
+static const mtype_id mon_opossum( "mon_opossum" );
+static const mtype_id mon_otter( "mon_otter" );
+static const mtype_id mon_pheasant( "mon_pheasant" );
+static const mtype_id mon_pig( "mon_pig" );
+static const mtype_id mon_rabbit( "mon_rabbit" );
+static const mtype_id mon_squirrel( "mon_squirrel" );
+static const mtype_id mon_turkey( "mon_turkey" );
+static const mtype_id mon_weasel( "mon_weasel" );
+static const mtype_id mon_wolf( "mon_wolf" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-static const zone_type_id z_camp_food( "CAMP_FOOD" );
 
 struct mass_volume {
     units::mass wgt;
@@ -113,7 +158,7 @@ struct miss_data {
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                               const std::string &option );
 
-// enventually this will move to JSON
+// eventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
         {
             "_faction_upgrade_camp", {
@@ -137,10 +182,10 @@ std::map<std::string, miss_data> miss_info = {{
             }
         },
         {
-            "travelling", {
-                "Travelling", to_translation( "Travelling" ),
-                to_translation( "Busy travelling!\n" ),
-                "Recall ally from travelling", to_translation( "Recall ally from travelling" )
+            "traveling", {
+                "Traveling", to_translation( "Traveling" ),
+                to_translation( "Busy traveling!\n" ),
+                "Recall ally from traveling", to_translation( "Recall ally from traveling" )
             }
         },
         {
@@ -391,8 +436,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
-                              units::volume carry_volume );
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
 std::string camp_trip_description( const time_duration &total_time,
                                    const time_duration &working_time,
@@ -604,8 +649,8 @@ void talk_function::basecamp_mission( npc &p )
         }
         tripoint src_loc;
         const auto abspos = p.global_square_location();
-        if( mgr.has_near( z_camp_storage, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( z_camp_storage, abspos );
+        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {
@@ -640,7 +685,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
 {
     std::string entry;
-    std::string gather_bldg = "null";
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
@@ -678,6 +722,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 
     if( has_provides( "gathering", dir ) ) {
+        std::string gather_bldg = "null";
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes:\n"
@@ -1162,7 +1207,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
-    const std::string base_dir_abbr = base_data.bracket_abbr.translated();
     reset_camp_resources();
     std::string gather_bldg = "null";
 
@@ -1202,6 +1246,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         std::map<recipe_id, translation> craft_recipes = recipe_deck( base_camps::base_dir );
         add_available_recipes( mission_key, base_camps::base_dir, craft_recipes );
     } else {
+        const std::string base_dir_abbr = base_data.bracket_abbr.translated();
         entry = miss_info.action.translated();
         bool avail = update_time_left( entry, npc_list );
         mission_key.add_return( base_dir_id + miss_info.ret_miss_id,
@@ -1258,7 +1303,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
         validate_assignees();
-        std::vector<npc_ptr> npc_list = get_npcs_assigned();
         entry = string_format( _( "Notes:\n"
                                   "Assign repeating job duties to NPCs stationed here.\n"
                                   "Difficulty: N/A\n"
@@ -1266,6 +1310,9 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "\n\nRisk: None\n"
                                   "Time: Ongoing" ) );
         mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+        entry = string_format( _( "Notes:\n"
+                                  "Assign followers to work at this camp." ) );
+        mission_key.add( "Assign Workers", _( "Assign Workers" ), entry );
         entry = _( "Notes:\nAbandon this camp" );
         mission_key.add( "Abandon Camp", _( "Abandon Camp" ), entry );
     }
@@ -1294,7 +1341,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 }
 
-bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point> opt_miss_dir )
+bool basecamp::handle_mission( const std::string &miss_id,
+                               const cata::optional<point> &opt_miss_dir )
 {
     const point &miss_dir = opt_miss_dir ? *opt_miss_dir : base_camps::base_dir;
 
@@ -1320,6 +1368,9 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Assign Jobs" ) {
         job_assignment_ui();
+    }
+    if( miss_id == "Assign Workers" ) {
+        worker_assignment_ui();
     }
     if( miss_id == "Abandon Camp" ) {
         abandon_camp();
@@ -1575,13 +1626,11 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
 void basecamp::abandon_camp()
 {
     validate_assignees();
-    npc_ptr random_guy;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.role_id != base_camps::id ) {
             continue;
         }
-        random_guy = guy;
         const std::string return_msg = _( "responds to the emergency recall…" );
         finish_return( *guy, false, return_msg, "menial", 0, true );
     }
@@ -1589,45 +1638,145 @@ void basecamp::abandon_camp()
         talk_function::stop_guard( *guy );
     }
     overmap_buffer.remove_camp( *this );
-    g->m.remove_submap_camp( random_guy->pos() );
+    g->m.remove_submap_camp( g->m.getlocal( bb_pos ) );
     add_msg( m_info, _( "You abandon %s." ), name );
+}
+
+void basecamp::worker_assignment_ui()
+{
+    int entries_per_page = 0;
+    catacurses::window w_followers;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+        w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                          point( term_y, term_x ) );
+        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+
+        ui.position_from_window( w_followers );
+    } );
+    ui.mark_resize();
+
+    size_t selection = 0;
+    input_context ctxt( "FACTION MANAGER" );
+    ctxt.register_updown();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    validate_assignees();
+    g->validate_npc_followers();
+
+    std::vector<npc *> followers;
+    npc *cur_npc = nullptr;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_followers );
+
+        // entries_per_page * page number
+        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
+
+        for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+            mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
+        }
+        draw_border( w_followers );
+        const nc_color col = c_white;
+        const std::string no_npcs = _( "You have no companions following you." );
+        if( !followers.empty() ) {
+            draw_scrollbar( w_followers, selection, entries_per_page, followers.size(),
+                            point( 0, 3 ) );
+            for( size_t i = top_of_page; i < followers.size(); i++ ) {
+                const int y = i - top_of_page + 3;
+                trim_and_print( w_followers, point( 1, y ), 43, selection == i ? hilite( col ) : col,
+                                followers[i]->disp_name() );
+            }
+        } else {
+            mvwprintz( w_followers, point( 1, 4 ), c_light_red, no_npcs );
+        }
+        mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
+                   _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
+        wrefresh( w_followers );
+    } );
+
+    while( true ) {
+        // create a list of npcs stationed at this camp
+        followers.clear();
+        for( const character_id &elem : g->get_follower_list() ) {
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get || !npc_to_get->is_following() ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        cur_npc = nullptr;
+        if( !followers.empty() ) {
+            cur_npc = followers[selection];
+        }
+
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+        if( action == "DOWN" ) {
+            selection++;
+            if( selection >= followers.size() ) {
+                selection = 0;
+            }
+        } else if( action == "UP" ) {
+            if( selection == 0 ) {
+                selection = followers.empty() ? 0 : followers.size() - 1;
+            } else {
+                selection--;
+            }
+        } else if( action == "CONFIRM" ) {
+            if( !followers.empty() && cur_npc ) {
+                talk_function::assign_camp( *cur_npc );
+            }
+        } else if( action == "QUIT" ) {
+            break;
+        }
+    }
 }
 
 void basecamp::job_assignment_ui()
 {
-    int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    int entries_per_page = 0;
+    catacurses::window w_jobs;
 
-    catacurses::window w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                point( term_y, term_x ) );
-    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+        w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                     point( term_y, term_x ) );
+
+        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+
+        ui.position_from_window( w_jobs );
+    } );
+    ui.mark_resize();
+
     size_t selection = 0;
     input_context ctxt( "FACTION MANAGER" );
-    ctxt.register_cardinal();
     ctxt.register_updown();
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
-    while( true ) {
-        werase( w_jobs );
-        // create a list of npcs stationed at this camp
-        std::vector<npc *> stationed_npcs;
-        for( const auto &elem : get_npcs_assigned() ) {
-            if( elem ) {
-                stationed_npcs.push_back( elem.get() );
-            }
-        }
-        npc *cur_npc = nullptr;
-        // entries_per_page * page number
-        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        if( !stationed_npcs.empty() ) {
-            cur_npc = stationed_npcs[selection];
-        }
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    validate_assignees();
 
+    std::vector<npc *> stationed_npcs;
+    npc *cur_npc = nullptr;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_jobs );
+        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
         for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
             mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
         }
         draw_border( w_jobs );
+        mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority" ) );
         const nc_color col = c_white;
         const std::string no_npcs = _( "There are no npcs stationed here" );
         if( !stationed_npcs.empty() ) {
@@ -1639,14 +1788,20 @@ void basecamp::job_assignment_ui()
                                 stationed_npcs[i]->disp_name() );
             }
             if( selection < stationed_npcs.size() ) {
-                std::string job_description;
-                if( cur_npc && cur_npc->has_job() ) {
-                    // get the current NPCs job
-                    job_description = npc_job_name( cur_npc->get_job() );
-                } else {
-                    job_description = _( "No particular job" );
+                int start_y = 3;
+                if( cur_npc ) {
+                    if( cur_npc->has_job() ) {
+                        for( activity_id &elem : cur_npc->job.get_prioritised_vector() ) {
+                            const int priority = cur_npc->job.get_priority_of_job( elem );
+                            player_activity test_act = player_activity( elem );
+                            mvwprintz( w_jobs, point( 46, start_y ), c_light_gray, string_format( _( "%s : %s" ),
+                                       test_act.get_verb(), std::to_string( priority ) ) );
+                            start_y++;
+                        }
+                    } else {
+                        mvwprintz( w_jobs, point( 46, start_y ), c_light_red, _( "No current job." ) );
+                    }
                 }
-                mvwprintz( w_jobs, point( 46, 3 ), c_light_gray, job_description );
             } else {
                 mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
             }
@@ -1654,8 +1809,26 @@ void basecamp::job_assignment_ui()
             mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
         }
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
-                   _( "Press %s to change this workers job." ), ctxt.get_desc( "CONFIRM" ) );
+                   _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
         wrefresh( w_jobs );
+    } );
+
+    while( true ) {
+        // create a list of npcs stationed at this camp
+        stationed_npcs.clear();
+        for( const auto &elem : get_npcs_assigned() ) {
+            if( elem ) {
+                stationed_npcs.push_back( elem.get() );
+            }
+        }
+        cur_npc = nullptr;
+        // entries_per_page * page number
+        if( !stationed_npcs.empty() ) {
+            cur_npc = stationed_npcs[selection];
+        }
+
+        ui_manager::redraw();
+
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             selection++;
@@ -1669,25 +1842,45 @@ void basecamp::job_assignment_ui()
                 selection--;
             }
         } else if( action == "CONFIRM" ) {
-            if( !stationed_npcs.empty() ) {
-                uilist smenu;
-                smenu.text = _( "Assign which job?" );
-                int count = 0;
-                for( const auto &entry : all_jobs() ) {
-                    smenu.addentry( count++, true, MENU_AUTOASSIGN, entry );
-                }
-
-                smenu.query();
-                if( smenu.ret >= 0 ) {
-                    cur_npc->set_job( static_cast<npc_job>( smenu.ret ) );
+            if( cur_npc ) {
+                while( true ) {
+                    uilist smenu;
+                    smenu.text = _( "Assign job priority ( 0 to disable )" );
+                    int count = 0;
+                    std::vector<activity_id> job_vec = cur_npc->job.get_prioritised_vector();
+                    smenu.addentry( count, true, 'C', _( "Clear all priorities" ) );
+                    count++;
+                    for( const activity_id &elem : job_vec ) {
+                        player_activity test_act = player_activity( elem );
+                        const int priority = cur_npc->job.get_priority_of_job( elem );
+                        smenu.addentry( count, true, MENU_AUTOASSIGN, string_format( _( "%s : %s" ), test_act.get_verb(),
+                                        std::to_string( priority ) ) );
+                        count++;
+                    }
+                    smenu.query();
+                    if( smenu.ret == UILIST_CANCEL ) {
+                        break;
+                    } else if( smenu.ret == 0 ) {
+                        cur_npc->job.clear_all_priorities();
+                    } else if( smenu.ret > 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
+                        activity_id sel_job = job_vec[smenu.ret - 1];
+                        player_activity test_act = player_activity( sel_job );
+                        const std::string formatted = string_format( _( "Priority for %s " ), test_act.get_verb() );
+                        const int amount = string_input_popup()
+                                           .title( formatted )
+                                           .width( 20 )
+                                           .only_digits( true )
+                                           .query_int();
+                        cur_npc->job.set_task_priority( sel_job, amount );
+                    } else {
+                        break;
+                    }
                 }
             }
         } else if( action == "QUIT" ) {
             break;
         }
     }
-
-    g->refresh_all();
 }
 
 void basecamp::start_menial_labor()
@@ -1702,7 +1895,7 @@ void basecamp::start_menial_labor()
     }
     validate_sort_points();
 
-    comp->assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    comp->assign_activity( ACT_MOVE_LOOT );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -2079,7 +2272,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
 
 static bool farm_valid_seed( const item &itm )
 {
-    return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+    return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
@@ -2093,7 +2286,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
-        return farm_ter->has_flag( "PLOWABLE" );
+        return farm_ter->has_flag( flag_PLOWABLE );
     };
 
     std::set<std::string> plant_names;
@@ -2303,7 +2496,7 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
         if( !broken && !skill_break ) {
             //Higher level garages will salvage liquids from tanks
             if( !p_all[prt].is_battery() ) {
-                p_all[prt].ammo_consume( p_all[prt].ammo_capacity(),
+                p_all[prt].ammo_consume( p_all[prt].ammo_remaining(),
                                          car->global_part_pos3( p_all[prt] ) );
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
@@ -2615,11 +2808,12 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += string_format( _( "Perception:      %10d\n\n" ), recruit->per_max );
         description += _( "Top 3 Skills:\n" );
 
-        const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
-        const Skill & b ) {
+        const auto skillslist = Skill::get_skills_sorted_by(
+        [&]( const Skill & a, const Skill & b ) {
             const int level_a = recruit->get_skill_level( a.ident() );
             const int level_b = recruit->get_skill_level( b.ident() );
-            return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+            return localized_compare( std::make_pair( -level_a, a.name() ),
+                                      std::make_pair( -level_b, b.name() ) );
         } );
 
         description += string_format( "%s:          %4d\n", right_justify( skillslist[0]->name(), 12 ),
@@ -2880,42 +3074,42 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
 {
     // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
-    hunting_targets.add( mtype_id( "mon_beaver" ), 10 );
-    hunting_targets.add( mtype_id( "mon_fox_red" ), 10 );
-    hunting_targets.add( mtype_id( "mon_fox_gray" ), 10 );
-    hunting_targets.add( mtype_id( "mon_mink" ), 5 );
-    hunting_targets.add( mtype_id( "mon_muskrat" ), 10 );
-    hunting_targets.add( mtype_id( "mon_otter" ), 10 );
-    hunting_targets.add( mtype_id( "mon_duck" ), 10 );
-    hunting_targets.add( mtype_id( "mon_cockatrice" ), 1 );
+    hunting_targets.add( mon_beaver, 10 );
+    hunting_targets.add( mon_fox_red, 10 );
+    hunting_targets.add( mon_fox_gray, 10 );
+    hunting_targets.add( mon_mink, 5 );
+    hunting_targets.add( mon_muskrat, 10 );
+    hunting_targets.add( mon_otter, 10 );
+    hunting_targets.add( mon_duck, 10 );
+    hunting_targets.add( mon_cockatrice, 1 );
     if( task == "_faction_camp_trapping" ) {
-        hunting_targets.add( mtype_id( "mon_black_rat" ), 40 );
-        hunting_targets.add( mtype_id( "mon_chipmunk" ), 30 );
-        hunting_targets.add( mtype_id( "mon_groundhog" ), 30 );
-        hunting_targets.add( mtype_id( "mon_hare" ), 20 );
-        hunting_targets.add( mtype_id( "mon_lemming" ), 40 );
-        hunting_targets.add( mtype_id( "mon_opossum" ), 10 );
-        hunting_targets.add( mtype_id( "mon_rabbit" ), 20 );
-        hunting_targets.add( mtype_id( "mon_squirrel" ), 20 );
-        hunting_targets.add( mtype_id( "mon_weasel" ), 20 );
-        hunting_targets.add( mtype_id( "mon_chicken" ), 10 );
-        hunting_targets.add( mtype_id( "mon_grouse" ), 10 );
-        hunting_targets.add( mtype_id( "mon_pheasant" ), 10 );
-        hunting_targets.add( mtype_id( "mon_turkey" ), 20 );
+        hunting_targets.add( mon_black_rat, 40 );
+        hunting_targets.add( mon_chipmunk, 30 );
+        hunting_targets.add( mon_groundhog, 30 );
+        hunting_targets.add( mon_hare, 20 );
+        hunting_targets.add( mon_lemming, 40 );
+        hunting_targets.add( mon_opossum, 10 );
+        hunting_targets.add( mon_rabbit, 20 );
+        hunting_targets.add( mon_squirrel, 20 );
+        hunting_targets.add( mon_weasel, 20 );
+        hunting_targets.add( mon_chicken, 10 );
+        hunting_targets.add( mon_grouse, 10 );
+        hunting_targets.add( mon_pheasant, 10 );
+        hunting_targets.add( mon_turkey, 20 );
     } else if( task == "_faction_camp_hunting" ) {
-        hunting_targets.add( mtype_id( "mon_chicken" ), 20 );
+        hunting_targets.add( mon_chicken, 20 );
         // good luck hunting upland game birds without dogs
-        hunting_targets.add( mtype_id( "mon_grouse" ), 2 );
-        hunting_targets.add( mtype_id( "mon_pheasant" ), 2 );
-        hunting_targets.add( mtype_id( "mon_turkey" ), 10 );
-        hunting_targets.add( mtype_id( "mon_bear" ), 1 );
-        hunting_targets.add( mtype_id( "mon_cougar" ), 5 );
-        hunting_targets.add( mtype_id( "mon_cow" ), 1 );
-        hunting_targets.add( mtype_id( "mon_coyote" ), 15 );
-        hunting_targets.add( mtype_id( "mon_deer" ), 2 );
-        hunting_targets.add( mtype_id( "mon_moose" ), 1 );
-        hunting_targets.add( mtype_id( "mon_pig" ), 1 );
-        hunting_targets.add( mtype_id( "mon_wolf" ), 10 );
+        hunting_targets.add( mon_grouse, 2 );
+        hunting_targets.add( mon_pheasant, 2 );
+        hunting_targets.add( mon_turkey, 10 );
+        hunting_targets.add( mon_bear, 1 );
+        hunting_targets.add( mon_cougar, 5 );
+        hunting_targets.add( mon_cow, 1 );
+        hunting_targets.add( mon_coyote, 15 );
+        hunting_targets.add( mon_deer, 2 );
+        hunting_targets.add( mon_moose, 1 );
+        hunting_targets.add( mon_pig, 1 );
+        hunting_targets.add( mon_wolf, 10 );
     }
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -3033,7 +3227,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.ter( p ).obj().has_flag( "TREE" ) && rng( 0, 100 ) < chance ) {
+        if( target_bay.ter( p ).obj().has_flag( flag_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
             if( estimate ) {
                 continue;
@@ -3062,7 +3256,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
             target_bay.ter_set( p, t_dirt );
-            target_bay.spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+            target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
             harvested++;
         }
     }
@@ -3298,8 +3492,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
     return work + one_way * trips * 1_seconds;
 }
 
-int om_carry_weight_to_trips( units::mass mass, units::volume volume,
-                              units::mass carry_mass, units::volume carry_volume )
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume )
 {
     int trips_m = 1 + mass / carry_mass;
     int trips_v = 1 + volume / carry_volume;
@@ -3317,8 +3511,8 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_storage();
-    units::volume max_v = comp ? comp->volume_capacity() - comp->volume_carried() : sack_v;
+    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).contents.total_container_capacity();
+    units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }
@@ -3391,16 +3585,17 @@ bool basecamp::validate_sort_points()
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    tripoint src_loc = bb_pos + point_north;
+    tripoint src_loc = g->m.getlocal( bb_pos ) + point_north;
     const tripoint abspos = g->m.getabs( g->u.pos() );
-    if( !mgr.has_near( z_camp_storage, abspos, 60 ) || !mgr.has_near( z_camp_food, abspos, 60 ) ) {
+    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
+        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
             return false;
         }
     } else {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( z_camp_storage, abspos );
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src : src_sorted ) {
@@ -3646,7 +3841,7 @@ std::string camp_car_description( vehicle *car )
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
                                     static_cast<int>( 100.0 * pt.ammo_remaining() /
-                                            pt.ammo_capacity() ) );
+                                            pt.ammo_capacity( ammotype( "battery" ) ) ) );
         }
     }
     entry += "\n";
@@ -3694,7 +3889,7 @@ bool basecamp::distribute_food()
         mgr.cache_vzones();
     }
     const tripoint &abspos = get_dumping_spot();
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( z_camp_food, abspos, 60 );
+    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
     tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
 
@@ -3718,32 +3913,37 @@ bool basecamp::distribute_food()
         const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
         map_stack initial_items = g->m.i_at( p_food_stock );
         for( item &i : initial_items ) {
-            if( i.is_container() && i.get_contained().is_food() ) {
-                auto comest = i.get_contained();
-                i.contents.clear();
+            std::vector<item *> comest_list{ &i };
+            if( i.is_food_container() ) {
+                std::vector<item *> comest = i.items_with( []( const item & it ) {
+                    return it.is_comestible();
+                } );
+                i.contents.clear_items();
                 //NPCs are lazy bastards who leave empties all around the camp fire
                 tripoint litter_spread = p_litter;
                 litter_spread.x += rng( -3, 3 );
                 litter_spread.y += rng( -3, 3 );
                 i.on_contents_changed();
                 g->m.add_item_or_charges( litter_spread, i, false );
-                i = comest;
+                comest_list = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
-                keep_me.push_back( i );
-            } else if( i.is_food() ) {
-                double rot_multip;
-                int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
-                if( rots_in >= 5 ) {
-                    rot_multip = 1.00;
-                } else if( rots_in >= 2 ) {
-                    rot_multip = slow_rot;
+            for( item *comest : comest_list ) {
+                if( comest->is_comestible() && ( comest->rotten() || comest->get_comestible_fun() < -6 ) ) {
+                    keep_me.push_back( *comest );
+                } else if( comest->is_food() ) {
+                    double rot_multip;
+                    int rots_in = to_days<int>( time_duration::from_turns( comest->spoilage_sort_order() ) );
+                    if( rots_in >= 5 ) {
+                        rot_multip = 1.00;
+                    } else if( rots_in >= 2 ) {
+                        rot_multip = slow_rot;
+                    } else {
+                        rot_multip = quick_rot;
+                    }
+                    total += comest->get_comestible()->default_nutrition.kcal * rot_multip * i.count();
                 } else {
-                    rot_multip = quick_rot;
+                    keep_me.push_back( *comest );
                 }
-                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
-            } else {
-                keep_me.push_back( i );
             }
         }
         g->m.i_clear( p_food_stock );
@@ -3788,8 +3988,8 @@ void basecamp::place_results( item result )
             mgr.cache_vzones();
         }
         const auto abspos = g->m.getabs( g->u.pos() );
-        if( mgr.has_near( z_camp_storage, abspos ) ) {
-            const auto &src_set = mgr.get_near( z_camp_storage, abspos );
+        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
+            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {

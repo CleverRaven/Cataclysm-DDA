@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONDEATH_H
-#define MONDEATH_H
+#ifndef CATA_SRC_MONDEATH_H
+#define CATA_SRC_MONDEATH_H
 
 class monster;
 
@@ -70,8 +70,6 @@ void smokeburst( monster &z );
 void fungalburst( monster &z );
 // Snicker-snack!
 void jabberwock( monster &z );
-// Take the enemy with you
-void detonate( monster &z );
 // Breaks ammo and then itself
 void broken_ammo( monster &z );
 // Spawns 1-3 roach nymphs
@@ -80,6 +78,8 @@ void preg_roach( monster &z );
 void fireball( monster &z );
 // Similar to above but bigger and guaranteed.
 void conflagration( monster &z );
+// raises and then upgrades all zombies in a radius
+void necro_boomer( monster &z );
 
 // Game over!  Defense mode
 void gameover( monster &z );
@@ -87,4 +87,4 @@ void gameover( monster &z );
 
 void make_mon_corpse( monster &z, int damageLvl );
 
-#endif
+#endif // CATA_SRC_MONDEATH_H

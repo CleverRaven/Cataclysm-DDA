@@ -12,7 +12,15 @@
     "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
     "blueprint_excludes": [ { "id": "fbml_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 17 h 45 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 318 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 1080 ] ], [ [ "wire", 20 ] ], [ [ "wood_panel", 52 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +35,23 @@
     "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_southeast" } ],
     "blueprint_excludes": [ { "id": "fbml_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 12 h 40 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "2x4", 252 ] ],
+          [ [ "nail", 764 ] ],
+          [ [ "wood_panel", 32 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +66,21 @@
     "blueprint_requires": [ { "id": "faction_base_livestock_0" } ],
     "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 16 h",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 311 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "nail", 1032 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "wood_panel", 47 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +95,21 @@
     "blueprint_requires": [ { "id": "fbml_southwest" } ],
     "blueprint_provides": [ { "id": "fbml_west" } ],
     "blueprint_excludes": [ { "id": "fbml_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 15 h 20 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 308 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "nail", 984 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "wood_panel", 45 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,6 +124,20 @@
     "blueprint_requires": [ { "id": "fbml_west" } ],
     "blueprint_provides": [ { "id": "fbml_northwest" } ],
     "blueprint_excludes": [ { "id": "fbml_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 15 h 40 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 310 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "nail", 1004 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "wood_panel", 46 ] ]
+        ]
+      }
+    }
   }
 ]

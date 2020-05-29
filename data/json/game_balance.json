@@ -78,41 +78,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "FILTHY_CLOTHES",
-    "info": "If true, zombies will drop filthy clothing.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "FILTHY_MORALE",
-    "info": "Morale penalty for filthy clothing.  If true, wearing filthy clothing will cause morale penalties.  Doesn't make sense if FILTHY_CLOTHES option is false.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "FILTHY_WOUNDS",
-    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.  Doesn't make sense if FILTHY_CLOTHES option is false.",
-    "stype": "bool",
-    "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "MANUAL_BIONIC_INSTALLATION",
-    "info": "Permits manual self-installation of bionics.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "SAFE_AUTODOC",
-    "info": "Makes autodoc operations completely safe, independent of the players skill.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "NO_NPC_FOOD",
     "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
     "stype": "bool",
@@ -122,13 +87,6 @@
     "type": "EXTERNAL_OPTION",
     "name": "NO_VITAMINS",
     "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "SLEEP_DEPRIVATION",
-    "info": "Enables sleep deprivation mechanics. If true, stimulants will only help you so far, and you might have to enforce proper sleep hygiene for a while.",
     "stype": "bool",
     "value": false
   },
@@ -169,13 +127,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "MAX_HARVEST_COUNT",
-    "info": "The maximum amount of produce that can be harvested from a plant.",
-    "stype": "int",
-    "value": 12
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "DISABLE_ROBOT_RESPONSE",
     "info": "Disables robot spawning from alerts and from being wanted.",
     "stype": "bool",
@@ -197,9 +148,16 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "INT_BASED_LEARNING",
-    "info": "INT Based Learning mod. Enables rebalance of practice and reading gains.",
-    "stype": "bool",
-    "value": false
+    "name": "INT_BASED_LEARNING_BASE_VALUE",
+    "info": "The amount of INT which is used as base point for focus adjustments",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING_FOCUS_ADJUSTMENT",
+    "info": "The amount of focus gained per each INT point above INT_BASED_LEARNING_BASE_VALUE",
+    "stype": "int",
+    "value": 5
   }
 ]

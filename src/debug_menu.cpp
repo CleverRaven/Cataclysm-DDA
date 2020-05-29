@@ -1,99 +1,115 @@
 #include "debug_menu.h"
 
 // IWYU pragma: no_include <cxxabi.h>
-#include <climits>
-#include <cstdint>
+
 #include <algorithm>
-#include <chrono>
-#include <vector>
 #include <array>
+#include <chrono>
+#include <csignal>
+#include <cstdint>
+#include <cstdlib>
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <type_traits>
-#include <utility>
-#include <cstdlib>
-#include <ctime>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
+#include "achievement.h"
 #include "action.h"
+#include "artifact.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enum_conversions.h"
+#include "enums.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "input.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
+#include "magic.h"
+#include "map.h"
 #include "map_extras.h"
+#include "mapgen.h"
+#include "mapgendata.h"
+#include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
+#include "monstergenerator.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "omdata.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
-#include "string_formatter.h"
-#include "string_input_popup.h"
-#include "ui.h"
-#include "vitamin.h"
-#include "color.h"
-#include "debug.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "omdata.h"
-#include "optional.h"
 #include "pldata.h"
+#include "point.h"
+#include "recipe_dictionary.h"
+#include "rng.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "type_id.h"
-#include "map.h"
-#include "veh_type.h"
-#include "weather.h"
-#include "recipe_dictionary.h"
-#include "martialarts.h"
-#include "sounds.h"
-#include "trait_group.h"
-#include "artifact.h"
-#include "vpart_position.h"
-#include "rng.h"
-#include <csignal>
-#include "magic.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "clzones.h"
-#include "compatibility.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "input.h"
-#include "item_group.h"
-#include "monster.h"
-#include "point.h"
-#include "stomach.h"
-#include "string_id.h"
+#include "ui.h"
 #include "units.h"
+#include "veh_type.h"
+#include "vitamin.h"
+#include "vpart_position.h"
+#include "weather.h"
 #include "weather_gen.h"
-#include "monstergenerator.h"
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_flu( "flu" );
+
+static const mtype_id mon_generator( "mon_generator" );
+
+static const trait_id trait_ASTHMA( "ASTHMA" );
 
 class vehicle;
+
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-static const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -132,6 +148,7 @@ enum debug_menu_index {
     DEBUG_BENCHMARK,
     DEBUG_OM_TELEPORT,
     DEBUG_TRAIT_GROUP,
+    DEBUG_ENABLE_ACHIEVEMENTS,
     DEBUG_SHOW_MSG,
     DEBUG_CRASH_GAME,
     DEBUG_MAP_EXTRA,
@@ -151,7 +168,8 @@ enum debug_menu_index {
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS,
-    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION
+    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
+    DEBUG_NESTED_MAPGEN
 };
 
 class mission_debug
@@ -229,6 +247,17 @@ static int info_uilist( bool display_all_entries = true )
     return uilist( _( "Info…" ), uilist_initializer );
 }
 
+static int game_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( DEBUG_ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
+        { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
+        { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
+    };
+
+    return uilist( _( "Game…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -267,6 +296,7 @@ static int map_uilist()
         { uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
+        { uilist_entry( DEBUG_NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -287,6 +317,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
             { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+            { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
@@ -327,6 +358,9 @@ static int debug_menu_uilist( bool display_all_entries = true )
                 break;
             case 5:
                 action = map_uilist();
+                break;
+            case 6:
+                action = game_uilist();
                 break;
 
             default:
@@ -375,6 +409,42 @@ void teleport_overmap()
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
+void spawn_nested_mapgen()
+{
+    uilist nest_menu;
+    std::vector<std::string> nest_str;
+    for( auto &nested : nested_mapgen ) {
+        nest_menu.addentry( -1, true, -1, nested.first );
+        nest_str.push_back( nested.first );
+    }
+    nest_menu.query();
+    const int nest_choice = nest_menu.ret;
+    if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
+        const cata::optional<tripoint> where = g->look_around();
+        if( !where ) {
+            return;
+        }
+
+        const tripoint abs_ms = g->m.getabs( *where );
+        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
+        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
+
+        map target_map;
+        target_map.load( abs_sub, true );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
+        mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
+        const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
+        if( ptr == nullptr ) {
+            return;
+        }
+        ( *ptr )->nest( md, local_ms.xy() );
+        target_map.save();
+        g->load_npcs();
+        g->m.invalidate_map_cache( g->get_levz() );
+        g->refresh_all();
+    }
+}
+
 void character_edit_menu()
 {
     std::vector< tripoint > locations;
@@ -389,7 +459,7 @@ void character_edit_menu()
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
-    charmenu.w_y = 0;
+    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
@@ -406,7 +476,8 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
+             << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -441,7 +512,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -460,6 +531,7 @@ void character_edit_menu()
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -833,6 +905,12 @@ void character_edit_menu()
             p.add_effect( effect_flu, 1000_minutes );
             break;
         }
+        break;
+        case D_ASTHMA: {
+            p.set_mutation( trait_ASTHMA );
+            p.add_effect( effect_asthma, 10_minutes );
+            break;
+        }
     }
 }
 
@@ -1048,6 +1126,25 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
+
+    // For the "cheaty" options, disable achievements when used
+    achievements_tracker &achievements = g->achievements();
+    static const std::unordered_set<int> non_cheaty_options = {
+        DEBUG_SAVE_SCREENSHOT,
+        DEBUG_GAME_REPORT,
+        DEBUG_ENABLE_ACHIEVEMENTS,
+        DEBUG_BENCHMARK,
+        DEBUG_SHOW_MSG,
+    };
+    bool should_disable_achievements = action >= 0 && !non_cheaty_options.count( action );
+    if( should_disable_achievements && achievements.is_enabled() ) {
+        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+            achievements.set_enabled( false );
+        } else {
+            action = -1;
+        }
+    }
+
     g->refresh_all();
     avatar &u = g->u;
     map &m = g->m;
@@ -1175,16 +1272,16 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( elem->name, elem );
+                    veh_strings.emplace_back( _( elem->name ), elem );
                 }
-                std::sort( veh_strings.begin(), veh_strings.end() );
+                std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
                 int menu_ind = 0;
                 for( auto &elem : veh_strings ) {
                     //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
                     veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
-                                       _( elem.first ), elem.second.c_str() );
+                                       elem.first, elem.second.c_str() );
                     ++menu_ind;
                 }
                 veh_menu.query();
@@ -1314,7 +1411,7 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                if( critter.type->id != mon_generator ) {
                     critter.die( nullptr );
                 }
             }
@@ -1339,31 +1436,31 @@ void debug()
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
             smenu.query();
-            body_part part;
+            bodypart_id part;
             int dbg_damage;
             switch( smenu.ret ) {
                 case 0:
-                    part = bp_torso;
+                    part = bodypart_id( "torso" );
                     break;
                 case 1:
-                    part = bp_head;
+                    part = bodypart_id( "head" );
                     break;
                 case 2:
-                    part = bp_arm_l;
+                    part = bodypart_id( "arm_l" );
                     break;
                 case 3:
-                    part = bp_arm_r;
+                    part = bodypart_id( "arm_r" );
                     break;
                 case 4:
-                    part = bp_leg_l;
+                    part = bodypart_id( "leg_l" );
                     break;
                 case 5:
-                    part = bp_leg_r;
+                    part = bodypart_id( "leg_r" );
                     break;
                 default:
                     break;
             }
-            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %d" ), part ) ) {
+            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
             }
@@ -1523,6 +1620,14 @@ void debug()
         case DEBUG_TRAIT_GROUP:
             trait_group::debug_spawn();
             break;
+        case DEBUG_ENABLE_ACHIEVEMENTS:
+            if( achievements.is_enabled() ) {
+                popup( _( "Achievements are already enabled" ) );
+            } else {
+                achievements.set_enabled( true );
+                popup( _( "Achievements enabled" ) );
+            }
+            break;
         case DEBUG_SHOW_MSG:
             debugmsg( "Test debugmsg" );
             break;
@@ -1553,6 +1658,9 @@ void debug()
             }
             break;
         }
+        case DEBUG_NESTED_MAPGEN:
+            debug_menu::spawn_nested_mapgen();
+            break;
         case DEBUG_DISPLAY_NPC_PATH:
             g->debug_pathfinding = !g->debug_pathfinding;
             break;

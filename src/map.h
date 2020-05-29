@@ -1,85 +1,81 @@
 #pragma once
-#ifndef MAP_H
-#define MAP_H
+#ifndef CATA_SRC_MAP_H
+#define CATA_SRC_MAP_H
 
-#include <cstddef>
-#include <cstdint>
 #include <array>
 #include <bitset>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
-#include <utility>
-#include <vector>
-#include <functional>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "colony.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "line.h"
 #include "lru_cache.h"
+#include "mapdata.h"
+#include "mapgen.h"
+#include "point.h"
+#include "rng.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
-#include "cata_utility.h"
-#include "faction.h"
-#include "point.h"
-#include "mapdata.h"
-#include "vehicle_group.h"
-#include "player.h"
 
-struct furn_t;
-struct ter_t;
 struct scent_block;
-
-template <typename T> class string_id;
 template <typename T> class safe_reference;
+template <typename T> class string_id;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class optional_vpart_position;
-class player;
-class monster;
+class Character;
 class Creature;
-struct rl_vec2d;
-class tripoint_range;
+class basecamp;
 class character_id;
+class computer;
 class field;
 class field_entry;
-class vehicle;
-struct fragment_cloud;
-struct partial_con;
-class submap;
 class item_location;
 class map_cursor;
-struct maptile;
 class mapgendata;
-class basecamp;
-class computer;
-class Character;
+class monster;
+class optional_vpart_position;
+class player;
+class submap;
+class tripoint_range;
+class vehicle;
 class zone_data;
+struct fragment_cloud;
+struct maptile;
+struct partial_con;
+struct rl_vec2d;
 struct trap;
 
-enum direction : unsigned;
 enum class special_item_type : int;
-using itype_id = std::string;
-template<typename T>
-class visitable;
-struct regional_settings;
+class npc_template;
+class tileray;
+class vpart_reference;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-class tileray;
-class npc_template;
-class vpart_reference;
+template<typename T>
+class visitable;
 
 struct wrapped_vehicle {
     tripoint pos;
@@ -171,6 +167,7 @@ struct level_cache {
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
@@ -336,9 +333,7 @@ class map
                      bool low_light = false, bool bright_light = false,
                      bool inorder = false ) const;
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const {
-            drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
-        }
+                     bool invert = false, bool show_items = true ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -682,6 +677,15 @@ class map
         // a iuse function needs fire.
         bool has_nearby_fire( const tripoint &p, int radius = 1 );
         /**
+         * Check whether a table/workbench/vehicle kitchen or other flat
+         * surface is nearby that could be used for crafting or eating.
+         */
+        bool has_nearby_table( const tripoint &p, int radius = 1 );
+        /**
+         * Check whether a chair or vehicle seat is nearby.
+         */
+        bool has_nearby_chair( const tripoint &p, int radius = 1 );
+        /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
          * - check for SEALED flag (sealed furniture/terrain makes
@@ -980,8 +984,6 @@ class map
             set_temperature( tripoint( p, abs_sub.z ), new_temperature );
         }
 
-        // Items
-        void process_active_items();
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
         std::vector<tripoint> check_submap_active_item_consistency();
@@ -1007,9 +1009,22 @@ class map
         }
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
-        void spawn_item( const tripoint &p, const std::string &type_id,
+        void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
+        void spawn_item( const point &p, const itype_id &type_id,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
+        }
+
+        // FIXME: remove these overloads and require spawn_item to take an
+        // itype_id
+        void spawn_item( const tripoint &p, const std::string &type_id,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel );
+        }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
@@ -1269,6 +1284,7 @@ class map
         void add_camp( const tripoint &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
+        bool point_within_camp( const tripoint &point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint &p ) const;
         const std::string &graffiti_at( const tripoint &p ) const;
@@ -1335,7 +1351,7 @@ class map
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::string &name = "NONE" ) const;
+                        const std::string &name = "NONE", spawn_data data = spawn_data() ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
@@ -1441,6 +1457,13 @@ class map
          * If false, monsters are not spawned in view of player character.
          */
         void spawn_monsters( bool ignore_sight );
+
+        /**
+        * Checks to see if the item that is rotting away generates a creature when it does.
+        * @param item item that is spawning creatures
+        * @param p The point on this map where the item is and creature will be
+        */
+        void rotten_item_spawn( const item &item, const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
@@ -1475,14 +1498,6 @@ class map
          */
         void add_roofs( const tripoint &grid );
         /**
-         * Whether the item has to be removed as it has rotten away completely.
-         * @param itm Item to check for rotting
-         * @param pnt The *absolute* position of the item in the world (not just on this map!),
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( item &itm, const tripoint &pnt ) const;
-        /**
          * Go through the list of items, update their rotten status and remove items
          * that have rotten away completely.
          * @param items items to remove
@@ -1490,12 +1505,6 @@ class map
          */
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
-        /**
-         * Checks to see if the item that is rotting away generates a creature when it does.
-         * @param item item that is spawning creatures
-         * @param p The point on this map where the item is and creature will be
-         */
-        void rotten_item_spawn( const item &item, const tripoint &p );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
@@ -1541,7 +1550,6 @@ class map
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
         void draw_spiral( mapgendata &dat );
-        void draw_fema( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
         void draw_spider_pit( mapgendata &dat );
@@ -1551,6 +1559,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
@@ -1692,26 +1701,12 @@ class map
         ter_id get_roof( const tripoint &p, bool allow_air );
 
     public:
-        /**
-         * Processor function pointer used in process_items and brethren.
-         *
-         * Note, typedefs should be discouraged because they tend to obfuscate
-         * code, but due to complexity, a template type makes it worse here.
-         * It's a really heinous function pointer so a typedef is the best
-         * solution in this instance.
-         */
-        using map_process_func = bool ( * )( item_stack &, safe_reference<item> &, const tripoint &,
-                                             const std::string &, float, temperature_flag );
+        void process_items();
     private:
-
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items( bool active, map_process_func processor, const std::string &signal );
-        void process_items_in_submap( submap &current_submap, const tripoint &gridp,
-                                      map::map_process_func processor, const std::string &signal );
-        void process_items_in_vehicles( submap &current_submap, int gridz,
-                                        map_process_func processor, const std::string &signal );
-        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, int gridz,
-                                       map::map_process_func processor, const std::string &signal );
+        void process_items_in_submap( submap &current_submap, const tripoint &gridp );
+        void process_items_in_vehicles( submap &current_submap );
+        void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
 
         /** Enum used by functors in `function_over` to control execution. */
         enum iteration_state {
@@ -1844,4 +1839,4 @@ class fake_map : public tinymap
                   int fake_map_z );
         ~fake_map() override;
 };
-#endif
+#endif // CATA_SRC_MAP_H

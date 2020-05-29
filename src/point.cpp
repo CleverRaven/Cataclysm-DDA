@@ -1,6 +1,8 @@
 #include "point.h"
 
+#include <algorithm>
 #include <sstream>
+#include <utility>
 
 #include "cata_utility.h"
 
@@ -38,38 +40,69 @@ point clamp_inclusive( const point &p, const rectangle &r )
     return point( clamp( p.x, r.p_min.x, r.p_max.x ), clamp( p.y, r.p_min.y, r.p_max.y ) );
 }
 
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, size_t radius )
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist )
 {
-    std::vector<tripoint> points;
-    int X = radius * 2 + 1;
-    int Y = radius * 2 + 1;
-    int x = 0;
-    int y = 0;
-    int dx = 0;
-    int dy = -1;
-    int t = std::max( X, Y );
-    int maxI = t * t;
-    for( int i = 0; i < maxI; i++ ) {
-        if( -X / 2 <= x && x <= X / 2 && -Y / 2 <= y && y <= Y / 2 ) {
-            points.push_back( center + point( x, y ) );
-        }
+    return closest_tripoints_first( center, 0, max_dist );
+}
+
+std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist )
+{
+    const std::vector<point> points = closest_points_first( center.xy(), min_dist, max_dist );
+
+    std::vector<tripoint> result;
+    result.reserve( points.size() );
+
+    for( const point &p : points ) {
+        result.emplace_back( p, center.z );
+    }
+
+    return result;
+}
+
+std::vector<point> closest_points_first( const point &center, int max_dist )
+{
+    return closest_points_first( center, 0, max_dist );
+}
+
+std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist )
+{
+    min_dist = std::max( min_dist, 0 );
+    max_dist = std::max( max_dist, 0 );
+
+    if( min_dist > max_dist ) {
+        return {};
+    }
+
+    const int min_edge = min_dist * 2 + 1;
+    const int max_edge = max_dist * 2 + 1;
+
+    const int n = max_edge * max_edge - ( min_edge - 2 ) * ( min_edge - 2 );
+    const bool is_center_included = min_dist == 0;
+
+    std::vector<point> result;
+    result.reserve( n + ( is_center_included ? 1 : 0 ) );
+
+    if( is_center_included ) {
+        result.push_back( center );
+    }
+
+    int x = std::max( min_dist, 1 );
+    int y = 1 - x;
+
+    int dx = 1;
+    int dy = 0;
+
+    for( int i = 0; i < n; i++ ) {
+        result.push_back( center + point{ x, y } );
+
         if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
-            t = dx;
-            dx = -dy;
-            dy = t;
+            std::swap( dx, dy );
+            dx = -dx;
         }
+
         x += dx;
         y += dy;
     }
-    return points;
-}
 
-std::vector<point> closest_points_first( const point &center, size_t radius )
-{
-    const std::vector<tripoint> tripoints = closest_tripoints_first( tripoint( center, 0 ), radius );
-    std::vector<point> points;
-    for( const tripoint &p : tripoints ) {
-        points.push_back( p.xy() );
-    }
-    return points;
+    return result;
 }

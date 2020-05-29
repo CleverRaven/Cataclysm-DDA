@@ -4,67 +4,84 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <sstream>
-#include <memory>
-#include <tuple>
 #include <list>
+#include <memory>
+#include <sstream>
+#include <tuple>
 
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "clzones.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "iexamine.h"
+#include "input.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
+#include "iuse.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
+#include "requirements.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "string_input_popup.h"
-#include "color.h"
-#include "input.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "iuse.h"
-#include "player.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "requirements.h"
-#include "rng.h"
-#include "string_id.h"
-#include "field.h"
-#include "bodypart.h"
-#include "enums.h"
-#include "monster.h"
-#include "mtype.h"
 #include "weather.h"
 
-static const itype_id fuel_type_none( "null" );
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const fault_id fault_diesel( "fault_engine_pump_diesel" );
-static const fault_id fault_glowplug( "fault_engine_glow_plug" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_pump( "fault_engine_pump_fuel" );
-static const fault_id fault_starter( "fault_engine_starter" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_purifier( "water_purifier" );
+static const itype_id itype_welder( "welder" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
+
+static const fault_id fault_engine_pump_diesel( "fault_engine_pump_diesel" );
+static const fault_id fault_engine_glow_plug( "fault_engine_glow_plug" );
+static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_engine_pump_fuel( "fault_engine_pump_fuel" );
+static const fault_id fault_engine_starter( "fault_engine_starter" );
+
 static const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
@@ -171,7 +188,7 @@ void vehicle::control_doors()
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
     // Move the menu so that we can see our vehicle
-    pmenu.w_y = 0;
+    pmenu.w_y_setup = 0;
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
@@ -361,7 +378,7 @@ void vehicle::control_engines()
         }
         dirty = true;
         adjust_engine( e_toggle );
-    } while( e_toggle >= 0 && e_toggle < fuel_count );
+    } while( e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
@@ -428,7 +445,7 @@ bool vehicle::interact_vehicle_locked()
                 const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
                 const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
                 //assign long activity
-                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
+                g->u.assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
@@ -518,6 +535,7 @@ void vehicle::toggle_autopilot()
     uilist smenu;
     enum autopilot_option : int {
         PATROL,
+        FOLLOW,
         STOP
     };
     smenu.desc_enabled = true;
@@ -525,6 +543,9 @@ void vehicle::toggle_autopilot()
     smenu.addentry_col( PATROL, true, 'P', _( "Patrol…" ),
                         "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  "
                                            "If no zones are nearby, you will be prompted to create one." ) ) );
+    smenu.addentry_col( FOLLOW, true, 'F', _( "Follow…" ),
+                        "", string_format(
+                            _( "Program the autopilot to follow you.  It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
     smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
                         "", string_format( _( "Stop all autopilot related activities." ) ) );
     smenu.query();
@@ -540,6 +561,13 @@ void vehicle::toggle_autopilot()
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
+        case FOLLOW:
+            autopilot_on = true;
+            is_following = true;
+            is_patrolling = false;
+            is_autodriving = true;
+            start_engines();
+            refresh();
         default:
             return;
     }
@@ -726,14 +754,14 @@ void vehicle::use_controls( const tripoint &pos )
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&] { turrets_aim_and_fire( true, false ); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&] { turrets_aim( false, true ); refresh(); } );
+        actions.push_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&] { turrets_aim_single(); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
     }
 
     uilist menu;
@@ -828,7 +856,7 @@ bool vehicle::fold_up()
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( g->u.pos(), bicycle );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
@@ -844,7 +872,7 @@ double vehicle::engine_cold_factor( const int e ) const
     }
 
     int eff_temp = g->weather.get_temperature( g->u.pos() );
-    if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
+    if( !parts[ engines[ e ] ].faults().count( fault_engine_glow_plug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
 
@@ -908,7 +936,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = abs( part_epower_w( engines[e] ) );
+    const int engine_power = std::abs( part_epower_w( engines[e] ) );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 
@@ -925,7 +953,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Immobilizers need removing before the vehicle can be started
-    if( eng.faults().count( fault_immobiliser ) ) {
+    if( eng.faults().count( fault_engine_immobiliser ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
                        string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
@@ -933,8 +961,8 @@ bool vehicle::start_engine( const int e )
     }
 
     // Engine with starter motors can fail on both battery and starter motor
-    if( eng.faults_potential().count( fault_starter ) ) {
-        if( eng.faults().count( fault_starter ) ) {
+    if( eng.faults_potential().count( fault_engine_starter ) ) {
+        if( eng.faults().count( fault_engine_starter ) ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
@@ -953,7 +981,8 @@ bool vehicle::start_engine( const int e )
     }
 
     // Engines always fail to start with faulty fuel pumps
-    if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
+    if( eng.faults().count( fault_engine_pump_fuel ) ||
+        eng.faults().count( fault_engine_pump_diesel ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
                        "engine_stutter_fail" );
@@ -1050,7 +1079,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
+        g->u.assign_activity( ACT_START_ENGINES, start_time );
         g->u.activity.placement = starting_engine_position - g->u.pos();
         g->u.activity.values.push_back( take_control );
     }
@@ -1242,7 +1271,7 @@ void vehicle::transform_terrain()
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
-            const int speed = abs( velocity );
+            const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
@@ -1267,15 +1296,17 @@ void vehicle::operate_reaper()
         map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
             return it.is_seed();
         } );
-        if( seed == items.end() || seed->typeId() == "fungal_seeds" ||
-            seed->typeId() == "marloss_seed" ) {
+        if( seed == items.end() || seed->typeId() == itype_fungal_seeds ||
+            seed->typeId() == itype_marloss_seed ) {
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
         g->m.furn_set( reaper_pos, f_null );
+        // Secure the seed type before i_clear destroys the item.
+        const itype &seed_type = *seed->type;
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
-                 *seed->type, plant_produced, seed_produced, false ) ) {
+                 seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
@@ -1479,6 +1510,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     }
 
     coeff_air_changed = true;
+    coeff_air_dirty = true;
 }
 
 void vehicle::use_autoclave( int p )
@@ -1504,7 +1536,7 @@ void vehicle::use_autoclave( int p )
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
-    } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
+    } else if( fuel_left( itype_water ) < 8 && fuel_left( itype_water_clean ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
@@ -1520,10 +1552,10 @@ void vehicle::use_autoclave( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( "water" ) >= 8 ) {
-            drain( "water", 8 );
+        if( fuel_left( itype_water ) >= 8 ) {
+            drain( itype_water, 8 );
         } else {
-            drain( "water_clean", 8 );
+            drain( itype_water_clean, 8 );
         }
 
         add_msg( m_good,
@@ -1556,7 +1588,7 @@ void vehicle::use_washing_machine( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The washing machine is empty, there's no point in starting it." ) );
-    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
+    } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
     } else if( detergents.empty() ) {
@@ -1601,10 +1633,10 @@ void vehicle::use_washing_machine( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( "water" ) >= 24 ) {
-            drain( "water", 24 );
+        if( fuel_left( itype_water ) >= 24 ) {
+            drain( itype_water, 24 );
         } else {
-            drain( "water_clean", 24 );
+            drain( itype_water_clean, 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1618,7 +1650,7 @@ void vehicle::use_washing_machine( int p )
 
 void vehicle::use_dishwasher( int p )
 {
-    bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
+    bool detergent_is_enough = g->u.crafting_inventory().has_charges( itype_detergent, 5 );
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1642,7 +1674,7 @@ void vehicle::use_dishwasher( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The dishwasher is empty, there's no point in starting it." ) );
-    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
+    } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
@@ -1658,14 +1690,14 @@ void vehicle::use_dishwasher( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( "water" ) >= 24 ) {
-            drain( "water", 24 );
+        if( fuel_left( itype_water ) >= 24 ) {
+            drain( itype_water, 24 );
         } else {
-            drain( "water_clean", 24 );
+            drain( itype_water_clean, 24 );
         }
 
         std::vector<item_comp> detergent;
-        detergent.push_back( item_comp( "detergent", 5 ) );
+        detergent.push_back( item_comp( itype_detergent, 5 ) );
         g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
@@ -1709,7 +1741,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), f, false, true );
+            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+            false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
@@ -1832,6 +1865,7 @@ void vehicle::use_bike_rack( int part )
         if( success ) {
             for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+                parts[rack_part].remove_flag( vehicle_part::tracked_flag );
             }
         }
     } else {
@@ -1941,25 +1975,25 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery", true ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && fuel_left( itype_battery, true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
-    if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
+    if( has_faucet && fuel_left( itype_water_clean ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( "battery", true ) > 0 ) {
+    if( has_weldrig && fuel_left( itype_battery, true ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( "battery", true ) >=
-                          item::find_type( "water_purifier" )->charges_to_use();
+        bool can_purify = fuel_left( itype_battery, true ) >=
+                          item::find_type( itype_water_purifier )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
-        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
+        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( itype_water ),
                              'P', _( "Purify water in vehicle tank" ) );
     }
     if( has_monster_capture ) {
@@ -1994,12 +2028,12 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( fuel_left( "battery", true ) < pseudo.ammo_required() ) {
+        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto capacity = pseudo.ammo_capacity( true );
-        auto qty = capacity - discharge_battery( capacity );
-        pseudo.ammo_set( "battery", qty );
+        int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
+        int qty = capacity - discharge_battery( capacity );
+        pseudo.ammo_set( itype_battery, qty );
         g->u.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
         return true;
@@ -2024,7 +2058,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_HOTPLATE: {
-            veh_tool( "hotplate" );
+            veh_tool( itype_hotplate );
             return;
         }
         case USE_TOWEL: {
@@ -2044,22 +2078,22 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case FILL_CONTAINER: {
-            g->u.siphon( *this, "water_clean" );
+            g->u.siphon( *this, itype_water_clean );
             return;
         }
         case DRINK: {
             item water( "water_clean", 0 );
-            if( g->u.eat( water ) ) {
-                drain( "water_clean", 1 );
-                g->u.moves -= 250;
+            if( g->u.can_consume( water ) ) {
+                g->u.assign_activity( player_activity( consume_activity_actor( water, false ) ) );
+                drain( itype_water_clean, 1 );
             }
             return;
         }
         case USE_WELDER: {
-            if( veh_tool( "welder" ) ) {
+            if( veh_tool( itype_welder ) ) {
                 // HACK: Evil hack incoming
                 auto &act = g->u.activity;
-                if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
+                if( act.id() == ACT_REPAIR_ITEM ) {
                     // Magic: first tell activity the item doesn't really exist
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
@@ -2072,19 +2106,20 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_PURIFIER: {
-            veh_tool( "water_purifier" );
+            veh_tool( itype_water_purifier );
             return;
         }
         case PURIFY_TANK: {
             auto sel = []( const vehicle_part & pt ) {
-                return pt.is_tank() && pt.ammo_current() == "water";
+                return pt.is_tank() && pt.ammo_current() == itype_water;
             };
-            auto title = string_format( _( "Purify <color_%s>water</color> in tank" ),
-                                        get_all_colors().get_name( item::find_type( "water" )->color ) );
+            auto title = string_format(
+                             _( "Purify <color_%s>water</color> in tank" ),
+                             get_all_colors().get_name( item::find_type( itype_water )->color ) );
             auto &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                double cost = item::find_type( "water_purifier" )->charges_to_use();
-                if( fuel_left( "battery", true ) < tank.ammo_remaining() * cost ) {
+                double cost = item::find_type( itype_water_purifier )->charges_to_use();
+                if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              name, tank.name() );
@@ -2092,19 +2127,20 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
                     discharge_battery( tank.ammo_remaining() * cost );
-                    tank.ammo_set( "water_clean", tank.ammo_remaining() );
+                    tank.ammo_set( itype_water_clean, tank.ammo_remaining() );
                 }
             }
             return;
         }
         case UNLOAD_TURRET: {
-            g->unload( *turret.base() );
+            item_location loc = turret.base();
+            g->unload( loc );
             return;
         }
         case RELOAD_TURRET: {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }

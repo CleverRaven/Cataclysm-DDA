@@ -2173,7 +2173,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"FoodPlace: The best restaurant in an area!\"",
     "volume": 15
   },
@@ -2186,7 +2186,26 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
-    "sound": "\"FoodPlace: It's the Calories.\"",
+    "sound": "\"At FoodPlace your excellent value brings nourishment and delight.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"At FoodPlace we have a host of solutions for your food needs!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"♪Eat at FoodPlace.  ♫It is a place with food.♪\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "//hat tip": "i-am-erk",
+    "sound": "\"FoodPlace is a popular food chain selling food items.  What else is there to know?\"",
     "volume": 15
   },
   {
@@ -2198,24 +2217,60 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
+    "sound": "\"You need food, don't you?  It's time for FoodPlace!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: It's the Calories.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: Don’t get caught in the web of unsafe diet.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
     "sound": "\"FoodPlace: Edible food is OUR guarantee!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: We bring food to life!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: Edible food is one of our main goals!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace is the only way to obtain healthy and strong lifecycle choices!!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "Wanna play with me?",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "Sing with me!",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "I love you!",
     "volume": 10
   },
@@ -2227,7 +2282,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "May I have a cookie?",
     "volume": 10
   },
@@ -2245,7 +2300,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "Om nom nom!  Delicious!",
     "volume": 10
   },

@@ -1,12 +1,17 @@
 #include "character_martial_arts.h"
 
 #include "action.h"
+#include "character.h"
+#include "enums.h"
+#include "json.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"
-#include "cata_string_consts.h"
+#include "string_id.h"
+#include "translations.h"
 
-using itype_id = std::string;
+static const matype_id style_kicks( "style_kicks" );
+static const matype_id style_none( "style_none" );
 
 character_martial_arts::character_martial_arts()
 {
@@ -104,7 +109,7 @@ std::string character_martial_arts::enumerate_known_styles( const itype_id &weap
 {
     return enumerate_as_string( ma_styles.begin(), ma_styles.end(),
     [weap]( const matype_id & mid ) {
-        return mid->has_weapon( weap ) ? mid->name.translated() : std::string();
+        return mid->has_weapon( weap ) ? colorize( mid->name.translated(), c_cyan ) : std::string();
     } );
 }
 

@@ -130,11 +130,22 @@
     "type": "recipe",
     "result": "afs_survivor_belt",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "time": 1000,
     "autolearn": true,
     "components": [ [ [ "survivor_belt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "id_suffix": "form_afs",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -147,39 +158,6 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "turret_mount",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 7 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
-    "difficulty": 9,
-    "time": "8 h",
-    "reversible": true,
-    "decomp_learn": 9,
-    "book_learn": [ [ "recipe_lab_elec", 8 ], [ "textbook_robots", 10 ] ],
-    "using": [ [ "soldering_standard", 14 ], [ "welding_standard", 5 ], [ "forging_standard", 4 ], [ "steel_standard", 4 ] ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "DRILL", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "spring", 2 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -344,19 +322,6 @@
       [ [ "lens", 2 ] ],
       [ [ "plastic_chunk", 6 ] ]
     ]
-  },
-  {
-    "result": "afs_hauling_space",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": 60000,
-    "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
   },
   {
     "result": "plut_cell",
@@ -538,5 +503,20 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "afs_titanium_small", 400 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "control_laptop",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 4 ],
+    "difficulty": 7,
+    "time": "25 m",
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "software_hacking", -1 ] ] ],
+    "components": [ [ [ "laptop", 1 ] ], [ [ "receiver", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "antenna", 1 ] ] ]
   }
 ]

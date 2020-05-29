@@ -1,7 +1,7 @@
 [
   {
     "id": "cauldron_demon_chitin",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "other",
     "name": { "str": "cauldron of purification", "str_pl": "cauldrons of purification" },
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
@@ -14,10 +14,121 @@
     "material": "demon_chitin",
     "symbol": ")",
     "color": "red",
-    "contains": "16 L",
+    "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
-    "watertight": true,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
     "use_action": "HEAT_FOOD"
+  },
+  {
+    "id": "demon_forge",
+    "type": "TOOL",
+    "name": { "str": "demon forge" },
+    "description": "This is a portable version of the charcoal forge that is magically enhanced and fortified with demon spider chitin in order to be able to resmelt magical metals into their workable ingot form.",
+    "weight": "10 kg",
+    "volume": "8 L",
+    "price": 200000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": "demon_chitin",
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "alumentum" ],
+    "sub": "forge",
+    "max_charges": 500,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fireproof_mortar",
+    "symbol": "%",
+    "color": "light_red",
+    "name": { "str_sp": "fireproof mortar" },
+    "description": "Some alchemical mortar, ready to be used in building projects expecting temperatures on par with dragonbreath.",
+    "category": "spare_parts",
+    "container": "bag_canvas",
+    "price": 500000,
+    "material": "powder_nonflam",
+    "weight": "2340 g",
+    "volume": "1 L",
+    "bashing": 4
+  },
+  {
+    "id": "sewing_kit",
+    "name": "sewing kit",
+    "copy-from": "sewing_kit",
+    "type": "TOOL",
+    "use_action": {
+      "type": "repair_item",
+      "item_action_type": "repair_fabric",
+      "materials": [
+        "cotton",
+        "leather",
+        "lycra",
+        "nylon",
+        "wool",
+        "fur",
+        "faux_fur",
+        "nomex",
+        "kevlar",
+        "gutskin",
+        "demon_chitin",
+        "black_dragon_hide"
+      ],
+      "skill": "tailor",
+      "tool_quality": 0,
+      "cost_scaling": 0.1,
+      "move_cost": 1000
+    }
+  },
+  {
+    "id": "tailors_kit",
+    "name": "tailor's kit",
+    "copy-from": "tailors_kit",
+    "type": "TOOL",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "black_dragon_hide",
+          "demon_chitin"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 800
+      },
+      {
+        "type": "sew_advanced",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+      }
+    ]
   }
 ]

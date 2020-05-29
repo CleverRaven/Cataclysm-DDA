@@ -3,8 +3,7 @@
     "abstract": "spare_part",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "spare parts",
-    "name_plural": "spare parts",
+    "name": { "str_sp": "spare parts" },
     "description": "Items with are not themselves useful but are instead requirements for crafting or repairs",
     "symbol": ";",
     "color": "dark_gray"
@@ -13,99 +12,109 @@
     "id": "drivebelt",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "drive belt",
+    "name": { "str": "drive belt" },
     "description": "A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to engines or other industrial equipment.",
-    "material": [ "plastic", "steel" ],
+    "material": [ "rubber", "steel" ],
     "weight": "850 g",
     "volume": "500 ml",
-    "price": 1200
+    "price": 1200,
+    "price_postapoc": 500
   },
   {
     "id": "drivebelt_makeshift",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "makeshift drive belt",
+    "name": { "str": "makeshift drive belt" },
     "description": "An improvised belt useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "cotton", "leather" ],
     "weight": "1250 g",
     "volume": "750 ml",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 50
   },
   {
     "id": "filter_air",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "air filter",
-    "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
+    "name": { "str": "air filter" },
+    "description": "A plastic box containing creped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
     "weight": "360 g",
     "volume": "500 ml",
-    "price": 1900
+    "price": 1900,
+    "price_postapoc": 200
   },
   {
     "id": "filter_air_makeshift",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "makeshift air filter",
+    "name": { "str": "makeshift air filter" },
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
     "weight": "480 g",
     "volume": "750 ml",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 50
   },
   {
     "id": "filter_liquid",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "automotive filter",
+    "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
     "weight": "480 g",
     "volume": "500 ml",
-    "price": 1900
+    "price": 1900,
+    "price_postapoc": 250
   },
   {
     "id": "filter_liquid_makeshift",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "makeshift automotive filter",
+    "name": { "str": "makeshift automotive filter" },
     "description": "An improvised automotive filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "steel", "paper" ],
     "weight": "690 g",
     "volume": "750 ml",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 50
   },
   {
     "id": "glowplug",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "glow plug",
+    "name": { "str": "glow plug" },
     "description": "A cylindrical heating device designed to be screwed in to a diesel engine to aid starting in cold weather.",
     "material": [ "plastic", "copper" ],
     "weight": "260 g",
     "volume": "250 ml",
-    "price": 2300
+    "price": 2300,
+    "price_postapoc": 500
   },
   {
     "id": "pump_complex",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "high-pressure pump",
-    "description": "An complex mechanical pump capable of achieving high pressures.  Far beyond anything you could reasonably improvise.",
+    "name": { "str": "high-pressure pump" },
+    "description": "A complex mechanical pump capable of achieving high pressures.  Far beyond anything you could reasonably improvise.",
     "material": "iron",
     "weight": "2800 g",
     "volume": "1250 ml",
-    "price": 28900
+    "price": 28900,
+    "price_postapoc": 750,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
     "id": "well_pump",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "mechanical pump",
-    "description": "An simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
+    "name": { "str": "mechanical pump" },
+    "description": "A simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
     "material": "iron",
     "weight": "2400 g",
     "volume": "1 L",
-    "price": 1800
+    "price": 1800,
+    "price_postapoc": 500
   }
 ]

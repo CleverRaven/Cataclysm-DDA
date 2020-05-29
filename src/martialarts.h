@@ -1,25 +1,25 @@
 #pragma once
-#ifndef MARTIALARTS_H
-#define MARTIALARTS_H
+#ifndef CATA_SRC_MARTIALARTS_H
+#define CATA_SRC_MARTIALARTS_H
 
+#include <algorithm>
 #include <cstddef>
-#include <map>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "bonuses.h"
 #include "calendar.h"
-#include "string_id.h"
+#include "input.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "input.h"
 
 enum damage_type : int;
+class Character;
 class JsonObject;
 class effect;
-class Character;
 class item;
 struct itype;
 
@@ -86,38 +86,38 @@ class ma_technique
         std::string avatar_message;
         std::string npc_message;
 
-        bool defensive;
-        bool side_switch; // moves the target behind user
-        bool dummy;
-        bool crit_tec;
-        bool crit_ok;
+        bool defensive = false;
+        bool side_switch = false; // moves the target behind user
+        bool dummy = false;
+        bool crit_tec = false;
+        bool crit_ok = false;
 
         ma_requirements reqs;
 
-        int down_dur;
-        int stun_dur;
-        int knockback_dist;
-        float knockback_spread; // adding randomness to knockback, like tec_throw
-        bool powerful_knockback;
-        std::string aoe; // corresponds to an aoe shape, defaults to just the target
-        bool knockback_follow; // Character follows the knocked-back party into their former tile
+        int down_dur = 0;
+        int stun_dur = 0;
+        int knockback_dist = 0;
+        float knockback_spread = 0.0f;  // adding randomness to knockback, like tec_throw
+        bool powerful_knockback = false;
+        std::string aoe;                // corresponds to an aoe shape, defaults to just the target
+        bool knockback_follow = false;  // Character follows the knocked-back party into their former tile
 
         // offensive
-        bool disarms; // like tec_disarm
-        bool take_weapon; // disarms and equips weapon if hands are free
-        bool dodge_counter; // counter move activated on a dodge
-        bool block_counter; // counter move activated on a block
+        bool disarms = false;       // like tec_disarm
+        bool take_weapon = false;   // disarms and equips weapon if hands are free
+        bool dodge_counter = false; // counter move activated on a dodge
+        bool block_counter = false; // counter move activated on a block
 
-        bool miss_recovery; // allows free recovery from misses, like tec_feint
-        bool grab_break; // allows grab_breaks, like tec_break
+        bool miss_recovery = false; // allows free recovery from misses, like tec_feint
+        bool grab_break = false;    // allows grab_breaks, like tec_break
 
-        int weighting; //how often this technique is used
+        int weighting = 0; //how often this technique is used
 
         // conditional
-        bool downed_target; // only works on downed enemies
-        bool stunned_target; // only works on stunned enemies
-        bool wall_adjacent; // only works near a wall
-        bool human_target;  // only works on humanoid enemies
+        bool downed_target = false; // only works on downed enemies
+        bool stunned_target = false;// only works on stunned enemies
+        bool wall_adjacent = false; // only works near a wall
+        bool human_target = false;  // only works on humanoid enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -181,20 +181,20 @@ class ma_buff
 
         // mapped as buff_id -> min stacks of buff
 
-        time_duration buff_duration; // total length this buff lasts
-        int max_stacks; // total number of stacks this buff can have
+        time_duration buff_duration = 0_turns; // total length this buff lasts
+        int max_stacks = 0; // total number of stacks this buff can have
 
-        int dodges_bonus; // extra dodges, like karate
-        int blocks_bonus; // extra blocks, like karate
+        int dodges_bonus = 0; // extra dodges, like karate
+        int blocks_bonus = 0; // extra blocks, like karate
 
         /** All kinds of bonuses by types to damage, hit, armor etc. */
         bonus_container bonuses;
 
-        bool quiet;
-        bool melee_allowed;
-        bool throw_immune; // are we immune to throws/grabs?
-        bool strictly_melee; // can we only use it with weapons?
-        bool stealthy; // do we make less noise when moving?
+        bool quiet = false;
+        bool melee_allowed = false;
+        bool throw_immune = false; // are we immune to throws/grabs?
+        bool strictly_melee = false; // can we only use it with weapons?
+        bool stealthy = false; // do we make less noise when moving?
 
         void load( const JsonObject &jo, const std::string &src );
 };
@@ -232,7 +232,7 @@ class martialart
         // determines if a technique is valid or not for this style
         bool has_technique( const Character &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon( const std::string &itt ) const;
+        bool has_weapon( const itype_id & ) const;
         // Is this weapon OK with this art?
         bool weapon_valid( const item &it ) const;
         // Getter for Character style change message
@@ -248,16 +248,16 @@ class martialart
         std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;
         int learn_difficulty = 0;
-        int arm_block;
-        int leg_block;
-        bool arm_block_with_bio_armor_arms;
-        bool leg_block_with_bio_armor_legs;
+        int arm_block = 0;
+        int leg_block = 0;
+        bool arm_block_with_bio_armor_arms = false;
+        bool leg_block_with_bio_armor_legs = false;
         std::set<matec_id> techniques; // all available techniques
-        std::set<std::string> weapons; // all style weapons
-        bool strictly_unarmed; // Punch daggers etc.
-        bool strictly_melee; // Must have a weapon.
-        bool allow_melee; // Can use unarmed or with ANY weapon
-        bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
+        std::set<itype_id> weapons; // all style weapons
+        bool strictly_unarmed = false; // Punch daggers etc.
+        bool strictly_melee = false; // Must have a weapon.
+        bool allow_melee = false; // Can use unarmed or with ANY weapon
+        bool force_unarmed = false; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onpause_buffs;
@@ -292,9 +292,9 @@ void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
-std::string martialart_difficulty( matype_id mstyle );
+std::string martialart_difficulty( const matype_id &mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
 
-#endif
+#endif // CATA_SRC_MARTIALARTS_H

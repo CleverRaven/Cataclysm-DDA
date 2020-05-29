@@ -2,9 +2,9 @@
   {
     "id": "bio_advreactor",
     "type": "bionic",
-    "name": "Advanced Microreactor System",
+    "name": { "str": "Advanced Microreactor System" },
     "description": "This stripped down mini-reactor is more efficient and safer than the base model due to integrated radiation cleansers.  There is no way to shut it down once active, but you can toggle additional fuel intake.",
-    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
+    "occupied_bodyparts": [ [ "torso", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "included_bionics": [ "bio_plutdump" ],
     "upgraded_bionic": "bio_reactor"
@@ -12,9 +12,9 @@
   {
     "id": "bio_plut_filter",
     "type": "bionic",
-    "name": "Plutonium Filter",
+    "name": { "str": "Plutonium Filter" },
     "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 1,
     "react_cost": 1,
@@ -23,7 +23,7 @@
   {
     "id": "bio_plutdump",
     "type": "bionic",
-    "name": "Plutonium Purger",
+    "name": { "str": "Plutonium Purger" },
     "included": true,
     "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
     "act_cost": 1
@@ -31,31 +31,270 @@
   {
     "id": "bio_reactor",
     "type": "bionic",
-    "name": "Microreactor System",
+    "name": { "str": "Microreactor System" },
     "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
-    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
+    "occupied_bodyparts": [ [ "torso", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "available_upgrades": [ "bio_advreactor" ],
     "included_bionics": [ "bio_plutdump" ]
   },
   {
     "id": "bio_furnace",
     "type": "bionic",
-    "name": "Internal Furnace",
+    "name": { "str": "Internal Furnace" },
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
-    "occupied_bodyparts": [ [ "TORSO", 40 ] ],
+    "occupied_bodyparts": [ [ "torso", 40 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_storage",
     "type": "bionic",
-    "name": "Internal Storage",
+    "name": { "str": "Internal Storage" },
     "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
-    "occupied_bodyparts": [ [ "TORSO", 32 ] ],
+    "occupied_bodyparts": [ [ "torso", 32 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "magnesium",
+    "name": [ "Magnesium Supplements" ],
+    "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
+    "rating": "good"
   },
   {
     "type": "recipe",
     "result": "reloaded_270",
+    "obsolete": true
+  },
+  {
+    "id": "tool_rdx_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "RDX charge" },
+    "description": "This is a metal keg, filled with 50 liters worth of RDX and scrap metal.  Contains a core of primary explosive to ensure that the charge detonates completely and delivers its entire destructive power to everything in sight.",
+    "weight": "106600 g",
+    "volume": "50 L",
+    "price": 90000,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 6700,
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
+      "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
+    },
+    "use_action": {
+      "target": "tool_rdx_charge_act",
+      "msg": "You light the fuse on the explosive charge.  Clear the area!",
+      "target_charges": 100,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "nail_bomb",
+    "type": "TOOL",
+    "name": { "str": "nail bomb" },
+    "description": "A crude and bulky improvised bomb.  Made from a container, an explosive surrounded by nails and a fuse.  Use this item to light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
+    "category": "weapons",
+    "weight": "470 g",
+    "volume": "500 ml",
+    "bashing": 4,
+    "to_hit": 1,
+    "price": 900,
+    "price_postapoc": 500,
+    "material": [ "aluminum", "iron" ],
+    "symbol": "*",
+    "color": "green",
+    "explode_in_fire": true,
+    "explosion": { "power": 175, "shrapnel": { "casing_mass": 160, "fragment_mass": 0.4, "drop": "nail", "recovery": 16 } },
+    "use_action": {
+      "target": "nail_bomb_act",
+      "msg": "You light the fuse on the %s.",
+      "target_charges": 5,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
+  },
+  {
+    "id": "nail_bomb_act",
+    "copy-from": "nail_bomb",
+    "type": "TOOL",
+    "name": { "str": "active nail bomb" },
+    "description": "A crude and bulky improvised bomb.  Made from a container, an explosive surrounded by nails and a fuse.  The fuse has been lit, you should throw it.",
+    "price": 0,
+    "price_postapoc": 0,
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 160, "fragment_mass": 0.4, "drop": "nail", "recovery": 16 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "id": "fragment_bomb",
+    "type": "TOOL",
+    "name": { "str": "fragment bomb" },
+    "description": "A crude and bulky improvised bomb.  Made from a container, an explosive surrounded by small pieces of metal and a fuse.  Use this item to light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
+    "category": "weapons",
+    "weight": "470 g",
+    "volume": "500 ml",
+    "bashing": 4,
+    "to_hit": 1,
+    "price": 900,
+    "price_postapoc": 750,
+    "material": [ "aluminum", "iron" ],
+    "symbol": "*",
+    "color": "green",
+    "explode_in_fire": true,
+    "explosion": { "power": 175, "shrapnel": { "casing_mass": 240, "fragment_mass": 0.4 } },
+    "use_action": {
+      "target": "fragment_bomb_act",
+      "msg": "You light the fuse on the %s.",
+      "target_charges": 5,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
+  },
+  {
+    "id": "fragment_bomb_act",
+    "copy-from": "fragment_bomb",
+    "type": "TOOL",
+    "name": { "str": "active fragment bomb" },
+    "description": "A crude and bulky improvised bomb.  Made from a container, an explosive surrounded by small pieces of metal and a fuse.  The fuse has been lit, you should throw it.",
+    "price": 0,
+    "price_postapoc": 0,
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 240, "fragment_mass": 0.4 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "id": "tool_rdx_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active RDX charge" },
+    "description": "This is a metal keg, filled with 50 liters worth of RDX and scrap metal.  The fuse has been lit and once it ignites the primary explosive, the charge will detonate and rain fire and steel on everything in sight.",
+    "weight": "106600 g",
+    "volume": "50 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 6700,
+      "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
+      "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
+    },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
+      "explosion": { "power": 67000, "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "shrapnel", "recovery": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "id": "tool_anfo_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "ANFO charge" },
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
+    "weight": "77800 g",
+    "volume": "50 L",
+    "price": 75000,
+    "to_hit": -5,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": {
+      "power": 25000,
+      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+      "shrapnel": 12600
+    },
+    "use_action": {
+      "target": "tool_anfo_charge_act",
+      "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
+      "target_charges": 100,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_anfo_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active ANFO charge" },
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  The fuse has been lit - better run like hell!",
+    "weight": "77800 g",
+    "volume": "50 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 25000, "shrapnel": 12600 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": {
+        "power": 48900,
+        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "shrapnel": 12600
+      }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "type": "recipe",
+    "result": "tool_anfo_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_rdx_charge",
     "obsolete": true
   },
   {
@@ -72,17 +311,71 @@
     "id": "bio_blaster",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Fusion Blaster Arm CBM",
+    "name": { "str": "Fusion Blaster Arm CBM" },
     "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "price": 220000,
     "difficulty": 3
   },
   {
+    "id": "fertilizer_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb" },
+    "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "target": "fertilizer_bomb_act",
+      "msg": "You light the %s.",
+      "target_charges": 10,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "fertilizer_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb (lit)", "str_pl": "fertilizer bombs (lit)" },
+    "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "initial_charges": 10,
+    "max_charges": 10,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175 }
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bio_blaster",
     "type": "bionic",
-    "name": "Fusion Blaster Arm",
+    "name": { "str": "Fusion Blaster Arm" },
     "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "occupied_bodyparts": [ [ "ARM_L", 20 ], [ "HAND_L", 5 ] ],
+    "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ]
@@ -91,7 +384,7 @@
     "id": "fusion_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted fusion gun",
+    "name": { "str": "mounted fusion gun" },
     "item": "ftk93",
     "color": "magenta",
     "broken_color": "magenta",
@@ -105,7 +398,7 @@
   {
     "id": "bio_blaster_gun",
     "type": "GUN",
-    "name": "fusion blaster",
+    "name": { "str": "fusion blaster" },
     "description": "this a pseudo item",
     "volume": "3 L",
     "price": 0,
@@ -114,8 +407,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": 22,
-    "pierce": 15,
+    "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 15 },
     "dispersion": 30,
     "durability": 10,
     "loudness": 12,
@@ -129,7 +421,7 @@
     "id": "unbio_blaster_gun",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "fusion blaster rifle",
+    "name": { "str": "fusion blaster rifle" },
     "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle.  This improvised weapon is powered by a standard UPS connection.",
     "weight": "2680 g",
     "volume": "2500 ml",
@@ -141,7 +433,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": 22,
+    "ranged_damage": { "damage_type": "stab", "amount": 22 },
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
@@ -160,12 +452,17 @@
     "flags": [ "NO_UNLOAD" ]
   },
   {
+    "type": "recipe",
+    "result": "fertilizer_bomb",
+    "obsolete": true
+  },
+  {
     "id": "ftk93",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "magenta",
-    "name": "FTK-93 fusion gun",
+    "name": { "str": "FTK-93 fusion gun" },
     "description": "A very powerful fusion rifle developed shortly before the influx of monsters.  It can only hold two rounds at a time, but a special superheating unit causes its bolts to be extremely deadly.",
     "price": 980000,
     "material": [ "steel", "plastic" ],
@@ -173,12 +470,12 @@
     "flags": [ "NEVER_JAMS" ],
     "ups_charges": 5,
     "skill": "rifle",
-    "ammo": "fusion",
+    "ammo": [ "fusion" ],
     "weight": "2267 g",
     "volume": "3500 ml",
     "bashing": 10,
     "to_hit": -1,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "dispersion": 30,
     "durability": 9,
     "clip_size": 2,
@@ -192,7 +489,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fusion": 2 } } ]
   },
   {
     "type": "ammunition_type",
@@ -204,7 +502,7 @@
     "type": "AMMO",
     "id": "laser_pack",
     "price": 80000,
-    "name": "fusion pack",
+    "name": { "str": "fusion pack" },
     "symbol": "=",
     "color": "light_green",
     "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.",
@@ -212,8 +510,7 @@
     "volume": "250 ml",
     "weight": "68 g",
     "ammo_type": "fusion",
-    "damage": 12,
-    "pierce": 15,
+    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 15 },
     "range": 30,
     "stack_size": 40,
     "count": 20,
@@ -223,7 +520,7 @@
     "type": "AMMO",
     "id": "reloaded_laser_pack",
     "price": 80,
-    "name": "bootleg fusion pack",
+    "name": { "str": "bootleg fusion pack" },
     "symbol": "=",
     "color": "light_green",
     "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.  This one has been hand-crafted from spare parts.",
@@ -232,8 +529,7 @@
     "weight": "68 g",
     "bashing": 1,
     "ammo_type": "fusion",
-    "damage": 11,
-    "pierce": 14,
+    "damage": { "damage_type": "stab", "amount": 11, "armor_penetration": 14 },
     "range": 30,
     "stack_size": 40,
     "count": 20,
@@ -248,14 +544,14 @@
     "id": "wheel_steerable",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "wheel (steerable)",
+    "name": { "str": "wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_slick_steerable",
     "copy-from": "wheel_slick",
     "type": "vehicle_part",
-    "name": "racing slick (steerable)",
+    "name": { "str": "racing slick (steerable)" },
     "item": "wheel_slick",
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
@@ -263,62 +559,62 @@
     "id": "wheel_armor_steerable",
     "copy-from": "wheel_armor",
     "type": "vehicle_part",
-    "name": "armored wheel (steerable)",
+    "name": { "str": "armored wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_bicycle_steerable",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel (steerable)",
+    "name": { "str": "bicycle wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_bicycle_or_steerable",
     "copy-from": "wheel_bicycle_or",
     "type": "vehicle_part",
-    "name": "off-road bicycle wheel (steerable)",
+    "name": { "str": "off-road bicycle wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_motorbike_steerable",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "motorbike wheel (steerable)",
+    "name": { "str": "motorbike wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_motorbike_or_steerable",
     "copy-from": "wheel_motorbike_or",
     "type": "vehicle_part",
-    "name": "off-road motorbike wheel (steerable)",
+    "name": { "str": "off-road motorbike wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_small_steerable",
     "copy-from": "wheel_small",
     "type": "vehicle_part",
-    "name": "small wheel (steerable)",
+    "name": { "str": "small wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_wide_steerable",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
-    "name": "wide wheel (steerable)",
+    "name": { "str": "wide wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_wide_or_steerable",
     "copy-from": "wheel_wide_or",
     "type": "vehicle_part",
-    "name": "off-road wide wheel (steerable)",
+    "name": { "str": "off-road wide wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "type": "mutation",
     "id": "INCONSPICUOUS",
-    "name": "Inconspicuous",
+    "name": { "str": "Inconspicuous" },
     "points": 1,
     "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
     "social_modifiers": { "lie": 2 },
@@ -327,7 +623,7 @@
   {
     "type": "mutation",
     "id": "SAVINGS",
-    "name": "Savings",
+    "name": { "str": "Savings" },
     "points": 1,
     "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
     "valid": false
@@ -335,7 +631,7 @@
   {
     "type": "mutation",
     "id": "DEBT",
-    "name": "Debt",
+    "name": { "str": "Debt" },
     "points": -1,
     "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
     "valid": false
@@ -343,7 +639,7 @@
   {
     "type": "mutation",
     "id": "MILLIONAIRE",
-    "name": "Millionaire",
+    "name": { "str": "Millionaire" },
     "points": 3,
     "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
     "valid": false
@@ -351,7 +647,7 @@
   {
     "id": "metal_wheel",
     "type": "vehicle_part",
-    "name": "metal wheel",
+    "name": { "str": "metal wheel" },
     "item": "wheel_metal",
     "location": "under",
     "symbol": "|",
@@ -374,7 +670,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_bone",
-    "name": "bone plating",
+    "name": { "str": "bone plating" },
     "symbol": ")",
     "color": "white",
     "broken_symbol": ")",
@@ -390,7 +686,7 @@
   {
     "id": "washcloth",
     "type": "TOOL",
-    "name": "washcloth",
+    "name": { "str": "washcloth" },
     "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -403,7 +699,7 @@
   {
     "id": "fault_gun_clogged",
     "type": "fault",
-    "name": "Dusty",
+    "name": { "str": "Dusty" },
     "description": "It's dusty.  Has no effect - obsolete fault.",
     "mending_methods": [
       {
@@ -416,5 +712,257 @@
       }
     ],
     "flags": [ "SILENT" ]
+  },
+  {
+    "id": "double_plutonium_core",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "reactor core expansion device" },
+    "description": "This is an expansion device for use on plutonium-powered equipment.  With enough electronics skill, you could attach this to an atomic tool to double the amount of plutonium it can hold.  Note that this device is incompatible with the atomic battery mod.",
+    "weight": "694 g",
+    "volume": "750 ml",
+    "price": 10000,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "acceptable_ammo": [ "plutonium" ],
+    "capacity_multiplier": 2.0
+  },
+  {
+    "id": "pipebomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "pipe bomb" },
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "weight": "730 g",
+    "//": "Only one third (410 g) of a whole pipe is being used",
+    "volume": "500 ml",
+    "price": 1500,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "use_action": {
+      "target": "pipebomb_act",
+      "msg": "You light the fuse on the pipe bomb.",
+      "target_charges": 6,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+  },
+  {
+    "id": "pipebomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active pipe bomb" },
+    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
+    "weight": "1298 g",
+    "volume": "500 ml",
+    "price": 0,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "initial_charges": 6,
+    "max_charges": 6,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+  },
+  {
+    "result": "double_plutonium_core",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "ring",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "pipebomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "tool_black_powder_charge",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes…",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 20000,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "target": "tool_black_powder_charge_act",
+      "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
+      "target_charges": 20,
+      "active": true,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_black_powder_charge_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "active black gunpowder charge" },
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, whose fuse has been lit, its final countdown starting.",
+    "weight": "6500 g",
+    "volume": "4 L",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - run!",
+      "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+    }
+  },
+  {
+    "id": "bio_scent_vision",
+    "type": "bionic",
+    "name": { "str": "Scent Vision" },
+    "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even in complete darkness.",
+    "occupied_bodyparts": [ [ "head", 3 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "2 J",
+    "react_cost": "2 J",
+    "time": 1
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "coilgun",
+    "obsolete": true
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "nailmag",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "id": "mounted_mininuke_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted mininuke launcher" },
+    "item": "mininuke_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+  },
+  {
+    "id": "mounted_heavy_rail_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted heavy rail rifle" },
+    "item": "heavy_rail_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rebar_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted ferromagnetic rail rifle" },
+    "item": "rebar_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_coilgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted coilgun" },
+    "item": "coilgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   }
 ]

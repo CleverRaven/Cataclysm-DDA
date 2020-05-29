@@ -124,7 +124,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `reload <weapon>`
 * `bullet_hit hit_flesh|hit_wall|hit_metal|hit_glass|hit_water`
 
-    # enviromental sfx, here divided by sections for clarity
+    # environmental sfx, here divided by sections for clarity
 * `environment thunder_near|thunder_far`
 * `environment daytime|nighttime`
 * `environment indoors|indoors_rain|underground`

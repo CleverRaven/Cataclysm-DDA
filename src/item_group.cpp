@@ -2,22 +2,27 @@
 
 #include <algorithm>
 #include <cassert>
-#include <list>
 #include <set>
 
+#include "calendar.h"
+#include "compatibility.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-#include "calendar.h"
-#include "compatibility.h"
-#include "enums.h"
 #include "type_id.h"
-#include "flat_set.h"
+#include "value_ptr.h"
 
 static const std::string null_item_id( "null" );
+
+static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -63,14 +68,18 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     } else if( type == S_NONE ) {
         return item( null_item_id, birthday );
     }
-    if( one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+    if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.item_tags.insert( "FIT" );
     }
     if( modifier ) {
         modifier->modify( tmp );
     } else {
+        int qty = tmp.charges;
+        if( modifier ) {
+            qty = rng( modifier->charges.first, modifier->charges.second );
+        }
         // TODO: change the spawn lists to contain proper references to containers
-        tmp = tmp.in_its_container();
+        tmp = tmp.in_its_container( qty );
     }
     return tmp;
 }
@@ -118,7 +127,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
 void Single_item_creator::check_consistency( const std::string &context ) const
 {
     if( type == S_ITEM ) {
-        if( !item::type_is_defined( id ) ) {
+        if( !item::type_is_defined( itype_id( id ) ) ) {
             debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
@@ -135,7 +144,7 @@ void Single_item_creator::check_consistency( const std::string &context ) const
     }
 }
 
-bool Single_item_creator::remove_item( const Item_tag &itemid )
+bool Single_item_creator::remove_item( const itype_id &itemid )
 {
     if( modifier ) {
         if( modifier->remove_item( itemid ) ) {
@@ -144,7 +153,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
         }
     }
     if( type == S_ITEM ) {
-        if( itemid == id ) {
+        if( itemid.str() == id ) {
             type = S_NONE;
             return true;
         }
@@ -157,7 +166,7 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
     return type == S_NONE;
 }
 
-bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( modifier ) {
         if( modifier->replace_item( itemid, replacementid ) ) {
@@ -165,8 +174,8 @@ bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &
         }
     }
     if( type == S_ITEM ) {
-        if( itemid == id ) {
-            id = replacementid;
+        if( itemid.str() == id ) {
+            id = replacementid.str();
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
@@ -178,16 +187,16 @@ bool Single_item_creator::replace_item( const Item_tag &itemid, const Item_tag &
     return type == S_NONE;
 }
 
-bool Single_item_creator::has_item( const Item_tag &itemid ) const
+bool Single_item_creator::has_item( const itype_id &itemid ) const
 {
-    return type == S_ITEM && itemid == id;
+    return type == S_ITEM && itemid.str() == id;
 }
 
 std::set<const itype *> Single_item_creator::every_item() const
 {
     switch( type ) {
         case S_ITEM:
-            return { item::find_type( id ) };
+            return { item::find_type( itype_id( id ) ) };
         case S_ITEM_GROUP: {
             Item_spawn_data *isd = item_controller->get_group( id );
             if( isd != nullptr ) {
@@ -233,15 +242,15 @@ void Item_modifier::modify( item &new_item ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
     // no need for dirt if it's a bow
-    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) &&
-        !new_item.has_flag( "NON-FOULING" ) ) {
+    if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
+        !new_item.has_flag( flag_NON_FOULING ) ) {
         int random_dirt = rng( dirt.first, dirt.second );
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
             // chance to be unlubed, but only if it's not a laser or something
-        } else if( one_in( 10 ) && !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+        } else if( one_in( 10 ) && !new_item.has_flag( flag_NEEDS_NO_LUBE ) ) {
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
@@ -253,22 +262,23 @@ void Item_modifier::modify( item &new_item ) const
     }
     if( cont.is_null() && new_item.type->default_container.has_value() ) {
         const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
-        if( cont_value != "null" ) {
+        if( !cont_value.is_null() ) {
             cont = item( cont_value, new_item.birthday() );
         }
     }
 
     int max_capacity = -1;
-    if( charges.first != -1 && charges.second == -1 ) {
-        const int max_ammo = new_item.ammo_capacity();
+    if( charges.first != -1 && charges.second == -1 && new_item.is_magazine() ) {
+        const int max_ammo = new_item.ammo_capacity( item_controller->find_template(
+                                 new_item.ammo_default() )->ammo->type );
         if( max_ammo > 0 ) {
             max_capacity = max_ammo;
         }
     }
 
-    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( LIQUID ) ||
+    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
             ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
-        max_capacity = new_item.charges_per_volume( cont.get_container_capacity() );
+        max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
     }
 
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
@@ -292,21 +302,26 @@ void Item_modifier::modify( item &new_item ) const
 
         ch = charges_min == charges_max ? charges_min : rng( charges_min,
                 charges_max );
-    } else if( !cont.is_null() && new_item.made_of( LIQUID ) ) {
+    } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
         new_item.charges = std::max( 1, max_capacity );
     }
 
     if( ch != -1 ) {
-        if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
+        if( new_item.count_by_charges() || new_item.made_of( phase_id::LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1, ch );
         } else if( new_item.is_tool() ) {
-            const int qty = std::min( ch, new_item.ammo_capacity() );
-            new_item.charges = qty;
-            if( !new_item.ammo_types().empty() && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_default(), qty );
+            if( !new_item.magazine_default().is_null() ) {
+                item mag( new_item.magazine_default() );
+                mag.ammo_set( mag.ammo_default(), ch );
+                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            } else if( new_item.is_magazine() ) {
+                new_item.ammo_set( new_item.ammo_default(), ch );
+            } else {
+                debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
+                          new_item.typeId().c_str() );
             }
         } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
@@ -321,27 +336,37 @@ void Item_modifier::modify( item &new_item ) const
             }
         } else {
             const item am = ammo->create_single( new_item.birthday() );
-            new_item.ammo_set( am.typeId(), ch );
+            if( !new_item.magazine_default().is_null() ) {
+                item mag( new_item.magazine_default() );
+                mag.ammo_set( am.typeId(), ch );
+                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            } else {
+                new_item.ammo_set( am.typeId(), ch );
+            }
         }
         // Make sure the item is in valid state
-        if( new_item.ammo_data() && new_item.magazine_integral() ) {
-            new_item.charges = std::min( new_item.charges, new_item.ammo_capacity() );
+        if( new_item.magazine_integral() ) {
+            new_item.charges = std::min( new_item.charges,
+                                         new_item.ammo_capacity( item_controller->find_template( new_item.ammo_default() )->ammo->type ) );
         } else {
             new_item.charges = 0;
         }
     }
 
-    if( new_item.is_tool() || new_item.is_gun() || new_item.is_magazine() ) {
+    if( new_item.is_magazine() ||
+        new_item.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
         bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
                           ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
                           !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
-        }
-
-        if( spawn_ammo ) {
+            item mag( new_item.magazine_default(), new_item.birthday() );
+            if( spawn_ammo ) {
+                mag.ammo_set( mag.ammo_default() );
+            }
+            new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        } else if( spawn_ammo && !new_item.ammo_default().is_null() ) {
             if( ammo ) {
                 const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
@@ -352,13 +377,15 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( !cont.is_null() ) {
-        cont.put_in( new_item );
+        cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
         new_item = cont;
     }
 
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
-        new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
+        for( const item &it : contentitems ) {
+            new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
     }
 
     for( auto &flag : custom_flags ) {
@@ -382,7 +409,7 @@ void Item_modifier::check_consistency( const std::string &context ) const
     }
 }
 
-bool Item_modifier::remove_item( const Item_tag &itemid )
+bool Item_modifier::remove_item( const itype_id &itemid )
 {
     if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
@@ -398,7 +425,7 @@ bool Item_modifier::remove_item( const Item_tag &itemid )
     return false;
 }
 
-bool Item_modifier::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     if( ammo != nullptr ) {
         ammo->replace_item( itemid, replacementid );
@@ -429,10 +456,10 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     }
 }
 
-void Item_group::add_item_entry( const Item_tag &itemid, int probability )
+void Item_group::add_item_entry( const itype_id &itemid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   itemid, Single_item_creator::S_ITEM, probability ) );
+                   itemid.str(), Single_item_creator::S_ITEM, probability ) );
 }
 
 void Item_group::add_group_entry( const Group_tag &groupid, int probability )
@@ -517,7 +544,7 @@ void Item_group::check_consistency( const std::string &context ) const
     }
 }
 
-bool Item_group::remove_item( const Item_tag &itemid )
+bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
@@ -530,7 +557,7 @@ bool Item_group::remove_item( const Item_tag &itemid )
     return items.empty();
 }
 
-bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replacementid )
+bool Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         ( elem )->replace_item( itemid, replacementid );
@@ -538,7 +565,7 @@ bool Item_group::replace_item( const Item_tag &itemid, const Item_tag &replaceme
     return items.empty();
 }
 
-bool Item_group::has_item( const Item_tag &itemid ) const
+bool Item_group::has_item( const itype_id &itemid ) const
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
         if( ( elem )->has_item( itemid ) ) {

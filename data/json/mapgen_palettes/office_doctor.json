@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "office_doctor",
     "terrain": {
-      " ": [ "t_dirt", "t_grass" ],
+      " ": "t_region_groundcover_urban",
       "!": "t_door_locked_interior",
       "#": "t_wall_w",
       "$": "t_floor",

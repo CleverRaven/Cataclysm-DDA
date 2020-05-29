@@ -1,5 +1,9 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
+#include <cassert>
+#include <cstddef>
+#include <memory>
+#include <ostream>
 #include <set>
 
 #include "action.h"
@@ -7,32 +11,41 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "item.h"
 #include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "messages.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
+#include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
-#include "cursesdef.h"
-#include "game_constants.h"
-#include "item.h"
-#include "monster.h"
-#include "pldata.h"
-#include "mapdata.h"
 #include "string_id.h"
-#include "point.h"
+#include "translations.h"
+#include "ui_manager.h"
 #include "weather.h"
+
+static const skill_id skill_barter( "barter" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -42,15 +55,6 @@
                       ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
-
-static const skill_id skill_barter( "barter" );
-
-static const mongroup_id GROUP_NETHER = mongroup_id( "GROUP_NETHER" );
-static const mongroup_id GROUP_ROBOT = mongroup_id( "GROUP_ROBOT" );
-static const mongroup_id GROUP_SPIDER = mongroup_id( "GROUP_SPIDER" );
-static const mongroup_id GROUP_TRIFFID = mongroup_id( "GROUP_TRIFFID" );
-static const mongroup_id GROUP_VANILLA = mongroup_id( "GROUP_VANILLA" );
-static const mongroup_id GROUP_ZOMBIE = mongroup_id( "GROUP_ZOMBIE" );
 
 std::string caravan_category_name( caravan_category cat );
 std::vector<itype_id> caravan_items( caravan_category cat );
@@ -90,7 +94,7 @@ bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     g->weather.temperature = 65;
-    if( !g->u.create( PLTYPE_CUSTOM ) ) {
+    if( !g->u.create( character_type::CUSTOM ) ) {
         return false;
     }
     g->u.str_cur = g->u.str_max;
@@ -114,7 +118,6 @@ bool defense_game::init()
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
-    popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
     // TODO: support multiple defense games? clean up old defense game
     defloc_pos = tripoint( 50, 50, 0 );
     init_map();
@@ -185,9 +188,8 @@ void defense_game::pre_action( action_id &act )
     }
 }
 
-void defense_game::post_action( action_id act )
+void defense_game::post_action( action_id /*act*/ )
 {
-    ( void )act;
 }
 
 void defense_game::game_over()
@@ -215,6 +217,12 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
+    background_pane background;
+    static_popup popup;
+    popup.message( _( "Please wait as the map generates [%2d%%]" ), 0 );
+    ui_manager::redraw();
+    refresh_display();
+
     auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
@@ -264,7 +272,9 @@ void defense_game::init_map()
             int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
                           ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
-                popup_nowait( _( "Please wait as the map generates [%2d%%]" ), percent );
+                popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
+                ui_manager::redraw();
+                refresh_display();
                 old_percent = percent;
             }
             // Round down to the nearest even number
@@ -448,31 +458,44 @@ void defense_game::init_to_style( defense_style new_style )
 
 void defense_game::setup()
 {
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                  TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+    background_pane bg_pane;
+
+    catacurses::window w;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                       TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
+
     int selection = 1;
     int selection_max = 20;
-    refresh_setup( w, selection );
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        refresh_setup( w, selection );
+    } );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
+    ctxt.register_action( "UP", to_translation( "Previous option" ) );
+    ctxt.register_action( "DOWN", to_translation( "Next option" ) );
+    ctxt.register_action( "LEFT", to_translation( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     while( true ) {
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
 
         if( action == "START" ) {
             if( !zombies && !specials && !spiders && !triffids && !robots && !subspace ) {
                 popup( _( "You must choose at least one monster group!" ) );
-                refresh_setup( w, selection );
             } else {
                 return;
             }
@@ -482,14 +505,12 @@ void defense_game::setup()
             } else {
                 selection++;
             }
-            refresh_setup( w, selection );
         } else if( action == "UP" ) {
             if( selection == 1 ) {
                 selection = selection_max;
             } else {
                 selection--;
             }
-            refresh_setup( w, selection );
         } else {
             switch( selection ) {
                 case 1:
@@ -527,10 +548,6 @@ void defense_game::setup()
                             location = static_cast<defense_location>( location - 1 );
                         }
                     }
-                    mvwprintz( w, point( 2, 5 ), c_black,
-                               " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
-                    mvwprintz( w, point( 2, 5 ), c_yellow, defense_location_name( location ) );
-                    mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
                     break;
 
                 case 3:
@@ -541,9 +558,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && initial_difficulty < 995 ) {
                         initial_difficulty += 5;
                     }
-                    mvwprintz( w, point( 22, 7 ), c_black, "xxx" );
-                    mvwprintz( w, point( NUMALIGN( initial_difficulty ), 7 ), c_yellow, "%d",
-                               initial_difficulty );
                     break;
 
                 case 4:
@@ -554,9 +568,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && wave_difficulty < 995 ) {
                         wave_difficulty += 5;
                     }
-                    mvwprintz( w, point( 22, 8 ), c_black, "xxx" );
-                    mvwprintz( w, point( NUMALIGN( wave_difficulty ), 8 ), c_yellow, "%d",
-                               wave_difficulty );
                     break;
 
                 case 5:
@@ -566,9 +577,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && time_between_waves < 995_minutes ) {
                         time_between_waves += 5_minutes;
                     }
-                    mvwprintz( w, point( 22, 10 ), c_black, "xxx" );
-                    mvwprintz( w, point( NUMALIGN( to_minutes<int>( time_between_waves ) ), 10 ),
-                               c_yellow, "%d", to_minutes<int>( time_between_waves ) );
                     break;
 
                 case 6:
@@ -578,9 +586,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && waves_between_caravans < 50 ) {
                         waves_between_caravans += 1;
                     }
-                    mvwprintz( w, point( 22, 11 ), c_black, "xxx" );
-                    mvwprintz( w, point( NUMALIGN( waves_between_caravans ), 11 ), c_yellow, "%d",
-                               waves_between_caravans );
                     break;
 
                 case 7:
@@ -590,9 +595,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && initial_cash < 1000000 ) {
                         initial_cash += 100;
                     }
-                    mvwprintz( w, point( 20, 13 ), c_black, "xxxxx" );
-                    mvwprintz( w, point( NUMALIGN( initial_cash ), 13 ), c_yellow, "%d",
-                               initial_cash / 100 );
                     break;
 
                 case 8:
@@ -602,9 +604,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && cash_per_wave < 1000000 ) {
                         cash_per_wave += 100;
                     }
-                    mvwprintz( w, point( 21, 14 ), c_black, "xxxx" );
-                    mvwprintz( w, point( NUMALIGN( cash_per_wave ), 14 ), c_yellow, "%d",
-                               cash_per_wave / 100 );
                     break;
 
                 case 9:
@@ -614,9 +613,6 @@ void defense_game::setup()
                     if( action == "RIGHT" && cash_increase < 1000000 ) {
                         cash_increase += 50;
                     }
-                    mvwprintz( w, point( 21, 15 ), c_black, "xxxx" );
-                    mvwprintz( w, point( NUMALIGN( cash_increase ), 15 ), c_yellow, "%d",
-                               cash_increase / 100 );
                     break;
 
                 case 10:
@@ -633,75 +629,63 @@ void defense_game::setup()
                         specials = !specials;
                         zombies = false;
                     }
-                    mvwprintz( w, point( 2, 18 ), c_yellow, _( "Zombies" ) );
-                    mvwprintz( w, point( 14, 18 ), ( specials ? c_light_green : c_yellow ), _( "Special Zombies" ) );
                     break;
 
                 case 12:
                     if( action == "CONFIRM" ) {
                         spiders = !spiders;
                     }
-                    mvwprintz( w, point( 34, 18 ), ( spiders ? c_light_green : c_yellow ), _( "Spiders" ) );
                     break;
 
                 case 13:
                     if( action == "CONFIRM" ) {
                         triffids = !triffids;
                     }
-                    mvwprintz( w, point( 46, 18 ), ( triffids ? c_light_green : c_yellow ), _( "Triffids" ) );
                     break;
 
                 case 14:
                     if( action == "CONFIRM" ) {
                         robots = !robots;
                     }
-                    mvwprintz( w, point( 59, 18 ), ( robots ? c_light_green : c_yellow ), _( "Robots" ) );
                     break;
 
                 case 15:
                     if( action == "CONFIRM" ) {
                         subspace = !subspace;
                     }
-                    mvwprintz( w, point( 70, 18 ), ( subspace ? c_light_green : c_yellow ), _( "Subspace" ) );
                     break;
 
                 case 16:
                     if( action == "CONFIRM" ) {
                         hunger = !hunger;
                     }
-                    mvwprintz( w, point( 2, 21 ), ( hunger ? c_light_green : c_yellow ), _( "Food" ) );
                     break;
 
                 case 17:
                     if( action == "CONFIRM" ) {
                         thirst = !thirst;
                     }
-                    mvwprintz( w, point( 14, 21 ), ( thirst ? c_light_green : c_yellow ), _( "Water" ) );
                     break;
 
                 case 18:
                     if( action == "CONFIRM" ) {
                         sleep = !sleep;
                     }
-                    mvwprintz( w, point( 34, 21 ), ( sleep ? c_light_green : c_yellow ), _( "Sleep" ) );
                     break;
 
                 case 19:
                     if( action == "CONFIRM" ) {
                         mercenaries = !mercenaries;
                     }
-                    mvwprintz( w, point( 46, 21 ), ( mercenaries ? c_light_green : c_yellow ), _( "Mercenaries" ) );
                     break;
 
                 case 20:
                     if( action == "CONFIRM" ) {
                         allow_save = !allow_save;
                     }
-                    mvwprintz( w, point( 59, 21 ), ( allow_save ? c_light_green : c_yellow ), _( "Allow save" ) );
                     break;
             }
         }
-        refresh_setup( w, selection );
     }
 }
 
@@ -884,7 +868,19 @@ void defense_game::caravan()
 
     signed total_price = 0;
 
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point_zero );
+    background_pane bg_pane;
+
+    catacurses::window w;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int width = FULL_SCREEN_WIDTH;
+        const int height = FULL_SCREEN_HEIGHT;
+        const int offsetx = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+        const int offsety = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 2;
+        w = catacurses::newwin( height, width, point( offsetx, offsety ) );
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
 
     int offset = 0;
     int item_selected = 0;
@@ -892,8 +888,12 @@ void defense_game::caravan()
 
     int current_window = 0;
 
-    draw_caravan_borders( w, current_window );
-    draw_caravan_categories( w, category_selected, total_price, g->u.cash );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_caravan_categories( w, category_selected, total_price, g->u.cash );
+        draw_caravan_items( w, &( items[category_selected] ),
+                            &( item_count[category_selected] ), offset, item_selected );
+        draw_caravan_borders( w, current_window );
+    } );
 
     input_context ctxt( "CARAVAN" );
     ctxt.register_cardinal();
@@ -906,6 +906,7 @@ void defense_game::caravan()
     bool done = false;
     bool cancel = false;
     while( !done ) {
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "HELP" ) {
             popup_top( _( "CARAVAN:\n"
@@ -917,23 +918,14 @@ void defense_game::caravan()
                        ctxt.get_desc( "CONFIRM" ),
                        ctxt.get_desc( "QUIT" )
                      );
-            draw_caravan_categories( w, category_selected, total_price, g->u.cash );
-            draw_caravan_items( w, &( items[category_selected] ),
-                                &( item_count[category_selected] ), offset, item_selected );
-            draw_caravan_borders( w, current_window );
         } else if( action == "DOWN" ) {
             if( current_window == 0 ) { // Categories
                 category_selected++;
                 if( category_selected == NUM_CARAVAN_CATEGORIES ) {
                     category_selected = CARAVAN_CART;
                 }
-                draw_caravan_categories( w, category_selected, total_price, g->u.cash );
                 offset = 0;
                 item_selected = 0;
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset,
-                                    item_selected );
-                draw_caravan_borders( w, current_window );
             } else if( !items[category_selected].empty() ) { // Items
                 if( item_selected < static_cast<int>( items[category_selected].size() ) - 1 ) {
                     item_selected++;
@@ -944,10 +936,6 @@ void defense_game::caravan()
                 if( item_selected > offset + 12 ) {
                     offset++;
                 }
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset,
-                                    item_selected );
-                draw_caravan_borders( w, current_window );
             }
         } else if( action == "UP" ) {
             if( current_window == 0 ) { // Categories
@@ -959,13 +947,8 @@ void defense_game::caravan()
                 if( category_selected == NUM_CARAVAN_CATEGORIES ) {
                     category_selected = CARAVAN_CART;
                 }
-                draw_caravan_categories( w, category_selected, total_price, g->u.cash );
                 offset = 0;
                 item_selected = 0;
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset,
-                                    item_selected );
-                draw_caravan_borders( w, current_window );
             } else if( !items[category_selected].empty() ) { // Items
                 if( item_selected > 0 ) {
                     item_selected--;
@@ -979,10 +962,6 @@ void defense_game::caravan()
                 if( item_selected < offset ) {
                     offset--;
                 }
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset,
-                                    item_selected );
-                draw_caravan_borders( w, current_window );
             }
         } else if( action == "RIGHT" ) {
             if( current_window == 1 && !items[category_selected].empty() ) {
@@ -1010,10 +989,6 @@ void defense_game::caravan()
                         item_count[0].push_back( 1 );
                     }
                 }
-                draw_caravan_categories( w, category_selected, total_price, g->u.cash );
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset, item_selected );
-                draw_caravan_borders( w, current_window );
             }
         } else if( action == "LEFT" ) {
             if( current_window == 1 && !items[category_selected].empty() &&
@@ -1042,23 +1017,13 @@ void defense_game::caravan()
                         }
                     }
                 }
-                draw_caravan_categories( w, category_selected, total_price, g->u.cash );
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset, item_selected );
-                draw_caravan_borders( w, current_window );
             }
         } else if( action == "NEXT_TAB" ) {
             current_window = ( current_window + 1 ) % 2;
-            draw_caravan_borders( w, current_window );
         } else if( action == "QUIT" ) {
             if( query_yn( _( "Really buy nothing?" ) ) ) {
                 cancel = true;
                 done = true;
-            } else {
-                draw_caravan_categories( w, category_selected, total_price, g->u.cash );
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset, item_selected );
-                draw_caravan_borders( w, current_window );
             }
         } else if( action == "CONFIRM" ) {
             if( total_price > g->u.cash ) {
@@ -1071,12 +1036,6 @@ void defense_game::caravan()
                                    items[0].size(),
                                    format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
-            }
-            if( !done ) { // We canceled, so redraw everything
-                draw_caravan_categories( w, category_selected, total_price, g->u.cash );
-                draw_caravan_items( w, &( items[category_selected] ),
-                                    &( item_count[category_selected] ), offset, item_selected );
-                draw_caravan_borders( w, current_window );
             }
         } // "switch" on (action)
 
@@ -1092,7 +1051,7 @@ void defense_game::caravan()
             // Guns bought from the caravan should always come with an empty
             // magazine.
             if( tmp.is_gun() && !tmp.magazine_integral() ) {
-                tmp.emplace_back( tmp.magazine_default() );
+                tmp.put_in( item( tmp.magazine_default() ), item_pocket::pocket_type::MAGAZINE );
             }
 
             for( int j = 0; j < item_count[0][i]; j++ ) {

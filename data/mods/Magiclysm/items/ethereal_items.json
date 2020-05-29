@@ -2,8 +2,7 @@
   {
     "id": "stonefist",
     "type": "GENERIC",
-    "name": "pair of magical armored stone gauntlets",
-    "name_plural": "pairs of armored gauntlets",
+    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -36,14 +35,13 @@
     "symbol": ",",
     "color": "yellow",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FIRE", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
     "id": "armor_stonefist",
     "type": "ARMOR",
     "category": "armor",
-    "name": "pair of magical armored stone gauntlets",
-    "name_plural": "pairs of armored gauntlets",
+    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -117,8 +115,7 @@
   {
     "id": "ice_gliders",
     "type": "ARMOR",
-    "name": "pair of slick icy coatings on your feet",
-    "name_plural": "slick icy coatings",
+    "name": { "str_sp": "slick icy coatings" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -140,7 +137,7 @@
   {
     "type": "GENERIC",
     "id": "stormhammer",
-    "name": "The Stormhammer",
+    "name": { "str": "The Stormhammer" },
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "weight": "1337 g",
     "to_hit": 2,
@@ -188,8 +185,7 @@
     "id": "stormglove",
     "symbol": "3",
     "color": "light_gray",
-    "name": "Stormfist",
-    "name_plural": "Stormfists",
+    "name": { "str": "Stormfist" },
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
     "material": [ "superalloy" ],
     "volume": "250 ml",
@@ -236,8 +232,7 @@
   {
     "id": "fleshpouch",
     "type": "ARMOR",
-    "name": "flesh pouch",
-    "name_plural": "flesh pouches",
+    "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": 0,
     "volume": 0,
@@ -247,8 +242,9 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 10,
-    "storage": "25 L",
+    "encumbrance": 5,
+    "max_encumbrance": 10,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
     "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
   },
@@ -257,7 +253,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": "Wicked Bonespear",
+    "name": { "str": "Wicked Bonespear" },
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
     "material": [ "bone" ],
     "flags": [
@@ -281,13 +277,13 @@
   },
   {
     "id": "druid_recurve",
+    "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
     "looks_like": "recurbow",
-    "name": "Woodbow",
+    "name": { "str": "Woodbow" },
     "description": "A magically conjured ornate recurve bow of solid flexible wood.  A matching conjured wooden arrow appears when you draw the string back for firing.",
-    "material": [ "wood" ],
     "flags": [
       "FIRE_TWOHAND",
       "PRIMITIVE_RANGED_WEAPON",
@@ -301,17 +297,17 @@
       "NO_AMMO"
     ],
     "skill": "archery",
-    "min_strength": 5,
+    "min_strength": 9,
     "weight": "540 g",
-    "volume": "2500 ml",
-    "bashing": 16,
+    "bashing": 12,
     "to_hit": 1,
-    "reload_noise_volume": 2,
-    "loudness": 2,
-    "ranged_damage": 17,
-    "range": 15,
-    "dispersion": 120,
-    "durability": 8
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": { "damage_type": "stab", "amount": 29 },
+    "range": 12,
+    "dispersion": 950,
+    "durability": 6,
+    "volume": "2500 ml"
   },
   {
     "type": "TOOL",
@@ -362,7 +358,7 @@
   {
     "id": "acid_res_aura",
     "type": "ARMOR",
-    "name": "acid resistance aura",
+    "name": { "str": "acid resistance aura" },
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",
@@ -390,5 +386,83 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     }
+  },
+  {
+    "id": "armor_frost",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "frost armor" },
+    "description": "A thin layer of magical ice, covering the entire body.",
+    "weight": "5000 g",
+    "volume": "5 L",
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
+    "id": "aura_stoneskin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "stoneskin coating" },
+    "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
+    "weight": "10200 g",
+    "volume": "25 L",
+    "material": [ "stone" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 20,
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
+    "id": "burn_scar",
+    "type": "effect_type",
+    "desc": [ "This burn really hurts!" ],
+    "max_duration": "10 second",
+    "rating": "bad",
+    "base_mods": { "pain_amount": [ 20 ] }
+  },
+  {
+    "id": "ench_overcharge_burn_scar",
+    "type": "enchantment",
+    "ench_effects": [ { "effect": "burn_scar", "intensity": 1 } ]
+  },
+  {
+    "id": "overcharge_burn_scar",
+    "type": "ARMOR",
+    "name": { "str": "overcharge burn" },
+    "description": "Ouch, this really smarts!  It'll go away soon, maybe?",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "~",
+    "color": "light_red",
+    "covers": [ "EYES", "MOUTH" ],
+    "encumbrance": 18,
+    "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
+    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
+  },
+  {
+    "id": "protect_env",
+    "type": "ARMOR",
+    "name": { "str": "aura of protection", "str_pl": "auras of protection" },
+    "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "environmental_protection": 15,
+    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
   }
 ]

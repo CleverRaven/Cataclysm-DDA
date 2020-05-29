@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CLZONES_H
-#define CLZONES_H
+#ifndef CATA_SRC_CLZONES_H
+#define CATA_SRC_CLZONES_H
 
 #include <cstddef>
 #include <map>
@@ -111,8 +111,8 @@ class mark_option
 class plot_options : public zone_options, public mark_option
 {
     private:
-        std::string mark;
-        std::string seed;
+        itype_id mark;
+        itype_id seed;
 
         enum query_seed_result {
             canceled,
@@ -124,9 +124,9 @@ class plot_options : public zone_options, public mark_option
 
     public:
         std::string get_mark() const override {
-            return mark;
+            return mark.str();
         }
-        std::string get_seed() const {
+        itype_id get_seed() const {
             return seed;
         }
 
@@ -151,7 +151,7 @@ class blueprint_options : public zone_options, public mark_option
         // furn/ter id as string.
         std::string mark;
         std::string con;
-        int index;
+        construction_id index;
 
         enum query_con_result {
             canceled,
@@ -168,7 +168,7 @@ class blueprint_options : public zone_options, public mark_option
         std::string get_con() const {
             return con;
         }
-        int get_index() const {
+        construction_id get_index() const {
             return index;
         }
 
@@ -176,10 +176,10 @@ class blueprint_options : public zone_options, public mark_option
             return true;
         }
 
-        int get_final_construction(
+        construction_id get_final_construction(
             const std::vector<construction> &list_constructions,
-            int idx,
-            std::set<int> &skip_index );
+            const construction_id &idx,
+            std::set<construction_id> &skip_index );
 
         bool query_at_creation() override;
         bool query() override;
@@ -439,4 +439,4 @@ class zone_manager
         void deserialize( JsonIn &jsin );
 };
 
-#endif
+#endif // CATA_SRC_CLZONES_H

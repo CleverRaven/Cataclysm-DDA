@@ -1,45 +1,35 @@
-#include "auto_pickup.h"
-#include "avatar.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "item_category.h"
-#include "item_search.h"
-#include "item_stack.h"
-#include "map.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "player.h"
-#include "player_activity.h"
-#include "string_formatter.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "trap.h"
-#include "ui.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "inventory.h"
-#include "item.h"
-#include "enums.h"
-#include "item_location.h"
-#include "map_selector.h"
-#include "pimpl.h"
-#include "field.h"
-#include "advanced_inv_area.h"
-
-#include "advanced_inv.h"
-#include "uistate.h"
-
 #include <algorithm>
 #include <cassert>
 #include <cstring>
-#include <string>
-#include <vector>
-#include <initializer_list>
 #include <iterator>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
-#include <numeric>
+
+#include "advanced_inv_area.h"
+#include "advanced_inv_listitem.h"
+#include "avatar.h"
+#include "enums.h"
+#include "field.h"
+#include "field_type.h"
+#include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "map.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "translations.h"
+#include "trap.h"
+#include "type_id.h"
+#include "uistate.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 int advanced_inv_area::get_item_count() const
 {
@@ -54,6 +44,18 @@ int advanced_inv_area::get_item_count() const
     } else {
         return g->m.i_at( pos ).size();
     }
+}
+
+advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,
+                                      const std::string &name, const std::string &shortname,
+                                      std::string minimapname, std::string actionname,
+                                      aim_location relative_location ) :
+    id( id ), hscreen( h ),
+    off( off ), name( name ), shortname( shortname ),
+    canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
+    weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),
+    relative_location( relative_location )
+{
 }
 
 void advanced_inv_area::init()
@@ -169,14 +171,7 @@ void advanced_inv_area::init()
     }
 
     // water?
-    static const std::array<ter_id, 8> ter_water = {
-        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage, t_water_moving_dp, t_water_moving_sh }
-    };
-    auto ter_check = [this]
-    ( const ter_id & id ) {
-        return g->m.ter( this->pos ) == id;
-    };
-    if( std::any_of( ter_water.begin(), ter_water.end(), ter_check ) ) {
+    if( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || g->m.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 
@@ -191,7 +186,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     // should be a specific location instead
     assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return g->u.volume_capacity() - g->u.volume_carried();
+        return g->u.free_space();
     }
     return in_vehicle ? veh->free_volume( vstor ) : g->m.free_volume( pos );
 }
@@ -334,14 +329,14 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.front().typeId() : "null";
+                it->contents.legacy_front().typeId() : itype_id::NULL_ID();
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
         uistate.adv_inv_container_index = 0;
         uistate.adv_inv_container_in_vehicle = false;
-        uistate.adv_inv_container_type = "null";
-        uistate.adv_inv_container_content_type = "null";
+        uistate.adv_inv_container_type = itype_id::NULL_ID();
+        uistate.adv_inv_container_content_type = itype_id::NULL_ID();
     }
 }
 
@@ -350,11 +345,11 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
     if( it != nullptr ) {
         if( it->typeId() == uistate.adv_inv_container_type ) {
             if( it->is_container_empty() ) {
-                if( uistate.adv_inv_container_content_type == "null" ) {
+                if( uistate.adv_inv_container_content_type.is_null() ) {
                     return true;
                 }
             } else {
-                if( it->contents.front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }

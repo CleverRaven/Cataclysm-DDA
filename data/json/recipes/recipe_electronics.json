@@ -435,7 +435,7 @@
     "components": [
       [ [ "element", 8 ] ],
       [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 5 ] ]
     ]
@@ -705,6 +705,22 @@
   },
   {
     "type": "recipe",
+    "result": "battery_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "plastic_chunk", 1 ], [ "duct_tape", 10 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "solarpack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -723,30 +739,6 @@
       [ [ "amplifier", 2 ] ],
       [ [ "solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 2 ] ],
-      [ [ "rope_natural_short", 1, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "q_solarpack",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
-    "difficulty": 10,
-    "time": "50 m",
-    "decomp_learn": 5,
-    "autolearn": true,
-    "book_learn": [ [ "recipe_augs", 7 ], [ "recipe_lab_elec", 7 ], [ "advanced_electronics", 8 ] ],
-    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "byproducts": [ [ "sheet_metal_small", 8 ], [ "scrap", 8 ] ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "solar_panel_v3", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "rope_natural_short", 1, "LIST" ] ]
     ]
@@ -1300,75 +1292,6 @@
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bot_turret_riot",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
-    "difficulty": 7,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 8,
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
-    "using": [ [ "steel_standard", 1 ], [ "welding_standard", 20 ], [ "soldering_standard", 14 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "m203", 6 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "power_supply", 3 ] ],
-      [ [ "antenna", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "omni_wheel", 1 ] ],
-      [ [ "copbot_chassis", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "bot_laserturret",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_OTHER",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 8 ], [ "computer", 5 ] ],
-    "difficulty": 8,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 9,
-    "book_learn": [ [ "recipe_lab_elec", 8 ] ],
-    "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "laser_cannon", 1 ] ],
-      [ [ "medium_storage_battery", 1 ] ],
-      [ [ "solar_cell", 4 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -1929,21 +1852,6 @@
   },
   {
     "type": "recipe",
-    "result": "control_laptop",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "electronics",
-    "skills_required": [ "computer", 4 ],
-    "difficulty": 7,
-    "time": "25 m",
-    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 7 ] ],
-    "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "software_hacking", -1 ] ] ],
-    "components": [ [ [ "laptop", 1 ] ], [ [ "receiver", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "antenna", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "dehydrator",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2124,6 +2032,22 @@
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "vibrator",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "type": "recipe",

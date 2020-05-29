@@ -31,6 +31,7 @@
     "items": [
       { "group": "spellbook_loot_1", "prob": 3 },
       { "group": "magic_recipe_basic", "prob": 3 },
+      { "group": "magic_recipe_advanced", "prob": 1 },
       { "group": "dragon_books", "prob": 3 }
     ]
   },
@@ -40,6 +41,7 @@
     "items": [
       { "group": "spellbook_loot_0", "prob": 6 },
       { "group": "magic_recipe_basic", "prob": 6 },
+      { "group": "magic_recipe_advanced", "prob": 2 },
       { "group": "dragon_books", "prob": 5 }
     ]
   },
@@ -60,7 +62,13 @@
   {
     "type": "item_group",
     "id": "displays",
-    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ], [ "cauldron_demon_chitin", 3 ] ]
+    "items": [
+      [ "mana_potion_lesser", 50 ],
+      [ "magi_staff_minor", 5 ],
+      [ "wizard_hat", 5 ],
+      [ "cauldron_demon_chitin", 3 ],
+      [ "manatouched_serum", 3 ]
+    ]
   },
   {
     "id": "coffee_display_2",
@@ -70,7 +78,7 @@
   {
     "type": "item_group",
     "id": "bar_alcohol",
-    "items": [ [ "mana_potion_lesser", 20 ] ]
+    "items": [ [ "mana_potion_lesser", 20 ], [ "manatouched_serum", 1 ] ]
   },
   {
     "type": "item_group",
@@ -105,7 +113,8 @@
       { "group": "spell_scroll_tier_0", "prob": 80 },
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
-      { "group": "magic_recipe_basic", "prob": 50 }
+      { "group": "magic_recipe_basic", "prob": 50 },
+      { "group": "magic_recipe_advanced", "prob": 16 }
     ]
   },
   {
@@ -126,7 +135,8 @@
       [ "ogres_strength_potion", 10 ],
       [ "foxs_cunning_potion", 10 ],
       [ "eagles_sight_potion", 10 ],
-      [ "cats_grace_potion", 10 ]
+      [ "cats_grace_potion", 10 ],
+      [ "manatouched_serum", 1 ]
     ]
   },
   {
@@ -135,8 +145,9 @@
     "items": [
       { "group": "potions_common", "prob": 80 },
       { "group": "alchemy_items", "prob": 30 },
-      [ "crystallized_mana", 25 ],
-      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 }
+      { "group": "magical_reagents", "prob": 20 },
+      [ "crystallized_mana", 55 ],
+      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
   {
@@ -161,6 +172,7 @@
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
       { "group": "potions_common", "prob": 15 },
+      { "group": "magical_reagents", "prob": 20 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
@@ -168,7 +180,8 @@
           { "group": "enchanted_rings_common", "prob": 20 },
           { "group": "enchanted_rings_uncommon", "prob": 5 },
           { "group": "enchanted_combat_items", "prob": 10 },
-          { "group": "enchanted_belts", "prob": 2 }
+          { "group": "enchanted_belts", "prob": 2 },
+          { "group": "enchanted_misc", "prob": 1 }
         ],
         "prob": 15
       },
@@ -186,7 +199,8 @@
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_combat_items", "prob": 10 },
-      { "group": "enchanted_belts", "prob": 2 }
+      { "group": "enchanted_belts", "prob": 2 },
+      { "group": "magical_reagents", "prob": 8 }
     ]
   },
   {
@@ -242,6 +256,7 @@
       { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
+      { "group": "magical_reagents", "prob": 2 },
       { "group": "enchanted_combat_items", "prob": 1 }
     ]
   },
@@ -267,7 +282,8 @@
       { "group": "enchanted_bracers_greater", "prob": 10 },
       { "group": "enchanted_boots", "prob": 15 },
       { "group": "enchanted_belts", "prob": 15 },
-      { "group": "spellbook_loot_2", "prob": 20 }
+      { "group": "spellbook_loot_2", "prob": 20 },
+      { "group": "enchanted_misc", "prob": 5 }
     ]
   },
   {
@@ -276,13 +292,16 @@
     "//": "all enchanted miscellanious items",
     "subtype": "collection",
     "items": [
-      { "item": "heat_cube", "prob": 10 },
-      { "item": "mkey_opening", "prob": 10 },
-      { "item": "mtorch_everburning", "prob": 10 },
-      { "item": "mflask_hip_whiskey", "prob": 10 },
-      { "item": "mtailors_kit", "prob": 10 },
-      { "item": "mspider_box", "prob": 10 },
-      { "item": "cauldron_demon_chitin", "prob": 2 }
+      { "item": "heat_cube", "prob": 100 },
+      { "item": "mkey_opening", "prob": 100 },
+      { "item": "mtorch_everburning", "prob": 100 },
+      { "item": "mflask_hip_whiskey", "prob": 100 },
+      { "item": "mtailors_kit", "prob": 100 },
+      { "item": "mspider_box", "prob": 100 },
+      { "item": "cauldron_demon_chitin", "prob": 20 },
+      { "item": "fridge_holding_1", "prob": 12 },
+      { "item": "bag_holding_1", "prob": 8 },
+      { "item": "bag_holding_2", "prob": 1 }
     ]
   },
   {
@@ -568,17 +587,19 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_tokens_tool", "prob": 20 },
-      { "group": "enchanted_tokens_weapon", "prob": 1 },
-      { "group": "enchanted_rings_common", "prob": 15 },
-      { "group": "enchanted_rings_uncommon", "prob": 1 },
-      { "group": "enchanted_wands_minor", "prob": 5 },
-      { "group": "enchanted_masks", "prob": 1 },
-      { "group": "magic_shop_potions", "prob": 20 },
+      { "group": "enchanted_tokens_tool", "prob": 30 },
+      { "group": "enchanted_tokens_weapon", "prob": 3 },
+      { "group": "enchanted_rings_common", "prob": 20 },
+      { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_wands_minor", "prob": 10 },
+      { "group": "enchanted_masks", "prob": 2 },
+      { "group": "magic_shop_potions", "prob": 40 },
       { "group": "spellbook_loot_1", "prob": 30 },
-      { "group": "magic_CBM", "prob": 1 },
-      [ "crystallized_mana", 10 ],
-      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 }
+      { "group": "magic_CBM", "prob": 2 },
+      { "item": "lair_map", "prob": 20 },
+      { "item": "retreat_map", "prob": 30 },
+      [ "crystallized_mana", 50 ],
+      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
   {
@@ -587,9 +608,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_bracers_lesser", "prob": 20 },
-      { "group": "enchanted_boots", "prob": 5 },
-      { "group": "enchanted_belts", "prob": 5 }
+      { "group": "enchanted_bracers_lesser", "prob": 25 },
+      { "group": "enchanted_boots", "prob": 7 },
+      { "group": "enchanted_belts", "prob": 7 }
     ]
   },
   {
@@ -598,9 +619,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_bracers_lesser", "prob": 20 },
-      { "group": "enchanted_worn_items", "prob": 10 },
-      { "group": "enchanted_melee_weapons_plus1", "prob": 2 },
+      { "group": "enchanted_bracers_lesser", "prob": 25 },
+      { "group": "enchanted_worn_items", "prob": 15 },
+      { "group": "enchanted_melee_weapons_plus1", "prob": 3 },
       { "group": "enchanted_small_items", "prob": 1 }
     ]
   },
@@ -610,12 +631,444 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_combat_items", "prob": 20 },
-      { "group": "enchanted_misc", "prob": 40 },
-      { "group": "enchanted_rings_unusual", "prob": 10 },
-      { "group": "enchanted_rings_rare", "prob": 20 },
-      { "group": "enchanted_wands_greater", "prob": 20 },
-      { "group": "enchanted_wands_lesser", "prob": 10 }
+      { "group": "enchanted_combat_items", "prob": 40 },
+      { "group": "enchanted_misc", "prob": 50 },
+      { "group": "enchanted_rings_unusual", "prob": 20 },
+      { "group": "enchanted_rings_rare", "prob": 30 },
+      { "group": "enchanted_wands_greater", "prob": 30 },
+      { "group": "enchanted_wands_lesser", "prob": 20 }
     ]
+  },
+  {
+    "id": "stormshaper_items",
+    "//": "A distribution of magical items for stormshaper themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
+          { "item": "spell_scroll_lightning_blast", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "spell_scroll_jolt", "prob": 50 },
+          { "item": "spell_scroll_lightning_bolt", "prob": 50 },
+          { "item": "spell_scroll_windstrike", "prob": 50 },
+          { "item": "spell_scroll_windrun", "prob": 50 }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "tome_of_storms", "prob": 5 },
+          { "item": "spell_scroll_storm_hammer", "prob": 50 },
+          { "item": "spell_scroll_stormshaper_ionization", "prob": 50 },
+          { "item": "lightning_storm_scroll", "prob": 10 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "magical_reagents",
+    "//": "Reagents you'd use in crafting a wide variety of things, including alchemy and rituals.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "mercury", "prob": 15, "charges-min": 50 } ]
+  },
+  {
+    "id": "science",
+    "type": "item_group",
+    "items": [ { "group": "magical_reagents", "prob": 18 } ]
+  },
+  {
+    "id": "magus_items",
+    "//": "A distribution of magical items for magus themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "wizard_beginner", "prob": 30 },
+          { "item": "wizard_utility", "prob": 20 },
+          { "item": "spell_scroll_magic_missile", "prob": 70 },
+          { "item": "spell_scroll_phase_door", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "wizard_advanced", "prob": 20 },
+          { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
+          { "item": "spell_scroll_magus_haste", "prob": 50 },
+          { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
+          { "item": "spell_scroll_magus_escape", "prob": 50 },
+          { "item": "spell_scroll_cats_grace", "prob": 50 },
+          { "item": "spell_scroll_eagles_sight", "prob": 50 },
+          { "item": "spell_scroll_ogres_strength", "prob": 50 },
+          { "item": "spell_scroll_foxs_cunning", "prob": 50 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "magus_spellbook_move", "prob": 25 },
+          { "item": "magus_spellbook", "prob": 25 },
+          { "item": "spell_scroll_magus_mana_blast", "prob": 50 }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "animist_items",
+    "//": "A distribution of magical items for animist themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "spell_scroll_smite", "prob": 50 },
+          { "item": "spell_scroll_summon_zombie", "prob": 50 },
+          { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
+          { "item": "spell_scroll_summon_wisps", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_skeleton", "prob": 50 } ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "recovery_spellbook", "prob": 5 },
+          { "item": "winter_grasp", "prob": 10 },
+          { "item": "spell_scroll_recover_mana", "prob": 50 },
+          { "item": "spell_scroll_summon_decayed_pouncer", "prob": 50 },
+          { "item": "spell_scroll_recover_pain", "prob": 50 }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [
+          { "item": "animist_doll_skeleton", "prob": 10 },
+          { "item": "animist_doll_zombie", "prob": 20 },
+          { "item": "animist_doll_decayed_pouncer", "prob": 3 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "kelvinist_items",
+    "//": "A distribution of magical items for kelvinist themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [ { "item": "spell_scroll_create_lighter", "prob": 50 }, { "item": "spell_scroll_chilling_touch", "prob": 50 } ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "wizard_utility", "prob": 10 },
+          { "item": "spell_scroll_point_flare", "prob": 50 },
+          { "item": "spell_scroll_ice_spike", "prob": 50 },
+          { "item": "spell_scroll_burning_hands", "prob": 50 },
+          { "item": "spell_scroll_frost_spray", "prob": 50 },
+          { "item": "spell_scroll_glide_ice", "prob": 50 },
+          { "item": "spell_scroll_ice_shield", "prob": 50 },
+          { "item": "spell_scroll_frost_armor", "prob": 50 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "wizard_advanced", "prob": 5 },
+          { "item": "pyro", "prob": 5 },
+          { "item": "spell_scroll_fireball", "prob": 10 },
+          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
+          { "item": "spell_scroll_cone_cold", "prob": 50 },
+          { "item": "spell_scroll_hoary_blast", "prob": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "technomancer_items",
+    "//": "A distribution of magical items for technomancer themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "priest_beginner", "prob": 20 },
+          { "item": "techno_idiots", "prob": 20 },
+          { "item": "spell_scroll_x-ray", "prob": 50 },
+          { "item": "spell_scroll_bless", "prob": 50 },
+          { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
+          { "item": "spell_scroll_taze", "prob": 50 },
+          { "item": "spell_scroll_laze", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "priest_advanced", "prob": 20 },
+          { "item": "techno_fundamentals", "prob": 20 },
+          { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
+          { "item": "spell_scroll_holy_blade", "prob": 50 },
+          { "item": "spell_scroll_spirit_armor", "prob": 50 },
+          { "item": "spell_scroll_synaptic_stimulation", "prob": 50 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "techno_em", "prob": 5 },
+          { "item": "spell_scroll_holographic_transposition", "prob": 10 },
+          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
+          { "item": "spell_scroll_animated_blade", "prob": 50 },
+          { "item": "spell_scroll_mirror_image", "prob": 50 }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
+        "prob": 5
+      },
+      { "group": "magic_CBM", "prob": 2 }
+    ]
+  },
+  {
+    "id": "earthshaper_items",
+    "//": "A distribution of magical items for earthshaper themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "spell_scroll_stonefist", "prob": 50 },
+          { "item": "spell_scroll_eshaper_piercing_bolt", "prob": 50 },
+          { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "spell_scroll_seismic_stomp", "prob": 50 },
+          { "item": "spell_scroll_clairvoyance", "prob": 50 },
+          { "item": "spell_scroll_eshaper_shardspray", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_stoneskin", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_pillar", "prob": 50 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "recovery_spellbook", "prob": 5 },
+          { "item": "eshaper_spellbook", "prob": 10 },
+          { "item": "spell_scroll_recover_stamina", "prob": 50 },
+          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
+          { "item": "spell_scroll_lava_bomb", "prob": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "biomancer_items",
+    "//": "A distribution of magical items for biomancer themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "priest_beginner", "prob": 30 },
+          { "item": "spell_scroll_light_healing", "prob": 50 },
+          { "item": "spell_scroll_bio_acidicspray", "prob": 50 },
+          { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
+          { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "wizard_utility", "prob": 20 },
+          { "item": "spell_scroll_pain_split", "prob": 50 },
+          { "item": "spell_scroll_bio_grotesque", "prob": 50 },
+          { "item": "spell_scroll_biomancer_coagulant_weave", "prob": 50 },
+          { "item": "spell_scroll_bio_fleshpouch", "prob": 50 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "wizard_advanced", "prob": 10 },
+          { "item": "biomancer_spellbook", "prob": 10 },
+          { "item": "spell_scroll_vicious_tentacle", "prob": 50 },
+          { "item": "spell_scroll_bio_bonespear", "prob": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "druid_items",
+    "//": "A distribution of magical items for druid themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "spell_scroll_druid_woodshaft", "prob": 30 },
+          { "item": "summon_scroll_smudged", "prob": 2 },
+          { "item": "spell_scroll_summon_cats", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "druid_spellbook", "prob": 20 },
+          { "item": "spell_scroll_druid_veggrasp", "prob": 100 },
+          { "item": "spell_scroll_druid_naturebow1", "prob": 100 },
+          { "item": "spell_scroll_druid_rootstrike", "prob": 100 },
+          { "item": "spell_scroll_purification_seed", "prob": 100 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "spell_scroll_recover_fatigue", "prob": 100 },
+          { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
+          { "item": "spell_scroll_druidic_healing", "prob": 100 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "technomancer_items",
+    "//": "A distribution of magical items for technomancer themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "priest_beginner", "prob": 20 },
+          { "item": "techno_idiots", "prob": 20 },
+          { "item": "spell_scroll_x-ray", "prob": 50 },
+          { "item": "spell_scroll_bless", "prob": 50 },
+          { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
+          { "item": "spell_scroll_taze", "prob": 50 },
+          { "item": "spell_scroll_laze", "prob": 50 }
+        ],
+        "prob": 45
+      },
+      {
+        "distribution": [
+          { "item": "priest_advanced", "prob": 20 },
+          { "item": "techno_fundamentals", "prob": 20 },
+          { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
+          { "item": "spell_scroll_holy_blade", "prob": 50 },
+          { "item": "spell_scroll_spirit_armor", "prob": 50 },
+          { "item": "spell_scroll_synaptic_stimulation", "prob": 50 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "techno_em", "prob": 5 },
+          { "item": "spell_scroll_holographic_transposition", "prob": 10 },
+          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
+          { "item": "spell_scroll_animated_blade", "prob": 50 },
+          { "item": "spell_scroll_mirror_image", "prob": 50 }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
+        "prob": 5
+      },
+      { "group": "magic_CBM", "prob": 2 }
+    ]
+  },
+  {
+    "id": "classless_items",
+    "//": "A distribution of magical items for classless themed spaces.",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "enchanted_tokens_tool", "prob": 15 },
+      { "group": "enchanted_tokens_weapon", "prob": 5 },
+      { "group": "potions_common", "prob": 35 },
+      {
+        "distribution": [
+          { "group": "enchanted_wands_lesser", "prob": 15 },
+          { "group": "enchanted_combat_items", "prob": 5 },
+          { "group": "enchanted_worn_items", "prob": 2 }
+        ],
+        "prob": 15
+      },
+      {
+        "distribution": [
+          { "item": "priest_beginner", "prob": 20 },
+          { "item": "wizard_beginner", "prob": 20 },
+          { "item": "spell_scroll_create_atomic_light", "prob": 50 },
+          { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
+          { "item": "spell_scroll_crystallize_mana", "prob": 50 },
+          { "item": "spell_scroll_blinding_flash", "prob": 50 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "wizard_utility", "prob": 10 },
+          { "item": "spell_scroll_protection_aura", "prob": 50 },
+          { "item": "spell_scroll_dark_sight", "prob": 30 },
+          { "item": "spell_scroll_megablast", "prob": 30 }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "light_manipulation_spellbook", "prob": 5 },
+          { "item": "translocate_spellbook", "prob": 2 },
+          { "item": "spell_scroll_obfuscated_body", "prob": 50 }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
+        "prob": 40
+      },
+      [ "crystallized_mana", 50 ],
+      [ "copper_circlet", 10 ],
+      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "academy_lore",
+    "items": [ [ "retreat_map", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_basement_photo",
+    "items": [ [ "wizard_photo", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "forest_tomb_spellbook",
+    "items": [ [ "summon_undead_spellbook", 100 ] ]
   }
 ]

@@ -1,10 +1,11 @@
 #include "handle_liquid.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <algorithm>
 #include <functional>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -13,26 +14,28 @@
 
 #include "action.h"
 #include "avatar.h"
-#include "game.h"
-#include "game_inventory.h"
-#include "iexamine.h"
-#include "item.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "monster.h"
-#include "translations.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "cata_utility.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
+#include "game_inventory.h"
+#include "iexamine.h"
+#include "item.h"
+#include "item_contents.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -41,7 +44,7 @@
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
-    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( serialize( liquid ) );
@@ -56,10 +59,10 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
         return &i == &liquid;
     } );
     if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( static_cast<int>( liquid_source_type::INFINITE_MAP ) );
         act.values.push_back( 0 ); // dummy
     } else {
-        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
     act.coords.push_back( pos );
@@ -68,21 +71,22 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
 
 static void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
-    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
 }
 
-static void serialize_liquid_target( player_activity &act, int container_item_pos )
+static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
-    act.values.push_back( LTT_CONTAINER );
-    act.values.push_back( container_item_pos );
+    act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
+    act.values.push_back( 0 ); // dummy
+    act.targets.push_back( container_item );
     act.coords.push_back( tripoint() ); // dummy
 }
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 {
-    act.values.push_back( LTT_MAP );
+    act.values.push_back( static_cast<int>( liquid_target_type::MAP ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( pos );
 }
@@ -121,7 +125,7 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground,
     return true;
 }
 
-bool handle_liquid_from_container( std::list<item>::iterator in_container,
+bool handle_liquid_from_container( item *in_container,
                                    item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
@@ -131,16 +135,23 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
         container.on_contents_changed();
     }
 
-    if( in_container->charges > 0 ) {
-        return false;
-    }
-    container.contents.erase( in_container );
-    return true;
+    return in_container->charges <= 0;
 }
 
 bool handle_liquid_from_container( item &container, int radius )
 {
-    return handle_liquid_from_container( container.contents.begin(), container, radius );
+    std::vector<item *> remove;
+    bool handled = false;
+    for( item *contained : container.contents.all_items_top() ) {
+        if( handle_liquid_from_container( contained, container, radius ) ) {
+            remove.push_back( contained );
+            handled = true;
+        }
+    }
+    for( item *contained : remove ) {
+        container.remove_item( *contained );
+    }
+    return handled;
 }
 
 static bool get_liquid_target( item &liquid, item *const source, const int radius,
@@ -149,7 +160,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
                                const monster *const source_mon,
                                liquid_dest_opt &target )
 {
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -178,7 +189,12 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     std::vector<std::function<void()>> actions;
 
     if( g->u.can_consume( liquid ) && !source_mon ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        if( g->u.can_consume_for_bionic( liquid ) ) {
+            menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
+        } else {
+            menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        }
+
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
         } );
@@ -195,7 +211,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && &cont->contents.front() == &liquid ) ) {
+        if( cont == source || ( !cont->contents.empty() && cont->has_item( liquid ) ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }
@@ -292,7 +308,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                                      const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -317,18 +333,16 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( liquid );
+            g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
             transfer_ok = true;
             break;
         case LD_ITEM: {
-            item *const cont = target.item_loc.get_item();
-            const int item_index = g->u.get_item_position( cont );
             // Currently activities can only store item position in the players inventory,
             // not on ground or similar. TODO: implement storing arbitrary container locations.
-            if( item_index != INT_MIN && create_activity() ) {
-                serialize_liquid_target( g->u.activity, item_index );
-            } else if( g->u.pour_into( *cont, liquid ) ) {
-                if( cont->needs_processing() ) {
+            if( target.item_loc && create_activity() ) {
+                serialize_liquid_target( g->u.activity, target.item_loc );
+            } else if( g->u.pour_into( *target.item_loc, liquid ) ) {
+                if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {
                         case item_location::type::map:
@@ -337,6 +351,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                         case item_location::type::vehicle:
                             g->m.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
                             break;
+                        case item_location::type::container:
                         case item_location::type::character:
                         case item_location::type::invalid:
                             break;
@@ -385,13 +400,13 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
-    if( liquid.made_of_from_type( SOLID ) ) {
+    if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( phase_id::LIQUID ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname() );
         return false;
     }

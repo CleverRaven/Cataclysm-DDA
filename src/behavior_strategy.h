@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BEHAVIOR_STRATEGY_H
-#define BEHAVIOR_STRATEGY_H
+#ifndef CATA_SRC_BEHAVIOR_STRATEGY_H
+#define CATA_SRC_BEHAVIOR_STRATEGY_H
 
 #include <unordered_map>
 #include <vector>
@@ -18,6 +18,7 @@ struct behavior_return;
 class strategy_t
 {
     public:
+        virtual ~strategy_t() = default;
         virtual behavior_return evaluate( const oracle_t *subject,
                                           std::vector<const node_t *> children ) const = 0;
 };
@@ -44,4 +45,4 @@ extern std::unordered_map<std::string, const strategy_t *> strategy_map;
 
 } // namespace behavior
 
-#endif
+#endif // CATA_SRC_BEHAVIOR_STRATEGY_H

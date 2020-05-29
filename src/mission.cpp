@@ -1,34 +1,35 @@
 #include "mission.h"
 
 #include <algorithm>
-#include <memory>
-#include <unordered_map>
-#include <numeric>
+#include <cstdlib>
 #include <istream>
 #include <iterator>
 #include <list>
+#include <memory>
+#include <numeric>
+#include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "material.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "item_group.h"
-#include "creature.h"
-#include "inventory.h"
-#include "item.h"
-#include "json.h"
-#include "monster.h"
-#include "material.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -294,7 +295,7 @@ void mission::wrap_up()
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container != "null";
+            bool specific_container_required = !container.is_null();
             bool remove_container = type->remove_container;
             itype_id empty_container = type->empty_container;
 
@@ -303,9 +304,8 @@ void mission::wrap_up()
                 items, grp_type, matches,
                 container, itype_id( "null" ), specific_container_required );
 
-            std::map<std::string, int>::iterator cnt_it;
-            for( cnt_it = matches.begin(); cnt_it != matches.end(); cnt_it++ ) {
-                comps.push_back( item_comp( cnt_it->first, cnt_it->second ) );
+            for( std::pair<const itype_id, int> &cnt : matches ) {
+                comps.push_back( item_comp( cnt.first, cnt.second ) );
 
             }
 
@@ -313,7 +313,7 @@ void mission::wrap_up()
 
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
-                if( empty_container != "null" ) {
+                if( !empty_container.is_null() ) {
                     container_comp.push_back( item_comp( empty_container, type->item_count ) );
                     u.consume_items( container_comp );
                 } else {
@@ -363,7 +363,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
             itype_id container = type->container_id;
-            bool specific_container_required = container != "null";
+            bool specific_container_required = !container.is_null();
 
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
@@ -371,8 +371,8 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 container, itype_id( "null" ), specific_container_required );
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
-            []( const std::size_t previous, const std::pair<const std::string, std::size_t> &p ) {
-                return previous + p.second;
+            []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {
+                return static_cast<int>( previous + p.second );
             } );
 
             if( total_match >= ( type->item_count ) ) {
@@ -478,7 +478,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //check whether item itself is target
         if( item_in_group && correct_container ) {
-            std::map<std::string, int>::iterator it = matches.find( itm->typeId() );
+            std::map<itype_id, int>::iterator it = matches.find( itm->typeId() );
             if( it != matches.end() ) {
                 it->second = ( it->second ) + 1;
             } else {
@@ -488,16 +488,15 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //recursivly check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
-            std::list<item> content_list = itm->contents;
-
+            std::list<item *> content_list = itm->contents.all_items_top();
             std::vector<item *> content = std::vector<item *>();
 
             //list of item into list item*
             std::transform(
                 content_list.begin(), content_list.end(),
                 std::back_inserter( content ),
-            []( item & p ) -> item* {
-                return &p;
+            []( item * p ) {
+                return p;
             } );
 
             get_all_item_group_matches(
@@ -562,7 +561,7 @@ int mission::get_id() const
     return uid;
 }
 
-const std::string &mission::get_item_id() const
+const itype_id &mission::get_item_id() const
 {
     return item_id;
 }
@@ -595,7 +594,7 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
-const std::vector<std::pair<int, std::string>> &mission::get_likely_rewards() const
+const std::vector<std::pair<int, itype_id>> &mission::get_likely_rewards() const
 {
     return type->likely_rewards;
 }
@@ -688,7 +687,7 @@ mission::mission()
     value = 0;
     uid = -1;
     target = tripoint_min;
-    item_id = "null";
+    item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
     recruit_class = NC_NONE;

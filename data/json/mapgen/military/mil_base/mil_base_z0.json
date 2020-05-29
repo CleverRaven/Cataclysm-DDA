@@ -498,7 +498,7 @@
         { "item": "manual_melee", "x": 54, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_stabbing", "x": 53, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_gun", "x": 52, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "manual_shotgun", "x": 51, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "manual_traps_mil", "x": 51, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_rifle", "x": 50, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mag_fieldrepair", "x": 49, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boltcutters", "x": 55, "y": 59, "chance": 75, "repeat": [ 10, 25 ] },
@@ -1133,7 +1133,7 @@
         { "item": "medical_tape", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "mil_base_iv", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
         { "item": "eyedrops", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "anesthetic_kit", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
+        { "item": "anesthetic_kit", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ], "ammo": 100 },
         { "item": "disinfectant", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "quikclot", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "bfipowder", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
@@ -1197,7 +1197,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "ambulance", "x": 37, "y": 18, "chance": 80, "rotation": 180 },
-        { "vehicle": "helicopter_wreck_3a", "x": 50, "y": 32, "chance": 33, "rotation": 270 },
+        { "vehicle": "helicopter_blackhawk_3a", "x": 50, "y": 32, "chance": 5, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 5, "y": 61, "chance": 25, "rotation": 180, "status": 1 },
         { "vehicle": "military_vehicles", "x": 7, "y": 54, "chance": 25, "rotation": 180, "status": 1 },
         { "vehicle": "portable_generator", "x": 76, "y": 12, "chance": 50, "status": 1 }

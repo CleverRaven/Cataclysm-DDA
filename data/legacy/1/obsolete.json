@@ -3,8 +3,7 @@
     "id": "reloaded_22_cb",
     "type": "AMMO",
     "price": 1800,
-    "name": "handloaded .22 CB",
-    "name_plural": "handloaded .22 CB",
+    "name": { "str_sp": "handloaded .22 CB" },
     "symbol": "=",
     "color": "yellow",
     "description": "Conical Ball .22 is a variety of .22 ammunition with a very small propellant charge and generally lacks gunpowder.  The end result is a subsonic round.  It is nearly silent, but is so weak as to be nearly useless.  This one has been handmade using an intact casing.",
@@ -110,7 +109,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "weight": 1814,
     "volume": 4,
     "bashing": 12,
@@ -131,7 +130,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "pipe_shotgunsawn",
@@ -145,7 +145,7 @@
     "material": [ "iron", "wood" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "weight": 1133,
     "volume": 6,
     "bashing": 12,
@@ -157,7 +157,8 @@
     "durability": 6,
     "clip_size": 1,
     "loudness": 200,
-    "valid_mod_locations": [ [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "stock", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "type": "GUNMOD",
@@ -210,8 +211,7 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_gray",
-    "name": "10 plastic bags",
-    "name_plural": "10 plastic bags",
+    "name": { "str_sp": "10 plastic bags" },
     "description": "10 plastic bags, folded smooth and wrapped tightly together with a string.",
     "price": 500,
     "material": "plastic",
@@ -280,8 +280,7 @@
     "id": "small_charcoal",
     "category": "spare_parts",
     "price": 1000,
-    "name": "charcoal pieces",
-    "name_plural": "charcoal pieces",
+    "name": { "str_sp": "charcoal pieces" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "These are smaller pieces of charcoal used in smaller heating devices.",
@@ -298,8 +297,7 @@
     "id": "small_coal",
     "category": "spare_parts",
     "price": 1000,
-    "name": "coal pieces",
-    "name_plural": "coal pieces",
+    "name": { "str_sp": "coal pieces" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "These are smaller pieces of coal used in smaller heating devices.",
@@ -356,10 +354,7 @@
     "volume": 45,
     "bashing": 5,
     "to_hit": -3,
-    "contains": 45,
-    "material": [ "steel" ],
-    "watertight": true,
-    "seals": true
+    "material": [ "steel" ]
   },
   {
     "id": "nx17",
@@ -455,7 +450,7 @@
     "material": "wood",
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
-    "ammo": "dart",
+    "ammo": [ "dart" ],
     "weight": 440,
     "volume": 4,
     "bashing": 8,
@@ -463,7 +458,8 @@
     "dispersion": 75,
     "sight_dispersion": 150,
     "durability": 7,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "dart": 1 } } ]
   },
   {
     "type": "AMMO",

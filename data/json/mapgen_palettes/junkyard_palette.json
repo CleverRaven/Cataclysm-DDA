@@ -5,14 +5,15 @@
     "terrain": {
       ".": [ [ "t_pavement", 22 ], "t_region_groundcover_urban" ],
       "g": "t_region_groundcover_urban",
-      "_": [ [ "t_dirt", 5 ], "t_region_groundcover_urban" ],
+      "_": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover_urban" ],
       "|": "t_fence_barbed",
       "$": "t_fence_barbed",
       "-": "t_laminated_glass",
-      "s": [ [ "t_dirt", 5 ], "t_region_groundcover" ],
+      "s": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover" ],
       "D": "t_door_c",
       "S": "t_sidewalk",
       "q": "t_door_metal_locked",
+      "f": "t_floor",
       "c": "t_carpet_red",
       "n": "t_carpet_red",
       "r": "t_reinforced_door_glass_c",
@@ -44,6 +45,7 @@
       "p": "f_table",
       "F": "f_vending_c",
       "K": "f_vending_c"
-    }
+    },
+    "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
   }
 ]

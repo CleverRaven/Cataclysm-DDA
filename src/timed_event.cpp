@@ -6,23 +6,28 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "memorial_logger.h"
 #include "messages.h"
-#include "map_iterator.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
-#include "game_constants.h"
-#include "int_id.h"
 #include "type_id.h"
-#include "enums.h"
+
+static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
@@ -31,8 +36,8 @@ static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_eyebot( "mon_eyebot" );
 static const mtype_id mon_riotbot( "mon_riotbot" );
 static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
-static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p )
     : type( e_t )
@@ -76,7 +81,7 @@ void timed_event::actualize()
                 }
             }
             // You could drop the flag, you know.
-            if( g->u.has_amount( "petrified_eye", 1 ) ) {
+            if( g->u.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
                                "scream_tortured" );
                 if( !g->u.is_deaf() ) {

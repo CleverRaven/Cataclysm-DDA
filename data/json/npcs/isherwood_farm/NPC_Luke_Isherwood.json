@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_LUKE",
-    "name": "Luke Isherwood",
+    "name": { "str": "Luke Isherwood" },
     "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE2",
-    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge. My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -155,7 +155,7 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_1",
     "type": "mission_definition",
-    "name": "Find The Art of Glassblowing book",
+    "name": { "str": "Find The Art of Glassblowing book" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -178,7 +178,7 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_2",
     "type": "mission_definition",
-    "name": "Find a copy of DIY Compendium",
+    "name": { "str": "Find a copy of DIY Compendium" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

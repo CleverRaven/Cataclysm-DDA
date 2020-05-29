@@ -19,6 +19,28 @@
     ]
   },
   {
+    "id": "bread_sandwich",
+    "type": "requirement",
+    "//": "Bread appropriate for sandwiches.",
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "biscuit", 1 ],
+        [ "brioche", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_peanutbutter",
+    "type": "requirement",
+    "//": "Peanut butter of all types and other peanut butter substitutes",
+    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
+  },
+  {
     "id": "eggs_bird",
     "type": "requirement",
     "//": "All of the different bird eggs",
@@ -100,7 +122,16 @@
     "id": "cheap_wine",
     "type": "requirement",
     "//": "Cheap and improvised wines.",
-    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ], [ "bum_wine", 1 ] ] ]
+    "components": [
+      [
+        [ "fruit_wine", 1 ],
+        [ "bum_wine", 1 ],
+        [ "dandelion_wine", 1 ],
+        [ "burdock_wine", 1 ],
+        [ "pine_wine", 1 ],
+        [ "bum_wine", 1 ]
+      ]
+    ]
   },
   {
     "id": "worthy_wine",
@@ -186,7 +217,9 @@
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "meat_scrap_cooked", 10 ],
         [ "mutant_meat_cooked", 1 ],
+        [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],
         [ "mutant_human_cooked", 1 ],
         [ "meat_pickled", 1 ],
@@ -254,6 +287,7 @@
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "acorns_cooked", 1 ],
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ]
@@ -273,6 +307,7 @@
         [ "veggy_any", 1, "LIST" ],
         [ "sauerkraut", 1 ],
         [ "can_corn", 1 ],
+        [ "hominy", 1 ],
         [ "dry_veggy", 1 ],
         [ "con_milk", 1 ],
         [ "flatbread", 1 ],
@@ -297,7 +332,6 @@
         [ "dry_rice", 1 ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
         [ "mushroom", 1 ],
         [ "dry_mushroom", 1 ],
         [ "mushroom_cooked", 1 ],
@@ -350,6 +384,7 @@
         [ "raw_lentils", 2 ],
         [ "dry_rice", 2 ],
         [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
@@ -362,19 +397,13 @@
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",
-    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ] ] ]
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ], [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
   },
   {
     "id": "edible_fat",
     "type": "requirement",
     "//": "Any type of edible raw fat.",
     "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "human_fat", 1 ], [ "mutant_human_fat", 1 ] ] ]
-  },
-  {
-    "id": "any_fat",
-    "type": "requirement",
-    "//": "Any type of raw fat.",
-    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
   },
   {
     "id": "edible_tallow",
@@ -401,6 +430,18 @@
     "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "edible_lard", 1, "LIST" ] ] ]
   },
   {
+    "id": "any_butter_or_oil",
+    "type": "requirement",
+    "//": "For when a recipe calls for either cooking oil or butter, like many baking recipes do.",
+    "components": [ [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
+  },
+  {
+    "id": "fry_oil",
+    "type": "requirement",
+    "//": "For when a recipe calls for deep frying, and the food absorbs some oil. Clarafied butter or ghee can be used to deep fry, but butter's smoke point is too low without clarification",
+    "components": [ [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "ghee", 1 ] ] ]
+  },
+  {
     "id": "seasoning_mild",
     "type": "requirement",
     "//": "Non-salt seasonings you might add to a dish to flavor it. Should be about a teaspoon, or smallest serving",
@@ -416,6 +457,22 @@
     ]
   },
   {
+    "id": "salt_preservation",
+    "type": "requirement",
+    "//": "Salt-like ingredients that can be used to preserve foods",
+    "components": [
+      [
+        [ "salt_water", 1 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "sweet_fruit_fresh",
     "type": "requirement",
     "//": "Sweet, unprocessed fruit, roughly by mass.",
@@ -427,7 +484,6 @@
         [ "blackberries", 1 ],
         [ "blueberries", 1 ],
         [ "cherries", 1 ],
-        [ "cranberries", 1 ],
         [ "grapefruit", 1 ],
         [ "grapes", 1 ],
         [ "kiwi", 2 ],
@@ -440,6 +496,7 @@
         [ "pineapple", 1 ],
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
+        [ "pumpkin", 1 ],
         [ "raspberries", 1 ],
         [ "rose_hips", 1 ],
         [ "strawberries", 1 ],
@@ -462,7 +519,6 @@
         [ "irradiated_blackberries", 1 ],
         [ "irradiated_blueberries", 1 ],
         [ "irradiated_cherries", 1 ],
-        [ "irradiated_cranberries", 1 ],
         [ "irradiated_grapefruit", 1 ],
         [ "irradiated_grapes", 1 ],
         [ "irradiated_kiwi", 2 ],
@@ -471,6 +527,7 @@
         [ "irradiated_orange", 1 ],
         [ "irradiated_papaya", 1 ],
         [ "irradiated_peach", 1 ],
+        [ "irradiated_pumpkin", 1 ],
         [ "irradiated_pear", 1 ],
         [ "irradiated_pineapple", 1 ],
         [ "irradiated_plums", 1 ],
@@ -521,7 +578,9 @@
         [ "cattail_stalk", 1 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ],
+        [ "horseradish_greens", 1 ],
         [ "raw_dandelion", 1 ],
+        [ "raw_burdock", 1 ],
         [ "rehydrated_veggy", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
@@ -563,6 +622,7 @@
         [ "pumpkin", 1 ],
         [ "irradiated_pumpkin", 1 ],
         [ "raw_dandelion", 1 ],
+        [ "raw_burdock", 1 ],
         [ "rhubarb", 1 ],
         [ "irradiated_rhubarb", 1 ],
         [ "sugar_beet", 1 ],
@@ -580,7 +640,17 @@
   {
     "id": "veggy_any",
     "type": "requirement",
-    "components": [ [ [ "dandelion_cooked", 1 ], [ "veggy_any_uncooked", 1, "LIST" ], [ "veggy_canned", 1 ], [ "veggy_salted", 1 ] ] ]
+    "components": [
+      [
+        [ "fiddlehead_boiled", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "salsify_baked", 1 ],
+        [ "veggy_any_uncooked", 1, "LIST" ],
+        [ "veggy_canned", 1 ],
+        [ "veggy_salted", 1 ]
+      ]
+    ]
   },
   {
     "id": "mushroom_soup_ingredients",
@@ -641,6 +711,7 @@
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "acorns_cooked", 1 ],
         [ "tofu", 1 ],
         [ "dry_tofu", 1 ],

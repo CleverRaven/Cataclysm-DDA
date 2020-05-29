@@ -5,24 +5,25 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "reload_noise": "chuk chuk.",
-    "name": "RM120c shotgun",
+    "name": { "str": "RM120c shotgun" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM120c caseless pump-action shotgun was designed for hunting big game, with durability and ease of use as priorities.",
     "weight": "1880 g",
     "volume": "2250 ml",
     "price": 310000,
+    "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "20x66mm",
+    "ammo": [ "20x66mm" ],
     "skill": "shotgun",
     "range": 6,
-    "ranged_damage": 4,
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 285,
     "durability": 9,
     "clip_size": 5,
-    "barrel_length": 3,
+    "barrel_length": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -34,24 +35,26 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ]
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 5 } } ]
   },
   {
     "id": "rm20",
     "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM20 autoshotgun",
+    "name": { "str": "RM20 autoshotgun" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM20 caseless automatic combat shotgun was designed with durability and overwhelming power in mind.",
     "weight": "2820 g",
     "volume": "1750 ml",
     "price": 1320000,
+    "price_postapoc": 10000,
     "to_hit": -1,
     "bashing": 11,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "20x66mm",
+    "ammo": [ "20x66mm" ],
     "skill": "shotgun",
     "dispersion": 335,
     "durability": 9,
@@ -67,26 +70,34 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
-    "magazines": [ [ "20x66mm", [ "20x66_20_mag", "20x66_40_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "20x66_20_mag", "20x66_40_mag" ]
+      }
+    ]
   },
   {
     "id": "rm228",
     "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM228 PDW",
+    "name": { "str": "RM228 PDW" },
     "description": "Chambering the powerful 20x66mm caseless shotgun cartridge, the Rivtech RM228 PDW was designed for the civilian personal defense market with durability and ease of use as priorities.  While lauded for its small size and light weight, its hefty price tag kept it out of the reach of casual collectors.",
     "weight": "780 g",
     "volume": "750 ml",
     "price": 330000,
+    "price_postapoc": 10000,
     "to_hit": -2,
     "bashing": 6,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "20x66mm",
+    "ammo": [ "20x66mm" ],
     "skill": "pistol",
     "dispersion": 400,
     "durability": 9,
@@ -100,7 +111,15 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "20x66_10_mag" ]
+      }
+    ]
   }
 ]

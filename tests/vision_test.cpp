@@ -1,30 +1,49 @@
+#include <algorithm>
 #include <cstddef>
 #include <iomanip>
-#include <sstream>
-#include <algorithm>
 #include <list>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
-#include "field.h"
-#include "map.h"
-#include "map_helpers.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "field.h"
+#include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "lightmap.h"
+#include "map.h"
+#include "map_helpers.h"
+#include "point.h"
 #include "shadowcasting.h"
 #include "type_id.h"
-#include "game_constants.h"
-#include "point.h"
+
+enum class vision_test_flags {
+    none = 0,
+    no_3d = 1 << 0,
+    crouching = 1 << 1,
+};
+
+static vision_test_flags operator&( vision_test_flags l, vision_test_flags r )
+{
+    return static_cast<vision_test_flags>(
+               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
+}
+
+static bool operator!( vision_test_flags f )
+{
+    return !static_cast<unsigned>( f );
+}
 
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,
-                           const time_point &time )
+                           const time_point &time,
+                           const vision_test_flags flags )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -32,13 +51,18 @@ static void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
     const ter_id t_flat_roof( "t_flat_roof" );
-    const ter_id t_open_air( "t_open_air" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
     g->reset_light_level();
+
+    if( !!( flags & vision_test_flags::crouching ) ) {
+        g->u.set_movement_mode( character_movemode::CMM_CROUCH );
+    } else {
+        g->u.set_movement_mode( character_movemode::CMM_WALK );
+    }
 
     REQUIRE( !g->u.is_blind() );
     REQUIRE( !g->u.in_sleep_state() );
@@ -71,6 +95,9 @@ static void full_map_test( const std::vector<std::string> &setup,
                     origin = g->u.pos() - point( x, y );
                     if( setup[y][x] == 'V' ) {
                         item headlamp( "wearable_light_on" );
+                        item battery( "light_battery_cell" );
+                        battery.ammo_set( battery.ammo_default(), -1 );
+                        headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
                         g->u.worn.push_back( headlamp );
                     }
                     break;
@@ -224,7 +251,7 @@ struct vision_test_case {
     std::vector<std::string> setup;
     std::vector<std::string> expected_results;
     time_point time;
-    bool test_3d;
+    vision_test_flags flags;
 
     static void transpose( std::vector<std::string> &v ) {
         if( v.empty() ) {
@@ -261,7 +288,7 @@ struct vision_test_case {
     }
 
     void test() const {
-        full_map_test( setup, expected_results, time );
+        full_map_test( setup, expected_results, time, flags );
     }
 
     void test_all_transformations() const {
@@ -286,6 +313,7 @@ struct vision_test_case {
     void test_all() const {
         // Disabling 3d tests for now since 3d sight casting is actually
         // different (it sees round corners more).
+        const bool test_3d = !( flags & vision_test_flags::no_3d );
         if( test_3d ) {
             INFO( "using 3d casting" );
             fov_3d = true;
@@ -326,7 +354,7 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
             "444",
         },
         midday,
-        true
+        vision_test_flags::none
     };
 
     t.test_all();
@@ -346,7 +374,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
             "111",
         },
         midday,
-        true
+        vision_test_flags::none
     };
 
     t.test_all();
@@ -370,7 +398,8 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "1144444444",
         },
         midday,
-        false // 3D FOV gives different results here due to it seeing round corners more
+        // 3D FOV gives different results here due to it seeing round corners more
+        vision_test_flags::no_3d
     };
 
     t.test_all();
@@ -388,7 +417,7 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
             "111",
         },
         midnight,
-        true
+        vision_test_flags::none
     };
 
     t.test_all();
@@ -408,7 +437,7 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
             "444",
         },
         midnight,
-        true
+        vision_test_flags::none
     };
 
     t.test_all();
@@ -428,7 +457,7 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
             "111",
         },
         midnight,
-        true
+        vision_test_flags::none
     };
 
     t.test_all();
@@ -452,7 +481,29 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
             "66",
         },
         midnight,
-        true
+        vision_test_flags::none
+    };
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][vision]" )
+{
+    vision_test_case t {
+        {
+            "###",
+            "#u#",
+            "#=#",
+            "   ",
+        },
+        {
+            "444",
+            "444",
+            "444",
+            "666",
+        },
+        midday,
+        vision_test_flags::crouching
     };
 
     t.test_all();
@@ -481,7 +532,7 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
         },
         // Want a night time
         full_moon - time_past_midnight( full_moon ),
-        true
+        vision_test_flags::none
     };
 
     t.test_all();

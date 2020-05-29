@@ -4,7 +4,7 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": "barb launching organ",
+    "name": { "str": "barb launching organ" },
     "description": "A mutated organ capable of launching bony barbs at great speed.",
     "material": [ "hflesh" ],
     "flags": [
@@ -18,7 +18,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "pistol",
-    "ammo": "barb",
+    "ammo": [ "barb" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750ml",
@@ -28,14 +28,15 @@
     "loudness": 2,
     "range": 12,
     "dispersion": 100,
-    "durability": 8
+    "durability": 8,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "barb": 1 } } ]
   },
   {
     "id": "emp_frond",
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": "electric alien frond",
+    "name": { "str": "electric alien frond" },
     "description": "Electricity unnaturally arcs from the tips of this alien frond.",
     "material": [ "hflesh" ],
     "flags": [

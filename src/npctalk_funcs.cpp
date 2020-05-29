@@ -1,57 +1,70 @@
 #include "npctalk.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <memory>
 #include <set>
+#include <string>
+#include <vector>
 
-#include "activity_handlers.h"
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
-#include "debug.h"
-#include "game.h"
-#include "event_bus.h"
-#include "line.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "mission.h"
-#include "morale_types.h"
-#include "mutation.h"
-#include "npc.h"
-#include "npctrade.h"
-#include "output.h"
-#include "overmapbuffer.h"
-#include "requirements.h"
-#include "rng.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "ui.h"
-#include "auto_pickup.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "debug.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
+#include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "line.h"
+#include "magic.h"
+#include "map.h"
+#include "memory_fast.h"
+#include "messages.h"
+#include "mission.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "npc.h"
+#include "npctrade.h"
 #include "optional.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "string_id.h"
-#include "material.h"
-#include "monster.h"
 #include "point.h"
+#include "rng.h"
+#include "string_id.h"
+#include "translations.h"
+#include "ui.h"
 
-struct itype;
-
-#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -65,12 +78,17 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sleep( "sleep" );
 
-static const mtype_id mon_horse( "mon_horse" );
-static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_horse( "mon_horse" );
+
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+
+struct itype;
 
 void spawn_animal( npc &p, const mtype_id &mon );
 
@@ -196,12 +214,17 @@ void talk_function::start_trade( npc &p )
 
 void talk_function::sort_loot( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    p.assign_activity( ACT_MOVE_LOOT );
 }
 
 void talk_function::do_construction( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    p.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+}
+
+void talk_function::do_mining( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_MINE );
 }
 
 void talk_function::do_read( npc &p )
@@ -219,10 +242,10 @@ void talk_function::find_mount( npc &p )
     // first find one nearby
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
-            // keep the horse still for some time, so that NPC can catch up to it nad mount it.
-            p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
+            // keep the horse still for some time, so that NPC can catch up to it and mount it.
+            p.assign_activity( ACT_FIND_MOUNT );
             p.chosen_mount = g->shared_from( critter );
-            // we found one, thats all we need.
+            // we found one, that's all we need.
             return;
         }
     }
@@ -234,37 +257,37 @@ void talk_function::find_mount( npc &p )
 
 void talk_function::do_butcher( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+    p.assign_activity( ACT_MULTIPLE_BUTCHER );
 }
 
 void talk_function::do_chop_plank( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+    p.assign_activity( ACT_MULTIPLE_CHOP_PLANKS );
 }
 
 void talk_function::do_vehicle_deconstruct( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+    p.assign_activity( ACT_VEHICLE_DECONSTRUCTION );
 }
 
 void talk_function::do_vehicle_repair( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+    p.assign_activity( ACT_VEHICLE_REPAIR );
 }
 
 void talk_function::do_chop_trees( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+    p.assign_activity( ACT_MULTIPLE_CHOP_TREES );
 }
 
 void talk_function::do_farming( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+    p.assign_activity( ACT_MULTIPLE_FARM );
 }
 
 void talk_function::do_fishing( npc &p )
 {
-    p.assign_activity( activity_id( "ACT_MULTIPLE_FISH" ) );
+    p.assign_activity( ACT_MULTIPLE_FISH );
 }
 
 void talk_function::revert_activity( npc &p )
@@ -301,7 +324,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.query();
     auto index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) || index == UILIST_CANCEL ) {
+        index == static_cast<int>( camps.size() + 1 ) ) {
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {
@@ -319,7 +342,6 @@ void talk_function::goto_location( npc &p )
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
         return;
     }
-    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.guard_pos = npc::no_goal_point;
@@ -336,12 +358,6 @@ void talk_function::assign_guard( npc &p )
 
     if( p.has_player_activity() ) {
         p.revert_after_activity();
-    }
-
-    if( p.is_travelling() ) {
-        if( p.has_companion_mission() ) {
-            p.reset_companion_mission();
-        }
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
@@ -364,21 +380,16 @@ void talk_function::assign_camp( npc &p )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         p.set_attitude( NPCATT_NULL );
-        p.set_mission( NPC_MISSION_ASSIGNED_CAMP );
+        p.set_mission( NPC_MISSION_GUARD_ALLY );
+        temp_camp->add_assignee( p.getID() );
+        temp_camp->job_assignment_ui();
         temp_camp->validate_assignees();
         add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
         if( p.has_player_activity() ) {
             p.revert_after_activity();
         }
-
-        if( p.is_travelling() ) {
-            if( p.has_companion_mission() ) {
-                p.reset_companion_mission();
-            }
-        }
         p.chatbin.first_topic = "TALK_FRIEND_GUARD";
         p.set_omt_destination();
-        temp_camp->job_assignment_ui();
     }
 }
 
@@ -392,14 +403,18 @@ void talk_function::stop_guard( npc &p )
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
-    p.set_job( static_cast<npc_job>( 0 ) );
+    if( p.has_companion_mission() ) {
+        p.reset_companion_mission();
+    }
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->validate_assignees();
+    if( p.assigned_camp ) {
+        if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
+            ( *bcp )->remove_assignee( p.getID() );
+            ( *bcp )->validate_assignees();
+        }
+        p.assigned_camp = cata::nullopt;
     }
 }
 
@@ -466,11 +481,12 @@ void talk_function::bionic_remove( npc &p )
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
-            if( bio.id != bionic_id( "bio_power_storage" ) ||
-                bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
+        if( std::find( bionic_types.begin(), bionic_types.end(),
+                       bio.info().itype() ) == bionic_types.end() ) {
+            if( bio.id != bio_power_storage ||
+                bio.id != bio_power_storage_mkII ) {
+                bionic_types.push_back( bio.info().itype() );
+                if( item::type_is_defined( bio.info().itype() ) ) {
                     item tmp = item( bio.id.str(), 0 );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
@@ -499,9 +515,9 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false ) ) {
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
     }
 
 }
@@ -510,18 +526,20 @@ void talk_function::give_equipment( npc &p )
 {
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
-    while( chosen == -1 && giving.size() > 1 ) {
+    while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
         if( giving[index].price < p.op_of_u.owed ) {
             chosen = index;
+        } else {
+            giving.erase( giving.begin() + index );
         }
-        giving.erase( giving.begin() + index );
     }
     if( giving.empty() ) {
         popup( _( "%s has nothing to give!" ), p.name );
         return;
     }
-    if( chosen == -1 ) {
+    if( chosen < 0 || static_cast<size_t>( chosen ) >= giving.size() ) {
+        debugmsg( "Chosen index is outside of available item range!" );
         chosen = 0;
     }
     item it = *giving[chosen].loc.get_item();
@@ -550,7 +568,7 @@ void talk_function::give_aid( npc &p )
         }
     }
     const int moves = to_moves<int>( 100_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
+    g->u.assign_activity( ACT_WAIT_NPC, moves );
     g->u.activity.str_values.push_back( p.name );
 }
 
@@ -609,15 +627,13 @@ static void generic_barber( const std::string &mut_type )
     }
 }
 
-void talk_function::barber_beard( npc &p )
+void talk_function::barber_beard( npc &/*p*/ )
 {
-    ( void )p;
     generic_barber( "facial_hair" );
 }
 
-void talk_function::barber_hair( npc &p )
+void talk_function::barber_hair( npc &/*p*/ )
 {
-    ( void )p;
     generic_barber( "hair_style" );
 }
 
@@ -625,7 +641,7 @@ void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
+    g->u.assign_activity( ACT_WAIT_NPC, moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent haircut…" ), p.name );
 }
@@ -634,7 +650,7 @@ void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
+    g->u.assign_activity( ACT_WAIT_NPC, moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.name );
 }
@@ -648,7 +664,7 @@ void talk_function::morale_chat( npc &p )
 void talk_function::morale_chat_activity( npc &p )
 {
     const int moves = to_moves<int>( 10_minutes );
-    g->u.assign_activity( activity_id( "ACT_SOCIALIZE" ), moves );
+    g->u.assign_activity( ACT_SOCIALIZE, moves );
     g->u.activity.str_values.push_back( p.name );
     add_msg( m_good, _( "That was a pleasant conversation with %s." ), p.disp_name() );
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
@@ -771,6 +787,7 @@ void talk_function::leave( npc &p )
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
+    p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
                             faction_id( new_fac_id ), faction_id( "no_faction" ) );
@@ -780,13 +797,15 @@ void talk_function::leave( npc &p )
     }
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_NULL;
+    p.long_term_goal_action();
 }
 
 void talk_function::stop_following( npc &p )
 {
     // this is to tell non-allied NPCs to stop following.
     // ( usually after a mission where they were temporarily tagging along )
-    // so dont tell already allied NPCs to stop following.
+    // so don't tell already allied NPCs to stop following.
     // they use the guard command for that.
     if( p.is_player_ally() ) {
         return;
@@ -849,15 +868,13 @@ void talk_function::drop_weapon( npc &p )
     g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 
-void talk_function::player_weapon_away( npc &p )
+void talk_function::player_weapon_away( npc &/*p*/ )
 {
-    ( void )p; //unused
     g->u.i_add( g->u.remove_weapon() );
 }
 
-void talk_function::player_weapon_drop( npc &p )
+void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    ( void )p; // unused
     g->m.add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
 }
 
@@ -906,7 +923,7 @@ void talk_function::start_training( npc &p )
         expert_multiplier = knows ? temp_spell.get_level() - g->u.magic.get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
-        // if player doesnt know this spell, then the NPC will teach all of it
+        // if player doesn't know this spell, then the NPC will teach all of it
         // which takes max 6 hours, min 3 hours.
         // TODO: a system for NPCs to train new stuff in bits and pieces
         // and remember the progress.
@@ -922,12 +939,13 @@ void talk_function::start_training( npc &p )
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() &&
+        miss->is_complete( g->u.getID() ) ) {
         clear_mission( p );
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+    player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );
@@ -952,7 +970,7 @@ npc *pick_follower()
     uilist menu;
     menu.text = _( "Select a follower" );
     menu.callback = &callback;
-    menu.w_y = 2;
+    menu.w_y_setup = 2;
 
     for( const npc *p : followers ) {
         menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );

@@ -4,17 +4,19 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "TDI Vector",
+    "name": { "str": "TDI Vector" },
     "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
     "weight": "3100 g",
-    "volume": "1750 ml",
+    "volume": "4248 ml",
+    "longest_side": "611 mm",
     "price": 310000,
+    "price_postapoc": 3500,
     "to_hit": -2,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "skill": "smg",
     "dispersion": 280,
     "durability": 7,
@@ -35,27 +37,36 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 2,
-    "magazines": [ [ "45", [ "tdi_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tdi_mag" ]
+      }
+    ]
   },
   {
     "id": "hk_ump45",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "H&K UMP45",
+    "name": { "str": "H&K UMP45" },
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
     "weight": "2300 g",
-    "volume": "1250 ml",
+    "volume": "4451 ml",
+    "longest_side": "452 mm",
     "price": 290000,
+    "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 11,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "skill": "smg",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 540,
@@ -75,41 +86,60 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
+    "default_mods": [ "folding_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m1911",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": "M1911",
+    "name": { "str": "M1911" },
     "//": "You can get 'em for over US$1K if you want.  This is a fairly cheap remake.",
     "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
     "weight": "1120 g",
-    "volume": "500 ml",
+    "volume": "454 ml",
+    "longest_side": "245 mm",
     "price": 78400,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
-    "magazine_well": 1,
-    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1911mag", "m1911bigmag" ]
+      }
+    ]
   },
   {
     "id": "m1911_MEU",
     "copy-from": "m1911",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": "M45A1",
+    "name": { "str": "M45A1" },
     "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1's hand-fitted by USMC armorers, the updated M45A1's are hardly different from any other commercial 1911 design save for their dual recoil springs.  Most were replaced in 2016 with Glock 19's due to logistics issues.",
     "weight": "1105 g",
     "price": 169900,
+    "price_postapoc": 2750,
     "color": "brown_yellow",
     "dispersion": 420,
     "durability": 8
@@ -119,17 +149,19 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "MAC-10",
+    "name": { "str": "MAC-10" },
     "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
-    "weight": "2840 g",
-    "volume": "750 ml",
+    "weight": "2810 g",
+    "volume": "1195 ml",
+    "longest_side": "298 mm",
     "price": 180000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "skill": "smg",
     "dispersion": 520,
     "durability": 7,
@@ -151,35 +183,42 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mac10mag", "smg_45_mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_45",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "pipe rifle: .45",
-    "name_plural": "pipe rifles: .45",
+    "name": { "str": "pipe rifle: .45", "str_pl": "pipe rifles: .45" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
+    "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "skill": "rifle",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": 3,
+    "barrel_length": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -191,33 +230,34 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 1 } } ]
   },
   {
     "id": "smg_45",
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": "Luty SMG: .45",
-    "name_plural": "Luty SMGs: .45",
+    "name": { "str": "Luty SMG: .45", "str_pl": "Luty SMGs: .45" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3274 g",
     "volume": "1750 ml",
     "price": 20000,
+    "price_postapoc": 1500,
     "to_hit": -1,
     "bashing": 10,
     "material": "steel",
     "color": "dark_gray",
-    "ammo": "45",
-    "ranged_damage": -4,
+    "ammo": [ "45" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 456,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -231,55 +271,67 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "45", [ "smg_45_mag", "mac10mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "smg_45_mag", "mac10mag" ]
+      }
+    ]
   },
   {
     "id": "surv_hand_cannon",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": "homemade hand cannon",
+    "name": { "str": "homemade hand cannon" },
     "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": "1200 g",
     "volume": "1 L",
     "price": 60000,
+    "price_postapoc": 750,
     "to_hit": -3,
     "bashing": 12,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "45",
-    "ranged_damage": 2,
+    "ammo": [ "45" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 620,
     "durability": 7,
     "blackpowder_tolerance": 60,
     "loudness": 25,
-    "clip_size": 5
+    "clip_size": 5,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 5 } } ]
   },
   {
     "id": "tommygun",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "Thompson submachine gun",
+    "name": { "str": "Thompson M1928A1" },
     "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
-    "weight": "5910 g",
-    "volume": "2 L",
+    "weight": "4899 g",
+    "volume": "1230 ml",
+    "longest_side": "832 mm",
     "price": 450000,
+    "price_postapoc": 2750,
     "to_hit": -2,
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "skill": "smg",
-    "ranged_damage": 2,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -295,27 +347,48 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "usp_45",
     "copy-from": "usp_9mm",
     "type": "GUN",
-    "name": "USP .45",
-    "weight": "930 g",
-    "ammo": "45",
+    "name": { "str": "USP .45" },
+    "weight": "887 g",
+    "volume": "483 ml",
+    "longest_side": "241 mm",
+    "ammo": [ "45" ],
+    "price_postapoc": 2500,
     "ranged_damage": 0,
     "built_in_mods": [ "match_trigger" ],
-    "magazines": [ [ "45", [ "usp45mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "usp45mag" ]
+      }
+    ]
   },
   {
     "id": "mk23",
     "copy-from": "usp_45",
     "type": "GUN",
-    "name": "MK 23 MOD 0",
+    "name": { "str": "MK 23 MOD 0" },
     "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the Mk 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster.",
-    "weight": "1120 g",
-    "volume": "1607 ml",
+    "weight": "844 g",
+    "volume": "698 ml",
+    "longest_side": "277 mm",
+    "price_postapoc": 3000,
     "default_mods": [ "suppressor", "laser_sight" ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -324,38 +397,56 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": "Walther PPQ .45 ACP",
+    "name": { "str": "Walther PPQ 45" },
     "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP.",
-    "weight": "714 g",
-    "volume": "470 ml",
+    "weight": "799 g",
+    "volume": "472 ml",
+    "longest_side": "224 mm",
     "price": 80000,
+    "price_postapoc": 2250,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
-    "magazines": [ [ "45", [ "ppq45mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppq45mag" ]
+      }
+    ]
   },
   {
     "id": "hptjhp",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": "Hi-Point Model JHP",
-    "description": "The Hi-Point Model JHP is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "name": { "str": "Hi-Point Model JHP" },
+    "description": "The Hi-Point Model JHP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "weight": "990 g",
-    "volume": "720 ml",
+    "volume": "538 ml",
+    "longest_side": "238 mm",
     "price": 7500,
+    "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
-    "ammo": "45",
+    "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
-    "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptjhpmag" ]
+      }
+    ]
   }
 ]
