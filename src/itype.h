@@ -649,9 +649,6 @@ struct islot_magazine {
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
-
-    /** If false, ammo will cook off if this mag is affected by fire */
-    bool protects_contents = false;
 };
 
 struct islot_battery {

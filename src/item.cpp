@@ -8371,13 +8371,6 @@ bool item::will_explode_in_fire() const
         return true;
     }
 
-    // Most containers do nothing to protect the contents from fire
-    if( !type->magazine || !type->magazine->protects_contents ) {
-        return has_item_with( [&]( const item & it ) {
-            return this != &it && it.will_explode_in_fire();
-        } );
-    }
-
     return false;
 }
 
@@ -8389,15 +8382,11 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
-        // Yank the exploding item off the map for the duration of the explosion
-        // so it doesn't blow itself up.
-        const islot_ammo &ammo_type = *type->ammo;
-
-        if( ammo_type.special_cookoff ) {
+        if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( p, ammo_type.ammo_effects );
+            apply_ammo_effects( p, type->ammo->ammo_effects );
         }
-        if( ammo_type.cookoff ) {
+        if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
             explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
         }
@@ -8409,19 +8398,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
 
         return true;
-    } else if( !contents.empty() && ( !type->magazine || !type->magazine->protects_contents ) ) {
-        std::vector<item *> removed_items;
-        bool detonated = false;
-        for( item *it : contents.all_items_top() ) {
-            if( it->detonate( p, drops ) ) {
-                removed_items.push_back( it );
-                detonated = true;
-            }
-        }
-        for( item *it : removed_items ) {
-            remove_item( *it );
-        }
-        return detonated;
     }
 
     return false;
