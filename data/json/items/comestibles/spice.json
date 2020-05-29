@@ -154,5 +154,13 @@
     "name": { "str_sp": "mustard powder" },
     "description": "A fragnant yellow powder.  Not edible in this form.",
     "color": "red"
+  },
+  {
+    "id": "artificial_sweetener",
+    "copy-from": "sugar",
+    "type": "COMESTIBLE",
+    "name": "artificial sweetener",
+    "description": "Sweet, sweet sugar? No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
+    "calories": 0
   }
 ]
