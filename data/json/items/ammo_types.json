@@ -307,6 +307,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "flare_nitrate",
+    "name": "flare pyrotechnic",
+    "default": "flare_nitrate"
+  },
+  {
+    "type": "ammunition_type",
     "id": "match",
     "name": "match",
     "default": "match"

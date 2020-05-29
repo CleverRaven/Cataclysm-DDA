@@ -349,7 +349,8 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 100,
-    "max_charges": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 } } ],
+    "ammo": "flare_nitrate",
     "initial_charges": 300,
     "use_action": {
       "menu_text": "Strike the striker",

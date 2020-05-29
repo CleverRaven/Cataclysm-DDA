@@ -33,6 +33,18 @@
   },
   {
     "type": "AMMO",
+    "id": "flare_nitrate",
+    "name": { "str_sp": "flare pyrotechnic" },
+    "symbol": "~",
+    "description": "A pyrotechnic chemical used in flares.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "flare_nitrate"
+  },
+  {
+    "type": "AMMO",
     "id": "match",
     "name": { "str": "match", "str_pl": "matches" },
     "symbol": "|",
