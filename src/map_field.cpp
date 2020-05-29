@@ -519,17 +519,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
                         map_stack items_here = i_at( p );
                         std::vector<item> new_content;
-                        for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                            if( explosive->will_explode_in_fire() ) {
+                        for( auto it = items_here.begin(); it != items_here.end(); ) {
+                            if( it->will_explode_in_fire() ) {
                                 // We need to make a copy because the iterator validity is not predictable
-                                item copy = *explosive;
-                                explosive = items_here.erase( explosive );
+                                item copy = *it;
+                                it = items_here.erase( it );
                                 if( copy.detonate( p, new_content ) ) {
                                     // Need to restart, iterators may not be valid
-                                    explosive = items_here.begin();
+                                    it = items_here.begin();
                                 }
                             } else {
-                                ++explosive;
+                                ++it;
                             }
                         }
 
