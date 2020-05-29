@@ -1,35 +1,6 @@
 [
   {
     "type": "overmap_special",
-    "id": "o_airport",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_air_term_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "s_air_parking_south" },
-      { "point": [ -2, 0, 0 ], "overmap": "s_air_hangars_south" },
-      { "point": [ -1, 0, 0 ], "overmap": "s_air_atc_south" },
-      { "point": [ -1, 0, 1 ], "overmap": "s_air_atc_2_south" },
-      { "point": [ -1, 0, 2 ], "overmap": "s_air_atc_3_south" },
-      { "point": [ -3, 1, 0 ], "overmap": "s_air_runway_r_south" },
-      { "point": [ -2, 1, 0 ], "overmap": "s_air_runway_hangars_south" },
-      { "point": [ -1, 1, 0 ], "overmap": "s_air_runway_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_air_runway_term_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "s_air_runway_south" },
-      { "point": [ 2, 1, 0 ], "overmap": "s_air_runway_l_south" }
-    ],
-    "connections": [
-      { "point": [ -1, -1, 0 ], "terrain": "road", "existing": false },
-      { "point": [ 0, -1, 0 ], "terrain": "road", "existing": false },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": false }
-    ],
-    "locations": [ "land", "swamp" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 1 ],
-    "required": false,
-    "flags": [ "CLASSIC", "UNIQUE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "o_gas_spc",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_south" },

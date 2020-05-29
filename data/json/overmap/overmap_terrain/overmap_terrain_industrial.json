@@ -318,5 +318,44 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_air_parking",
+      "s_air_term",
+      "s_air_atc",
+      "s_air_hangars",
+      "s_air_hangars_roof",
+      "s_air_term_roof",
+      "s_air_atc_2",
+      "s_air_atc_3"
+    ],
+    "name": "private airport",
+    "sym": "A",
+    "color": "i_cyan",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_air_runway_l", "s_air_runway_B", "s_air_runway_term", "s_air_runway", "s_air_runway_hangars", "s_air_runway_r" ],
+    "name": "private airport runway",
+    "sym": "-",
+    "color": "blue",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_air_helicopter_pad" ],
+    "name": "helicopter pad",
+    "sym": "H",
+    "color": "i_cyan",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]
