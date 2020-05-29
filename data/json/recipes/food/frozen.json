@@ -30,7 +30,7 @@
         [ "cherries", 1 ],
         [ "irradiated_cherries", 1 ]
       ],
-      [ [ "sugar", 10 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
       [ [ "water_clean", 1 ] ]
     ]
   },
@@ -63,7 +63,7 @@
         [ "cherries", 2 ],
         [ "irradiated_cherries", 2 ]
       ],
-      [ [ "sugar", 20 ] ],
+      [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water_clean", 1 ] ]
     ]
   },
@@ -96,7 +96,7 @@
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
-      [ [ "sugar", 20 ] ]
+      [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ]
     ]
   },
   {
@@ -128,7 +128,7 @@
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
-      [ [ "sugar", 20 ] ],
+      [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "salt", 30 ] ],
       [ [ "bag_plastic", 2 ] ]
     ]
@@ -186,7 +186,7 @@
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
-      [ [ "sugar", 10 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ]
   },
@@ -201,7 +201,7 @@
     "book_learn": [ [ "dairy_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
-    "components": [ [ [ "yoghurt", 1 ] ], [ [ "sugar", 5 ] ] ]
+    "components": [ [ [ "yoghurt", 1 ] ], [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ] ]
   },
   {
     "result": "icecream_sorbet",
@@ -216,7 +216,7 @@
     "components": [
       [ [ "water_clean", 1 ], [ "kompot", 1 ] ],
       [ [ "juice", 1 ], [ "oj", 1 ], [ "apple_cider", 1 ], [ "lemonade", 1 ], [ "cranberry_juice", 1 ] ],
-      [ [ "sugar", 5 ] ]
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
   {
@@ -248,7 +248,7 @@
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
-      [ [ "sugar", 15 ] ]
+      [ [ "sugar", 15 ], [ "artificial_sweetener", 15 ] ]
     ]
   }
 ]
