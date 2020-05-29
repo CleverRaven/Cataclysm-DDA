@@ -436,7 +436,7 @@
     "hp": 10,
     "death_function": [ "NORMAL" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "science", 100 ], [ "mut_lab", 10 ] ] },
-    "description": "A bipedal dinosaur about the size of a chicken.  It darts around quickly and has long, quick arms for grabbing what it desires. It's holding something.",
+    "description": "A bipedal dinosaur about the size of a chicken.  It darts around quickly and has long arms for grabbing what it desires.  It's holding something.",
     "reproduction": { "baby_egg": "egg_eoraptor", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
