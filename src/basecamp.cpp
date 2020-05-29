@@ -724,7 +724,7 @@ bool basecamp_action_components::choose_components()
         comp_selection<item_comp> is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
-        if( is.use_from == cancel ) {
+        if( is.use_from == usage_from::cancel ) {
             return false;
         }
         item_selections_.push_back( is );
@@ -734,7 +734,7 @@ bool basecamp_action_components::choose_components()
         comp_selection<tool_comp> ts =
             g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
                                         !base_.by_radio );
-        if( ts.use_from == cancel ) {
+        if( ts.use_from == usage_from::cancel ) {
             return false;
         }
         tool_selections_.push_back( ts );
