@@ -6497,7 +6497,7 @@
   },
   {
     "type": "recipe",
-    "result": "coffee_sugared",
+    "result": "coffee_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6510,7 +6510,7 @@
   },
   {
     "type": "recipe",
-    "result": "coffee_substitute_sugared",
+    "result": "coffee_substitute_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6523,7 +6523,7 @@
   },
   {
     "type": "recipe",
-    "result": "milk_coffee_sugared",
+    "result": "milk_coffee_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6538,7 +6538,7 @@
   },
   {
     "type": "recipe",
-    "result": "tea_sugared",
+    "result": "tea_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6551,7 +6551,7 @@
   },
   {
     "type": "recipe",
-    "result": "milk_tea_sugared",
+    "result": "milk_tea_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
