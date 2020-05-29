@@ -2,7 +2,7 @@
   {
     "type": "SPECIES",
     "id": "DINOSAUR",
-    "//": "Capping these at 1000 L to prevent bodies disappearing and hatchlings upgrade at 12 because 13 may be cap",
+    "//": "Capping these at 1000 L to prevent bodies disappearing",
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND", "FIRE" ]
   },
@@ -737,8 +737,8 @@
     "melee_cut": 1,
     "dodge": 1,
     "death_function": [ "NORMAL" ],
-    "upgrades": { "age_grow": 12, "into": "mon_compsognathus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "DOGFOOD" ],
+    "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD" ],
     "harvest": "mammal_tiny"
   },
   {
@@ -746,111 +746,111 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_gallimimus" }
+    "upgrades": { "age_grow": 20, "into": "mon_gallimimus" }
   },
   {
     "id": "mon_pachycephalosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_pachycephalosaurus" }
+    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus" }
   },
   {
     "id": "mon_spinosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_spinosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_spinosaurus" }
   },
   {
     "id": "mon_tyrannosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light red and white hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_tyrannosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus" }
   },
   {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light red and white hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_albertosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus" }
   },
   {
     "id": "mon_triceratops_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and magenta hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_triceratops" }
+    "upgrades": { "age_grow": 30, "into": "mon_triceratops" }
   },
   {
     "id": "mon_stegosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and magenta hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_stegosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_stegosaurus" }
   },
   {
     "id": "mon_ankylosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_ankylosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus" }
   },
   {
     "id": "mon_allosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_allosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_allosaurus" }
   },
   {
     "id": "mon_eoraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_eoraptor" }
+    "upgrades": { "age_grow": 10, "into": "mon_eoraptor" }
   },
   {
     "id": "mon_velociraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_velociraptor" }
+    "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
   },
   {
     "id": "mon_deinonychus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and green hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_deinonychus" }
+    "upgrades": { "age_grow": 20, "into": "mon_deinonychus" }
   },
   {
     "id": "mon_utahraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and white hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_utahraptor" }
+    "upgrades": { "age_grow": 20, "into": "mon_utahraptor" }
   },
   {
     "id": "mon_parasaurolophus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_parasaurolophus" }
+    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus" }
   },
   {
     "id": "mon_dimorphodon_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_dimorphodon" }
+    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "magenta and green hatchling",
-    "upgrades": { "age_grow": 12, "into": "mon_dilophosaurus" }
+    "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus" }
   }
 ]
