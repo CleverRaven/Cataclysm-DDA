@@ -551,7 +551,7 @@ class atm_menu
             std::vector<item *> cash_cards_on_hand = u.items_with( []( const item & i ) {
                 return i.typeId() == itype_cash_card;
             } );
-            if( !cash_cards_on_hand.size() ) {
+            if( cash_cards_on_hand.empty() ) {
                 //Just in case we run into an edge case
                 popup( _( "You do not have a cash card to withdraw money!" ) );
                 return false;
@@ -614,7 +614,7 @@ class atm_menu
                 }
             } else {
 
-                if( !cash_cards_on_hand.size() ) {
+                if( cash_cards_on_hand.empty() ) {
                     return false;
                 }
                 dst = cash_cards_on_hand.front();
