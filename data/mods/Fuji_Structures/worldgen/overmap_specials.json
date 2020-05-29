@@ -14,7 +14,6 @@
     "city_distance": [ 0, -1 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 1, 1 ],
-    "required": true,
     "flags": [ "CLASSIC" ]
   },
   {
@@ -29,7 +28,6 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 1, 1 ],
-    "required": true,
     "flags": [ "CLASSIC" ]
   }
 ]
