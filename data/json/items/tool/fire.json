@@ -156,7 +156,6 @@
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "initial_charges": 25,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -170,6 +169,7 @@
       },
       { "type": "firestarter", "moves": 50 }
     ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 50 } } ],
     "flags": [ "FIRESTARTER" ]
   },
   {
@@ -186,7 +186,6 @@
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "initial_charges": 25,
-    "max_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "revert_to": "ref_lighter",
@@ -200,6 +199,7 @@
         "type": "transform"
       }
     ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 50 } } ],
     "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
