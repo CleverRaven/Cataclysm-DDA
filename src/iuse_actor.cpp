@@ -920,7 +920,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     int skill_offset = 0;
-    for( skill_id sk : skills ) {
+    for( const skill_id &sk : skills ) {
         skill_offset += p.get_skill_level( sk ) / 2;
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
@@ -4297,7 +4297,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     tmenu.text = _( "How do you want to modify it?" );
 
     int index = 0;
-    for( auto cm : clothing_mods ) {
+    for( const clothing_mod_id &cm : clothing_mods ) {
         auto obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();

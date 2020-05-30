@@ -119,7 +119,8 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
         if( worn_item.contents.empty() ) {
             continue;
         }
-        for( std::list<item *> it_stack : item_list_to_stack( worn_item.contents.all_items_top() ) ) {
+        for( const std::list<item *> &it_stack : item_list_to_stack(
+                 worn_item.contents.all_items_top() ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;

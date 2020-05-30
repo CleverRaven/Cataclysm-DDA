@@ -1216,7 +1216,7 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
     } ) != matching_range.second;
 }
 
-void overmap::insert_npc( shared_ptr_fast<npc> who )
+void overmap::insert_npc( const shared_ptr_fast<npc> &who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();

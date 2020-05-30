@@ -804,8 +804,8 @@ bool vehicle::fold_up()
 
     add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
 
-    if( g->u.get_grab_type() != OBJECT_NONE ) {
-        g->u.grab( OBJECT_NONE );
+    if( g->u.get_grab_type() != object_type::NONE ) {
+        g->u.grab( object_type::NONE );
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 

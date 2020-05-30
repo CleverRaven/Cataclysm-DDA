@@ -757,7 +757,7 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int quantity,
+std::list<item> inventory::use_amount( const itype_id &it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
     items.sort( stack_compare );
@@ -1027,7 +1027,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
 
     invlets_bitset cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for( auto iter : assigned_invlet ) {
+    for( const auto &iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             return;

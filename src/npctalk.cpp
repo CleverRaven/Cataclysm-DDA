@@ -1172,7 +1172,7 @@ talk_response &dialogue::add_response_none( const std::string &text )
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       talkfunction_ptr effect_success, const bool first )
+                                       const talkfunction_ptr &effect_success, const bool first )
 {
     talk_response &result = add_response( text, r, first );
     result.success.set_effect( effect_success );
@@ -1180,7 +1180,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
-                                       std::function<void( npc & )> effect_success,
+                                       const std::function<void( npc & )> &effect_success,
                                        dialogue_consequence consequence, const bool first )
 {
     talk_response &result = add_response( text, r, first );
@@ -1898,7 +1898,7 @@ static talk_topic load_inline_topic( const JsonObject &jo )
     return talk_topic( id );
 }
 
-talk_effect_fun_t::talk_effect_fun_t( talkfunction_ptr ptr )
+talk_effect_fun_t::talk_effect_fun_t( const talkfunction_ptr &ptr )
 {
     function = [ptr]( const dialogue & d ) {
         npc &p = *d.beta;
@@ -1906,7 +1906,7 @@ talk_effect_fun_t::talk_effect_fun_t( talkfunction_ptr ptr )
     };
 }
 
-talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
+talk_effect_fun_t::talk_effect_fun_t( const std::function<void( npc &p )> &ptr )
 {
     function = [ptr]( const dialogue & d ) {
         npc &p = *d.beta;
@@ -1914,7 +1914,7 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
     };
 }
 
-talk_effect_fun_t::talk_effect_fun_t( std::function<void( const dialogue &d )> fun )
+talk_effect_fun_t::talk_effect_fun_t( const std::function<void( const dialogue &d )> &fun )
 {
     function = [fun]( const dialogue & d ) {
         fun( d );
@@ -2433,7 +2433,7 @@ void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialog
     guaranteed_consequence = std::max( guaranteed_consequence, con );
 }
 
-void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr,
+void talk_effect_t::set_effect_consequence( const std::function<void( npc &p )> &ptr,
         dialogue_consequence con )
 {
     talk_effect_fun_t npctalk_setter( ptr );
@@ -3049,7 +3049,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
     }
 }
 
-dynamic_line_t::dynamic_line_t( JsonArray ja )
+dynamic_line_t::dynamic_line_t( const JsonArray &ja )
 {
     std::vector<dynamic_line_t> lines;
     for( const JsonValue entry : ja ) {

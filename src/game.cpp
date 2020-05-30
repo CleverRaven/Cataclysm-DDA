@@ -293,18 +293,12 @@ game::game() :
     scent( *scent_ptr ),
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
-    new_game( false ),
     safe_mode( SAFE_MODE_ON ),
-    pixel_minimap_option( 0 ),
-    mostseen( 0 ),
     u_shared_ptr( &u, null_deleter{} ),
-    safe_mode_warning_logged( false ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
-    user_action_counter( 0 ),
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
-    seed( 0 ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
     player_was_sleeping = false;
@@ -3338,7 +3332,7 @@ void game::draw_callback_t::operator()()
     }
 }
 
-void game::add_draw_callback( shared_ptr_fast<draw_callback_t> cb )
+void game::add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb )
 {
     draw_callbacks.erase(
         std::remove_if( draw_callbacks.begin(), draw_callbacks.end(),
@@ -9198,7 +9192,7 @@ bool game::walk_move( const tripoint &dest_loc )
     const tripoint furn_pos = u.pos() + u.grab_point;
     const tripoint furn_dest = dest_loc + u.grab_point;
 
-    bool grabbed = u.get_grab_type() != OBJECT_NONE;
+    bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
         pushing = dp ==  u.grab_point;
@@ -9207,12 +9201,12 @@ bool game::walk_move( const tripoint &dest_loc )
     if( grabbed && dest_loc.z != u.posz() ) {
         add_msg( m_warning, _( "You let go of the grabbed object." ) );
         grabbed = false;
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
-    if( grabbed && u.get_grab_type() == OBJECT_FURNITURE ) {
+    if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
         if( m.has_furn( u.pos() + u.grab_point ) ) {
             shifting_furniture = !pushing && !pulling;
@@ -9220,7 +9214,7 @@ bool game::walk_move( const tripoint &dest_loc )
             // We were grabbing a furniture that isn't there
             grabbed = false;
         }
-    } else if( grabbed && u.get_grab_type() == OBJECT_VEHICLE ) {
+    } else if( grabbed && u.get_grab_type() == object_type::VEHICLE ) {
         grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos() + u.grab_point ) );
         if( grabbed_vehicle == nullptr ) {
             // We were grabbing a vehicle that isn't there anymore
@@ -9232,7 +9226,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     if( u.grab_point != tripoint_zero && !grabbed ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
     }
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
@@ -9292,7 +9286,7 @@ bool game::walk_move( const tripoint &dest_loc )
     const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
-    if( grabbed && u.get_grab_type() == OBJECT_FURNITURE && u.pos() + u.grab_point == dest_loc ) {
+    if( grabbed && u.get_grab_type() == object_type::FURNITURE && u.pos() + u.grab_point == dest_loc ) {
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
@@ -9905,7 +9899,7 @@ bool game::phasing_move( const tripoint &dest_loc )
             m.board_vehicle( u.pos(), &u );
         }
 
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
         on_move_effects();
         m.creature_on_trap( u );
         return true;
@@ -9923,7 +9917,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( !m.has_furn( fpos ) ) {
         // Where did it go? We're grabbing thin air so reset.
         add_msg( m_info, _( "No furniture at grabbed point." ) );
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
         return false;
     }
 
@@ -10070,7 +10064,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
             u.grab_point = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
             add_msg( _( "You let go of the %s." ), furntype.name() );
-            u.grab( OBJECT_NONE );
+            u.grab( object_type::NONE );
         }
         return true; // We moved furniture but stayed still.
     }
@@ -10079,7 +10073,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _( "You let go of the %1$s as it slides past %2$s." ),
                  furntype.name(), m.tername( fdest ) );
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
         return true;
     }
 
@@ -10088,7 +10082,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
 bool game::grabbed_move( const tripoint &dp )
 {
-    if( u.get_grab_type() == OBJECT_NONE ) {
+    if( u.get_grab_type() == object_type::NONE ) {
         return false;
     }
 
@@ -10098,17 +10092,17 @@ bool game::grabbed_move( const tripoint &dp )
     }
 
     // vehicle: pulling, pushing, or moving around the grabbed object.
-    if( u.get_grab_type() == OBJECT_VEHICLE ) {
+    if( u.get_grab_type() == object_type::VEHICLE ) {
         return grabbed_veh_move( dp );
     }
 
-    if( u.get_grab_type() == OBJECT_FURNITURE ) {
+    if( u.get_grab_type() == object_type::FURNITURE ) {
         return grabbed_furn_move( dp );
     }
 
     add_msg( m_info, _( "Nothing at grabbed point %d,%d,%d or bad grabbed object type." ),
              u.grab_point.x, u.grab_point.y, u.grab_point.z );
-    u.grab( OBJECT_NONE );
+    u.grab( object_type::NONE );
     return false;
 }
 
@@ -10437,7 +10431,7 @@ void game::vertical_move( int movez, bool force )
 
     if( force ) {
         // Let go of a grabbed cart.
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
     } else if( u.grab_point != tripoint_zero ) {
         add_msg( m_info, _( "You can't drag things up and down stairs." ) );
         return;
@@ -10914,7 +10908,7 @@ void game::vertical_shift( const int z_after )
     }
 
     // TODO: Implement dragging stuff up/down
-    u.grab( OBJECT_NONE );
+    u.grab( object_type::NONE );
 
     scent.reset();
 

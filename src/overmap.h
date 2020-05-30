@@ -223,7 +223,7 @@ class overmap
         tripoint find_random_omt( const std::string &omt_base_type,
                                   ot_match_type match_type = ot_match_type::type ) const {
             return find_random_omt( std::make_pair( omt_base_type, match_type ) );
-        };
+        }
         /**
          * Return a vector containing the absolute coordinates of
          * every matching terrain on the current z level of the current overmap.
@@ -324,7 +324,7 @@ class overmap
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
-        void insert_npc( shared_ptr_fast<npc> who );
+        void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         shared_ptr_fast<npc> erase_npc( const character_id &id );
 

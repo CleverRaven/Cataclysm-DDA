@@ -77,11 +77,9 @@ enum aim_exit {
 
 // *INDENT-OFF*
 advanced_inventory::advanced_inventory()
-    : inCategoryMode( false )
-    , recalc( true )
+    : recalc( true )
     , src( left )
     , dest( right )
-    , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
     , squares( {
     {

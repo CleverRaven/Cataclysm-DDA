@@ -630,14 +630,14 @@ static void grab()
     avatar &you = g->u;
     map &m = g->m;
 
-    if( you.get_grab_type() != OBJECT_NONE ) {
+    if( you.get_grab_type() != object_type::NONE ) {
         if( const optional_vpart_position vp = m.veh_at( you.pos() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
         } else if( m.has_furn( you.pos() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), m.furnname( you.pos() + you.grab_point ) );
         }
 
-        you.grab( OBJECT_NONE );
+        you.grab( object_type::NONE );
         return;
     }
 
@@ -650,21 +650,21 @@ static void grab()
 
     if( grabp == you.pos() ) {
         add_msg( _( "You get a hold of yourself." ) );
-        you.grab( OBJECT_NONE );
+        you.grab( object_type::NONE );
         return;
     }
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
         if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
             return;
         }
-        you.grab( OBJECT_VEHICLE, grabp - you.pos() );
+        you.grab( object_type::VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !m.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
-        you.grab( OBJECT_FURNITURE, grabp - you.pos() );
+        you.grab( object_type::FURNITURE, grabp - you.pos() );
         if( !m.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ) );
         } else {
@@ -1412,7 +1412,7 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
-    for( spell_id sp : spells ) {
+    for( const spell_id &sp : spells ) {
         spell temp_spell = u.magic.get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
@@ -1445,7 +1445,7 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
+    if( sp.energy_source() == magic_energy_type::hp && !u.has_quality( qual_CUT ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;

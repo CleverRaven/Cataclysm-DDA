@@ -2732,8 +2732,6 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
     if( obj.has_member( name ) ) {
         obj.throw_error( string_format( "This has been a TODO: since 2014.  Use '%s' and/or '%s' instead.",
                                         iname, gname ) );
-        // TODO: !
-        return false;
     }
     if( obj.has_string( iname ) ) {
         entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
@@ -2744,7 +2742,6 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
 
     if( entries.size() > 1 && name != "contents" ) {
         obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
-        return false;
     } else if( entries.size() == 1 ) {
         const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP :
                           Single_item_creator::Type::S_ITEM;

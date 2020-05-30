@@ -654,7 +654,7 @@ std::string colorize( const translation &text, const nc_color &color )
 
 std::string get_note_string_from_color( const nc_color &color )
 {
-    for( auto i : color_by_string_map ) {
+    for( const std::pair<const std::string, note_color> &i : color_by_string_map ) {
         if( i.second.color == color ) {
             return i.first;
         }

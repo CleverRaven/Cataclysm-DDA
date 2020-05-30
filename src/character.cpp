@@ -1068,9 +1068,9 @@ void Character::mount_creature( monster &z )
         if( g->u.is_hauling() ) {
             g->u.stop_hauling();
         }
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
+        if( g->u.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            g->u.grab( object_type::NONE );
         }
         g->place_player( pnt );
     } else {
@@ -1238,9 +1238,9 @@ void Character::forced_dismount()
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
     if( is_avatar() ) {
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
+        if( g->u.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            g->u.grab( object_type::NONE );
         }
         set_movement_mode( CMM_WALK );
         if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
@@ -1271,9 +1271,9 @@ void Character::dismount()
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
             remove_item( weapon );
         }
-        if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
+        if( is_avatar() && g->u.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            g->u.grab( object_type::NONE );
         }
         critter->remove_effect( effect_ridden );
         critter->add_effect( effect_controlled, 5_turns );
@@ -2252,7 +2252,7 @@ item *Character::try_add( item it, const item *avoid )
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const invlets_bitset cur_inv = allocated_invlets();
-    for( auto iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv.assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -2308,7 +2308,7 @@ item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
     }
 }
 
-std::list<item> Character::remove_worn_items_with( std::function<bool( item & )> filter )
+std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
@@ -8054,9 +8054,7 @@ std::string get_stat_name( Character::stat Stat )
     case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
         // *INDENT-ON*
         default:
-            return pgettext( "fake stat there's an error", "ERR" );
             break;
-
     }
     return pgettext( "fake stat there's an error", "ERR" );
 }
@@ -9813,7 +9811,7 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
-std::list<item> Character::use_amount( itype_id it, int quantity,
+std::list<item> Character::use_amount( const itype_id &it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;

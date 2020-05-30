@@ -2167,7 +2167,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     return true;
 }
 
-void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
+void Character::perform_uninstall( const bionic_id &bid, int difficulty, int success,
                                    const units::energy &power_lvl, int pl_skill )
 {
     if( success > 0 ) {
@@ -2408,8 +2408,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     return true;
 }
 
-void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                                 int pl_skill, const std::string &installer_name,
+void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, int difficulty,
+                                 int success, int pl_skill, const std::string &installer_name,
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
     if( success > 0 ) {

@@ -700,7 +700,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
 
 static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
 {
-    if( g->u.get_grab_type() == OBJECT_VEHICLE ) {
+    if( g->u.get_grab_type() == object_type::VEHICLE ) {
         tripoint cart_position = g->u.pos() + g->u.grab_point;
 
         if( const cata::optional<vpart_reference> vp = g->m.veh_at(

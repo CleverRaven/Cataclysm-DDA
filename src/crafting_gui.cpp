@@ -457,7 +457,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
                 std::string enumerated_books =
                     enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-                []( itype_id type_id ) {
+                []( const itype_id & type_id ) {
                     return colorize( item::nname( type_id ), c_cyan );
                 } );
                 const std::string text = string_format( _( "Written in: %s" ), enumerated_books );

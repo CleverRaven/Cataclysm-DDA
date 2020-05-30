@@ -8530,7 +8530,7 @@ uint64_t item::make_component_hash() const
     }
 
     std::string concatenated_ids;
-    for( std::string id : id_set ) {
+    for( const std::string &id : id_set ) {
         concatenated_ids += id;
     }
 
@@ -9633,7 +9633,7 @@ std::string item::type_name( unsigned int quantity ) const
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for recursively searching for a item ID among all components.
         std::function<bool ( std::list<item> )> component_id_contains =
-        [&]( std::list<item> components ) {
+        [&]( const std::list<item> &components ) {
             for( const item &component : components ) {
                 if( component.typeId().str().find( cname.condition ) != std::string::npos ||
                     component_id_contains( component.components ) ) {
