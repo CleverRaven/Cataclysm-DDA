@@ -1105,7 +1105,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, *spawn_point );
+                            add_spawn( spawn_details, *spawn_point );
                         }
                     }
                 }

@@ -174,9 +174,9 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
             if( it->frequency >= spawn_chance ) {
                 if( it->pack_maximum > 1 ) {
-                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ) );
+                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ), it->data );
                 } else {
-                    spawn_details = MonsterGroupResult( it->name, 1 );
+                    spawn_details = MonsterGroupResult( it->name, 1, it->data );
                 }
                 //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier

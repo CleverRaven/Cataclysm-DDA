@@ -55,12 +55,13 @@ struct MonsterGroupEntry {
 struct MonsterGroupResult {
     mtype_id name;
     int pack_size;
+    spawn_data data;
 
     MonsterGroupResult() : name( mtype_id::NULL_ID() ), pack_size( 0 ) {
     }
 
-    MonsterGroupResult( const mtype_id &id, int new_pack_size )
-        : name( id ), pack_size( new_pack_size ) {
+    MonsterGroupResult( const mtype_id &id, int new_pack_size, spawn_data new_data = spawn_data() )
+        : name( id ), pack_size( new_pack_size ), data( new_data ) {
     }
 };
 
