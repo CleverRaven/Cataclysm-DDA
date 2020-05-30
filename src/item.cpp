@@ -1251,11 +1251,14 @@ static int get_base_env_resist( const item &it )
 {
     const islot_armor *t = it.find_armor_data();
     if( t == nullptr ) {
-        return 0;
+        if( it.is_pet_armor() ) {
+            return it.type->pet_armor->env_resist * it.get_relative_health();
+        } else {
+            return 0;
+        }
     }
 
     return t->env_resist * it.get_relative_health();
-
 }
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
