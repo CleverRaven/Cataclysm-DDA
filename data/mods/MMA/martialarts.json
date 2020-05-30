@@ -22,7 +22,7 @@
       {
         "id": "mma_buff_diamond_mind_ondodge",
         "name": "Pearl of Black Doubt",
-        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\+1 Dodge attempt\nLasts 1 turn. Stacks 2 times",
+        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\n+1 Dodge attempt\nLasts 1 turn. Stacks 2 times",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 2,
