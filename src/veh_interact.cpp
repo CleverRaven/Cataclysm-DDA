@@ -1176,10 +1176,18 @@ void veh_interact::do_repair()
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to repair:" );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     int pos = 0;
+
+    restore_on_out_of_scope<std::function<void()>> prev_submenu_redraw( submenu_redraw );
+    submenu_redraw = [&]() {
+        werase( w_parts );
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
+                              need_repair[pos], true );
+        wrefresh( w_parts );
+    };
+
     while( true ) {
         vehicle_part &pt = veh->parts[parts_here[need_repair[pos]]];
         const vpart_info &vp = pt.info();
@@ -1218,17 +1226,12 @@ void veh_interact::do_repair()
         const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
         vp.format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
-        werase( w_msg );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, nmsg );
-        wrefresh( w_msg );
+        msg = colorize( nmsg, c_light_gray );
 
-        werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
-                              need_repair[pos], true );
-        wrefresh( w_parts );
+        ui_manager::redraw();
 
         const std::string action = main_context.handle_input();
+        msg.reset();
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
             reason = cant_do( 'r' );
             if( !can_repair() ) {
@@ -1244,11 +1247,6 @@ void veh_interact::do_repair()
             break;
 
         } else if( action == "QUIT" ) {
-            werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
-            wrefresh( w_parts );
-            werase( w_msg );
-            wrefresh( w_msg );
             break;
 
         } else {
