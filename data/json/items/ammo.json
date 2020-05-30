@@ -852,6 +852,21 @@
   },
   {
     "type": "AMMO",
+    "id": "albuterol",
+    "category": "drugs",
+    "name": { "str": "albuterol" },
+    "symbol": "=",
+    "color": "blue",
+    "description": "A bronchodilator that relaxes muscles in the airways and increases air flow to the lungs.",
+    "material": "plastic",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "gas",
+    "ammo_type": "albuterol"
+  },
+  {
+    "type": "AMMO",
     "id": "ampoule",
     "category": "drugs",
     "price": 50000,

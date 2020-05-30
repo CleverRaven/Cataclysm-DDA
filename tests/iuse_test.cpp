@@ -512,7 +512,9 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     avatar dummy;
-    item inhaler( "inhaler", 0, item::default_charges_tag{} );
+    item inhaler( "inhaler" );
+    inhaler.ammo_set( itype_id( "albuterol" ) );
+    REQUIRE( inhaler.ammo_remaining() > 0 );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );
