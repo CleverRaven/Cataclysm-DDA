@@ -634,8 +634,14 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    for( const JsonMember member : data.get_object( "skills" ) ) {
+    JsonObject skill_data = data.get_object( "skills" );
+    for( const JsonMember member : skill_data ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
+    }
+    if( savegame_loading_version <= 28 ) {
+        if( !skill_data.has_member( "chemistry" ) && skill_data.has_member( "cooking" ) ) {
+            skill_data.get_member( "cooking" ).read( ( *_skills )[skill_id( "chemistry" )] );
+        }
     }
 
     on_stat_change( "thirst", thirst );
