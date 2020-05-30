@@ -1,27 +1,5 @@
 [
   {
-    "type": "item_group",
-    "id": "fieldoffice_books",
-    "items": [
-      [ "mag_traps", 20 ],
-      [ "manual_traps", 12 ],
-      [ "trappers_companion", 2 ],
-      [ "mag_guns", 15 ],
-      [ "mag_rifle", 15 ],
-      [ "mag_shotgun", 15 ],
-      [ "mag_survival", 40 ],
-      [ "manual_survival", 20 ],
-      [ "textbook_firstaid", 8 ],
-      [ "pocket_firstaid", 4 ],
-      [ "pocket_survival", 2 ],
-      [ "pocket_firearms", 2 ],
-      [ "mag_archery", 15 ],
-      [ "manual_archery", 8 ],
-      [ "book_archery", 2 ],
-      [ "recipe_arrows", 4 ]
-    ]
-  },
-  {
     "type": "overmap_terrain",
     "id": "fieldoffice",
     "sym": "^",
@@ -98,7 +76,7 @@
           "place_items": [
             { "item": "guns_rifle_common", "chance": 70, "x": [ 20, 21 ], "y": 20 },
             { "item": "tools_hunting", "chance": 80, "x": [ 18, 19 ], "y": 20 },
-            { "item": "fieldoffice_books", "chance": 80, "x": 22, "y": [ 9, 10 ] }
+            { "item": "book_mag_surv", "chance": 80, "x": 22, "y": [ 9, 10 ] }
           ],
           "place_monsters": [
             { "monster": "GROUP_DINOSAUR_HARMLESS", "chance": 2, "x": [ 3, 5 ], "y": [ 10, 12 ], "density": 0.15 },
