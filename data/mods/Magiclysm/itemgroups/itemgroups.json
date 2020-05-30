@@ -159,6 +159,7 @@
       [ "egg_owlbear_rock", 5 ],
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
+      [ "cauldron_orichalcum", 7 ],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
     ]
   },
@@ -186,6 +187,7 @@
         "prob": 15
       },
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      [ "cauldron_orichalcum", 10 ],
       [ "toolbox", 10 ]
     ]
   },
@@ -301,7 +303,8 @@
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
-      { "item": "bag_holding_2", "prob": 1 }
+      { "item": "bag_holding_2", "prob": 1 },
+      { "item": "cauldron_orichalcum", "prob": 100 }
     ]
   },
   {
@@ -1053,6 +1056,7 @@
       },
       [ "crystallized_mana", 50 ],
       [ "copper_circlet", 10 ],
+      [ "cauldron_orichalcum", 1 ],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
