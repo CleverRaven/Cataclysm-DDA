@@ -199,21 +199,6 @@
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 2,
     "value": 150000,
-    "start": {
-      "assign_mission_target": {
-        "om_terrain": "lmoe_whately",
-        "om_special": "Whately_lmoe",
-        "reveal_radius": 3,
-        "must_see": false,
-        "random": true,
-        "search_range": 180
-      },
-    },
-    "end": {
-      "opinion": { "trust": 1, "value": 1 },
-      "update_mapgen": [ { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": [ [ "whately_cousin", 5 ], [ "null", 35 ] ], "x": [ 16, 19 ], "y": [ 15, 22 ] } ],
-      "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
-    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -226,6 +211,21 @@
       "success": "Thanks, now that he knows I'm here he's sent some of my cousins.  Now that I have more disposable help, take a copy of my early research.",
       "success_lie": "What good does this do us?",
       "failure": "I hope he didn't meet Leandrus' fate…"
+    },
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "lmoe_whately",
+        "om_special": "Whately_lmoe",
+        "reveal_radius": 3,
+        "must_see": false,
+        "random": true,
+        "search_range": 180
+      }
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "update_mapgen": [ { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": [ [ "whately_cousin", 5 ], [ "null", 35 ] ], "x": [ 16, 19 ], "y": [ 15, 22 ] } ],
+      "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
     }
   }
 ]

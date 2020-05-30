@@ -151,7 +151,7 @@
         "T": "t_linoleum_white",
         "8": "t_console_broken",
         "W": "t_water_dispenser",
-        "*": "t_utility_light"
+        "*": "t_thconc_floor_olight"
       },
       "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "furniture": {
@@ -217,12 +217,12 @@
         "__||wwww||%%%%||wwww||__",
         "__wZZil.b|%%%%|8....1|__",
         "|||ZZ..cb|%%%%|F.....w__",
-        "|&|A....b|%%%%|e.....|__",
-        "|%+......+%%%%m.....1|__",
+        "|&|A.*..b|%%%%|e.....|__",
+        "|%+......+%%%%m..*..1|__",
         "|S|D ll P|%%%%|E.....|__",
         "||||||||||:++:|h.....|__",
         "__|BB>CoC|1..t|a....1|__",
-        "__|B..*..+.*st|o.....w__",
+        "__|B..*..+.*st|o.*...w__",
         "__|TBBfiB|1..t|......|__",
         "__||||||||||||||w||w||__",
         "________________________"
@@ -241,7 +241,7 @@
         "m": "t_door_metal_c",
         "o": "t_centrifuge",
         "x": "t_console_broken",
-        "*": "t_utility_light",
+        "*": "t_thconc_floor_olight",
         "w": "t_window_bars_curtains",
         ">": "t_wood_stairs_down",
         "_": "t_open_air"
