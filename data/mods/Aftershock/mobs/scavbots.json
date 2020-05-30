@@ -1,0 +1,49 @@
+[
+  {
+    "id": "mon_utilibot",
+    "type": "MONSTER",
+    "name": "utility robot",
+    "looks_like": "mon_hazmatbot",
+    "description": "One of the many models of utility robot formerly in use by government agencies, private corporations, and civilians alike.",
+    "default_faction": "utility_bot",
+    "species": [ "ROBOT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 120,
+    "speed": 70,
+    "material": [ "steel" ],
+    "symbol": "R",
+    "color": "green",
+    "morale": 80,
+    "aggression": 0,
+    "anger_triggers": [ "HURT" ],
+    "armor_bash": 8,
+    "armor_cut": 8,
+    "armor_fire": 4,
+    "armor_acid": 6,
+    "vision_day": 50,
+    "death_function": [ "BROKEN" ],
+    "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_utilibot_beehive",
+    "type": "MONSTER",
+    "copy-from": "mon_utilibot",
+    "name": "bee bot",
+    "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers honey combs.  It protects the insect colony with a mechanical crossbow mounted to its chassis.",
+    "color": "brown",
+    "speed": 50,
+    "aggression": 10,
+    "morale": 20,
+    "fear_triggers": [ "HURT" ],
+    "revert_to_itype": "bot_utilibot_beehive",
+    "biosignature": { "biosig_item": "honeycomb", "biosig_timer": 6 },
+    "//": [ "emit_bee_trail" ],
+    "special_attacks": [
+      [ "PARROT", 10 ]
+    ],
+    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] },
+    "extend": { "flags": [ "STUMBLES", "DROPS_AMMO" ] }
+  }
+]
