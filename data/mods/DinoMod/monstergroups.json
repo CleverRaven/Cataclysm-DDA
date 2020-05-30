@@ -75,6 +75,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FIELDOFFICE_ZOMBIE",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_FOREST",
     "default": "mon_null",
     "is_animal": true,
