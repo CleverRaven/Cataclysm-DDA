@@ -1843,17 +1843,21 @@ void veh_interact::do_remove()
             break;
         }
     }
+    msg.reset();
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     restore_on_out_of_scope<overview_enable_t> prev_overview_enable( overview_enable );
 
-    while( true ) {
+    restore_on_out_of_scope<std::function<void()>> prev_submenu_redraw( submenu_redraw );
+    submenu_redraw = [&]() {
         //redraw list of parts
         werase( w_parts );
         veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos, true );
         wrefresh( w_parts );
+    };
+
+    while( true ) {
         int part = parts_here[ pos ];
 
         bool can_remove = can_remove_part( part, g->u );
@@ -1863,10 +1867,11 @@ void veh_interact::do_remove()
         };
 
         calc_overview();
-        display_overview();
+        ui_manager::redraw();
 
         //read input
         const std::string action = main_context.handle_input();
+        msg.reset();
         if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
             switch( reason ) {
                 case LOW_MORALE:
@@ -1902,11 +1907,6 @@ void veh_interact::do_remove()
             sel_cmd = 'o';
             break;
         } else if( action == "QUIT" ) {
-            werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
-            wrefresh( w_parts );
-            werase( w_msg );
-            wrefresh( w_msg );
             break;
         } else {
             move_in_list( pos, action, parts_here.size() );
