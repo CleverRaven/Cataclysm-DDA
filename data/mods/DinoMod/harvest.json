@@ -49,5 +49,20 @@
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
+  },
+  {
+    "id": "zed_dino_feather_leather",
+    "type": "harvest",
+    "entries": [
+      { "drop": "spider", "type": "bionic_group", "flags": [ "FILTHY" ] },
+      { "drop": "science", "type": "bionic_group", "flags": [ "FILTHY" ] },
+      { "drop": "corpses", "type": "bionic_group", "flags": [ "FILTHY" ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
+    ]
   }
 ]
