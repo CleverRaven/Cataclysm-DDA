@@ -902,5 +902,18 @@
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ] ],
     "components": [ [ [ "lycra_patch", 34 ] ] ]
+  },
+  {
+    "result": "runner_suit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "skills_required": [ "fabrication", 4 ],
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "10 h",
+    "using": [ [ "sewing_standard", 300 ] ],
+    "components": [ [ [ "nylon", 30 ], [ "ballistic_vest_empty", 1 ] ], [ [ "nomex", 20 ] ], [ [ "duct_tape", 200 ] ] ]
   }
 ]

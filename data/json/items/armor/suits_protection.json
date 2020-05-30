@@ -982,5 +982,27 @@
     "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "runner_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "runner suit" },
+    "description": "A lightweight body suit designed for protection and comfort.",
+    "weight": "3200 g",
+    "volume": "4800 ml",
+    "price": 29500,
+    "price_postapoc": 1250,
+    "material": [ "nylon", "nomex" ],
+    "symbol": "[",
+    "looks_like": "wetsuit",
+    "color": "dark_gray",
+    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "coverage": 100,
+    "encumbrance": 10,
+    "warmth": 5,
+    "material_thickness": 4,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   }
 ]
