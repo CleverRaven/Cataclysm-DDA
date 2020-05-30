@@ -712,6 +712,8 @@ void inventory_column::order_by_parent()
         }
     }
 
+    int tries = 0;
+    const int max_tries = entries.size() * 2;
     while( !child_entries.empty() ) {
         const inventory_entry &possible = child_entries.back();
         const item_location parent = possible.locations.front().parent_item();
@@ -727,6 +729,7 @@ void inventory_column::order_by_parent()
                     }
                 }
                 if( found ) {
+                    tries = 0;
                     break;
                 }
             }
@@ -736,6 +739,12 @@ void inventory_column::order_by_parent()
             // move it to the front of the vector to check it again later
             child_entries.insert( child_entries.begin(), possible );
             child_entries.pop_back();
+            tries++;
+        }
+        if( tries > max_tries ) {
+            // the parent might not be in the list, so we add it to the top
+            base_entries.insert( base_entries.begin(), child_entries.begin(), child_entries.end() );
+            child_entries.clear();
         }
     }
 
