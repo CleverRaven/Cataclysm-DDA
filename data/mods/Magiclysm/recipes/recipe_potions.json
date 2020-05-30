@@ -154,6 +154,7 @@
       [ [ "potion_starter", 5 ] ],
       [
         [ "egg_bird", 5 ],
+        [ "egg_bird_unfert", 5 ],
         [ "egg_grouse", 5 ],
         [ "egg_duck", 3 ],
         [ "egg_crow", 5 ],

@@ -33,6 +33,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_bird_unfert",
+    "copy-from": "egg_bird",
+    "looks_like": "egg_bird",
+    "name": { "str": "unfertilized bird egg" },
+    "description": "Nutritious egg laid by a bird.  This one is unfertilized and is probably from a farm.",
+    "rot_spawn_chance": 0
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_grouse",
     "name": "grouse egg",
     "copy-from": "egg_chicken",
