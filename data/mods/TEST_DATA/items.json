@@ -822,7 +822,15 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
     "skill": "pistol",
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glockmag", "glockbigmag" ]
+      }
+    ]
   },
   {
     "id": "test_9mm_ammo",
