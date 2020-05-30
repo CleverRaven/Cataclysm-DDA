@@ -2634,11 +2634,11 @@ static void CheckMessages()
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( g->u.movement_mode_is( CMM_RUN ) ) {
+                if( g->u.is_running() ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
                 // If we're already crouching, make it simple to toggle crouching to off.
-                if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+                if( g->u.is_crouching() ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
 

@@ -23,7 +23,6 @@ template <typename E> struct enum_traits;
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
-enum character_movemode : int;
 
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
@@ -36,13 +35,13 @@ enum class cata_variant_type : int {
     body_part,
     bool_,
     character_id,
-    character_movemode,
     efftype_id,
     hp_part,
     int_,
     itype_id,
     matype_id,
     mtype_id,
+    move_mode_id,
     mutagen_technique,
     mutation_category_id,
     oter_id,
@@ -199,7 +198,7 @@ struct convert<cata_variant_type::character_id> {
 };
 
 template<>
-struct convert<cata_variant_type::character_movemode> : convert_enum<character_movemode> {};
+struct convert<cata_variant_type::move_mode_id> : convert_string_id<move_mode_id> {};
 
 template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};

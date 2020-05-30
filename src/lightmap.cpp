@@ -162,7 +162,7 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    bool is_crouching = g->u.is_crouching();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible

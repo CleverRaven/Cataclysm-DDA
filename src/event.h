@@ -172,7 +172,7 @@ struct event_spec<event_type::avatar_moves> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
             { "mount", cata_variant_type::mtype_id },
             { "terrain", cata_variant_type::ter_id },
-            { "movement_mode", cata_variant_type::character_movemode },
+            { "movement_mode", cata_variant_type::move_mode_id },
             { "underwater", cata_variant_type::bool_ },
             { "z", cata_variant_type::int_ },
         }

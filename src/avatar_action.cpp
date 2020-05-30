@@ -147,13 +147,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        if( you.movement_mode_is( CMM_WALK ) ) {
-            you.increase_activity_level( LIGHT_EXERCISE );
-        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-            you.increase_activity_level( MODERATE_EXERCISE );
-        } else {
-            you.increase_activity_level( ACTIVE_EXERCISE );
-        }
+        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -395,7 +389,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.movement_mode_is( CMM_WALK )
+        && you.is_walking()
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn

@@ -1380,22 +1380,27 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &u = g->u;
+    const std::vector<move_mode_id> &modes = move_modes_by_speed();
+    const int cycle = 1027;
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
 
-    as_m.entries.emplace_back( CMM_RUN, true, 'r', _( "Run" ) );
-    as_m.entries.emplace_back( CMM_WALK, true, 'w', _( "Walk" ) );
-    as_m.entries.emplace_back( CMM_CROUCH, true, 'c', _( "Crouch" ) );
-    as_m.entries.emplace_back( CMM_COUNT, true, '"', _( "Cycle move mode (run/walk/crouch)" ) );
-    as_m.selected = 1;
+    for( size_t i = 0; i < modes.size(); ++i ) {
+        const move_mode_id &curr = modes[i];
+        as_m.entries.emplace_back( i, u.can_switch_to( curr ), curr->letter(), curr->name() );
+    }
+    as_m.entries.emplace_back( cycle, u.can_switch_to( u.current_movement_mode()->cycle() ), '"',
+                               _( "Cycle move mode" ) );
+    // This should select the middle move mode
+    as_m.selected = std::floor( modes.size() / 2 );
     as_m.query();
 
     if( as_m.ret != UILIST_CANCEL ) {
-        if( as_m.ret == CMM_COUNT ) {
+        if( as_m.ret == cycle ) {
             u.cycle_move_mode();
         } else {
-            u.set_movement_mode( static_cast<character_movemode>( as_m.ret ) );
+            u.set_movement_mode( modes[as_m.ret] );
         }
     }
 }
