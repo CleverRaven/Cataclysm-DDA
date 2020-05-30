@@ -93,6 +93,7 @@ class veh_interact
 
         weak_ptr_fast<ui_adaptor> ui;
 
+        cata::optional<std::string> title;
         cata::optional<std::string> msg;
 
         vehicle *veh;
@@ -107,8 +108,6 @@ class veh_interact
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
         player_activity serialize_activity();
-
-        void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
@@ -160,6 +159,38 @@ class veh_interact
         void display_details( const vpart_info *part );
         size_t display_esc( const catacurses::window &win );
 
+        struct part_option {
+            part_option( const std::string &key, vehicle_part *part, char hotkey,
+                         std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
+                key( key ), part( part ), hotkey( hotkey ), details( details ) {}
+
+            part_option( const std::string &key, vehicle_part *part, char hotkey,
+                         std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
+                         std::function<void( const vehicle_part &pt )> message ) :
+                key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
+
+            std::string key;
+            vehicle_part *part;
+
+            /** Can @param action be run for this entry? */
+            char hotkey;
+
+            /** Writes any extra details for this entry */
+            std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
+
+            /** Writes to message window when part is selected */
+            std::function<void( const vehicle_part &pt )> message;
+        };
+        std::vector<part_option> overview_opts;
+        std::map<std::string, std::function<void( const catacurses::window &, int )>> overview_headers;
+        using overview_enable_t = std::function<bool( const vehicle_part &pt )>;
+        using overview_action_t = std::function<void( vehicle_part &pt )>;
+        overview_enable_t overview_enable;
+        overview_action_t overview_action;
+        int overview_pos = -1;
+
+        void calc_overview();
+        void display_overview();
         /**
          * Display overview of parts, optionally with interactive selection of one part
          *
@@ -168,8 +199,8 @@ class veh_interact
                          that will be highlighted
          * @param action callback when part is selected.
          */
-        void overview( const std::function<bool( const vehicle_part &pt )> &enable = {},
-                       const std::function<void( vehicle_part &pt )> &action = {} );
+        void overview( const overview_enable_t &enable = {},
+                       const overview_action_t &action = {} );
         void move_overview_line( int );
 
         void count_durability();
