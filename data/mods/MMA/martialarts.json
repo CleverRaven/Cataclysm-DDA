@@ -4,7 +4,7 @@
     "id": "style_mma_diamond_mind",
     "name": { "str": "Diamond Mind" },
     "description": "True quickness lies in the mind, not the body. A student of the Diamond Mind discipline seeks to hone his perceptions and discipline his thoughts so that he can act in slivers of time so narrow that others cannot even perceive them. A corollary of this speed of thought and action is the concept of the mind as the battleground. An enemy defeated in his mind must inevitably.",
-    "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],    
+    "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
     "strictly_melee": true,
@@ -52,10 +52,7 @@
         "flat_bonuses": [ { "stat": "speed", "scale": 50.0 } ]
       }
     ],
-    "techniques": [ 
-        "mma_tec_diamond_mind_strike",
-        "mma_tec_diamond_mind_crit"
-    ],
+    "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
     "weapons": [
       "fencing_foil",
       "fencing_epee",
