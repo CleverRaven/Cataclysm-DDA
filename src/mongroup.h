@@ -60,7 +60,7 @@ struct MonsterGroupResult {
     MonsterGroupResult() : name( mtype_id::NULL_ID() ), pack_size( 0 ) {
     }
 
-    MonsterGroupResult( const mtype_id &id, int new_pack_size, spawn_data new_data = spawn_data() )
+    MonsterGroupResult( const mtype_id &id, int new_pack_size, spawn_data new_data )
         : name( id ), pack_size( new_pack_size ), data( new_data ) {
     }
 };
