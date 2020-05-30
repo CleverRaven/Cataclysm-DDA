@@ -225,7 +225,16 @@
     "name": "GROUP_PARK_ANIMAL",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
+    "monsters": [
+      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      {
+        "monster": "mon_eoraptor",
+        "freq": 50,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
   },
   {
     "type": "monstergroup",
@@ -256,7 +265,16 @@
     "name": "GROUP_ROOF_ANIMAL",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
+    "monsters": [
+      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      {
+        "monster": "mon_eoraptor",
+        "freq": 50,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
   },
   {
     "type": "monstergroup",
