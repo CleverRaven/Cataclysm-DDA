@@ -93,6 +93,8 @@ class veh_interact
 
         weak_ptr_fast<ui_adaptor> ui;
 
+        std::function<void()> submenu_redraw;
+
         cata::optional<std::string> title;
         cata::optional<std::string> msg;
 
