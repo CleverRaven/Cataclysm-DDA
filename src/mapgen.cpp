@@ -186,7 +186,7 @@ void map::generate( const tripoint &p, const time_point &when )
             random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, *pt );
+                add_spawn( spawn_details, *pt );
             }
         }
     }
@@ -5642,7 +5642,6 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
-
         add_spawn( spawn_details.name, spawn_details.pack_size, { x, y, abs_sub.z },
                    friendly, -1, mission_id, name, spawn_details.data );
     }
@@ -5781,6 +5780,12 @@ std::vector<item *> map::put_items_from_loc( const items_location &loc, const tr
 {
     const auto items = item_group::items_from( loc, turn );
     return spawn_items( p, items );
+}
+
+void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const
+{
+    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
+               spawn_details.data );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
