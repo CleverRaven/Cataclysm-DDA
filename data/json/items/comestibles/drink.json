@@ -1048,7 +1048,7 @@
     "copy-from": "coffee",
     "name": "sweetened coffee",
     "calories": 21,
-    "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Coffee is substantially richer in caffeine than its rival tea. With added sweeter for better taste.",
+    "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Coffee is substantially richer in caffeine than its rival tea.  With added sweeter for better taste.",
     "price": 110,
     "price_postapoc": 60,
     "material": "water",
