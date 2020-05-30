@@ -24,7 +24,7 @@
     "type": "event_transformation",
     "event_type": "character_forgets_spell",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "spell" ]
+    "drop_fields": [ "character" ]
   },
   {
     "id": "num_spells_forgotten",
