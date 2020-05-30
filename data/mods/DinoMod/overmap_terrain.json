@@ -1,0 +1,12 @@
+[
+  {
+    "color": "brown",
+    "id": "dinoexhibit",
+    "mondensity": 2,
+    "name": "Dinosaur Exhibit",
+    "see_cost": 5,
+    "sym": "^",
+    "extras": "build",
+    "type": "overmap_terrain"
+  }
+]
