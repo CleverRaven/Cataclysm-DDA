@@ -274,13 +274,18 @@ static void achievement_attained( const achievement *a, bool achievements_enable
         g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
                                 a->name() );
     }
+    g->events().send<event_type::player_gets_achievement>( a->id, achievements_enabled );
 }
 
 static void achievement_failed( const achievement *a, bool achievements_enabled )
 {
-    if( achievements_enabled && a->is_conduct() ) {
+    if( !a->is_conduct() ) {
+        return;
+    }
+    if( achievements_enabled ) {
         g->u.add_msg_if_player( m_bad, _( "You lost the conduct \"%s\"." ), a->name() );
     }
+    g->events().send<event_type::player_fails_conduct>( a->id, achievements_enabled );
 }
 
 // This is the main game set-up process.

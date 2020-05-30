@@ -30,6 +30,7 @@ enum character_movemode : int;
 
 enum class cata_variant_type : int {
     void_, // Special type for empty variants
+    achievement_id,
     add_type,
     bionic_id,
     body_part,
@@ -154,7 +155,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 23,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 24,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -162,6 +163,9 @@ template<>
 struct convert<cata_variant_type::void_> {
     using type = void;
 };
+
+template<>
+struct convert<cata_variant_type::achievement_id> : convert_string_id<achievement_id> {};
 
 template<>
 struct convert<cata_variant_type::add_type> : convert_enum<add_type> {};

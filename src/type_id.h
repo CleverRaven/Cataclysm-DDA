@@ -5,6 +5,9 @@
 #include "int_id.h"
 #include "string_id.h"
 
+class achievement;
+using achievement_id = string_id<achievement>;
+
 class activity_type;
 using activity_id = string_id<activity_type>;
 

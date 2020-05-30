@@ -456,8 +456,8 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 {
     override_option opt( "24_HOUR", "military" );
 
-    std::map<string_id<achievement>, const achievement *> achievements_completed;
-    std::map<string_id<achievement>, const achievement *> achievements_failed;
+    std::map<achievement_id, const achievement *> achievements_completed;
+    std::map<achievement_id, const achievement *> achievements_failed;
     event_bus b;
     stats_tracker s;
     b.subscribe( &s );
@@ -476,7 +476,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         const cata::event avatar_wakes_up =
             cata::event::make<event_type::character_wakes_up>( u_id );
 
-        string_id<achievement> a_survive_one_day( "achievement_survive_one_day" );
+        achievement_id a_survive_one_day( "achievement_survive_one_day" );
 
         b.send<event_type::game_start>( u_id );
 
@@ -496,10 +496,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
 
-        string_id<achievement> a_kill_10( "achievement_kill_10_monsters" );
-        string_id<achievement> a_kill_100( "achievement_kill_100_monsters" );
-        string_id<achievement> c_pacifist( "conduct_zero_kills" );
-        string_id<achievement> c_merciful( "conduct_zero_character_kills" );
+        achievement_id a_kill_10( "achievement_kill_10_monsters" );
+        achievement_id a_kill_100( "achievement_kill_100_monsters" );
+        achievement_id c_pacifist( "conduct_zero_kills" );
+        achievement_id c_merciful( "conduct_zero_character_kills" );
 
         b.send<event_type::game_start>( u_id );
 
@@ -526,10 +526,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
 
-        string_id<achievement> c_pacifist( "conduct_zero_kills" );
-        string_id<achievement> c_merciful( "conduct_zero_character_kills" );
-        string_id<achievement> a_kill_zombie( "achievement_kill_zombie" );
-        string_id<achievement> a_kill_in_first_minute( "achievement_kill_in_first_minute" );
+        achievement_id c_pacifist( "conduct_zero_kills" );
+        achievement_id c_merciful( "conduct_zero_character_kills" );
+        achievement_id a_kill_zombie( "achievement_kill_zombie" );
+        achievement_id a_kill_in_first_minute( "achievement_kill_in_first_minute" );
 
         b.send<event_type::game_start>( u_id );
 
@@ -649,7 +649,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
                                        character_movemode::CMM_WALK, false, -OVERMAP_DEPTH );
 
         SECTION( "achievement_marathon" ) {
-            string_id<achievement> a_marathon( "achievement_marathon" );
+            achievement_id a_marathon( "achievement_marathon" );
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
@@ -668,7 +668,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         }
 
         SECTION( "achievement_traverse_sharp_terrain" ) {
-            string_id<achievement> a_traverse_sharp_terrain( "achievement_traverse_sharp_terrain" );
+            achievement_id a_traverse_sharp_terrain( "achievement_traverse_sharp_terrain" );
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
@@ -687,7 +687,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         }
 
         SECTION( "achievement_swim_merit_badge" ) {
-            string_id<achievement> a_swim_merit_badge( "achievement_swim_merit_badge" );
+            achievement_id a_swim_merit_badge( "achievement_swim_merit_badge" );
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
@@ -710,7 +710,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         }
 
         SECTION( "achievement_reach_max_z_level" ) {
-            string_id<achievement> a_reach_max_z_level( "achievement_reach_max_z_level" );
+            achievement_id a_reach_max_z_level( "achievement_reach_max_z_level" );
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
@@ -727,7 +727,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         }
 
         SECTION( "achievement_reach_min_z_level" ) {
-            string_id<achievement> a_reach_min_z_level( "achievement_reach_min_z_level" );
+            achievement_id a_reach_min_z_level( "achievement_reach_min_z_level" );
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
@@ -751,4 +751,54 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
     cata::event e = cata::event::make<event_type::awakes_dark_wyrms>();
     g->events().send( e );
     CHECK( g->stats().get_events( e.type() ).count( e.data() ) == 1 );
+}
+
+struct test_subscriber : public event_subscriber {
+    void notify( const cata::event &e ) override {
+        if( e.type() == event_type::player_gets_achievement ||
+            e.type() == event_type::player_fails_conduct ) {
+            events.push_back( e );
+        }
+    }
+
+    std::vector<cata::event> events;
+};
+
+TEST_CASE( "achievements_tracker_in_game", "[stats]" )
+{
+    g->achievements().clear();
+    test_subscriber sub;
+    g->events().subscribe( &sub );
+
+    const character_id u_id = g->u.getID();
+    g->events().send<event_type::game_start>( u_id );
+
+    const mtype_id mon_zombie( "mon_zombie" );
+    const cata::event avatar_zombie_kill =
+        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+    g->events().send( avatar_zombie_kill );
+
+    achievement_id c_pacifist( "conduct_zero_kills" );
+    achievement_id a_kill_zombie( "achievement_kill_zombie" );
+
+    {
+        auto e = std::find_if( sub.events.begin(), sub.events.end(),
+        [&]( const cata::event & e ) {
+            return e.type() == event_type::player_fails_conduct &&
+                   e.get<achievement_id>( "conduct" ) == c_pacifist;
+        }
+                             );
+        REQUIRE( e != sub.events.end() );
+        CHECK( e->get<bool>( "achievements_enabled" ) == true );
+    }
+    {
+        auto e = std::find_if( sub.events.begin(), sub.events.end(),
+        [&]( const cata::event & e ) {
+            return e.type() == event_type::player_gets_achievement &&
+                   e.get<achievement_id>( "achievement" ) == a_kill_zombie;
+        }
+                             );
+        REQUIRE( e != sub.events.end() );
+        CHECK( e->get<bool>( "achievements_enabled" ) == true );
+    }
 }
