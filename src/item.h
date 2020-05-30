@@ -395,6 +395,8 @@ class item : public visitable<item>
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+        void debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
         void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                        int batch, bool debug ) const;
         void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,

@@ -1483,7 +1483,7 @@ double item::average_dps( const player &guy ) const
 }
 
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                       bool debug /* debug */ ) const
+                       bool /* debug */ ) const
 {
     const std::string space = "  ";
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
@@ -1584,6 +1584,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "BASE", _( "Amount: " ), "<num>", iteminfo::no_flags,
                                   charges * batch ) );
     }
+}
+
+void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
+                       bool debug ) const
+{
     if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
         if( g != nullptr ) {
             info.push_back( iteminfo( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
@@ -1605,6 +1610,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 
             const item *food = get_food();
+            const std::string space = "  ";
             if( food && food->goes_bad() ) {
                 info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                           "", iteminfo::lower_is_better,
@@ -3786,6 +3792,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
+        debug_info( info, parts, batch, debug );
     }
 
     if( is_medication() ) {
