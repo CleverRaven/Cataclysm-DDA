@@ -35,6 +35,7 @@
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"

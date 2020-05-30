@@ -38,6 +38,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"

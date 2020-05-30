@@ -46,6 +46,7 @@
 #include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"

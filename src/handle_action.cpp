@@ -50,6 +50,7 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "options.h"

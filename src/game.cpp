@@ -107,6 +107,7 @@
 #include "monexamine.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
