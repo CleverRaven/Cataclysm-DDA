@@ -1,9 +1,9 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "fieldoffice",
+    "id": "dinoexhibit",
     "sym": "^",
-    "name": "wildlife field office",
+    "name": "dinosaur exhibit",
     "color": "brown",
     "see_cost": 5,
     "extras": "build",
