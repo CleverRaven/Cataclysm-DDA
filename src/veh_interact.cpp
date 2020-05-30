@@ -242,40 +242,49 @@ veh_interact::~veh_interact() = default;
 void veh_interact::allocate_windows()
 {
     // grid window
+    const int grid_x = 1;
+    const int grid_y = 1;
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    w_grid = catacurses::newwin( grid_h, grid_w, point( 1, 1 ) );
+    w_grid = catacurses::newwin( grid_h, grid_w, point( grid_x, grid_y ) );
 
-    int mode_h  = 1;
-    int name_h  = 1;
+    const int mode_h  = 1;
+    const int name_h  = 1;
 
     page_size = grid_h - ( mode_h + stats_h + name_h ) - 2;
 
-    int pane_y = 1 + mode_h + 1;
+    const int pane_y = grid_y + mode_h + 1;
 
-    int pane_w = ( grid_w / 3 ) - 1;
+    const int pane_w = ( grid_w / 3 ) - 1;
 
-    int disp_w = grid_w - ( pane_w * 2 ) - 2;
-    int disp_h = page_size * 0.45;
-    int parts_h = page_size - disp_h;
-    int parts_y = pane_y + disp_h;
+    const int disp_w = grid_w - ( pane_w * 2 ) - 2;
+    const int disp_h = page_size * 0.45;
+    const int parts_h = page_size - disp_h;
+    const int parts_y = pane_y + disp_h;
 
-    int name_y = pane_y + page_size + 1;
-    int stats_y = name_y + name_h;
+    const int name_y = pane_y + page_size + 1;
+    const int stats_y = name_y + name_h;
 
-    int list_x = 1 + disp_w + 1;
-    int msg_x  = list_x + pane_w + 1;
+    const int list_x = grid_x + disp_w + 1;
+    const int msg_x  = list_x + pane_w + 1;
+
+    // covers right part of w_name and w_stats in vertical/hybrid
+    const int details_y = name_y;
+    const int details_x = list_x;
+
+    const int details_h = 7;
+    const int details_w = grid_x + grid_w - details_x;
 
     // make the windows
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    w_mode  = catacurses::newwin( mode_h,    grid_w, point( 1, 1 ) );
+    w_mode  = catacurses::newwin( mode_h,    grid_w, point( grid_x, grid_y ) );
     w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
-    w_disp  = catacurses::newwin( disp_h,    disp_w, point( 1, pane_y ) );
-    w_parts = catacurses::newwin( parts_h,   disp_w, point( 1, parts_y ) );
+    w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid_x, pane_y ) );
+    w_parts = catacurses::newwin( parts_h,   disp_w, point( grid_x, parts_y ) );
     w_list  = catacurses::newwin( page_size, pane_w, point( list_x, pane_y ) );
-    w_stats = catacurses::newwin( stats_h,   grid_w, point( 1, stats_y ) );
-    w_name  = catacurses::newwin( name_h,    grid_w, point( 1, name_y ) );
+    w_stats = catacurses::newwin( stats_h,   grid_w, point( grid_x, stats_y ) );
+    w_name  = catacurses::newwin( name_h,    grid_w, point( grid_x, name_y ) );
+    w_details = catacurses::newwin( details_h, details_w, point( details_x, details_y ) );
 }
 
 bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
@@ -369,6 +378,10 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 wrefresh( w_mode );
             } else {
                 display_mode();
+            }
+
+            if( submenu_redraw ) {
+                submenu_redraw();
             }
         } );
     }
@@ -647,13 +660,9 @@ bool veh_interact::is_drive_conflict()
     bool has_conflict = veh->has_engine_conflict( sel_vpart_info, conflict_type );
 
     if( has_conflict ) {
-        werase( w_msg );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
-                        //~ %1$s is fuel_type
-                        string_format( _( "Only one %1$s powered engine can be installed." ),
-                                       conflict_type ) );
-        wrefresh( w_msg );
+        //~ %1$s is fuel_type
+        msg = string_format( _( "Only one %1$s powered engine can be installed." ),
+                             conflict_type );
     }
     return has_conflict;
 }
@@ -670,20 +679,9 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
-static void print_message_to( catacurses::window &w_msg, const nc_color &col,
-                              const std::string &msg )
-{
-    werase( w_msg );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, col, msg );
-    wrefresh( w_msg );
-}
-
 bool veh_interact::can_install_part()
 {
     if( sel_vpart_info == nullptr ) {
-        werase( w_msg );
-        wrefresh( w_msg );
         return false;
     }
 
@@ -691,10 +689,10 @@ bool veh_interact::can_install_part()
         return false;
     }
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
-        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        msg = _( "This vehicle cannot be modified in this way.\n" );
         return false;
     } else if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
-        print_message_to( w_msg, c_light_red, _( "This part cannot be installed.\n" ) );
+        msg = _( "This part cannot be installed.\n" );
         return false;
     }
 
@@ -702,7 +700,7 @@ bool veh_interact::can_install_part()
         if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_tank();
         } ) ) {
-            print_message_to( w_msg, c_light_red, _( "Funnels need to be installed over a tank." ) );
+            msg = _( "Funnels need to be installed over a tank." );
             return false;
         }
     }
@@ -711,7 +709,7 @@ bool veh_interact::can_install_part()
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
         } ) ) {
-            print_message_to( w_msg, c_light_red, _( "Can't install turret on another turret." ) );
+            msg = _( "Can't install turret on another turret." );
             return false;
         }
     }
@@ -748,20 +746,20 @@ bool veh_interact::can_install_part()
 
     const auto reqs = sel_vpart_info->install_requirements();
 
-    std::string msg;
-    bool ok = format_reqs( msg, reqs, sel_vpart_info->install_skills,
+    std::string nmsg;
+    bool ok = format_reqs( nmsg, reqs, sel_vpart_info->install_skills,
                            sel_vpart_info->install_time( g->u ) );
 
-    msg += _( "<color_white>Additional requirements:</color>\n" );
+    nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
     if( dif_eng > 0 ) {
         if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        msg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                              status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
-                              skill_mechanics.obj().name(), dif_eng ) + "\n";
+        nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
+                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
+                               skill_mechanics.obj().name(), dif_eng ) + "\n";
     }
 
     if( dif_steering > 0 ) {
@@ -769,9 +767,9 @@ bool veh_interact::can_install_part()
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        msg += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
-                              status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
-                              skill_mechanics.obj().name(), dif_steering ) + "\n";
+        nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
+                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
+                               skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 
     int lvl = 0;
@@ -812,13 +810,13 @@ bool veh_interact::can_install_part()
     //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                             qual.obj().name, lvl );
-    msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                          colorize( aid_string, aid_color ),
-                          colorize( str_string, str_color ) ) + "\n";
+    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                           colorize( aid_string, aid_color ),
+                           colorize( str_string, str_color ) ) + "\n";
 
-    sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
+    sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
 
-    print_message_to( w_msg, c_light_gray, msg );
+    msg = colorize( nmsg, c_light_gray );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -995,12 +993,13 @@ void veh_interact::do_install()
     // full list of mountable parts, to be filtered according to tab
     std::vector<const vpart_info *> tab_vparts = can_mount;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     int pos = 0;
     size_t tab = 0;
-    while( true ) {
+
+    restore_on_out_of_scope<std::function<void()>> prev_submenu_redraw( submenu_redraw );
+    submenu_redraw = [&]() {
         display_list( pos, tab_vparts, 2 );
 
         // draw tab menu
@@ -1014,13 +1013,18 @@ void veh_interact::do_install()
         }
         wrefresh( w_list );
 
-        sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos]; // filtered list can be empty
-
         display_details( sel_vpart_info );
+    };
+
+    while( true ) {
+        sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos]; // filtered list can be empty
 
         bool can_install = can_install_part();
 
+        ui_manager::redraw();
+
         const std::string action = main_context.handle_input();
+        msg.reset();
         if( action == "FILTER" ) {
             string_input_popup()
             .title( _( "Search for part" ) )
@@ -1029,9 +1033,6 @@ void veh_interact::do_install()
             .max_length( 100 )
             .edit( filter );
             tab = 7; // Move to the user filter tab.
-            display_grid();
-            display_stats();
-            display_veh(); // Fix the (currently) mangled windows
         }
         if( action == "REPAIR" ) {
             filter.clear();
@@ -1093,10 +1094,6 @@ void veh_interact::do_install()
             }
         } else if( action == "QUIT" ) {
             sel_vpart_info = nullptr;
-            werase( w_list );
-            wrefresh( w_list );
-            werase( w_msg );
-            wrefresh( w_msg );
             break;
         } else if( action == "PREV_TAB" || action == "NEXT_TAB" || action == "FILTER" ||
                    action == "REPAIR" ) {
@@ -1114,14 +1111,6 @@ void veh_interact::do_install()
             move_in_list( pos, action, tab_vparts.size(), 2 );
         }
     }
-
-    //destroy w_details
-    werase( w_details );
-    w_details = catacurses::window();
-
-    //restore windows that had been covered by w_details
-    display_stats();
-    display_name();
 }
 
 bool veh_interact::move_in_list( int &pos, const std::string &action, const int size,
@@ -1756,32 +1745,32 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 {
     sel_vehicle_part = &veh->parts[idx];
     sel_vpart_info = &sel_vehicle_part->info();
-    std::string msg;
+    std::string nmsg;
 
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
-        print_message_to( w_msg, c_light_red, _( "This vehicle cannot be modified in this way.\n" ) );
+        msg = _( "This vehicle cannot be modified in this way.\n" );
         return false;
     } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
-        print_message_to( w_msg, c_light_red, _( "This part cannot be uninstalled.\n" ) );
+        msg = _( "This part cannot be uninstalled.\n" );
         return false;
     }
 
     if( sel_vehicle_part->is_broken() ) {
-        msg += string_format(
-                   _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
-                   sel_vehicle_part->name() );
+        nmsg += string_format(
+                    _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
+                    sel_vehicle_part->name() );
     } else {
         item result_of_removal = sel_vehicle_part->properties_to_item();
-        msg += string_format(
-                   _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
-                   sel_vehicle_part->name(), result_of_removal.display_name() );
+        nmsg += string_format(
+                    _( "<color_white>Removing the %1$s will yield:</color>\n> %2$s\n" ),
+                    sel_vehicle_part->name(), result_of_removal.display_name() );
     }
 
     const auto reqs = sel_vpart_info->removal_requirements();
-    bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills,
+    bool ok = format_reqs( nmsg, reqs, sel_vpart_info->removal_skills,
                            sel_vpart_info->removal_time( p ) );
 
-    msg += _( "<color_white>Additional requirements:</color>\n" );
+    nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
     int lvl = 0;
     int str = 0;
@@ -1821,19 +1810,19 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         str_string = string_format( _( "strength %d" ), str );
     }
 
-    msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                          colorize( aid_string, aid_color ),
-                          colorize( str_string, str_color ) ) + "\n";
+    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                           colorize( aid_string, aid_color ),
+                           colorize( str_string, str_color ) ) + "\n";
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
-        msg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) + "\n";
+        nmsg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) + "\n";
         ok = false;
     }
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
-    sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
+    sel_vehicle_part->info().format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
-    print_message_to( w_msg, c_light_gray, msg );
+    msg = colorize( nmsg, c_light_gray );
     return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
@@ -2623,31 +2612,17 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
  */
 void veh_interact::display_details( const vpart_info *part )
 {
-
-    // create details window first if required
-    if( !w_details ) {
-
-        // covers right part of w_name and w_stats in vertical/hybrid
-        const int details_y = getbegy( w_name );
-        const int details_x = getbegx( w_list );
-
-        const int details_h = 7;
-        const int details_w = getbegx( w_grid ) + getmaxx( w_grid ) - details_x;
-
-        // clear rightmost blocks of w_stats to avoid overlap
-        int stats_col_2 = 33;
-        int stats_col_3 = 65 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 );
-        int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
-        for( int i = 0; i < getmaxy( w_stats ); i++ ) {
-            mvwhline( w_stats, point( clear_x, i ), ' ', getmaxx( w_stats ) - clear_x );
-        }
-
-        wrefresh( w_stats );
-
-        w_details = catacurses::newwin( details_h, details_w, point( details_x, details_y ) );
-    } else {
-        werase( w_details );
+    const int details_w = getmaxx( w_details );
+    // clear rightmost blocks of w_stats to avoid overlap
+    int stats_col_2 = 33;
+    int stats_col_3 = 65 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 );
+    int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
+    for( int i = 0; i < getmaxy( w_stats ); i++ ) {
+        mvwhline( w_stats, point( clear_x, i ), ' ', getmaxx( w_stats ) - clear_x );
     }
+    wrefresh( w_stats );
+
+    werase( w_details );
 
     wborder( w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO,
              LINE_XOOX );
@@ -2656,7 +2631,6 @@ void veh_interact::display_details( const vpart_info *part )
         wrefresh( w_details );
         return;
     }
-    int details_w = getmaxx( w_details );
     // displays data in two columns
     int column_width = details_w / 2;
     int col_1 = 2;
