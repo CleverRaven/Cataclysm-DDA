@@ -2249,10 +2249,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
         const std::set<itype_id> compat = magazine_compatible();
-        info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
-        enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
-            return item::nname( id );
-        } ) );
+        if( !compat.empty() ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " ) +
+            enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+                return item::nname( id );
+            } ) );
+        }
     }
 
     if( !gun.valid_mod_locations.empty() && parts->test( iteminfo_parts::DESCRIPTION_GUN_MODS ) ) {
@@ -3012,10 +3014,12 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
             const std::set<itype_id> compat = magazine_compatible();
-            info.emplace_back( "TOOL", _( "Compatible magazines: " ),
-            enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
-                return item::nname( id );
-            } ) );
+            if( !compat.empty() ) {
+                info.emplace_back( "TOOL", _( "Compatible magazines: " ),
+                enumerate_as_string( compat.begin(), compat.end(), []( const itype_id & id ) {
+                    return item::nname( id );
+                } ) );
+            }
         }
     } else if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
         if( !ammo_types().empty() ) {
