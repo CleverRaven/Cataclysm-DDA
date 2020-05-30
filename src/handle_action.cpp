@@ -789,7 +789,7 @@ static void smash()
         }
     }
 
-    const int bash_furn = m.furn( smashp ).obj().bash.str_min;
+    const int bash_furn = m.furn( smashp )->bash.str_min;
     const int bash_ter = m.ter( smashp ).obj().bash.str_min;
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
