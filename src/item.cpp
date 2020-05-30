@@ -1901,7 +1901,9 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
-    if( is_gun() || !ammo_data() || !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
+    // Skip this section for guns, items without ammo data, and items with "battery" ammo
+    if( is_gun() || !ammo_data() || ammo_data()->nname( 1 ) == "battery" ||
+        !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
         return;
     }
 
