@@ -1,8 +1,8 @@
 [
   {
     "type": "overmap_special",
-    "id": "wildlife field office",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "fieldoffice" } ],
+    "id": "dinosaur exhibit",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "dinoexhibit" } ],
     "connections": [ { "point": [ 8, 11, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 1, 15 ],
