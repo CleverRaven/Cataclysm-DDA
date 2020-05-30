@@ -627,7 +627,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
                         iodine, q,
                         "--\n"
                         "You could use it to craft: "
-                        "<color_c_dark_gray>water purification tablet</color>\n" );
+                        "<color_c_dark_gray>water purification tablet</color> and <color_c_dark_gray>antiseptic powder</color>\n" );
                 }
             }
         }

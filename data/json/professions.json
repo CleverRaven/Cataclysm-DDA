@@ -375,6 +375,7 @@
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "fabrication" },
       { "level": 3, "name": "cooking" },
+      { "level": 3, "name": "chemistry" },
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
@@ -446,6 +447,7 @@
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
       { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "chemistry" },
       { "level": 2, "name": "mechanics" },
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "electronics" },
@@ -561,7 +563,7 @@
     "points": 3,
     "skills": [
       { "level": 2, "name": "computer" },
-      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "chemistry" },
       { "level": 2, "name": "electronics" },
       { "level": 2, "name": "mechanics" }
     ],
@@ -1006,6 +1008,7 @@
       { "level": 2, "name": "traps" },
       { "level": 2, "name": "fabrication" },
       { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "chemistry" },
       { "level": 2, "name": "firstaid" },
       { "level": 2, "name": "swimming" },
       { "level": 1, "name": "lockpick" }
@@ -1721,7 +1724,7 @@
     "name": "Volunteer Mutant",
     "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but the scientists say you're ready.  It's time for a field test.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "electronics" } ],
+    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "electronics" } ],
     "items": {
       "both": [ "dress_shirt", "pants", "socks", "boots", "knit_scarf", "coat_lab", "glasses_safety", "wristwatch" ],
       "male": [ "briefs" ],
@@ -2011,6 +2014,7 @@
       { "level": 4, "name": "rifle" },
       { "level": 2, "name": "pistol" },
       { "level": 2, "name": "survival" },
+      { "level": 2, "name": "chemistry" },
       { "level": 1, "name": "cooking" },
       { "level": 1, "name": "fabrication" }
     ],
@@ -2467,7 +2471,7 @@
     "name": "Meth Cook",
     "description": "You clawed your way out of poverty by selling products everyone wanted, and they had the nerve to put you in jail for it.  Too bad you can't sell drugs to zombies or aliens.",
     "points": 1,
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "firstaid" } ],
+    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
@@ -3138,6 +3142,7 @@
       { "level": 3, "name": "melee" },
       { "level": 2, "name": "dodge" },
       { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
     "items": {
@@ -3471,7 +3476,7 @@
     "name": "Science Club Member",
     "description": "The school never let your club play with the really fun chemicals, the kind that make things go boom, but there aren't any teachers around to enforce the rules any more.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "cooking" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "mechanics" } ],
     "items": {
       "both": {
         "items": [ "tshirt", "jacket_light", "jeans", "socks", "sneakers", "knit_scarf", "backpack", "textbook_chemistry", "wristwatch" ],
