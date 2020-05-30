@@ -245,7 +245,7 @@
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
-        "new": [ { "item": "fchicken", "ratio": 3 } ]
+        "new": [ { "item": "fchicken", "ratio": 1 } ]
       },
       {
         "present": [ "ANTIWHEAT", "ANTIJUNK" ],
@@ -262,7 +262,7 @@
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
-        "new": [ { "item": "fchicken", "ratio": 3 } ]
+        "new": [ { "item": "fchicken", "ratio": 1 } ]
       },
       {
         "present": [ "ANTIWHEAT", "ANTIJUNK" ],
