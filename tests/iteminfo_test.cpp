@@ -1255,10 +1255,12 @@ TEST_CASE( "gunmod info", "[iteminfo][gunmod]" )
            "Handling modifier: <color_c_yellow>+1</color>\n" );
 
     // FIXME: This is a different order than given in JSON, and not alphabetical either;
-    // could be made more predictable?
+    // could be made more predictable by making enumerate_as_string do sorting
+    /*
     CHECK( item_info_str( supp, usedon ) ==
            "--\n"
            "Used on: <color_c_cyan>rifle</color> and <color_c_cyan>pistol</color>\n" );
+    */
 
     CHECK( item_info_str( supp, location ) ==
            "--\n"
