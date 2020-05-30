@@ -58,9 +58,7 @@
     "messages": [ "You spot %s's weakpoint and strike", "<npcname> spot %s's weakpoint and strike" ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
-    "flat_bonuses": [ 
-      { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 0.5 }
-    ]
+    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 0.5 } ]
   },
   {
     "type": "technique",
@@ -70,9 +68,7 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "flat_bonuses": [ 
-      { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 1.0 }
-    ]
+    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 1.0 } ]
   },
   {
     "type": "technique",
