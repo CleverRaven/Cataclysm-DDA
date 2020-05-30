@@ -3040,6 +3040,31 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             // No need to display max charges, since charges are always equal to bionic power
         }
     }
+
+    // UPS, rechargeable power cells, and bionic power
+    if( has_flag( flag_USE_UPS ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This tool has been modified to use a <info>universal "
+                                     "power supply</info> and is <neutral>not compatible"
+                                     "</neutral> with <info>standard batteries</info>." ) ) );
+    } else if( has_flag( flag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
+               parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This tool has a <info>rechargeable power cell</info> "
+                                     "and is <neutral>not compatible</neutral> with "
+                                     "<info>standard batteries</info>." ) ) );
+    } else if( has_flag( flag_RECHARGE ) &&
+               parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "* This tool has a <info>rechargeable power cell</info> "
+                                     "and can be recharged in any <neutral>UPS-compatible "
+                                     "recharging station</neutral>. You could charge it with "
+                                     "<info>standard batteries</info>, but unloading it is "
+                                     "impossible." ) ) );
+    } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "* This tool <info>runs on bionic power</info>." ) );
+    }
 }
 
 void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
@@ -3531,32 +3556,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     armor_fit_info( info, parts, batch, debug );
-
-    if( is_tool() ) {
-        if( has_flag( flag_USE_UPS ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has been modified to use a <info>universal "
-                                         "power supply</info> and is <neutral>not compatible"
-                                         "</neutral> with <info>standard batteries</info>." ) ) );
-        } else if( has_flag( flag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
-                   parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has a <info>rechargeable power cell</info> "
-                                         "and is <neutral>not compatible</neutral> with "
-                                         "<info>standard batteries</info>." ) ) );
-        } else if( has_flag( flag_RECHARGE ) &&
-                   parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has a <info>rechargeable power cell</info> "
-                                         "and can be recharged in any <neutral>UPS-compatible "
-                                         "recharging station</neutral>. You could charge it with "
-                                         "<info>standard batteries</info>, but unloading it is "
-                                         "impossible." ) ) );
-        } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
-            info.emplace_back( "DESCRIPTION",
-                               _( "* This tool <info>runs on bionic power</info>." ) );
-        }
-    }
 
     if( has_flag( flag_RADIO_ACTIVATION ) &&
         parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION ) ) {
