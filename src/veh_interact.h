@@ -13,6 +13,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -34,6 +35,7 @@ enum task_reason {
     LOW_LIGHT // Player cannot see enough to work (for operations that require it)
 };
 
+class ui_adaptor;
 class vehicle;
 struct vehicle_part;
 
@@ -89,6 +91,10 @@ class veh_interact
         catacurses::window w_name;
         catacurses::window w_owner;
 
+        weak_ptr_fast<ui_adaptor> ui;
+
+        cata::optional<std::string> msg;
+
         vehicle *veh;
         inventory crafting_inv;
         input_context main_context;
@@ -97,6 +103,8 @@ class veh_interact
         int max_lift;
         // maximum level of available jacking equipment (if any)
         int max_jack;
+
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
         player_activity serialize_activity();
 
@@ -128,19 +136,19 @@ class veh_interact
          * One function for each specific task
          * @warning presently functions may mutate local state
          * @param msg failure message to display (if any)
-         * @return whether a redraw is required (typically necessary if task opened subwindows)
          */
         /*@{*/
-        bool do_install( std::string &msg );
-        bool do_repair( std::string &msg );
-        bool do_mend( std::string &msg );
-        bool do_refill( std::string &msg );
-        bool do_remove( std::string &msg );
-        bool do_rename( std::string &msg );
-        bool do_siphon( std::string &msg );
-        bool do_unload( std::string &msg );
-        bool do_assign_crew( std::string &msg );
-        bool do_relabel( std::string &msg );
+        void do_install();
+        void do_repair();
+        void do_mend();
+        void do_refill();
+        void do_remove();
+        void do_rename();
+        void do_siphon();
+        // Returns true if exiting the screen
+        bool do_unload();
+        void do_assign_crew();
+        void do_relabel();
         /*@}*/
 
         void display_grid();
@@ -158,11 +166,10 @@ class veh_interact
          * @param enable used to determine parts of interest. If \p action also present, these
                          parts are the ones that can be selected. Otherwise, these are the parts
                          that will be highlighted
-         * @param action callback when part is selected, should return true if redraw required.
-         * @return whether redraw is required (always false if no action was run)
+         * @param action callback when part is selected.
          */
-        bool overview( const std::function<bool( const vehicle_part &pt )> &enable = {},
-                       const std::function<bool( vehicle_part &pt )> &action = {} );
+        void overview( const std::function<bool( const vehicle_part &pt )> &enable = {},
+                       const std::function<void( vehicle_part &pt )> &action = {} );
         void move_overview_line( int );
 
         void count_durability();
