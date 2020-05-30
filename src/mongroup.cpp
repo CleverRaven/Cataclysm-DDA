@@ -101,7 +101,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     auto &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
     //Our spawn details specify, by default, a single instance of the default monster
-    MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1 );
+    MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1, spawn_data() );
 
     bool monster_found = false;
     // Loop invariant values
