@@ -246,7 +246,6 @@ void veh_interact::allocate_windows()
     const int grid_y = 1;
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
-    w_grid = catacurses::newwin( grid_h, grid_w, point( grid_x, grid_y ) );
 
     const int mode_h  = 1;
     const int name_h  = 1;
@@ -276,7 +275,7 @@ void veh_interact::allocate_windows()
     const int details_w = grid_x + grid_w - details_x;
 
     // make the windows
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    w_border = catacurses::newwin( TERMY, TERMX, point_zero );
     w_mode  = catacurses::newwin( mode_h,    grid_w, point( grid_x, grid_y ) );
     w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
     w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid_x, pane_y ) );
@@ -325,6 +324,14 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
     return ok;
 }
 
+struct veh_interact::install_info_t {
+    int pos;
+    size_t tab;
+    std::vector<const vpart_info *> tab_vparts;
+    std::array<std::string, 8> tab_list;
+    std::array<std::string, 8> tab_list_short;
+};
+
 shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -341,23 +348,8 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             display_stats();
             display_veh();
 
-            const int hw = getmaxx( w_disp ) / 2;
-            const int hh = getmaxy( w_disp ) / 2;
-            const point vd = -dd;
-            const point q = veh->coord_translate( vd );
-            const tripoint vehp = veh->global_pos3() + q;
-            bool obstruct = g->m.impassable_ter_furn( vehp );
-            const optional_vpart_position ovp = g->m.veh_at( vehp );
-            if( ovp && &ovp->vehicle() != veh ) {
-                obstruct = true;
-            }
-            nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
-            int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
-            mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
-                      special_symbol( sym ) );
-            wrefresh( w_disp );
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part, true );
             wrefresh( w_parts );
 
             werase( w_msg );
@@ -369,20 +361,13 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             }
             wrefresh( w_msg );
 
-            display_overview();
-            if( title.has_value() ) {
-                werase( w_mode );
-                nc_color title_col = c_light_gray;
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                print_colored_text( w_mode, point( 1, 0 ), title_col, title_col, title.value() );
-                wrefresh( w_mode );
+            if( install_info ) {
+                display_list( install_info->pos, install_info->tab_vparts, 2 );
+                display_details( sel_vpart_info );
             } else {
-                display_mode();
+                display_overview();
             }
-
-            if( submenu_redraw ) {
-                submenu_redraw();
-            }
+            display_mode();
         } );
     }
     return current_ui;
@@ -879,7 +864,10 @@ void veh_interact::do_install()
     restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
     title = _( "Choose new part to install here:" );
 
-    std::array<std::string, 8> tab_list = { {
+    restore_on_out_of_scope<std::unique_ptr<install_info_t>> prev_install_info( std::move( install_info ) );
+    install_info = std::make_unique<install_info_t>();
+
+    std::array<std::string, 8> &tab_list = install_info->tab_list = { {
             pgettext( "Vehicle Parts|", "All" ),
             pgettext( "Vehicle Parts|", "Cargo" ),
             pgettext( "Vehicle Parts|", "Light" ),
@@ -891,7 +879,7 @@ void veh_interact::do_install()
         }
     };
 
-    std::array<std::string, 8> tab_list_short = { {
+    install_info->tab_list_short = { {
             pgettext( "Vehicle Parts|", "A" ),
             pgettext( "Vehicle Parts|", "C" ),
             pgettext( "Vehicle Parts|", "L" ),
@@ -991,30 +979,12 @@ void veh_interact::do_install()
     };
 
     // full list of mountable parts, to be filtered according to tab
-    std::vector<const vpart_info *> tab_vparts = can_mount;
+    std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts = can_mount;
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
-    int pos = 0;
-    size_t tab = 0;
-
-    restore_on_out_of_scope<std::function<void()>> prev_submenu_redraw( submenu_redraw );
-    submenu_redraw = [&]() {
-        display_list( pos, tab_vparts, 2 );
-
-        // draw tab menu
-        int tab_x = 0;
-        for( size_t i = 0; i < tab_list.size(); i++ ) {
-            std::string tab_name = ( tab == i ) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
-            tab_x += ( tab == i ); // add a space before selected tab
-            draw_subtab( w_list, tab_x, tab_name, tab == i, false );
-            tab_x += ( 1 + utf8_width( tab_name ) + ( tab ==
-                       i ) ); // one space padding and add a space after selected tab
-        }
-        wrefresh( w_list );
-
-        display_details( sel_vpart_info );
-    };
+    int &pos = install_info->pos = 0;
+    size_t &tab = install_info->tab = 0;
 
     while( true ) {
         sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos]; // filtered list can be empty
@@ -1180,13 +1150,7 @@ void veh_interact::do_repair()
 
     int pos = 0;
 
-    restore_on_out_of_scope<std::function<void()>> prev_submenu_redraw( submenu_redraw );
-    submenu_redraw = [&]() {
-        werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
-                              need_repair[pos], true );
-        wrefresh( w_parts );
-    };
+    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
 
     while( true ) {
         vehicle_part &pt = veh->parts[parts_here[need_repair[pos]]];
@@ -1227,6 +1191,8 @@ void veh_interact::do_repair()
         vp.format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
         msg = colorize( nmsg, c_light_gray );
+
+        highlight_part = need_repair[pos];
 
         ui_manager::redraw();
 
@@ -1849,13 +1815,7 @@ void veh_interact::do_remove()
 
     restore_on_out_of_scope<overview_enable_t> prev_overview_enable( overview_enable );
 
-    restore_on_out_of_scope<std::function<void()>> prev_submenu_redraw( submenu_redraw );
-    submenu_redraw = [&]() {
-        //redraw list of parts
-        werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos, true );
-        wrefresh( w_parts );
-    };
+    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
 
     while( true ) {
         int part = parts_here[ pos ];
@@ -1865,6 +1825,8 @@ void veh_interact::do_remove()
         overview_enable = [this, part]( const vehicle_part & pt ) {
             return &pt == &veh->parts[part];
         };
+
+        highlight_part = pos;
 
         calc_overview();
         ui_manager::redraw();
@@ -2138,7 +2100,6 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 void veh_interact::display_grid()
 {
     // border window
-    catacurses::window w_border = catacurses::newwin( TERMY, TERMX, point_zero );
     draw_border( w_border );
 
     // match grid lines
@@ -2152,39 +2113,36 @@ void veh_interact::display_grid()
     mvwputch( w_border, point( 0, y_list ), BORDER_COLOR, LINE_XXXO );
     // -|
     mvwputch( w_border, point( TERMX - 1, y_list ), BORDER_COLOR, LINE_XOXX );
-    wrefresh( w_border );
-    // TODO: move code using w_border into a separate scope
-    w_border = catacurses::window();
 
-    const int grid_w = getmaxx( w_grid );
+    const int grid_w = getmaxx( w_border ) - 2;
 
     // Two lines dividing the three middle sections.
     for( int i = 1 + getmaxy( w_mode ); i < ( 1 + getmaxy( w_mode ) + page_size ); ++i ) {
         // |
-        mvwputch( w_grid, point( getmaxx( w_disp ), i ), BORDER_COLOR, LINE_XOXO );
+        mvwputch( w_border, point( getmaxx( w_disp ) + 1, i + 1 ), BORDER_COLOR, LINE_XOXO );
         // |
-        mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ), i ), BORDER_COLOR, LINE_XOXO );
+        mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), i + 1 ), BORDER_COLOR, LINE_XOXO );
     }
     // Two lines dividing the vertical menu sections.
     for( int i = 0; i < grid_w; ++i ) {
         // -
-        mvwputch( w_grid, point( i, getmaxy( w_mode ) ), BORDER_COLOR, LINE_OXOX );
+        mvwputch( w_border, point( i + 1, getmaxy( w_mode ) + 1 ), BORDER_COLOR, LINE_OXOX );
         // -
-        mvwputch( w_grid, point( i, getmaxy( w_mode ) + 1 + page_size ), BORDER_COLOR, LINE_OXOX );
+        mvwputch( w_border, point( i + 1, getmaxy( w_mode ) + 2 + page_size ), BORDER_COLOR, LINE_OXOX );
     }
     // Fix up the line intersections.
-    mvwputch( w_grid, point( getmaxx( w_disp ), getmaxy( w_mode ) ), BORDER_COLOR, LINE_OXXX );
+    mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 1 ), BORDER_COLOR, LINE_OXXX );
     // _|_
-    mvwputch( w_grid, point( getmaxx( w_disp ), getmaxy( w_mode ) + 1 + page_size ), BORDER_COLOR,
+    mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 2 + page_size ), BORDER_COLOR,
               LINE_XXOX );
-    mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ), getmaxy( w_mode ) ),
+    mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), getmaxy( w_mode ) + 1 ),
               BORDER_COLOR, LINE_OXXX );
     // _|_
-    mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ),
-                             getmaxy( w_mode ) + 1 + page_size ),
+    mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ),
+                             getmaxy( w_mode ) + 2 + page_size ),
               BORDER_COLOR, LINE_XXOX );
 
-    wrefresh( w_grid );
+    wrefresh( w_border );
 }
 
 /**
@@ -2253,6 +2211,21 @@ void veh_interact::display_veh()
         }
         mvwputch( w_disp, h_size + q, col, special_symbol( sym ) );
     }
+
+    const int hw = getmaxx( w_disp ) / 2;
+    const int hh = getmaxy( w_disp ) / 2;
+    const point vd = -dd;
+    const point q = veh->coord_translate( vd );
+    const tripoint vehp = veh->global_pos3() + q;
+    bool obstruct = g->m.impassable_ter_furn( vehp );
+    const optional_vpart_position ovp = g->m.veh_at( vehp );
+    if( ovp && &ovp->vehicle() != veh ) {
+        obstruct = true;
+    }
+    nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
+    int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
+    mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
+              special_symbol( sym ) );
     wrefresh( w_disp );
 }
 
@@ -2500,6 +2473,17 @@ void veh_interact::display_stats() const
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ),
                                 ( x[ i ] + 10 < getmaxx( w_stats ) ) );
 
+    if( install_info ) {
+        const int details_w = getmaxx( w_details );
+        // clear rightmost blocks of w_stats to avoid overlap
+        int stats_col_2 = 33;
+        int stats_col_3 = 65 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 );
+        int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
+        for( int i = 0; i < getmaxy( w_stats ); i++ ) {
+            mvwhline( w_stats, point( clear_x, i ), ' ', getmaxx( w_stats ) - clear_x );
+        }
+    }
+
     wrefresh( w_stats );
 }
 
@@ -2522,51 +2506,56 @@ void veh_interact::display_mode()
 {
     werase( w_mode );
 
-    size_t esc_pos = display_esc( w_mode );
+    if( title.has_value() ) {
+        nc_color title_col = c_light_gray;
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        print_colored_text( w_mode, point( 1, 0 ), title_col, title_col, title.value() );
+    } else {
+        size_t esc_pos = display_esc( w_mode );
 
-    // broken indentation preserved to avoid breaking git history for large number of lines
-    const std::array<std::string, 10> actions = { {
-            { _( "<i>nstall" ) },
-            { _( "<r>epair" ) },
-            { _( "<m>end" ) },
-            { _( "re<f>ill" ) },
-            { _( "rem<o>ve" ) },
-            { _( "<s>iphon" ) },
-            { _( "unloa<d>" ) },
-            { _( "cre<w>" ) },
-            { _( "r<e>name" ) },
-            { _( "l<a>bel" ) },
+        // broken indentation preserved to avoid breaking git history for large number of lines
+        const std::array<std::string, 10> actions = { {
+                { _( "<i>nstall" ) },
+                { _( "<r>epair" ) },
+                { _( "<m>end" ) },
+                { _( "re<f>ill" ) },
+                { _( "rem<o>ve" ) },
+                { _( "<s>iphon" ) },
+                { _( "unloa<d>" ) },
+                { _( "cre<w>" ) },
+                { _( "r<e>name" ) },
+                { _( "l<a>bel" ) },
+            }
+        };
+
+        const std::array<bool, std::tuple_size<decltype( actions )>::value> enabled = { {
+                !cant_do( 'i' ),
+                !cant_do( 'r' ),
+                !cant_do( 'm' ),
+                !cant_do( 'f' ),
+                !cant_do( 'o' ),
+                !cant_do( 's' ),
+                !cant_do( 'd' ),
+                !cant_do( 'w' ),
+                true,          // 'rename' is always available
+                !cant_do( 'a' ),
+            }
+        };
+
+        int pos[std::tuple_size<decltype( actions )>::value + 1];
+        pos[0] = 1;
+        for( size_t i = 0; i < actions.size(); i++ ) {
+            pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
         }
-    };
-
-    const std::array<bool, std::tuple_size<decltype( actions )>::value> enabled = { {
-            !cant_do( 'i' ),
-            !cant_do( 'r' ),
-            !cant_do( 'm' ),
-            !cant_do( 'f' ),
-            !cant_do( 'o' ),
-            !cant_do( 's' ),
-            !cant_do( 'd' ),
-            !cant_do( 'w' ),
-            true,          // 'rename' is always available
-            !cant_do( 'a' ),
+        int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
+        int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
+                                        ( actions.size() - 1 ) ) / 2 ) - 1;
+        for( size_t i = 0; i < actions.size(); i++ ) {
+            shortcut_print( w_mode, point( pos[i] + spacing * i + shift, 0 ),
+                            enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
+                            actions[i] );
         }
-    };
-
-    int pos[std::tuple_size<decltype( actions )>::value + 1];
-    pos[0] = 1;
-    for( size_t i = 0; i < actions.size(); i++ ) {
-        pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
     }
-    int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
-    int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
-                                    ( actions.size() - 1 ) ) / 2 ) - 1;
-    for( size_t i = 0; i < actions.size(); i++ ) {
-        shortcut_print( w_mode, point( pos[i] + spacing * i + shift, 0 ),
-                        enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
-                        actions[i] );
-    }
-
     wrefresh( w_mode );
 }
 
@@ -2576,7 +2565,6 @@ size_t veh_interact::display_esc( const catacurses::window &win )
     // right text align
     size_t pos = getmaxx( win ) - utf8_width( backstr ) + 2;
     shortcut_print( win, point( pos, 0 ), c_light_gray, c_light_green, backstr );
-    wrefresh( win );
     return pos;
 }
 
@@ -2601,6 +2589,21 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );
     }
+
+    if( install_info ) {
+        auto &tab_list = install_info->tab_list;
+        auto &tab_list_short = install_info->tab_list_short;
+        auto &tab = install_info->tab;
+        // draw tab menu
+        int tab_x = 0;
+        for( size_t i = 0; i < tab_list.size(); i++ ) {
+            std::string tab_name = ( tab == i ) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
+            tab_x += ( tab == i ); // add a space before selected tab
+            draw_subtab( w_list, tab_x, tab_name, tab == i, false );
+            tab_x += ( 1 + utf8_width( tab_name ) + ( tab ==
+                       i ) ); // one space padding and add a space after selected tab
+        }
+    }
     wrefresh( w_list );
 }
 
@@ -2611,14 +2614,6 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
 void veh_interact::display_details( const vpart_info *part )
 {
     const int details_w = getmaxx( w_details );
-    // clear rightmost blocks of w_stats to avoid overlap
-    int stats_col_2 = 33;
-    int stats_col_3 = 65 + ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 );
-    int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
-    for( int i = 0; i < getmaxy( w_stats ); i++ ) {
-        mvwhline( w_stats, point( clear_x, i ), ' ', getmaxx( w_stats ) - clear_x );
-    }
-    wrefresh( w_stats );
 
     werase( w_details );
 

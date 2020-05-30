@@ -80,7 +80,7 @@ class veh_interact
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
         // height of the stats window
         const int stats_h = 8;
-        catacurses::window w_grid;
+        catacurses::window w_border;
         catacurses::window w_mode;
         catacurses::window w_msg;
         catacurses::window w_disp;
@@ -89,14 +89,16 @@ class veh_interact
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
-        catacurses::window w_owner;
 
         weak_ptr_fast<ui_adaptor> ui;
 
-        std::function<void()> submenu_redraw;
-
         cata::optional<std::string> title;
         cata::optional<std::string> msg;
+
+        int highlight_part = -1;
+
+        struct install_info_t;
+        std::unique_ptr<install_info_t> install_info;
 
         vehicle *veh;
         inventory crafting_inv;
