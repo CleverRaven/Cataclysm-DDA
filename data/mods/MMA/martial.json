@@ -1,5 +1,14 @@
 [
   {
+    "id": "manual_mma_desert_wind",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Scorching Sirocco" },
+    "description": "This book contains the teaching of the Desert Wind discipline.",
+    "book_data": { "martial_art": "style_mma_desert_wind" }
+  },
+  {
     "id": "manual_mma_panzer",
     "copy-from": "book_martial",
     "looks_like": "manual_karate",
