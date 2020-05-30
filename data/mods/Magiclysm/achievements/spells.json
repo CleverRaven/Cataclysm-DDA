@@ -80,5 +80,5 @@
     "type": "achievement",
     "name": "Spell Level 30",
     "requirements": [ {"event_statistic": "avatar_max_spell_level", "is": ">=", "target": 30 } ]
-  },
+  }
 ]
