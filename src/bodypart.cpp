@@ -360,7 +360,7 @@ body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 
 body_part_set body_part_set::substract_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &j : parts ) {
+    for( const  bodypart_str_id &j : rhs.parts ) {
         if( parts.count( j ) > 0 ) {
             parts.erase( j );
         }
