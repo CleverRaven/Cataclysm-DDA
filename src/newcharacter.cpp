@@ -43,6 +43,7 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "popup.h"
 #include "profession.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -187,7 +188,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     init_age = rng( 16, 55 );
     // if adjusting min and max height from 145 and 200, make sure to see set_description()
     init_height = rng( 145, 200 );
-    blood_type = static_cast<blood_types>( rng( 0, 7 ) );
+    randomize_blood();
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -2321,8 +2322,8 @@ static void draw_blood( const catacurses::window &w_blood, const avatar &you, co
     werase( w_blood );
     mvwprintz( w_blood, point_zero, highlight ? h_light_gray : c_light_gray, _( "Blood type:" ) );
     unsigned blood_pos = 1 + utf8_width( _( "Blood type:" ) );
-    mvwprintz( w_blood, point( blood_pos, 0 ), c_white, string_format( "%s",
-               blood_types_strs.at( you.blood_type ) ) );
+    mvwprintz( w_blood, point( blood_pos, 0 ), c_white,
+               io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
     wrefresh( w_blood );
 }
 } // namespace char_creation
@@ -2680,6 +2681,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 case char_creation::BLOOD:
                     current_selector = char_creation::NAME;
+                    break;
             }
         } else if( action == "LEFT" ) {
             switch( current_selector ) {
@@ -2709,10 +2711,16 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     }
                     break;
                 case char_creation::BLOOD:
-                    if( you.blood_type != AB_MINUS ) {
-                        you.blood_type = static_cast<blood_types>( static_cast<int>( you.blood_type ) + 1 );
+                    if( !you.blood_rh_factor ) {
+                        you.blood_rh_factor = true;
+                        break;
+                    }
+                    if( static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 ) != blood_type::num_bt ) {
+                        you.my_blood_type = static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 );
+                        you.blood_rh_factor = false;
                     } else {
-                        you.blood_type = O_PLUS;
+                        you.my_blood_type = static_cast<blood_type>( 0 );
+                        you.blood_rh_factor = false;
                     }
                     break;
                 default:
@@ -2731,10 +2739,16 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     }
                     break;
                 case char_creation::BLOOD:
-                    if( you.blood_type != O_PLUS ) {
-                        you.blood_type = static_cast<blood_types>( static_cast<int>( you.blood_type ) - 1 );
+                    if( you.blood_rh_factor ) {
+                        you.blood_rh_factor = false;
+                        break;
+                    }
+                    if( you.my_blood_type != static_cast<blood_type>( 0 ) ) {
+                        you.my_blood_type = static_cast<blood_type>( static_cast<int>( you.my_blood_type ) - 1 );
+                        you.blood_rh_factor = true;
                     } else {
-                        you.blood_type = AB_MINUS;
+                        you.my_blood_type = static_cast<blood_type>( static_cast<int>( blood_type::num_bt ) - 1 );
+                        you.blood_rh_factor = true;
                     }
                     break;
                 default:
@@ -2762,7 +2776,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             }
             you.set_base_age( rng( 16, 55 ) );
             you.set_base_height( rng( 145, 200 ) );
-            you.blood_type = static_cast<blood_types>( rng( 0, 7 ) );
+            you.randomize_blood();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {
@@ -2809,6 +2823,38 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     const int result = popup.query_int();
                     if( result != 0 ) {
                         you.set_base_height( clamp( popup.query_int(), 145, 200 ) );
+                    }
+                    break;
+                }
+                case char_creation::BLOOD: {
+                    popup.title( _( "Enter blood type (omit Rh):" ) )
+                    .text( io::enum_to_string( you.my_blood_type ) )
+                    .only_digits( false );
+                    std::string answer = popup.query_string();
+                    if( answer == "O" || answer == "o" || answer == "0" ) {
+                        you.my_blood_type = blood_type::blood_O;
+                    } else if( answer == "A" || answer == "a" ) {
+                        you.my_blood_type = blood_type::blood_A;
+                    } else if( answer == "B" || answer == "b" ) {
+                        you.my_blood_type = blood_type::blood_B;
+                    } else if( answer == "AB" || answer == "ab" ) {
+                        you.my_blood_type = blood_type::blood_AB;
+                    } else {
+                        popup_getkey( "%s", _( "Invalid blood type." ) );
+                        break;
+                    }
+                    string_input_popup popup2;
+                    popup2.title( _( "Enter Rh factor:" ) )
+                    .text( you.blood_rh_factor ? "+" : "-" )
+                    .only_digits( false );
+                    answer = popup2.query_string();
+                    if( answer == "+" || answer == "plus" || answer == "positive" ) {
+                        you.blood_rh_factor = true;
+                    } else if( answer == "-" || answer == "minus" || answer == "negative" ) {
+                        you.blood_rh_factor = false;
+                    } else {
+                        popup_getkey( "%s", _( "Invalid blood type." ) );
+                        break;
                     }
                     break;
                 }
