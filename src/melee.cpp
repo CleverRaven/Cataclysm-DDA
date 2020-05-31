@@ -105,6 +105,8 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_KI_STRIKE( "KI_STRIKE" );
+static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
@@ -113,7 +115,7 @@ static const trait_id trait_VINES3( "VINES3" );
 
 static const efftype_id effect_amigara( "amigara" );
 
-static const species_id HUMAN( "HUMAN" );
+static const species_id species_HUMAN( "HUMAN" );
 
 void player_hit_message( Character *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
@@ -860,6 +862,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill = BIO_CQB_LEVEL;
     }
 
+    if( has_trait( trait_KI_STRIKE ) && unarmed && weap.is_null() ) {
+        // Pure unarmed doubles the bonuses from unarmed skill
+        skill *= 2;
+    }
+
     const int stat = get_str();
     /** @EFFECT_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
@@ -918,6 +925,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
+
+    if( has_trait( trait_KI_STRIKE ) && unarmed ) {
+        /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
+        weap_dam += skill;
+    }
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     if( skill < 5 ) {
@@ -1188,7 +1200,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         }
 
         // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !t.in_species( HUMAN ) ) {
+        if( tec.human_target && !t.in_species( species_HUMAN ) ) {
             continue;
         }
         // if aoe, check if there are valid targets
@@ -1611,6 +1623,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         } else if( has_shield ) {
             // We can still block with a worn item while unarmed. Use higher of melee and unarmed
             block_score = str_cur + block_bonus + std::max( melee_skill, unarmed_skill );
+        } else {
+            // We don't have a shield or a technique. How are we blocking?
+            return false;
         }
     } else if( has_shield ) {
         block_score = str_cur + block_bonus + get_skill_level( skill_melee );
@@ -1656,7 +1671,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit->token ) ? block_bonus : 0;
+        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -1948,7 +1963,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts.test( mut_atk.bp ) ) {
+            if( mut_atk.bp != num_bp && !usable_body_parts.test( convert_bp( mut_atk.bp ) ) ) {
                 continue;
             }
 

@@ -5,6 +5,9 @@
 #include "int_id.h"
 #include "string_id.h"
 
+class achievement;
+using achievement_id = string_id<achievement>;
+
 class activity_type;
 using activity_id = string_id<activity_type>;
 
@@ -130,6 +133,9 @@ using spell_id = string_id<spell_type>;
 
 class start_location;
 using start_location_id = string_id<start_location>;
+
+class move_mode;
+using move_mode_id = string_id<move_mode>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

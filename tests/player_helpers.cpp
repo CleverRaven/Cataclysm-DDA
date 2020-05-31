@@ -83,7 +83,7 @@ void clear_character( player &dummy, bool debug_storage )
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
-    dummy.set_movement_mode( CMM_WALK );
+    dummy.set_movement_mode( move_mode_id( "walk" ) );
     dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.

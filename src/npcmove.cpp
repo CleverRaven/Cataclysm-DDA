@@ -89,7 +89,7 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_lightning( "bio_chain_lightning" );
+static const bionic_id bio_chain_lightning( "bio_chain_lightning" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -113,7 +113,7 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
-static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
@@ -181,7 +181,7 @@ const std::vector<bionic_id> health_cbms = { {
 
 // lightning, laser, blade, claws in order of use priority
 const std::vector<bionic_id> weapon_cbms = { {
-        bio_lightning,
+        bio_chain_lightning,
         bio_laser,
         bio_blade,
         bio_claws
@@ -669,7 +669,7 @@ void npc::regen_ai_cache()
                 const mission_goal &mgoal = miss->get_type().goal;
                 if( ( mgoal == MGOAL_FIND_ITEM || mgoal == MGOAL_FIND_ANY_ITEM ||
                       mgoal == MGOAL_FIND_ITEM_GROUP ) &&
-                    has_effect( effect_npc_player_looking ) ) {
+                    has_effect( effect_npc_player_still_looking ) ) {
                     continue;
                 }
                 if( global_omt_location() != g->u.global_omt_location() ) {
@@ -4529,7 +4529,7 @@ bool npc::adjust_worn()
     const auto covers_broken = [this]( const item & it, side s ) {
         const auto covered = it.get_covered_body_parts( s );
         for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
+            if( hp_cur[ i ] <= 0 && covered.test( convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ) ) ) {
                 return true;
             }
         }
@@ -4553,7 +4553,7 @@ bool npc::adjust_worn()
     return false;
 }
 
-void npc::set_movement_mode( character_movemode new_mode )
+void npc::set_movement_mode( const move_mode_id &new_mode )
 {
     move_mode = new_mode;
 }

@@ -791,7 +791,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "count-min": 6, "count-max": 12 },
       { "item": "milk", "prob": 80 },
       { "item": "milk_raw", "prob": 5 },
       { "item": "milk_raw", "prob": 5 },

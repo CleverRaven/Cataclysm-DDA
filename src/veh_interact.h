@@ -161,8 +161,8 @@ class veh_interact
          * @param action callback when part is selected, should return true if redraw required.
          * @return whether redraw is required (always false if no action was run)
          */
-        bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
-                       std::function<bool( vehicle_part &pt )> action = {} );
+        bool overview( const std::function<bool( const vehicle_part &pt )> &enable = {},
+                       const std::function<bool( vehicle_part &pt )> &action = {} );
         void move_overview_line( int );
 
         void count_durability();

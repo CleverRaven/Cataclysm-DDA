@@ -307,6 +307,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "flare_nitrate",
+    "name": "flare pyrotechnic",
+    "default": "flare_nitrate"
+  },
+  {
+    "type": "ammunition_type",
     "id": "match",
     "name": "match",
     "default": "match"
@@ -460,6 +466,12 @@
     "id": "ampoule",
     "name": "chemical ampoule",
     "default": "ampoule"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "albuterol",
+    "name": "albuterol",
+    "default": "albuterol"
   },
   {
     "type": "ammunition_type",

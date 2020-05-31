@@ -13,6 +13,7 @@ add_library(
     NoStaticGettextCheck.cpp
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
+    StaticStringIdConstantsCheck.cpp
     StringLiteralIterator.cpp
     TestFilenameCheck.cpp
     TextStyleCheck.cpp

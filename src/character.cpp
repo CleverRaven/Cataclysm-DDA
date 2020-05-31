@@ -51,6 +51,7 @@
 #include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -89,7 +90,6 @@
 struct dealt_projectile_attack;
 
 static const activity_id ACT_DROP( "ACT_DROP" );
-static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -153,7 +153,7 @@ static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_melatonin_supplements( "melatonin" );
+static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
@@ -165,7 +165,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
-static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_tied( "tied" );
@@ -176,10 +176,9 @@ static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_beartrap( "breatrap" );
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
@@ -197,8 +196,8 @@ static const skill_id skill_smg( "smg" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
-static const species_id HUMAN( "HUMAN" );
-static const species_id ROBOT( "ROBOT" );
+static const species_id species_HUMAN( "HUMAN" );
+static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -367,27 +366,6 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-namespace io
-{
-
-template<>
-std::string enum_to_string<character_movemode>( character_movemode data )
-{
-    switch( data ) {
-            // *INDENT-OFF*
-        case character_movemode::CMM_WALK: return "walk";
-        case character_movemode::CMM_RUN: return "run";
-        case character_movemode::CMM_CROUCH: return "crouch";
-            // *INDENT-ON*
-        case character_movemode::CMM_COUNT:
-            break;
-    }
-    debugmsg( "Invalid character_movemode" );
-    abort();
-}
-
-} // namespace io
-
 // *INDENT-OFF*
 Character::Character() :
 
@@ -440,7 +418,7 @@ Character::Character() :
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
-    move_mode = CMM_WALK;
+    move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );
@@ -506,7 +484,7 @@ field_type_id Character::gibType() const
 
 bool Character::in_species( const species_id &spec ) const
 {
-    return spec == HUMAN;
+    return spec == species_HUMAN;
 }
 
 bool Character::is_warm() const
@@ -901,8 +879,8 @@ int Character::swim_speed() const
         }
     }
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
-    float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
-                            ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
+    float hand_bonus_mult = ( usable.test( bodypart_str_id( "hand_l" ) ) ? 0.5f : 0.0f ) +
+                            ( usable.test( bodypart_str_id( "hand_r" ) ) ? 0.5f : 0.0f );
 
     // base swim speed.
     ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
@@ -951,14 +929,7 @@ int Character::swim_speed() const
         ret -= 50;
     }
 
-    // Running movement mode while swimming means faster swim style, like crawlstroke
-    if( move_mode == CMM_RUN ) {
-        ret -= 80;
-    }
-    // Crouching movement mode while swimming means slower swim style, like breaststroke
-    if( move_mode == CMM_CROUCH ) {
-        ret += 50;
-    }
+    ret += move_mode->swim_speed_mod();
 
     if( ret < 30 ) {
         ret = 30;
@@ -1069,9 +1040,9 @@ void Character::mount_creature( monster &z )
         if( g->u.is_hauling() ) {
             g->u.stop_hauling();
         }
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
+        if( g->u.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            g->u.grab( object_type::NONE );
         }
         g->place_player( pnt );
     } else {
@@ -1125,7 +1096,7 @@ bool Character::check_mount_is_spooked()
     // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         const m_size mount_size = mounted_creature->get_size();
-        const bool saddled = mounted_creature->has_effect( effect_saddled );
+        const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
         for( const monster &critter : g->all_monsters() ) {
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
@@ -1239,11 +1210,11 @@ void Character::forced_dismount()
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
     if( is_avatar() ) {
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
+        if( g->u.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            g->u.grab( object_type::NONE );
         }
-        set_movement_mode( CMM_WALK );
+        set_movement_mode( move_mode_id( "walk" ) );
         if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
             g->u.clear_destination();
         }
@@ -1272,9 +1243,9 @@ void Character::dismount()
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
             remove_item( weapon );
         }
-        if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
+        if( is_avatar() && g->u.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
+            g->u.grab( object_type::NONE );
         }
         critter->remove_effect( effect_ridden );
         critter->add_effect( effect_controlled, 5_turns );
@@ -1283,7 +1254,7 @@ void Character::dismount()
         setpos( *pnt );
         g->refresh_all();
         mod_moves( -100 );
-        set_movement_mode( CMM_WALK );
+        set_movement_mode( move_mode_id( "walk" ) );
     }
 }
 
@@ -1340,7 +1311,7 @@ bool Character::is_limb_broken( hp_part limb ) const
     return hp_cur[limb] == 0;
 }
 
-bool Character::can_run()
+bool Character::can_run() const
 {
     return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
@@ -1559,14 +1530,35 @@ bool Character::move_effects( bool attacking )
     return true;
 }
 
-character_movemode Character::get_movement_mode() const
+move_mode_id Character::current_movement_mode() const
 {
     return move_mode;
 }
 
-bool Character::movement_mode_is( const character_movemode mode ) const
+bool Character::movement_mode_is( const move_mode_id &mode ) const
 {
     return move_mode == mode;
+}
+
+bool Character::is_running() const
+{
+    return move_mode->type() == move_mode_type::RUNNING;
+}
+
+bool Character::is_walking() const
+{
+    return move_mode->type() == move_mode_type::WALKING;
+}
+
+bool Character::is_crouching() const
+{
+    return move_mode->type() == move_mode_type::CROUCHING;
+}
+
+bool Character::can_switch_to( const move_mode_id &mode ) const
+{
+    // Only running modes are restricted at the moment
+    return mode->type() != move_mode_type::RUNNING || can_run();
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
@@ -1814,7 +1806,7 @@ void Character::check_item_encumbrance_flag()
 bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp->token ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
+        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
             !i.has_flag( "SEMITANGIBLE" ) &&
             !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
             return true;
@@ -2127,7 +2119,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
         moves -= item_wear_cost( to_wear );
 
         for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( to_wear.covers( bp->token ) && encumb( bp->token ) >= 40 ) {
+            if( to_wear.covers( bp ) && encumb( bp->token ) >= 40 ) {
                 add_msg_if_player( m_warning,
                                    bp == bodypart_id( "eyes" ) ?
                                    _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
@@ -2253,7 +2245,7 @@ item *Character::try_add( item it, const item *avoid )
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const invlets_bitset cur_inv = allocated_invlets();
-    for( auto iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv.assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -2309,7 +2301,7 @@ item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
     }
 }
 
-std::list<item> Character::remove_worn_items_with( std::function<bool( item & )> filter )
+std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
@@ -2946,7 +2938,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                                     it.type_name() );
             }
         }
-        if( it.covers( bp_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
+        if( it.covers( bodypart_id( "head" ) ) && !it.has_flag( flag_SEMITANGIBLE ) &&
             !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
             !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
@@ -2960,7 +2952,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_SPLINT ) ) {
         bool need_splint = false;
         for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( !it.covers( bp->token ) ) {
+            if( !it.covers( bp ) ) {
                 continue;
             }
             if( is_limb_broken( bp_to_hp( bp->token ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
@@ -2987,12 +2979,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
+            if( elem.get_covered_body_parts().make_intersection( it.get_covered_body_parts() ).any() &&
                 !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
-        if( !it.covers( bp_torso ) ) {
+        if( !it.covers( bodypart_id( "torso" ) ) ) {
             bool power_armor = false;
             if( !worn.empty() ) {
                 for( auto &elem : worn ) {
@@ -3018,7 +3010,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
         if( !it.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( ( is_wearing_power_armor( &has_helmet ) &&
-                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
+                ( has_helmet || !( it.covers( bodypart_id( "head" ) ) || it.covers( bodypart_id( "mouth" ) ) ||
+                                   it.covers( bodypart_id( "eyes" ) ) ) ) ) ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
         }
     }
@@ -3041,8 +3034,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
     }
 
-    if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( side::LEFT ) ) ||
-          ( it.covers( bp_foot_r ) && is_wearing_shoes( side::RIGHT ) ) ) &&
+    if( ( ( it.covers( bodypart_id( "foot_l" ) ) && is_wearing_shoes( side::LEFT ) ) ||
+          ( it.covers( bodypart_id( "foot_r" ) ) && is_wearing_shoes( side::RIGHT ) ) ) &&
         ( !it.has_flag( flag_OVERSIZE ) || !it.has_flag( flag_OUTER ) ) && !it.has_flag( flag_SKINTIGHT ) &&
         !it.has_flag( flag_BELTED ) && !it.has_flag( flag_PERSONAL ) && !it.has_flag( flag_AURA ) &&
         !it.has_flag( flag_SEMITANGIBLE ) ) {
@@ -3051,7 +3044,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                               : string_format( _( "%s is already wearing footwear!" ), name ) ) );
     }
 
-    if( it.covers( bp_head ) &&
+    if( it.covers( bodypart_id( "head" ) ) &&
         !it.has_flag( flag_HELMET_COMPAT ) && !it.has_flag( flag_SKINTIGHT ) &&
         !it.has_flag( flag_PERSONAL ) &&
         !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
@@ -3061,7 +3054,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                               : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
     }
 
-    if( it.covers( bp_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
+    if( it.covers( bodypart_id( "head" ) ) && !it.has_flag( flag_SEMITANGIBLE ) &&
         ( it.has_flag( flag_SKINTIGHT ) || it.has_flag( flag_HELMET_COMPAT ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
@@ -3124,7 +3117,7 @@ bool Character::is_wielding( const item &target ) const
 
 bool Character::is_wearing( const itype_id &it ) const
 {
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         if( i.typeId() == it ) {
             return true;
         }
@@ -3134,8 +3127,8 @@ bool Character::is_wearing( const itype_id &it ) const
 
 bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const
 {
-    for( auto &i : worn ) {
-        if( i.typeId() == it && i.covers( bp->token ) ) {
+    for( const item &i : worn ) {
+        if( i.typeId() == it && i.covers( bp ) ) {
             return true;
         }
     }
@@ -3146,7 +3139,7 @@ bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp )
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
         return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
-                                        it.covers( bp->token ) );
+                                        it.covers( bp ) );
     } );
 }
 
@@ -3155,7 +3148,7 @@ item Character::item_worn_with_flag( const std::string &flag, const bodypart_id 
     item it_with_flag;
     for( const item &it : worn ) {
         if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
-                                     it.covers( bp->token ) ) ) {
+                                     it.covers( bp ) ) ) {
             it_with_flag = it;
             break;
         }
@@ -3205,8 +3198,8 @@ std::vector<std::string> Character::get_overlay_ids() const
         rval.push_back( "wielded_" + weapon.typeId().str() );
     }
 
-    if( move_mode != CMM_WALK ) {
-        rval.push_back( io::enum_to_string( move_mode ) );
+    if( !is_walking() ) {
+        rval.push_back( move_mode->name() );
     }
     return rval;
 }
@@ -3653,28 +3646,28 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
                          encumber_val : std::max( 0, encumber_val - 40 );
 
     body_part_set covered_parts = it.get_covered_body_parts();
-    for( const body_part bp : all_body_parts ) {
-        if( !covered_parts.test( bp ) ) {
+    for( const bodypart_id &bp : c.get_all_body_parts() ) {
+        if( !covered_parts.test( bp.id() ) ) {
             continue;
         }
-        highest_layer_so_far[bp] =
-            std::max( highest_layer_so_far[bp], item_layer );
+        highest_layer_so_far[bp->token] =
+            std::max( highest_layer_so_far[bp->token], item_layer );
 
         // Apply layering penalty to this layer, as well as any layer worn
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
-             penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-            vals[bp].layer( penalty_layer, layering_encumbrance );
+             penalty_layer <= highest_layer_so_far[bp->token]; ++penalty_layer ) {
+            vals[bp->token].layer( penalty_layer, layering_encumbrance );
         }
 
-        vals[bp].armor_encumbrance += armorenc;
+        vals[bp->token].armor_encumbrance += armorenc;
     }
 }
 
 bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 {
     bool result = false;
-    for( auto &elem : worn ) {
+    for( const item &elem : worn ) {
         if( !elem.is_power_armor() ) {
             continue;
         }
@@ -3684,7 +3677,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
         }
         // found power armor, continue search for helmet
         result = true;
-        if( elem.covers( bp_head ) ) {
+        if( elem.covers( bodypart_id( "head" ) ) ) {
             *hasHelmet = true;
             return true;
         }
@@ -3694,7 +3687,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 
 bool Character::is_wearing_active_power_armor() const
 {
-    for( const auto &w : worn ) {
+    for( const item &w : worn ) {
         if( w.is_power_armor() && w.active ) {
             return true;
         }
@@ -3704,7 +3697,7 @@ bool Character::is_wearing_active_power_armor() const
 
 bool Character::is_wearing_active_optcloak() const
 {
-    for( auto &w : worn ) {
+    for( const item &w : worn ) {
         if( w.active && w.has_flag( flag_ACTIVE_CLOAKING ) ) {
             return true;
         }
@@ -3723,7 +3716,7 @@ bool Character::in_climate_control()
         in_sleep_state() ) {
         return true;
     }
-    for( auto &w : worn ) {
+    for( const item &w : worn ) {
         if( w.active && w.is_power_armor() ) {
             return true;
         }
@@ -3760,8 +3753,8 @@ int Character::get_wind_resistance( const bodypart_id &bp ) const
     int totalCoverage = 0;
     int penalty = 100;
 
-    for( auto &i : worn ) {
-        if( i.covers( bp->token ) ) {
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
             if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
                 i.made_of( material_id( "bone" ) ) ||
                 i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
@@ -3913,7 +3906,7 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
     }
 
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
-        if( !oversize.test( enc.first ) ) {
+        if( !oversize.test( convert_bp( enc.first ) ) ) {
             vals[enc.first].encumbrance += enc.second;
         }
     }
@@ -3944,12 +3937,13 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 
 body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
 {
-    body_part_set ret = body_part_set::all();
+    body_part_set ret;
+    ret.fill( get_all_body_parts() );
 
-    for( const auto &elem : worn ) {
+    for( const item &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
             // Unset the parts covered by this item
-            ret &= ~elem.get_covered_body_parts();
+            ret.substract_set( elem.get_covered_body_parts() );
         }
     }
 
@@ -4865,7 +4859,7 @@ void Character::update_needs( int rate_multiplier )
                 // Sleeping on a comfy bed, bionic   = 9x rest_modifier
                 float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
                 // Melatonin supplements also add a flat bonus to recovery speed
-                if( has_effect( effect_melatonin_supplements ) ) {
+                if( has_effect( effect_melatonin ) ) {
                     rest_modifier += 1;
                 }
 
@@ -6541,10 +6535,10 @@ float Character::active_light() const
     for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
-            for( const auto elem : mut.first->lumination ) {
+            for( const std::pair<body_part, float> elem : mut.first->lumination ) {
                 int coverage = 0;
                 for( const item &i : worn ) {
-                    if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    if( i.covers( convert_bp( elem.first ).id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                         !i.has_flag( flag_SEMITANGIBLE ) &&
                         !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                         coverage += i.get_coverage();
@@ -6574,7 +6568,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
     if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        ( critter.in_species( species_ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
         return true;
     }
 
@@ -7250,8 +7244,8 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_COLD:
         case DT_ELECTRIC: {
             int ret = 0;
-            for( auto &i : worn ) {
-                if( i.covers( bp->token ) ) {
+            for( const item &i : worn ) {
+                if( i.covers( bp ) ) {
                     ret += i.damage_resist( dt );
                 }
             }
@@ -7272,8 +7266,8 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 int Character::get_armor_bash_base( bodypart_id bp ) const
 {
     int ret = 0;
-    for( auto &i : worn ) {
-        if( i.covers( bp->token ) ) {
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
             ret += i.bash_resist();
         }
     }
@@ -7291,8 +7285,8 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
 int Character::get_armor_cut_base( bodypart_id bp ) const
 {
     int ret = 0;
-    for( auto &i : worn ) {
-        if( i.covers( bp->token ) ) {
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
             ret += i.cut_resist();
         }
     }
@@ -7310,8 +7304,8 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
 int Character::get_armor_bullet_base( bodypart_id bp ) const
 {
     int ret = 0;
-    for( auto &i : worn ) {
-        if( i.covers( bp->token ) ) {
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
             ret += i.bullet_resist();
         }
     }
@@ -7330,9 +7324,9 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
 int Character::get_env_resist( bodypart_id bp ) const
 {
     int ret = 0;
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         // Head protection works on eyes too (e.g. baseball cap)
-        if( i.covers( bp->token ) || ( bp == bodypart_id( "eyes" ) && i.covers( bp_head ) ) ) {
+        if( i.covers( bp ) || ( bp == bodypart_id( "eyes" ) && i.covers( bodypart_id( "head" ) ) ) ) {
             ret += i.get_env_resist();
         }
     }
@@ -7437,9 +7431,7 @@ void Character::burn_move_stamina( int moves )
         }
     }
     burn_ratio += overburden_percentage;
-    if( move_mode == CMM_RUN ) {
-        burn_ratio = burn_ratio * 7;
-    }
+    burn_ratio *= move_mode->stamina_mult();
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
@@ -7459,14 +7451,7 @@ float Character::stamina_move_cost_modifier() const
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    return stamina_modifier;
+    return stamina_modifier * move_mode->move_speed_mult();
 }
 
 void Character::update_stamina( int turns )
@@ -7479,8 +7464,8 @@ void Character::update_stamina( int turns )
     // Recover some stamina every turn.
     // Mutated stamina works even when winded
     // max stamina modifers from mutation also affect stamina multi
-    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
-                               mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f );
+    float stamina_multiplier = std::max<float>( 0.1f, ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
+                               mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
@@ -8055,9 +8040,7 @@ std::string get_stat_name( Character::stat Stat )
     case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
         // *INDENT-ON*
         default:
-            return pgettext( "fake stat there's an error", "ERR" );
             break;
-
     }
     return pgettext( "fake stat there's an error", "ERR" );
 }
@@ -8354,7 +8337,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
             item &armor = *iter;
 
-            if( !armor.covers( bp->token ) ) {
+            if( !armor.covers( bp ) ) {
                 ++iter;
                 continue;
             }
@@ -8705,7 +8688,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     int sum_cover = 0;
     for( const item &i : worn ) {
-        if( i.covers( bp->token ) && i.is_filthy() ) {
+        if( i.covers( bp ) && i.is_filthy() ) {
             sum_cover += i.get_coverage();
         }
     }
@@ -9030,8 +9013,8 @@ void Character::rooted()
 
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
-    for( auto &i : worn ) {
-        if( i.covers( bp->token ) ) {
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
             return true;
         }
     }
@@ -9045,7 +9028,7 @@ bool Character::is_wearing_shoes( const side &which_side ) const
     if( which_side == side::LEFT || which_side == side::BOTH ) {
         left = false;
         for( const item &worn_item : worn ) {
-            if( worn_item.covers( bp_foot_l ) && !worn_item.has_flag( flag_BELTED ) &&
+            if( worn_item.covers( bodypart_id( "foot_l" ) ) && !worn_item.has_flag( flag_BELTED ) &&
                 !worn_item.has_flag( flag_PERSONAL ) && !worn_item.has_flag( flag_AURA ) &&
                 !worn_item.has_flag( flag_SEMITANGIBLE ) && !worn_item.has_flag( flag_SKINTIGHT ) ) {
                 left = true;
@@ -9056,7 +9039,7 @@ bool Character::is_wearing_shoes( const side &which_side ) const
     if( which_side == side::RIGHT || which_side == side::BOTH ) {
         right = false;
         for( const item &worn_item : worn ) {
-            if( worn_item.covers( bp_foot_r ) && !worn_item.has_flag( flag_BELTED ) &&
+            if( worn_item.covers( bodypart_id( "foot_r" ) ) && !worn_item.has_flag( flag_BELTED ) &&
                 !worn_item.has_flag( flag_PERSONAL ) && !worn_item.has_flag( flag_AURA ) &&
                 !worn_item.has_flag( flag_SEMITANGIBLE ) && !worn_item.has_flag( flag_SKINTIGHT ) ) {
                 right = true;
@@ -9070,7 +9053,8 @@ bool Character::is_wearing_shoes( const side &which_side ) const
 bool Character::is_wearing_helmet() const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp_head ) && !i.has_flag( flag_HELMET_COMPAT ) && !i.has_flag( flag_SKINTIGHT ) &&
+        if( i.covers( bodypart_id( "head" ) ) && !i.has_flag( flag_HELMET_COMPAT ) &&
+            !i.has_flag( flag_SKINTIGHT ) &&
             !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) &&
             !i.has_flag( flag_OVERSIZE ) ) {
             return true;
@@ -9082,9 +9066,9 @@ bool Character::is_wearing_helmet() const
 int Character::head_cloth_encumbrance() const
 {
     int ret = 0;
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         const item *worn_item = &i;
-        if( i.covers( bp_head ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+        if( i.covers( bodypart_id( "head" ) ) && !i.has_flag( flag_SEMITANGIBLE ) &&
             ( worn_item->has_flag( flag_HELMET_COMPAT ) || worn_item->has_flag( flag_SKINTIGHT ) ) ) {
             ret += worn_item->get_encumber( *this );
         }
@@ -9154,7 +9138,7 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
             continue;
         }
 
-        to_cover &= ~elem.get_covered_body_parts();
+        to_cover.substract_set( elem.get_covered_body_parts() );
 
         if( to_cover.none() ) {
             return true;    // Allows early exit.
@@ -9447,14 +9431,6 @@ void Character::cancel_activity()
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
-    if( has_activity( ACT_LOCKPICK ) ) {
-        std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
-            return itm.typeId() == itype_pseudo_bio_picklock;
-        } );
-        if( !bio_picklocks.empty() ) {
-            g->u.i_rem( bio_picklocks[0] );
-        }
-    }
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
         if( backlog_item->auto_resume ) {
@@ -9576,8 +9552,8 @@ std::string Character::is_snuggling() const
         if( !candidate->is_armor() ) {
             continue;
         } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
-                   ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
-                     candidate->covers( bp_leg_r ) ) ) {
+                   ( candidate->covers( bodypart_id( "torso" ) ) || candidate->covers( bodypart_id( "leg_l" ) ) ||
+                     candidate->covers( bodypart_id( "leg_r" ) ) ) ) {
             floor_armor = &*candidate;
             ticker++;
         }
@@ -9600,7 +9576,7 @@ int Character::warmth( const bodypart_id &bp ) const
     int warmth = 0;
 
     for( const item &i : worn ) {
-        if( i.covers( bp->token ) ) {
+        if( i.covers( bp ) ) {
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
@@ -9707,15 +9683,15 @@ int Character::floor_item_warmth( const tripoint &pos )
     int item_warmth = 0;
     // Search the floor for items
     const auto floor_item = g->m.i_at( pos );
-    for( const auto &elem : floor_item ) {
+    for( const item &elem : floor_item ) {
         if( !elem.is_armor() ) {
             continue;
         }
         // Items that are big enough and covers the torso are used to keep warm.
         // Smaller items don't do as good a job
         if( elem.volume() > 250_ml &&
-            ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
-              elem.covers( bp_leg_r ) ) ) {
+            ( elem.covers( bodypart_id( "torso" ) ) || elem.covers( bodypart_id( "leg_l" ) ) ||
+              elem.covers( bodypart_id( "leg_r" ) ) ) ) {
             item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
         }
     }
@@ -9814,7 +9790,7 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
-std::list<item> Character::use_amount( itype_id it, int quantity,
+std::list<item> Character::use_amount( const itype_id &it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -10271,7 +10247,7 @@ float Character::speed_rating() const
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != CMM_RUN ) {
+    if( !is_running() ) {
         ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;
@@ -10311,8 +10287,8 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
         if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
             if( movecost > 75 ) {
-                movecost =
-                    75; // Mycal characters are faster on their home territory, even through things like shrubs
+                // Mycal characters are faster on their home territory, even through things like shrubs
+                movecost = 75;
             }
         }
 
@@ -10330,7 +10306,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
+            if( is_running() ) {
                 movecost *= 0.85f;
             } else {
                 movecost *= 0.95f;

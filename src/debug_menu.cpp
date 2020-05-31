@@ -905,7 +905,6 @@ void character_edit_menu()
             p.add_effect( effect_flu, 1000_minutes );
             break;
         }
-        break;
         case D_ASTHMA: {
             p.set_mutation( trait_ASTHMA );
             p.add_effect( effect_asthma, 10_minutes );

@@ -138,7 +138,7 @@ static const skill_id skill_weapon( "weapon" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
-static const species_id ROBOT( "ROBOT" );
+static const species_id species_ROBOT( "ROBOT" );
 
 static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 
@@ -263,7 +263,7 @@ static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
-static const matec_id rapid_strike( "RAPID" );
+static const matec_id RAPID( "RAPID" );
 
 class npc_class;
 
@@ -677,6 +677,9 @@ item &item::ammo_unset()
     if( !is_tool() && !is_gun() && !is_magazine() ) {
         // do nothing
     } else if( is_magazine() ) {
+        if( is_money() ) { // charges are set wrong on cash cards.
+            charges = 0;
+        }
         contents.clear_items();
     } else if( magazine_integral() ) {
         curammo = nullptr;
@@ -742,9 +745,9 @@ bool item::is_frozen_liquid() const
     return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
 }
 
-bool item::covers( const body_part bp ) const
+bool item::covers( const bodypart_id &bp ) const
 {
-    return get_covered_body_parts().test( bp );
+    return get_covered_body_parts().test( bp.id() );
 }
 
 body_part_set item::get_covered_body_parts() const
@@ -759,7 +762,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        res.set( bp_torso );
+        res.set( bodypart_str_id( "torso" ) );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -767,7 +770,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
         return res;
     }
 
-    res |= armor->covers;
+    res.unify_set( armor->covers );
 
     if( !armor->sided ) {
         return res; // Just ignore the side.
@@ -779,17 +782,17 @@ body_part_set item::get_covered_body_parts( const side s ) const
             break;
 
         case side::LEFT:
-            res.reset( bp_arm_r );
-            res.reset( bp_hand_r );
-            res.reset( bp_leg_r );
-            res.reset( bp_foot_r );
+            res.reset( bodypart_str_id( "arm_r" ) );
+            res.reset( bodypart_str_id( "hand_r" ) );
+            res.reset( bodypart_str_id( "leg_r" ) );
+            res.reset( bodypart_str_id( "foot_r" ) );
             break;
 
         case side::RIGHT:
-            res.reset( bp_arm_l );
-            res.reset( bp_hand_l );
-            res.reset( bp_leg_l );
-            res.reset( bp_foot_l );
+            res.reset( bodypart_str_id( "arm_l" ) );
+            res.reset( bodypart_str_id( "hand_l" ) );
+            res.reset( bodypart_str_id( "leg_l" ) );
+            res.reset( bodypart_str_id( "foot_l" ) );
             break;
     }
 
@@ -831,7 +834,7 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
+    return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );
 }
 
 item item::in_its_container( int qty ) const
@@ -1401,7 +1404,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
         subtotal_damage = damage_per_hit * num_strikes;
         double subtotal_moves = moves_per_attack * num_strikes;
 
-        if( has_technique( rapid_strike ) ) {
+        if( has_technique( RAPID ) ) {
             monster temp_rs_mon = mon;
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this );
@@ -2448,56 +2451,56 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
         std::string coverage = _( "<bold>Covers</bold>: " );
-        if( covers( bp_head ) ) {
+        if( covers( bodypart_id( "head" ) ) ) {
             coverage += _( "The <info>head</info>. " );
         }
-        if( covers( bp_eyes ) ) {
+        if( covers( bodypart_id( "eyes" ) ) ) {
             coverage += _( "The <info>eyes</info>. " );
         }
-        if( covers( bp_mouth ) ) {
+        if( covers( bodypart_id( "mouth" ) ) ) {
             coverage += _( "The <info>mouth</info>. " );
         }
-        if( covers( bp_torso ) ) {
+        if( covers( bodypart_id( "torso" ) ) ) {
             coverage += _( "The <info>torso</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_arm_l ) || covers( bp_arm_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "arm_l" ) ) || covers( bodypart_id( "arm_r" ) ) ) ) {
             coverage += _( "Either <info>arm</info>. " );
-        } else if( covers( bp_arm_l ) && covers( bp_arm_r ) ) {
+        } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) ) ) {
             coverage += _( "The <info>arms</info>. " );
-        } else if( covers( bp_arm_l ) ) {
+        } else if( covers( bodypart_id( "arm_l" ) ) ) {
             coverage += _( "The <info>left arm</info>. " );
-        } else if( covers( bp_arm_r ) ) {
+        } else if( covers( bodypart_id( "arm_r" ) ) ) {
             coverage += _( "The <info>right arm</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_hand_l ) || covers( bp_hand_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "hand_l" ) ) || covers( bodypart_id( "hand_r" ) ) ) ) {
             coverage += _( "Either <info>hand</info>. " );
-        } else if( covers( bp_hand_l ) && covers( bp_hand_r ) ) {
+        } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) ) ) {
             coverage += _( "The <info>hands</info>. " );
-        } else if( covers( bp_hand_l ) ) {
+        } else if( covers( bodypart_id( "hand_l" ) ) ) {
             coverage += _( "The <info>left hand</info>. " );
-        } else if( covers( bp_hand_r ) ) {
+        } else if( covers( bodypart_id( "hand_r" ) ) ) {
             coverage += _( "The <info>right hand</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_leg_l ) || covers( bp_leg_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "leg_l" ) ) || covers( bodypart_id( "leg_r" ) ) ) ) {
             coverage += _( "Either <info>leg</info>. " );
-        } else if( covers( bp_leg_l ) && covers( bp_leg_r ) ) {
+        } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) ) ) {
             coverage += _( "The <info>legs</info>. " );
-        } else if( covers( bp_leg_l ) ) {
+        } else if( covers( bodypart_id( "leg_l" ) ) ) {
             coverage += _( "The <info>left leg</info>. " );
-        } else if( covers( bp_leg_r ) ) {
+        } else if( covers( bodypart_id( "leg_r" ) ) ) {
             coverage += _( "The <info>right leg</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_foot_l ) || covers( bp_foot_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "foot_l" ) ) || covers( bodypart_id( "foot_r" ) ) ) ) {
             coverage += _( "Either <info>foot</info>. " );
-        } else if( covers( bp_foot_l ) && covers( bp_foot_r ) ) {
+        } else if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) ) ) {
             coverage += _( "The <info>feet</info>. " );
-        } else if( covers( bp_foot_l ) ) {
+        } else if( covers( bodypart_id( "foot_l" ) ) ) {
             coverage += _( "The <info>left foot</info>. " );
-        } else if( covers( bp_foot_r ) ) {
+        } else if( covers( bodypart_id( "foot_r" ) ) ) {
             coverage += _( "The <info>right foot</info>. " );
         }
 
@@ -2768,7 +2771,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This gear is a part of power armor." ) ) );
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-            if( covers( bp_head ) ) {
+            if( covers( bodypart_id( "head" ) ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor suit, it will "
                                              "<good>fully protect</good> you from "
@@ -2979,10 +2982,17 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     } else if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
         if( !ammo_types().empty() ) {
             for( const ammotype &at : ammo_types() ) {
-                info.emplace_back( "TOOL", string_format(
-                                       //~ "%s" is ammunition type. This types can't be plural.
-                                       ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.",
-                                                 ammo_capacity( at ) ), at->name() ) );
+                info.emplace_back(
+                    "TOOL",
+                    "",
+                    string_format(
+                        ngettext(
+                            "Maximum <num> charge of %s.",
+                            "Maximum <num> charges of %s.",
+                            ammo_capacity( at ) ),
+                        at->name() ),
+                    iteminfo::no_flags,
+                    ammo_capacity( at ) );
             }
 
             // No need to display max charges, since charges are always equal to bionic power
@@ -4032,9 +4042,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( hp_leg_r ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -4616,7 +4626,7 @@ int item::price( bool practical ) const
             // items with integral magazines may contain ammunition which can affect the price
             child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
 
-        } else if( e->is_tool() ) {
+        } else if( e->is_tool() && e->type->tool->max_charges != 0 ) {
             // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
             child *= e->ammo_remaining() / static_cast<double>( std::max( e->type->charges_default(), 1 ) );
         }
@@ -6597,6 +6607,11 @@ bool item::can_contain( const item &it ) const
         // does the set of all sets contain itself?
         return false;
     }
+    // disallow putting portable holes into bags of holding
+    if( contents.bigger_on_the_inside( volume() ) &&
+        it.contents.bigger_on_the_inside( it.volume() ) ) {
+        return false;
+    }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( internal_it->contents.can_contain_rigid( it ).success() ) {
             return true;
@@ -7876,7 +7891,10 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
 int item::getlight_emit() const
 {
     float lumint = type->light_emission;
-    if( lumint == 0 || ( ammo_required() > 0 && ammo_remaining() == 0 ) ) {
+    if( ammo_required() == 0 ) {
+        return lumint;
+    }
+    if( lumint == 0 || ammo_remaining() == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
@@ -8353,13 +8371,6 @@ bool item::will_explode_in_fire() const
         return true;
     }
 
-    // Most containers do nothing to protect the contents from fire
-    if( !type->magazine || !type->magazine->protects_contents ) {
-        return has_item_with( [&]( const item & it ) {
-            return this != &it && it.will_explode_in_fire();
-        } );
-    }
-
     return false;
 }
 
@@ -8371,15 +8382,11 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
-        // Yank the exploding item off the map for the duration of the explosion
-        // so it doesn't blow itself up.
-        const islot_ammo &ammo_type = *type->ammo;
-
-        if( ammo_type.special_cookoff ) {
+        if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( p, ammo_type.ammo_effects );
+            apply_ammo_effects( p, type->ammo->ammo_effects );
         }
-        if( ammo_type.cookoff ) {
+        if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
             explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
         }
@@ -8391,19 +8398,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
 
         return true;
-    } else if( !contents.empty() && ( !type->magazine || !type->magazine->protects_contents ) ) {
-        std::vector<item *> removed_items;
-        bool detonated = false;
-        for( item *it : contents.all_items_top() ) {
-            if( it->detonate( p, drops ) ) {
-                removed_items.push_back( it );
-                detonated = true;
-            }
-        }
-        for( item *it : removed_items ) {
-            remove_item( *it );
-        }
-        return detonated;
     }
 
     return false;
@@ -8517,7 +8511,7 @@ uint64_t item::make_component_hash() const
     }
 
     std::string concatenated_ids;
-    for( std::string id : id_set ) {
+    for( const std::string &id : id_set ) {
         concatenated_ids += id;
     }
 
@@ -8982,14 +8976,14 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( corpse->in_species( ROBOT ) ) {
+                if( corpse->in_species( species_ROBOT ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
                 }
             }
         } else {
-            if( corpse->in_species( ROBOT ) ) {
+            if( corpse->in_species( species_ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
@@ -9620,7 +9614,7 @@ std::string item::type_name( unsigned int quantity ) const
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for recursively searching for a item ID among all components.
         std::function<bool ( std::list<item> )> component_id_contains =
-        [&]( std::list<item> components ) {
+        [&]( const std::list<item> &components ) {
             for( const item &component : components ) {
                 if( component.typeId().str().find( cname.condition ) != std::string::npos ||
                     component_id_contains( component.components ) ) {

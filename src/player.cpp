@@ -153,9 +153,9 @@ static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_MOREPAIN( "MORE_PAIN" );
-static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
-static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
+static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
+static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
+static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
@@ -756,22 +756,23 @@ void player::pause()
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_head, bp_eyes, bp_mouth,
-                    bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                    bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
-                    bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ),
+                    bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-            drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
+            drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+            false );
         }
     }
 
@@ -1047,7 +1048,7 @@ bool player::immune_to( const bodypart_id &bp, damage_unit dam ) const
     passive_absorb_hit( bp, dam );
 
     for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp->token ) ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
             cloth.mitigate_damage( dam );
         }
     }
@@ -1062,11 +1063,11 @@ void player::mod_pain( int npain )
             return;
         }
         // always increase pain gained by one from these bad mutations
-        if( has_trait( trait_MOREPAIN ) ) {
+        if( has_trait( trait_MORE_PAIN ) ) {
             npain += std::max( 1, roll_remainder( npain * 0.25 ) );
-        } else if( has_trait( trait_MOREPAIN2 ) ) {
+        } else if( has_trait( trait_MORE_PAIN2 ) ) {
             npain += std::max( 1, roll_remainder( npain * 0.5 ) );
-        } else if( has_trait( trait_MOREPAIN3 ) ) {
+        } else if( has_trait( trait_MORE_PAIN3 ) ) {
             npain += std::max( 1, roll_remainder( npain * 1.0 ) );
         }
 

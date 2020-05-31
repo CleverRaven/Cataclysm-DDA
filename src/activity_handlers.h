@@ -206,7 +206,6 @@ void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
-void lockpicking_finish( player_activity *act, player *p );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );

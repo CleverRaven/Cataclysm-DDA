@@ -106,6 +106,8 @@ class item_pocket
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         units::volume volume_capacity() const;
+        // the amount of space this pocket can hold before it starts expanding
+        units::volume magazine_well() const;
         units::mass weight_capacity() const;
         // The largest volume of contents this pocket can have.  Different from
         // volume_capacity because that doesn't take into account ammo containers.
@@ -319,6 +321,8 @@ class pocket_data
         bool operator==( const pocket_data &rhs ) const;
 
         units::volume max_contains_volume() const;
+
+        std::string check_definition() const;
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );

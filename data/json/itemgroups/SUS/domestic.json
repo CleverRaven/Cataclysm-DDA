@@ -337,7 +337,7 @@
       { "item": "yoghurt", "prob": 80 },
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
-      { "item": "egg_bird", "prob": 85, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],

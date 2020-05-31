@@ -57,8 +57,8 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
-void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
-                                item_stack::iterator end )
+void map::add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                const item_stack::iterator &end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0; // brightness
@@ -162,7 +162,7 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    bool is_crouching = g->u.is_crouching();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible

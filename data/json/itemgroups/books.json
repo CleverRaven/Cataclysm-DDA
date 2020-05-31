@@ -232,7 +232,8 @@
       { "item": "child_book", "prob": 50 },
       { "item": "manual_dodge_kid", "prob": 20 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
-      { "item": "mag_comic", "prob": 20 }
+      { "item": "mag_comic", "prob": 20 },
+      { "item": "basic_chemistry", "prob": 10 }
     ]
   },
   {
@@ -353,6 +354,7 @@
       { "item": "reference_fabrication1", "prob": 1 },
       { "item": "reference_firstaid1", "prob": 1 },
       { "item": "reference_firstaid2", "prob": 1 },
+      { "item": "basic_chemistry", "prob": 10 },
       { "item": "survnote", "prob": 3 }
     ]
   },
@@ -421,7 +423,8 @@
       { "item": "textbook_armwest", "prob": 3 },
       { "item": "textbook_armeast", "prob": 3 },
       { "item": "survnote", "prob": 2 },
-      { "item": "book_lockpick", "prob": 2 }
+      { "item": "book_lockpick", "prob": 2 },
+      { "item": "basic_chemistry", "prob": 5 }
     ]
   },
   {

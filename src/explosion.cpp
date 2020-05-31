@@ -73,7 +73,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const species_id ROBOT( "ROBOT" );
+static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -575,7 +575,7 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( ROBOT ) ) {
+        if( critter.type->in_species( species_ROBOT ) ) {
             continue;
         }
         // TODO: can the following code be called for all types of creatures

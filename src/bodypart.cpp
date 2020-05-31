@@ -14,6 +14,8 @@
 #include "pldata.h"
 #include "type_id.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -317,7 +319,7 @@ std::string encumb_text( const bodypart_id &bp )
 
 body_part random_body_part( bool main_parts_only )
 {
-    const auto &part = human_anatomy->random_body_part();
+    const auto &part = anatomy_human_anatomy->random_body_part();
     return main_parts_only ? part->main_part->token : part->token;
 }
 
@@ -334,4 +336,48 @@ body_part opposite_body_part( body_part bp )
 std::string get_body_part_id( body_part bp )
 {
     return get_bp( bp ).legacy_id;
+}
+
+body_part_set body_part_set::unify_set( const body_part_set &rhs )
+{
+    for( auto i = rhs.parts.begin(); i != rhs.parts.end(); i++ ) {
+        if( parts.count( *i ) == 0 ) {
+            parts.insert( *i );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::intersect_set( const body_part_set &rhs )
+{
+    for( auto j = parts.begin(); j != parts.end(); j++ ) {
+        if( rhs.parts.count( *j ) == 0 ) {
+            parts.erase( *j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::substract_set( const body_part_set &rhs )
+{
+    for( auto j = rhs.parts.begin(); j != rhs.parts.end(); j++ ) {
+        if( parts.count( *j ) > 0 ) {
+            parts.erase( *j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::make_intersection( const body_part_set &rhs )
+{
+    body_part_set new_intersection;
+    new_intersection.parts = parts;
+    return new_intersection.intersect_set( rhs );
+}
+
+void body_part_set::fill( const std::vector<bodypart_id> &bps )
+{
+    for( const bodypart_id &bp : bps ) {
+        parts.insert( bp.id() );
+    }
 }

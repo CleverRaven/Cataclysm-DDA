@@ -77,11 +77,9 @@ enum aim_exit {
 
 // *INDENT-OFF*
 advanced_inventory::advanced_inventory()
-    : inCategoryMode( false )
-    , recalc( true )
+    : recalc( true )
     , src( left )
     , dest( right )
-    , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
     , squares( {
     {
@@ -338,7 +336,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
             for( const auto item : sitem.items ) {
-                charges_total += item->charges;
+                charges_total += item->ammo_remaining();
             }
             if( stolen ) {
                 item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),

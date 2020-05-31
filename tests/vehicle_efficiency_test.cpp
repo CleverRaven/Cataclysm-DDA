@@ -32,7 +32,7 @@
 
 using efficiency_stat = statistics<int>;
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
 static void clear_game( const ter_id &terrain )
 {
@@ -335,7 +335,7 @@ static void print_test_strings( const std::string &type )
 }
 
 static void test_vehicle(
-    std::string type, int expected_mass,
+    const std::string &type, int expected_mass,
     const int pavement_target, const int dirt_target,
     const int pavement_target_w_stops, const int dirt_target_w_stops,
     const int pavement_target_smooth_stops = 0, const int dirt_target_smooth_stops = 0 )

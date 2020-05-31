@@ -839,7 +839,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue( std::string sSetIn )
+void options_manager::cOpt::setValue( const std::string &sSetIn )
 {
     if( sType == "string_select" ) {
         if( getItemPos( sSetIn ) != -1 ) {
@@ -963,7 +963,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     // Load from user directory
     std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option id : user_tilesets ) {
+    for( const options_manager::id_and_option &id : user_tilesets ) {
         if( std::find( result.begin(), result.end(), id ) == result.end() ) {
             result.emplace_back( id );
         }

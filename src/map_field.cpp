@@ -63,9 +63,9 @@
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id INSECT( "INSECT" );
-static const species_id SPIDER( "SPIDER" );
+static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_INSECT( "INSECT" );
+static const species_id species_SPIDER( "SPIDER" );
 
 static const bionic_id bio_heatsink( "bio_heatsink" );
 
@@ -519,17 +519,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
                         map_stack items_here = i_at( p );
                         std::vector<item> new_content;
-                        for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                            if( explosive->will_explode_in_fire() ) {
+                        for( auto it = items_here.begin(); it != items_here.end(); ) {
+                            if( it->will_explode_in_fire() ) {
                                 // We need to make a copy because the iterator validity is not predictable
-                                item copy = *explosive;
-                                explosive = items_here.erase( explosive );
+                                item copy = *it;
+                                it = items_here.erase( it );
                                 if( copy.detonate( p, new_content ) ) {
                                     // Need to restart, iterators may not be valid
-                                    explosive = items_here.begin();
+                                    it = items_here.begin();
                                 }
                             } else {
-                                ++explosive;
+                                ++it;
                             }
                         }
 
@@ -1105,7 +1105,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, *spawn_point );
+                            add_spawn( spawn_details, *spawn_point );
                         }
                     }
                 }
@@ -1625,7 +1625,7 @@ void map::player_in_field( player &u )
                     bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
-                        if( i.covers( bp->token ) ) {
+                        if( i.covers( bp ) ) {
                             sum_cover += i.get_coverage();
                         }
                     }
@@ -1977,7 +1977,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_fungal_haze ) {
-            if( !z.type->in_species( FUNGUS ) &&
+            if( !z.type->in_species( species_FUNGUS ) &&
                 !z.type->has_flag( MF_NO_BREATHE ) &&
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
@@ -1987,14 +1987,14 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_fungicidal_gas ) {
-            if( z.type->in_species( FUNGUS ) ) {
+            if( z.type->in_species( species_FUNGUS ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( INSECT ) || z.type->in_species( SPIDER ) ) {
+            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

@@ -24,7 +24,7 @@
 #include "type_id.h"
 #include "visitable.h"
 
-const trait_id trait_debug_storage( "DEBUG_STORAGE" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 enum inventory_location {
     GROUND,
@@ -756,8 +756,8 @@ TEST_CASE( "Inventory letter test", "[.invlet]" )
     dummy.setpos( spot );
     g->m.ter_set( spot, ter_id( "t_dirt" ) );
     g->m.furn_set( spot, furn_id( "f_null" ) );
-    if( !dummy.has_trait( trait_debug_storage ) ) {
-        dummy.set_mutation( trait_debug_storage );
+    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
+        dummy.set_mutation( trait_DEBUG_STORAGE );
     }
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );
