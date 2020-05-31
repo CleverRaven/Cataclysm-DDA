@@ -28,6 +28,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::character_takes_damage: return "character_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
         case event_type::character_wakes_up: return "character_wakes_up";
+        case event_type::character_wears_item: return "character_wears_item";
         case event_type::character_wields_item: return "character_wields_item";
         case event_type::consumes_marloss_item: return "consumes_marloss_item";
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
@@ -90,13 +91,15 @@ namespace cata
 namespace event_detail
 {
 
-constexpr std::array<std::pair<const char *, cata_variant_type>,
-          event_spec_empty::fields.size()> event_spec_empty::fields;
+#define DEFINE_EVENT_HELPER_FIELDS(type) \
+    constexpr std::array<std::pair<const char *, cata_variant_type>, \
+    type::fields.size()> type::fields;
 
-constexpr std::array<std::pair<const char *, cata_variant_type>,
-          event_spec_character::fields.size()> event_spec_character::fields;
+DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
+DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
+DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 66,
+static_assert( static_cast<int>( event_type::num_event_types ) == 67,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -120,8 +123,6 @@ DEFINE_EVENT_FIELDS( character_loses_effect )
 DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( character_wakes_up )
-DEFINE_EVENT_FIELDS( character_wields_item )
-DEFINE_EVENT_FIELDS( consumes_marloss_item )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )
 DEFINE_EVENT_FIELDS( dies_from_drug_overdose )
 DEFINE_EVENT_FIELDS( evolves_mutation )
