@@ -3208,6 +3208,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_sand_castle",
+    "description": "Build Sand Castle",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "pre_special": "check_empty",
+    "tools": [ [ [ "sandbox_kit", -1 ] ] ],
+    "components": [ [ [ "material_sand", 8 ] ], [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ] ] ],
+    "post_terrain": "f_sand_castle"
+  },
+  {
+    "type": "construction",
     "id": "constr_firering",
     "description": "Build Fire Ring",
     "category": "FURN",
