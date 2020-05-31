@@ -360,6 +360,10 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), line_color( 6 ),
                you.age_string() );
+    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( blood_types_strs.at( you.blood_type ) ), 8 ),
+               line_color( 7 ),
+               blood_types_strs.at( you.blood_type ) );
 
     wrefresh( w_stats );
 }
@@ -439,6 +443,12 @@ static void draw_stats_info( const catacurses::window &w_info,
                                           _( "This is how old you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.age_string() );
+    } else if( line == 7 ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "This is your blood type." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        blood_types_strs.at( you.blood_type ) );
     }
     wrefresh( w_info );
 }
@@ -965,7 +975,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
     unsigned int line_end = 0;
     switch( curtab ) {
         case player_display_tab::stats:
-            line_end = 7;
+            line_end = 8;
             break;
         case player_display_tab::encumbrance: {
             const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );

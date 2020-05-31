@@ -191,6 +191,27 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
+enum blood_types {
+    O_PLUS,
+    O_MINUS,
+    A_PLUS,
+    A_MINUS,
+    B_PLUS,
+    B_MINUS,
+    AB_PLUS,
+    AB_MINUS
+};
+
+const std::unordered_map<blood_types, std::string> blood_types_strs = {
+        { O_PLUS, "O+" },
+        { O_MINUS, "O-" },
+        { A_PLUS, "A+" },
+        { A_MINUS, "A-" },
+        { B_PLUS, "B+" },
+        { B_MINUS, "B-" },
+        { AB_PLUS, "AB+" },
+        { AB_MINUS, "AB-" }
+};
 // This tries to represent both rating and
 // character's decision to respect said rating
 enum edible_rating {

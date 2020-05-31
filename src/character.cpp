@@ -401,6 +401,7 @@ Character::Character() :
 {
     hp_cur.fill( 0 );
     hp_max.fill( 1 );
+    blood_type = O_MINUS;
     str_max = 0;
     dex_max = 0;
     per_max = 0;

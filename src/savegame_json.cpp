@@ -449,6 +449,11 @@ void Character::load( const JsonObject &data )
 
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
+    int tmp_blood;
+    if( !data.read( "blood_type", tmp_blood ) ) {
+        tmp_blood = rng( 0, 7 );
+    };
+    blood_type = static_cast<blood_types>( tmp_blood );
 
     data.read( "custom_profession", custom_profession );
 
@@ -711,6 +716,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
+    json.member( "blood_type", static_cast<int>( blood_type ) );
 
     json.member( "custom_profession", custom_profession );
 

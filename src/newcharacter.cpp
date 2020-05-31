@@ -187,6 +187,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     init_age = rng( 16, 55 );
     // if adjusting min and max height from 145 and 200, make sure to see set_description()
     init_height = rng( 145, 200 );
+    blood_type = static_cast<blood_types>( rng( 0, 7 ) );
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -2293,7 +2294,8 @@ namespace char_creation
 enum description_selector {
     NAME,
     HEIGHT,
-    AGE
+    AGE,
+    BLOOD
 };
 
 static void draw_height( const catacurses::window &w_height, const avatar &you,
@@ -2314,6 +2316,16 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
     unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
     mvwprintz( w_age, point( age_pos, 0 ), c_white, string_format( "%d", you.base_age() ) );
     wrefresh( w_age );
+}
+
+static void draw_blood( const catacurses::window &w_blood, const avatar &you, const bool highlight )
+{
+    werase( w_blood );
+    mvwprintz( w_blood, point_zero, highlight ? h_light_gray : c_light_gray, _( "Blood type:" ) );
+    unsigned blood_pos = 1 + utf8_width( _( "Blood type:" ) );
+    mvwprintz( w_blood, point( blood_pos, 0 ), c_white, string_format( "%s",
+               blood_types_strs.at( you.blood_type ) ) );
+    wrefresh( w_blood );
 }
 } // namespace char_creation
 
@@ -2339,6 +2351,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_guide;
     catacurses::window w_height;
     catacurses::window w_age;
+    catacurses::window w_blood;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_name = catacurses::newwin( 3, 42, point( 2, 5 ) );
@@ -2353,6 +2366,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_guide = catacurses::newwin( 6, TERMX - 3, point( 2, TERMY - 7 ) );
         w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
         w_age = catacurses::newwin( 1, 12, point( 80, 6 ) );
+        w_blood = catacurses::newwin( 1, 20, point( 80, 7 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2571,6 +2585,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         char_creation::draw_age( w_age, you, current_selector == char_creation::AGE );
         char_creation::draw_height( w_height, you, current_selector == char_creation::HEIGHT );
+        char_creation::draw_blood( w_blood, you, current_selector == char_creation::BLOOD );
 
         const std::string location_prompt = string_format(
                                                 _( "Press <color_light_green>%s</color> to select location." ),
@@ -2663,19 +2678,24 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     current_selector = char_creation::AGE;
                     break;
                 case char_creation::AGE:
-                    current_selector = char_creation::NAME;
+                    current_selector = char_creation::BLOOD;
                     break;
+                case char_creation::BLOOD:
+                    current_selector = char_creation::NAME;
             }
         } else if( action == "LEFT" ) {
             switch( current_selector ) {
                 case char_creation::NAME:
-                    current_selector = char_creation::AGE;
+                    current_selector = char_creation::BLOOD;
                     break;
                 case char_creation::HEIGHT:
                     current_selector = char_creation::NAME;
                     break;
                 case char_creation::AGE:
                     current_selector = char_creation::HEIGHT;
+                    break;
+                case char_creation::BLOOD:
+                    current_selector = char_creation::AGE;
                     break;
             }
         } else if( action == "UP" ) {
@@ -2688,6 +2708,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 case char_creation::AGE:
                     if( you.base_age() < max_allowed_age ) {
                         you.mod_base_age( 1 );
+                    }
+                    break;
+                case char_creation::BLOOD:
+                    if( you.blood_type != AB_MINUS ) {
+                        you.blood_type = static_cast<blood_types>( static_cast<int>( you.blood_type ) + 1 );
+                    } else {
+                        you.blood_type = O_PLUS;
                     }
                     break;
                 default:
@@ -2703,6 +2730,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 case char_creation::AGE:
                     if( you.base_age() > min_allowed_age ) {
                         you.mod_base_age( -1 );
+                    }
+                    break;
+                case char_creation::BLOOD:
+                    if( you.blood_type != O_PLUS ) {
+                        you.blood_type = static_cast<blood_types>( static_cast<int>( you.blood_type ) - 1 );
+                    } else {
+                        you.blood_type = AB_MINUS;
                     }
                     break;
                 default:
@@ -2730,6 +2764,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             }
             you.set_base_age( rng( 16, 55 ) );
             you.set_base_height( rng( 145, 200 ) );
+            you.blood_type = static_cast<blood_types>( rng( 0, 7 ) );
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {
