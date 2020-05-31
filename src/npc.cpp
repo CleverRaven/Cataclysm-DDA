@@ -839,6 +839,9 @@ void npc::starting_weapon( const npc_class_id &type )
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
         }
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+
     weapon.set_owner( get_faction()->id );
 }
 
@@ -1154,6 +1157,7 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
@@ -1181,6 +1185,8 @@ bool npc::wield( item &it )
     } else {
         weapon = it;
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );

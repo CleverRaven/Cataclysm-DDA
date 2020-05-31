@@ -2453,9 +2453,7 @@ item Character::i_rem( int pos )
 {
     item tmp;
     if( pos == -1 ) {
-        tmp = weapon;
-        weapon = item();
-        return tmp;
+        return remove_weapon();
     } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
         auto iter = worn.begin();
         std::advance( iter, worn_position_to_index( pos ) );
@@ -2585,6 +2583,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
     return tmp;
 }

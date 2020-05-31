@@ -693,8 +693,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else if( !g->u.is_armed() ) {
-        g->u.weapon = granted;
+    } else if( !g->u.is_armed() && g->u.wield( granted, 0 ) ) {
+        // nothing to do
     } else {
         g->u.i_add( granted );
     }

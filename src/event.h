@@ -43,6 +43,7 @@ enum class event_type : int {
     character_takes_damage,
     character_triggers_trap,
     character_wakes_up,
+    character_wields_item,
     consumes_marloss_item,
     crosses_marloss_threshold,
     crosses_mutation_threshold,
@@ -140,7 +141,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 65,
+static_assert( static_cast<int>( event_type::num_event_types ) == 66,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -288,6 +289,15 @@ template<>
 struct event_spec<event_type::character_wakes_up> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "character", cata_variant_type::character_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_wields_item> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "itype", cata_variant_type::itype_id },
         }
     };
 };
