@@ -321,6 +321,7 @@
       { "item": "golf_ball", "prob": 30 },
       { "item": "golf_club", "prob": 15 },
       { "item": "meth", "prob": 2 },
+      { "item": "sandbox_kit", "prob": 1 },
       { "item": "sneakers", "prob": 80 },
       { "item": "boots", "prob": 70 },
       { "item": "knee_high_boots", "prob": 10 },
