@@ -426,8 +426,13 @@ struct event_spec<event_type::game_over> {
 
 template<>
 struct event_spec<event_type::game_start> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
             { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "avatar_profession", cata_variant_type::profession_id },
+            { "avatar_custom_profession", cata_variant_type::string },
+            { "game_version", cata_variant_type::string },
         }
     };
 };

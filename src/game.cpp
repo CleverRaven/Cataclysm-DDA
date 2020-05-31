@@ -71,6 +71,7 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
+#include "get_version.h"
 #include "harvest.h"
 #include "help.h"
 #include "iexamine.h"
@@ -123,6 +124,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "popup.h"
+#include "profession.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -887,7 +889,8 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>( u.getID() );
+    g->events().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
+            u.custom_profession, getVersionString() );
     return true;
 }
 
