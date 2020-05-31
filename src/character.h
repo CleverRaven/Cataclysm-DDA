@@ -1711,6 +1711,7 @@ class Character : public Creature, public visitable<Character>
         int tank_plut;
         int reactor_plut;
         int slow_rad;
+        blood_types blood_type;
 
         int focus_pool;
         int cash;
