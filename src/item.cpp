@@ -2190,10 +2190,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
         const std::set<ammotype> types_of_ammo = mod->ammo_types();
-        info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( types_of_ammo.begin(),
-        types_of_ammo.end(), []( const ammotype & at ) {
-            return at->name();
-        }, enumeration_conjunction::none ) );
+        if( !types_of_ammo.empty() ) {
+            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( types_of_ammo.begin(),
+            types_of_ammo.end(), []( const ammotype & at ) {
+                return at->name();
+            }, enumeration_conjunction::none ) );
+        }
     }
 
     if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {

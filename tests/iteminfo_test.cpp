@@ -1038,16 +1038,21 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
                "Effective recoil: <color_c_yellow>312</color>\n" );
     }
 
-    SECTION( "more gun stuff to split up" ) {
+    SECTION( "gun type and current magazine" ) {
         std::vector<iteminfo_parts> gun_type = { iteminfo_parts::GUN_TYPE };
         std::vector<iteminfo_parts> magazine = { iteminfo_parts::GUN_MAGAZINE };
-        std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
 
-        // FIXME: This section is empty in-game for un-loaded glocks
-        // When loaded, empty "Type:" is replaced with "Magazine:" and "Ammunition:"
-        CHECK( item_info_str( glock, gun_type ) == "--\nType: \n" );
+        // When unloaded, the "Type:" and "Magazine:" sections should not be shown
+        CHECK( item_info_str( glock, gun_type ).empty() );
         CHECK( item_info_str( glock, magazine ).empty() );
 
+        // TODO: Test guns having "Type:" (not many exist; ex. ar15_retool_300blk)
+
+        // TODO: Test with magazine inserted, ex. "Magazine: Glock 17 17-round magazine"
+    }
+
+    SECTION( "gun aiming stats" ) {
+        std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
         CHECK( item_info_str( glock, aim_stats ) ==
                "--\n"
                "<color_c_white>Base aim speed</color>: <color_c_yellow>104</color>\n"
