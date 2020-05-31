@@ -3186,6 +3186,7 @@ void iexamine::keg( player &p, const tripoint &examp )
                     return; // They didn't actually drink
                 }
                 p.assign_activity( player_activity( consume_activity_actor( drink, false ) ) );
+                drink.charges--;
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
