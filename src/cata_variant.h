@@ -14,6 +14,7 @@
 #include "enum_conversions.h"
 #include "hash_utils.h"
 #include "pldata.h"
+#include "point.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -45,6 +46,7 @@ enum class cata_variant_type : int {
     mutagen_technique,
     mutation_category_id,
     oter_id,
+    point,
     profession_id,
     skill_id,
     species_id,
@@ -53,6 +55,7 @@ enum class cata_variant_type : int {
     ter_id,
     trait_id,
     trap_str_id,
+    tripoint,
     num_types, // last
 };
 
@@ -155,7 +158,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 25,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 27,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -237,6 +240,17 @@ template<>
 struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
 
 template<>
+struct convert<cata_variant_type::point> {
+    using type = point;
+    static std::string to_string( const point &v ) {
+        return v.to_string();
+    }
+    static point from_string( const std::string &v ) {
+        return point::from_string( v );
+    }
+};
+
+template<>
 struct convert<cata_variant_type::profession_id> : convert_string_id<profession_id> {};
 
 template<>
@@ -259,6 +273,17 @@ struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
 
 template<>
 struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> {};
+
+template<>
+struct convert<cata_variant_type::tripoint> {
+    using type = tripoint;
+    static std::string to_string( const tripoint &v ) {
+        return v.to_string();
+    }
+    static tripoint from_string( const std::string &v ) {
+        return tripoint::from_string( v );
+    }
+};
 
 } // namespace cata_variant_detail
 
