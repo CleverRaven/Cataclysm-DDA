@@ -632,11 +632,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Covers</color>:"
                " The <color_c_cyan>torso</color>."
-               " The <color_c_cyan>arms</color>. \n" ); // FIXME: Remove trailing space
+               " The <color_c_cyan>arms</color>. \n" ); // NOLINT(cata-text-style)
 
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         // Coverage and warmth are displayed together on a single line
         std::vector<iteminfo_parts> cov_warm = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
@@ -1043,7 +1043,8 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         std::vector<iteminfo_parts> magazine = { iteminfo_parts::GUN_MAGAZINE };
         std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
 
-        // FIXME: Why empty?
+        // FIXME: This section is empty in-game for un-loaded glocks
+        // When loaded, empty "Type:" is replaced with "Magazine:" and "Ammunition:"
         CHECK( item_info_str( glock, gun_type ) == "--\nType: \n" );
         CHECK( item_info_str( glock, magazine ).empty() );
 
@@ -1052,13 +1053,13 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
                "<color_c_white>Base aim speed</color>: <color_c_yellow>104</color>\n"
                "<color_c_cyan>Regular</color>\n"
                "Even chance of good hit at range: <color_c_yellow>3</color>\n"
-               "Time to reach aim level: <color_c_yellow>115</color> moves \n"
+               "Time to reach aim level: <color_c_yellow>115</color> moves\n"
                "<color_c_cyan>Careful</color>\n"
                "Even chance of good hit at range: <color_c_yellow>4</color>\n"
-               "Time to reach aim level: <color_c_yellow>145</color> moves \n"
+               "Time to reach aim level: <color_c_yellow>145</color> moves\n"
                "<color_c_cyan>Precise</color>\n"
                "Even chance of good hit at range: <color_c_yellow>6</color>\n"
-               "Time to reach aim level: <color_c_yellow>174</color> moves \n" );
+               "Time to reach aim level: <color_c_yellow>174</color> moves\n" );
     }
 
     SECTION( "compatible magazines" ) {
@@ -1807,12 +1808,12 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     // NOTE: Funky trailing space
     CHECK( item_info_str( nostril, {} ) ==
            "--\n"
-           "<color_c_white>Encumbrance</color>: \n"
+           "<color_c_white>Encumbrance</color>: \n" // NOLINT(cata-text-style)
            "Mouth <color_c_yellow>10</color> " );
 
     CHECK( item_info_str( purifier, {} ) ==
            "--\n"
-           "<color_c_white>Environmental Protection</color>: \n"
+           "<color_c_white>Environmental Protection</color>: \n" // NOLINT(cata-text-style)
            "Mouth <color_c_yellow>7</color> " );
 }
 
@@ -2239,7 +2240,7 @@ TEST_CASE( "item debug info", "[iteminfo][debug][!mayfail][.]" )
                "damage: <color_c_yellow>0</color>\n"
                "active: <color_c_yellow>1</color>\n"
                "burn: <color_c_yellow>0</color>\n"
-               "tags: \n"
+               "tags: \n" // NOLINT(cata-text-style)
                "age (turns): <color_c_yellow>28800</color>\n"
                "rot (turns): <color_c_yellow>0</color>\n"
                "  max rot (turns): <color_c_yellow>3888000</color>\n"
