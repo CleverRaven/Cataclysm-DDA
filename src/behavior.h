@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "string_id.h"
@@ -55,14 +56,14 @@ class tree
 class node_t
 {
     public:
-        node_t();
+        node_t() = default;
         // Entry point for tree traversal.
         behavior_return tick( const oracle_t *subject ) const;
         std::string goal() const;
 
         // Interface to construct a node.
         void set_strategy( const strategy_t *new_strategy );
-        void set_predicate( std::function < status_t ( const oracle_t *, const std::string & )>
+        void add_predicate( std::function < status_t ( const oracle_t *, const std::string & )>
                             new_predicate, const std::string &argument = "" );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );
@@ -75,8 +76,8 @@ class node_t
     private:
         std::vector<const node_t *> children;
         const strategy_t *strategy = nullptr;
-        std::function<status_t( const oracle_t *, const std::string & )> predicate;
-        std::string predicate_argument;
+        using predicate_type = std::function<status_t( const oracle_t *, const std::string & )>;
+        std::vector<std::pair<predicate_type, std::string>> conditions;
         // TODO: make into an ID?
         std::string _goal;
 };
