@@ -79,8 +79,7 @@ profession::profession()
     : _name_male( no_translation( "null" ) ),
       _name_female( no_translation( "null" ) ),
       _description_male( no_translation( "null" ) ),
-      _description_female( no_translation( "null" ) ),
-      _point_cost( 0 )
+      _description_female( no_translation( "null" ) )
 {
 }
 

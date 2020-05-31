@@ -1,6 +1,69 @@
 [
   {
     "type": "martial_art",
+    "id": "style_mma_desert_wind",
+    "name": { "str": "Desert Wind" },
+    "description": "Desert Wind maneuvers focus on quick movement and swirling, flaming strikes.  The complex spinning and slashing of the curved blade incorporated into many Desert Wind maneuvers are in fact carefully honed gestures that evoke the power of fire, if performed correctly and with the proper focus.",
+    "initiate": [
+      "You feel a wave of heat wash over you as you assume a running combat stance.",
+      "%s assumes into a running combat stance."
+    ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_desert_wind_ondodge",
+        "name": "Zephyr Dance",
+        "description": "You spin gracefully away from attacks, whirling like the dersert zephyr racing across the sands.\n\n+1.0 Dodging skill, +1 Dodge attempt\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_desert_wind_onmove",
+        "name": "Wind Stride",
+        "description": "A warm breeze swirls about you as you move speedily away.\n\n+1.0 Dodging skill.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [
+      "mma_tec_desert_wind_strike",
+      "mma_tec_desert_wind_crit",
+      "mma_tec_desert_wind_impale",
+      "mma_tec_desert_wind_spin",
+      "mma_tec_desert_wind_wide"
+    ],
+    "weapons": [
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "scimitar",
+      "scimitar_inferior",
+      "scimitar_fake",
+      "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
+      "spear_rebar",
+      "spear_pipe",
+      "spear_forked",
+      "spear_steel",
+      "spear_wood",
+      "spear_copper",
+      "spear_homemade_halfpike",
+      "sword_wood"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_mma_panzer",
     "name": { "str": "Panzer Kunst" },
     "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",

@@ -53,8 +53,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, int width )
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 
 struct item_penalties {
-    std::vector<body_part> body_parts_with_stacking_penalty;
-    std::vector<body_part> body_parts_with_out_of_order_penalty;
+    std::vector<bodypart_id> body_parts_with_stacking_penalty;
+    std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::set<std::string> bad_items_within;
 
     int badness() const {
@@ -82,12 +82,12 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
 {
     layer_level layer = worn_item_it->get_layer();
 
-    std::vector<body_part> body_parts_with_stacking_penalty;
-    std::vector<body_part> body_parts_with_out_of_order_penalty;
+    std::vector<bodypart_id> body_parts_with_stacking_penalty;
+    std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
-    for( body_part bp : all_body_parts ) {
-        if( bp != tabindex && num_bp != tabindex ) {
+    for( const bodypart_id &bp : c.get_all_body_parts() ) {
+        if( bp->token != tabindex && num_bp != tabindex ) {
             continue;
         }
         if( !worn_item_it->covers( bp ) ) {
@@ -136,7 +136,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
              std::move( lists_of_bad_items_within[0] ) };
 }
 
-std::string body_part_names( const std::vector<body_part> &parts )
+std::string body_part_names( const std::vector<bodypart_id> &parts )
 {
     if( parts.empty() ) {
         debugmsg( "Asked for names of empty list" );
@@ -146,8 +146,9 @@ std::string body_part_names( const std::vector<body_part> &parts )
     std::vector<std::string> names;
     names.reserve( parts.size() );
     for( size_t i = 0; i < parts.size(); ++i ) {
-        const bodypart_id &part = convert_bp( parts[i] ).id();
-        if( i + 1 < parts.size() && parts[i + 1] == static_cast<body_part>( bp_aiOther[part->token] ) ) {
+        const bodypart_id &part = parts[i];
+        if( i + 1 < parts.size() &&
+            parts[i + 1] == convert_bp( static_cast<body_part>( bp_aiOther[part->token] ) ).id() ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;
@@ -395,7 +396,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
 {
     std::vector<layering_item_info> s;
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
-        if( elem_it->covers( static_cast<body_part>( bp ) ) ) {
+        if( elem_it->covers( convert_bp( static_cast<body_part>( bp ) ).id() ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
                            elem_it->get_encumber( c ),
                            elem_it->tname()
@@ -439,7 +440,7 @@ void player::sort_armor()
     */
 
     int req_right_h = 3 + 1 + 2 + num_bp + 1;
-    for( const body_part cover : all_body_parts ) {
+    for( const bodypart_id &cover : get_all_body_parts() ) {
         for( const item &elem : worn ) {
             if( elem.covers( cover ) ) {
                 req_right_h++;
@@ -714,7 +715,7 @@ void player::sort_armor()
             }
         } else {
             // bp_*
-            body_part bp = static_cast<body_part>( tabindex );
+            const bodypart_id bp = convert_bp( static_cast<body_part>( tabindex ) ).id();
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 if( it->covers( bp ) ) {
                     tmp_worn.push_back( it );
@@ -828,7 +829,7 @@ void player::sort_armor()
                 cata::optional<std::list<item>::iterator> new_equip_it =
                     wear( *loc.obtain( *this ) );
                 if( new_equip_it ) {
-                    body_part bp = static_cast<body_part>( tabindex );
+                    const bodypart_id bp = convert_bp( static_cast<body_part>( tabindex ) ).id();
                     if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our

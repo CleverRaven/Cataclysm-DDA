@@ -19,7 +19,7 @@
 
 using efficiency_stat = statistics<long>;
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
 static void clear_game_drag( const ter_id &terrain )
 {
@@ -131,7 +131,7 @@ static void print_drag_test_strings( const std::string &type )
 }
 
 static void test_vehicle_drag(
-    std::string type, const double expected_c_air, const double expected_c_rr,
+    const std::string &type, const double expected_c_air, const double expected_c_rr,
     const double expected_c_water, const int expected_safe, const int expected_max )
 {
     test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,

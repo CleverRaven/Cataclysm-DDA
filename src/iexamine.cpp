@@ -510,7 +510,7 @@ class atm_menu
             }
 
             item card( "cash_card", calendar::turn );
-            card.charges = 0;
+            card.ammo_set( card.ammo_default(), 0 );
             u.i_add( card );
             u.cash -= 1000;
             u.moves -= to_turns<int>( 5_seconds );
@@ -547,17 +547,11 @@ class atm_menu
 
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
-            //We may want to use visit_items here but that's fairly heavy.
-            //For now, just check weapon if we didn't find it in the inventory.
-            int pos = u.inv.position_by_type( itype_cash_card );
-            item *dst;
-            if( pos == INT_MIN ) {
-                dst = &u.weapon;
-            } else {
-                dst = &u.i_at( pos );
-            }
 
-            if( dst->is_null() ) {
+            std::vector<item *> cash_cards_on_hand = u.items_with( []( const item & i ) {
+                return i.typeId() == itype_cash_card;
+            } );
+            if( cash_cards_on_hand.empty() ) {
                 //Just in case we run into an edge case
                 popup( _( "You do not have a cash card to withdraw money!" ) );
                 return false;
@@ -571,8 +565,35 @@ class atm_menu
                 return false;
             }
 
-            dst->charges += amount;
-            u.cash -= amount;
+            int inserted = 0;
+            int remaining = amount;
+            ammotype money( "money" );
+
+            std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
+                int balance_one = one->ammo_remaining();
+                int balance_two = two->ammo_remaining();
+                return balance_one > balance_two;
+            } );
+
+
+            for( item * const &cc : cash_cards_on_hand ) {
+                if( inserted == amount ) {
+                    break;
+                }
+                int max_cap = cc->ammo_capacity( money ) - cc->ammo_remaining();
+                int to_insert = std::min( max_cap, remaining );
+                // insert whatever there's room for + the old balance.
+                cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining() );
+                inserted += to_insert;
+                remaining -= to_insert;
+            }
+
+            if( remaining ) {
+                add_msg( m_info, _( "All cash cards at maximum capacity" ) );
+            }
+
+            //dst->charges += amount;
+            u.cash -= amount - remaining;
             u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
 
@@ -582,6 +603,9 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
+            std::vector<item *> cash_cards_on_hand = u.items_with( []( const item & i ) {
+                return i.typeId() == itype_cash_card;
+            } );
             if( u.activity.id() == ACT_ATM ) {
                 u.activity.set_to_null(); // stop for now, if required, it will be created again.
                 dst = u.activity.targets.front().get_item();
@@ -589,16 +613,15 @@ class atm_menu
                     return false;
                 }
             } else {
-                const int pos = u.inv.position_by_type( itype_cash_card );
 
-                if( pos == INT_MIN ) {
+                if( cash_cards_on_hand.empty() ) {
                     return false;
                 }
-                dst = &u.i_at( pos );
+                dst = cash_cards_on_hand.front();
             }
 
-            for( auto &i : u.inv_dump() ) {
-                if( i == dst || i->charges <= 0 || i->typeId() != itype_cash_card ) {
+            for( item *i : cash_cards_on_hand ) {
+                if( i == dst || i->ammo_remaining() <= 0 || i->typeId() != itype_cash_card ) {
                     continue;
                 }
                 if( u.moves < 0 ) {
@@ -609,9 +632,9 @@ class atm_menu
                     u.activity.targets.push_back( item_location( u, dst ) );
                     break;
                 }
-
-                dst->charges += i->charges;
-                i->charges = 0;
+                // should we check for max capacity here?
+                dst->ammo_set( dst->ammo_default(), i->ammo_remaining() + dst->ammo_remaining() );
+                i->ammo_set( i->ammo_default(), 0 );
                 u.moves -= 10;
             }
 
@@ -3163,6 +3186,7 @@ void iexamine::keg( player &p, const tripoint &examp )
                     return; // They didn't actually drink
                 }
                 p.assign_activity( player_activity( consume_activity_actor( drink, false ) ) );
+                drink.charges--;
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );

@@ -216,7 +216,7 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     }
 
     for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+        if( it.covers( convert_bp( bp ).id() ) ) {
             return true;
         }
     }

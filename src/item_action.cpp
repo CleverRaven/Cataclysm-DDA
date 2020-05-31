@@ -172,7 +172,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
             }
 
             if( better ) {
-                candidates[use] = i;
+                candidates[use] = actual_item;
                 if( actual_item->ammo_required() == 0 ) {
                     to_remove.insert( use );
                 }
@@ -287,7 +287,7 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss += string_format( " (%d/%d)", elem.second->ammo_required(), elem.second->ammo_remaining() );
+            ss += string_format( "(-%d)", elem.second->ammo_required() );
         }
 
         const auto method = elem.second->get_use( elem.first );

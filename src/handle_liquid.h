@@ -67,7 +67,7 @@ bool consume_liquid( item &liquid, int radius = 0 );
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &pos,
+bool handle_liquid_from_ground( const map_stack::iterator &on_ground, const tripoint &pos,
                                 int radius = 0 );
 
 /**

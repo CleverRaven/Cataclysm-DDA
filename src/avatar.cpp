@@ -44,6 +44,7 @@
 #include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -124,7 +125,7 @@ avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
-    grab_type = OBJECT_NONE;
+    grab_type = object_type::NONE;
 }
 
 void avatar::toggle_map_memory()
@@ -674,7 +675,7 @@ void avatar::grab( object_type grab_type, const tripoint &grab_point )
     this->grab_type = grab_type;
     this->grab_point = grab_point;
 
-    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+    path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }
 
 object_type avatar::get_grab_type() const
@@ -1004,13 +1005,7 @@ nc_color avatar::basic_symbol_color() const
         is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
-    if( move_mode == CMM_RUN ) {
-        return c_yellow;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        return c_light_gray;
-    }
-    return c_white;
+    return move_mode->symbol_color();
 }
 
 int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
@@ -1201,7 +1196,7 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -1453,101 +1448,62 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
 
-void avatar::set_movement_mode( character_movemode new_mode )
+void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    switch( new_mode ) {
-        case CMM_WALK: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
-                } else {
-                    add_msg( _( "You nudge your steed into a steady trot." ) );
-                }
-            } else {
-                add_msg( _( "You start walking." ) );
-            }
-            break;
+    steed_type steed;
+    if( is_mounted() ) {
+        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            steed = steed_type::MECH;
+        } else {
+            steed = steed_type::ANIMAL;
         }
-        case CMM_RUN: {
-            if( can_run() ) {
-                if( is_hauling() ) {
-                    stop_hauling();
-                }
-                if( is_mounted() ) {
-                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
-                    } else {
-                        add_msg( _( "You spur your steed into a gallop." ) );
-                    }
-                } else {
-                    add_msg( _( "You start running." ) );
-                }
-            } else {
-                if( is_mounted() ) {
-                    // mounts don't currently have stamina, but may do in future.
-                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
-                } else if( get_working_leg_count() < 2 ) {
-                    add_msg( m_bad, _( "You need two functional legs to run." ) );
-                } else {
-                    add_msg( m_bad, _( "You're too tired to run." ) );
-                }
-                return;
-            }
-            break;
-        }
-        case CMM_CROUCH: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
-                } else {
-                    add_msg( _( "You slow your steed to a walk." ) );
-                }
-            } else {
-                add_msg( _( "You start crouching." ) );
-            }
-            break;
-        }
-        default: {
-            return;
-        }
+    } else {
+        steed = steed_type::NONE;
     }
-    move_mode = new_mode;
+
+    if( can_switch_to( new_mode ) ) {
+        add_msg( new_mode->change_message( true, steed ) );
+        move_mode = new_mode;
+        if( new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
+    } else {
+        add_msg( new_mode->change_message( false, steed ) );
+    }
 }
 
 void avatar::toggle_run_mode()
 {
-    if( move_mode == CMM_RUN ) {
-        set_movement_mode( CMM_WALK );
+    if( is_running() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
     } else {
-        set_movement_mode( CMM_RUN );
+        set_movement_mode( move_mode_id( "run" ) );
     }
 }
 
 void avatar::toggle_crouch_mode()
 {
-    if( move_mode == CMM_CROUCH ) {
-        set_movement_mode( CMM_WALK );
+    if( is_crouching() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
     } else {
-        set_movement_mode( CMM_CROUCH );
+        set_movement_mode( move_mode_id( "crouch" ) );
     }
 }
 
 void avatar::reset_move_mode()
 {
-    if( move_mode != CMM_WALK ) {
-        set_movement_mode( CMM_WALK );
+    if( !is_walking() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
     }
 }
 
 void avatar::cycle_move_mode()
 {
-    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
-    as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
-    set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    const move_mode_id next = current_movement_mode()->cycle();
+    set_movement_mode( next );
     // if a movemode is disabled then just cycle to the next one
-    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
-        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
-        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    if( !movement_mode_is( next ) ) {
+        set_movement_mode( next->cycle() );
     }
 }
 

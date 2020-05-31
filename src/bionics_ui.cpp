@@ -750,9 +750,10 @@ void player::power_bionics()
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {
-                        activate_bionic( b );
-                        // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().has_flag( "BIONIC_GUN" ) || tmp->ammo_count > 0 ) {
+                        bool close_ui = false;
+                        activate_bionic( b, false, &close_ui );
+                        // Exit this ui if we are firing a complex bionic
+                        if( close_ui || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }

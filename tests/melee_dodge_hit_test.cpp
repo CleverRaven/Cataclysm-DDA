@@ -34,7 +34,7 @@ static float dodge_base_with_dex_and_skill( avatar &dummy, int dexterity, int do
 }
 
 // Return the Creature's `get_dodge` with the given effect.
-static float dodge_with_effect( Creature &critter, std::string effect_name )
+static float dodge_with_effect( Creature &critter, const std::string &effect_name )
 {
     // Set one effect and leave other attributes alone
     critter.clear_effects();

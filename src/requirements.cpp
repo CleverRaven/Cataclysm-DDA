@@ -535,7 +535,7 @@ void requirement_data::reset()
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-        std::string hilite, requirement_display_flags flags ) const
+        const std::string &hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -695,7 +695,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
-    craft_flags, std::function<void( int )> ) const
+    craft_flags, const std::function<void( int )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -714,7 +714,7 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
 
 bool tool_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags flags, std::function<void( int )> visitor ) const
+    craft_flags flags, const std::function<void( int )> &visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -746,7 +746,7 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
 
 bool item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags, std::function<void( int )> ) const
+    craft_flags, const std::function<void( int )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;

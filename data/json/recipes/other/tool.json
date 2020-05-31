@@ -366,7 +366,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 3 ],
+    "skills_required": [ "chemistry", 3 ],
     "difficulty": 4,
     "time": "200 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],

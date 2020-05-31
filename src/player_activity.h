@@ -76,7 +76,7 @@ class player_activity
          */
         player_activity( const activity_actor &actor );
 
-        player_activity( player_activity && ) = default;
+        player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
         player_activity &operator=( const player_activity & ) = default;

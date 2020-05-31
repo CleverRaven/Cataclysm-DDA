@@ -33,7 +33,7 @@ include(CTest)
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
+MESSAGE("\n * Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
 MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\     ")

@@ -290,7 +290,7 @@ struct new_field {
             // been reported at startup time.
             return result;
         }
-        for( cata_variant v : transformation.function( it->second ) ) {
+        for( const cata_variant &v : transformation.function( it->second ) ) {
             result.push_back( data );
             result.back().emplace( new_field_name, v );
         }

@@ -442,8 +442,8 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_spell( avatar &you, spell_id sp, bool no_fail,
-        bool no_mana )
+target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_id &sp,
+        bool no_fail, bool no_mana )
 {
     return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
 }
@@ -3030,8 +3030,8 @@ void target_ui::panel_spell_info( int &text_y )
     mvwprintz( w_target, point( 1, text_y++ ), c_light_green, _( "Casting: %s (Level %u)" ),
                casting->name(),
                casting->get_level() );
-    if( !no_mana || casting->energy_source() == none_energy ) {
-        if( casting->energy_source() == hp_energy ) {
+    if( !no_mana || casting->energy_source() == magic_energy_type::none ) {
+        if( casting->energy_source() == magic_energy_type::hp ) {
             text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2,
                                       clr,
                                       _( "Cost: %s %s" ), casting->energy_cost_string( *you ), casting->energy_string() );

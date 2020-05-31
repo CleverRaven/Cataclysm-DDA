@@ -139,15 +139,15 @@ void input_manager::init()
     }
     t_actions &actions = action_contexts["DEFAULTMODE"];
     std::set<action_id> touched;
-    for( std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a ) {
-        const std::string action_id = action_ident( a->second );
+    for( const std::pair<const char, action_id> &a : keymap ) {
+        const std::string action_id = action_ident( a.second );
         // Put the binding from keymap either into the global context
         // (if an action with that ident already exists there - think movement keys)
         // or otherwise to the DEFAULTMODE context.
         std::string context = "DEFAULTMODE";
         if( action_contexts[default_context_id].count( action_id ) > 0 ) {
             context = default_context_id;
-        } else if( touched.count( a->second ) == 0 ) {
+        } else if( touched.count( a.second ) == 0 ) {
             // Note: movement keys are somehow special as the default in keymap
             // does not contain the arrow keys, so we don't clear existing keybindings
             // for them.
@@ -155,9 +155,9 @@ void input_manager::init()
             // previously (default!) existing bindings, to only keep the bindings,
             // the user is used to
             action_contexts[action_id].clear();
-            touched.insert( a->second );
+            touched.insert( a.second );
         }
-        add_input_for_action( action_id, context, input_event( a->first, CATA_INPUT_KEYBOARD ) );
+        add_input_for_action( action_id, context, input_event( a.first, CATA_INPUT_KEYBOARD ) );
     }
     // Unmap actions that are explicitly not mapped
     for( const auto &elem : unbound_keymap ) {
@@ -274,15 +274,14 @@ void input_manager::save()
         JsonOut jsout( data_file, true );
 
         jsout.start_array();
-        for( t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end();
-             ++a ) {
-            const t_actions &actions = a->second;
+        for( const auto &a : action_contexts ) {
+            const t_actions &actions = a.second;
             for( const auto &action : actions ) {
                 const t_input_event_list &events = action.second.input_events;
                 jsout.start_object();
 
                 jsout.member( "id", action.first );
-                jsout.member( "category", a->first );
+                jsout.member( "category", a.first );
                 bool is_user_created = action.second.is_user_created;
                 if( is_user_created ) {
                     jsout.member( "is_user_created", is_user_created );
@@ -604,11 +603,9 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     input_manager::t_actions &default_actions = inp_mngr.action_contexts[default_context_id];
     input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
 
-    for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
-        input_manager::t_actions::iterator default_action = default_actions.find( *registered_action );
-        input_manager::t_actions::iterator category_action = category_actions.find( *registered_action );
+    for( const auto &registered_action : registered_actions ) {
+        input_manager::t_actions::iterator default_action = default_actions.find( registered_action );
+        input_manager::t_actions::iterator category_action = category_actions.find( registered_action );
         if( default_action != default_actions.end() ) {
             std::vector<input_event> &events = default_action->second.input_events;
             events.erase( std::remove( events.begin(), events.end(), event ), events.end() );
@@ -715,11 +712,9 @@ std::string input_context::key_bound_to( const std::string &action_descriptor, c
 
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
-    for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
+    for( const auto &registered_action : registered_actions ) {
 
-        const std::vector<input_event> &events = inp_mngr.get_input_for_action( *registered_action,
+        const std::vector<input_event> &events = inp_mngr.get_input_for_action( registered_action,
                 category );
         for( const auto &events_event : events ) {
             // Only consider keyboard events without modifiers

@@ -3412,7 +3412,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": [ "chemistry", 1 ],
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],

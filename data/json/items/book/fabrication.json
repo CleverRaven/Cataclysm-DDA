@@ -277,25 +277,6 @@
     "time": "30 m"
   },
   {
-    "id": "textbook_gaswarfare",
-    "type": "BOOK",
-    "name": { "str": "Art and Science of Chemical Warfare", "str_pl": "copies of Art and Science of Chemical Warfare" },
-    "description": "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries.  The photographs the author chose make it a difficult read at times, though the information is top-notch.",
-    "weight": "854 g",
-    "volume": "1500 ml",
-    "price": 400,
-    "price_postapoc": 1000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
-    "skill": "fabrication",
-    "required_level": 4,
-    "max_level": 7,
-    "intelligence": 9,
-    "time": "20 m",
-    "fun": -2
-  },
-  {
     "id": "textbook_weapeast",
     "type": "BOOK",
     "name": { "str": "The Swords of the Samurai", "str_pl": "copies of The Swords of the Samurai" },
@@ -460,26 +441,6 @@
     "intelligence": 4,
     "time": "30 m",
     "fun": -2
-  },
-  {
-    "id": "textbook_extraction",
-    "type": "BOOK",
-    "name": { "str": "The Essential Oil Enthusiasts Handbook", "str_pl": "copies of The Essential Oil Enthusiasts Handbook" },
-    "description": "A heavy hardback book explaining the process of essential oil making, with schematics for the equipment to do it.  Good luck, and don't blow yourself up!",
-    "looks_like": "textbook_chemistry",
-    "weight": "1420 g",
-    "volume": "1 L",
-    "price": 6000,
-    "price_postapoc": 10000,
-    "bashing": 4,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
-    "skill": "fabrication",
-    "required_level": 5,
-    "max_level": 8,
-    "intelligence": 10,
-    "time": "60 m"
   },
   {
     "id": "concrete_book",

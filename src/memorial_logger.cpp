@@ -7,6 +7,7 @@
 #include <tuple>
 #include <utility>
 
+#include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -937,6 +938,20 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::opens_temple: {
             add( pgettext( "memorial_male", "Opened a strange temple." ),
                  pgettext( "memorial_female", "Opened a strange temple." ) );
+            break;
+        }
+        case event_type::player_fails_conduct: {
+            add( pgettext( "memorial_male", "Lost the conduct %s%s." ),
+                 pgettext( "memorial_female", "Lost the conduct %s%s." ),
+                 e.get<achievement_id>( "conduct" )->name(),
+                 e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
+            break;
+        }
+        case event_type::player_gets_achievement: {
+            add( pgettext( "memorial_male", "Gained the achievement %s%s." ),
+                 pgettext( "memorial_female", "Gained the achievement %s%s." ),
+                 e.get<achievement_id>( "achievement" )->name(),
+                 e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
             break;
         }
         case event_type::player_levels_spell: {

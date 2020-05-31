@@ -72,8 +72,8 @@ static const itype_id itype_vacutainer( "vacutainer" );
 
 static const skill_id skill_computer( "computer" );
 
-static const species_id HUMAN( "HUMAN" );
-static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id species_HUMAN( "HUMAN" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
@@ -757,8 +757,8 @@ void computer_session::action_blood_anal()
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
-                } else if( mt->in_species( ZOMBIE ) ) {
-                    if( mt->in_species( HUMAN ) ) {
+                } else if( mt->in_species( species_ZOMBIE ) ) {
+                    if( mt->in_species( species_HUMAN ) ) {
                         print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
                     } else {
                         print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );

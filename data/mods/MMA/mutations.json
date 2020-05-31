@@ -31,8 +31,27 @@
   },
   {
     "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "Ki Strike" },
+    "points": 2,
+    "description": "Who needs weapons?  You deal more melee damage while unarmed.  This damage improves as your unarmed skill increases.",
+    "starting_trait": true,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
     "extend": { "cancels": [ "DRUNKEN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_SUBLIME",
+    "name": { "str": "Martial Adept" },
+    "points": 2,
+    "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_desert_wind" ],
+    "valid": false
   }
 ]

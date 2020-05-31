@@ -36,7 +36,7 @@ class Threshold
     public:
         Threshold( const double accuracy, const double chance )
             : _accuracy( accuracy ), _chance( chance ) {
-        };
+        }
         double accuracy() const {
             return _accuracy;
         }
