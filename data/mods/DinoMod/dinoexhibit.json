@@ -1,8 +1,11 @@
 [
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "dinoexhibit" ],
     "weight": 10000,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "rrrrrrrrrrrrrrrrrrrrrrrr",
         "yrrryrrryrrryrrryrrryrrr",
