@@ -43,6 +43,7 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "popup.h"
 #include "profession.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -2682,6 +2683,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 case char_creation::BLOOD:
                     current_selector = char_creation::NAME;
+                    break;
             }
         } else if( action == "LEFT" ) {
             switch( current_selector ) {
@@ -2813,6 +2815,40 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         you.set_base_height( clamp( popup.query_int(), 145, 200 ) );
                     }
                     break;
+                }
+                case char_creation::BLOOD: {
+                    std::string answer = query_popup()
+                        .allow_cancel( false )
+                        .context( "ONE_OF_BLOOD_TYPES" )
+                        .message( "%s", _( "Choose blood type:" ) )
+                        .option( "O-" )
+                        .option( "O+" )
+                        .option( "A-" )
+                        .option( "A+" )
+                        .option( "B-" )
+                        .option( "B+" )
+                        .option( "AB-" )
+                        .option( "AB+" )
+                        .query()
+                        .action; // retrieve the input action
+                        
+                    if( answer == "O-" ) {
+                        you.blood_type = O_MINUS;
+                    } else if( answer == "O+" ) {
+                        you.blood_type = O_PLUS;
+                    } else if( answer == "A-" ) {
+                        you.blood_type = A_MINUS;
+                    } else if( answer == "A+" ) {
+                        you.blood_type = A_PLUS;
+                    } else if( answer == "B-" ) {
+                        you.blood_type = B_MINUS;
+                    } else if( answer == "B+" ) {
+                        you.blood_type = B_PLUS;
+                    } else if( answer == "AB-" ) {
+                        you.blood_type = AB_MINUS;
+                    } else if( answer == "AB+" ) {
+                        you.blood_type = AB_PLUS;
+                    }
                 }
             }
 

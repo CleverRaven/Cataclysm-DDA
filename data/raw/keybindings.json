@@ -2911,6 +2911,62 @@
   },
   {
     "type": "keybinding",
+    "id": "O-",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "O-",
+    "bindings": [ { "input_method": "keyboard", "key": [ "1" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "O+",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "O+",
+    "bindings": [ { "input_method": "keyboard", "key": [ "2" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "A-",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "A-",
+    "bindings": [ { "input_method": "keyboard", "key": [ "3" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "A+",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "A+",
+    "bindings": [ { "input_method": "keyboard", "key": [ "4" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "B-",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "B-",
+    "bindings": [ { "input_method": "keyboard", "key": [ "5" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "B+",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "B+",
+    "bindings": [ { "input_method": "keyboard", "key": [ "6" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "AB-",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "AB-",
+    "bindings": [ { "input_method": "keyboard", "key": [ "7" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "AB+",
+    "category": "ONE_OF_BLOOD_TYPES",
+    "name": "AB+",
+    "bindings": [ { "input_method": "keyboard", "key": [ "8" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "QUIT",
     "category": "POPUP_WAIT",
     "name": "Cancel popup",
