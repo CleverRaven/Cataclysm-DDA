@@ -1625,7 +1625,7 @@ void map::player_in_field( player &u )
                     bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
-                        if( i.covers( bp->token ) ) {
+                        if( i.covers( bp ) ) {
                             sum_cover += i.get_coverage();
                         }
                     }

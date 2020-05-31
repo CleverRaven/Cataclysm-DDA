@@ -1507,7 +1507,7 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
         const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
-                if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                     coverage += i.get_coverage();

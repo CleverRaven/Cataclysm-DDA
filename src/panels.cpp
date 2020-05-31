@@ -675,7 +675,7 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
+static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -1675,11 +1675,16 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
     wrefresh( w );
 }
 
@@ -1695,11 +1700,16 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
     wrefresh( w );
 }
 

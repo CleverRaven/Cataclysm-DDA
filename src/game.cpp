@@ -9707,7 +9707,8 @@ point game::place_player( const tripoint &dest_loc )
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
-        u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
+        u.drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+        false );
     }
 
     // List items here
@@ -11840,10 +11841,11 @@ bool check_art_charge_req( item &it )
                 reqsmet = false;
                 break;
             }
-            for( const body_part bp : all_body_parts ) {
-                if( it.covers( bp ) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
+            for( const bodypart_id bp : p.get_all_body_parts() ) {
+                if( it.covers( bp ) || ( heldweapon && ( bp == bodypart_id( "hand_r" ) ||
+                                         bp == bodypart_id( "hand_l" ) ) ) ) {
                     reqsmet = true;
-                    for( auto &i : p.worn ) {
+                    for( const item &i : p.worn ) {
                         if( i.covers( bp ) && ( &it != &i ) && i.get_coverage() > 50 ) {
                             reqsmet = false;
                             break; //This one's no good, check the next body part

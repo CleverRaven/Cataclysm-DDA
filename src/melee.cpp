@@ -1671,7 +1671,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit->token ) ? block_bonus : 0;
+        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -1963,7 +1963,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts.test( mut_atk.bp ) ) {
+            if( mut_atk.bp != num_bp && !usable_body_parts.test( convert_bp( mut_atk.bp ) ) ) {
                 continue;
             }
 

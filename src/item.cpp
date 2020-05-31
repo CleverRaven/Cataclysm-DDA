@@ -745,9 +745,9 @@ bool item::is_frozen_liquid() const
     return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
 }
 
-bool item::covers( const body_part bp ) const
+bool item::covers( const bodypart_id &bp ) const
 {
-    return get_covered_body_parts().test( bp );
+    return get_covered_body_parts().test( bp.id() );
 }
 
 body_part_set item::get_covered_body_parts() const
@@ -762,7 +762,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        res.set( bp_torso );
+        res.set( bodypart_str_id( "torso" ) );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -770,7 +770,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
         return res;
     }
 
-    res |= armor->covers;
+    res.unify_set( armor->covers );
 
     if( !armor->sided ) {
         return res; // Just ignore the side.
@@ -782,17 +782,17 @@ body_part_set item::get_covered_body_parts( const side s ) const
             break;
 
         case side::LEFT:
-            res.reset( bp_arm_r );
-            res.reset( bp_hand_r );
-            res.reset( bp_leg_r );
-            res.reset( bp_foot_r );
+            res.reset( bodypart_str_id( "arm_r" ) );
+            res.reset( bodypart_str_id( "hand_r" ) );
+            res.reset( bodypart_str_id( "leg_r" ) );
+            res.reset( bodypart_str_id( "foot_r" ) );
             break;
 
         case side::RIGHT:
-            res.reset( bp_arm_l );
-            res.reset( bp_hand_l );
-            res.reset( bp_leg_l );
-            res.reset( bp_foot_l );
+            res.reset( bodypart_str_id( "arm_l" ) );
+            res.reset( bodypart_str_id( "hand_l" ) );
+            res.reset( bodypart_str_id( "leg_l" ) );
+            res.reset( bodypart_str_id( "foot_l" ) );
             break;
     }
 
@@ -834,7 +834,7 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
+    return is_power_armor() && it.is_power_armor() && it.covers( bodypart_id( "torso" ) );
 }
 
 item item::in_its_container( int qty ) const
@@ -2451,56 +2451,56 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
         std::string coverage = _( "<bold>Covers</bold>: " );
-        if( covers( bp_head ) ) {
+        if( covers( bodypart_id( "head" ) ) ) {
             coverage += _( "The <info>head</info>. " );
         }
-        if( covers( bp_eyes ) ) {
+        if( covers( bodypart_id( "eyes" ) ) ) {
             coverage += _( "The <info>eyes</info>. " );
         }
-        if( covers( bp_mouth ) ) {
+        if( covers( bodypart_id( "mouth" ) ) ) {
             coverage += _( "The <info>mouth</info>. " );
         }
-        if( covers( bp_torso ) ) {
+        if( covers( bodypart_id( "torso" ) ) ) {
             coverage += _( "The <info>torso</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_arm_l ) || covers( bp_arm_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "arm_l" ) ) || covers( bodypart_id( "arm_r" ) ) ) ) {
             coverage += _( "Either <info>arm</info>. " );
-        } else if( covers( bp_arm_l ) && covers( bp_arm_r ) ) {
+        } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) ) ) {
             coverage += _( "The <info>arms</info>. " );
-        } else if( covers( bp_arm_l ) ) {
+        } else if( covers( bodypart_id( "arm_l" ) ) ) {
             coverage += _( "The <info>left arm</info>. " );
-        } else if( covers( bp_arm_r ) ) {
+        } else if( covers( bodypart_id( "arm_r" ) ) ) {
             coverage += _( "The <info>right arm</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_hand_l ) || covers( bp_hand_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "hand_l" ) ) || covers( bodypart_id( "hand_r" ) ) ) ) {
             coverage += _( "Either <info>hand</info>. " );
-        } else if( covers( bp_hand_l ) && covers( bp_hand_r ) ) {
+        } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) ) ) {
             coverage += _( "The <info>hands</info>. " );
-        } else if( covers( bp_hand_l ) ) {
+        } else if( covers( bodypart_id( "hand_l" ) ) ) {
             coverage += _( "The <info>left hand</info>. " );
-        } else if( covers( bp_hand_r ) ) {
+        } else if( covers( bodypart_id( "hand_r" ) ) ) {
             coverage += _( "The <info>right hand</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_leg_l ) || covers( bp_leg_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "leg_l" ) ) || covers( bodypart_id( "leg_r" ) ) ) ) {
             coverage += _( "Either <info>leg</info>. " );
-        } else if( covers( bp_leg_l ) && covers( bp_leg_r ) ) {
+        } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) ) ) {
             coverage += _( "The <info>legs</info>. " );
-        } else if( covers( bp_leg_l ) ) {
+        } else if( covers( bodypart_id( "leg_l" ) ) ) {
             coverage += _( "The <info>left leg</info>. " );
-        } else if( covers( bp_leg_r ) ) {
+        } else if( covers( bodypart_id( "leg_r" ) ) ) {
             coverage += _( "The <info>right leg</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_foot_l ) || covers( bp_foot_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "foot_l" ) ) || covers( bodypart_id( "foot_r" ) ) ) ) {
             coverage += _( "Either <info>foot</info>. " );
-        } else if( covers( bp_foot_l ) && covers( bp_foot_r ) ) {
+        } else if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) ) ) {
             coverage += _( "The <info>feet</info>. " );
-        } else if( covers( bp_foot_l ) ) {
+        } else if( covers( bodypart_id( "foot_l" ) ) ) {
             coverage += _( "The <info>left foot</info>. " );
-        } else if( covers( bp_foot_r ) ) {
+        } else if( covers( bodypart_id( "foot_r" ) ) ) {
             coverage += _( "The <info>right foot</info>. " );
         }
 
@@ -2771,7 +2771,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This gear is a part of power armor." ) ) );
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-            if( covers( bp_head ) ) {
+            if( covers( bodypart_id( "head" ) ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor suit, it will "
                                              "<good>fully protect</good> you from "
@@ -4042,9 +4042,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( hp_leg_r ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }

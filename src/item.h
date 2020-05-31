@@ -1496,7 +1496,7 @@ class item : public visitable<item>
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( body_part bp ) const;
+        bool covers( const bodypart_id &bp ) const;
         /**
          * Bitset of all covered body parts.
          *
