@@ -191,27 +191,19 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
-enum blood_types {
-    O_PLUS,
-    O_MINUS,
-    A_PLUS,
-    A_MINUS,
-    B_PLUS,
-    B_MINUS,
-    AB_PLUS,
-    AB_MINUS
+enum class blood_type {
+    blood_O,
+    blood_A,
+    blood_B,
+    blood_AB,
+    num_bt
 };
 
-const std::unordered_map<blood_types, std::string> blood_types_strs = {
-    { O_PLUS, "O+" },
-    { O_MINUS, "O-" },
-    { A_PLUS, "A+" },
-    { A_MINUS, "A-" },
-    { B_PLUS, "B+" },
-    { B_MINUS, "B-" },
-    { AB_PLUS, "AB+" },
-    { AB_MINUS, "AB-" }
+template<>
+struct enum_traits<blood_type> {
+    static constexpr auto last = blood_type::num_bt;
 };
+
 // This tries to represent both rating and
 // character's decision to respect said rating
 enum edible_rating {
@@ -1711,7 +1703,10 @@ class Character : public Creature, public visitable<Character>
         int tank_plut;
         int reactor_plut;
         int slow_rad;
-        blood_types blood_type;
+        blood_type my_blood_type;
+        bool blood_rh_factor;
+        // Randomizes characters' blood type and Rh
+        void randomize_blood();
 
         int focus_pool;
         int cash;

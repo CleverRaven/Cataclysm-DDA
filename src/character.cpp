@@ -386,6 +386,23 @@ std::string enum_to_string<character_movemode>( character_movemode data )
     abort();
 }
 
+template<>
+std::string enum_to_string<blood_type>( blood_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case blood_type::blood_O: return "O";
+        case blood_type::blood_A: return "A";
+        case blood_type::blood_B: return "B";
+        case blood_type::blood_AB: return "AB";
+            // *INDENT-ON*
+        case blood_type::num_bt:
+            break;
+    }
+    debugmsg( "Invalid blood_type" );
+    abort();
+}
+
 } // namespace io
 
 // *INDENT-OFF*
@@ -401,7 +418,7 @@ Character::Character() :
 {
     hp_cur.fill( 0 );
     hp_max.fill( 1 );
-    blood_type = O_MINUS;
+    randomize_blood();
     str_max = 0;
     dex_max = 0;
     per_max = 0;
@@ -481,6 +498,12 @@ void Character::setID( character_id i, bool force )
 character_id Character::getID() const
 {
     return this->id;
+}
+
+void Character::randomize_blood()
+{
+    my_blood_type = static_cast<blood_type>( rng( 0, static_cast<int>( blood_type::num_bt ) - 1 ) );
+    blood_rh_factor = one_in( 2 );
 }
 
 field_type_id Character::bloodType() const

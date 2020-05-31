@@ -360,10 +360,11 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), line_color( 6 ),
                you.age_string() );
-    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( blood_types_strs.at( you.blood_type ) ), 8 ),
+    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood type:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( io::enum_to_string( you.my_blood_type ) +
+                               ( you.blood_rh_factor ? "+" : "-" ) ), 8 ),
                line_color( 7 ),
-               blood_types_strs.at( you.blood_type ) );
+               io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
 
     wrefresh( w_stats );
 }
@@ -446,9 +447,11 @@ static void draw_stats_info( const catacurses::window &w_info,
     } else if( line == 7 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
-                                          _( "This is your blood type." ) );
+                                          _( "This is your blood type and Rh factor." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        blood_types_strs.at( you.blood_type ) );
+                        string_format( _( "Blood type: %s" ), io::enum_to_string( you.my_blood_type ) ) );
+        fold_and_print( w_info, point( 1, 2 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        string_format( _( "Rh factor: %s" ), you.blood_rh_factor ? "positive (+)" : "negative (-)" ) );
     }
     wrefresh( w_info );
 }
