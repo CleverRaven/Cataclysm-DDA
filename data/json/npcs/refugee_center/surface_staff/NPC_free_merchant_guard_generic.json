@@ -22,6 +22,6 @@
         "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
       }
     ],
-    "responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
   }
 ]

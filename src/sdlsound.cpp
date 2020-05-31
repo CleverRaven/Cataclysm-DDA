@@ -182,7 +182,7 @@ void musicFinished()
 
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
-    const auto &next = list.entries[current_playlist_at];
+    const music_playlist::entry &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 }
 
@@ -206,6 +206,9 @@ void play_music( const std::string &playlist )
         playlist_indexes.push_back( i );
     }
     if( list.shuffle ) {
+        // Son't need to worry about the determinism check here because it only
+        // affects audio, not game logic.
+        // NOLINTNEXTLINE(cata-determinism)
         static auto eng = cata_default_random_engine(
                               std::chrono::system_clock::now().time_since_epoch().count() );
         std::shuffle( playlist_indexes.begin(), playlist_indexes.end(), eng );
@@ -214,7 +217,7 @@ void play_music( const std::string &playlist )
     current_playlist = playlist;
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
-    const auto &next = list.entries[current_playlist_at];
+    const music_playlist::entry &next = list.entries[current_playlist_at];
     current_music_track_volume = next.volume;
     play_music_file( next.file, next.volume );
 }
@@ -280,7 +283,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 // - Not Loaded: Load chunk from stored resource path
 static inline Mix_Chunk *get_sfx_resource( int resource_id )
 {
-    auto &resource = sfx_resources.resource[ resource_id ];
+    sound_effect_resource &resource = sfx_resources.resource[ resource_id ];
     if( !resource.chunk ) {
         std::string path = ( current_soundpack_path + "/" + resource.path );
         resource.chunk.reset( load_chunk( path ) );
@@ -304,7 +307,7 @@ static inline int add_sfx_path( const std::string &path )
     }
 }
 
-void sfx::load_sound_effects( JsonObject &jsobj )
+void sfx::load_sound_effects( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
@@ -313,48 +316,39 @@ void sfx::load_sound_effects( JsonObject &jsobj )
     const int volume = jsobj.get_int( "volume", 100 );
     auto &effects = sfx_resources.sound_effects[ key ];
 
-    JsonArray jsarr = jsobj.get_array( "files" );
-    while( jsarr.has_more() ) {
+    for( const std::string file : jsobj.get_array( "files" ) ) {
         sound_effect new_sound_effect;
-        const std::string file = jsarr.next_string();
         new_sound_effect.volume = volume;
         new_sound_effect.resource_id = add_sfx_path( file );
 
         effects.push_back( new_sound_effect );
     }
 }
-void sfx::load_sound_effect_preload( JsonObject &jsobj )
+void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
     }
 
-    JsonArray jsarr = jsobj.get_array( "preload" );
-    while( jsarr.has_more() ) {
-        JsonObject aobj = jsarr.next_object();
+    for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
         const id_and_variant preload_key( aobj.get_string( "id" ), aobj.get_string( "variant",
                                           "default" ) );
         sfx_preload.push_back( preload_key );
     }
 }
 
-void sfx::load_playlist( JsonObject &jsobj )
+void sfx::load_playlist( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
     }
 
-    JsonArray jarr = jsobj.get_array( "playlists" );
-    while( jarr.has_more() ) {
-        JsonObject playlist = jarr.next_object();
-
+    for( JsonObject playlist : jsobj.get_array( "playlists" ) ) {
         const std::string playlist_id = playlist.get_string( "id" );
         music_playlist playlist_to_load;
         playlist_to_load.shuffle = playlist.get_bool( "shuffle", false );
 
-        JsonArray files = playlist.get_array( "files" );
-        while( files.has_more() ) {
-            JsonObject entry = files.next_object();
+        for( JsonObject entry : playlist.get_array( "files" ) ) {
             const music_playlist::entry e{ entry.get_string( "file" ),  entry.get_int( "volume" ) };
             playlist_to_load.entries.push_back( e );
         }
@@ -377,7 +371,7 @@ static const sound_effect *find_random_effect( const id_and_variant &id_variants
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 static const sound_effect *find_random_effect( const std::string &id, const std::string &variant )
 {
-    const auto eff = find_random_effect( id_and_variant( id, variant ) );
+    const sound_effect *eff = find_random_effect( id_and_variant( id, variant ) );
     if( eff != nullptr ) {
         return eff;
     }
@@ -549,7 +543,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
 void load_soundset()
 {
-    const std::string default_path = FILENAMES["defaultsounddir"];
+    const std::string default_path = PATH_INFO::defaultsounddir();
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
@@ -581,7 +575,7 @@ void load_soundset()
     }
 
     // Preload sound effects
-    for( const auto &preload : sfx_preload ) {
+    for( const id_and_variant &preload : sfx_preload ) {
         const auto find_result = sfx_resources.sound_effects.find( preload );
         if( find_result != sfx_resources.sound_effects.end() ) {
             for( const auto &sfx : find_result->second ) {

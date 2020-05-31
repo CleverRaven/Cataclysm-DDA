@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_type",
+    "id": "mana_fatigue",
+    "name": [ "Mana Fatigue" ],
+    "desc": [ "You are exhausted from channeling a lot of mana." ],
+    "apply_message": "Channeling so much mana is making you tired",
+    "remove_message": "The burden of mana fatigue has faded",
+    "rating": "bad",
+    "base_mods": { "fatigue_amount": [ 1 ], "fatigue_min": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
@@ -8,6 +18,16 @@
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
     "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "dark_sight",
+    "name": [ "Dark Sight" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
+    "rating": "good",
+    "flags": [ "EFFECT_NIGHT_VISION" ]
   },
   {
     "type": "effect_type",
@@ -23,6 +43,15 @@
   },
   {
     "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisibility" ],
+    "desc": [ "Nothing can see you." ],
+    "apply_message": "You fade away.",
+    "remove_message": "You can see your hands again.",
+    "flags": [ "EFFECT_INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "bless",
     "name": [ "Blessed" ],
     "desc": [ "You are filled with energy that improves everything you do." ],
@@ -30,28 +59,6 @@
     "remove_message": "Your energy fades.",
     "rating": "good",
     "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "protect_env",
-    "name": [ "Enviromental Protection" ],
-    "desc": [ "You are protected by an energy field." ],
-    "apply_message": "You are protected by an energy field.",
-    "remove_message": "Your energy field fades.",
-    "rating": "good",
-    "show_in_info": true,
-    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 3 ], "warmth": [ 50 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "armor_frost",
-    "name": [ "Frost Armor" ],
-    "desc": [ "Covers you in a thin layer of magical ice to protect you from harm." ],
-    "apply_message": "You are protected by Frost Armor.",
-    "remove_message": "Your Frost Armor melts away.",
-    "rating": "good",
-    "show_in_info": true,
-    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 5 ], "warmth": [ 20 ] }
   },
   {
     "type": "effect_type",
@@ -163,5 +170,94 @@
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
     "base_mods": { "int_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_full_protection",
+    "name": [ "Debug Full Protection" ],
+    "desc": [ "You can not be harmed by anything." ],
+    "apply_message": "Your skin tingle with the power of the Devs!",
+    "remove_message": "Your skin stops tingling, your life is empty and meaningless again.",
+    "rating": "good",
+    "flags": [
+      "EFFECT_ELECTRIC_IMMUNE",
+      "EFFECT_BIO_IMMUNE",
+      "EFFECT_BASH_IMMUNE",
+      "EFFECT_CUT_IMMUNE",
+      "EFFECT_ACID_IMMUNE",
+      "EFFECT_STAB_IMMUNE",
+      "EFFECT_HEAT_IMMUNE",
+      "EFFECT_COLD_IMMUNE"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_feather_fall",
+    "name": [ "Debug Feather Fall" ],
+    "desc": [ "You  are light as a feather and fall like one." ],
+    "apply_message": "Your body feels light as a feather.",
+    "remove_message": "The earth pulls you down hard.",
+    "rating": "good",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_frightful_presence",
+    "name": [ "Scared", "Frightened", "Terrified" ],
+    "max_intensity": 3,
+    "desc": [ "Your knees are shaking, your heart beats fast, and your stomach rebels." ],
+    "apply_message": "You are afraid!",
+    "remove_message": "Your fear dissipates.",
+    "rating": "bad",
+    "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_visceral_side_effects",
+    "name": [ "Visceral Overexertion" ],
+    "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],
+    "rating": "bad",
+    "max_duration": "1 m",
+    "base_mods": {
+      "fatigue_min": [ 1 ],
+      "fatigue_chance": [ 5 ],
+      "health_min": [ -3 ],
+      "health_chance": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 4 ],
+      "vomit_chance": [ 20 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "bio_weave",
+    "name": [ "Coagulant Weave" ],
+    "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
+    "remove_message": "The tension running through your flesh fades.",
+    "blocks_effects": [ "bleed", "bite" ],
+    "rating": "good",
+    "max_duration": "5 m",
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_chance": [ 12 ],
+      "thirst_min": [ 1 ],
+      "thirst_chance": [ 12 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 4 ],
+      "stamina_min": [ 40 ],
+      "stamina_chance": [ 2 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "biomancer_dart_venom",
+    "//": "Basically just paralyze poison set to work in a manner useful for spells.",
+    "name": [ "Biomantic Venom" ],
+    "desc": [ "You feel sluggish and weak, from magically-induced poisoning." ],
+    "rating": "bad",
+    "max_intensity": 20,
+    "int_dur_factor": "30 s",
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] },
+    "scaling_mods": { "str_mod": [ -0.07 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] }
   }
 ]

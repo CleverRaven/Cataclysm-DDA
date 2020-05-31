@@ -1,22 +1,31 @@
 #include "map_helpers.h"
 
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "creature_tracker.h"
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "monster.h"
-#include "npc.h"
 #include "field.h"
+#include "game.h"
 #include "game_constants.h"
-#include "pimpl.h"
-#include "type_id.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "npc.h"
 #include "point.h"
+#include "type_id.h"
+
+class vehicle;
+
+// Remove all vehicles from the map
+void clear_vehicles()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        g->m.destroy_vehicle( veh.v );
+    }
+}
 
 void wipe_map_terrain()
 {
@@ -29,9 +38,7 @@ void wipe_map_terrain()
             }
         }
     }
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        g->m.destroy_vehicle( veh.v );
-    }
+    clear_vehicles();
     g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
@@ -69,6 +76,16 @@ void clear_fields( const int zlevel )
     }
 }
 
+void clear_items( const int zlevel )
+{
+    const int mapsize = g->m.getmapsize() * SEEX;
+    for( int x = 0; x < mapsize; ++x ) {
+        for( int y = 0; y < mapsize; ++y ) {
+            g->m.i_clear( { x, y, zlevel } );
+        }
+    }
+}
+
 void clear_map()
 {
     // Clearing all z-levels is rather slow, so just clear the ones I know the
@@ -80,6 +97,9 @@ void clear_map()
     clear_npcs();
     clear_creatures();
     g->m.clear_traps();
+    for( int z = -2; z <= 0; ++z ) {
+        clear_items( z );
+    }
 }
 
 void clear_map_and_put_player_underground()
@@ -91,9 +111,23 @@ void clear_map_and_put_player_underground()
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
-    monster temp_monster( mtype_id( monster_type ), start );
-    // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
-    g->critter_tracker->add( temp_monster );
-    return *g->critter_tracker->find( temp_monster.pos() );
+    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
+    assert( added );
+    return *added;
 }
 
+// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
+// terrain, and no furniture, traps, or items.
+void build_test_map( const ter_id &terrain )
+{
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        g->m.furn_set( p, furn_id( "f_null" ) );
+        g->m.ter_set( p, terrain );
+        g->m.trap_set( p, trap_id( "tr_null" ) );
+        g->m.i_clear( p );
+    }
+
+    g->m.invalidate_map_cache( 0 );
+    g->m.build_map_cache( 0, true );
+}

@@ -1,26 +1,26 @@
 #include "cata_utility.h"
 
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
-#include <string>
+#include <cstdio>
 #include <exception>
 #include <iterator>
+#include <locale>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
+#include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
-#include "mapsharing.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {
@@ -126,7 +126,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
 
 double logarithmic( double t )
 {
-    return 1 / ( 1 + exp( -t ) );
+    return 1 / ( 1 + std::exp( -t ) );
 }
 
 double logarithmic_range( int min, int max, int pos )
@@ -255,6 +255,84 @@ double convert_weight( const units::mass &weight )
     return ret;
 }
 
+int convert_length( const units::length &length )
+{
+    int ret = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( ret % 1'000'000 == 0 ) {
+            // kilometers
+            ret /= 1'000'000;
+        } else if( ret % 1'000 == 0 ) {
+            // meters
+            ret /= 1'000;
+        } else if( ret % 10 == 0 ) {
+            // centimeters
+            ret /= 10;
+        }
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        ret /= 25.4;
+        if( ret % 63360 == 0 ) {
+            ret /= 63360;
+        } else if( ret % 36 == 0 ) {
+            ret /= 36;
+        } else if( ret % 12 == 0 ) {
+            ret /= 12;
+        }
+    }
+    return ret;
+}
+
+std::string length_units( const units::length &length )
+{
+    int length_mm = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( length_mm % 1'000'000 == 0 ) {
+            //~ kilometers
+            return _( "km" );
+        } else if( length_mm % 1'000 == 0 ) {
+            //~ meters
+            return _( "m" );
+        } else if( length_mm % 10 == 0 ) {
+            //~ centimeters
+            return _( "cm" );
+        } else {
+            //~ millimeters
+            return _( "mm" );
+        }
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        length_mm /= 25.4;
+        if( length_mm == 0 ) {
+            //~ inches
+            return _( "in." );
+        }
+        if( length_mm % 63360 == 0 ) {
+            //~ miles
+            return _( "mi" );
+        } else if( length_mm % 36 == 0 ) {
+            //~ yards (length)
+            return _( "yd" );
+        } else if( length_mm % 12 == 0 ) {
+            //~ feet (length)
+            return _( "ft" );
+        } else {
+            //~ inches
+            return _( "in." );
+        }
+    }
+}
+
+std::string weight_to_string( const units::mass &weight )
+{
+    const double converted_weight = convert_weight( weight );
+    return string_format( "%.2f %s", converted_weight, weight_units() );
+}
+
 double convert_volume( int volume )
 {
     return convert_volume( volume, nullptr );
@@ -279,6 +357,16 @@ double convert_volume( int volume, int *out_scale )
         *out_scale = scale;
     }
     return ret;
+}
+
+std::string vol_to_string( const units::volume &vol )
+{
+    int converted_volume_scale = 0;
+    const double converted_volume =
+        convert_volume( vol.value(),
+                        &converted_volume_scale );
+
+    return string_format( "%.3f %s", converted_volume, volume_units_abbr() );
 }
 
 double temp_to_celsius( double fahrenheit )
@@ -317,7 +405,8 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
         }
     } else if( scale > 0 ) {
         for( int s = 1; s <= scale; s++ ) {
-            int scale_width = 1 + s; // 1 decimal separator + "s"
+            // 1 decimal separator + "s"
+            int scale_width = 1 + s;
             if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
                 // above the maximum number we can fit in the width with "s" decimals
                 // show this number with one less decimal than "s"
@@ -475,7 +564,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
@@ -485,7 +574,8 @@ std::string obscure_message( const std::string &str, std::function<char()> f )
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
-    char transformation[2] = { 0 }; // a trailing NULL terminator is necessary for utf8_width function
+    // a trailing NULL terminator is necessary for utf8_width function
+    char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );

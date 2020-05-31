@@ -16,6 +16,8 @@ cppcoreguidelines-slicing,\
 llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
+-modernize-use-auto,\
+-modernize-use-trailing-return-type,\
 performance-*,\
 readability-*,\
 -bugprone-misplaced-widening-cast,\
@@ -29,10 +31,8 @@ readability-*,\
 -cert-msc51-cpp,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-c-arrays,\
--modernize-deprecated-headers,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
--modernize-use-auto,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
 -modernize-use-transparent-functors,\
@@ -52,14 +52,14 @@ readability-*,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
 -readability-redundant-control-flow,\
--readability-redundant-declaration,\
--readability-redundant-preprocessor,\
 "
 WarningsAsErrors: '*'
-HeaderFilterRegex: '(src|test).*'
+HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
   - key: readability-uppercase-literal-suffix.NewSuffixes
     value: 'L;UL;LL;ULL'
+  - key: cata-text-style.EscapeUnicode
+    value: 0
 
 # vim:tw=0

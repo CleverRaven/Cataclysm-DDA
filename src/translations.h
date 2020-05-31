@@ -1,12 +1,13 @@
 #pragma once
-#ifndef TRANSLATIONS_H
-#define TRANSLATIONS_H
+#ifndef CATA_SRC_TRANSLATIONS_H
+#define CATA_SRC_TRANSLATIONS_H
 
 #include <map>
 #include <ostream>
 #include <string>
 #include <vector>
 #include <type_traits>
+#include <utility>
 
 #include "optional.h"
 
@@ -117,35 +118,67 @@ class JsonIn;
 class translation
 {
     public:
+        struct plural_tag {};
+
         translation();
         /**
-         * Create a deferred translation with context
+         * Same as `translation()`, but with plural form enabled.
          **/
-        translation( const std::string &ctxt, const std::string &raw );
+        translation( plural_tag );
 
         /**
-         * Create a deferred translation without context
+         * Store a string, an optional plural form, and an optional context for translation
          **/
-        explicit translation( const std::string &raw );
-
+        static translation to_translation( const std::string &raw );
+        static translation to_translation( const std::string &ctxt, const std::string &raw );
+        static translation pl_translation( const std::string &raw, const std::string &raw_pl );
+        static translation pl_translation( const std::string &ctxt, const std::string &raw,
+                                           const std::string &raw_pl );
         /**
          * Store a string that needs no translation.
          **/
         static translation no_translation( const std::string &str );
 
         /**
+         * Can be used to ensure a translation object has plural form enabled
+         * before loading into it from JSON. If plural form has not been enabled
+         * yet, the plural string will be set to the original singular string.
+         * `ngettext` will ignore the new plural string and correctly retrieve
+         * the original translation.
+         *     Note that a `make_singular()` function is not provided due to the
+         * potential loss of information.
+         **/
+        void make_plural();
+
+        /**
          * Deserialize from json. Json format is:
          *     "text"
          * or
-         *     { "ctxt": "foo", "str": "bar" }
+         *     { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
+         * "ctxt" and "str_pl" are optional. "str_pl" is only valid when an object
+         * of this class is constructed with `plural_tag` or `pl_translation()`,
+         * or converted using `make_plural()`.
          **/
         void deserialize( JsonIn &jsin );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns
-         * the translated string.
+         * the translated string. A number can be used to translate the plural
+         * form if the object has it.
          **/
-        std::string translated() const;
+        std::string translated( int num = 1 ) const;
+
+        /**
+         * Methods exposing the underlying raw strings are not implemented, and
+         * probably should not if there's no good reason to do so. Most importantly,
+         * the underlying strings should not be re-saved to JSON: doing so risk
+         * the original string being changed during development and the saved
+         * string will then not be properly translated when loaded back. If you
+         * really want to save a translation, translate it early on, store it using
+         * `no_translation`, and retrieve it using `translated()` when saving.
+         * This ensures consistent behavior before and after saving and loading.
+         **/
+        std::string untranslated() const = delete;
 
         /**
          * Whether the underlying string is empty, not matter what the context
@@ -154,7 +187,7 @@ class translation
         bool empty() const;
 
         /**
-         * Compare translations by their translated strings.
+         * Compare translations by their translated strings (singular form).
          *
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
@@ -164,27 +197,100 @@ class translation
         bool translated_ne( const translation &that ) const;
 
         /**
-         * Compare translations by their context, raw string, and no-translation flag
+         * Compare translations by their context, raw strings (singular / plural), and no-translation flag
          */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
+
+        /**
+         * Only used for migrating old snippet hashes into snippet ids.
+         */
+        cata::optional<int> legacy_hash() const;
     private:
+        translation( const std::string &ctxt, const std::string &raw );
+        translation( const std::string &raw );
+        translation( const std::string &raw, const std::string &raw_pl, plural_tag );
+        translation( const std::string &ctxt, const std::string &raw, const std::string &raw_pl,
+                     plural_tag );
         struct no_translation_tag {};
         translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;
+        cata::optional<std::string> raw_pl;
         bool needs_translation = false;
 };
 
+/**
+ * Shorthands for translation::to_translation
+ **/
+translation to_translation( const std::string &raw );
+translation to_translation( const std::string &ctxt, const std::string &raw );
+/**
+ * Shorthands for translation::pl_translation
+ **/
+translation pl_translation( const std::string &raw, const std::string &raw_pl );
+translation pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl );
 /**
  * Shorthand for translation::no_translation
  **/
 translation no_translation( const std::string &str );
 
+/**
+ * Stream output and concatenation of translations. Singular forms are used.
+ **/
 std::ostream &operator<<( std::ostream &out, const translation &t );
 std::string operator+( const translation &lhs, const std::string &rhs );
 std::string operator+( const std::string &lhs, const translation &rhs );
 std::string operator+( const translation &lhs, const translation &rhs );
 
-#endif // _TRANSLATIONS_H_
+// Localized comparison operator, intended for sorting strings when they should
+// be sorted according to the user's locale.
+//
+// For convenience, it also sorts pairs recursively, because a common
+// requirement is to sort some list of objects by their names, and this can be
+// achieved by sorting a list of pairs where the first element of the pair is
+// the translated name.
+struct localized_comparator {
+    template<typename T, typename U>
+    bool operator()( const std::pair<T, U> &l, const std::pair<T, U> &r ) const {
+        if( ( *this )( l.first, r.first ) ) {
+            return true;
+        }
+        if( ( *this )( r.first, l.first ) ) {
+            return false;
+        }
+        return ( *this )( l.second, r.second );
+    }
+
+    template<typename Head, typename... Tail>
+    bool operator()( const std::tuple<Head, Tail...> &l,
+                     const std::tuple<Head, Tail...> &r ) const {
+        if( ( *this )( std::get<0>( l ), std::get<0>( r ) ) ) {
+            return true;
+        }
+        if( ( *this )( std::get<0>( r ), std::get<0>( l ) ) ) {
+            return false;
+        }
+        constexpr std::make_index_sequence<sizeof...( Tail )> Ints{};
+        return ( *this )( tie_tail( l, Ints ), tie_tail( r, Ints ) );
+    }
+
+    template<typename T>
+    bool operator()( const T &l, const T &r ) const {
+        return l < r;
+    }
+
+    bool operator()( const std::string &, const std::string & ) const;
+    bool operator()( const std::wstring &, const std::wstring & ) const;
+
+    template<typename Head, typename... Tail, size_t... Ints>
+    auto tie_tail( const std::tuple<Head, Tail...> &t, std::index_sequence<Ints...> ) const {
+        return std::tie( std::get < Ints + 1 > ( t )... );
+    }
+};
+
+constexpr localized_comparator localized_compare{};
+
+#endif // CATA_SRC_TRANSLATIONS_H

@@ -1,7 +1,8 @@
 #pragma once
-#ifndef EDITMAP_H
-#define EDITMAP_H
+#ifndef CATA_SRC_EDITMAP_H
+#define CATA_SRC_EDITMAP_H
 
+#include <functional>
 #include <map>
 #include <vector>
 #include <string>
@@ -9,12 +10,14 @@
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 
 struct real_coords;
 class Creature;
 class field;
+class ui_adaptor;
 class uilist;
 class vehicle;
 class map;
@@ -44,59 +47,36 @@ struct editmap_hilight {
 class editmap
 {
     public:
-        void uphelp( const std::string &txt1 = "", const std::string &txt2 = "",
-                     const std::string &title = "" );
         tripoint pos2screen( const tripoint &p );
-        tripoint screen2pos( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
         cata::optional<tripoint> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
-        void update_view( bool update_info = false );
-        int edit_ter();
+        void update_view_with_help( const std::string &txt, const std::string &title );
 
-        int edit_fld();
-        int edit_trp();
-        int edit_itm();
-        int edit_critter( Creature &critter );
-        int edit_veh();
-        int edit_mapgen();
+        // T_t can be ter_t, furn_t, and trap
+        template<typename T_t>
+        void edit_feature();
+        void edit_fld();
+        void edit_itm();
+        void edit_critter( Creature &critter );
+        void edit_veh();
+        void edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview( const real_coords &tc, uilist &gmenu );
+        void mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint &omt_tgt );
         bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
-        int mapgen_retarget();
+        void mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uilist &fmenu, field &field, field_type_id idx );
+        void update_fmenu_entry( uilist &fmenu, field &field, const field_type_id &idx );
         void setup_fmenu( uilist &fmenu );
         catacurses::window w_info;
-        catacurses::window w_help;
-        int width;
-        int height;
-        int offsetX;
-        int infoHeight;
 
-        int ter_frn_mode;
-        ter_id sel_ter;
-        ter_id target_ter;
-        furn_id sel_frn;
-        furn_id target_frn;
-
-        tripoint recalc_target( shapetype shape );
+        void recalc_target( shapetype shape );
         bool move_target( const std::string &action, int moveorigin = -1 );
-        field *cur_field;
-
-        trap_id cur_trap;
 
         int sel_field;
         int sel_field_intensity;
-
-        trap_id sel_trap;
-
-        furn_id fsel;
-        furn_id fset;
-        trap_id trsel;
-        trap_id trset;
 
         tripoint target;
         tripoint origin;
@@ -104,19 +84,39 @@ class editmap
         bool refresh_mplans;
         shapetype editshape;
 
-        std::string padding;
-
-        std::map<field_type_id, std::string> fids;
-
         std::vector<tripoint> target_list;
+        std::function<void( const tripoint &p )> draw_target_override;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;
-        point tmax;
         bool uberdraw;
 
         editmap();
         ~editmap();
+
+    private:
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+
+        weak_ptr_fast<ui_adaptor> ui;
+
+        std::string info_txt_curr;
+        std::string info_title_curr;
+
+        tinymap *tmpmap_ptr = nullptr;
+
+        const int width = 45;
+        const int offsetX = 0;
+        const int infoHeight = 20;
+
+        point tmax;
+
+        void draw_main_ui_overlay();
+        void do_ui_invalidation();
+
+        // work around the limitation that you can't forward declare an inner class
+        class game_draw_callback_t_container;
+        std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
+        game_draw_callback_t_container &draw_cb_container();
 };
 
-#endif
+#endif // CATA_SRC_EDITMAP_H

@@ -1,23 +1,25 @@
 [
   {
     "id": "paintballgun",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 6,
     "symbol": "(",
     "color": "light_gray",
-    "name": "Paintball gun",
+    "name": { "str": "Paintball gun" },
     "description": "A fairly harmless gun that shoots small paintballs.",
     "price": 8000,
+    "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "flags": "NEVER_JAMS",
+    "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "skill": "smg",
-    "ammo": "paintball",
-    "weight": 1600,
+    "ammo": [ "paintball" ],
+    "weight": "1600 g",
     "volume": "1250 ml",
     "bashing": 5,
     "to_hit": -1,
     "range": 8,
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "dispersion": 150,
     "durability": 7,
     "clip_size": 50,
@@ -29,6 +31,7 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "paintball": 50 } } ]
   }
 ]

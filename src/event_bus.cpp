@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "debug.h"
+
 event_subscriber::~event_subscriber()
 {
     if( subscribed_to ) {
@@ -50,7 +52,7 @@ void event_bus::unsubscribe( event_subscriber *s )
     }
 }
 
-void event_bus::send( const event &e ) const
+void event_bus::send( const cata::event &e ) const
 {
     for( event_subscriber *s : subscribers ) {
         s->notify( e );

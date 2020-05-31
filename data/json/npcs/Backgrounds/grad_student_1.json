@@ -2,7 +2,7 @@
   {
     "id": "BGSS_GRAD_STUDENT_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I'm not from around here...  You can probably tell from the accent, I'm from the UK.  I was here doing my PhD at Dartmouth.  I was halfway to MIT for a conference when <the_cataclysm> stopped me.  I was staying at a flea-ridden little motel on the side of the road.  When I got up for whatever was going to pass for breakfast, the fat bloody proprietor was sitting at his desk, wearing the same grubby clothes from the night before.  I thought he had just slept there, but when he looked at me...  well, you know what those Zed-eyes look like.  He lunged, and I reacted without thinking.  Smacked him on the head with my tablet, again and again, until he stopped coming for me.  I never thought I had anything like that in me.",
+    "dynamic_line": "I'm not from around here…  You can probably tell from the accent, I'm from the UK.  I was here doing my PhD at Dartmouth.  I was halfway to MIT for a conference when <the_cataclysm> stopped me.  I was staying at a flea-ridden little motel on the side of the road.  When I got up for whatever was going to pass for breakfast, the fat bloody proprietor was sitting at his desk, wearing the same grubby clothes from the night before.  I thought he had just slept there, but when he looked at me…  well, you know what those Zed-eyes look like.  He lunged, and I reacted without thinking.  Smacked him on the head with my tablet, again and again, until he stopped coming for me.  I never thought I had anything like that in me.",
     "responses": [
       { "text": "What did you do next?", "topic": "BGSS_GRAD_STUDENT_1_STORY2" },
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },

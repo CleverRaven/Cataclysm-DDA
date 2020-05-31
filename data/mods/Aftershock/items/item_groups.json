@@ -1,0 +1,243 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_gardener_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boots_combat" },
+      { "item": "briefs" },
+      { "item": "socks" },
+      { "item": "polo_shirt" },
+      { "item": "pants_cargo" },
+      { "item": "kevlar" },
+      { "item": "leather_pouch" },
+      { "item": "balclava", "prob": 75 },
+      { "item": "bootsheath" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_gardener_carried",
+    "subtype": "collection",
+    "entries": [ { "group": "hardware", "count": [ 1, 2 ] }, { "group": "snacks", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_gardener_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "machete" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_gardener_misc",
+    "subtype": "collection",
+    "items": [
+      { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 30 },
+      { "group": "forage_spring", "count-min": 10, "count-max": 30, "prob": 30 },
+      { "group": "fresh_produce", "prob": 80, "count": [ 4, 8 ] },
+      { "group": "tools_home", "prob": 80, "count": [ 1, 3 ] },
+      { "group": "tools_construction", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "tools_carpentry", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "tools_earthworking", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "supplies_hardware", "prob": 20, "count": [ 1, 3 ] },
+      { "group": "forage_summer", "prob": 20, "count": [ 1, 3 ] },
+      [ "tool_belt", 15 ],
+      [ "dump_pouch", 5 ],
+      [ "ragpouch", 15 ],
+      [ "leather_pouch", 15 ],
+      [ "quiver", 15 ],
+      [ "quiver_large", 5 ],
+      [ "crowbar", 25 ],
+      [ "machete", 25 ],
+      [ "ax", 25 ],
+      [ "arrow_metal", 25 ],
+      [ "bolt_steel", 10 ]
+    ]
+  },
+  {
+    "id": "schematics",
+    "//": "override of vanilla schematics, includes tripod, chickenbot, tankbot",
+    "type": "item_group",
+    "items": [
+      [ "schematics_nursebot", 10 ],
+      [ "schematics_grocerybot", 20 ],
+      [ "schematics_copbot", 50 ],
+      [ "schematics_eyebot", 50 ],
+      [ "schematics_secubot", 50 ],
+      [ "schematics_skitterbot", 50 ],
+      [ "schematics_chickenbot", 5 ],
+      [ "schematics_hazmatbot", 50 ],
+      [ "schematics_riotbot", 50 ],
+      [ "schematics_sciencebot", 10 ],
+      [ "schematics_tankbot", 5 ],
+      [ "schematics_tripod", 5 ],
+      [ "schematics_molebot", 20 ],
+      [ "schematics_dispatch", 25 ],
+      [ "schematics_dispatch_military", 20 ],
+      [ "schematics_antimateriel", 20 ],
+      [ "schematics_searchlight", 50 ]
+    ]
+  },
+  {
+    "id": "science",
+    "//": "extension of vanilla itemgroup",
+    "type": "item_group",
+    "items": [ [ "bionic_maintenance_toolkit", 20 ] ]
+  },
+  {
+    "id": "tools_medical",
+    "//": "extension of vanilla itemgroup",
+    "type": "item_group",
+    "items": [ [ "bionic_maintenance_toolkit", 20 ] ]
+  },
+  {
+    "id": "surgery",
+    "//": "extension of vanilla itemgroup",
+    "type": "item_group",
+    "items": [ [ "bionic_maintenance_toolkit", 20 ] ]
+  },
+  {
+    "id": "jewelry_accessories",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_tooth", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "rings_and_things",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "jewelry_back",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "jewelry_front",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "weapons",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 40 ] ]
+  },
+  {
+    "id": "allsporting",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 40 ] ]
+  },
+  {
+    "id": "sports",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 40 ] ]
+  },
+  {
+    "id": "college_sports",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 60 ] ]
+  },
+  {
+    "id": "supplies_mechanics",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_frame", 5 ] ]
+  },
+  {
+    "id": "bikeshop_tools",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_frame", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_foundry",
+    "items": [ [ "afs_titanium_small", 5 ], { "item": "afs_scrap_titanium", "prob": 5, "count": [ 1, 4 ] } ]
+  },
+  {
+    "id": "oa_ig_rd_metal_trash",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_frame", 5 ], { "item": "afs_scrap_titanium", "prob": 10, "count": [ 2, 8 ] } ]
+  },
+  {
+    "id": "supplies_metal",
+    "type": "item_group",
+    "items": [
+      { "item": "afs_titanium_frame", "prob": 5 },
+      { "item": "afs_scrap_titanium", "prob": 5, "count": [ 2, 8 ] },
+      [ "afs_titanium_small", 5 ]
+    ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "items": [ { "item": "afs_titanium_watch", "prob": 50 } ]
+  },
+  {
+    "id": "accessory_ring",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "afs_titanium_ring", "prob": 50 } ]
+  },
+  {
+    "id": "accessory_teeth",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "afs_titanium_tooth", 25 ] ]
+  },
+  {
+    "id": "swat_gear",
+    "type": "item_group",
+    "items": [
+      { "item": "xlswat_armor", "prob": 12 },
+      { "item": "xlballistic_vest_empty", "prob": 6 },
+      { "item": "xlballistic_vest_esapi", "prob": 3 },
+      { "item": "xlboots_combat", "prob": 15 },
+      { "item": "xlgloves_tactical", "prob": 10 },
+      { "item": "tripaw_xlgloves_tactical", "prob": 8 }
+    ]
+  },
+  {
+    "id": "mil_armor",
+    "type": "item_group",
+    "items": [
+      { "item": "xlballistic_vest_empty", "prob": 6 },
+      { "item": "xlballistic_vest_esapi", "prob": 3 },
+      { "item": "xlboots_combat", "prob": 15 },
+      { "item": "xlgloves_tactical", "prob": 10 },
+      { "item": "tripaw_xlgloves_tactical", "prob": 8 }
+    ]
+  },
+  {
+    "id": "rare",
+    "type": "item_group",
+    "items": [
+      { "item": "xlswat_armor", "prob": 60 },
+      { "item": "xlballistic_vest_empty", "prob": 65 },
+      { "item": "xlballistic_vest_esapi", "prob": 39 },
+      { "item": "xlboots_combat", "prob": 70 },
+      { "item": "xlgloves_tactical", "prob": 50 },
+      { "item": "tripaw_xlgloves_tactical", "prob": 48 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_ganger",
+    "//": "Guns commonly carried by gangers and underworld types.",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 100 },
+      { "group": "guns_improvised", "prob": 20 },
+      { "group": "guns_cop", "prob": 5 },
+      { "group": "guns_pistol_obscure", "prob": 40 }
+    ]
+  },
+  {
+    "id": "science",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "solar_panel_v3", 1 ] ]
+  },
+  {
+    "id": "crate_sports",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "q_solarpack", 1 ] ]
+  }
+]

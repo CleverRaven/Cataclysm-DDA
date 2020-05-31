@@ -3,29 +3,37 @@
 #include <algorithm>
 #include <cmath>
 
+#include "behavior_strategy.h"
 #include "creature.h"
-#include "field.h"
+#include "field_type.h"
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
-#include "mapdata.h"
 
-const species_id MOLLUSK( "MOLLUSK" );
+static const itype_id itype_bone( "bone" );
+static const itype_id itype_bone_tainted( "bone_tainted" );
+static const itype_id itype_fish( "fish" );
+static const itype_id itype_human_flesh( "human_flesh" );
+static const itype_id itype_meat( "meat" );
+static const itype_id itype_meat_tainted( "meat_tainted" );
+static const itype_id itype_veggy( "veggy" );
+static const itype_id itype_veggy_tainted( "veggy_tainted" );
+
+static const species_id species_MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
     id = mtype_id::NULL_ID();
-    name = "human";
-    name_plural = "humans";
+    name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
     volume = 62499_ml;
     weight = 81499_gram;
     mat = { material_id( "flesh" ) };
-    phase = SOLID;
+    phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
     half_life = -1;
@@ -36,10 +44,10 @@ mtype::mtype()
     reproduces = false;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
-    baby_egg = "null";
+    baby_egg = itype_id::NULL_ID();
 
     biosignatures = false;
-    biosig_item = "null";
+    biosig_item = itype_id::NULL_ID();
 
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
@@ -56,7 +64,7 @@ mtype::mtype()
 
 std::string mtype::nname( unsigned int quantity ) const
 {
-    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+    return name.translated( quantity );
 }
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
@@ -66,6 +74,7 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
+    MonsterGenerator::generator().m_flag_usage_stats[flag]++;
     return flags[flag];
 }
 
@@ -119,6 +128,16 @@ bool mtype::in_species( const species_type &spec ) const
 {
     return species_ptrs.count( &spec ) > 0;
 }
+std::vector<std::string> mtype::species_descriptions() const
+{
+    std::vector<std::string> ret;
+    for( const species_id &s : species ) {
+        if( !s->description.empty() ) {
+            ret.emplace_back( s->description.translated() );
+        }
+    }
+    return ret;
+}
 
 bool mtype::same_species( const mtype &other ) const
 {
@@ -157,7 +176,7 @@ field_type_id mtype::bloodType() const
 
 field_type_id mtype::gibType() const
 {
-    if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
+    if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
         return fd_gibs_invertebrate;
     }
     if( made_of( material_id( "veggy" ) ) ) {
@@ -177,46 +196,46 @@ itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
-            return "meat_tainted";
+            return itype_meat_tainted;
         } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
-            return "meat_tainted";
+            return itype_meat_tainted;
         } else if( made_of( material_id( "veggy" ) ) ) {
-            return "veggy_tainted";
+            return itype_veggy_tainted;
         } else if( made_of( material_id( "bone" ) ) ) {
-            return "bone_tainted";
+            return itype_bone_tainted;
         }
     } else {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             if( has_flag( MF_HUMAN ) ) {
-                return "human_flesh";
+                return itype_human_flesh;
             } else if( has_flag( MF_AQUATIC ) ) {
-                return "fish";
+                return itype_fish;
             } else {
-                return "meat";
+                return itype_meat;
             }
         } else if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
-            return "meat";
+            return itype_meat;
         } else if( made_of( material_id( "veggy" ) ) ) {
-            return "veggy";
+            return itype_veggy;
         } else if( made_of( material_id( "bone" ) ) ) {
-            return "bone";
+            return itype_bone;
         }
     }
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 int mtype::get_meat_chunks_count() const
 {
-    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * log10f( to_gram( weight ) ) );
+    const float ch = to_gram( weight ) * ( 0.40f - 0.02f * std::log10( to_gram( weight ) ) );
     const itype *chunk = item::find_type( get_meat_itype() );
     return static_cast<int>( ch / to_gram( chunk->weight ) );
 }
 
 std::string mtype::get_description() const
 {
-    return _( description );
+    return description.translated();
 }
 
 std::string mtype::get_footsteps() const
@@ -224,5 +243,20 @@ std::string mtype::get_footsteps() const
     for( const species_id &s : species ) {
         return s.obj().get_footsteps();
     }
-    return "footsteps.";
+    return _( "footsteps." );
+}
+
+void mtype::set_strategy()
+{
+    goals.set_strategy( behavior::strategy_map[ "sequential_until_done" ] );
+}
+
+void mtype::add_goal( const std::string &goal_id )
+{
+    goals.add_child( &string_id<behavior::node_t>( goal_id ).obj() );
+}
+
+const behavior::node_t *mtype::get_goals() const
+{
+    return &goals;
 }

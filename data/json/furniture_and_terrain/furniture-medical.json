@@ -1,0 +1,925 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_autodoc",
+    "name": "Autodoc Mk. XI",
+    "symbol": "&",
+    "description": "A surgical apparatus used for installation and removal of bionics.  The term name 'Autodoc' is something of a misnomer, as it can only operate if programmed beforehand, something that a plethora of labels warn against doing without expertise.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
+    "examine_action": "autodoc",
+    "surgery_skill_multiplier": 1.0,
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autodoc_couch",
+    "name": "Autodoc operation couch",
+    "symbol": "H",
+    "looks_like": "f_sofa",
+    "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
+    "bgcolor": "red",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "rag", "count": [ 30, 33 ] },
+        { "item": "nail", "charges": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "AUTODOC_COUCH" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 5 ] },
+        { "item": "nail", "charges": [ 3, 8 ] },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "rag", "count": [ 20, 30 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave",
+    "name": "autoclave",
+    "description": "A device that can steam its contents at high enough tempuratures to completely sterilize them, killing any possible contaminants.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "examine_action": "autoclave_empty",
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave_full",
+    "name": "filled autoclave",
+    "description": "A device that can steam its contents at high enough tempuratures to completely sterilize them, killing any possible contaminants.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "examine_action": "autoclave_full",
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sample_freezer",
+    "name": "sample freezer",
+    "description": "A specialized freezer capable of maintaining tempuratures of -80 Celsieus, and is often used only for the preservation of delicate scientific samples.",
+    "symbol": "[",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 18,
+    "max_volume": "1750 L",
+    "looks_like": "f_fridge",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "condensor_coil", "count": 1 },
+        { "item": "evaporator_coil", "count": 1 },
+        { "item": "refrigerant_tank", "count": 1 },
+        { "item": "motor_tiny", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 50,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 4 ] },
+        { "item": "scrap_copper", "count": [ 1, 2 ] },
+        { "item": "motor_tiny", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lab_bench",
+    "name": "lab workbench",
+    "description": "A metal storage cabinet topped by a durable resin countertop resistant to most chemical spills and burns.  It has wired in electrical and gas fittings.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "looks_like": "f_counter",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": "1750 L",
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cu_pipe", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.15, "mass": 300000, "volume": "100L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fume_hood",
+    "description": "A metal hood overtop of a lab workspace, with durable glass shutters.  A fan in the hood draws fumes and smoke from dangerous chemicals up into a ventilation duct.",
+    "name": "fume hood",
+    "symbol": "^",
+    "color": "black_yellow",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "looks_like": "f_lab_bench",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "reinforced_glass_pane", "count": 2 },
+        { "item": "motor_small", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 12 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "element", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "glass_shard", "count": [ 25, 100 ] },
+        { "item": "cable", "charges": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shaker",
+    "name": "shaker incubator",
+    "description": "A tool for keeping chemical broth nicely mixed, at just the right temperature to grow bacteria.  Although, more bacteria is probably the last thing you need, considering the circumstances.",
+    "symbol": "]",
+    "color": "white_yellow",
+    "move_cost_mod": 3,
+    "coverage": 45,
+    "required_str": 10,
+    "looks_like": "f_glass_fridge",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "element", "count": [ 2, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor_small", "charges": 1 },
+        { "item": "cu_pipe", "count": [ 1, 3 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "element", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_eyewash",
+    "name": "emergency wash station",
+    "description": "A standing sink with a pair of nozzles, along with a large and brightly-colored handle.  It is specially designed to quickly remove contaminants from the eyes, and is easily usable without being able to see very well.  A sizable notice warns against drinking the water it uses.",
+    "symbol": "u",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "looks_like": "f_sink",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 0, 3 ] },
+        { "item": "scrap_copper", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_IV_pole",
+    "name": "IV pole",
+    "description": "A tall wire frame on a set of small wheels used for holding an IV bag, useful for unattended administration.",
+    "symbol": "I",
+    "bgcolor": "white",
+    "move_cost_mod": 0,
+    "required_str": 1,
+    "looks_like": "f_rack_coat",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 14,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_HPLC",
+    "name": "high performance liquid chromatographer",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a liquid or aqueous phase, based on their affinity, to the stationary phase in a tube.  At least, that's what the label says.",
+    "symbol": ":",
+    "color": "red_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 12,
+    "looks_like": "t_machinery_light",
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "count": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_GC",
+    "name": "gas chromatographer",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase, based on their affinity, to a stationary phase in a tube.  At least, that's what the label says.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 18,
+    "looks_like": "t_machinery_old",
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 22,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_MS",
+    "name": "mass spectrometer",
+    "description": "Inside this large white box is a carefully balanced set of electric field generators that can precisely separate ionized particles based on their charge-to-mass ratio, firing them into a detector that measures the exact mass of the particle hitting it.  Invaluable for chemical analysis and other advanced sciences, it's not as useful anymore.",
+    "symbol": "-",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 45,
+    "required_str": -1,
+    "looks_like": "t_machinery_heavy",
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 24,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_NMR",
+    "name": "nuclear magnetic resonance spectrometer",
+    "description": "This is a giant electromagnet with carefully tuned measurement equipment used to observe how magnetic fields affect nuclear spins.  It is a common workhorse for the discovery and study of chemical structures.",
+    "symbol": "M",
+    "color": "white_cyan",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": -1,
+    "looks_like": "t_machinery_heavy",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 38,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_electron_microscope",
+    "name": "electron microscope",
+    "description": "An enormous observational tool for studying the details of samples on an immensely small scale.",
+    "symbol": "I",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "looks_like": "t_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 35,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_CTscan",
+    "name": "CT scanner",
+    "description": "A massive piece of machinery used to take hundreds of X-ray images from 360 degrees, often used for medical examinations of patients.",
+    "symbol": "o",
+    "bgcolor": "white",
+    "move_cost_mod": 7,
+    "coverage": 65,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "CONTAINER" ],
+    "looks_like": "t_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_MRI",
+    "name": "MRI machine",
+    "description": "A massive tool used to take NMR images of a patient placed inside, providing invaluable medical insight.",
+    "symbol": "o",
+    "bgcolor": "cyan",
+    "move_cost_mod": 8,
+    "coverage": 65,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "CONTAINER" ],
+    "looks_like": "t_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_scan_bed",
+    "name": "scanner bed",
+    "description": "This is a narrow, flat, and frankly uncomfortable bed for putting someone into an imaging machine for medical observations.",
+    "symbol": "I",
+    "bgcolor": "white",
+    "move_cost_mod": 4,
+    "coverage": 35,
+    "required_str": 6,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "looks_like": "f_bed",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 10, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 3 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anesthetic",
+    "name": "anesthetic machine",
+    "description": "A large machine with various tanks, tubes, and monitoring devices used to maintain precise levels of anesthesia in a patient to ensure they, at least ideally, remain asleep, unfeeling, but alive.",
+    "symbol": "n",
+    "color": "white_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 6,
+    "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "oxygen_tank", "count": [ 1, 2 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dialysis",
+    "name": "dialysis machine",
+    "description": "A large machine for pumping and filtering the blood of somebody without the function of their kidneys.  Largely obsolete for those with access to bionics, but a lifeline to those that need it.",
+    "symbol": "8",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 5,
+    "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ventilator",
+    "name": "medical ventilator",
+    "description": "A sizable box on a set of wheels that will pump air in and out of a patient's lungs when they are incapable of breathing, though often only needed temporarily.",
+    "symbol": "F",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": 4,
+    "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "oxygen_tank", "count": [ 1, 2 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_curtain",
+    "name": "privacy curtain",
+    "description": "No peeking!",
+    "symbol": "|",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 95,
+    "required_str": -1,
+    "open": "f_curtain_open",
+    "flags": [ "PLACE_ITEM" ],
+    "looks_like": "t_curtain",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 20,
+      "sound": "swish!",
+      "sound_fail": "clattering metal!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_curtain_open",
+    "looks_like": "t_curtain_o",
+    "name": "open privacy curtain",
+    "description": "Stop peeking!",
+    "symbol": "N",
+    "bgcolor": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "close": "f_curtain",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 20,
+      "sound": "swish!",
+      "sound_fail": "clattering metal!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    }
+  }
+]

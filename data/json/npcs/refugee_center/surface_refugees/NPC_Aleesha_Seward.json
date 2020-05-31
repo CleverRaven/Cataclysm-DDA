@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Aleesha",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Aleesha is fourteen and lost her family",
@@ -83,7 +83,7 @@
         "You're back, and still alive!  Whoa.",
         "Aw hey, look who's back."
       ],
-      "no": "Oh, uh... hi.  You look new.  I'm Aleesha."
+      "no": "Oh, uh… hi.  You look new.  I'm Aleesha."
     },
     "responses": [
       {

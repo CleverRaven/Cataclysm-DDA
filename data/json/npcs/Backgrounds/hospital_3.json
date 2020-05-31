@@ -2,7 +2,7 @@
   {
     "id": "BGSS_HOSPITAL_3_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was called in to work at the hospital.  I don't usually work there, I'm a community doctor.  I don't really love emergency medicine at the best of times, and when your patient keeps trying to rip your face off, well, it takes the last bit of fun out of it.  You might think I'm a coward, but I slipped out early on, and I've got no regrets.  There was nothing I could have done except die like everyone else.  I couldn't get out of the building, the military had blockaded us in...  so I went to the most secure, quiet damned place in the building.",
+    "dynamic_line": "I was called in to work at the hospital.  I don't usually work there, I'm a community doctor.  I don't really love emergency medicine at the best of times, and when your patient keeps trying to rip your face off, well, it takes the last bit of fun out of it.  You might think I'm a coward, but I slipped out early on, and I've got no regrets.  There was nothing I could have done except die like everyone else.  I couldn't get out of the building, the military had blockaded us in…  so I went to the most secure, quiet damned place in the building.",
     "responses": [
       { "text": "Where was that?", "topic": "BGSS_HOSPITAL_3_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }
@@ -11,7 +11,7 @@
   {
     "id": "BGSS_HOSPITAL_3_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "The morgue.  Seems like a dumb place to go at the start of a zombie apocalypse, right?  Thing is, nobody had made it to the morgue in quite a while, the bodies were reanimating too quickly and the staff were just too busy.  I was shaking and puking and I could see the world was ending...  I bundled myself up, grabbed a few snacks from the pathologist's desk, and crawled into one of those drawers to contemplate the end of the world.  After breaking the handle to make sure it couldn't lock behind me, of course.  It was <very> safe and quiet in there.  Not just my cubby, the whole morgue.  At first it was because nobody was <dumb> enough to come down there except me.  Later, it was because nobody was left.",
+    "dynamic_line": "The morgue.  Seems like a dumb place to go at the start of a zombie apocalypse, right?  Thing is, nobody had made it to the morgue in quite a while, the bodies were reanimating too quickly and the staff were just too busy.  I was shaking and puking and I could see the world was ending…  I bundled myself up, grabbed a few snacks from the pathologist's desk, and crawled into one of those drawers to contemplate the end of the world.  After breaking the handle to make sure it couldn't lock behind me, of course.  It was <very> safe and quiet in there.  Not just my cubby, the whole morgue.  At first it was because nobody was <dumb> enough to come down there except me.  Later, it was because nobody was left.",
     "responses": [
       { "text": "Clearly you escaped at some point.", "topic": "BGSS_HOSPITAL_3_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

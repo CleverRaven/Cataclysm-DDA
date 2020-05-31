@@ -112,6 +112,32 @@
   },
   {
     "type": "trap",
+    "id": "tr_microlab_shifting_hall",
+    "name": "microlab shifting hall",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_shifting_hall",
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_microlab_shifting_hall_2",
+    "name": "microlab shifting hall",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_shifting_hall_2",
+    "benign": true
+  },
+  {
+    "type": "trap",
     "id": "tr_beartrap",
     "trigger_weight": 200,
     "name": "bear trap",
@@ -334,7 +360,15 @@
     "difficulty": 10,
     "action": "landmine",
     "drops": [ "landmine" ],
-    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 8, "sound_volume": 10 }
+    "vehicle_data": {
+      "do_explosion": true,
+      "damage": 1000,
+      "shrapnel": 8,
+      "sound_volume": 10,
+      "sound": "Boom!",
+      "sound_type": "explosion",
+      "sound_variant": "default"
+    }
   },
   {
     "type": "trap",
@@ -348,7 +382,15 @@
     "difficulty": 10,
     "action": "landmine",
     "drops": [ "landmine" ],
-    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 8, "sound_volume": 10 }
+    "vehicle_data": {
+      "do_explosion": true,
+      "damage": 1000,
+      "shrapnel": 8,
+      "sound_volume": 10,
+      "sound": "Boom!",
+      "sound_type": "explosion",
+      "sound_variant": "default"
+    }
   },
   {
     "type": "trap",
@@ -469,7 +511,15 @@
     "difficulty": 7,
     "action": "boobytrap",
     "drops": [ "boobytrap" ],
-    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 12, "sound_volume": 18 }
+    "vehicle_data": {
+      "do_explosion": true,
+      "damage": 1000,
+      "shrapnel": 12,
+      "sound_volume": 18,
+      "sound": "Boom!",
+      "sound_type": "explosion",
+      "sound_variant": "default"
+    }
   },
   {
     "type": "trap",
@@ -600,7 +650,6 @@
     "name": "downspout funnel",
     "color": "brown",
     "symbol": "v",
-    "looks_like": "t_gutter_downspout",
     "visibility": 999,
     "avoidance": 0,
     "difficulty": 0,

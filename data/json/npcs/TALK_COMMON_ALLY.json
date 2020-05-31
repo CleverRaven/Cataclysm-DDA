@@ -28,6 +28,15 @@
     ]
   },
   {
+    "id": "TALK_REBOOT",
+    "type": "talk_topic",
+    "dynamic_line": "This character was previously put into a suspension state due to an AI bug.  If you have reason to believe the problem was fixed, you can wake them up.  Do you want to do that now?",
+    "responses": [
+      { "text": "yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "no, go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
     "type": "talk_topic",
     "dynamic_line": {
@@ -35,7 +44,8 @@
       "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
     },
     "responses": [
-      { "text": "Combat commands...", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Can you teach me anything?",
@@ -72,32 +82,53 @@
         "default": true
       },
       {
-        "text": "Guard this position.",
-        "condition": { "not": "is_by_radio" },
-        "topic": "TALK_FRIEND_GUARD",
-        "effect": "assign_guard"
-      },
-      { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
-      {
         "text": "I want you to use this item.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
         "effect": "npc_gets_item_to_use"
       },
-      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       {
         "text": "Hold on to this item.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
         "effect": "npc_gets_item"
       },
-      { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
-      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" },
       {
-        "text": "Let's just chitchat for a while...",
-        "topic": "TALK_FRIEND_CHAT",
-        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "not": "npc_is_riding" },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      {
+        "text": "Please go to this location.",
+        "topic": "TALK_GOTO_LOCATION",
+        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "effect": "goto_location"
+      },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND",
+        "effect": "reveal_stats"
       },
       {
         "text": "Any hints about the world we now live in?",
@@ -118,13 +149,36 @@
         "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
       },
       {
-        "text": "Please go to this location...",
-        "topic": "TALK_GOTO_LOCATION",
-        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
-        "effect": "goto_location"
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
       },
-      { "text": "Tell me about giving you orders.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" }
+      },
+      {
+        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "Tell me about giving you orders (NPC TUTORIAL).", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -141,9 +195,13 @@
               "no": {
                 "npc_engagement_rule": "ENGAGE_HIT",
                 "no": {
-                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
-                  "no": "*will engage all enemies.",
-                  "yes": "*will engage enemies close enough to attack without moving."
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
                 },
                 "yes": "*will engage enemies you attack."
               },
@@ -226,15 +284,15 @@
       ]
     },
     "responses": [
-      { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
-      { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      { "text": "Change your engagement rules…", "topic": "TALK_COMBAT_ENGAGEMENT" },
+      { "text": "Change your aiming rules…", "topic": "TALK_AIM_RULES" },
       {
-        "text": "Change your bionic power reserve rules...",
+        "text": "Change your bionic power reserve rules…",
         "topic": "TALK_CBM_RESERVE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
       {
-        "text": "Change your bionic power recharge rules...",
+        "text": "Change your bionic power recharge rules…",
         "topic": "TALK_CBM_RECHARGE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
@@ -250,8 +308,8 @@
       {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_distance_2" },
-          "true": "<ally_rule_follow_distance_2_true_text>",
-          "false": "<ally_rule_follow_distance_2_false_text>"
+          "false": "<ally_rule_follow_distance_2_true_text>",
+          "true": "<ally_rule_follow_distance_2_false_text>"
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_distance_2" }
@@ -310,9 +368,13 @@
               "no": {
                 "npc_engagement_rule": "ENGAGE_HIT",
                 "no": {
-                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
-                  "no": "*will engage all enemies.",
-                  "yes": "*will engage enemies close enough to attack without moving."
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
                 },
                 "yes": "*will engage enemies you attack."
               },
@@ -347,7 +409,7 @@
       {
         "text": "Attack only enemies that I attack first.",
         "topic": "TALK_NONE",
-        "condition": { "not": { "npc_engagement_rule": "ENAGE_HIT" } },
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_HIT" } },
         "effect": { "set_npc_engagement_rule": "ENGAGE_HIT" }
       },
       {
@@ -355,6 +417,12 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_engagement_rule": "ENGAGE_NO_MOVE" } },
         "effect": { "set_npc_engagement_rule": "ENGAGE_NO_MOVE" }
+      },
+      {
+        "text": "Attack any enemy within range of your ranged weapon, but don't move.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_FREE_FIRE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_FREE_FIRE" }
       },
       {
         "text": "Attack anything you want.",
@@ -704,7 +772,7 @@
     "type": "talk_topic",
     "dynamic_line": "You're really leaving?",
     "responses": [
-      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave" },
+      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave", "opinion": { "trust": -2, "anger": 1 } },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
   },
@@ -712,7 +780,7 @@
     "id": "TALK_RADIO",
     "type": "talk_topic",
     "responses": [
-      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -727,6 +795,7 @@
     "type": "talk_topic",
     "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
     "responses": [
+      { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
       { "text": "Carry on.", "topic": "TALK_DONE" },
       {
         "text": "Please stop your current activity.",
@@ -745,6 +814,54 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_construction"
+      },
+      {
+        "text": "Please do any mining work that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_mining"
+      },
+      {
+        "text": "Please study from a book.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_read"
+      },
+      {
+        "text": "Please start deconstructing any vehicles in a deconstruction zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please start repairing any vehicles in a repair zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_repair"
+      },
+      {
+        "text": "Please chop logs into planks.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_plank"
+      },
+      {
+        "text": "Please butcher any corpses that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_butcher"
+      },
+      {
+        "text": "Please chop any trees in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_trees"
+      },
+      {
+        "text": "Please go catch some fish.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_fishing"
       },
       {
         "text": "Please do some farming work.",
@@ -791,25 +908,25 @@
       },
       {
         "npc_has_effect": "infected",
-        "yes": "Well, I'm feeling pretty sick... are you doing OK though?",
+        "yes": "Well, I'm feeling pretty sick… are you doing OK though?",
         "no": "<neutralchitchat>"
       },
       {
         "has_no_assigned_mission": "<neutralchitchat>",
         "no": {
           "has_many_assigned_missions": "Definitely, by the way, thanks for helping me so much with my tasks!  Anyway, you coping OK, <name_g>? ",
-          "no": "OK, let's take a moment, oh, and thanks for helping me with that thing, so... what's up?"
+          "no": "OK, let's take a moment, oh, and thanks for helping me with that thing, so… what's up?"
         }
       },
       {
         "days_since_cataclysm": 30,
-        "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+        "yes": "Now, we've got a moment, I was just thinking it's been a month or so since… since all this, how are you coping with it all?",
         "no": "<neutralchitchat>"
       }
     ],
     "responses": [
       {
-        "text": "Oh you know, not bad, not bad...",
+        "text": "Oh you know, not bad, not bad…",
         "topic": "TALK_DONE",
         "switch": true,
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]

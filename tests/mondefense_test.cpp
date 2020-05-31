@@ -1,11 +1,12 @@
 #include "catch/catch.hpp"
+#include "creature.h"
 #include "item.h"
 #include "mondefense.h"
 #include "monster.h"
 #include "npc.h"
 #include "projectile.h"
-#include "creature.h"
 #include "type_id.h"
+#include "units.h"
 
 static void test_zapback( Creature &attacker, const bool expect_damage,
                           const dealt_projectile_attack *proj = nullptr )
@@ -91,7 +92,7 @@ TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )
     standard_npc attacker( "Attacker" );
     attacker.add_bionic( bionic_id( "bio_power_storage" ) );
     attacker.add_bionic( bionic_id( "bio_faraday" ) );
-    attacker.charge_power( 100 );
+    attacker.mod_power_level( 100_kJ );
     // Don't forget to turn it on...
     test_zapback( attacker, true );
     // Wow this is a raw index?

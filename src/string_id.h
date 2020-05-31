@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_ID_H
-#define STRING_ID_H
+#ifndef CATA_SRC_STRING_ID_H
+#define CATA_SRC_STRING_ID_H
 
 #include <string>
 #include <type_traits>
@@ -81,12 +81,6 @@ class string_id
          */
         bool operator!=( const This &rhs ) const {
             return _id != rhs._id;
-        }
-        /**
-         * The unusual comparator, compares the string id to char *
-         */
-        bool operator==( const char *rhs ) const {
-            return _id == rhs;
         }
         /**
          * Interface to the plain C-string of the id. This function mimics the std::string
@@ -202,10 +196,10 @@ namespace std
 {
 template<typename T>
 struct hash< string_id<T> > {
-    std::size_t operator()( const string_id<T> &v ) const {
+    std::size_t operator()( const string_id<T> &v ) const noexcept {
         return hash<std::string>()( v.str() );
     }
 };
 } // namespace std
 
-#endif
+#endif // CATA_SRC_STRING_ID_H

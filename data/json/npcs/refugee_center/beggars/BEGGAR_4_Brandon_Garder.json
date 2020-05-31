@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_4",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
@@ -37,7 +37,6 @@
       { "trait": "MYOPIC" },
       { "trait": "HYPEROPIC" },
       { "trait": "JITTERY" },
-      { "trait": "TRIGGERHAPPY" },
       { "trait": "SMELLY" },
       { "trait": "PROJUNK" },
       { "trait": "BADBACK" },
@@ -105,7 +104,7 @@
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUITED"
       },
-      { "text": "I could maybe help you out... want something to eat?", "topic": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD" },
+      { "text": "I could maybe help you out… want something to eat?", "topic": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD" },
       { "text": "What's wrong with you?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK2" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
@@ -131,7 +130,7 @@
         "response": {
           "text": "Here, you can have this <topic_item>.",
           "topic": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD",
-          "opinion": { "trust": [ 0, 1 ], "value": [ 0, 2 ], "fear": [ -1, 0 ], "anger": [ -1, 0 ], "owed": 2 }
+          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 2 }
         }
       }
     ]
@@ -188,7 +187,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_CAMPOUT",
-    "dynamic_line": "This is a mercy.  I get shelter, light, and heat, and those guards will help us if any zombies show up.  It ain't so bad.  If I was out on my own I'd have none of this and still have to look for food... in other words, I'd be dead as a doornail.  Or I guess undead.",
+    "dynamic_line": "This is a mercy.  I get shelter, light, and heat, and those guards will help us if any zombies show up.  It ain't so bad.  If I was out on my own I'd have none of this and still have to look for food… in other words, I'd be dead as a doornail.  Or I guess undead.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
@@ -290,7 +289,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT2",
-    "dynamic_line": "Well... I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't... entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
+    "dynamic_line": "Well… I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't… entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
     "speaker_effect": [ { "effect": { "u_add_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },

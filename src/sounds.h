@@ -1,18 +1,19 @@
 #pragma once
-#ifndef SOUNDS_H
-#define SOUNDS_H
+#ifndef CATA_SRC_SOUNDS_H
+#define CATA_SRC_SOUNDS_H
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+class Creature;
+class JsonObject;
+class item;
 class monster;
 class player;
-class Creature;
-class item;
-class JsonObject;
 class translation;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace sounds
 {
@@ -22,12 +23,14 @@ enum class sound_t : int {
     music,
     movement,
     speech,
+    electronic_speech, // Any electronic sound that's not music/alarm: Robot speech, radio, etc.
     activity,
     destructive_activity,
     alarm,
     combat, // any violent sounding activity
     alert, // louder than speech to get attention
-    order  // loudest to get attention
+    order,  // loudest to get attention
+    _LAST // must always be last
 };
 
 // Methods for recording sound events.
@@ -78,6 +81,11 @@ std::string sound_at( const tripoint &location );
 extern bool sound_enabled;
 } // namespace sounds
 
+template<>
+struct enum_traits<sounds::sound_t> {
+    static constexpr auto last = sounds::sound_t::_LAST;
+};
+
 namespace sfx
 {
 //Channel assignments:
@@ -119,9 +127,9 @@ enum class group : int {
     fatigue         //SFX related to fatigue
 };
 
-void load_sound_effects( JsonObject &jsobj );
-void load_sound_effect_preload( JsonObject &jsobj );
-void load_playlist( JsonObject &jsobj );
+void load_sound_effects( const JsonObject &jsobj );
+void load_sound_effect_preload( const JsonObject &jsobj );
+void load_playlist( const JsonObject &jsobj );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                          double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
@@ -155,4 +163,4 @@ void do_fatigue();
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx
 
-#endif
+#endif // CATA_SRC_SOUNDS_H

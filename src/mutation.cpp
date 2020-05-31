@@ -1,56 +1,97 @@
 #include "mutation.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <list>
+#include <cstdlib>
+#include <memory>
 #include <unordered_set>
 
 #include "avatar_action.h"
-#include "field.h"
+#include "bionics.h"
+#include "character.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
+#include "event.h"
+#include "event_bus.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memorial_logger.h"
 #include "monster.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "translations.h"
 #include "omdata.h"
+#include "output.h"
+#include "overmapbuffer.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "string_id.h"
-#include "enums.h"
+#include "translations.h"
+#include "units.h"
 
-const efftype_id effect_stunned( "stunned" );
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
-static const trait_id trait_ROBUST( "ROBUST" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
-static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_VOMITOUS( "VOMITOUS" );
-static const trait_id trait_M_FERTILE( "M_FERTILE" );
-static const trait_id trait_M_BLOOM( "M_BLOOM" );
-static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
-static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
-static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
-static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_LARGE_OK( "LARGE_OK" );
+static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
+static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<mutagen_technique>( mutagen_technique data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case mutagen_technique::consumed_mutagen: return "consumed_mutagen";
+        case mutagen_technique::injected_mutagen: return "injected_mutagen";
+        case mutagen_technique::consumed_purifier: return "consumed_purifier";
+        case mutagen_technique::injected_purifier: return "injected_purifier";
+        case mutagen_technique::injected_smart_purifier: return "injected_smart_purifier";
+        // *INDENT-ON*
+        case mutagen_technique::num_mutagen_techniques:
+            break;
+    }
+    debugmsg( "Invalid mutagen_technique" );
+    abort();
+}
+
+} // namespace io
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -60,8 +101,8 @@ bool Character::has_trait( const trait_id &b ) const
 bool Character::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
-    for( const auto &mut : my_mutations ) {
-        auto &mut_data = mut.first.obj();
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
         }
@@ -76,50 +117,71 @@ bool Character::has_base_trait( const trait_id &b ) const
     return my_traits.find( b ) != my_traits.end();
 }
 
-void Character::toggle_trait( const trait_id &flag )
+void Character::toggle_trait( const trait_id &trait_ )
 {
-    const auto titer = my_traits.find( flag );
+    // Take copy of argument because it might be a reference into a container
+    // we're about to erase from.
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    const trait_id trait = trait_;
+    const auto titer = my_traits.find( trait );
+    const auto miter = my_mutations.find( trait );
     if( titer == my_traits.end() ) {
-        my_traits.insert( flag );
+        my_traits.insert( trait );
     } else {
         my_traits.erase( titer );
     }
-    const auto miter = my_mutations.find( flag );
+    if( ( titer == my_traits.end() ) != ( miter == my_mutations.end() ) ) {
+        debugmsg( "my_traits and my_mutations were out of sync for %s\n", trait.str() );
+        return;
+    }
     if( miter == my_mutations.end() ) {
-        set_mutation( flag );
-        mutation_effect( flag );
+        set_mutation( trait );
     } else {
-        unset_mutation( flag );
-        mutation_loss_effect( flag );
+        unset_mutation( trait );
     }
 }
 
-void Character::set_mutation( const trait_id &flag )
+void Character::set_mutation( const trait_id &trait )
 {
-    const auto iter = my_mutations.find( flag );
-    if( iter == my_mutations.end() ) {
-        my_mutations[flag]; // Creates a new entry with default values
-        cached_mutations.push_back( &flag.obj() );
-    } else {
-        return;
-    }
-    recalc_sight_limits();
-    reset_encumbrance();
-}
-
-void Character::unset_mutation( const trait_id &flag )
-{
-    const auto iter = my_mutations.find( flag );
+    const auto iter = my_mutations.find( trait );
     if( iter != my_mutations.end() ) {
-        my_mutations.erase( iter );
-        const mutation_branch &mut = *flag;
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
-                                cached_mutations.end() );
-    } else {
         return;
     }
+    my_mutations.emplace( trait, trait_data{} );
+    cached_mutations.push_back( &trait.obj() );
+    mutation_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
+}
+
+void Character::unset_mutation( const trait_id &trait_ )
+{
+    // Take copy of argument because it might be a reference into a container
+    // we're about to erase from.
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    const trait_id trait = trait_;
+    const auto iter = my_mutations.find( trait );
+    if( iter == my_mutations.end() ) {
+        return;
+    }
+    const mutation_branch &mut = *trait;
+    cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
+                            cached_mutations.end() );
+    my_mutations.erase( iter );
+    mutation_loss_effect( trait );
+    recalc_sight_limits();
+    reset_encumbrance();
+}
+
+void Character::switch_mutations( const trait_id &switched, const trait_id &target,
+                                  bool start_powered )
+{
+    unset_mutation( switched );
+    mutation_loss_effect( switched );
+
+    set_mutation( target );
+    my_mutations[target].powered = start_powered;
+    mutation_effect( target );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -154,7 +216,7 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     }
 
     for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+        if( it.covers( convert_bp( bp ).id() ) ) {
             return true;
         }
     }
@@ -173,9 +235,22 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
+m_size calculate_size( const Character &c )
+{
+    if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
+        c.has_trait( trait_id( "SMALL" ) ) ) {
+        return MS_SMALL;
+    } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
+        return MS_LARGE;
+    } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
+        return MS_HUGE;
+    }
+    return MS_MEDIUM;
+}
+
 void Character::mutation_effect( const trait_id &mut )
 {
-    if( mut == "GLASSJAW" ) {
+    if( mut == trait_GLASSJAW ) {
         recalc_hp();
 
     } else if( mut == trait_STR_ALPHA ) {
@@ -206,6 +281,8 @@ void Character::mutation_effect( const trait_id &mut )
         apply_mods( mut, true );
     }
 
+    size_class = calculate_size( *this );
+
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
         branch.hp_adjustment != 0.0f ) {
@@ -225,9 +302,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            for( item &remain : armor.contents ) {
-                g->m.add_item_or_charges( pos(), remain );
-            }
+            armor.contents.spill_contents( pos() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
@@ -247,7 +322,7 @@ void Character::mutation_effect( const trait_id &mut )
 
 void Character::mutation_loss_effect( const trait_id &mut )
 {
-    if( mut == "GLASSJAW" ) {
+    if( mut == trait_GLASSJAW ) {
         recalc_hp();
 
     } else if( mut == trait_STR_ALPHA ) {
@@ -278,6 +353,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
         apply_mods( mut, false );
     }
 
+    size_class = calculate_size( *this );
+
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
         branch.hp_adjustment != 0.0f ) {
@@ -293,18 +370,113 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-void player::activate_mutation( const trait_id &mut )
+bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().allowed_category.empty() ) {
+            restricted = true;
+        }
+        for( const std::string &Mu_cat : category ) {
+            if( mut.obj().allowed_category.count( Mu_cat ) ) {
+                allowed = true;
+                break;
+            }
+        }
+
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+
+}
+
+bool Character::is_category_allowed( const std::string &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+            restricted = true;
+            if( Ch_cat == category ) {
+                allowed = true;
+            }
+        }
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+}
+
+bool Character::is_weak_to_water() const
+{
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut.obj().weakness_to_water > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::can_use_heal_item( const item &med ) const
+{
+    const itype_id heal_id = med.typeId();
+
+    bool can_use = false;
+    bool got_restriction = false;
+
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().can_only_heal_with.empty() ) {
+            got_restriction = true;
+        }
+        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+            can_use = true;
+            break;
+        }
+    }
+    if( !got_restriction ) {
+        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
+    }
+
+    if( !can_use ) {
+        for( const trait_id &mut : get_mutations() ) {
+            if( mut.obj().can_heal_with.count( heal_id ) ) {
+                can_use = true;
+                break;
+            }
+        }
+    }
+
+    return can_use;
+}
+
+bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const
+{
+    bool can_install = true;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const bodypart_id &bp : bps ) {
+            if( mut.obj().no_cbm_on_bp.count( bp.id() ) ) {
+                can_install = false;
+                break;
+            }
+        }
+    }
+    return can_install;
+}
+
+void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
-    auto &tdata = my_mutations[mut];
+    trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
-    // Preserve the fake weapon used to initiate ranged mutation firing
-    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
-        ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
+        ( mdata.fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                            mdata.name() );
@@ -335,39 +507,36 @@ void player::activate_mutation( const trait_id &mut )
         recalc_sight_limits();
     }
 
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( - trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+        return;
+    }
+
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
-    } else if( mut == "BURROW" ) {
+    } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        // Oops, no room to divide!
-        if( valid.empty() ) {
+        monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
+        if( !slime ) {
+            // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slimespring!" ) );
             tdata.powered = false;
             return;
         }
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
-        int numslime = 1;
-        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
-            const tripoint target = random_entry_removed( valid );
-            if( monster *const slime = g->summon_mon( mtype_id( "mon_player_blob" ), target ) ) {
-                slime->friendly = -1;
-            }
-        }
+        slime->friendly = -1;
         if( one_in( 3 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "wow! you look just like me! we should look out for each other!" ) );
+            add_msg_if_player( m_good,
+                               //~ Usual enthusiastic slimespring small voices! :D
+                               _( "wow!  you look just like me!  we should look out for each other!" ) );
         } else if( one_in( 2 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
@@ -405,14 +574,10 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
         // Check for adjacent trees.
-        const tripoint p = pos();
         bool adjacent_tree = false;
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                const tripoint p2 = p + point( dx, dy );
-                if( g->m.has_flag( "TREE", p2 ) ) {
-                    adjacent_tree = true;
-                }
+        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->m.has_flag( "TREE", p2 ) ) {
+                adjacent_tree = true;
             }
         }
         if( !adjacent_tree ) {
@@ -427,7 +592,7 @@ void player::activate_mutation( const trait_id &mut )
                 _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
         }
 
-        assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
+        assign_activity( ACT_TREE_COMMUNION );
 
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
@@ -440,38 +605,51 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
-        max_power_level += 100;
+        mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;
-    } else if( !mdata.spawn_item.empty() ) {
+    } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
+        int npower;
+        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
+            mod_power_level( units::from_millijoule( npower ) );
+            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            tdata.powered = false;
+        }
+        return;
+    } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
-    } else if( !mdata.ranged_mutation.empty() ) {
-        mut_ranged = item( mdata.ranged_mutation );
+    } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, mut_ranged );
+        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
 }
 
-void player::deactivate_mutation( const trait_id &mut )
+void Character::deactivate_mutation( const trait_id &mut )
 {
     my_mutations[mut].powered = false;
 
     // Handle stat changes from deactivation
     apply_mods( mut, false );
     recalc_sight_limits();
+    const mutation_branch &mdata = mut.obj();
+    if( mdata.transform ) {
+        const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( -trans->moves );
+        switch_mutations( mut, trans->target, trans->active );
+    }
 }
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }
@@ -479,8 +657,11 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
+bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if( !is_category_allowed( mutation->category ) ) {
+        return false;
+    }
     if( mutation_branch::trait_is_blacklisted( mutation ) ) {
         return false;
     }
@@ -488,6 +669,15 @@ bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_
         // We already have this mutation or something that replaces it.
         return false;
     }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( mid == mutation ) {
+                return false;
+            }
+        }
+    }
+
     const mutation_branch &mdata = mutation.obj();
     if( force_bad && mdata.points > 0 ) {
         // This is a good mutation, and we're due for a bad one.
@@ -502,7 +692,7 @@ bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_
     return true;
 }
 
-void player::mutate()
+void Character::mutate()
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
@@ -519,6 +709,10 @@ void player::mutate()
 
     // Determine the highest mutation category
     std::string cat = get_highest_category();
+
+    if( !is_category_allowed( cat ) ) {
+        cat.clear();
+    }
 
     // See if we should upgrade/extend an existing mutation...
     std::vector<trait_id> upgrades;
@@ -617,7 +811,7 @@ void player::mutate()
         if( cat.empty() ) {
             // Pull the full list
             for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.valid ) {
+                if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
                     valid.push_back( traits_iter.id );
                 }
             }
@@ -655,7 +849,7 @@ void player::mutate()
     }
 }
 
-void player::mutate_category( const std::string &cat )
+void Character::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
@@ -704,7 +898,7 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
+bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -720,7 +914,7 @@ bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
     return false;
 }
 
-bool player::mutate_towards( const trait_id &mut )
+bool Character::mutate_towards( const trait_id &mut )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -802,7 +996,7 @@ bool player::mutate_towards( const trait_id &mut )
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if( threshold ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
     if( profession ) {
@@ -818,7 +1012,7 @@ bool player::mutate_towards( const trait_id &mut )
 
     // No crossing The Threshold by simply not having it
     if( !has_threshreq && !threshreq.empty() ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
 
@@ -852,8 +1046,6 @@ bool player::mutate_towards( const trait_id &mut )
         }
     }
 
-    set_mutation( mut );
-
     bool mutation_replaced = false;
 
     game_message_type rating;
@@ -876,12 +1068,9 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name(), mdata.name() );
+
+        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
-        mutation_loss_effect( replacing );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     if( replacing2 ) {
@@ -899,12 +1088,8 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name(), mdata.name() );
+        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
-        mutation_loss_effect( replacing2 );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     for( const auto &i : canceltrait ) {
@@ -925,12 +1110,8 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          cancel_mdata.name(), mdata.name() );
+        g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
-        mutation_loss_effect( i );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
@@ -948,18 +1129,17 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "Gained the mutation '%s'." ),
-                          pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                          mdata.name() );
-        mutation_effect( mut );
+        g->events().send<event_type::gains_mutation>( getID(), mdata.id );
     }
+
+    set_mutation( mut );
 
     set_highest_cat_level();
     drench_mut_calc();
     return true;
 }
 
-void player::remove_mutation( const trait_id &mut, bool silent )
+void Character::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1062,8 +1242,6 @@ void player::remove_mutation( const trait_id &mut, bool silent )
                                    mdata.name(), replace_mdata.name() );
         }
         set_mutation( replacing );
-        mutation_loss_effect( mut );
-        mutation_effect( replacing );
         mutation_replaced = true;
     }
     if( replacing2 ) {
@@ -1084,8 +1262,6 @@ void player::remove_mutation( const trait_id &mut, bool silent )
                                    mdata.name(), replace_mdata.name() );
         }
         set_mutation( replacing2 );
-        mutation_loss_effect( mut );
-        mutation_effect( replacing2 );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
@@ -1104,16 +1280,15 @@ void player::remove_mutation( const trait_id &mut, bool silent )
                                    _( "<npcname> loses their %s mutation." ),
                                    mdata.name() );
         }
-        mutation_loss_effect( mut );
     }
 
     set_highest_cat_level();
     drench_mut_calc();
 }
 
-bool player::has_child_flag( const trait_id &flag ) const
+bool Character::has_child_flag( const trait_id &flag ) const
 {
-    for( auto &elem : flag->replacements ) {
+    for( const trait_id &elem : flag->replacements ) {
         const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
@@ -1122,7 +1297,7 @@ bool player::has_child_flag( const trait_id &flag ) const
     return false;
 }
 
-void player::remove_child_flag( const trait_id &flag )
+void Character::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
@@ -1136,12 +1311,12 @@ void player::remove_child_flag( const trait_id &flag )
     }
 }
 
-static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
+static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, bool strong )
 {
-    if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p.add_msg_if_player( m_warning,
-                             _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
+    if( guy.has_trait( trait_MUTAGEN_AVOID ) ) {
+        guy.add_msg_if_player( m_warning,
+                               //~ "Uh-uh" is a sound used for "nope", "no", etc.
+                               _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
         return mutagen_rejection::rejected;
     }
 
@@ -1155,49 +1330,59 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         return mutagen_rejection::accepted;
     }
 
-    if( p.has_trait( trait_THRESH_MYCUS ) ) {
-        p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
-        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
-            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
-            p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            g->m.ter_set( p.pos(), t_fungus );
-            p.add_memorial_log( pgettext( "memorial_male", "Destroyed a harmful invader." ),
-                                pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+    if( guy.has_trait( trait_THRESH_MYCUS ) ) {
+        guy.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
+        if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
+            guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
+            guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
+            g->m.ter_set( guy.pos(), t_fungus );
+            if( guy.is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male", "Destroyed a harmful invader." ),
+                    pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            }
             return mutagen_rejection::destroyed;
         } else {
-            p.add_msg_if_player( m_bad,
-                                 _( "We must eliminate this contaminant at the earliest opportunity." ) );
+            guy.add_msg_if_player( m_bad,
+                                   _( "We must eliminate this contaminant at the earliest opportunity." ) );
             return mutagen_rejection::rejected;
         }
     }
 
-    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
-        p.add_msg_player_or_npc( m_warning,
-                                 _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
-                                 _( "<npcname> writhes in agony and collapses to the ground!" ),
-                                 it.tname() );
-        p.vomit();
-        p.mod_pain( 35 + ( strong ? 20 : 0 ) );
+    if( guy.has_trait( trait_THRESH_MARLOSS ) ) {
+        guy.add_msg_player_or_npc( m_warning,
+                                   _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
+                                   _( "<npcname> writhes in agony and collapses to the ground!" ),
+                                   it.tname() );
+        guy.vomit();
+        guy.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
-        p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
+        guy.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
-        p.set_mutation( trait_MUTAGEN_AVOID );
+        guy.fall_asleep( 5_hours - 1_minutes * ( guy.int_cur + ( strong ? 100 : 0 ) ) );
+        guy.set_mutation( trait_MUTAGEN_AVOID );
         // Injected mutagen purges marloss, ingested doesn't
         if( strong ) {
-            p.unset_mutation( trait_THRESH_MARLOSS );
-            p.add_msg_if_player( m_warning,
-                                 _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
-            p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
-            p.add_memorial_log( pgettext( "memorial_male",
-                                          "Burned out a particularly nasty fungal infestation." ),
-                                pgettext( "memorial_female", "Burned out a particularly nasty fungal infestation." ) );
+            guy.unset_mutation( trait_THRESH_MARLOSS );
+            guy.add_msg_if_player( m_warning,
+                                   _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
+            guy.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
+            if( guy.is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male",
+                              "Burned out a particularly nasty fungal infestation." ),
+                    pgettext( "memorial_female",
+                              "Burned out a particularly nasty fungal infestation." ) );
+            }
         } else {
-            p.add_msg_if_player( m_warning,
-                                 _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
-                                 it.tname() );
-            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
-                                pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+            guy.add_msg_if_player( m_warning,
+                                   _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
+                                   it.tname() );
+            if( guy.is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                    pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+            }
         }
 
         return mutagen_rejection::destroyed;
@@ -1206,14 +1391,14 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
     return mutagen_rejection::accepted;
 }
 
-mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-                                       const std::string &memorial_male, const std::string &memorial_female )
+mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
+                                       const mutagen_technique technique )
 {
-    mutagen_rejection status = try_reject_mutagen( p, it, strong );
+    g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
+    mutagen_rejection status = try_reject_mutagen( guy, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
     }
-    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
     if( status == mutagen_rejection::destroyed ) {
         return mutagen_attempt( false, it.type->charges_to_use() );
     }
@@ -1221,10 +1406,10 @@ mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
     return mutagen_attempt( true, 0 );
 }
 
-void test_crossing_threshold( player &p, const mutation_category_trait &m_category )
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category )
 {
     // Threshold-check.  You only get to cross once!
-    if( p.crossed_threshold() ) {
+    if( guy.crossed_threshold() ) {
         return;
     }
 
@@ -1237,11 +1422,11 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
     std::string mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
-        total += p.mutation_category_level[ iter.first ];
+        total += guy.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
-    const std::string &primary = p.get_highest_category();
-    int breach_power = p.mutation_category_level[primary];
+    const std::string &primary = guy.get_highest_category();
+    int breach_power = guy.mutation_category_level[primary];
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
     // That said, you're required to have hit third-stage dreams first.
@@ -1256,34 +1441,81 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         }
         int breacher = breach_power + booster;
         if( x_in_y( breacher, total ) ) {
-            p.add_msg_if_player( m_good,
-                                 _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
-            p.set_mutation( mutation_thresh );
-            p.add_memorial_log( m_category.memorial_message_male(),
-                                m_category.memorial_message_female() );
+            guy.add_msg_if_player( m_good,
+                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
+            guy.set_mutation( mutation_thresh );
+            g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "URSINE" && p.has_trait( trait_CARNIVORE ) ) {
-                p.unset_mutation( trait_CARNIVORE );
-                p.add_msg_if_player( _( "Your appetite for blood fades." ) );
+            if( mutation_category == "URSINE" && guy.has_trait( trait_CARNIVORE ) ) {
+                guy.unset_mutation( trait_CARNIVORE );
+                guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
         }
-    } else if( p.has_trait( trait_NOPAIN ) ) {
+    } else if( guy.has_trait( trait_NOPAIN ) ) {
         //~NOPAIN is a post-Threshold trait, so you shouldn't
         //~legitimately have it and get here!
-        p.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+        guy.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
     } else if( breach_power > 100 ) {
-        p.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
-        p.mod_pain_noresist( 8 );
-        p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
+        guy.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
+        guy.mod_pain_noresist( 8 );
+        guy.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
     } else if( breach_power > 80 ) {
-        p.add_msg_if_player( m_bad,
-                             _( "Your head throbs with memories of your life, before all this..." ) );
-        p.mod_pain_noresist( 6 );
-        p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
+        guy.add_msg_if_player( m_bad,
+                               _( "Your head throbs with memories of your life, before all this…" ) );
+        guy.mod_pain_noresist( 6 );
+        guy.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
     } else if( breach_power > 60 ) {
-        p.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
-        p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
+        guy.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
+        guy.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
+}
+
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
+}
+
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->cancels, trait_b );
+}
+
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->prereqs, trait_b );
+}
+
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->replacements, trait_b );
+}
+
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( get_mutations_in_types( trait_a->types ), trait_b );
+}
+
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
+{
+    return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+}
+
+std::string Character::visible_mutations( const int visibility_cap ) const
+{
+    const std::vector<trait_id> &my_muts = get_mutations();
+    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    [visibility_cap ]( const trait_id & pr ) -> std::string {
+        const auto &mut_branch = pr.obj();
+        // Finally some use for visibility trait of mutations
+        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
+        {
+            return colorize( mut_branch.name(), mut_branch.get_display_color() );
+        }
+
+        return std::string();
+    } );
+    return trait_str;
 }

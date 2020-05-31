@@ -2,9 +2,9 @@
   {
     "type": "GENERIC",
     "id": "muffler",
-    "name": "muffler",
+    "name": { "str": "muffler" },
     "description": "A muffler from a car.  Very unwieldy as a weapon.  Useful in a few crafting recipes.",
-    "weight": 9525,
+    "weight": "9525 g",
     "to_hit": -10,
     "color": "light_gray",
     "symbol": "/",
@@ -14,14 +14,15 @@
     "bashing": 19,
     "category": "veh_parts",
     "price": 3000,
+    "price_postapoc": 100,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
     "id": "beeper",
-    "name": "back-up beeper",
+    "name": { "str": "back-up beeper" },
     "description": "This is a safety device intended to warn passersby of a vehicle moving in reverse, but the usage of it now seems terribly unwise.",
-    "weight": 360,
+    "weight": "360 g",
     "symbol": ";",
     "color": "light_gray",
     "material": [ "plastic", "aluminum" ],
@@ -29,35 +30,37 @@
     "to_hit": -1,
     "bashing": 2,
     "category": "veh_parts",
-    "price": 6000
+    "price": 6000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
     "id": "stereo",
-    "name": "stereo system",
+    "name": { "str": "stereo system" },
     "description": "A stereo system with speakers.  It is capable of being hooked up to a vehicle.",
-    "weight": 800,
+    "weight": "800 g",
     "to_hit": -2,
     "color": "red",
     "symbol": "&",
     "material": [ "steel" ],
     "volume": "3500 ml",
     "category": "veh_parts",
-    "price": 800
+    "price": 800,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
     "id": "chimes",
-    "name": "chime loudspeakers",
-    "name_plural": "chime loudspeakers",
+    "name": { "str_sp": "chime loudspeakers" },
     "description": "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
-    "weight": 2600,
+    "weight": "2600 g",
     "to_hit": -2,
     "color": "blue",
     "symbol": "&",
     "material": [ "steel" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 5000
+    "price": 5000,
+    "price_postapoc": 250
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "mil_outpost_ure" ],
-    "comment": "underground right edge",
+    "//": "underground right edge",
     "method": "json",
     "weight": 0,
     "object": {

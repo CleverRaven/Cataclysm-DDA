@@ -1,5 +1,15 @@
 # Translating Cataclysm: DDA
 
+* [Translators](#translators)
+  * [Getting Started](#getting-Started)
+  * [Grammatical gender](#grammatical-gender)
+  * [Tips](#tips)
+* [Developers](#developers)
+  * [Translation Functions](#translation-functions)
+  * [`translation`](#translation)
+  * [Recommendations](#recommendations)
+* [Maintainers](#maintainers)
+
 ## Translators
 
 The official location for translating Cataclysm: DDA is the
@@ -12,7 +22,6 @@ Some of the currently supported languages are:
 * Chinese (Simplified)
 * Chinese (Traditional)
 * Dutch
-* Esperanto
 * French
 * German
 * Italian (Italy)
@@ -200,41 +209,88 @@ const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
 
 There are times when you want to store a string for translation, maybe with
 translation context; Sometimes you may also want to store a string that needs no
-translation. `class translation` in `translations.h|cpp` offers the above
-functionality in a single wrapper.
+translation or has plural forms. `class translation` in `translations.h|cpp`
+offers these functionalities in a single wrapper:
 
 ```c++
-const translation text = translation( "Context", "Text" );
+const translation text = to_translation( "Context", "Text" );
 ```
 
 ```c++
-const translation text = translation( "Text without context" );
+const translation text = to_translation( "Text without context" );
+```
+
+```c++
+const translation text = pl_translation( "Singular", "Plural" );
+```
+
+```c++
+const translation text = pl_translation( "Context", "Singular", "Plural" );
 ```
 
 ```c++
 const translation text = no_translation( "This string will not be translated" );
 ```
 
-The string can then be translated/retrieved with
+The string can then be translated/retrieved with the following code
 
 ```c++
 const std::string translated = text.translated();
 ```
 
-`class translation` can also be read from JSON. The method `translation::deserialize()`
-handles deserialization from a `JsonIn` object, so it can be read from JSON
-using the appropriate JSON functions. The corresponding JSON syntax for strings
-with context is as follows:
-
-```JSON
-"name": { "ctxt": "foo", "str": "bar" }
+```c++
+// this translates the plural form of the text corresponding to the number 2
+const std::string translated = text.translated( 2 );
 ```
 
-Do note that currently this syntax is only supported for some JSON values, which
-are listed below. If you want other json strings to support
-this format, look at `translations.h|cpp` and migrate the corresponding code to
-it. Changes to `extract_json_strings.py` might also be needed, since with the
-new syntax "name" would be a `dict`, which may break unmigrated script.
+`class translation` can also be read from JSON. The method `translation::deserialize()`
+handles deserialization from a `JsonIn` object, so translations can be read from
+JSON using the appropriate JSON functions. The JSON syntax is as follows:
+
+```JSON
+"name": "bar"
+```
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
+```
+
+or
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
+In the above code, `"ctxt"` and `"str_pl"` are both optional, whereas `"str_sp"`
+is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additionally,
+`"str_pl"` and `"str_sp"` will only be read if the translation object is constructed using
+`plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
+an example:
+
+```c++
+translation name{ translation::plural_tag() };
+jsobj.read( "name", name );
+```
+
+If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
+singular form + "s".
+
+You can also add comments for translators by writing it like below (the order
+of the entries does not matter):
+
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
+Do note that currently the JSON syntax is only supported for some JSON values,
+which are listed below. If you want other json strings to use this format,
+refer to `translations.h|cpp` and migrate the corresponding code. Afterwards
+you may also want to test `update_pot.sh` to ensure that the strings are
+correctly extracted for translation, and run the unit test to fix text styling
+issues reported by the `translation` class.
 
 | Supported JSON values
 |---
@@ -250,11 +306,36 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Mutation names/descriptions
 | NPC class names/descriptions
 | Tool quality names
+| Score descriptions
 | Skill names/descriptions
 | Bionic names/descriptions
 | Terrain bash sound descriptions
 | Trap-vehicle collision sound descriptions
 | Vehicle part names/descriptions
+| Skill display type names
+| NPC dialogue u_buy_monster unique names
+| Spell messages and monster spell messages
+| Martial art names and descriptions
+| Mission names and descriptions
+| Fault names and descriptions
+| Plant names in item seed data
+| Transform use action messages and menu text
+| Template NPC names and name suffixes
+| NPC talk response text
+| Relic name overrides
+| Speech text
+| Tutorial messages
+| Vitamin names
+| Recipe blueprint names
+| Recipe group recipe descriptions
+| Item names (plural supported) and descriptions
+| Recipe descriptions
+| Inscribe use action verbs/gerunds
+| Monster names (plural supported) and descriptions
+| Snippets
+| Bodypart names
+| Keybinding action names
+| Field level names
 
 ### Recommendations
 

@@ -1,14 +1,22 @@
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "catch/catch.hpp"
+#include "character_oracle.h"
 #include "game.h"
-#include "npc.h"
 #include "item.h"
-#include "material.h"
+#include "item_location.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "monster_oracle.h"
+#include "mtype.h"
+#include "npc.h"
+#include "player.h"
+#include "map_helpers.h"
+#include "player_helpers.h"
 #include "string_id.h"
 #include "weather.h"
 
@@ -19,13 +27,13 @@ extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;
 } // namespace behavior
 
-static behavior::node_t make_test_node( std::string goal, const behavior::status_t *status )
+static behavior::node_t make_test_node( const std::string &goal, const behavior::status_t *status )
 {
     behavior::node_t node;
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.set_predicate( [status]( const behavior::oracle_t * ) {
+    node.set_predicate( [status]( const behavior::oracle_t *, const std::string & ) {
         return *status;
     } );
     return node;
@@ -131,19 +139,20 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 }
 
 // Make assertions about loaded behaviors.
-TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
+TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
 {
+    clear_map();
     behavior::tree npc_needs;
     npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
-    npc test_npc;
-    test_npc.normalize();
-    test_npc.setpos( { 50, 50, 0 } );
+    npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( test_npc );
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
         g->weather.temperature = 0;
         test_npc.update_bodytemp();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
+        test_npc.worn.push_back( item( "backpack" ) );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
         item sweater_copy = test_npc.i_rem( &sweater );
@@ -158,16 +167,46 @@ TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
         test_npc.set_stored_kcal( 1000 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
+        item_location loc = item_location( test_npc, &food );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( test_npc.get_item_position( &food ) );
+        test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
+        item_location loc = item_location( test_npc, &water );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( test_npc.get_item_position( &water ) );
+        test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
+}
+
+TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
+{
+    const tripoint monster_location( 5, 5, 0 );
+    clear_map();
+    monster &test_monster = spawn_test_monster( "mon_locust", monster_location );
+
+    behavior::monster_oracle_t oracle( &test_monster );
+    behavior::tree monster_goals;
+    monster_goals.add( test_monster.type->get_goals() );
+
+    for( const std::string &special_name : test_monster.type->special_attacks_names ) {
+        test_monster.reset_special( special_name );
+    }
+    CHECK( monster_goals.tick( &oracle ) == "idle" );
+    for( const tripoint &near_monster : g->m.points_in_radius( monster_location, 1 ) ) {
+        g->m.ter_set( near_monster, ter_id( "t_grass" ) );
+        g->m.furn_set( near_monster, furn_id( "f_null" ) );
+    }
+    SECTION( "Special Attack" ) {
+        test_monster.set_special( "EAT_CROP", 0 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+        g->m.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
+        CHECK( monster_goals.tick( &oracle ) == "EAT_CROP" );
+        test_monster.set_special( "EAT_CROP", 1 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
 }

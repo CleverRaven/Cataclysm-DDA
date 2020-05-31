@@ -55,7 +55,7 @@
     "id": "BGSS_LOST_PARTNER_2_FUCKOFF",
     "type": "talk_topic",
     "dynamic_line": "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us.",
-    "responses": [ { "text": "...", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_LOST_PARTNER_2_STORY2",
@@ -129,8 +129,8 @@
     "dynamic_line": [
       {
         "npc_female": true,
-        "yes": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My husband was still alive.  He'd been in the basement the whole time, pinned under a collapsed piece of floor.  And he'd lost a ton of blood, he was delirious by the time I found him.  I couldn't get him out, so I gave him food and water and just stayed with him and held his hand until he passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back.",
-        "no": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My wife was still alive.  She'd been in the basement the whole time, pinned under a collapsed piece of floor.  And she'd lost a ton of blood, she was delirious by the time I found her.  I couldn't get her out, so I gave her food and water and just stayed with her and held her hand until she passed.  And then...  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back."
+        "yes": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My husband was still alive.  He'd been in the basement the whole time, pinned under a collapsed piece of floor.  And he'd lost a ton of blood, he was delirious by the time I found him.  I couldn't get him out, so I gave him food and water and just stayed with him and held his hand until he passed.  And then…  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back.",
+        "no": "I did.  Took a few hours to get an opening.  And you wanna know the fucked up part?  Like, out of all this?  My wife was still alive.  She'd been in the basement the whole time, pinned under a collapsed piece of floor.  And she'd lost a ton of blood, she was delirious by the time I found her.  I couldn't get her out, so I gave her food and water and just stayed with her and held her hand until she passed.  And then…  well, then I did what you have to do to the dead now.  And then I packed up the last few fragments of my life, and I try to never look back."
       }
     ],
     "responses": [

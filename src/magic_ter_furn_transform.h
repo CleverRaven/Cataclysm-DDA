@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAGIC_TER_FURN_TRANSFORM_H
-#define MAGIC_TER_FURN_TRANSFORM_H
+#ifndef CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
+#define CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
 
 #include <map>
 #include <vector>
@@ -31,7 +31,7 @@ class ter_furn_data
         bool has_msg() const;
         void add_msg( const Creature &critter ) const;
         cata::optional<T> pick() const;
-        void load( JsonObject &jo );
+        void load( const JsonObject &jo );
 };
 
 class ter_furn_transform
@@ -67,7 +67,7 @@ class ter_furn_transform
     public:
 
         ter_furn_transform_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         void add_all_messages( const Creature &critter, const tripoint &location ) const;
         void add_all_messages( const map &m, const Creature &critter, const tripoint &location ) const;
@@ -75,13 +75,12 @@ class ter_furn_transform
         void transform( const tripoint &location ) const;
         void transform( map &m, const tripoint &location ) const;
 
-        static void load_transform( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_transform( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
 
         static const std::vector<ter_furn_transform> &get_all();
-        static void check_consistency();
         static void reset_all();
         bool is_valid() const;
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H

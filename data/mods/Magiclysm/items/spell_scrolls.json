@@ -1,10 +1,10 @@
 [
   {
     "abstract": "spell_scroll",
-    "name": "Spell Scroll",
+    "name": { "str": "Spell Scroll" },
     "type": "GENERIC",
-    "weight": 475,
-    "volume": 2,
+    "weight": "475 g",
+    "volume": "500 ml",
     "price": 4000,
     "material": [ "paper" ],
     "symbol": "?",
@@ -13,8 +13,54 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_crystallize_mana",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Crystallize Mana", "str_pl": "Scrolls of Crystallize Mana" },
+    "description": "A proper wizard is always prepared, crystallize your mana for the future!",
+    "use_action": { "type": "learn_spell", "spells": [ "crystallize_mana" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_dark_sight",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Dark Sight", "str_pl": "Scrolls of Dark Sight" },
+    "description": "The darkness holds no secrets for the arcane.  Adjust your sight to see in perfect darkness!",
+    "use_action": { "type": "learn_spell", "spells": [ "dark_sight" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_invisibility",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Invisibility", "str_pl": "Scrolls of Invisibility" },
+    "description": "The light can not interact with you unless you want it to.  Become invisible!",
+    "use_action": { "type": "learn_spell", "spells": [ "invisibility" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_obfuscated_body",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Obfuscated Body", "str_pl": "Scrolls of Obfuscated Body" },
+    "description": "A magical aura distorts light around your body, making it easier to dodge enemy attacks.",
+    "use_action": { "type": "learn_spell", "spells": [ "obfuscated_body" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_holographic_transposition",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Holographic Transposition", "str_pl": "Scrolls of Holographic Transposition" },
+    "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself can't tell you apart, who could?",
+    "use_action": { "type": "learn_spell", "spells": [ "holographic_transposition" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
-    "name": "Scroll of Smite",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Smite", "str_pl": "Scrolls of Smite" },
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",
     "use_action": { "type": "learn_spell", "spells": [ "smite" ] }
   },
@@ -22,7 +68,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_mana",
-    "name": "Scroll of Life Conversion",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Life Conversion", "str_pl": "Scrolls of Life Conversion" },
     "description": "You channel your life force itself into your spiritual energy.  You spend hp to regain mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_mana" ] }
   },
@@ -30,7 +77,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_pain",
-    "name": "Scroll of Mind Over Pain",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Mind Over Pain", "str_pl": "Scrolls of Mind Over Pain" },
     "description": "With an intense ritual that resembles crossfit, you manage to put some of your pain at bay.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_pain" ] }
   },
@@ -38,7 +86,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_zombie",
-    "name": "Scroll of Summon Zombie",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
     "description": "An ethereal-looking zombie rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_zombie" ] }
   },
@@ -46,15 +95,25 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_skeleton",
-    "name": "Scroll of Summon Skeleton",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Summon Skeleton", "str_pl": "Scrolls of Summon Skeleton" },
     "description": "A ghostly skeleton rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_skeleton" ] }
   },
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_floating_disk",
+    "name": { "str": "Scroll of Summon Floating Disk", "str_pl": "Scrolls of Summon Floating Disk" },
+    "description": "Summons a floating disk that is sworn to carry your burdens.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_floating_disk" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_decayed_pouncer",
-    "name": "Scroll of Summon Decayed Pouncer",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },
     "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_decayed_pouncer" ] }
   },
@@ -62,7 +121,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_light_healing",
-    "name": "Scroll of Cure Light Wounds",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Cure Light Wounds", "str_pl": "Scrolls of Cure Light Wounds" },
     "description": "Heals a little bit of damage on the target.",
     "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
   },
@@ -70,7 +130,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_pain_split",
-    "name": "Scroll of Pain Split",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Pain Split", "str_pl": "Scrolls of Pain Split" },
     "description": "Evens out damage among your limbs.",
     "use_action": { "type": "learn_spell", "spells": [ "pain_split" ] }
   },
@@ -78,7 +139,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_vicious_tentacle",
-    "name": "Scroll of Vicious Tentacle",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Vicious Tentacle", "str_pl": "Scrolls of Vicious Tentacle" },
     "description": "This spell extrudes a long nasty whiplike tentacle of sharp bones and oozing acid from your body, it has a long reach attack and vicious damage.",
     "use_action": { "type": "learn_spell", "spells": [ "vicious_tentacle" ] }
   },
@@ -86,7 +148,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_grotesque",
-    "name": "Scroll of Grotesque Enhancement",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Grotesque Enhancement", "str_pl": "Scrolls of Grotesque Enhancement" },
     "description": "A spell that warps your body in alien ways to increase your physical abilities and strength.",
     "use_action": { "type": "learn_spell", "spells": [ "bio_grotesque" ] }
   },
@@ -94,7 +157,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_acidicspray",
-    "name": "Scroll of Acidic Spray",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Acidic Spray", "str_pl": "Scrolls of Acidic Spray" },
     "description": "When cast, the mage opens his mouth and sprays acid in a wide cone to dissolve his foes into goo.  Just imagine what he'll do with the goo.",
     "use_action": { "type": "learn_spell", "spells": [ "bio_acidicspray" ] }
   },
@@ -102,7 +166,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_fleshpouch",
-    "name": "Scroll of Flesh Pouch",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Flesh Pouch", "str_pl": "Scrolls of Flesh Pouch" },
     "description": "This spell grows a large pouch out of your skin on your back, allowing you to store your gear in it.",
     "use_action": { "type": "learn_spell", "spells": [ "bio_fleshpouch" ] }
   },
@@ -110,7 +175,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bio_bonespear",
-    "name": "Scroll of Conjure Bonespear",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Conjure Bonespear", "str_pl": "Scrolls of Conjure Bonespear" },
     "description": "This spell creates a long shaft of bone with a wicked point and blades along its length.",
     "use_action": { "type": "learn_spell", "spells": [ "bio_bonespear" ] }
   },
@@ -118,7 +184,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_megablast",
-    "name": "Scroll of Megablast",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Megablast", "str_pl": "Scrolls of Megablast" },
     "description": "You always wanted to fire energy beams like in the animes you watched as a kid.  Now you can!",
     "use_action": { "type": "learn_spell", "spells": [ "megablast" ] }
   },
@@ -126,7 +193,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_light",
-    "name": "Scroll of Magical Light",
+    "//": "Classless spell1",
+    "name": { "str": "Scroll of Magical Light", "str_pl": "Scrolls of Magical Light" },
     "description": "Creates a magical light.",
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_light" ] }
   },
@@ -134,23 +202,26 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_blinding_flash",
-    "name": "Scroll of Blinding Flash",
-    "description": "Blind enemies for a short time with a sudden, dazzling light. Higher levels deal slightly higher damage.",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Blinding Flash", "str_pl": "Scrolls of Blinding Flash" },
+    "description": "Blind enemies for a short time with a sudden, dazzling light.  Higher levels deal slightly higher damage.",
     "use_action": { "type": "learn_spell", "spells": [ "blinding_flash" ] }
   },
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ethereal_grasp",
-    "name": "Scroll of Ethereal Grasp",
-    "description": "A mass of spectral hands emerge from the ground, slowing everything in range. Higher levels allow a bigger AoE, and longer effect.",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Ethereal Grasp", "str_pl": "Scrolls of Ethereal Grasp" },
+    "description": "A mass of spectral hands emerge from the ground, slowing everything in range.  Higher levels allow a bigger AoE, and longer effect.",
     "use_action": { "type": "learn_spell", "spells": [ "ethereal_grasp" ] }
   },
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_protection_aura",
-    "name": "Scroll of Aura of Protection",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Aura of Protection", "str_pl": "Scrolls of Aura of Protection" },
     "description": "Encases your whole body in a magical aura that protects you from the environment.",
     "use_action": { "type": "learn_spell", "spells": [ "protection_aura" ] }
   },
@@ -158,7 +229,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_veggrasp",
-    "name": "Scroll of Vegetative Grasp",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Vegetative Grasp", "str_pl": "Scrolls of Vegetative Grasp" },
     "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_veggrasp" ] }
   },
@@ -166,7 +238,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_rootstrike",
-    "name": "Scroll of Root Strike",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Root Strike", "str_pl": "Scrolls of Root Strike" },
     "description": "This spell causes roots to spear out the ground and stab into your foes in an arc, impaling them.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_rootstrike" ] }
   },
@@ -174,7 +247,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_woodshaft",
-    "name": "Scroll of Wooden Shaft",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Wooden Shaft", "str_pl": "Scrolls of Wooden Shaft" },
     "description": "This spell creates a projectile of hardwood that shoots forth from the caster's hand at high speed to stab into an enemy.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft" ] }
   },
@@ -182,7 +256,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_druid_naturebow1",
-    "name": "Scroll of Nature's Bow",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Nature's Bow", "str_pl": "Scrolls of Nature's Bow" },
     "description": "This spell conjures a magical wooden recurve bow that fires endless arrows for as long as it lasts.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_naturebow1" ] }
   },
@@ -190,7 +265,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_fatigue",
-    "name": "Scroll of Nature's Trance",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
     "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatige quickly in exchange for mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
   },
@@ -198,7 +274,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_cats",
-    "name": "Scroll of Bag of Cats",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Bag of Cats", "str_pl": "Scrolls of Bag of Cats" },
     "description": "Are you the crazy cat lady?",
     "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
   },
@@ -206,7 +283,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
-    "name": "Scroll of Stonefist",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },
     "description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat.",
     "use_action": { "type": "learn_spell", "spells": [ "stonefist" ] }
   },
@@ -214,7 +292,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_seismic_stomp",
-    "name": "Scroll of Seismic Stomp",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Seismic Stomp", "str_pl": "Scrolls of Seismic Stomp" },
     "description": "Focusing mana into your leg, you stomp your foot and send out a shockwave, knocking enemies around you onto the ground.",
     "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp" ] }
   },
@@ -222,7 +301,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_stamina",
-    "name": "Scroll of Stone's Endurance",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stone's Endurance", "str_pl": "Scrolls of Stone's Endurance" },
     "description": "You focus on the stones beneath you and draw from their agelessness.  Your mana is converted to stamina.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_stamina" ] }
   },
@@ -230,7 +310,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_shardspray",
-    "name": "Scroll of Shardspray",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Shardspray", "str_pl": "Scrolls of Shardspray" },
     "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_shardspray" ] }
   },
@@ -238,7 +319,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_piercing_bolt",
-    "name": "Scroll of Piercing Bolt",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Piercing Bolt", "str_pl": "Scrolls of Piercing Bolt" },
     "description": "This spell projects a piercing rod of conjured iron at those that dare oppose you.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_piercing_bolt" ] }
   },
@@ -246,7 +328,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_shardstorm",
-    "name": "Scroll of Shardstorm",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Shardstorm", "str_pl": "Scrolls of Shardstorm" },
     "description": "Creates an omnidirectional spray of razor sharp metal shards all around you.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_shardstorm" ] }
   },
@@ -254,7 +337,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_rockbolt",
-    "name": "Scroll of Rockbolt",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Rockbolt", "str_pl": "Scrolls of Rockbolt" },
     "description": "Fires a conjured stone projectile at high velocity.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_rockbolt" ] }
   },
@@ -262,7 +346,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_point_flare",
-    "name": "Scroll of Point Flare",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Point Flare", "str_pl": "Scrolls of Point Flare" },
     "description": "Causes an intense heat at the location, damaging the target.",
     "use_action": { "type": "learn_spell", "spells": [ "point_flare" ] }
   },
@@ -270,7 +355,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_lighter",
-    "name": "Scroll of Finger Firelighter",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Finger Firelighter", "str_pl": "Scrolls of Finger Firelighter" },
     "description": "Summons a small flame that does not burn you, but you can use it to light things on fire.  It seems to need you to have some intent to light things on fire, because you are able to put it in your pocket with no issue.",
     "use_action": { "type": "learn_spell", "spells": [ "create_lighter" ] }
   },
@@ -278,7 +364,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ice_spike",
-    "name": "Scroll of Ice Spike",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Ice Spike", "str_pl": "Scrolls of Ice Spike" },
     "description": "Causes jagged icicles to form in the air above the target, falling and damaging it.",
     "use_action": { "type": "learn_spell", "spells": [ "ice_spike" ] }
   },
@@ -286,7 +373,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_fireball",
-    "name": "Scroll of Fireball",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Fireball", "str_pl": "Scrolls of Fireball" },
     "description": "You hurl a pea-sized glowing orb that when reaches its target or an obstacle produces a pressure-less blast of searing heat.",
     "use_action": { "type": "learn_spell", "spells": [ "fireball" ] }
   },
@@ -294,7 +382,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_cone_cold",
-    "name": "Scroll of Cone of Cold",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Cone of Cold", "str_pl": "Scrolls of Cone of Cold" },
     "description": "You blast a cone of frigid air toward the target.",
     "use_action": { "type": "learn_spell", "spells": [ "cone_cold" ] }
   },
@@ -302,7 +391,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_burning_hands",
-    "name": "Scroll of Burning Hands",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Burning Hands", "str_pl": "Scrolls of Burning Hands" },
     "description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of fire.",
     "use_action": { "type": "learn_spell", "spells": [ "burning_hands" ] }
   },
@@ -310,7 +400,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_frost_spray",
-    "name": "Scroll of Frost Spray",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Frost Spray", "str_pl": "Scrolls of Frost Spray" },
     "description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of ice and cold.",
     "use_action": { "type": "learn_spell", "spells": [ "frost_spray" ] }
   },
@@ -318,7 +409,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_chilling_touch",
-    "name": "Scroll of Chilling Touch",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Chilling Touch", "str_pl": "Scrolls of Chilling Touch" },
     "description": "Freezes the touched target with intense cold.",
     "use_action": { "type": "learn_spell", "spells": [ "chilling_touch" ] }
   },
@@ -326,7 +418,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_glide_ice",
-    "name": "Scroll of Glide on Ice",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Glide on Ice", "str_pl": "Scrolls of Glide on Ice" },
     "description": "Encases your feet in a magical coating of ice, allowing you to glide along smooth surfaces faster.",
     "use_action": { "type": "learn_spell", "spells": [ "glide_ice" ] }
   },
@@ -334,7 +427,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_hoary_blast",
-    "name": "Scroll of Hoary Blast",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Hoary Blast", "str_pl": "Scrolls of Hoary Blast" },
     "description": "You project a glowing white crystal of ice and it explodes on impact into a blossom of shattering cold.",
     "use_action": { "type": "learn_spell", "spells": [ "hoary_blast" ] }
   },
@@ -342,7 +436,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ice_shield",
-    "name": "Scroll of Ice Shield",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Ice Shield", "str_pl": "Scrolls of Ice Shield" },
     "description": "Creates a magical shield of ice on your arm, you can defend yourself with it in melee combat and use it to bash.",
     "use_action": { "type": "learn_spell", "spells": [ "ice_shield" ] }
   },
@@ -350,7 +445,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_frost_armor",
-    "name": "Scroll of Frost Armor",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Frost Armor", "str_pl": "Scrolls of Frost Armor" },
     "description": "Covers you in a thin layer of magical ice to protect you from harm.",
     "use_action": { "type": "learn_spell", "spells": [ "frost_armor" ] }
   },
@@ -358,7 +454,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magic_missile",
-    "name": "Scroll of Magic Missile",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Magic Missile", "str_pl": "Scrolls of Magic Missile" },
     "description": "I cast Magic Missile at the darkness!",
     "use_action": { "type": "learn_spell", "spells": [ "magic_missile" ] }
   },
@@ -366,7 +463,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_phase_door",
-    "name": "Scroll of Phase Door",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Phase Door", "str_pl": "Scrolls of Phase Door" },
     "description": "Teleports you in a random direction a short distance.",
     "use_action": { "type": "learn_spell", "spells": [ "phase_door" ] }
   },
@@ -374,7 +472,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_gravity_well",
-    "name": "Scroll of Gravity Well",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Gravity Well", "str_pl": "Scrolls of Gravity Well" },
     "description": "Summons a well of gravity with the epicenter at the location.  Deals bashing damage to all creatures in the affected area.",
     "use_action": { "type": "learn_spell", "spells": [ "gravity_well" ] }
   },
@@ -382,7 +481,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_blast",
-    "name": "Scroll of Mana Blast",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Mana Blast", "str_pl": "Scrolls of Mana Blast" },
     "description": "A blast of concentrated magical power that obliterates a large area.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_blast" ] }
   },
@@ -390,7 +490,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_bolt",
-    "name": "Scroll of Mana Bolt",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Mana Bolt", "str_pl": "Scrolls of Mana Bolt" },
     "description": "A bolt of magical power that only damages your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_bolt" ] }
   },
@@ -398,7 +499,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_haste",
-    "name": "Scroll of Haste",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Haste", "str_pl": "Scrolls of Haste" },
     "description": "This spell gives you an enormous boost of speed lasting a short period of time.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_haste" ] }
   },
@@ -406,7 +508,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_mana_beam",
-    "name": "Scroll of Mana Beam",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Mana Beam", "str_pl": "Scrolls of Mana Beam" },
     "description": "A beam of focused magical power that damages any foes in its path.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam" ] }
   },
@@ -414,7 +517,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_escape",
-    "name": "Scroll of Escape",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Escape", "str_pl": "Scrolls of Escape" },
     "description": "Teleports you in a random direction a medium distance, to help escape your foes in dangerous situations.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_escape" ] }
   },
@@ -422,7 +526,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_cats_grace",
-    "name": "Scroll of Cat's Grace",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Cat's Grace", "str_pl": "Scrolls of Cat's Grace" },
     "description": "You become more graceful, agile, and coordinated.",
     "use_action": { "type": "learn_spell", "spells": [ "cats_grace" ] }
   },
@@ -430,7 +535,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eagles_sight",
-    "name": "Scroll of Eagle's Sight",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Eagle's Sight", "str_pl": "Scrolls of Eagle's Sight" },
     "description": "You gain the perception of an eagle.",
     "use_action": { "type": "learn_spell", "spells": [ "eagles_sight" ] }
   },
@@ -438,7 +544,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ogres_strength",
-    "name": "Scroll of Ogre's Strength",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Ogre's Strength", "str_pl": "Scrolls of Ogre's Strength" },
     "description": "You gain the strength of an ogre.",
     "use_action": { "type": "learn_spell", "spells": [ "ogres_strength" ] }
   },
@@ -446,7 +553,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_foxs_cunning",
-    "name": "Scroll of Fox's Cunning",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Fox's Cunning", "str_pl": "Scrolls of Fox's Cunning" },
     "description": "You become wily like a fox.",
     "use_action": { "type": "learn_spell", "spells": [ "foxs_cunning" ] }
   },
@@ -454,7 +562,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_jolt",
-    "name": "Scroll of Jolt",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Jolt", "str_pl": "Scrolls of Jolt" },
     "description": "A short-ranged fan of electricity shoots from your fingers.",
     "use_action": { "type": "learn_spell", "spells": [ "jolt" ] }
   },
@@ -462,7 +571,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_lightning_bolt",
-    "name": "Scroll of Lightning Bolt",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Lightning Bolt", "str_pl": "Scrolls of Lightning Bolt" },
     "description": "The goto spell for many Stormshapers, this iconic spell does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_bolt" ] }
   },
@@ -470,7 +580,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_windstrike",
-    "name": "Scroll of Windstrike",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Windstrike", "str_pl": "Scrolls of Windstrike" },
     "description": "A powerful blast of wind slams into anything in front of your outstretched hand.",
     "use_action": { "type": "learn_spell", "spells": [ "windstrike" ] }
   },
@@ -478,15 +589,17 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_windrun",
-    "name": "Scroll of Windrunning",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Windrunning", "str_pl": "Scrolls of Windrunning" },
     "description": "A magical wind pushes you forward as you move, easing your movements and increasing speed.",
-    "use_action": { "type": "learn_spell", "spells": [ "windstrike" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "windrun" ] }
   },
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_storm_hammer",
-    "name": "Scroll of Call Stormhammer",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Call Stormhammer", "str_pl": "Scrolls of Call Stormhammer" },
     "description": "Creates a crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "use_action": { "type": "learn_spell", "spells": [ "storm_hammer" ] }
   },
@@ -494,7 +607,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_bless",
-    "name": "Scroll of Bless",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Bless", "str_pl": "Scrolls of Bless" },
     "description": "A spell of blessing that gives you energy and boosts your abilities.",
     "use_action": { "type": "learn_spell", "spells": [ "bless" ] }
   },
@@ -502,7 +616,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_holy_blade",
-    "name": "Scroll of Holy Blade",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Holy Blade", "str_pl": "Scrolls of Holy Blade" },
     "description": "This blade of light will cut through any evil it makes contact with!",
     "use_action": { "type": "learn_spell", "spells": [ "holy_blade" ] }
   },
@@ -510,7 +625,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_spirit_armor",
-    "name": "Scroll of Spiritual Armor",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Spiritual Armor", "str_pl": "Scrolls of Spiritual Armor" },
     "description": "Evil will not make it through your defenses if your faith is strong enough!",
     "use_action": { "type": "learn_spell", "spells": [ "spirit_armor" ] }
   },
@@ -518,7 +634,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_create_atomic_lamp",
-    "name": "Scroll of Lamp",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Lamp", "str_pl": "Scrolls of Lamp" },
     "description": "Creates a magical lamp.",
     "use_action": { "type": "learn_spell", "spells": [ "create_atomic_lamp" ] }
   },
@@ -526,7 +643,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_recover_bionic_power",
-    "name": "Scroll of Manatricity",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Manatricity", "str_pl": "Scrolls of Manatricity" },
     "description": "You have found a way to convert your spiritual energy into power you can use for your bionics.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_bionic_power" ] }
   },
@@ -534,7 +652,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_taze",
-    "name": "Scroll of Taze",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Taze", "str_pl": "Scrolls of Taze" },
     "description": "This spell creates a very short range bolt of electricity to shock your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "taze" ] }
   },
@@ -542,7 +661,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_quantum_tunnel_lesser",
-    "name": "Scroll of Lesser Quantum Tunnel",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Lesser Quantum Tunnel", "str_pl": "Scrolls of Lesser Quantum Tunnel" },
     "description": "This spell manipulates some quantum something or other to tunnel you through a short distance of space, and even matter, unfortunately there's that whole uncertainty thing as to where you come out.  It leaves you a little dazed on the other side as you reorient yourself.",
     "use_action": { "type": "learn_spell", "spells": [ "quantum_tunnel_lesser" ] }
   },
@@ -550,7 +670,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_synaptic_stimulation",
-    "name": "Scroll of Synaptic Stimulation",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Synaptic Stimulation", "str_pl": "Scrolls of Synaptic Stimulation" },
     "description": "This spell stimulates the synapses in your brain beyond normal processing speeds, giving you a large boost in mental processing capability, including enhancing your reflexes, speed, and raw intellectual power.  Use responsibly!",
     "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation" ] }
   },
@@ -558,7 +679,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_laze",
-    "name": "Scroll of Laze",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Laze", "str_pl": "Scrolls of Laze" },
     "description": "You concentrate and release a focused beam of photons at a target, also known as a laser.",
     "use_action": { "type": "learn_spell", "spells": [ "laze" ] }
   },
@@ -566,7 +688,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animated_blade",
-    "name": "Scroll of Animated Blade",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Animated Blade", "str_pl": "Scrolls of Animated Blade" },
     "description": "This spell conjures flying animated blades that will cut your enemies down to size.  Into small pieces that is.",
     "use_action": { "type": "learn_spell", "spells": [ "animated_blade" ] }
   },
@@ -574,7 +697,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_mirror_image",
-    "name": "Scroll of Mirror Image",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Mirror Image", "str_pl": "Scrolls of Mirror Image" },
     "description": "This spell manipulates light into barely tangible duplicates of a living being, a magical hologram in short.",
     "use_action": { "type": "learn_spell", "spells": [ "mirror_image" ] }
   },
@@ -582,7 +706,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_lightning_blast",
-    "name": "Scroll of Lightning Blast",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Lightning Blast", "str_pl": "Scrolls of Lightning Blast" },
     "description": "You fire a small concentrated ball of lightning at the target.  The electricity diffuses quickly, so it doesn't do much damage, but you're able to fire off several quick ones in a row.",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_blast" ] }
   },
@@ -590,7 +715,8 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_necrotic_gaze",
-    "name": "Scroll of Necrotic Gaze",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Necrotic Gaze", "str_pl": "Scrolls of Necrotic Gaze" },
     "description": "You use the power of your own blood to imbue necrotic energy into your gaze, damaging the target you look at.",
     "use_action": { "type": "learn_spell", "spells": [ "necrotic_gaze" ] }
   },
@@ -598,8 +724,157 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_purification_seed",
-    "name": "Scroll of Purification Seed",
-    "description": "You summon a gift of the earth which will purify water. Greater levels yield greater numbers of seeds.",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Purification Seed", "str_pl": "Scrolls of Purification Seed" },
+    "description": "You summon a gift of the earth which will purify water.  Greater levels yield greater numbers of seeds.",
     "use_action": { "type": "learn_spell", "spells": [ "purify_seed" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_x-ray",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of X-ray Vision", "str_pl": "Scrolls of X-ray Vision" },
+    "description": "You fire a cone of X-rays that magically allow you to see that area for a short time.",
+    "use_action": { "type": "learn_spell", "spells": [ "x-ray" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_overcharge_eyes",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Optical Sneeze Beam", "str_pl": "Scrolls of Optical Sneeze Beam" },
+    "description": "You overcharge your internal batteries to send a semi-directed beam from your face.",
+    "use_action": { "type": "learn_spell", "spells": [ "overcharge_eyes" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_clairvoyance",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
+    "description": "You close your eyes and the earth surrenders its secrets to you.",
+    "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_lava_bomb",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Lava Bomb", "str_pl": "Scrolls of Lava Bomb" },
+    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
+    "use_action": { "type": "learn_spell", "spells": [ "lava_bomb_main" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_acid_resistance",
+    "//": "Classless spell, black dragon books",
+    "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
+    "description": "This spell creates an invisible aura to protect you from acid.",
+    "use_action": { "type": "learn_spell", "spells": [ "acid_resistance" ] }
+  },
+  {
+    "id": "lightning_storm_scroll",
+    "type": "GENERIC",
+    "name": { "str": "Scroll of Lightning Storm", "str_pl": "Scrolls of Lightning Storm" },
+    "//": "Stormshaper spell",
+    "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
+    "weight": "129 g",
+    "volume": "500 ml",
+    "price": 25000,
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druidic_regrowth",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Sacrificial Regrowth", "str_pl": "Scrolls of Sacrificial Regrowth" },
+    "description": "Through giving of one's own life force, you restore withered and barren plant life nearby.  What remains will need time to regrow its full strength.",
+    "use_action": { "type": "learn_spell", "spells": [ "druidic_regrowth" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druidic_healing",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Sacrificial Healing", "str_pl": "Scrolls of Sacrificial Healing" },
+    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druidic_healing" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_stoneskin",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stoneskin", "str_pl": "Scrolls of Stoneskin" },
+    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_pillar",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
+    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_paralytic_dart",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Paralytic Dart", "str_pl": "Scrolls of Paralytic Dart" },
+    "description": "Spits a warped needle of sinew and bone, carrying with it a sting that slows your victim.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_paralytic_dart" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_visceral_projection",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Visceral Projection", "str_pl": "Scrolls of Visceral Projection" },
+    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in in a field of twitching poisonous tendrils.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_visceral_projection" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_coagulant_weave",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Coagulant Weave", "str_pl": "Scrolls of Coagulant Weave" },
+    "description": "Turns your biological mastery inwards, medically enhancing your flesh.  Rather than strength of healing, it staves off blood loss and purges wounds before they can turn septic, at the cost of increased hunger and thirst.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_coagulant_weave" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_ionization",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Ionization", "str_pl": "Scrolls of Ionization" },
+    "description": "By manipulating the charge in the air, you can conjure a sharp snap of lightning over a wide area.  While its destructive potential is a far cry from natural lightning, the light and thunderclap produced will leave your foes reeling.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_ionization" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_wisps",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Ignus Fatuus", "str_pl": "Scrolls of Ignus Fatuus" },
+    "description": "Summons ghostly foxfire worked from living marsh vapor, to lead your enemies astray.  With more experience, this spell can conjure multiple ghost lights.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_wall_of_fog",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Wall of Fog", "str_pl": "Scrolls of Wall of Fog" },
+    "description": "Draws forth a broad wall of thick fog.  While the sudden force of air pressure will floor any enemies caught in it, the conjuration is otherwise harmless.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_wall_of_fog" ] }
   }
 ]

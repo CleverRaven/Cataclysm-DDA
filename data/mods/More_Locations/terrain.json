@@ -2,7 +2,7 @@
   {
     "type": "terrain",
     "id": "t_border_rock",
-    "comment": "placed at border of underground specials to prevent double wall look",
+    "//": "placed at border of underground specials to prevent double wall look",
     "name": "solid rock",
     "description": "",
     "symbol": "#",

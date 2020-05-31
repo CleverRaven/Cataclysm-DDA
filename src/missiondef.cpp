@@ -1,17 +1,20 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 
 #include "assign.h"
 #include "calendar.h"
 #include "condition.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "rng.h"
-#include "debug.h"
 #include "json.h"
+#include "npc.h"
+#include "rng.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,
@@ -205,7 +208,7 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
+void mission_type::load_mission_type( const JsonObject &jo, const std::string &src )
 {
     mission_type_factory.load( jo, src );
 }
@@ -216,7 +219,7 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( JsonObject &jo, const std::string &id, Fun &target,
+void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
                       const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
@@ -231,7 +234,7 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
 
 static DynamicDataLoader::deferred_json deferred;
 
-void mission_type::load( JsonObject &jo, const std::string &src )
+void mission_type::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -272,6 +275,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "remove_container", remove_container );
     //intended for situations where closed and open container are different
     optional( jo, was_loaded, "empty_container", empty_container );
+    optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
@@ -284,6 +288,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
                 deferred.emplace_back( jo.str(), src );
+                j_start.allow_omitted_members();
                 return false;
             }
         }
@@ -340,7 +345,7 @@ void mission_type::finalize()
 void mission_type::check_consistency()
 {
     for( const auto &m : get_all() ) {
-        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+        if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }

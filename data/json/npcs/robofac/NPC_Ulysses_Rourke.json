@@ -9,14 +9,14 @@
     "class": "NC_ROBOFAC_SECURITY_HEAD",
     "attitude": 0,
     "mission": 8,
-    "//": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attmepts to invade the lab.",
+    "//2": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attempts to invade the lab.",
     "chat": "TALK_HUB_SECURITY",
     "faction": "robofac"
   },
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_SECURITY_HEAD",
-    "name": "Head of security",
+    "name": { "str": "Head of security" },
     "job_description": "I'm part of the Hub security team.",
     "common": false,
     "//": "Needs his own unique background.",
@@ -62,7 +62,7 @@
       { "item": "rm13_armor" },
       { "item": "goggles_nv" },
       { "item": "holster", "prob": 50 },
-      { "item": "chestrig" }
+      { "item": "tacvest" }
     ]
   },
   {
@@ -70,12 +70,13 @@
     "id": "NC_robofac_security_head_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb" },
-      { "item": "needlegun" },
+      { "item": "grenade_emp" },
+      { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy" },
       { "item": "goggles_nv" },
       { "item": "flashbang", "count": 2 },
       { "item": "plut_cell", "count": 5 },
-      { "item": "5x50heavy", "count": 10 }
+      { "item": "5x50_100_mag", "count": 2, "charges": 100, "ammo-item": "5x50heavy" },
+      { "item": "5x50heavy", "count": 8 }
     ]
   }
 ]

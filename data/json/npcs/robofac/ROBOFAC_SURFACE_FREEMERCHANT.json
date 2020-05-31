@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_FREE_MERCHANT",
-    "name": "Caravaneer",
+    "name": { "str": "Caravaneer" },
     "job_description": "I'm the owner of a trade caravan.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
@@ -36,16 +36,18 @@
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_FREE_MERCHANT_storage",
-    "items": [ [ "duffelbag", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_FREE_MERCHANT_coat",
-    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
   },
   {
     "type": "item_group",
-    "sub-type": "collection",
+    "subtype": "collection",
     "id": "NC_ROBOFAC_FREE_MERCHANT_misc",
     "items": [
       { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 90 },

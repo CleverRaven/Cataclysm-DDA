@@ -1,6 +1,6 @@
 #include "behavior.h"
 
-#include <assert.h>
+#include <cassert>
 #include <list>
 #include <set>
 #include <unordered_map>
@@ -18,9 +18,11 @@ void node_t::set_strategy( const strategy_t *new_strategy )
 {
     strategy = new_strategy;
 }
-void node_t::set_predicate( std::function<status_t ( const oracle_t * )> new_predicate )
+void node_t::set_predicate( std::function<status_t ( const oracle_t *, const std::string & )>
+                            new_predicate, const std::string &argument )
 {
     predicate = new_predicate;
+    predicate_argument = argument;
 }
 void node_t::set_goal( const std::string &new_goal )
 {
@@ -35,10 +37,10 @@ behavior_return node_t::tick( const oracle_t *subject ) const
 {
     assert( predicate );
     if( children.empty() ) {
-        return { predicate( subject ), this };
+        return { predicate( subject, predicate_argument ), this };
     } else {
         assert( strategy != nullptr );
-        status_t result = predicate( subject );
+        status_t result = predicate( subject, predicate_argument );
         if( result == running ) {
             return strategy->evaluate( subject, children );
         } else {
@@ -83,23 +85,30 @@ generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
 } // namespace
 
+/** @relates string_id */
+template<>
+bool string_id<node_t>::is_valid() const
+{
+    return behavior_factory.is_valid( *this );
+}
+
 template<>
 const node_t &string_id<node_t>::obj() const
 {
     return behavior_factory.obj( *this );
 }
 
-void behavior::load_behavior( JsonObject &jo, const std::string &src )
+void behavior::load_behavior( const JsonObject &jo, const std::string &src )
 {
     behavior_factory.load( jo, src );
 }
 
 node_t::node_t()
 {
-    predicate = &oracle_t::return_running;
+    predicate = &return_running;
 }
 
-void node_t::load( JsonObject &jo, const std::string & )
+void node_t::load( const JsonObject &jo, const std::string & )
 {
     // We don't initialize the node unless it has no children (opportunistic optimization).
     // Instead we initialize a parallel struct that holds the labels until finalization.
@@ -127,7 +136,10 @@ void node_t::load( JsonObject &jo, const std::string & )
         } else {
             debugmsg( "While loading %s, failed to find predicate %s.",
                       id.str(), jo.get_string( "predicate" ) );
-            jo.throw_error( "Invalid strategy in behavior." );
+            jo.throw_error( "Invalid predicate in behavior." );
+        }
+        if( jo.has_string( "predicate_argument" ) ) {
+            predicate_argument = jo.get_string( "predicate_argument" );
         }
     }
     optional( jo, was_loaded, "goal", _goal );
@@ -160,7 +172,7 @@ void behavior::reset()
 void behavior::finalize()
 {
     for( const node_data &new_node : temp_node_data ) {
-        for( const std::string child : new_node.children ) {
+        for( const std::string &child : new_node.children ) {
             const_cast<node_t &>( new_node.id.obj() ).
             add_child( &string_id<node_t>( child ).obj() );
         }

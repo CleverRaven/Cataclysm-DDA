@@ -1,20 +1,19 @@
+#include <array>
 #include <chrono>
 #include <cstdio>
-#include <random>
-#include <array>
 #include <functional>
 #include <memory>
-#include <type_traits>
+#include <random>
 #include <vector>
 
 #include "catch/catch.hpp"
-#include "line.h" // For rl_dist.
-#include "map.h"
-#include "rng.h"
-#include "shadowcasting.h"
 #include "game_constants.h"
 #include "lightmap.h"
+#include "line.h" // For rl_dist.
+#include "map.h"
 #include "point.h"
+#include "rng.h"
+#include "shadowcasting.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;
@@ -250,7 +249,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY );
+            seen_squares_experiment, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -303,7 +302,7 @@ static void shadowcasting_float_quad(
     for( int i = 0; i < iterations; i++ ) {
         castLightAll<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
                      accumulate_transparency>(
-                         lit_squares_quad, transparency_cache, offsetX, offsetY );
+                         lit_squares_quad, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -312,7 +311,7 @@ static void shadowcasting_float_quad(
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light,
                      accumulate_transparency>(
-                         lit_squares_float, transparency_cache, offsetX, offsetY );
+                         lit_squares_float, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -358,7 +357,7 @@ static void shadowcasting_3d_2d( const int iterations )
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_control, transparency_cache, offsetX, offsetY );
+            seen_squares_control, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -402,7 +401,6 @@ static void shadowcasting_3d_2d( const int iterations )
 
     REQUIRE( passed );
 }
-
 
 // T, O and V are 'T'ransparent, 'O'paque and 'V'isible.
 // X marks the player location, which is not set to visible by this algorithm.
@@ -461,7 +459,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     }
 
     castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-        seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
+        seen_squares, transparency_cache, ORIGIN );
 
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
     for( int y = 0; y < expected_result.height(); ++y ) {

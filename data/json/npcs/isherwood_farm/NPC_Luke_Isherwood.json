@@ -6,9 +6,6 @@
     "name_unique": "Luke Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_LUKE",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ISHERWOOD_LUKE",
@@ -18,11 +15,14 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_LUKE",
-    "name": "Luke Isherwood",
-    "job_description": "I'm a Eddie's son, part of the Isherwood family",
+    "name": { "str": "Luke Isherwood" },
+    "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",
@@ -46,7 +46,7 @@
     },
     "responses": [
       {
-        "text": "...",
+        "text": "…",
         "topic": "TALK_LEAVE_NOW",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE2",
-    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge. My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -108,13 +108,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE",
-    "dynamic_line": "Things have been tough for my dad since the hunting incident.  He works till he falls asleep most nights..",
-    "condition": {
-      "and": [
-        { "not": { "u_is_wearing": "badge_marshal" } },
-        { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-      ]
-    },
+    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -124,7 +118,7 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS",
     "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
-    "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -143,7 +137,7 @@
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
     "dynamic_line": "You won't find any help here.",
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -161,7 +155,7 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_1",
     "type": "mission_definition",
-    "name": "Find The Art of Glassblowing book",
+    "name": { "str": "Find The Art of Glassblowing book" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -172,37 +166,39 @@
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
       "offer": "I could really use a book on glass blowing.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "accepted": "Fantastic, I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
       "advice": "A library, bookstore or a glass blower's studio should have one.",
       "inquire": "Do you have the book?",
       "success": "I appreciate it, this will make my life so much easier.",
-      "success_lie": "I don't see a book...?",
-      "failure": "At least you escaped with your life..."
+      "success_lie": "I don't see a book…?",
+      "failure": "At least you escaped with your life…"
     }
   },
   {
     "id": "MISSION_ISHERWOOD_LUKE_2",
     "type": "mission_definition",
-    "name": "Find a cooy of DIY Compendium",
+    "name": { "str": "Find a copy of DIY Compendium" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
     "item": "textbook_fabrication",
     "count": 1,
-    "end": { "opinion": { "trust": 2, "value": 2 } },
-    "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need more knowledge to get better pottery.",
       "offer": "I could really use the book, DIY Compendium.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "accepted": "Fantastic, I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
       "advice": "A library, bookstore should have one, schools are another good idea.",
       "inquire": "Do you have the book?",
       "success": "I appreciate it, this will make my life so much easier.",
-      "success_lie": "I don't see a book...?",
-      "failure": "At least you escaped with your life..."
+      "success_lie": "I don't see a book…?",
+      "failure": "At least you escaped with your life…"
     }
   }
 ]

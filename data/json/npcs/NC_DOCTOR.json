@@ -2,90 +2,120 @@
   {
     "type": "item_group",
     "id": "NC_DOCTOR_pants_male",
-    "items": [ [ "jeans", 20 ], [ "pants", 60 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 60 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_pants_female",
-    "items": [ [ "jeans", 20 ], [ "pants", 80 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ], [ "skirt", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 80 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 20 },
+      { "item": "skirt", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_shirt_male",
-    "items": [ [ "polo_shirt", 50 ], [ "dress_shirt", 50 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_shirt_female",
-    "items": [ [ "polo_shirt", 50 ], [ "dress_shirt", 50 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_gloves",
-    "items": [ [ "null", 60 ], [ "gloves_leather", 10 ], [ "gloves_fingerless", 10 ], [ "gloves_medical", 60 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "gloves_leather", "prob": 10 },
+      { "item": "gloves_fingerless", "prob": 10 },
+      { "item": "gloves_medical", "prob": 60 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_coat",
-    "items": [
-      [ "coat_lab", 90 ],
-      [ "hoodie", 5 ],
-      [ "jacket_light", 5 ],
-      [ "jacket_leather", 5 ],
-      [ "trenchcoat", 5 ],
-      [ "jacket_jean", 5 ],
-      [ "kevlar", 5 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coat_lab", "prob": 90 },
+      { "item": "hoodie", "prob": 5 },
+      { "item": "jacket_light", "prob": 5 },
+      { "item": "jacket_leather", "prob": 5 },
+      { "item": "trenchcoat", "prob": 5 },
+      { "item": "jacket_jean", "prob": 5 },
+      { "item": "kevlar", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_masks",
-    "items": [ [ "null", 5 ], [ "mask_dust", 80 ], [ "bandana", 10 ], [ "mask_filter", 10 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 5 },
+      { "item": "mask_dust", "prob": 80 },
+      { "item": "bandana", "prob": 10 },
+      { "item": "mask_filter", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_eyes",
-    "items": [ [ "null", 50 ], [ "glasses_safety", 50 ], [ "sunglasses", 20 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 }, { "item": "glasses_safety", "prob": 50 }, { "item": "sunglasses", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_misc",
-    "items": [
-      [ "bandages", 50 ],
-      [ "cotton_ball", 50 ],
-      [ "1st_aid", 35 ],
-      [ "saline", 25 ],
-      [ "contacts", 10 ],
-      [ "vitamins", 75 ],
-      [ "calcium_tablet", 75 ],
-      [ "aspirin", 85 ],
-      [ "caffeine", 25 ],
-      [ "pills_sleep", 15 ],
-      [ "iodine", 5 ],
-      [ "dayquil", 70 ],
-      [ "nyquil", 70 ],
-      [ "disinfectant", 35 ],
-      [ "vaccine_shot", 10 ],
-      [ "protein_powder", 15 ],
-      [ "caff_gum", 10 ],
-      [ "oxygen_tank", 20 ],
-      [ "smoxygen_tank", 5 ],
-      [ "eyedrops", 35 ],
-      [ "nic_gum", 25 ],
-      [ "inhaler", 20 ],
-      [ "codeine", 25 ],
-      [ "oxycodone", 20 ],
-      [ "tramadol", 20 ],
-      [ "xanax", 20 ],
-      [ "adderall", 20 ],
-      [ "thorazine", 15 ],
-      [ "prozac", 20 ],
-      [ "antibiotics", 35 ],
-      [ "antifungal", 10 ],
-      [ "antiparasitic", 10 ],
-      [ "survnote", 5 ],
-      [ "diazepam", 10 ],
-      [ "syringe", 20 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bandages", "prob": 50 },
+      { "item": "cotton_ball", "prob": 50 },
+      { "item": "1st_aid", "prob": 35 },
+      { "item": "saline", "prob": 25 },
+      { "item": "contacts", "prob": 10 },
+      { "item": "vitamins", "prob": 75 },
+      { "item": "calcium_tablet", "prob": 75 },
+      { "item": "aspirin", "prob": 85 },
+      { "item": "caffeine", "prob": 25 },
+      { "item": "pills_sleep", "prob": 15 },
+      { "item": "iodine", "prob": 5 },
+      { "item": "dayquil", "prob": 70 },
+      { "item": "nyquil", "prob": 70 },
+      { "item": "disinfectant", "prob": 35 },
+      { "item": "vaccine_shot", "prob": 10 },
+      { "item": "protein_powder", "prob": 7 },
+      { "item": "caff_gum", "prob": 10 },
+      { "item": "oxygen_tank", "prob": 20 },
+      { "item": "smoxygen_tank", "prob": 5 },
+      { "item": "eyedrops", "prob": 35 },
+      { "item": "nic_gum", "prob": 25 },
+      { "item": "inhaler", "prob": 20 },
+      { "item": "codeine", "prob": 25 },
+      { "item": "oxycodone", "prob": 20 },
+      { "item": "tramadol", "prob": 20 },
+      { "item": "xanax", "prob": 20 },
+      { "item": "adderall", "prob": 20 },
+      { "item": "thorazine", "prob": 15 },
+      { "item": "prozac", "prob": 20 },
+      { "item": "antibiotics", "prob": 35 },
+      { "item": "antifungal", "prob": 10 },
+      { "item": "antiparasitic", "prob": 10 },
+      { "item": "survnote", "prob": 5 },
+      { "item": "diazepam", "prob": 10 },
+      { "item": "syringe", "prob": 20 }
     ]
   }
 ]

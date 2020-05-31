@@ -3,7 +3,15 @@
     "type": "region_settings",
     "id": "desert_test",
     "default_oter": "field",
-    "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_searth_test": 3, "t_sand": 1 },
+        "t_region_shrub": { "t_shrub": 1 },
+        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 }
+      },
+      "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
+    },
     "field_coverage": {
       "percent_coverage": 1.9333,
       "default_ter": "t_sand",
@@ -16,6 +24,7 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
@@ -95,17 +104,15 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
-      "house_basement_chance": 1,
-      "houses": { "house": 1, "house_base": 1 },
-      "basements": { "basement": 1, "basement_bionic": 1 },
+      "houses": { "house_w_1": 1, "duplex": 1 },
       "parks": { "park": 2, "pool": 1 },
       "shops": {
         "s_gas": 5,
@@ -236,7 +243,6 @@
   },
   {
     "type": "region_settings",
-    "id": "river",
-    "swamp_river_influence": 50
+    "id": "river"
   }
 ]

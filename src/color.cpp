@@ -1,24 +1,25 @@
 #include "color.h"
 
-#include <cstdlib>
 #include <algorithm> // for std::count
+#include <cstdlib>
 #include <iterator>
 #include <map>
-#include <ostream>
 #include <vector>
 
 #include "cata_utility.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "cursesdef.h"
+#include "ui_manager.h"
 
 void nc_color::serialize( JsonOut &jsout ) const
 {
@@ -99,7 +100,7 @@ color_id color_manager::name_to_id( const std::string &name ) const
 {
     auto iter = name_map.find( name );
     if( iter == name_map.end() ) {
-        DebugLog( D_ERROR, DC_ALL ) << "couldn't parse color: " << name ;
+        debugmsg( "couldn't parse color: %s", name );
         return def_c_unset;
     }
 
@@ -559,8 +560,8 @@ nc_color color_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            DebugLog( D_WARNING, DC_ALL ) << "Deprecated foreground color suffix was used: (" <<
-                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
+            debugmsg( "Deprecated foreground color suffix was used: (%s) in (%s).  Please update mod that uses that.",
+                      i.second, color );
         }
     }
 
@@ -604,8 +605,8 @@ nc_color bgcolor_from_string( const std::string &color )
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
             new_color.replace( pos, i.second.length(), i.first );
             pos += i.first.length();
-            DebugLog( D_WARNING, DC_ALL ) << "Deprecated background color suffix was used: (" <<
-                                          i.second << ") in (" << color << ").  Please update mod that uses that.";
+            debugmsg( "Deprecated background color suffix was used: (%s) in (%s).  Please update mod that uses that.",
+                      i.second, color );
         }
     }
 
@@ -653,7 +654,7 @@ std::string colorize( const translation &text, const nc_color &color )
 
 std::string get_note_string_from_color( const nc_color &color )
 {
-    for( auto i : color_by_string_map ) {
+    for( const std::pair<const std::string, note_color> &i : color_by_string_map ) {
         if( i.second.color == color ) {
             return i.first;
         }
@@ -718,10 +719,10 @@ static void draw_header( const catacurses::window &w )
 void color_manager::show_gui()
 {
     const int iHeaderHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
+    int iContentHeight = 0;
 
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int iOffsetX = 0;
+    int iOffsetY = 0;
 
     std::vector<int> vLines;
     vLines.push_back( -1 );
@@ -729,28 +730,32 @@ void color_manager::show_gui()
 
     const int iTotalCols = vLines.size();
 
-    catacurses::window w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                         point( iOffsetX, iOffsetY ) );
-    catacurses::window w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                         point( 1 + iOffsetX, 1 + iOffsetY ) );
-    catacurses::window w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                  point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+    catacurses::window w_colors_border;
+    catacurses::window w_colors_header;
+    catacurses::window w_colors;
 
-    draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
-    mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
-              LINE_XOXX ); // -|
+    const auto calc_offset_y = []() -> int {
+        return TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    };
 
-    for( auto &iCol : vLines ) {
-        if( iCol > -1 ) {
-            mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-                      LINE_XXOX ); // _|_
-            mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
-        }
-    }
-    wrefresh( w_colors_border );
+    ui_adaptor ui;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-    draw_header( w_colors_header );
+        iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        iOffsetY = calc_offset_y();
+
+        w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                              point( iOffsetX, iOffsetY ) );
+        w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
+                                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+        w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
+                                       point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+
+        ui.position_from_window( w_colors_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int iCurrentLine = 0;
     int iCurrentCol = 1;
@@ -771,7 +776,23 @@ void color_manager::show_gui()
         name_color_map[pr.first] = color_array[pr.second];
     }
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
+        mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
+        mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
+                  LINE_XOXX ); // -|
+
+        for( auto &iCol : vLines ) {
+            if( iCol > -1 ) {
+                mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
+                          LINE_XXOX ); // _|_
+                mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
+            }
+        }
+        wrefresh( w_colors_border );
+
+        draw_header( w_colors_header );
+
         // Clear all lines
         for( int i = 0; i < iContentHeight; i++ ) {
             for( int j = 0; j < 79; j++ ) {
@@ -793,8 +814,6 @@ void color_manager::show_gui()
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
 
-        std::string sActive;
-
         // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
@@ -802,7 +821,6 @@ void color_manager::show_gui()
                 auto &entry = iter->second;
 
                 if( iCurrentLine == i ) {
-                    sActive = iter->first;
                     mvwprintz( w_colors, point( vLines[iCurrentCol - 1] + 2, i - iStartPos ), c_yellow, ">" );
                 }
 
@@ -825,6 +843,10 @@ void color_manager::show_gui()
         }
 
         wrefresh( w_colors );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
 
@@ -851,7 +873,7 @@ void color_manager::show_gui()
                 iCurrentCol = 1;
             }
         } else if( action == "REMOVE_CUSTOM" ) {
-            auto &entry = name_color_map[sActive];
+            auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
             if( iCurrentCol == 1 && !entry.name_custom.empty() ) {
                 bStuffChanged = true;
@@ -866,12 +888,14 @@ void color_manager::show_gui()
             finalize(); // Need to recalculate caches
 
         } else if( action == "LOAD_TEMPLATE" ) {
-            auto vFiles = get_files_from_path( ".json", FILENAMES["color_templates"], false, true );
+            auto vFiles = get_files_from_path( ".json", PATH_INFO::color_templates(), false, true );
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
-                ui_templates.w_height = 18;
+                ui_templates.w_y_setup = [&]( int ) -> int {
+                    return iHeaderHeight + 1 + calc_offset_y();
+                };
+                ui_templates.w_height_setup = 18;
 
                 ui_templates.text = _( "Color templates:" );
 
@@ -900,15 +924,19 @@ void color_manager::show_gui()
 
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
-            ui_colors.w_y = iHeaderHeight + 1 + iOffsetY;
-            ui_colors.w_height = 18;
+            ui_colors.w_y_setup = [&]( int ) -> int {
+                return iHeaderHeight + 1 + calc_offset_y();
+            };
+            ui_colors.w_height_setup = 18;
+
+            const auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
             std::string sColorType = _( "Normal" );
-            std::string sSelected = name_color_map[sActive].name_custom;
+            std::string sSelected = entry.name_custom;
 
             if( iCurrentCol == 2 ) {
                 sColorType = _( "Invert" );
-                sSelected = name_color_map[sActive].name_invert_custom;
+                sSelected = entry.name_invert_custom;
 
             }
 
@@ -940,10 +968,10 @@ void color_manager::show_gui()
             if( ui_colors.ret >= 0 && static_cast<size_t>( ui_colors.ret ) < name_color_map.size() ) {
                 bStuffChanged = true;
 
-                iter = name_color_map.begin();
+                auto iter = name_color_map.begin();
                 std::advance( iter, ui_colors.ret );
 
-                auto &entry = name_color_map[sActive];
+                auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
                 if( iCurrentCol == 1 ) {
                     entry.name_custom = iter->first;
@@ -955,8 +983,6 @@ void color_manager::show_gui()
             }
 
             finalize(); // Need to recalculate caches
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            draw_header( w_colors_header );
         }
     }
 
@@ -978,7 +1004,7 @@ void color_manager::show_gui()
 
 bool color_manager::save_custom()
 {
-    const auto savefile = FILENAMES["custom_colors"];
+    const auto savefile = PATH_INFO::custom_colors();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -988,7 +1014,7 @@ bool color_manager::save_custom()
 
 void color_manager::load_custom( const std::string &sPath )
 {
-    const auto file = sPath.empty() ? FILENAMES["custom_colors"] : sPath;
+    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
     read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
         deserialize( jsonin );

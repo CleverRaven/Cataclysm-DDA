@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "factory_te" ],
-    "comment": "top edge",
+    "//": "top edge",
     "method": "json",
     "weight": 250,
     "object": {
@@ -34,7 +34,7 @@
         "......|.........=|......"
       ],
       "palettes": [ "factory" ],
-      "monster": { "t": { "monster": "mon_turret" } }
+      "monster": { "t": { "monster": "mon_turret_rifle" } }
     }
   }
 ]

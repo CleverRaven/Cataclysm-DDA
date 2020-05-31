@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GATES_H
-#define GATES_H
+#ifndef CATA_SRC_GATES_H
+#define CATA_SRC_GATES_H
 
 #include <string>
 
@@ -13,7 +13,7 @@ struct tripoint;
 namespace gates
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
@@ -35,4 +35,4 @@ void close_door( map &m, Character &who, const tripoint &closep );
 
 } // namespace doors
 
-#endif
+#endif // CATA_SRC_GATES_H

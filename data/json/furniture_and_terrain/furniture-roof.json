@@ -1,0 +1,140 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_cellphone_booster",
+    "name": "cell phone signal booster",
+    "description": "A specialized piece of equipment that receives phone signals and amplifies them to reach further destinations with more clarity.  Now that there's no longer signals for them to boost, they're only good for parts.",
+    "symbol": ":",
+    "color": "white",
+    "move_cost_mod": -2,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "BASHABLE", "DECONSTRUCT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "womp!",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "antenna", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "circuit", "count": 1 },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "antenna", "count": 2 },
+        { "item": "amplifier", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_small_satelitte_dish",
+    "name": "satellite dish",
+    "description": "A small sheet metal disc designed to receive radio waves from orbital satellites.  Satellites that will assuredly continue to orbit, with nothing to broadcast.",
+    "symbol": "(",
+    "color": "light_gray",
+    "move_cost_mod": -2,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "BASHABLE", "NOITEM" ],
+    "bash": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 12 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chimney",
+    "name": "chimney crown",
+    "description": "The top of a brick chimney, the opening is stained black with soot.  Definitely too narrow to fit in.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "brick", "count": 30 } ] },
+    "bash": {
+      "str_min": 15,
+      "str_max": 25,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "brick", "count": [ 5, 30 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_TV_antenna",
+    "name": "TV antenna",
+    "description": "A simple metal antenna to increase the reception of non-cable television broadcasts.  Almost wholly obsolete for years, only being good for parts isn't new for this item.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "charges": 10 } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "clang!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 6 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_pipe",
+    "name": "vent pipe",
+    "description": "A sort of chimney spout for a building's internal ventilation system, this can be used for circulation, venting fumes, and other such functions.",
+    "symbol": "|",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": 2 }, { "item": "steel_chunk", "count": 2 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_roof_turbine_vent",
+    "name": "roof turbine vent",
+    "description": "A rotary wind turbine that will catch the wind and pull out air from inside.  It is most commonly used for improving air cicrulation, particularly in poorly-ventilated areas like attics.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "steel_chunk", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 12,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "sheet_metal_small", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  }
+]

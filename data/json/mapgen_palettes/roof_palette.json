@@ -30,8 +30,10 @@
     },
     "furniture": {
       "&": "f_roof_turbine_vent",
+      "N": "f_TV_antenna",
       ":": "f_cellphone_booster",
       "X": "f_small_satelitte_dish",
+      "~": "f_chimney",
       "=": "f_vent_pipe",
       "A": "f_air_conditioner",
       "b": "f_bench",

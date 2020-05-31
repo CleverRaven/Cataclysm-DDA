@@ -1,9 +1,9 @@
 #pragma once
-#ifndef SHADOWCASTING_H
-#define SHADOWCASTING_H
+#ifndef CATA_SRC_SHADOWCASTING_H
+#define CATA_SRC_SHADOWCASTING_H
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <string>
@@ -11,6 +11,7 @@
 #include "game_constants.h"
 #include "lightmap.h"
 
+struct point;
 struct tripoint;
 
 // For light we store four values, depending on the direction that the light
@@ -18,8 +19,11 @@ struct tripoint;
 // player is looking at is lit.
 // For non-opaque tiles direction doesn't matter so we just use the single
 // default_ value.
-enum class quadrant {
-    NE, SE, SW, NW,
+enum class quadrant : int {
+    NE,
+    SE,
+    SW,
+    NW,
     default_ = NE
 };
 
@@ -80,7 +84,7 @@ struct four_quadrants {
 // We merge all of the absorption values by taking their cumulative average.
 inline float sight_calc( const float &numerator, const float &transparency, const int &distance )
 {
-    return numerator / static_cast<float>( exp( transparency * distance ) );
+    return numerator / std::exp( transparency * distance );
 }
 inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {
@@ -106,17 +110,20 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          T( *accumulate )( const T &, const T &, const int & )>
 void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                   int offsetX, int offsetY, int offsetDistance = 0,
+                   const point &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
+
+template<typename T>
+using array_of_grids_of = std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>;
 
 // TODO: Generalize the floor check, allow semi-transparent floors
 template< typename T, T( *calc )( const T &, const T &, const int & ),
           bool( *check )( const T &, const T & ),
           T( *accumulate )( const T &, const T &, const int & ) >
 void cast_zlight(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, T numerator );
 
-#endif
+#endif // CATA_SRC_SHADOWCASTING_H

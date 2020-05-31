@@ -1,0 +1,449 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_exercise",
+    "name": "exercise machine",
+    "symbol": "T",
+    "description": "A heavy set of weightlifting equipment for strength training, with a pair of heavy weights affixed to opposite ends of a sturdy pipe.  The weights are huge, and using them without a spotter would be a good way to seriously injure yourself.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "steel_chunk", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "prob": 50 },
+        { "item": "pipe", "count": 1 },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ball_mach",
+    "name": "ball machine",
+    "description": "A simple machine for launching sports balls of various types, with a pair of motorized wheels that, if spun up, would fling the ball at moderate speeds.  Probably not the most effective ranged weapon against the undead.",
+    "symbol": "T",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pool_table",
+    "name": "pool table",
+    "symbol": "#",
+    "description": "A large wooden table with green felt carpeting on top, and a set of symmetrical holes that carry billiards balls to an opening on one side.  While not the most useful as a normal table, there is a substantial amount of wood.",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "felt_patch", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "felt_patch", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dive_block",
+    "name": "diving block",
+    "description": "A chunky plastic stool bolted onto the ground, intended as a safe way of diving forward into a body of water.",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "plastic_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_target",
+    "name": "target",
+    "description": "A long sheet of metal held upright by a pipe frame, the sheet is cut in a roughly human shape.  There are two bullseye targets painted onto it, a large one on the torso, and a smaller one on the head.  It is peppered with small dents and holes, and a large amount of the paint has flaked or chipped off.",
+    "symbol": "@",
+    "color": "black",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 5,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_metal_small", "count": [ 3, 7 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcade_machine",
+    "name": "arcade machine",
+    "description": "A bulky upright arcade cabinet, brightly painted and slightyly worn with age.  Useless for its intended purpose, it's bound to have valuable parts.",
+    "symbol": "6",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "television", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 3, 6 ] },
+        { "item": "circuit", "count": [ 4, 6 ] },
+        { "item": "2x4", "count": 8 },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "cable", "charges": [ 14, 20 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 35,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 6 ] },
+        { "item": "television", "prob": 50 },
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 10 ] },
+        { "item": "cable", "charges": [ 4, 10 ] },
+        { "item": "circuit", "count": [ 0, 4 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "RAM", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pinball_machine",
+    "name": "pinball machine",
+    "description": "An iconic game, this machine has a brightly decorated background on its intricate obstacle course, which is covered by a long sheet of glass.  While inoperable without power, it's still impressive to look at, though probably more useful if disassembled.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 3, 5 ] },
+        { "item": "circuit", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": [ 10, 12 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "RAM", "count": 1 },
+        { "item": "pipe", "count": 2 },
+        { "item": "glass_sheet", "count": 1 },
+        { "item": "bearing", "charges": [ 10, 16 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 10 ] },
+        { "item": "circuit", "prob": 50 },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "RAM", "prob": 50 },
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "count": [ 33, 67 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "bearing", "charges": [ 0, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ergometer",
+    "name": "ergometer",
+    "description": "An exercise machine with a set of handles and plates meant to emulate rowing a boat.  Without power it can't be operated, but it might have useful parts to be scavanged.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "foot_crank", "count": [ 1, 1 ] },
+        { "item": "plastic_chunk", "count": [ 8, 10 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "chain", "count": 1 },
+        { "item": "pipe", "count": [ 4, 5 ] },
+        { "item": "saddle", "count": [ 1, 1 ] },
+        { "item": "wheel_small", "count": [ 1, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "processor", "count": 1 },
+        { "item": "RAM", "count": 1 },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "foot_crank", "prob": 50 },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "chain", "prob": 50 },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "saddle", "prob": 50 },
+        { "item": "wheel_small", "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 50 },
+        { "item": "processor", "prob": 50 },
+        { "item": "RAM", "prob": 50 },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_treadmill",
+    "name": "treadmill",
+    "description": "A motorized conveyor belt with a control panel for running in place.  Without power, it's an immense challenge to move the belt.  Regardless, you're probably getting enough cardio on your own.",
+    "symbol": "L",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": [ 10, 14 ] },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "pipe", "count": [ 4, 3 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "RAM", "count": 1 },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "small_lcd_screen", "prob": 50 },
+        { "item": "RAM", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_punching_bag",
+    "alias": "f_floor_canvas",
+    "looks_like": "f_floor_canvas",
+    "name": "heavy punching bag",
+    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": 10,
+    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "whud.",
+      "items": [
+        { "item": "chain", "count": [ 1, 3 ] },
+        { "item": "leather", "count": [ 4, 12 ] },
+        { "item": "rag", "count": [ 4, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_piano",
+    "name": "piano",
+    "description": "An elegant piano, capable of producing beautiful music if used by a skilled player.  A set of off-white and black keys all linked to a set of hammers, which strike their corresponding tightly-coiled wire to produce sound.",
+    "symbol": "P",
+    "color": "i_black",
+    "move_cost_mod": 6,
+    "coverage": 70,
+    "required_str": 8,
+    "//": "While heavy, most large pianos have casters for relatively easy movement.",
+    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": [ 8, 12 ] },
+        { "item": "wire", "count": [ 2, 10 ] },
+        { "item": "string_36", "count": [ 2, 10 ] },
+        { "item": "wheel_caster", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "a suffering piano!",
+      "sound_fail": "kerchang.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "wire", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_speaker_cabinet",
+    "name": "speaker cabinet",
+    "description": "An upright wood-panel case of large speakers, built to produce a potentially deafening volume level.  While this is a terrible idea to use now, it could hold useful parts.",
+    "symbol": "7",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "max_volume": "3750 ml",
+    "required_str": 7,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "e_scrap", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 3, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 6 ] },
+        { "item": "scrap", "count": [ 0, 3 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "e_scrap", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dancing_pole",
+    "name": "dancing pole",
+    "description": "A tall steel pipe mounted vertically, securely fastened to the ceiling and floor.  Usually used for various forms of dancing, often in adult-oriented venues.",
+    "symbol": "i",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 5,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": {
+      "items": [ { "item": "scrap", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "pipe", "count": 2 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_roulette_table",
+    "name": "roulette table",
+    "symbol": "#",
+    "description": "A huge table specially made for a specific form of gambling, with a grid painted onto the felt top, and a concave spinning wheel intended to give a random selection of the inscribed possibilities.",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "felt_patch", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 10 ] },
+        { "item": "scrap", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "felt_patch", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 0, 1 ] }
+      ]
+    }
+  }
+]

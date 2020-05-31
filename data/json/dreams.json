@@ -100,7 +100,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a strange dream.", "You feel... OK." ],
+    "messages": [ "You have a strange dream.", "You feel… OK." ],
     "category": "ALPHA",
     "strength": 1
   },
@@ -112,7 +112,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You dream about the zoo, for some reason.", "Your dreams... are complex and multifaceted." ],
+    "messages": [ "You dream about the zoo, for some reason.", "Your dreams… are complex and multifaceted." ],
     "category": "CHIMERA",
     "strength": 1
   },
@@ -183,7 +183,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You dream of foraging in the woods... mouth-first?", "Your dream-reflection is rather bearish." ],
+    "messages": [ "You dream of foraging in the woods… mouth-first?", "Your dream-reflection is rather bearish." ],
     "category": "URSINE",
     "strength": 2
   },
@@ -198,7 +198,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a disturbing dream of someone invading your territory.", "Your dream-self's muzzle looks... wait, muzzle?" ],
+    "messages": [ "You have a disturbing dream of someone invading your territory.", "Your dream-self's muzzle looks… wait, muzzle?" ],
     "category": "LUPINE",
     "strength": 2
   },
@@ -283,7 +283,7 @@
   {
     "type": "dream",
     "messages": [
-      "You can't quite work out what the dream is about... it just keeps changing.",
+      "You can't quite work out what the dream is about… it just keeps changing.",
       "Your dream is filled with creatures, and yet all seem like you."
     ],
     "category": "CHIMERA",
@@ -292,7 +292,7 @@
   {
     "type": "dream",
     "messages": [
-      "You dream of stalking some sort of lizard... no, that can't be right, can it?",
+      "You dream of stalking some sort of lizard… no, that can't be right, can it?",
       "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
     ],
     "category": "RAPTOR",
@@ -300,7 +300,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You dream of... sneaking.", "You dream of a cold winter night.  Your jacket is too big to put on." ],
+    "messages": [ "You dream of… sneaking.", "You dream of a cold winter night.  Your jacket is too big to put on." ],
     "category": "MOUSE",
     "strength": 2
   },
@@ -352,7 +352,7 @@
   {
     "type": "dream",
     "messages": [
-      "Your dream of raiding a giant beehive has you licking your... muzzle in anticipation.",
+      "Your dream of raiding a giant beehive has you licking your… muzzle in anticipation.",
       "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
     ],
     "category": "URSINE",
@@ -572,6 +572,13 @@
     "type": "dream",
     "messages": [
       "You dream of bees fighting over your sweet nectar.  Mmm.",
+      "How grand it would be to sink your roots deep into the soil as the seasons pass you by.",
+      "You dream of a gigantic knot of roots, beating like a heart.",
+      "You have a disturbing dream of termites chewing all over your body.",
+      "You dream of sharing your roots with a vast forest, all plants provided for as the canopy grows ever upwards.",
+      "A family of caterpillars munches away at your leaves.",
+      "Fire rages around you, licking at your bark and engulfing the saplings and bushes near your roots.  The once chatty forest is quiet in its wake.",
+      "You dream of communing with an ancient pine.  Trees are the true survivors of this world, it tells you.",
       "A rather attractive triffid offers you a bouquet of ape heads.  How thoughtful!"
     ],
     "category": "PLANT",
@@ -604,7 +611,7 @@
   {
     "type": "dream",
     "messages": [
-      "You excitedly web up an interloper and prepare to feast... nope, dream.",
+      "You excitedly web up an interloper and prepare to feast… nope, dream.",
       "Your dreams of having to live without a web frighten you."
     ],
     "category": "SPIDER",
@@ -639,7 +646,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "Your body flows slightly faster than you expected... oh, just a dream.", "FIGHT.  FEED.  FORWARD." ],
+    "messages": [ "Your body flows slightly faster than you expected… oh, just a dream.", "FIGHT.  FEED.  FORWARD." ],
     "category": "CHIMERA",
     "strength": 4
   },

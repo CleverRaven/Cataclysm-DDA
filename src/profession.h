@@ -1,16 +1,18 @@
 #pragma once
-#ifndef PROFESSION_H
-#define PROFESSION_H
+#ifndef CATA_SRC_PROFESSION_H
+#define CATA_SRC_PROFESSION_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
-#include "string_id.h"
 #include "pldata.h"
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 template<typename T>
@@ -18,13 +20,9 @@ class generic_factory;
 
 using Group_tag = std::string;
 class item;
-
-using itype_id = std::string;
+class JsonObject;
 class avatar;
 class player;
-class JsonObject;
-
-enum add_type : int;
 
 class profession
 {
@@ -32,13 +30,13 @@ class profession
         using StartingSkill = std::pair<skill_id, int>;
         using StartingSkillList = std::vector<StartingSkill>;
         struct itypedec {
-            std::string type_id;
+            itype_id type_id;
             /** Snippet id, @see snippet_library. */
-            std::string snippet_id;
+            snippet_id snip_id;
             // compatible with when this was just a std::string
-            itypedec( const char *t ) : type_id( t ) {
+            itypedec( const std::string &t ) : type_id( t ), snip_id( snippet_id::NULL_ID() ) {
             }
-            itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
+            itypedec( const std::string &t, const snippet_id &d ) : type_id( t ), snip_id( d ) {
             }
         };
         using itypedecvec = std::vector<itypedec>;
@@ -49,11 +47,11 @@ class profession
         string_id<profession> id;
         bool was_loaded = false;
 
-        std::string _name_male;
-        std::string _name_female;
-        std::string _description_male;
-        std::string _description_female;
-        signed int _point_cost;
+        translation _name_male;
+        translation _name_female;
+        translation _description_male;
+        translation _description_female;
+        signed int _point_cost = 0;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
         itypedecvec legacy_starting_items;
@@ -67,7 +65,9 @@ class profession
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
+        std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
@@ -75,14 +75,14 @@ class profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( JsonObject &jo, const std::string &src );
-        static void load_item_substitutions( JsonObject &jo );
+        static void load_profession( const JsonObject &jo, const std::string &src );
+        static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
@@ -102,6 +102,7 @@ class profession
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
+        vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         StartingSkillList skills() const;
@@ -124,7 +125,9 @@ class profession
          */
         bool can_pick( const player &u, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
+        bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
+        std::set<trait_id> get_forbidden_traits() const;
 };
 
-#endif
+#endif // CATA_SRC_PROFESSION_H

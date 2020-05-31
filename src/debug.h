@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef CATA_SRC_DEBUG_H
+#define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
 
@@ -24,7 +24,7 @@
  * DebugLog always returns a stream that starts on a new line. Don't add a
  * newline at the end of your debug message.
  * If the specific debug level or class have been disabled, the message is
- * actually discarded, otherwise it is written to a log file (FILENAMES["debug"]).
+ * actually discarded, otherwise it is written to a log file.
  * If a single source file contains mostly messages for the same debug class
  * (e.g. mapgen.cpp), create and use the macro dbg.
  *
@@ -152,7 +152,7 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
-enum class DebugOutput {
+enum class DebugOutput : int {
     std_err,
     file,
 };
@@ -188,28 +188,6 @@ bool debug_has_error_been_observed();
 // See documentation at the top.
 std::ostream &DebugLog( DebugLevel, DebugClass );
 
-// OStream operators                                                {{{1
-// ---------------------------------------------------------------------
-
-template<typename C, typename A>
-std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
-{
-    bool first = true;
-    for( typename std::vector<C>::const_iterator
-         it = elm.begin(),
-         end = elm.end();
-         it != end; ++it ) {
-        if( first ) {
-            first = false;
-        } else {
-            out << ",";
-        }
-        out << *it;
-    }
-
-    return out;
-}
-
 /**
  * Extended debugging mode, can be toggled during game.
  * If enabled some debug message in the normal player message log are shown,
@@ -225,4 +203,4 @@ void debug_write_backtrace( std::ostream &out );
 #endif
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:
-#endif
+#endif // CATA_SRC_DEBUG_H

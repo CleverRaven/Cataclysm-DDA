@@ -37,8 +37,8 @@ TEST_CASE( "vehicle_split_section" )
         CHECK( vehs.size() == 4 );
         if( vehs.size() == 4 ) {
             // correct number of parts
-            CHECK( vehs[ 0 ].v->parts.size() == 10 );
-            CHECK( vehs[ 1 ].v->parts.size() == 10 );
+            CHECK( vehs[ 0 ].v->parts.size() == 12 );
+            CHECK( vehs[ 1 ].v->parts.size() == 12 );
             CHECK( vehs[ 2 ].v->parts.size() == 2 );
             CHECK( vehs[ 3 ].v->parts.size() == 3 );
             std::vector<std::set<tripoint>> all_points;

@@ -2,16 +2,18 @@
 
 #include <algorithm>
 #include <cmath>
-#include <sstream>
-#include <string>
 #include <iterator>
+#include <string>
 
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
 #include "item_group.h"
-#include "output.h"
 #include "json.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "text_snippets.h"
 
 // TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
@@ -45,7 +47,7 @@ const harvest_id &harvest_list::id() const
 
 std::string harvest_list::message() const
 {
-    return message_;
+    return SNIPPET.expand( message_.translated() );
 }
 
 bool harvest_list::is_null() const
@@ -53,7 +55,7 @@ bool harvest_list::is_null() const
     return id_ == harvest_id::NULL_ID();
 }
 
-harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
+harvest_entry harvest_entry::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -70,7 +72,7 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     return ret;
 }
 
-const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
+const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &src,
                                       const std::string &force_id )
 {
     harvest_list ret;
@@ -82,13 +84,9 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
         jo.throw_error( "id was not specified for harvest" );
     }
 
-    if( jo.has_string( "message" ) ) {
-        ret.message_ = jo.get_string( "message" );
-    }
+    jo.read( "message", ret.message_ );
 
-    JsonArray jo_entries = jo.get_array( "entries" );
-    while( jo_entries.has_more() ) {
-        JsonObject current_entry = jo_entries.next_object();
+    for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
     }
 
@@ -101,7 +99,8 @@ void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
     []( const harvest_entry & entry ) {
-        return item::type_is_defined( entry.drop ) ? item::nname( entry.drop ) : "";
+        return item::type_is_defined( itype_id( entry.drop ) ) ?
+               item::nname( itype_id( entry.drop ) ) : "";
     } );
 }
 
@@ -130,8 +129,9 @@ void harvest_list::check_consistency()
         auto error_func = [&]( const harvest_entry & entry ) {
             std::string errorlist;
             bool item_valid = true;
-            if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
-                    item_group::group_is_defined( entry.drop ) ) ) ) {
+            if( !( item::type_is_defined( itype_id( entry.drop ) ) ||
+                   ( entry.type == "bionic_group" &&
+                     item_group::group_is_defined( entry.drop ) ) ) ) {
                 item_valid = false;
                 errorlist += entry.drop;
             }
@@ -204,21 +204,21 @@ std::string harvest_list::describe( int at_skill ) const
             return std::string();
         }
 
-        std::stringstream ss;
-        ss << "<bold>" << item::nname( en.drop, max_drops ) << "</bold>";
+        std::string ss;
+        ss += "<bold>" + item::nname( itype_id( en.drop ), max_drops ) + "</bold>";
         // If the number is unspecified, just list the type
         if( max_drops >= 1000 && min_drops <= 0 ) {
-            return ss.str();
+            return ss;
         }
-        ss << ": ";
+        ss += ": ";
         if( min_drops == max_drops ) {
-            ss << "<stat>" << min_drops << "</stat>";
+            ss += string_format( "<stat>%d</stat>", min_drops );
         } else if( max_drops < 1000 ) {
-            ss << "<stat>" << min_drops << "-" << max_drops << "</stat>";
+            ss += string_format( "<stat>%d-%d</stat>", min_drops, max_drops );
         } else {
-            ss << "<stat>" << min_drops << "+" << "</stat>";
+            ss += string_format( "<stat>%d+</stat>", min_drops );
         }
 
-        return ss.str();
+        return ss;
     } );
 }

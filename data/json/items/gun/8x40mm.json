@@ -1,20 +1,22 @@
 [
   {
     "id": "rm103a_pistol",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM103A automagnum",
+    "name": { "str": "RM103A automagnum" },
     "//": "Rivtech don't come cheap.",
     "description": "Considered overkill by many, the Rivtech M103A remains one of the most powerful sidearms ever developed.  Accepts stick magazines.",
-    "weight": 1450,
+    "weight": "1450 g",
     "volume": "750 ml",
     "price": 230000,
+    "price_postapoc": 6000,
     "to_hit": -2,
     "bashing": 12,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "pistol",
     "dispersion": 175,
     "durability": 9,
@@ -29,32 +31,41 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
-    "magazines": [ [ "8x40mm", [ "8x40_10_mag", "8x40_25_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ]
+      }
+    ]
   },
   {
     "id": "rm11b_sniper_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM11B scout rifle",
+    "name": { "str": "RM11B scout rifle" },
     "description": "Intended to function as a long-range sharpshooter support weapon for the military, the Rivtech RM11B scout rifle was designed for durability and accuracy under less than ideal circumstances.  Its bullpup layout, integrated suppressor and digital scope, and two round burst mode allows it to deliver precise long-range takedowns, utilizing the proprietary Rivtech 8mm caseless round.  Accepts stick magazines.",
-    "weight": 3100,
+    "weight": "3100 g",
     "volume": "2 L",
     "price": 2900000,
+    "price_postapoc": 10000,
     "to_hit": -1,
     "bashing": 10,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "range": 20,
-    "ranged_damage": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 10,
     "durability": 9,
-    "burst": 2,
-    "barrel_length": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
+    "barrel_length": "750 ml",
     "built_in_mods": [ "riv_scope", "riv_suppressor" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -66,28 +77,38 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_10_mag", "8x40_25_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ]
+      }
+    ]
   },
   {
     "id": "rm2000_smg",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM2000 submachine gun",
+    "name": { "str": "RM2000 submachine gun" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun was designed for durability and ease of carrying under less than ideal circumstances.  Accepts stick magazines.",
-    "weight": 1900,
+    "weight": "1900 g",
     "volume": "1 L",
     "price": 1900000,
+    "price_postapoc": 10000,
     "to_hit": -2,
     "bashing": 11,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "smg",
     "dispersion": 120,
     "durability": 9,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "grip", 1 ],
@@ -99,58 +120,74 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
-    "magazines": [ [ "8x40mm", [ "8x40_25_mag", "8x40_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_25_mag", "8x40_10_mag" ]
+      }
+    ]
   },
   {
     "id": "rm298",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM298 HMG",
+    "name": { "str": "RM298 HMG" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines.",
-    "weight": 24500,
+    "weight": "24500 g",
     "volume": "4500 ml",
     "price": 7500000,
+    "price_postapoc": 15000,
     "to_hit": -4,
     "bashing": 18,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "range": -6,
-    "ranged_damage": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 90,
     "durability": 9,
-    "burst": 30,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 400,
-    "barrel_length": 6,
-    "magazine_well": 6,
+    "barrel_length": "1500 ml",
     "valid_mod_locations": [ [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "magazines": [ [ "8x40mm", [ "8x40_500_mag", "8x40_250_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ]
+      }
+    ]
   },
   {
     "id": "rm51_assault_rifle",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM51 assault rifle",
+    "name": { "str": "RM51 assault rifle" },
     "description": "Originally produced for military use, the Rivtech RM51 assault rifle was designed for durability and ease of use under less than ideal circumstances, with its considerable bulk minimized by a compact and ergonomic layout.  Accepts box magazines.",
-    "weight": 2850,
+    "weight": "2850 g",
     "volume": "1750 ml",
     "price": 1800000,
+    "price_postapoc": 12000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 50,
     "durability": 9,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -162,32 +199,40 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
-    "magazines": [ [ "8x40mm", [ "8x40_50_mag", "8x40_100_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ]
+      }
+    ]
   },
   {
     "id": "rm614_lmg",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM614 LMG",
+    "name": { "str": "RM614 LMG" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines.",
-    "weight": 4600,
+    "weight": "4600 g",
     "volume": "2750 ml",
     "price": 3750000,
+    "price_postapoc": 15000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 70,
     "durability": 9,
     "reload": 200,
-    "barrel_length": 2,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 20 ] ],
+    "barrel_length": "500 ml",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 6 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -199,17 +244,24 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
-    "magazines": [ [ "8x40mm", [ "8x40_250_mag", "8x40_500_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ]
+      }
+    ]
   },
   {
     "id": "rm88_battle_rifle",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "RM88 battle rifle",
+    "name": { "str": "RM88 battle rifle" },
     "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines.",
-    "weight": 3200,
+    "weight": "3200 g",
     "volume": "2500 ml",
     "price": 900000,
     "to_hit": -1,
@@ -217,13 +269,13 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
-    "ranged_damage": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 30,
     "durability": 9,
-    "burst": 10,
-    "barrel_length": 2,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -234,42 +286,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
-  },
-  {
-    "id": "rm99_pistol",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": "RM99 revolver",
-    "//": "Bear in mind that most revolvers don't reach $1K.  Expensive.",
-    "description": "Considered overkill by some, the Rivtech M99 remains an exceedingly powerful addition to the arsenal of any gunslinger.",
-    "weight": 1204,
-    "volume": "750 ml",
-    "price": 210000,
-    "to_hit": -2,
-    "bashing": 12,
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "8x40mm",
-    "skill": "pistol",
-    "ranged_damage": 10,
-    "dispersion": 175,
-    "durability": 9,
-    "clip_size": 5,
-    "magazines": [ [ "8x40mm", [ "8x40_speedloader5" ] ] ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ]
+      }
+    ]
   }
 ]

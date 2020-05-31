@@ -1,17 +1,32 @@
 #pragma once
-#ifndef VITAMIN_H
-#define VITAMIN_H
+#ifndef CATA_SRC_VITAMIN_H
+#define CATA_SRC_VITAMIN_H
 
 #include <map>
+#include <set>
+#include <string>
 #include <utility>
 #include <vector>
-#include <string>
 
 #include "calendar.h"
-#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> struct enum_traits;
+
+enum class vitamin_type : int {
+    VITAMIN,
+    TOXIN,
+    DRUG,
+    COUNTER,
+    num_vitamin_types
+};
+
+template<>
+struct enum_traits<vitamin_type> {
+    static constexpr auto last = vitamin_type::num_vitamin_types;
+};
 
 class vitamin
 {
@@ -22,12 +37,20 @@ class vitamin
             return id_;
         }
 
+        const vitamin_type &type() const {
+            return type_;
+        }
+
         bool is_null() const {
             return id_ == vitamin_id( "null" );
         }
 
-        const std::string &name() const {
-            return name_;
+        std::string name() const {
+            return name_.translated();
+        }
+
+        bool has_flag( const std::string &flag ) const {
+            return flags_.count( flag ) > 0;
         }
 
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
@@ -62,7 +85,7 @@ class vitamin
         int severity( int qty ) const;
 
         /** Load vitamin from JSON definition */
-        static void load_vitamin( JsonObject &jo );
+        static void load_vitamin( const JsonObject &jo );
 
         /** Get all currently loaded vitamins */
         static const std::map<vitamin_id, vitamin> &all();
@@ -75,13 +98,16 @@ class vitamin
 
     private:
         vitamin_id id_;
-        std::string name_;
+        vitamin_type type_ = vitamin_type::num_vitamin_types;
+        translation name_;
         efftype_id deficiency_;
         efftype_id excess_;
-        int min_;
-        int max_;
-        time_duration rate_;
+        int min_ = 0;
+        int max_ = 0;
+        time_duration rate_ = 0_turns;
         std::vector<std::pair<int, int>> disease_;
+        std::vector<std::pair<int, int>> disease_excess_;
+        std::set<std::string> flags_;
 };
 
-#endif
+#endif // CATA_SRC_VITAMIN_H

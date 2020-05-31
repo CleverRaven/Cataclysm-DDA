@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "rune_magus_weapon",
-    "\\": "Forging and water included for glass heat-tempering process",
+    "//": "Forging and water included for glass heat-tempering process",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
@@ -225,6 +225,136 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "needle_bone", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcestus",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "skills_required": [ [ "spellcraft", 4 ], [ "bashing", 2 ], [ "shotgun", 2 ] ],
+    "time": "4 h 30 m",
+    "book_learn": [ [ "techno_basic", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ] ],
+    "byproducts": [ [ "splinter", 4 ] ],
+    "//": "Splinters from stock",
+    "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mjolnir",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 7 ], [ "bashing", 6 ] ],
+    "difficulty": 10,
+    "time": 480000,
+    "book_learn": [ [ "book_mythological", 10 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "warhammer", 1 ] ],
+      [ [ "gold_small", 1 ] ],
+      [ [ "silver_small", 2 ] ],
+      [ [ "rebar", 1 ] ],
+      [ [ "orichalcum_ingot", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "gungnir",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 7 ], [ "stabbing", 6 ] ],
+    "difficulty": 10,
+    "time": 480000,
+    "book_learn": [ [ "book_mythological", 10 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "spear_steel", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gram",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 7 ], [ "cutting", 6 ] ],
+    "difficulty": 10,
+    "time": 480000,
+    "book_learn": [ [ "book_mythological", 10 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "jian", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ichaival",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 7 ], [ "archery", 6 ] ],
+    "difficulty": 10,
+    "time": 480000,
+    "book_learn": [ [ "book_mythological", 10 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
+      [ [ "cordage_superior", 2, "LIST" ] ],
+      [ [ "gold_small", 1 ] ],
+      [ [ "orichalcum_ingot", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "laevateinn",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 7 ] ],
+    "difficulty": 10,
+    "time": 480000,
+    "book_learn": [ [ "book_mythological", 10 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "i_staff", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_ingot", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_odin",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 4 ], [ "spellcraft", 5 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "charges": 4,
+    "time": "30 m",
+    "book_learn": [ [ "book_mythological", 9 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "orichalcum_ingot", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
     ]
   }
 ]

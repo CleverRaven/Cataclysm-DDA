@@ -6,7 +6,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "180 m",
+    "time": "3 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
@@ -18,12 +18,11 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "240 m",
-    "autolearn": true,
+    "time": "4 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
     "components": [
-      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
+      [ [ "cordage_superior", 4, "LIST" ] ],
       [ [ "rag", 4 ] ],
       [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
     ]
@@ -71,7 +70,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "180 m",
+    "time": "3 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "felt_patch", 25 ] ] ]
@@ -87,7 +86,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 300 ] ], [ [ "duct_tape", 150 ] ] ]
+    "components": [ [ [ "paper", 1200 ] ], [ [ "duct_tape", 150 ] ] ]
   },
   {
     "result": "bra",
@@ -119,7 +118,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "fur", 12 ] ] ],
@@ -131,7 +130,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "leather", 12 ] ] ],
@@ -157,7 +156,7 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "survival", 1 ],
-    "time": "100 m",
+    "time": "1 h 40 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
@@ -170,7 +169,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "100 m",
+    "time": "1 h 40 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 11 ] ], [ [ "faux_fur", 12 ] ] ]
@@ -183,7 +182,7 @@
     "skill_used": "tailor",
     "skills_required": [ "survival", 5 ],
     "difficulty": 5,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "trappers_companion", 6 ], [ "survival_book", 4 ] ],
@@ -208,14 +207,12 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "190 m",
+    "time": "3 h 10 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [
-      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "cuirass_scrap",
@@ -224,7 +221,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "60 m",
+    "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],
@@ -251,7 +248,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "fur", 40 ], [ "tanned_pelt", 7 ] ] ]
@@ -263,7 +260,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 20 ] ] ]
@@ -275,7 +272,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 60 ] ],
@@ -289,16 +286,16 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 5 ],
-    "time": "70 m",
+    "time": "1 h 10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 135 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 16 ] ],
+      [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 16 ] ],
       [ [ "rag", 19 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -318,10 +315,13 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "150 m",
+    "time": "2 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 360 ] ],
-    "components": [ [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ], [ [ "rope_6", 2 ] ] ]
+    "components": [
+      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
+      [ [ "rope_natural_short", 2, "LIST" ] ]
+    ]
   },
   {
     "result": "greatcoat",
@@ -330,7 +330,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "480 m",
+    "time": "8 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 160 ] ],
     "components": [ [ [ "felt_patch", 33 ] ] ]
@@ -342,7 +342,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "60 m",
+    "time": "1 h",
     "book_learn": [ [ "tailor_japanese", 5 ] ],
     "using": [ [ "sewing_standard", 15 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
@@ -379,7 +379,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "150 m",
+    "time": "2 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
@@ -393,11 +393,23 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "fabrication", 3 ],
-    "time": "96 m",
+    "time": "1 h 36 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ]
+  },
+  {
+    "result": "leotard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 13 ] ],
+    "components": [ [ [ "lycra_patch", 8 ] ] ]
   },
   {
     "result": "long_undertop",
@@ -434,6 +446,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]
   },
   {
@@ -456,7 +469,7 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "fabrication", 6 ],
-    "time": "120 m",
+    "time": "2 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
@@ -464,7 +477,7 @@
       [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -475,86 +488,20 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 150 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ]
   },
   {
-    "result": "modularvest",
+    "result": "ballistic_vest_esapi",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "difficulty": 4,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "kevlar_plate", 24 ] ] ]
-  },
-  {
-    "result": "modularvestceramic",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
+    "time": "2 m",
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "ceramic_armor", 4 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvesthard",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "hard_steel_armor", 8 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvestkevlar",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "kevlar_plate", 8 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularveststeel",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "steel_armor", 8 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "modularvestsuper",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "decomp_learn": 0,
-    "autolearn": true,
-    "components": [ [ [ "modularvest", 1 ] ], [ [ "alloy_sheet", 8 ] ] ],
+    "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -564,7 +511,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": 480000,
+    "time": "8 h",
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
@@ -577,7 +524,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "480 m",
+    "time": "8 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 120 ] ],
     "components": [ [ [ "felt_patch", 30 ] ] ]
@@ -589,7 +536,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "180 m",
+    "time": "3 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "felt_patch", 30 ] ] ]
@@ -602,7 +549,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "180 m",
+    "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 300 ] ] ]
@@ -615,7 +562,7 @@
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "35 m",
+    "time": "35 m 42 s",
     "autolearn": true,
     "using": [ [ "sewing_standard", 27 ] ],
     "components": [ [ [ "rag", 19 ] ] ]
@@ -632,6 +579,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster", 1 ] ] ]
   },
   {
@@ -643,7 +591,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ] ]
@@ -656,7 +604,7 @@
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ]
@@ -673,6 +621,7 @@
     "autolearn": true,
     "byproducts": [ [ "fur", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
   },
   {
@@ -687,6 +636,7 @@
     "autolearn": true,
     "byproducts": [ [ "faux_fur", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
   },
   {
@@ -697,7 +647,7 @@
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 50 ] ],
@@ -715,6 +665,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_leather", 1 ] ] ]
   },
   {
@@ -729,6 +680,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_survivor", 1 ] ] ]
   },
   {
@@ -740,16 +692,16 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 5 ],
-    "time": "59 m",
+    "time": "59 m 30 s",
     "autolearn": true,
     "using": [ [ "sewing_standard", 115 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 13 ] ],
+      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 13 ] ],
       [ [ "rag", 14 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -774,6 +726,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat", 1 ] ] ]
   },
   {
@@ -784,7 +737,7 @@
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "35 m",
+    "time": "35 m 42 s",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 16 ] ] ]
@@ -801,6 +754,7 @@
     "autolearn": true,
     "byproducts": [ [ "fur", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
   },
   {
@@ -815,6 +769,7 @@
     "autolearn": true,
     "byproducts": [ [ "faux_fur", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_faux_fur", 1 ] ] ]
   },
   {
@@ -826,7 +781,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ] ]
@@ -839,7 +794,7 @@
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 38 ] ],
     "components": [ [ [ "rag", 10 ] ], [ [ "faux_fur", 10 ] ] ]
@@ -856,6 +811,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_leather", 1 ] ] ]
   },
   {
@@ -866,7 +822,7 @@
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 38 ] ],
@@ -881,16 +837,16 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 5 ],
-    "time": "59 m",
+    "time": "59 m 30 s",
     "autolearn": true,
     "using": [ [ "sewing_standard", 85 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 10 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 10 ] ],
       [ [ "rag", 11 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -915,6 +871,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
   },
   {
@@ -928,6 +885,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "tunic", 1 ] ] ]
   },
   {
@@ -943,13 +901,37 @@
     "components": [ [ [ "rag", 8 ] ] ]
   },
   {
+    "result": "sports_bra",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 2 ] ] ]
+  },
+  {
+    "result": "xlsports_bra",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "55 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 25 ] ],
+    "components": [ [ [ "lycra_patch", 4 ] ] ]
+  },
+  {
     "result": "sundress",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "90 m",
+    "time": "1 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "sewing_standard", 12 ] ],
@@ -962,7 +944,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "360 m",
+    "time": "6 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 600 ] ] ]
@@ -978,6 +960,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "thermal_shirt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "42 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "lycra_patch", 7 ] ] ]
   },
   {
     "result": "trenchcoat",
@@ -999,7 +993,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
@@ -1011,7 +1005,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 45 ] ],
     "components": [ [ [ "rag", 14 ] ], [ [ "faux_fur", 12 ] ] ]
@@ -1023,7 +1017,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 45 ] ],
@@ -1037,16 +1031,16 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 5 ],
-    "time": "70 m",
+    "time": "1 h 10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 12 ] ],
       [ [ "rag", 14 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -1082,6 +1076,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "longshirt", 1 ] ] ]
   },
   {
@@ -1097,6 +1092,18 @@
     "components": [ [ [ "rag", 10 ] ] ]
   },
   {
+    "result": "under_armor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 4 ] ] ]
+  },
+  {
     "result": "undershirt",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -1107,6 +1114,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "unitard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 10 ] ] ]
   },
   {
     "result": "xlkevlar",
@@ -1120,7 +1139,7 @@
     "decomp_learn": 6,
     "autolearn": true,
     "using": [ [ "sewing_standard", 54 ] ],
-    "components": [ [ [ "kevlar_plate", 43 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 43 ] ] ]
   },
   {
     "result": "vest_leather",
@@ -1130,7 +1149,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "80 m",
+    "time": "1 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
@@ -1146,6 +1165,7 @@
     "autolearn": true,
     "byproducts": [ [ "leather", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jacket_leather", 1 ] ] ]
   },
   {
@@ -1156,7 +1176,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "fabrication", 3 ],
-    "time": "72 m",
+    "time": "1 h 12 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -1169,7 +1189,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "150 m",
+    "time": "2 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "felt_patch", 13 ] ] ]
@@ -1181,7 +1201,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "70 m",
+    "time": "1 h 10 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ] ],
     "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
@@ -1193,7 +1213,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": 280000,
+    "time": "4 h 40 m",
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ]

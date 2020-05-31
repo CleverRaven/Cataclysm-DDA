@@ -2,10 +2,9 @@
   {
     "type": "GENERIC",
     "id": "hand_rims",
-    "name": "set of hand rims",
-    "name_plural": "sets of hand rims",
+    "name": { "str": "set of hand rims", "str_pl": "sets of hand rims" },
     "description": "Hand rims for use on a wheelchair.",
-    "weight": 816,
+    "weight": "816 g",
     "to_hit": -1,
     "color": "light_gray",
     "symbol": ":",
@@ -13,13 +12,14 @@
     "volume": "500 ml",
     "bashing": 10,
     "category": "veh_parts",
-    "price": 9000
+    "price": 9000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
     "id": "foot_crank",
     "copy-from": "hand_rims",
-    "name": "foot crank",
+    "name": { "str": "foot crank" },
     "description": "The pedal and gear assembly from a bicycle.",
     "to_hit": -2,
     "bashing": 8,

@@ -23,11 +23,15 @@ LDFLAGS += -L.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
-TEST_TARGET = $(BUILD_PREFIX)cata_test
+ifeq ($(TARGETSYSTEM), WINDOWS)
+  TEST_TARGET = $(BUILD_PREFIX)cata_test.exe
+else
+  TEST_TARGET = $(BUILD_PREFIX)cata_test
+endif
 
 tests: $(TEST_TARGET)
 
-$(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
+$(TEST_TARGET): $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
@@ -35,14 +39,14 @@ check: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
 
 clean:
-	rm -rf *obj
+	rm -rf *obj *objwin
 	rm -f *cata_test
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean check tests
 

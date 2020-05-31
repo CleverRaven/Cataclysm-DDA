@@ -1,22 +1,21 @@
 #pragma once
-#ifndef MINIMAP_H
-#define MINIMAP_H
-
+#ifndef CATA_SRC_PIXEL_MINIMAP_H
+#define CATA_SRC_PIXEL_MINIMAP_H
 
 #include <map>
 #include <memory>
 
-#include "pixel_minimap_projectors.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 
+class pixel_minimap_projector;
 
-enum class pixel_minimap_type {
+enum class pixel_minimap_type : int {
     ortho,
     iso
 };
 
-enum class pixel_minimap_mode {
+enum class pixel_minimap_mode : int {
     solid,
     squares,
     dots
@@ -91,4 +90,4 @@ class pixel_minimap
         std::map<tripoint, submap_cache> cache;
 };
 
-#endif // MINIMAP_H
+#endif // CATA_SRC_PIXEL_MINIMAP_H

@@ -1,0 +1,30 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_atomic_butter_churn",
+    "name": "atomic butter churn on a stand",
+    "description": "The Rivtech Atomic Butter Churn in deployed state.  It hums menacingly.  Ready to add raw milk and salt.  It will churn till the earth is a cinder.",
+    "symbol": "H",
+    "color": "light_green",
+    "crafting_pseudo_item": "atomic_pseudo_churn",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "LIQUIDCONT" ],
+    "deconstruct": { "items": [ { "item": "atomic_butterchurn", "count": 1 } ] },
+    "examine_action": "keg",
+    "keg_capacity": 45,
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 6, 8 ] },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  }
+]

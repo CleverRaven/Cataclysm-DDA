@@ -52,8 +52,8 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( static_cast<double>( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl,
-                      2 ) ) );
+    return std::ceil( static_cast<double>( vp.install_moves ) /
+                      to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
 vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )
@@ -122,9 +122,13 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                       vp.install_requirements() :
                       vp.repair_requirements() * pt.damage_level( 4 );
 
+    const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
-    map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
+    // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
+    // as they have the handicap of not being able to use the veh interaction menu
+    // or able to drag a welding cart etc.
+    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who_c, false, !who.is_npc() );
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );
         return false;
@@ -153,8 +157,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     // If part is broken, it will be destroyed and references invalidated
     std::string partname = pt.name( false );
-    const std::string startdurability = "<color_" + string_from_color( pt.get_base().damage_color() ) +
-                                        ">" + pt.get_base(). damage_symbol() + " </color>";
+    const std::string startdurability = colorize( pt.get_base().damage_symbol(),
+                                        pt.get_base().damage_color() );
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
         const int dir = pt.direction;

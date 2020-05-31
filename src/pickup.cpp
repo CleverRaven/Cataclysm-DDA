@@ -1,60 +1,63 @@
 #include "pickup.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <map>
-#include <string>
-#include <vector>
-#include <algorithm>
 #include <functional>
-#include <memory>
-#include <utility>
 #include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "input.h"
-#include "item_search.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_search.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
 #include "player.h"
+#include "player_activity.h"
+#include "point.h"
+#include "popup.h"
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "character.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "int_id.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player_activity.h"
-#include "ret_val.h"
-#include "units.h"
-#include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
-#include "faction.h"
-#include "item_stack.h"
-#include "map_selector.h"
-#include "pimpl.h"
-#include "point.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
+
+static const itype_id itype_water( "water" );
 
 // Pickup helper functions
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
@@ -156,8 +159,8 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         amenu.addentry( WEAR, u.can_wear( it ).success(), 'W', _( "Wear %s" ), it.display_name() );
     }
     if( it.is_bucket_nonempty() ) {
-        amenu.addentry( SPILL, u.can_pickVolume( it ), 's', _( "Spill %s, then pick up %s" ),
-                        it.contents.front().tname(), it.display_name() );
+        amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
+                        it.tname(), it.display_name() );
     }
 
     amenu.query();
@@ -168,6 +171,48 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     }
 
     return static_cast<pickup_answer>( choice );
+}
+
+bool Pickup::query_thief()
+{
+    player &u = g->u;
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
+    std::string answer = query_popup()
+                         .allow_cancel( false )
+                         .context( "YES_NO_ALWAYS_NEVER" )
+                         .message( "%s", force_uc
+                                   ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
+                                   : _( "Picking up this item will be considered stealing, continue?" ) )
+                         .option( "YES", allow_key ) // yes, steal all items in this location that is selected
+                         .option( "NO", allow_key ) // no, pick up only what is free
+                         .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
+                         .option( "NEVER", allow_key ) // no, only grab free item and never ask me again
+                         .cursor( 1 ) // default to the second option `NO`
+                         .query()
+                         .action; // retrieve the input action
+    if( answer == "YES" ) {
+        u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+        u.set_value( "THIEF_MODE_KEEP", "NO" );
+        return true;
+    } else if( answer == "NO" ) {
+        u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+        u.set_value( "THIEF_MODE_KEEP", "NO" );
+        return false;
+    } else if( answer == "ALWAYS" ) {
+        u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+        u.set_value( "THIEF_MODE_KEEP", "YES" );
+        return true;
+    } else if( answer == "NEVER" ) {
+        u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+        u.set_value( "THIEF_MODE_KEEP", "YES" );
+        return false;
+    } else {
+        // error
+        debugmsg( "Not a valid option [ %s ]", answer );
+    }
+    return false;
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
@@ -189,14 +234,18 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
-    if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-        if( !query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
-            return false;
+
+    if( !newit.is_owned_by( g->u, true ) ) {
+        // Has the player given input on if stealing is ok?
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            Pickup::query_thief();
+        }
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return true; // Since we are honest, return no problem before picking up
         }
     }
     if( newit.invlet != '\0' &&
-        u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+        u.invlet_to_item( newit.invlet ) != nullptr ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
         newit.invlet = '\0';
@@ -213,15 +262,20 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     bool did_prompt = false;
-    newit.charges = u.i_add_to_container( newit, false );
-    if( newit.is_ammo() && newit.charges == 0 ) {
+    if( newit.count_by_charges() ) {
+        newit.charges -= u.i_add( newit ).charges;
+        // if the item stacks with another item when added,
+        // the charges returned may be larger than the charges of the item added.
+        newit.charges = std::max( 0, newit.charges );
+    }
+    if( newit.is_ammo() && newit.charges <= 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.is_frozen_liquid() ) {
         if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
-    } else if( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ) {
+    } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
@@ -232,7 +286,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             option = CANCEL;
         }
-    } else if( newit.is_bucket() && !newit.is_container_empty() ) {
+    } else if( newit.is_bucket_nonempty() ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
                                          newit.display_name() );
@@ -241,7 +295,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             option = CANCEL;
         }
-    } else if( !u.can_pickVolume( newit ) ) {
+    } else if( !u.can_stash( newit ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
                                          newit.display_name() );
@@ -268,6 +322,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
+                if( picked_up ) {
+                    u.weapon.charges = newit.charges;
+                }
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -316,7 +373,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 {
     bool got_water = false;
     bool weight_is_okay = ( g->u.weight_carried() <= g->u.weight_capacity() );
-    bool volume_is_okay = ( g->u.volume_carried() <= g->u.volume_capacity() );
     bool offered_swap = false;
 
     // Map of items picked up so we can output them all at the end and
@@ -349,9 +405,6 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
     if( weight_is_okay && g->u.weight_carried() > g->u.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
-    }
-    if( volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() ) {
-        add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
 
     return !problem;
@@ -401,7 +454,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
+                if( maybe_water.typeId() != itype_water  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }
@@ -431,7 +484,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Recursively pick up adjacent items if that option is on.
         if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == p ) {
             //Autopickup adjacent
-            direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+            direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
                 tripoint apos = tripoint( direction_XY( elem ), 0 );
@@ -451,19 +504,24 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
-        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         if( from_vehicle ) {
-            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( vehicle_cursor( *veh, cargo_part ), &*here.front() ) },
+            { 0 },
+            cata::nullopt
+                                                   ) ) );
         } else {
-            g->u.activity.targets.emplace_back( map_cursor( p ), &*here.front() );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            {item_location( map_cursor( p ), &*here.front() ) },
+            { 0 },
+            g->u.pos()
+                                                   ) ) );
         }
-        // auto-pickup means pick up all.
-        g->u.activity.values.push_back( 0 );
         return;
     }
 
     std::vector<std::list<item_stack::iterator>> stacked_here;
-    for( item_stack::iterator it : here ) {
+    for( const item_stack::iterator &it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
             if( stack.front()->display_stacked_with( *it ) ) {
@@ -482,31 +540,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         return *lhs.front() < *rhs.front();
     } );
 
-    if( min != -1 ) { // don't bother if we're just autopickuping
-        g->temp_exit_fullscreen();
-    }
-    // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
-    int maxmaxitems = TERMY;
-
-    int itemsH = std::min( 25, TERMY / 2 );
-    int pickupBorderRows = 3;
-
-    // The pickup list may consume the entire terminal, minus space needed for its
-    // header/footer and the item info window.
-    int minleftover = itemsH + pickupBorderRows;
-    if( maxmaxitems > TERMY - minleftover ) {
-        maxmaxitems = TERMY - minleftover;
-    }
-
-    const int minmaxitems = 9;
-
     std::vector<pickup_count> getitem( stacked_here.size() );
-
-    int maxitems = stacked_here.size();
-    maxitems = ( maxitems < minmaxitems ? minmaxitems : ( maxitems > maxmaxitems ? maxmaxitems :
-                 maxitems ) );
-
-    int itemcount = 0;
 
     if( min == -1 ) { //Auto Pickup, select matching items
         if( !select_autopickup_items( stacked_here, getitem ) ) {
@@ -514,26 +548,63 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             return;
         }
     } else {
-        int pickupH = maxitems + pickupBorderRows;
+        g->temp_exit_fullscreen();
+
+        int start = 0;
+        int selected = 0;
+        int maxitems = 0;
+        int pickupH = 0;
         int pickupW = 44;
-
-        int itemsW = pickupW;
-
         int pickupX = 0;
-        std::string position = get_option<std::string>( "PICKUP_POSITION" );
-        if( position == "left" ) {
-            pickupX = panel_manager::get_manager().get_width_left();
-        } else if( position == "right" ) {
-            pickupX = TERMX - panel_manager::get_manager().get_width_right() - pickupW;
-        } else if( position == "overlapping" ) {
-            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
-                pickupX = TERMX - pickupW;
-            }
-        }
+        catacurses::window w_pickup;
+        catacurses::window w_item_info;
 
-        catacurses::window w_pickup = catacurses::newwin( pickupH, pickupW, point( pickupX, 0 ) );
-        catacurses::window w_item_info =
-            catacurses::newwin( TERMY - pickupH, pickupW, point( pickupX, pickupH ) );
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            const int itemsH = std::min( 25, TERMY / 2 );
+            const int pickupBorderRows = 3;
+
+            // The pickup list may consume the entire terminal, minus space needed for its
+            // header/footer and the item info window.
+            const int minleftover = itemsH + pickupBorderRows;
+            const int maxmaxitems = TERMY - minleftover;
+            const int minmaxitems = 9;
+            maxitems = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
+
+            start = selected - selected % maxitems;
+
+            pickupH = maxitems + pickupBorderRows;
+
+            //find max length of item name and resize pickup window width
+            for( const std::list<item_stack::iterator> &cur_list : stacked_here ) {
+                const item &this_item = *cur_list.front();
+                const int item_len = utf8_width( remove_color_tags( this_item.display_name() ) ) + 10;
+                if( item_len > pickupW && item_len < TERMX ) {
+                    pickupW = item_len;
+                }
+            }
+
+            pickupX = 0;
+            std::string position = get_option<std::string>( "PICKUP_POSITION" );
+            if( position == "left" ) {
+                pickupX = panel_manager::get_manager().get_width_left();
+            } else if( position == "right" ) {
+                pickupX = TERMX - panel_manager::get_manager().get_width_right() - pickupW;
+            } else if( position == "overlapping" ) {
+                if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                    pickupX = TERMX - pickupW;
+                }
+            }
+
+            w_pickup = catacurses::newwin( pickupH, pickupW, point( pickupX, 0 ) );
+            w_item_info = catacurses::newwin( TERMY - pickupH, pickupW,
+                                              point( pickupX, pickupH ) );
+
+            ui.position( point( pickupX, 0 ), point( pickupW, TERMY ) );
+        } );
+        ui.mark_resize();
+
+        int itemcount = 0;
 
         std::string action;
         int raw_input_char = ' ';
@@ -542,13 +613,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
-        ctxt.register_action( "NEXT_TAB", translate_marker( "Next page" ) );
-        ctxt.register_action( "PREV_TAB", translate_marker( "Previous page" ) );
+        ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
+        ctxt.register_action( "PREV_TAB", to_translation( "Previous page" ) );
         ctxt.register_action( "SCROLL_UP" );
         ctxt.register_action( "SCROLL_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
-        ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
+        ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
@@ -556,11 +627,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.allow_text_entry = true; // allow user to specify pickup amount
 #endif
 
-        int start = 0;
-        int cur_it = 0;
         bool update = true;
-        mvwprintw( w_pickup, point_zero, _( "PICK" ) );
-        int selected = 0;
         int iScrollPos = 0;
 
         std::string filter;
@@ -568,19 +635,157 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Indexes of items that match the filter
         std::vector<int> matches;
         bool filter_changed = true;
-        if( g->was_fullscreen ) {
-            g->draw_ter();
-        }
+
+        units::mass weight_predict = 0_gram;
+        units::volume volume_predict = 0_ml;
+
+        const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            const item &selected_item = *stacked_here[matches[selected]].front();
+
+            if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
+                std::vector<iteminfo> vThisItem;
+                selected_item.info( true, vThisItem );
+
+                item_info_data dummy( {}, {}, vThisItem, {}, iScrollPos );
+                dummy.without_getch = true;
+                dummy.without_border = true;
+
+                draw_item_info( w_item_info, dummy );
+            } else {
+                werase( w_item_info );
+                wrefresh( w_item_info );
+            }
+            draw_custom_border( w_item_info, 0 );
+
+            // print info window title: < item name >
+            mvwprintw( w_item_info, point( 2, 0 ), "< " );
+            trim_and_print( w_item_info, point( 4, 0 ), pickupW - 8, selected_item.color_in_inventory(),
+                            selected_item.display_name() );
+            wprintw( w_item_info, " >" );
+            wrefresh( w_item_info );
+
+            const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+
+            werase( w_pickup );
+            for( int cur_it = start; cur_it < start + maxitems; cur_it++ ) {
+                if( cur_it < static_cast<int>( matches.size() ) ) {
+                    int true_it = matches[cur_it];
+                    const item &this_item = *stacked_here[true_it].front();
+                    nc_color icolor = this_item.color_in_inventory();
+                    if( cur_it == selected ) {
+                        icolor = hilite( c_white );
+                    }
+
+                    if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
+                        mvwputch( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor,
+                                  static_cast<char>( pickup_chars[cur_it] ) );
+                    } else if( cur_it < static_cast<int>( pickup_chars.size() ) + static_cast<int>
+                               ( pickup_chars.size() ) *
+                               static_cast<int>( pickup_chars.size() ) ) {
+                        int p = cur_it - pickup_chars.size();
+                        int p1 = p / pickup_chars.size();
+                        int p2 = p % pickup_chars.size();
+                        mvwprintz( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor, "`%c%c",
+                                   static_cast<char>( pickup_chars[p1] ), static_cast<char>( pickup_chars[p2] ) );
+                    } else {
+                        mvwputch( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor, ' ' );
+                    }
+                    if( getitem[true_it].pick ) {
+                        if( getitem[true_it].count == 0 ) {
+                            wprintz( w_pickup, c_light_blue, " + " );
+                        } else {
+                            wprintz( w_pickup, c_light_blue, " # " );
+                        }
+                    } else {
+                        wprintw( w_pickup, " - " );
+                    }
+                    std::string item_name;
+                    if( stacked_here[true_it].front()->is_money() ) {
+                        //Count charges
+                        // TODO: transition to the item_location system used for the inventory
+                        unsigned int charges_total = 0;
+                        for( const item_stack::iterator &it : stacked_here[true_it] ) {
+                            charges_total += it->ammo_remaining();
+                        }
+                        //Picking up none or all the cards in a stack
+                        if( !getitem[true_it].pick || getitem[true_it].count == 0 ) {
+                            item_name = stacked_here[true_it].front()->display_money( stacked_here[true_it].size(),
+                                        charges_total );
+                        } else {
+                            unsigned int charges = 0;
+                            int c = getitem[true_it].count;
+                            for( std::list<item_stack::iterator>::iterator it = stacked_here[true_it].begin();
+                                 it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
+                                charges += ( *it )->ammo_remaining();
+                            }
+                            item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                        charges );
+                        }
+                    } else {
+                        item_name = this_item.display_name( stacked_here[true_it].size() );
+                    }
+                    if( stacked_here[true_it].size() > 1 ) {
+                        item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
+                    }
+                    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+                        item_name = string_format( "%s %s", this_item.symbol().c_str(),
+                                                   item_name );
+                    }
+
+                    // if the item does not belong to your fraction then add the stolen symbol
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        item_name = string_format( "<color_light_red>!</color> %s", item_name );
+                    }
+
+                    trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
+                                    item_name );
+                }
+            }
+
+            mvwprintw( w_pickup, point( 0, maxitems + 1 ), _( "[%s] Unmark" ),
+                       ctxt.get_desc( "LEFT", 1 ) );
+
+            center_print( w_pickup, maxitems + 1, c_light_gray, string_format( _( "[%s] Help" ),
+                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) ) );
+
+            right_print( w_pickup, maxitems + 1, 0, c_light_gray, string_format( _( "[%s] Mark" ),
+                         ctxt.get_desc( "RIGHT", 1 ) ) );
+
+            mvwprintw( w_pickup, point( 0, maxitems + 2 ), _( "[%s] Prev" ),
+                       ctxt.get_desc( "PREV_TAB", 1 ) );
+
+            center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] All" ),
+                          ctxt.get_desc( "SELECT_ALL", 1 ) ) );
+
+            right_print( w_pickup, maxitems + 2, 0, c_light_gray, string_format( _( "[%s] Next" ),
+                         ctxt.get_desc( "NEXT_TAB", 1 ) ) );
+
+            const std::string fmted_weight_predict = colorize(
+                        string_format( "%.1f", round_up( convert_weight( weight_predict ), 1 ) ),
+                        weight_predict > g->u.weight_capacity() ? c_red : c_white );
+            const std::string fmted_weight_capacity = string_format(
+                        "%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
+            const std::string fmted_volume_predict = colorize(
+                        format_volume( volume_predict ),
+                        volume_predict > g->u.volume_capacity() ? c_red : c_white );
+            const std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
+
+            trim_and_print( w_pickup, point_zero, pickupW, c_white,
+                            string_format( _( "PICK Wgt %1$s/%2$s  Vol %3$s/%4$s" ),
+                                           fmted_weight_predict, fmted_weight_capacity,
+                                           fmted_volume_predict, fmted_volume_capacity ) );
+
+            wrefresh( w_pickup );
+        } );
+
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {
-            const std::string pickup_chars =
-                ctxt.get_available_single_char_hotkeys( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" );
+            const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
             int idx = -1;
-            for( int i = 1; i < pickupH; i++ ) {
-                mvwprintw( w_pickup, point( 0, i ),
-                           "                                                " );
-            }
+
             if( action == "ANY_INPUT" &&
                 raw_input_char >= '0' && raw_input_char <= '9' ) {
                 int raw_input_char_value = static_cast<char>( raw_input_char ) - '0';
@@ -600,7 +805,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     start = static_cast<int>( ( matches.size() - 1 ) / maxitems ) * maxitems;
                 }
                 selected = start;
-                mvwprintw( w_pickup, point( 0, maxitems + 2 ), "         " );
             } else if( action == "NEXT_TAB" ) {
                 if( start + maxitems < static_cast<int>( matches.size() ) ) {
                     start += maxitems;
@@ -609,7 +813,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
                 iScrollPos = 0;
                 selected = start;
-                mvwprintw( w_pickup, point( pickupH, maxitems + 2 ), "            " );
             } else if( action == "UP" ) {
                 selected--;
                 iScrollPos = 0;
@@ -644,9 +847,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 .edit( new_filter );
                 if( !popup.canceled() ) {
                     filter_changed = true;
-                } else {
-                    wrefresh( g->w_terrain );
-                    g->draw_panels( true );
                 }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
@@ -664,6 +864,20 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( action == "ANY_INPUT" ) {
                 idx = ( raw_input_char <= 127 ) ? pickup_chars.find( raw_input_char ) : -1;
                 iScrollPos = 0;
+            } else if( action == "SELECT_ALL" ) {
+                int count = 0;
+                for( auto i : matches ) {
+                    if( getitem[i].pick ) {
+                        count++;
+                    }
+                    getitem[i].pick = true;
+                }
+                if( count == static_cast<int>( stacked_here.size() ) ) {
+                    for( size_t i = 0; i < stacked_here.size(); i++ ) {
+                        getitem[i].pick = false;
+                    }
+                }
+                update = true;
             }
 
             if( idx >= 0 && idx < static_cast<int>( matches.size() ) ) {
@@ -703,8 +917,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
-                        wrefresh( g->w_terrain );
-                        g->draw_panels( true );
                         // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
@@ -726,165 +938,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     start = 0;
                     iScrollPos = 0;
                 }
-                wrefresh( g->w_terrain );
-                g->draw_panels( true );
             }
-            const item &selected_item = *stacked_here[matches[selected]].front();
-
-            werase( w_item_info );
-            if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
-                std::vector<iteminfo> vThisItem;
-                std::vector<iteminfo> vDummy;
-                selected_item.info( true, vThisItem );
-
-                draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
-            }
-            draw_custom_border( w_item_info, 0 );
-            mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), itemsW - 8, c_white, "%s >",
-                            selected_item.display_name() );
-            wrefresh( w_item_info );
-
-            if( action == "SELECT_ALL" ) {
-                int count = 0;
-                for( auto i : matches ) {
-                    if( getitem[i].pick ) {
-                        count++;
-                    }
-                    getitem[i].pick = true;
-                }
-                if( count == static_cast<int>( stacked_here.size() ) ) {
-                    for( size_t i = 0; i < stacked_here.size(); i++ ) {
-                        getitem[i].pick = false;
-                    }
-                }
-                update = true;
-            }
-            for( cur_it = start; cur_it < start + maxitems; cur_it++ ) {
-                mvwprintw( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ),
-                           "                                        " );
-                if( cur_it < static_cast<int>( matches.size() ) ) {
-                    int true_it = matches[cur_it];
-                    const item &this_item = *stacked_here[true_it].front();
-                    nc_color icolor = this_item.color_in_inventory();
-                    if( cur_it == selected ) {
-                        icolor = hilite( c_white );
-                    }
-
-                    if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
-                        mvwputch( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor,
-                                  static_cast<char>( pickup_chars[cur_it] ) );
-                    } else if( cur_it < static_cast<int>( pickup_chars.size() ) + static_cast<int>
-                               ( pickup_chars.size() ) *
-                               static_cast<int>( pickup_chars.size() ) ) {
-                        int p = cur_it - pickup_chars.size();
-                        int p1 = p / pickup_chars.size();
-                        int p2 = p % pickup_chars.size();
-                        mvwprintz( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor, "`%c%c",
-                                   static_cast<char>( pickup_chars[p1] ), static_cast<char>( pickup_chars[p2] ) );
-                    } else {
-                        mvwputch( w_pickup, point( 0, 1 + ( cur_it % maxitems ) ), icolor, ' ' );
-                    }
-                    if( getitem[true_it].pick ) {
-                        if( getitem[true_it].count == 0 ) {
-                            wprintz( w_pickup, c_light_blue, " + " );
-                        } else {
-                            wprintz( w_pickup, c_light_blue, " # " );
-                        }
-                    } else {
-                        wprintw( w_pickup, " - " );
-                    }
-                    std::string item_name;
-                    std::string stolen;
-                    bool stealing = false;
-                    if( this_item.has_owner() ) {
-                        const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-                            stolen = "<color_light_red>!</color>";
-                            stealing = true;
-                        }
-                    }
-                    if( stacked_here[true_it].front()->is_money() ) {
-                        //Count charges
-                        // TODO: transition to the item_location system used for the inventory
-                        unsigned int charges_total = 0;
-                        for( const item_stack::iterator &it : stacked_here[true_it] ) {
-                            charges_total += it->charges;
-                        }
-                        //Picking up none or all the cards in a stack
-                        if( !getitem[true_it].pick || getitem[true_it].count == 0 ) {
-                            item_name = stacked_here[true_it].front()->display_money( stacked_here[true_it].size(),
-                                        charges_total );
-                        } else {
-                            unsigned int charges = 0;
-                            int c = getitem[true_it].count;
-                            for( std::list<item_stack::iterator>::iterator it = stacked_here[true_it].begin();
-                                 it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
-                                charges += ( *it )->charges;
-                            }
-                            if( stealing ) {
-                                //~ %s %s of %s ""!20 Cash Cards of $200" - ! added if stealing.
-                                item_name = string_format( _( "%s %s of %s" ), stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
-                            } else {
-                                item_name = string_format( _( "%s of %s" ),
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
-                            }
-                        }
-                    } else {
-                        if( stealing ) {
-                            item_name = string_format( "%s %s", stolen,
-                                                       this_item.display_name( stacked_here[true_it].size() ) );
-                        } else {
-                            item_name = this_item.display_name( stacked_here[true_it].size() );
-                        }
-                    }
-                    if( stacked_here[true_it].size() > 1 ) {
-                        if( stealing ) {
-                            item_name = string_format( "%s %d %s", stolen, stacked_here[true_it].size(), item_name );
-                        } else {
-                            item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
-                        }
-                    }
-                    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-                        if( stealing ) {
-                            item_name = string_format( "%s %s %s", stolen, this_item.symbol().c_str(),
-                                                       item_name.c_str() );
-                        } else {
-                            item_name = string_format( "%s %s", this_item.symbol().c_str(),
-                                                       item_name );
-                        }
-                    }
-                    trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
-                                    item_name );
-                }
-            }
-
-            mvwprintw( w_pickup, point( 0, maxitems + 1 ), _( "[%s] Unmark" ),
-                       ctxt.get_desc( "LEFT", 1 ) );
-
-            center_print( w_pickup, maxitems + 1, c_light_gray, string_format( _( "[%s] Help" ),
-                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) ) );
-
-            right_print( w_pickup, maxitems + 1, 0, c_light_gray, string_format( _( "[%s] Mark" ),
-                         ctxt.get_desc( "RIGHT", 1 ) ) );
-
-            mvwprintw( w_pickup, point( 0, maxitems + 2 ), _( "[%s] Prev" ),
-                       ctxt.get_desc( "PREV_TAB", 1 ) );
-
-            center_print( w_pickup, maxitems + 2, c_light_gray, string_format( _( "[%s] All" ),
-                          ctxt.get_desc( "SELECT_ALL", 1 ) ) );
-
-            right_print( w_pickup, maxitems + 2, 0, c_light_gray, string_format( _( "[%s] Next" ),
-                         ctxt.get_desc( "NEXT_TAB", 1 ) ) );
 
             if( update ) { // Update weight & volume information
                 update = false;
-                for( int i = 9; i < pickupW; ++i ) {
-                    mvwaddch( w_pickup, point( i, 0 ), ' ' );
-                }
                 units::mass weight_picked_up = 0_gram;
                 units::volume volume_picked_up = 0_ml;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
@@ -901,24 +958,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     }
                 }
 
-                auto weight_predict = g->u.weight_carried() + weight_picked_up;
-                auto volume_predict = g->u.volume_carried() + volume_picked_up;
-
-                mvwprintz( w_pickup, point( 5, 0 ), weight_predict > g->u.weight_capacity() ? c_red : c_white,
-                           _( "Wgt %.1f" ), round_up( convert_weight( weight_predict ), 1 ) );
-
-                wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
-
-                std::string fmted_volume_predict = format_volume( volume_predict );
-                mvwprintz( w_pickup, point( 18, 0 ), volume_predict > g->u.volume_capacity() ? c_red : c_white,
-                           _( "Vol %s" ), fmted_volume_predict );
-
-                std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
-                wprintz( w_pickup, c_white, "/%s", fmted_volume_capacity );
+                weight_predict = g->u.weight_carried() + weight_picked_up;
+                volume_predict = g->u.volume_carried() + volume_picked_up;
             }
 
-            wrefresh( w_pickup );
-
+            ui_manager::redraw();
             action = ctxt.handle_input();
             raw_input_char = ctxt.get_raw_input().get_first_input();
 
@@ -932,21 +976,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
         }
         if( action != "CONFIRM" || !item_selected ) {
-            w_pickup = catacurses::window();
-            w_item_info = catacurses::window();
             add_msg( _( "Never mind." ) );
             g->reenter_fullscreen();
-            g->refresh_all();
             return;
         }
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
-    if( min == -1 ) {
-        // Auto pickup will need to auto resume since there can be several of them on the stack.
-        g->u.activity.auto_resume = true;
-    }
     std::vector<std::pair<item_stack::iterator, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
         const pickup_count &selection = getitem[i];
@@ -975,13 +1011,22 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
     }
 
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
     for( std::pair<item_stack::iterator, int> &iter_qty : pick_values ) {
         if( from_vehicle ) {
-            g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
+            target_items.emplace_back( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
         } else {
-            g->u.activity.targets.emplace_back( map_cursor( p ), &*iter_qty.first );
+            target_items.emplace_back( map_cursor( p ), &*iter_qty.first );
         }
-        g->u.activity.values.push_back( iter_qty.second );
+        quantities.push_back( iter_qty.second );
+    }
+
+    g->u.assign_activity( player_activity( pickup_activity_actor( target_items, quantities,
+                                           g->u.pos() ) ) );
+    if( min == -1 ) {
+        // Auto pickup will need to auto resume since there can be several of them on the stack.
+        g->u.activity.auto_resume = true;
     }
 
     g->reenter_fullscreen();
@@ -1004,19 +1049,11 @@ void show_pickup_message( const PickupMap &mapPickup )
 bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
-        const item &it_cont = it.contents.front();
-        int num_charges = it_cont.charges;
-        while( !it.spill_contents( c ) ) {
-            if( num_charges > it_cont.charges ) {
-                num_charges = it_cont.charges;
-            } else {
-                break;
-            }
-        }
+        it.contents.spill_open_pockets( c );
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
-        if( it.is_bucket_nonempty() ) {
+        if( !it.contents.empty() ) {
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
@@ -1038,9 +1075,9 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
         // No free hand? That will cost you extra
         ret += 20;
     }
-
+    const int delta_weight = units::to_gram( it.weight() - who.weight_capacity() );
     // Is it too heavy? It'll take 10 moves per kg over limit
-    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
+    ret += std::max( 0, delta_weight / 100 );
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );

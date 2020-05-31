@@ -1,18 +1,17 @@
 #pragma once
-#ifndef AUTO_PICKUP_H
-#define AUTO_PICKUP_H
+#ifndef CATA_SRC_AUTO_PICKUP_H
+#define CATA_SRC_AUTO_PICKUP_H
 
-#include <array>
+#include <functional>
 #include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "enums.h"
-#include "type_id.h"
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 class item;
 struct itype;
 
@@ -166,4 +165,4 @@ class npc_settings : public base_settings
 
 auto_pickup::player_settings &get_auto_pickup();
 
-#endif
+#endif // CATA_SRC_AUTO_PICKUP_H

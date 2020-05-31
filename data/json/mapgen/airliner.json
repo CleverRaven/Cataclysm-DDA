@@ -465,6 +465,13 @@
   {
     "id": "airliner_debris",
     "type": "item_group",
-    "items": [ [ "scrap", 30 ], [ "steel_chunk", 20 ], [ "steel_lump", 10 ], [ "sheet_metal_small", 10 ], [ "sheet_metal", 5 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap", "prob": 30 },
+      { "item": "steel_chunk", "prob": 20 },
+      { "item": "steel_lump", "prob": 10 },
+      { "item": "sheet_metal_small", "prob": 10 },
+      { "item": "sheet_metal", "prob": 5 }
+    ]
   }
 ]

@@ -9,9 +9,8 @@
     "components": [
       [ [ "atgm_spent", 1 ] ],
       [ [ "copper", 2004 ] ],
-      [ [ "chem_hmtd", 5 ] ],
-      [ [ "chem_rdx", 60 ] ],
-      [ [ "chem_rocket_fuel", 15 ] ],
+      [ [ "chem_compositionb", 4500 ] ],
+      [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 20 ] ],
       [ [ "e_scrap", 3 ] ]
     ],

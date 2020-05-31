@@ -61,15 +61,21 @@
   },
   {
     "type": "ammunition_type",
-    "id": "shotcanister",
-    "name": "shotcanisters",
-    "default": "shotcanister_scrap"
+    "id": "rock",
+    "name": "rocks",
+    "default": "rock"
   },
   {
     "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotpaper",
+    "name": "20ga percussion",
+    "default": "shot_paper_00"
   },
   {
     "type": "ammunition_type",
@@ -207,7 +213,7 @@
     "type": "ammunition_type",
     "id": "223",
     "name": ".223",
-    "default": "223"
+    "default": "556"
   },
   {
     "type": "ammunition_type",
@@ -225,13 +231,19 @@
     "type": "ammunition_type",
     "id": "308",
     "name": ".308",
-    "default": "308"
+    "default": "762_51"
   },
   {
     "type": "ammunition_type",
-    "id": "40mm",
-    "name": "40mm grenade",
-    "default": "40mm_frag"
+    "id": "40x46mm",
+    "name": "40x46mm grenade",
+    "default": "40x46mm_m433"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "40x53mm",
+    "name": "40x53mm grenade",
+    "default": "40x53mm_m430a1"
   },
   {
     "type": "ammunition_type",
@@ -265,6 +277,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "jp8",
+    "name": "jp8",
+    "default": "jp8"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "avgas",
+    "name": "avgas",
+    "default": "avgas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "diesel",
     "name": "diesel",
     "default": "diesel"
@@ -274,6 +298,36 @@
     "id": "lamp_oil",
     "name": "lamp oil",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "butane",
+    "name": "butane",
+    "default": "butane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "flare_nitrate",
+    "name": "flare pyrotechnic",
+    "default": "flare_nitrate"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "match",
+    "name": "match",
+    "default": "match"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "motor_oil",
+    "name": "motor oil",
+    "default": "motor_oil"
   },
   {
     "type": "ammunition_type",
@@ -379,12 +433,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "mininuke_mod",
-    "name": "modified mininuke",
-    "default": "mininuke_mod"
-  },
-  {
-    "type": "ammunition_type",
     "id": "charcoal",
     "name": "charcoal",
     "default": "charcoal"
@@ -418,6 +466,12 @@
     "id": "ampoule",
     "name": "chemical ampoule",
     "default": "ampoule"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "albuterol",
+    "name": "albuterol",
+    "default": "albuterol"
   },
   {
     "type": "ammunition_type",
@@ -487,6 +541,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "papershot",
+    "name": "20ga percussion",
+    "default": "nail"
+  },
+  {
+    "type": "ammunition_type",
     "id": "36paper",
     "name": ".36 cap & ball",
     "default": "36navy"
@@ -550,6 +610,12 @@
     "id": "milk",
     "name": "milk",
     "default": "milk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "milk_raw",
+    "name": "raw milk",
+    "default": "milk_raw"
   },
   {
     "type": "ammunition_type",

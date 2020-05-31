@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
 #include <string>
 
@@ -12,7 +12,6 @@
 #include "game_constants.h"
 #include "point.h"
 #include "weather.h"
-
 
 static bool is_nearly( float value, float expected )
 {
@@ -49,13 +48,13 @@ TEST_CASE( "Item spawns with right thermal attributes" )
 
 TEST_CASE( "Rate of temperature change" )
 {
-    // Farenheits and kelvins get used and converted around
+    // Fahrenheits and kelvins get used and converted around
     // So there are small rounding errors everywhere
     // Check ranges instead of values when rounding errors
     // The calculations are done once every 101 turns (10 min 6 seconds)
     // Don't bother with times shorter than this
 
-    // Note: If process interval is longer than 1 hour the calculations will be done using the enviroment temperature
+    // Note: If process interval is longer than 1 hour the calculations will be done using the environment temperature
     // Processing intervals should be kept below 1 hour to avoid this.
 
     // Sections:
@@ -65,7 +64,7 @@ TEST_CASE( "Rate of temperature change" )
 
     SECTION( "Water bottle test (ralisticity)" ) {
         // Water at 55 C
-        // Enviroment at 20 C
+        // Environment at 20 C
         // 75 minutes
         // Water 1 and 2 processed at slightly different intervals
         // Temperature after should be approx 30 C for realistic values
@@ -107,7 +106,7 @@ TEST_CASE( "Rate of temperature change" )
     }
 
     SECTION( "Hot liquid to frozen" ) {
-        // 2x cooked meat (50 C) cooling in -20 C enviroment for several hours
+        // 2x cooked meat (50 C) cooling in -20 C environment for several hours
         // 1) Both at 50C and hot
         // 2) Wait a short time then Meat 1 at 33.5 C and not hot
         // 3) Wait less than an hour then Meat 1 and 2 at 0 C not frozen
@@ -183,13 +182,13 @@ TEST_CASE( "Rate of temperature change" )
     }
 
     SECTION( "Cold solid to liquid" ) {
-        // 2x cooked meat (-20 C) warming in 20 C enviroment for ~190 minutes
+        // 2x cooked meat (-20 C) warming in 20 C environment for ~190 minutes
         // 0 min: both at -20 C and frozen
         // 11 min: meat 1 at -5.2 C
         // 22 min: meat 1 step
         // 33 min: meat 1 step
         // 53 min: Meat 1, 2 at 0 C an frozen
-        // 143 min: Meat 1 and 2 at 0 C not fozen.
+        // 143 min: Meat 1 and 2 at 0 C not frozen.
         //          Both have same energy (within rounding error)
         // 154 min: meat 1 step
         // 174 min: meat 1 step
@@ -241,7 +240,7 @@ TEST_CASE( "Rate of temperature change" )
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 0C
-        // same tmep
+        // same temp
         // not frozen
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
         CHECK( is_nearly( meat2.temperature, meat1.temperature ) );
@@ -273,17 +272,20 @@ TEST_CASE( "Temperature controlled location" )
 
         set_map_temperature( 0 ); // -17 C
 
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr, temperature_flag::TEMP_HEATER );
+        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr, temperature_flag::TEMP_HEATER );
+        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 2_hours + 3_minutes );
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr, temperature_flag::TEMP_HEATER );
+        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
     }

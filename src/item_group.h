@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_GROUP_H
-#define ITEM_GROUP_H
+#ifndef CATA_SRC_ITEM_GROUP_H
+#define CATA_SRC_ITEM_GROUP_H
 
 #include <memory>
 #include <string>
@@ -13,10 +13,9 @@
 
 struct itype;
 
-using Item_tag = std::string;
 using Group_tag = std::string;
 class JsonObject;
-class JsonIn;
+class JsonValue;
 class time_point;
 
 namespace item_group
@@ -56,7 +55,7 @@ ItemList items_from( const Group_tag &group_id );
 /**
  * Check whether a specific item group contains a specific item type.
  */
-bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
+bool group_contains_item( const Group_tag &group_id, const itype_id & );
 /**
  * Return every item type that can possibly be spawned by the item group
  */
@@ -74,27 +73,28 @@ void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */
-void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
+void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+                      const std::string &subtype );
 /**
  * Get an item group id and (optionally) load an inlined item group.
  *
- * If the next value in the JSON stream is string, it's assumed to be an item group id and it's
+ * If the value is string, it's assumed to be an item group id and it's
  * returned directly.
  *
- * If the next value is a JSON object, it is loaded as item group. The group will be given a
+ * If the value is a JSON object, it is loaded as item group. The group will be given a
  * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
  * If the JSON object does not contain a subtype, the given default is used.
  *
- * If the next value is a JSON array, it is loaded as item group: the default_subtype will be
+ * If the value is a JSON array, it is loaded as item group: the default_subtype will be
  * used as subtype of the new item group and the array is loaded like the "entries" array of
  * a item group definition (see format of item groups).
  *
  * @param stream Stream to load from
  * @param default_subtype If an inlined item group is loaded this is used as the default
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
- * @throw std::string as usual for JSON errors, including invalid input values.
+ * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
+Group_tag load_item_group( const JsonValue &value, const std::string &default_subtype );
 } // namespace item_group
 
 /**
@@ -105,7 +105,7 @@ class Item_spawn_data
 {
     public:
         using ItemList = std::vector<item>;
-        using RecursionList = std::vector<Item_tag>;
+        using RecursionList = std::vector<std::string>;
 
         Item_spawn_data( int _probability ) : probability( _probability ) { }
         virtual ~Item_spawn_data() = default;
@@ -127,13 +127,14 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency() const = 0;
+        virtual void check_consistency( const std::string &context ) const = 0;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
          */
-        virtual bool remove_item( const Item_tag &itemid ) = 0;
-        virtual bool has_item( const Item_tag &itemid ) const = 0;
+        virtual bool remove_item( const itype_id &itemid ) = 0;
+        virtual bool replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
+        virtual bool has_item( const itype_id &itemid ) const = 0;
 
         virtual std::set<const itype *> every_item() const = 0;
 
@@ -155,6 +156,7 @@ class Item_modifier
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
+        std::pair<int, int> dirt;
         std::pair<int, int> charges;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
@@ -185,8 +187,9 @@ class Item_modifier
         Item_modifier( Item_modifier && ) = default;
 
         void modify( item &new_item ) const;
-        void check_consistency() const;
-        bool remove_item( const Item_tag &itemid );
+        void check_consistency( const std::string &context ) const;
+        bool remove_item( const itype_id &itemid );
+        bool replace_item( const itype_id &itemid, const itype_id &replacementid );
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -232,9 +235,11 @@ class Single_item_creator : public Item_spawn_data
 
         ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
-        bool remove_item( const Item_tag &itemid ) override;
-        bool has_item( const Item_tag &itemid ) const override;
+        void check_consistency( const std::string &context ) const override;
+        bool remove_item( const itype_id &itemid ) override;
+        bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+
+        bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
 };
 
@@ -265,7 +270,7 @@ class Item_group : public Item_spawn_data
          */
         using prop_list = std::vector<std::unique_ptr<Item_spawn_data> >;
 
-        void add_item_entry( const Item_tag &itemid, int probability );
+        void add_item_entry( const itype_id &itemid, int probability );
         void add_group_entry( const Group_tag &groupid, int probability );
         /**
          * Once the relevant data has been read from JSON, this function is always called (either from
@@ -276,9 +281,10 @@ class Item_group : public Item_spawn_data
 
         ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
-        bool remove_item( const Item_tag &itemid ) override;
-        bool has_item( const Item_tag &itemid ) const override;
+        void check_consistency( const std::string &context ) const override;
+        bool remove_item( const itype_id &itemid ) override;
+        bool replace_item( const itype_id &itemid, const itype_id &replacementid ) override;
+        bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
 
         /**
@@ -303,4 +309,4 @@ class Item_group : public Item_spawn_data
         prop_list items;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_GROUP_H

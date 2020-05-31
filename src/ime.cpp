@@ -1,22 +1,25 @@
 #include "ime.h"
 
+#ifdef __ANDROID__
 #include "options.h"
-#include "platform_win.h"
 #include "sdltiles.h"
+#endif
 
 #ifdef _WIN32
 
-#include <windows.h>
+#if 1 // Prevent IWYU reordering this below <imm.h>
+#include "platform_win.h"
+#endif
 #include <imm.h>
 
 class imm_wrapper
 {
     private:
         HMODULE hImm;
-        typedef HIMC( WINAPI *pImmGetContext_t )( HWND );
-        typedef BOOL( WINAPI *pImmGetOpenStatus_t )( HIMC );
-        typedef BOOL( WINAPI *pImmSetOpenStatus_t )( HIMC, BOOL );
-        typedef BOOL( WINAPI *pImmReleaseContext_t )( HWND, HIMC );
+        using pImmGetContext_t = HIMC( WINAPI * )( HWND );
+        using pImmGetOpenStatus_t = BOOL( WINAPI * )( HIMC );
+        using pImmSetOpenStatus_t = BOOL( WINAPI * )( HIMC, BOOL );
+        using pImmReleaseContext_t = BOOL( WINAPI * )( HWND, HIMC );
         pImmGetContext_t pImmGetContext;
         pImmGetOpenStatus_t pImmGetOpenStatus;
         pImmSetOpenStatus_t pImmSetOpenStatus;
@@ -61,7 +64,9 @@ class imm_wrapper
 
         bool ime_enabled() {
             if( hImm ) {
+                // NOLINTNEXTLINE(misc-misplaced-const)
                 const HWND hwnd = getWindowHandle();
+                // NOLINTNEXTLINE(misc-misplaced-const)
                 const HIMC himc = pImmGetContext( hwnd );
                 bool enabled = pImmGetOpenStatus( himc );
                 pImmReleaseContext( hwnd, himc );
@@ -72,7 +77,9 @@ class imm_wrapper
 
         void enable_ime() {
             if( hImm ) {
+                // NOLINTNEXTLINE(misc-misplaced-const)
                 const HWND hwnd = getWindowHandle();
+                // NOLINTNEXTLINE(misc-misplaced-const)
                 const HIMC himc = pImmGetContext( hwnd );
                 pImmSetOpenStatus( himc, TRUE );
                 pImmReleaseContext( hwnd, himc );
@@ -81,7 +88,9 @@ class imm_wrapper
 
         void disable_ime() {
             if( hImm ) {
+                // NOLINTNEXTLINE(misc-misplaced-const)
                 const HWND hwnd = getWindowHandle();
+                // NOLINTNEXTLINE(misc-misplaced-const)
                 const HIMC himc = pImmGetContext( hwnd );
                 pImmSetOpenStatus( himc, FALSE );
                 pImmReleaseContext( hwnd, himc );

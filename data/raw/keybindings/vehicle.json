@@ -39,7 +39,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle aisle lights",
-    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "L" } ]
   },
   {
     "id": "TOGGLE_ALARM",
@@ -54,6 +54,13 @@
     "category": "VEHICLE",
     "name": "Toggle atomic lights",
     "bindings": [ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Control autopilot",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
   },
   {
     "id": "TOGGLE_CAMERA",
@@ -110,6 +117,20 @@
     "category": "VEHICLE",
     "name": "Toggle freezer",
     "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "id": "TOGGLE_SPACE_HEATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle space heater",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "id": "TOGGLE_COOLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle cooler",
+    "bindings": [ { "input_method": "keyboard", "key": "C" } ]
   },
   {
     "id": "TOGGLE_HEADLIGHT",

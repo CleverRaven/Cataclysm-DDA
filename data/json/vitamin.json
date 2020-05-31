@@ -2,7 +2,8 @@
   {
     "id": "calcium",
     "type": "vitamin",
-    "name": "Calcium",
+    "vit_type": "vitamin",
+    "name": { "str": "Calcium" },
     "deficiency": "hypocalcemia",
     "min": -12000,
     "rate": "15 m",
@@ -11,7 +12,8 @@
   {
     "id": "iron",
     "type": "vitamin",
-    "name": "Iron",
+    "vit_type": "vitamin",
+    "name": { "str": "Iron" },
     "excess": "hypervitaminosis",
     "deficiency": "anemia",
     "min": -12000,
@@ -22,7 +24,8 @@
   {
     "id": "vitA",
     "type": "vitamin",
-    "name": "Vitamin A",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin A" },
     "excess": "hypervitaminosis",
     "deficiency": "hypovitA",
     "min": -8400,
@@ -33,7 +36,8 @@
   {
     "id": "vitB",
     "type": "vitamin",
-    "name": "Vitamin B12",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin B12" },
     "deficiency": "hypovitB",
     "min": -5600,
     "rate": "15 m",
@@ -42,10 +46,34 @@
   {
     "id": "vitC",
     "type": "vitamin",
-    "name": "Vitamin C",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin C" },
     "deficiency": "scurvy",
     "min": -5600,
     "rate": "15 m",
     "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
+  },
+  {
+    "id": "mutant_toxin",
+    "type": "vitamin",
+    "vit_type": "toxin",
+    "name": { "str": "Toxins" },
+    "excess": "toxin_buildup",
+    "min": 0,
+    "max": 1800,
+    "rate": "15 m",
+    "disease_excess": [ [ 500, 949 ], [ 950, 1399 ], [ 1400, 1800 ] ]
+  },
+  {
+    "id": "bad_food",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Disgusting Diet" },
+    "excess": "bad_food_ennui",
+    "min": 0,
+    "max": 40,
+    "rate": "4 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
   }
 ]

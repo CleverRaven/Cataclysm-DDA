@@ -1,10 +1,12 @@
 #pragma once
-#ifndef FACTION_CAMP_H
-#define FACTION_CAMP_H
+#ifndef CATA_SRC_FACTION_CAMP_H
+#define CATA_SRC_FACTION_CAMP_H
 
 #include <string>
 #include <vector>
 #include <utility>
+
+#include "basecamp.h"
 
 namespace catacurses
 {
@@ -15,19 +17,7 @@ struct point;
 struct tripoint;
 struct mission_entry;
 
-enum camp_tab_mode {
-    TAB_MAIN,
-    TAB_N,
-    TAB_NE,
-    TAB_E,
-    TAB_SE,
-    TAB_S,
-    TAB_SW,
-    TAB_W,
-    TAB_NW
-};
-
-enum class farm_ops {
+enum class farm_ops : int {
     plow = 1,
     plant = 2,
     harvest = 4
@@ -52,17 +42,15 @@ void recover_camp( npc & );
 ///Changes an NPC camp manager to a follower
 void remove_overseer( npc & );
 
-void draw_camp_tabs( const catacurses::window &win, camp_tab_mode cur_tab,
+void draw_camp_tabs( const catacurses::window &win, base_camps::tab_mode cur_tab,
                      const std::vector<std::vector<mission_entry>> &entries );
 std::string name_mission_tabs( const tripoint &omt_pos, const std::string &role_id,
-                               const std::string &cur_title, camp_tab_mode cur_tab );
+                               const std::string &cur_title, base_camps::tab_mode cur_tab );
 
 /// Returns the OM tiles surrounding the camp, @ref purge removes all tiles that aren't expansions
 std::vector<std::pair<std::string, tripoint>> om_building_region( const tripoint &omt_pos,
         int range, bool purge = false );
-/// Converts the camp and expansion points into direction strings, "[NW]"
-std::string om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
-/// Converts a direction into a point offset
-point om_dir_to_offset( const std::string &dir );
+/// Returns the x and y coordinates of ( omt_tar - omt_pos ), clamped to [-1, 1]
+point om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 } // namespace talk_function
-#endif
+#endif // CATA_SRC_FACTION_CAMP_H

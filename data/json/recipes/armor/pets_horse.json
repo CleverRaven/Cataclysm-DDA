@@ -47,7 +47,7 @@
     "time": "210 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ] ],
-    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ]
   },
   {
     "result": "leather_armor_horse",
@@ -73,7 +73,14 @@
     "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60, "LIST" ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "tallow", 24 ], [ "tallow_tainted", 24 ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [
+        [ "wax", 6 ],
+        [ "tallow", 24 ],
+        [ "mutant_tallow", 24 ],
+        [ "tallow_tainted", 24 ],
+        [ "vinegar", 30 ],
+        [ "pine_bough", 60 ]
+      ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
       [ [ "rag", 18 ] ]
@@ -108,8 +115,8 @@
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skill_used": "cooking",
-    "difficulty": 3,
+    "skill_used": "chemistry",
+    "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
     "time": "525 m",
     "book_learn": [
@@ -125,7 +132,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "tallow", 24 ], [ "tallow_tainted", 24 ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]
@@ -157,5 +164,16 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "rag", 70 ] ] ]
+  },
+  {
+    "result": "saddlebag",
+    "type": "recipe",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_EQUINE STORAGE",
+    "skills_required": [ "tailor", 4 ],
+    "time": "120 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 3 ] ] ]
   }
 ]

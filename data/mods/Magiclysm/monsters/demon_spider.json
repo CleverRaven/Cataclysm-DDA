@@ -5,17 +5,6 @@
     "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
   },
   {
-    "id": "demon_spider",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
-      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
-      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
-      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
-    ]
-  },
-  {
     "id": "demon_spider_queen",
     "type": "harvest",
     "//": "separate harvest entry for future special alchemical items",
@@ -33,76 +22,6 @@
     "base_faction": "spider"
   },
   {
-    "type": "material",
-    "ident": "demon_chitin",
-    "name": "Demon Chitin",
-    "density": 15,
-    "specific_heat_liquid": 4.186,
-    "specific_heat_solid": 2.108,
-    "latent_heat": 333,
-    "bash_resist": 1,
-    "cut_resist": 10,
-    "acid_resist": 3,
-    "fire_resist": 18,
-    "elec_resist": 2,
-    "chip_resist": 10,
-    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
-    "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "chipped",
-    "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
-      { "fuel": 1, "smoke": 3, "burn": 1 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
-    ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_chitin_piece",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "red",
-    "name": "chunk of demon chitin",
-    "name_plural": "chunks of demon chitin",
-    "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
-    "price": 0,
-    "material": "demon_chitin",
-    "weight": 89,
-    "volume": 1,
-    "bashing": 1,
-    "flags": [ "TRADER_AVOID" ],
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_chitin_plate",
-    "category": "spare_parts",
-    "symbol": "/",
-    "color": "red",
-    "name": "demon chitin plate",
-    "price": 15225,
-    "material": "demon_chitin",
-    "weight": 10000,
-    "volume": 16,
-    "bashing": 12,
-    "to_hit": -4,
-    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_spider_fang",
-    "name": "demon spider fang",
-    "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
-    "weight": 270,
-    "to_hit": -2,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "flesh" ],
-    "volume": 1,
-    "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 1500
-  },
-  {
     "id": "mon_demon_spiderling",
     "type": "MONSTER",
     "name": "demon spiderling",
@@ -113,7 +32,7 @@
     "material": [ "iflesh", "demon_chitin" ],
     "diff": 2,
     "volume": "30000 ml",
-    "weight": 40750,
+    "weight": "40750 g",
     "hp": 45,
     "speed": 150,
     "symbol": "s",
@@ -128,6 +47,7 @@
     "armor_bash": 1,
     "armor_cut": 8,
     "armor_stab": 8,
+    "armor_bullet": 8,
     "armor_acid": 3,
     "armor_fire": 80,
     "vision_day": 5,
@@ -147,7 +67,7 @@
     "species": [ "DEMON_SPIDER" ],
     "material": [ "iflesh", "demon_chitin" ],
     "diff": 7,
-    "weight": 125000,
+    "weight": "125 kg",
     "//": "monster can't be any bigger because of limits of volume on tiles.  if there is a way designed around this, it should be about 3500 L",
     "volume": "1000 L",
     "hp": 435,
@@ -164,48 +84,16 @@
     "armor_bash": 5,
     "armor_cut": 45,
     "armor_stab": 60,
+    "armor_bullet": 60,
     "armor_acid": 10,
     "armor_fire": 80,
     "vision_day": 6,
     "vision_night": 12,
     "harvest": "demon_spider",
-    "special_attacks": [ { "type": "spell", "spell_id": "burning_hands", "spell_level": 4, "cooldown": 20 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_demon_fireball",
-    "name": "Demon Fireball",
-    "description": "This is a monster only spell.",
-    "valid_targets": [ "hostile", "ground", "ally", "self" ],
-    "min_damage": 15,
-    "max_damage": 15,
-    "min_range": 12,
-    "max_range": 12,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "base_casting_time": 120,
-    "effect": "projectile_attack",
-    "damage_type": "fire"
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_summon_demon_spiderlings",
-    "name": "Summon Demon Spiderlings",
-    "description": "Summons 4 permanent demon spiderlings.",
-    "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
-    "valid_targets": [ "ground" ],
-    "min_damage": 4,
-    "max_damage": 4,
-    "min_range": 5,
-    "max_range": 5,
-    "min_aoe": 3,
-    "max_aoe": 3,
-    "base_casting_time": 160,
-    "effect": "summon",
-    "effect_str": "mon_demon_spiderling"
   },
   {
     "id": "mon_demon_spider_queen",
@@ -213,7 +101,7 @@
     "name": "demon spider queen",
     "description": "This gigantic spider is the size of a moving van: you have no idea how it manages to stay together, much less move with that bulk.  Its abdomen is huge and swollen-looking, and an evil intelligence burns in its eyes even as magic crackles around its chitinous barbs.",
     "copy-from": "mon_demon_spider",
-    "weight": 250000,
+    "weight": "250 kg",
     "hp": 5600,
     "speed": 28,
     "aggression": 100,
@@ -224,9 +112,6 @@
     "vision_night": 18,
     "harvest": "demon_spider_queen",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
-    "special_attacks": [
-      { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 35 },
-      { "type": "spell", "spell_id": "mon_demon_fireball", "cooldown": 10 }
-    ]
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_summon_demon_spiderlings" }, "cooldown": 14 } ]
   }
 ]

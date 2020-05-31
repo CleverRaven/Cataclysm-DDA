@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "tri_tower_1cytlc",
-    "comment": "courtyard or parking lot, top left corner",
+    "//": "courtyard or parking lot, top left corner",
     "weight": 0,
     "method": "json",
     "object": {

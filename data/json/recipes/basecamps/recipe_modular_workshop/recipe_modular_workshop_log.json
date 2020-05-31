@@ -1,0 +1,222 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room0_log_northeast",
+    "description": "We can use a log workshop.  Let's start by building a spot to protect the workers from the rain.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room0_log_northeast",
+    "blueprint_name": "northeast wall",
+    "blueprint_requires": [ { "id": "fbmw_0" } ],
+    "blueprint_provides": [ { "id": "fbmw_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
+    "blueprint_needs": {
+      "time": "1 d 22 h 30 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 338 ] ], [ [ "glass_sheet", 2 ] ], [ [ "log", 36 ] ], [ [ "nail", 560 ] ], [ [ "wood_panel", 25 ] ] ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room3_log_north",
+    "description": "Let's extend the north log wall to the west and add some storage space.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room3_log_north",
+    "blueprint_name": "north wall",
+    "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 3 } ],
+    "blueprint_provides": [ { "id": "fbmw_north" } ],
+    "blueprint_excludes": [ { "id": "fbmw_north" } ],
+    "blueprint_needs": {
+      "time": "1 d 5 h 40 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 203 ] ],
+          [ [ "nail", 394 ] ],
+          [ [ "wood_panel", 23 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "log", 24 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room4_log_east",
+    "description": "Let's expand our production by adding another charcoal kiln.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room4_log_east",
+    "blueprint_name": "east forage wall",
+    "blueprint_requires": [ { "id": "fbmw_north" } ],
+    "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
+    "blueprint_excludes": [ { "id": "fbmw_east" } ],
+    "blueprint_needs": {
+      "time": "1 d 21 h 55 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 329 ] ],
+          [ [ "nail", 746 ] ],
+          [ [ "wood_panel", 39 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "log", 16 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room5_log_center",
+    "description": "Let's expand work area with a log wall, and add add a bookshelf for our reference books.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room5_log_center",
+    "blueprint_name": "west forage wall",
+    "blueprint_requires": [ { "id": "fbmw_east" } ],
+    "blueprint_provides": [ { "id": "fbmw_center" } ],
+    "blueprint_excludes": [ { "id": "fbmw_center" } ],
+    "blueprint_needs": {
+      "time": "1 d 3 h 5 m",
+      "skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 200 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "log", 16 ] ],
+          [ [ "nail", 372 ] ],
+          [ [ "wood_panel", 19 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room6_log_north",
+    "description": "Let's expand our production by adding a log walled pottery kiln area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room6_log_north",
+    "blueprint_name": "north pottery wall",
+    "blueprint_requires": [ { "id": "fbmw_center" } ],
+    "blueprint_provides": [ { "id": "fbmw_north" }, { "id": "blacksmith_recipes_4" } ],
+    "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
+    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
+    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
+    "blueprint_needs": {
+      "time": "1 d 4 h 10 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 168 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "log", 12 ] ],
+          [ [ "nail", 380 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "sheet_metal_small", 8 ] ],
+          [ [ "water", 2 ], [ "water_clean", 2 ] ],
+          [ [ "wood_panel", 23 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room7to9_log_northwest",
+    "description": "Let's enclose this pottery with log walls and get some more storage set up.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room7to9_log_northwest",
+    "blueprint_name": "northwest and south pottery wall",
+    "blueprint_requires": [ { "id": "fbmw_north", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
+    "blueprint_needs": {
+      "time": "1 d 21 h 28 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 0 ] ],
+      "inline": {
+        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 298 ] ],
+          [ [ "nail", 526 ] ],
+          [ [ "wood_panel", 31 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "log", 44 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room11to12_log_southeast",
+    "description": "Let's expand the workspace for larger projects and add a drop hammer for productivity.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room11to12_log_southeast",
+    "blueprint_name": "openair, covered work space",
+    "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmw_southeast" }, { "id": "fbmw_south" }, { "id": "blacksmith_recipes_7" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northsoutheast" }, { "id": "fbmw_south" } ],
+    "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
+    "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
+    "blueprint_needs": {
+      "time": "2 d 18 h",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 472 ] ],
+          [ [ "anvil", 1 ] ],
+          [ [ "chain", 4 ] ],
+          [ [ "log", 40 ] ],
+          [ [ "metal_tank", 2 ] ],
+          [ [ "nail", 880 ] ],
+          [ [ "pipe", 3 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "wood_panel", 44 ] ]
+        ]
+      }
+    }
+  }
+]

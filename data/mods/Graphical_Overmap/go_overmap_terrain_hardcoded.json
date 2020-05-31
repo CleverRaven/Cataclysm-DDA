@@ -1,0 +1,247 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "open_air",
+    "copy-from": "open_air",
+    "sym": "\u00A6"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater",
+    "copy-from": "crater",
+    "sym": "\u00FC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field",
+    "copy-from": "field",
+    "sym": "\u00A8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest",
+    "copy-from": "forest",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "sym": "\u00F5"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "sym": "\u00EC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lot",
+    "copy-from": "s_lot",
+    "sym": "\u00F4"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple",
+    "copy-from": "temple",
+    "sym": "\u00FE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "standing_stones",
+    "copy-from": "standing_stones",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple_stairs",
+    "copy-from": "temple_stairs",
+    "sym": "\u00FE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "temple_finale",
+    "copy-from": "temple_stairs",
+    "sym": "\u00FE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_entrance",
+    "copy-from": "mine_entrance",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft",
+    "copy-from": "mine_shaft",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine",
+    "copy-from": "mine",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_down",
+    "copy-from": "mine_down",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "copy-from": "mine_finale",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spiral_hub",
+    "copy-from": "spiral_hub",
+    "sym": "\u00EA"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spiral",
+    "copy-from": "spiral",
+    "sym": "\u00EA"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave",
+    "copy-from": "cave",
+    "sym": "\u00EA",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat",
+    "copy-from": "cave_rat",
+    "sym": "\u00EA",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hive",
+    "copy-from": "hive",
+    "sym": "\u00F3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit",
+    "copy-from": "spider_pit",
+    "sym": "\u00E8"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit_under",
+    "copy-from": "spider_pit_under",
+    "sym": "\u00B0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "anthill",
+    "copy-from": "anthill",
+    "sym": "\u00F3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "acid_anthill",
+    "copy-from": "acid_anthill",
+    "sym": "\u00F3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit",
+    "copy-from": "slimepit",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slimepit_down",
+    "copy-from": "slimepit_down",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_grove",
+    "copy-from": "triffid_grove",
+    "sym": "\u00F5",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_roots",
+    "copy-from": "triffid_roots",
+    "sym": "\u00F5",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "triffid_finale",
+    "copy-from": "triffid_finale",
+    "sym": "\u00F5",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cavern",
+    "copy-from": "cavern",
+    "sym": "\u00EA"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rock",
+    "copy-from": "rock",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "empty_rock",
+    "copy-from": "empty_rock",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rift",
+    "copy-from": "rift",
+    "sym": "\u00A1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hellmouth",
+    "copy-from": "hellmouth",
+    "sym": "\u00A1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants",
+    "copy-from": "ants",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_food",
+    "copy-from": "ants_food",
+    "sym": "\u00F3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_larvae",
+    "copy-from": "ants_larvae",
+    "sym": "\u00F3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_queen",
+    "copy-from": "ants_queen",
+    "sym": "\u00F3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial",
+    "copy-from": "tutorial",
+    "sym": "\u00D7"
+  }
+]

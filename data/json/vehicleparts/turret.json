@@ -6,37 +6,73 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "requirements": { "install": { "time": "100 s" }, "removal": { "time": "50 s" } },
+    "flags": [ "TURRET" ]
+  },
+  {
+    "id": "mounted_chemical_thrower",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted makeshift chemical thrower" },
+    "item": "chemical_thrower",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 10 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "//": "doesn't work correctly if using ammo from vehicle tanks at the moment, so uses the usual magazines",
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+  },
+  {
+    "id": "mounted_emp_gun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted XM34 EMP projector" },
+    "item": "emp_gun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_hk_g80",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted H&K G80 Railgun" },
+    "item": "hk_g80",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 6 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "flamethrower",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted flamethrower",
+    "name": { "str": "mounted flamethrower" },
     "item": "flamethrower",
     "default_ammo": "napalm",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    },
+    "breaks_into": [ { "item": "scrap", "count": 3 }, { "item": "steel_chunk", "count": 1 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
     "id": "mounted_plasma_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted plasma gun",
+    "name": { "str": "mounted PPA-5 plasma gun" },
     "item": "plasma_gun",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "plasma_gun", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": 20 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ] }
     }
   },
@@ -44,14 +80,13 @@
     "id": "laser_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted A7 laser rifle",
+    "name": { "str": "mounted A7 laser rifle" },
     "item": "laser_rifle",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": 10000 },
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
@@ -59,180 +94,157 @@
     "id": "m249",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted M249",
+    "name": { "str": "mounted M249" },
     "item": "m249",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m249", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 9 }, { "item": "steel_lump", "count": 3 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_abzats",
+    "id": "m249_semi",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted automatic shotgun",
-    "item": "abzats",
+    "name": { "str": "mounted M249S" },
+    "item": "m249_semi",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 9 }, { "item": "steel_lump", "count": 3 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "mounted_bigun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted gatling shotgun" },
+    "item": "bigun",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "abzats", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mounted_browning",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted M2 Browning",
+    "name": { "str": "mounted M2 Browning" },
     "item": "m2browning",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 80 }, { "item": "steel_chunk", "count": 48 }, { "item": "steel_lump", "count": 18 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_m134",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted M134D-H Minigun",
+    "name": { "str": "mounted M134D-H Minigun" },
     "item": "m134",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "m134", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 20 }, { "item": "steel_lump", "count": 12 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "mounted_m1918",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted Browning Automatic Rifle",
+    "name": { "str": "mounted Browning Automatic Rifle" },
     "item": "m1918",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m1918", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 25 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 5 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_m240",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted M240",
+    "name": { "str": "mounted M240" },
     "item": "m240",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m240", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 12 }, { "item": "steel_lump", "count": 7 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_m60",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted M60",
+    "name": { "str": "mounted M60" },
     "item": "m60",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m60", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_m60_semi",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M60 Semi Auto" },
+    "item": "m60_semi",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mounted_mk19",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted Mark 19 grenade launcher",
+    "name": { "str": "mounted Mark 19 grenade launcher" },
     "item": "mark19",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "mark19", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 80 }, { "item": "steel_chunk", "count": 41 }, { "item": "steel_lump", "count": 17 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "tow_launcher",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted BGM-71F TOW",
+    "name": { "str": "mounted BGM-71F TOW" },
     "item": "atgm_launcher",
     "color": "green",
     "broken_color": "green",
     "durability": 800,
-    "difficulty": 8,
-    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 32 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 5 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "mounted_rm298",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted RM298 HMG",
+    "name": { "str": "mounted RM298 HMG" },
     "item": "rm298",
     "color": "white",
     "broken_color": "white",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "rm298", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 13 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "mounted_rm614",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted RM614 LMG",
+    "name": { "str": "mounted RM614 LMG" },
     "item": "rm614_lmg",
     "color": "white",
     "broken_color": "white",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "plasma_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted plasma gun",
+    "name": { "str": "mounted Boeing XM-P plasma rifle" },
     "item": "plasma_rifle",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ],
+    "breaks_into": [ { "item": "scrap", "count": 10 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": 10000 },
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
@@ -240,14 +252,13 @@
     "id": "watercannon",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "water cannon",
+    "name": { "str": "water cannon" },
     "item": "watercannon",
     "default_ammo": "water",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ], "time": 10000 }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
+    "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 13 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   }
 ]

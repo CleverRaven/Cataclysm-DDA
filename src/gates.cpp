@@ -1,36 +1,37 @@
 #include "gates.h"
 
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <array>
 #include <memory>
 #include <set>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "character.h"
+#include "colony.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "player.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "character.h"
-#include "creature.h"
-#include "debug.h"
-#include "enums.h"
-#include "int_id.h"
-#include "item.h"
 #include "optional.h"
+#include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "string_id.h"
 #include "translations.h"
-#include "units.h"
 #include "type_id.h"
-#include "colony.h"
-#include "point.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 // Gates namespace
 
@@ -63,7 +64,7 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
     void check() const;
 
     bool is_suitable_wall( const tripoint &pos ) const;
@@ -74,11 +75,11 @@ gate_id get_gate_id( const tripoint &pos )
     return gate_id( g->m.ter( pos ).id().str() );
 }
 
-generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
+generic_factory<gate_data> gates_data( "gate type" );
 
 } // namespace
 
-void gate_data::load( JsonObject &jo, const std::string & )
+void gate_data::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
@@ -135,7 +136,7 @@ bool gate_data::is_suitable_wall( const tripoint &pos ) const
     return iter != walls.end();
 }
 
-void gates::load( JsonObject &jo, const std::string &src )
+void gates::load( const JsonObject &jo, const std::string &src )
 {
     gates_data.load( jo, src );
 }
@@ -176,18 +177,15 @@ void gates::open_gate( const tripoint &pos )
     bool close = false;
     bool fail = false;
 
-    for( int i = 0; i < 4; ++i ) {
-        static constexpr tripoint dir[4] = {
-            { tripoint_east }, { tripoint_south }, { tripoint_west }, { tripoint_north }
-        };
-        const tripoint wall_pos = pos + dir[i];
+    for( const point &wall_offset : four_adjacent_offsets ) {
+        const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( auto j : dir ) {
-            const tripoint gate_pos = wall_pos + j;
+        for( const point &gate_offset : four_adjacent_offsets ) {
+            const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
                 continue; // Never comes back
@@ -198,7 +196,7 @@ void gates::open_gate( const tripoint &pos )
                 while( g->m.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
-                    cur_pos += j;
+                    cur_pos += gate_offset;
                 }
             }
 
@@ -213,7 +211,7 @@ void gates::open_gate( const tripoint &pos )
                     } else if( ter != gate.floor.id() ) {
                         break;
                     }
-                    cur_pos += j;
+                    cur_pos += gate_offset;
                 }
             }
         }
@@ -244,8 +242,10 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
-    p.activity.placement = pos;
+    p.assign_activity( player_activity( open_gate_activity_actor(
+                                            gate.moves,
+                                            pos
+                                        ) ) );
 }
 
 // Doors namespace
@@ -304,7 +304,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         auto items_in_way = m.i_at( closep );
         // Scoot up to 25 liters of items out of the way
         if( m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
-            const units::volume max_nudge = 25000_ml;
+            const units::volume max_nudge = 25_liter;
 
             const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
             [&max_nudge]( const item & it ) {
@@ -338,6 +338,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
     }
 
     if( didit ) {
-        who.mod_moves( -90 ); // TODO: Vary this? Based on strength, broken legs, and so on.
+        // TODO: Vary this? Based on strength, broken legs, and so on.
+        who.mod_moves( -90 );
     }
 }

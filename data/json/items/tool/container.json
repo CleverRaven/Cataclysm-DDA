@@ -1,39 +1,52 @@
 [
   {
     "id": "bottle_metal",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "other",
-    "name": "steel bottle",
+    "name": { "str": "steel bottle" },
     "description": "A stainless steel water bottle, holds 750ml of liquid.",
-    "weight": 200,
+    "weight": "200 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 4,
     "material": "steel",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": "750 ml",
-    "seals": true,
-    "watertight": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "bottle_folding",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "category": "other",
-    "name": "foldable plastic bottle",
+    "name": { "str": "foldable plastic bottle" },
     "description": "A non-rigid plastic bottle for easy storage, holds 500 ml of liquid.",
-    "weight": 13,
-    "volume": 0,
+    "weight": "13 g",
+    "volume": "50 ml",
     "price": 0,
+    "price_postapoc": 25,
     "to_hit": 1,
-    "rigid": false,
     "material": "plastic",
     "symbol": ")",
     "color": "light_cyan",
-    "contains": "500 ml",
-    "seals": true,
-    "watertight": true
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": false,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
   }
 ]
