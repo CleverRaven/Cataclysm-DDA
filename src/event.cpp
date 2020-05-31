@@ -12,6 +12,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::activates_mininuke: return "activates_mininuke";
         case event_type::administers_mutagen: return "administers_mutagen";
         case event_type::angers_amigara_horrors: return "angers_amigara_horrors";
+        case event_type::avatar_enters_omt: return "avatar_enters_omt";
         case event_type::avatar_moves: return "avatar_moves";
         case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
         case event_type::becomes_wanted: return "becomes_wanted";
@@ -94,7 +95,7 @@ constexpr std::array<std::pair<const char *, cata_variant_type>,
 constexpr std::array<std::pair<const char *, cata_variant_type>,
           event_spec_character::fields.size()> event_spec_character::fields;
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 64,
+static_assert( static_cast<int>( event_type::num_event_types ) == 65,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -106,6 +107,7 @@ static_assert( static_cast<int>( event_type::num_event_types ) == 64,
 
 DEFINE_EVENT_FIELDS( activates_artifact )
 DEFINE_EVENT_FIELDS( administers_mutagen )
+DEFINE_EVENT_FIELDS( avatar_enters_omt )
 DEFINE_EVENT_FIELDS( avatar_moves )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )

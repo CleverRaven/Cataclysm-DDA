@@ -27,6 +27,7 @@ enum class event_type : int {
     activates_mininuke,
     administers_mutagen,
     angers_amigara_horrors,
+    avatar_enters_omt,
     avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
@@ -139,7 +140,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 64,
+static_assert( static_cast<int>( event_type::num_event_types ) == 65,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -166,6 +167,15 @@ struct event_spec<event_type::administers_mutagen> {
 
 template<>
 struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::avatar_enters_omt> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "pos", cata_variant_type::tripoint },
+            { "oter_id", cata_variant_type::oter_id },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::avatar_moves> {
