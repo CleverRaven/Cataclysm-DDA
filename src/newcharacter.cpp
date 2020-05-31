@@ -1204,9 +1204,8 @@ tab_direction set_traits( avatar &u, points_left &points )
                            page_width - 2 ) );
             }
 
-            for( int i = 0; i < used_pages; i++ ) {
-                draw_scrollbar( w, iCurrentLine[i], iContentHeight, traits_size[i], point( page_width * i, 5 ) );
-            }
+            draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
+                            point( page_width * iCurrentPage, 5 ) );
         }
 
         wrefresh( w );
