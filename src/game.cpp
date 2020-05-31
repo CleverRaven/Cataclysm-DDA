@@ -12312,7 +12312,7 @@ bool game::slip_down( bool check_for_traps )
     }
 
     // Climbing is difficult with wet hands and feet.
-    int wet_penalty = 1;
+    float wet_penalty = 1.0f;
 
     if( u.body_wetness[bp_foot_l] > 0 || u.body_wetness[bp_foot_r] > 0 ) {
         wet_penalty += .5;
