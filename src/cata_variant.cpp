@@ -15,13 +15,13 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::body_part: return "body_part";
         case cata_variant_type::bool_: return "bool";
         case cata_variant_type::character_id: return "character_id";
-        case cata_variant_type::character_movemode: return "character_movemode";
         case cata_variant_type::efftype_id: return "efftype_id";
         case cata_variant_type::hp_part: return "hp_part";
         case cata_variant_type::int_: return "int";
         case cata_variant_type::itype_id: return "itype_id";
         case cata_variant_type::matype_id: return "matype_id";
         case cata_variant_type::mtype_id: return "mtype_id";
+        case cata_variant_type::move_mode_id: return "character_movemode";
         case cata_variant_type::mutagen_technique: return "mutagen_technique";
         case cata_variant_type::mutation_category_id: return "mutation_category_id";
         case cata_variant_type::oter_id: return "oter_id";

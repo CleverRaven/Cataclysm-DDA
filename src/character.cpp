@@ -51,6 +51,7 @@
 #include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -367,27 +368,6 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-namespace io
-{
-
-template<>
-std::string enum_to_string<character_movemode>( character_movemode data )
-{
-    switch( data ) {
-            // *INDENT-OFF*
-        case character_movemode::CMM_WALK: return "walk";
-        case character_movemode::CMM_RUN: return "run";
-        case character_movemode::CMM_CROUCH: return "crouch";
-            // *INDENT-ON*
-        case character_movemode::CMM_COUNT:
-            break;
-    }
-    debugmsg( "Invalid character_movemode" );
-    abort();
-}
-
-} // namespace io
-
 // *INDENT-OFF*
 Character::Character() :
 
@@ -439,7 +419,7 @@ Character::Character() :
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
-    move_mode = CMM_WALK;
+    move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );
@@ -950,14 +930,7 @@ int Character::swim_speed() const
         ret -= 50;
     }
 
-    // Running movement mode while swimming means faster swim style, like crawlstroke
-    if( move_mode == CMM_RUN ) {
-        ret -= 80;
-    }
-    // Crouching movement mode while swimming means slower swim style, like breaststroke
-    if( move_mode == CMM_CROUCH ) {
-        ret += 50;
-    }
+    ret += move_mode->swim_speed_mod();
 
     if( ret < 30 ) {
         ret = 30;
@@ -1242,7 +1215,7 @@ void Character::forced_dismount()
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
             g->u.grab( object_type::NONE );
         }
-        set_movement_mode( CMM_WALK );
+        set_movement_mode( move_mode_id( "walk" ) );
         if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
             g->u.clear_destination();
         }
@@ -1282,7 +1255,7 @@ void Character::dismount()
         setpos( *pnt );
         g->refresh_all();
         mod_moves( -100 );
-        set_movement_mode( CMM_WALK );
+        set_movement_mode( move_mode_id( "walk" ) );
     }
 }
 
@@ -1339,7 +1312,7 @@ bool Character::is_limb_broken( hp_part limb ) const
     return hp_cur[limb] == 0;
 }
 
-bool Character::can_run()
+bool Character::can_run() const
 {
     return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
@@ -1558,14 +1531,35 @@ bool Character::move_effects( bool attacking )
     return true;
 }
 
-character_movemode Character::get_movement_mode() const
+move_mode_id Character::current_movement_mode() const
 {
     return move_mode;
 }
 
-bool Character::movement_mode_is( const character_movemode mode ) const
+bool Character::movement_mode_is( const move_mode_id &mode ) const
 {
     return move_mode == mode;
+}
+
+bool Character::is_running() const
+{
+    return move_mode->type() == move_mode_type::RUNNING;
+}
+
+bool Character::is_walking() const
+{
+    return move_mode->type() == move_mode_type::WALKING;
+}
+
+bool Character::is_crouching() const
+{
+    return move_mode->type() == move_mode_type::CROUCHING;
+}
+
+bool Character::can_switch_to( const move_mode_id &mode ) const
+{
+    // Only running modes are restricted at the moment
+    return mode->type() != move_mode_type::RUNNING || can_run();
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
@@ -3204,8 +3198,8 @@ std::vector<std::string> Character::get_overlay_ids() const
         rval.push_back( "wielded_" + weapon.typeId().str() );
     }
 
-    if( move_mode != CMM_WALK ) {
-        rval.push_back( io::enum_to_string( move_mode ) );
+    if( !is_walking() ) {
+        rval.push_back( move_mode->name() );
     }
     return rval;
 }
@@ -7436,9 +7430,7 @@ void Character::burn_move_stamina( int moves )
         }
     }
     burn_ratio += overburden_percentage;
-    if( move_mode == CMM_RUN ) {
-        burn_ratio = burn_ratio * 7;
-    }
+    burn_ratio *= move_mode->stamina_mult();
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
@@ -7458,14 +7450,7 @@ float Character::stamina_move_cost_modifier() const
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    return stamina_modifier;
+    return stamina_modifier * move_mode->move_speed_mult();
 }
 
 void Character::update_stamina( int turns )
@@ -10268,7 +10253,7 @@ float Character::speed_rating() const
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != CMM_RUN ) {
+    if( !is_running() ) {
         ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;
@@ -10308,8 +10293,8 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
         if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
             if( movecost > 75 ) {
-                movecost =
-                    75; // Mycal characters are faster on their home territory, even through things like shrubs
+                // Mycal characters are faster on their home territory, even through things like shrubs
+                movecost = 75;
             }
         }
 
@@ -10327,7 +10312,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
+            if( is_running() ) {
                 movecost *= 0.85f;
             } else {
                 movecost *= 0.95f;

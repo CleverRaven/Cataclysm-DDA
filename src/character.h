@@ -97,18 +97,6 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum character_movemode : int {
-    CMM_WALK = 0,
-    CMM_RUN,
-    CMM_CROUCH,
-    CMM_COUNT
-};
-
-template<>
-struct enum_traits<character_movemode> {
-    static constexpr auto last = character_movemode::CMM_COUNT;
-};
-
 enum class fatigue_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
@@ -628,10 +616,16 @@ class Character : public Creature, public visitable<Character>
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Check against the character's current movement mode */
-        bool movement_mode_is( character_movemode mode ) const;
-        character_movemode get_movement_mode() const;
+        bool movement_mode_is( const move_mode_id &mode ) const;
+        move_mode_id current_movement_mode() const;
 
-        virtual void set_movement_mode( character_movemode mode ) = 0;
+        bool is_running() const;
+        bool is_walking() const;
+        bool is_crouching() const;
+
+        bool can_switch_to( const move_mode_id &mode ) const;
+
+        virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
@@ -850,7 +844,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
         /** source of truth of whether a Character can run */
-        bool can_run();
+        bool can_run() const;
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
@@ -2305,7 +2299,7 @@ class Character : public Creature, public visitable<Character>
         faction_id fac_id;
         faction *my_fac = nullptr;
 
-        character_movemode move_mode;
+        move_mode_id move_mode;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 

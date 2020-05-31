@@ -35,6 +35,7 @@
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -998,24 +999,12 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return c_red;
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return c_light_blue;
-    } else {
-        return c_light_gray;
-    }
+    return u.current_movement_mode()->panel_color();
 }
 
-static std::string move_mode_string( avatar &u )
+static char move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return pgettext( "movement-type", "C" );
-    } else {
-        return pgettext( "movement-type", "W" );
-    }
+    return u.current_movement_mode()->panel_letter();
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1212,7 +1201,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1253,7 +1242,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1635,7 +1624,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
