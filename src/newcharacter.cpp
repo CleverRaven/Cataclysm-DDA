@@ -1001,17 +1001,6 @@ tab_direction set_traits( avatar &u, points_left &points )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
-    ui_adaptor ui;
-    catacurses::window w;
-    catacurses::window w_description;
-    const auto init_windows = [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
-        ui.position_from_window( w );
-    };
-    init_windows( ui );
-    ui.on_screen_resize( init_windows );
-
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
     int num_bad = 0;
@@ -1067,9 +1056,7 @@ tab_direction set_traits( avatar &u, points_left &points )
         std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
     }
 
-    const size_t iContentHeight = TERMY - 9;
     int iCurWorkingPage = 0;
-
     int iStartPos[3] = { 0, 0, 0 };
     int iCurrentLine[3] = { 0, 0, 0 };
     size_t traits_size[3];
@@ -1077,7 +1064,21 @@ tab_direction set_traits( avatar &u, points_left &points )
         traits_size[i] = vStartingTraits[i].size();
     }
 
-    const size_t page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+    size_t iContentHeight;
+    size_t page_width;
+
+    ui_adaptor ui;
+    catacurses::window w;
+    catacurses::window w_description;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( TERMY, TERMX, point_zero );
+        w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
+        ui.position_from_window( w );
+        page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+        iContentHeight = TERMY - 9;
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     ctxt.register_cardinal();
