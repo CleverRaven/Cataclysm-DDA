@@ -2213,7 +2213,7 @@
     "types": [ "SKIN", "skin_tone" ],
     "changes_to": [ "BARK" ],
     "leads_to": [ "THORNS", "LEAVES" ],
-    "category": [ "PLANT", "ELFA" ],
+    "category": [ "PLANT" ],
     "wet_protection": [
       { "part": "HEAD", "neutral": 4 },
       { "part": "LEG_L", "neutral": 5 },
@@ -2276,7 +2276,7 @@
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "LEAVES2" ],
-    "category": [ "PLANT", "ELFA" ],
+    "category": [ "PLANT" ],
     "wet_protection": [ { "part": "HEAD", "ignored": 1 } ]
   },
   {
@@ -2334,8 +2334,8 @@
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "prereqs2": [ "HAIRROOTS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
-    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
-    "category": [ "PLANT", "ELFA" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
     "changes_to": [ "ROSEBUDS" ],
     "scent_mask": -200,
     "social_modifiers": { "lie": 10 }
@@ -2350,8 +2350,8 @@
     "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a strong fragrance that makes you pleasant to be around.",
     "prereqs": [ "FLOWERS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
-    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
-    "category": [ "PLANT", "ELFA" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
     "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
@@ -5287,7 +5287,7 @@
     "ugliness": 2,
     "description": "Roots have started growing from your leaf like hair, they don't seem to do much.",
     "prereqs": [ "LEAVES" ],
-    "category": [ "PLANT", "ELFA" ]
+    "category": [ "PLANT" ]
   },
   {
     "type": "mutation",
@@ -5363,8 +5363,8 @@
     "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom.  Activate next to a tree to gradually gain overmap vision through connected forests.",
     "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" ],
-    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
-    "category": [ "PLANT", "ELFA" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
     "active": true,
     "cost": 0
   },
