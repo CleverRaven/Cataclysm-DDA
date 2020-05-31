@@ -77,7 +77,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FIELDOFFICE_ZOMBIE",
+    "name": "GROUP_DINOSAUR_ZOMBIE",
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
