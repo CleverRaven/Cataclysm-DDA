@@ -4,6 +4,10 @@ title: "CDDA Design Document"
 permalink: /design-doc/
 ---
 
+### About this Page
+
+This is the Cataclysm: DDA design document.  It is meant for designer-end planning and goal unity for an open ended project.  It is not meant to be a user facing document!  In other words, **spoiler alert**.  Do not read this document if you have no intention of contributing to the project and do not want your play experience spoiled.
+
 ### Table of Contents
 * [User Experience](#user-experience)
 * [Gameplay](#gameplay)
@@ -261,6 +265,8 @@ Rivers provide a natural source of both water and some food in the form of fish,
 
 This section is to describe exactly 'what went down' in the Cataclysm, in the official Word of God sense. As part of the design philosophy, it is important that not all events be clearly explained to players. This is a world where exploration unlocks the story, and certain elements should be kept mysterious. It's very unlikely that the motivations of long-zombified scientists will ever be fully made clear.
 
+**Spoiler alert**. This section will contain many lore spoilers for elements that are meant to be mysterious or hard to learn in game.
+
 ### Human Factions and Organizations
 
 This section should be used to discuss both existing and deceased major factions, but it is primarily for factions forming post-cataclysm.
@@ -458,6 +464,9 @@ See [the Background document](./lore-background.md) for full details.
 
 **General Description**:  
 The Blob is a dispersed intelligence vastly greater than anything conceivable to a human mind. To it, we are as significant as individual cells of a body. Human researchers obtained samples of the Blob. While XEDRA experimented on it, it passively observed them and then decided Earth was a worthwhile location to add to its dispersed body. So, with less effort than a human takes to scratch its ear, the Blob rolled into our world and made us part of it.
+
+**Inscrutable**:
+The Blob, as a concept in writing, should be thought of less like an antagonist or a character and more like a set of rules and a force of nature.  None of the direct interacting organisms in the game world are even particularly aware of its existence. Those few that are aware that XE-037 exists do not realize that it is a vast interdimensional organism. This information might *never* be directly revealed in game.
 
 **What does it want**?  
 The Blob is vast. It cannot be communicated with nor reasoned with. The most we could possible manage would be to annoy it enough that it would reach out and slap us, and that would be that. Far preferable would be for us to convince it to leave us alone - which really isn't that hard, since it doesn't really care about the human survivors whatsoever. It is in many ways analogous to a Lovecraftian elder god, but one that has already woken up, devastated the world, and moved on to other things.
@@ -722,6 +731,8 @@ Information about what really went down might be made contradictory, because it'
 Also, everyone has PTSD.
 
 ## Background Information
+
+**Spoiler alert**. This section will contain many lore spoilers for elements that are meant to be mysterious or hard to learn in game.
 
 **Summary**:
 
