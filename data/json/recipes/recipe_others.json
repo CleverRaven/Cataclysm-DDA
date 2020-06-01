@@ -4074,7 +4074,7 @@
     "skills_required": [ "tailor", 4 ],
     "difficulty": 6,
     "time": "1 h",
-    "book_learn": [ [ "scots_cookbook", 3 ] ],
+    "book_learn": [ [ "scots_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],

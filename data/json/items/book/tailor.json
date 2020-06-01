@@ -136,5 +136,25 @@
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m"
+  },
+  {
+    "id": "scots_tailor",
+    "type": "BOOK",
+    "name": { "str": "Ye Scots Beuk o Tailoring", "str_pl": "copies of Ye Scots Beuk o Tailoring" },
+    "description": "A semi-translated book from thirteenth century Scotland.  While a bit difficult to read, as there are a disquieting number of illustrations of people stabbing each other mixed amongst the pages, it provides insights into medieval Scottish fashion.",
+    "weight": "2600 g",
+    "volume": "2 L",
+    "price": 3000,
+    "price_postapoc": 550,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "tailor",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 8,
+    "time": "30 m",
+    "fun": -1
   }
 ]
