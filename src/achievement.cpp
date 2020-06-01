@@ -775,6 +775,7 @@ std::string achievements_tracker::ui_text_for( const achievement *ach ) const
 
 void achievements_tracker::clear()
 {
+    enabled_ = true;
     trackers_.clear();
     initial_achievements_.clear();
     achievements_status_.clear();
