@@ -1,7 +1,7 @@
 # Technology in the Cataclysm
 
 ## Spoiler alert
-```
+```diff
 - This section contains some spoilers for lore meant to be mysterious or hard to learn in game.
 ```
 
