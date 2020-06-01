@@ -34,6 +34,8 @@ Energy storage among civilians is basically the same as real life earth, with a 
 ### Powered Suits
 Due to the availability of fuel cells, powered exoskeletons for industrial work are extremely rare but do exist.  These suits are bulky but allow a degree of finesse that a crane or forklift can't match.  Their primary market is wealthy nerds.
 
+Just as in real life, powered exoskeletons are used to assist rehabilitation of people with neurological damage. These are slightly more common in CDDA-Earth, as the technology was developed earlier due to earlier availability of appropriate power cells, but aside from being more common they're not much different.
+
 ## Widespread Military Technology
 The military at large has access to technology that far exceeds civilian capacity, but whose existence doesn't potentially compromise the secrets of interdimensional travel and research.
 
