@@ -53,6 +53,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "options.h"
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -1699,6 +1700,12 @@ void npc::shop_restock()
             last_item = count > 10 && one_in( 100 );
         }
     }
+
+    // This removes some items according to item spawn scaling factor,
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    ret.remove_if( [spawn_rate]( auto & i ) {
+        return !( rng_float( 0, 1 ) < spawn_rate );
+    } );
 
     has_new_items = true;
     inv.clear();
