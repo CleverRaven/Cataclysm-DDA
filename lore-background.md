@@ -1,7 +1,7 @@
 # Background Story
 
 ## Spoiler alert
-```
+```diff
 - This section contains HUGE spoilers for lore meant to be mysterious or hard/impossible to learn in game.
 - Seriously, if you don't need to know this to contribute and you want to play the game
 - as intended, you should stop now.
