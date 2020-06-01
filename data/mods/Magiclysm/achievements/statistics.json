@@ -3,21 +3,22 @@
     "id": "avatar_levels_spell",
     "type": "event_transformation",
     "event_type": "player_levels_spell",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
   },
   {
     "id": "avatar_learns_spell",
     "type": "event_transformation",
     "event_type": "character_learns_spell",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "spell" ]
+    "drop_fields": [ "character" ]
   },
   {
     "id": "num_spells_learned",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_learns_spell",
-    "description": { "str": "learned a spell", "str_pl": "number of spells learned" }
+    "description": { "str": "spell learned", "str_pl": "spells learned" }
   },
   {
     "id": "avatar_forgets_spell",
