@@ -18,7 +18,7 @@ class oracle_t;
 class node_t;
 class strategy_t;
 
-enum status_t : char { running, success, failure };
+enum class status_t : char { running, success, failure };
 struct behavior_return {
     status_t result;
     const node_t *selection;

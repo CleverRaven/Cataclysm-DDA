@@ -52,7 +52,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
                 break;
             }
         }
-        if( result == running ) {
+        if( result == status_t::running ) {
             return strategy->evaluate( subject, children );
         } else {
             return { result, nullptr };
@@ -68,7 +68,7 @@ std::string node_t::goal() const
 std::string tree::tick( const oracle_t *subject )
 {
     behavior_return result = root->tick( subject );
-    active_node = result.result == running ? result.selection : nullptr;
+    active_node = result.result == status_t::running ? result.selection : nullptr;
     return goal();
 }
 
