@@ -50,7 +50,7 @@ Milspec power armor relies on plutonium cells to function, this is what enables 
 #### Industrial Powered Lifting Suits
 See Civilian entry. Powered suits that are of somewhat limited use in civilian settings found a lot more applications for military engineering and are fairly common on ships and in deployed engineering units.
 
-#### Turrets and robots
+### Turrets and robots
 At the very end of the cataclysm, dimensional heuristic AI was used to create human-free automated turrets and combat robots. These protocols were never meant to be used without a human, and the developers and users of the technology warned against trying to use them in this way. Turrets and "independent" robots without a human overseer and a connection to Melchior should be *profoundly* stupid and quite dangerous to anyone around them.
 
 ### Weaponry
