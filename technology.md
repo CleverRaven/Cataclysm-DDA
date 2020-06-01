@@ -77,7 +77,7 @@ Mutation is not so much a technology as taking advantage of the blob infection i
 #### What are mutations?
 Mutations in Cataclysm are governed by the latent blob infection in all living things.  They are not the same as what is generally meant by mutation in a scientific sense, nor what we generally see in pulp scifi.  Cataclysm mutations are non genetic (more accurately, they don't *have* to be genetic.  The blob is keen on reusing stuff, and might alter gene expression to achieve a goal when it's quick and easy).
 
-A quick analogy to explain this: DNA serves like a blueprint for the architecture of the cell.  These mutations have an intermediary, like an architect standing at the building site offering new advice that supercedes tbe blueprint.
+A quick analogy to explain this: DNA serves like a blueprint for the architecture of the cell.  These mutations have an intermediary, like an architect standing at the building site offering new advice that supercedes the blueprint.
 
 
 ## Alien Technology
