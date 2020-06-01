@@ -2537,6 +2537,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": "plastic",
+    "flags": [ "MISSION_ITEM" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3

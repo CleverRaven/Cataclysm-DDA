@@ -2354,7 +2354,8 @@ void monster::drop_items_on_death()
         // Temporary vector, to remember which items will be dropped
         std::vector<item> remaining;
         for( const item &it : items ) {
-            if( rng_float( 0, 1 ) < spawn_rate ) {
+            // Mission items are not affected by item spawn rate
+            if( it.has_flag( "MISSION_ITEM" ) || rng_float( 0, 1 ) < spawn_rate ) {
                 remaining.push_back( it );
             }
         }
