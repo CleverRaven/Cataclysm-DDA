@@ -31,7 +31,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_forgets_spell",
-    "description": { "str": "forgot a spell", "str_pl": "number of spells forgotten" }
+    "description": { "str": "spell forgotten", "str_pl": "spells forgotten" }
   },
   {
     "id": "avatar_max_spell_level",
