@@ -4592,8 +4592,7 @@ std::string item::display_name( unsigned int quantity ) const
             ammotext = ammotype( *ammo_types().begin() )->name();
         } else if( magazine_current() ) {
             // Is not loaded but has magazine that can be loaded
-            const std::string mag_default = magazine_current()->ammo_default()->ammo->type->name();
-            ammotext = mag_default;
+             ammotext = magazine_current()->ammo_default()->ammo->type->name();
         } else if( !magazine_default().is_null() ) {
             // Is not loaded and doesn't have magazine but can use magazines that could be loaded
             item tmp_mag( magazine_default() );
