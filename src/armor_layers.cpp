@@ -545,6 +545,27 @@ void player::sort_armor()
     int rightListSize = 0;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        // Create ptr list of items to display
+        tmp_worn.clear();
+        if( tabindex == num_bp ) {
+            // All
+            for( auto it = worn.begin(); it != worn.end(); ++it ) {
+                tmp_worn.push_back( it );
+            }
+        } else {
+            // bp_*
+            const bodypart_id bp = convert_bp( static_cast<body_part>( tabindex ) ).id();
+            for( auto it = worn.begin(); it != worn.end(); ++it ) {
+                if( it->covers( bp ) ) {
+                    tmp_worn.push_back( it );
+                }
+            }
+        }
+
+        // Ensure leftListIndex is in bounds
+        int new_index_upper_bound = std::max( 0, leftListSize - 1 );
+        leftListIndex = std::min( leftListIndex, new_index_upper_bound );
+
         draw_grid( w_sort_armor, left_w, middle_w );
 
         werase( w_sort_cat );
@@ -705,27 +726,6 @@ void player::sort_armor()
                 return;
             }
         }
-
-        // Create ptr list of items to display
-        tmp_worn.clear();
-        if( tabindex == num_bp ) {
-            // All
-            for( auto it = worn.begin(); it != worn.end(); ++it ) {
-                tmp_worn.push_back( it );
-            }
-        } else {
-            // bp_*
-            const bodypart_id bp = convert_bp( static_cast<body_part>( tabindex ) ).id();
-            for( auto it = worn.begin(); it != worn.end(); ++it ) {
-                if( it->covers( bp ) ) {
-                    tmp_worn.push_back( it );
-                }
-            }
-        }
-
-        // Ensure leftListIndex is in bounds
-        int new_index_upper_bound = std::max( 0, leftListSize - 1 );
-        leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
