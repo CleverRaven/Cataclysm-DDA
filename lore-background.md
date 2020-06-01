@@ -1,6 +1,15 @@
-## Background Story
+# Background Story
 
-Summary:
+## Spoiler alert
+```
+- This section contains HUGE spoilers for lore meant to be mysterious or hard/impossible to learn in game.
+- Seriously, if you don't need to know this to contribute and you want to play the game
+- as intended, you should stop now.
+- If you do read on, be aware that you're losing the 'monster movie magic' of piecing together a bunch
+- of inconsistent stories.
+```
+
+### Summary
 
 There was an arms race to develop transhumans. In the process, the US government discovered alternate dimensions and obtained a sample called "XE-037", a mysterious black goo that was able to reanimate the dead and cause miraculous targeted phenotype mutations. XE-037 turned out to be intelligent - vastly so - and escaped, contaminating the groundwater and causing an enormous zombie outbreak. As this spiraled out of control, Earth became the target of a multidimensional portal attack through which the Blob, the entity of which XE-037 is just a small part, took over our world. Simultaneously, forces from other dimensions entered opportunistically as our dimensional fabric was destabilized. This was the Cataclysm.
 
@@ -10,53 +19,47 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 
 Note: Canon date of game start is  mid-March, in "YEAR", which equals the IRL year the game world was created +1.
 
-#### Early 1990s
+#### YEAR -35 or so
 - An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent energy technologies: there is a simple but functional high-capacity fuel cell on board, using mostly Earth accessible designs but with a few exotic components that will take time to reverse engineer.
+- NOTE: Technologies from the crashed vessel should all be related in some way to dimension folding: dimensional heuristic AI, dimensional folding for power storage, or actual portals all come from here.
 
-#### Early 2000s
-- Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
+#### YEAR -25 (+/- 5 years)
 - Some DARPA researchers successfully open unstable portals to nearby subdimensions, but never for very long.
 - A handful of senior DARPA researchers begin drawing in small amounts of rare metals and isotopes through micro-portals, helping their research to fund itself.  The few aware of this practice keep it quiet, building shell accounts that grow into shell companies.
 
-#### c. 2007
+#### YEAR -20 (+/- 5 years)
+- Advances in reverse engineering and some tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.  They use radioactive plutonium as a catalyst in the fuel reaction, earning the nickname "plutonium fuel cells".  Due to the risk of radioactivity, they are not widely adopted outside of experimental use.
+- A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse.  DARPA's ability to continue portal research is hampered by red tape.  Those depending financially on portals begin working harder on their shell companies, setting up secret research labs to continue working on portal tech outside DARPA's interference.
+- Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
+
+#### YEAR -15 (+/- 5 years)
 - Improved fuel cell designs make solar-electric cars a viable alternative to gasoline.  The first privately made electric cars are announced.  The leading electric car companies could, with enough information, be tracked back to the shell companies created to launder wealth obtained through portal research.
-
-#### c. 2008
-- **Spring**: Advances in reverse engineering and some tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.  They use radioactive plutonium as a catalyst in the fuel reaction, earning the nickname "plutonium fuel cells".  Due to the risk of radioactivity, they are not widely adopted outside of experimental use.
-- **Autumn**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse.  DARPA's ability to continue portal research is hampered by red tape.  Those depending financially on portals begin working harder on their shell companies, setting up secret research labs to continue working on portal tech outside DARPA's interference.
-
-#### YEAR -10
-- *Big Picture*: An extraterrestrial visitor, frozen in ice, is retrieved by a Japanese whaling boat, and hastily recovered by their government and research agencies. This is the first contact between mi-go and humans. Existence of the aliens is heard in rumours and leaked photos on the internet, until a well-known Redditor posts a 'making of' video that shows detailed information of how she constructed the model alien for an art exhibit. The photos continue to circulate but are relegated to places online where people don't believe in Snopes.
-
-#### YEAR -9
-- **January**: Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient.
+- Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient. These technologies are novel but were derived from concepts laid out in the dimensional craft.
 
 #### YEAR -8
-- *Big Picture*: Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
-- *June*: The first powered exoskeletons are OK'd for military use, in limited test deployments.  Although incredibly powerful against small arms fire, these "tank suits" are too large, expensive, and heavy to gain any advantages from their humanoid shape.  They do not see full scale production.
+- Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
+- **June**: The first powered exoskeletons are OK'd for military use, in limited test deployments.  Although incredibly powerful against small arms fire, these "tank suits" are too large, expensive, and heavy to gain any advantages from their humanoid shape.  They do not see full scale production.
 
 #### YEAR -7
-*Big Picture*: First phase development of CBMs, using bioplastic technology derived from research conducted on mi-go. Aided by Melchior, research is extremely promising.
-- Some government elements begin to notice that a few shell corporations have sprung up with access to DARPA-level technology.  They are hastily silenced and/or brought into the fold.
+*Big Picture*: Some government elements begin to notice that a few shell corporations have sprung up with access to DARPA-level technology.  They are hastily silenced and/or brought into the fold.
+- **February**: An extraterrestrial visitor, frozen in ice, is retrieved by a Japanese whaling boat, and hastily recovered by their government and research agencies. This is the first contact between mi-go and humans. Existence of the aliens is heard in rumours and leaked photos on the internet, until a well-known Redditor posts a 'making of' video that shows detailed information of how she constructed the model alien for an art exhibit. The photos continue to circulate but are relegated to places online where people don't believe in Snopes.
 
 #### YEAR -6
 *Big Picture*: The first eyebot drones are deployed to assist in police work. This is one of the first public displays of new AI systems using dimensional probability heuristics, with the actual DPH being managed by a central mainframe. From a public perspective the dimensional aspect is kept concealed and people are told it is an example of machine learning. Even engineers working on the technology have no idea how it really works (not far off of current deep machine learning really... But better).
-Second phase CBM development commences.
 - **May**: A mi-go scout arrives in orbit in response to the awakened signal of the mi-go in the ice. It does not make immediate contact with humans.
 
 #### YEAR -4
-- **February**: The first CBMs are released for the public and military.  Public release is dramatically hastened by shell corporations that are in essence 'third phase' testing CBMs on civilians, with the companies designed to fold and dissolve if the technology fails.
-- **April**: China announces its own competing CBM system (XFS) and showcases the first wave of "steel soldiers", using XFS gear.
+- **February**: Problems with China begin to brew. <more info needed>
 - **July**: The first military grade heavy power armors are released for field testing.  Unlike the tank suits, these are light and small enough to allow close quarters maneuvering in urban environments, and remain almost impervious to all but the heaviest of conventional weaponry.  Development on smaller, less expensive suits becomes a priority.
 
 #### YEAR -3
-*Big Picture*: The new cold war begins as the US and China enter a race to develop the ultimate transhuman soldier, as well as functional AI.
-- **January**: US reopens portal research, considering it a safer proposition with CBM enhanced soldiers and Melchior's assistance, and potentially a good way to get ahead of China.
+*Big Picture*: The new cold war begins <more info needed>
+- **January**: US reopens portal research, considering it a safer proposition with Melchior's assistance, and potentially a good way to get ahead of China.
 - **July**: Researchers publish results regarding portal stability that help to explain the unexpectedly large portal of 9 years ago. Polydimensional topography has numerous stable planes, and the energy required to make portals to certain areas is much lower. Early researchers hadn't known about this, and put far too much energy into a portal to an energetically accessible location, creating a much bigger portal than intended. This knowledge allows much safer exploration of micro portals.
 - **November**: a research remote probe sent to an adjacent dimension brings back an unidentified biocontaminant, which is captured for analysis but inadvertently destroyed by standard safety procedures. The Blob becomes aware of our existence.
 
 #### Year -2
-- **February**: immediately following Chinese New Year, a new wave of XFS empowered soldier is announced publically. These represent the tip of the iceberg, and are considered dangerously competitive to NATO equivalents. Allied intelligence indicates that classified models may be far in advance of CBM-powered soldiers.
+- **February**: immediately following Chinese New Year, China announces some new developments that worsen the cold war. <more info needed>
 - **May**: XEDRA (Xenophysical Energy Defense Research Agency) is formed to focus research into transdimensional phenomena. Publically they are masked as DARPA researchers, and other more mundane groups. They are given an enormous budget, considered by the US government to be equivalent to NASA in the current cold war. Certain close allies to the US join the effort, sending top minds and resources to XEDRA facilities across North America.
 - **August**: A XEDRA facility in the Northwest reports a major sample stolen. Counterintelligence identifies China as the most likely culprit, and backtraces the theft to hypothesize that significant XEDRA research data was compromised. New protocols are put in place to counter XFS equipped intelligence agents, including advanced robotic security managed by Melchior.
 - **September**: XEDRA is broken into several connected but distinct agencies. In several of these agencies, desperate to catch up for time now lost by presumed stolen research, reasonable safety protocols are dropped in favour of Melchior predictions of immediate repercussions. This has the obvious (especially in hindsight) flaw that anything that does not have immediate repercussions will be missed: there are few lab explosions, but the Blob is able to leverage this weakness.
@@ -64,7 +67,6 @@ Second phase CBM development commences.
 - **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
-- **February**: Energy-dense samples from the netherum are repurposed into high-density energy cells.  The actual origin of the raw materials is kept silent.  These energy cells are rapidly repurposed to power energy weapons and tools that would otherwise be theoretical, and to improve on the energy cell design of power armors.
 - **July**: Several smaller powered exoskeletons, including both the private defence contractor Rivtech's version and a US government one, are released for field use.
 - **November**: Laser weapons powered by new energy technology are made widely available to military procurement, albeit still in small numbers.
 
