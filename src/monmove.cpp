@@ -142,7 +142,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_SMALL_PASSAGE, p ) ) {
+    if( get_size() > creature_size::medium && g->m.has_flag_ter( TFLAG_SMALL_PASSAGE, p ) ) {
         return false; // if a large critter, can't move through tight passages
     }
 
@@ -183,7 +183,7 @@ bool monster::will_move_to( const tripoint &p ) const
             }
 
             // Don't enter open pits ever unless tiny, can fly or climb well
-            if( !( type->size == MS_TINY || can_climb() ) &&
+            if( !( type->size == creature_size::tiny || can_climb() ) &&
                 ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
                 return false;
             }
@@ -193,7 +193,7 @@ bool monster::will_move_to( const tripoint &p ) const
         if( attitude( &g->u ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
-                !( type->size == MS_TINY || flies() ) ) {
+                !( type->size == creature_size::tiny || flies() ) ) {
                 return false;
             }
         }
@@ -1084,18 +1084,18 @@ void monster::footsteps( const tripoint &p )
         volume = 10;
     }
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             volume = 0; // No sound for the tinies
             break;
-        case MS_SMALL:
+        case creature_size::small:
             volume /= 3;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             break;
-        case MS_LARGE:
+        case creature_size::large:
             volume *= 1.5;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             volume *= 2;
             break;
         default:
@@ -1554,7 +1554,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
 
-    if( type->size != MS_TINY && on_ground ) {
+    if( type->size != creature_size::tiny && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) &&
@@ -1590,19 +1590,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
         int factor = 0;
         switch( type->size ) {
-            case MS_TINY:
+            case creature_size::tiny:
                 factor = 100;
                 break;
-            case MS_SMALL:
+            case creature_size::small:
                 factor = 30;
                 break;
-            case MS_MEDIUM:
+            case creature_size::medium:
                 factor = 6;
                 break;
-            case MS_LARGE:
+            case creature_size::large:
                 factor = 3;
                 break;
-            case MS_HUGE:
+            case creature_size::huge:
                 factor = 1;
                 break;
         }
@@ -1844,14 +1844,14 @@ void monster::knock_back_to( const tripoint &to )
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
-        apply_damage( z, bodypart_id( "torso" ), z->type->size );
+        apply_damage( z, bodypart_id( "torso" ), static_cast<float>( z->type->size ) );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
-            z->apply_damage( this, bodypart_id( "torso" ), type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), static_cast<float>( type->size ) );
             z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
-            z->apply_damage( this, bodypart_id( "torso" ), type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), static_cast<float>( type->size ) );
             z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
@@ -1866,7 +1866,8 @@ void monster::knock_back_to( const tripoint &to )
     if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
-        p->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, type->size ) );
+        p->deal_damage( this, bodypart_id( "torso" ),
+                        damage_instance( DT_BASH, static_cast<float>( type->size ) ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
@@ -1888,7 +1889,7 @@ void monster::knock_back_to( const tripoint &to )
     if( g->m.impassable( to ) ) {
 
         // It's some kind of wall.
-        apply_damage( nullptr, bodypart_id( "torso" ), type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), static_cast<float>( type->size ) );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name(),
@@ -1983,10 +1984,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             float shove_damage_min = 0.00F;
             float shove_damage_max = 0.00F;
             switch( this->get_size() ) {
-                case MS_TINY:
-                case MS_SMALL:
+                case creature_size::tiny:
+                case creature_size::small:
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     if( veh_mass < 500_kilogram ) {
                         shove_moves_minimal = 150;
                         shove_veh_mass_moves_factor = 20;
@@ -1995,7 +1996,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                         shove_damage_max = 0.01F;
                     }
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     if( veh_mass < 1000_kilogram ) {
                         shove_moves_minimal = 100;
                         shove_veh_mass_moves_factor = 8;
@@ -2004,7 +2005,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                         shove_damage_max = 0.03F;
                     }
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     if( veh_mass < 2000_kilogram ) {
                         shove_moves_minimal = 50;
                         shove_veh_mass_moves_factor = 4;

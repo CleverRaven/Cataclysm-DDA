@@ -277,7 +277,7 @@ void player::power_mutations()
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
+        if( evt.type == input_event_t::keyboard && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             const trait_id mut_id = trait_by_invlet( ch );
             if( !mut_id.is_null() ) {
@@ -295,7 +295,7 @@ void player::power_mutations()
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == input_event_t::keyboard && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const trait_id other_mut_id = trait_by_invlet( newch );
@@ -312,7 +312,7 @@ void player::power_mutations()
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                           ret.evt.type == input_event_t::keyboard ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }

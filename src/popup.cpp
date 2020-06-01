@@ -298,9 +298,9 @@ query_popup::result query_popup::query_once()
         res.evt = ctxt.get_raw_input();
     } while(
         // Always ignore mouse movement
-        ( res.evt.type == CATA_INPUT_MOUSE && res.evt.get_first_input() == MOUSE_MOVE ) ||
+        ( res.evt.type == input_event_t::mouse && res.evt.get_first_input() == MOUSE_MOVE ) ||
         // Ignore window losing focus in SDL
-        ( res.evt.type == CATA_INPUT_KEYBOARD && res.evt.sequence.empty() )
+        ( res.evt.type == input_event_t::keyboard && res.evt.sequence.empty() )
     );
 
     if( cancel && res.action == "QUIT" ) {
