@@ -1347,6 +1347,38 @@
   },
   {
     "type": "snippet",
+    "category": "<camp_water_thanks>",
+    "//": "NPCs say this after drinking water from a camp well.",
+    "text": [
+      "Clean water, the taste that refreshes!",
+      "I was parched, but not I am not.",
+      "Water is nice, but I should get a grog ration.",
+      "That wasn't Evian, but I'm not thirsty."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_food_thanks>",
+    "//": "NPCs say this after eating food from a basecamp larder.",
+    "text": [
+      "And now I have eaten and am not hungry.",
+      "That food was good, but I miss real restaurants.",
+      "Well, that satisfied me.",
+      "I just had some food, but I'm still peckish.  Would you mind if I ate more?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_larder_empty>",
+    "//": "NPCs say this after trying to eat from a basecamp larder with no food.",
+    "text": [
+      "Hey, <name_g>, we're out of food.",
+      "Hey, the larder is empty!  We're going to starve.",
+      "Uhm, <name_g>, I don't meant to criticize, but we should focus on distributing some food into the basecamp larder."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<danger_close_distance>",
     "//": "A threat is very close.",
     "text": [ "right on top of us!", "right there!", "danger close!", "almost in melee range!", "too close for comfort!" ]

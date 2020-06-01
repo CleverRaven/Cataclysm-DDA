@@ -3805,6 +3805,7 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
+        complain_about( "camp_water_thanks", 1_hours, "<camp_water_thanks>", false );
         set_thirst( 0 );
         return true;
     }
@@ -3812,11 +3813,13 @@ bool npc::consume_food_from_camp()
     int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
                                          stomach.get_calories() ), yours->food_supply );
     if( camp_kcals > 0 ) {
+        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
         mod_hunger( -camp_kcals );
         mod_stored_kcal( camp_kcals );
         yours->food_supply -= camp_kcals;
         return true;
     }
+    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty", false );
     return false;
 }
 
