@@ -191,7 +191,6 @@ void butcher_finish( player_activity *act, player *p );
 void firstaid_finish( player_activity *act, player *p );
 void fish_finish( player_activity *act, player *p );
 void forage_finish( player_activity *act, player *p );
-void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
 void pulp_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );

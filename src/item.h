@@ -62,7 +62,6 @@ struct use_function;
 
 enum art_effect_passive : int;
 enum body_part : int;
-enum m_size : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -394,6 +393,8 @@ class item : public visitable<item>
                           int batch = 1 ) const;
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                        int batch, bool debug ) const;

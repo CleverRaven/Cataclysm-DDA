@@ -286,7 +286,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
                 }
             }
         }

@@ -31,6 +31,8 @@
 #include "ranged.h"
 #include "timed_event.h"
 #include "uistate.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
@@ -671,6 +673,78 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
     return hacking_activity_actor().clone();
 }
 
+void hotwire_car_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
+{
+    if( calendar::once_every( 1_minutes ) ) {
+        bool lost = !g->m.veh_at( g->m.getlocal( target ) ).has_value();
+        if( lost ) {
+            act.set_to_null();
+            debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        }
+    }
+}
+
+void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( target ) );
+    if( !vp ) {
+        debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        return;
+    }
+    vehicle &veh = vp->vehicle();
+
+    int skill = who.get_skill_level( skill_mechanics );
+    if( skill > rng( 1, 6 ) ) {
+        // Success
+        who.add_msg_if_player( _( "You found the wire that starts the engine." ) );
+        veh.is_locked = false;
+    } else if( skill > rng( 0, 4 ) ) {
+        // Soft fail
+        who.add_msg_if_player( _( "You found a wire that looks like the right one." ) );
+        veh.is_alarm_on = veh.has_security_working();
+        veh.is_locked = false;
+    } else if( !veh.is_alarm_on ) {
+        // Hard fail
+        who.add_msg_if_player( _( "The red wire always starts the engine, doesn't it?" ) );
+        veh.is_alarm_on = veh.has_security_working();
+    } else {
+        // Already failed
+        who.add_msg_if_player(
+            _( "By process of elimination, you found the wire that starts the engine." ) );
+        veh.is_locked = false;
+    }
+}
+
+void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target", target );
+    jsout.member( "moves_total", moves_total );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn &jsin )
+{
+    hotwire_car_activity_actor actor( 0, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target", actor.target );
+    data.read( "moves_total", actor.moves_total );
+
+    return actor.clone();
+}
+
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
     const tripoint dest = relative_destination + who.pos();
@@ -1226,6 +1300,7 @@ deserialize_functions = {
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },

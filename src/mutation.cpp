@@ -235,17 +235,17 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-m_size calculate_size( const Character &c )
+creature_size calculate_size( const Character &c )
 {
     if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
         c.has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
+        return creature_size::large;
     } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
+        return creature_size::huge;
     }
-    return MS_MEDIUM;
+    return creature_size::medium;
 }
 
 void Character::mutation_effect( const trait_id &mut )

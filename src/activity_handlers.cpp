@@ -103,6 +103,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+enum class creature_size : int;
+
 static const efftype_id effect_sheared( "sheared" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -147,7 +149,6 @@ static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
@@ -369,7 +370,6 @@ activity_handlers::finish_functions = {
     { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
     { ACT_FORAGE, forage_finish },
-    { ACT_HOTWIRE_CAR, hotwire_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
@@ -610,7 +610,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                               u.has_amount( itype_vine_30, 1 ) ||
                               u.has_amount( itype_grapnel, 1 ) ||
                               u.has_amount( itype_chain, 1 );
-        const bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool big_corpse = corpse.size >= creature_size::medium;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -662,7 +662,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     }
 
     if( action == butcher_type::QUARTER ) {
-        if( corpse.size == MS_TINY ) {
+        if( corpse.size == creature_size::tiny ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname() );
             act.targets.pop_back();
@@ -729,19 +729,19 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     int time_to_cut = 0;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
+        case creature_size::tiny:
             time_to_cut = 150;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             time_to_cut = 300;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             time_to_cut = 450;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             time_to_cut = 600;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             time_to_cut = 1800;
             break;
     }
@@ -967,7 +967,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -1156,9 +1156,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 
     if( action == butcher_type::DISSECT ) {
-        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     } else {
-        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     }
 }
 
@@ -1819,38 +1821,6 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
         act->moves_left = 0;
         add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
     }
-}
-
-void activity_handlers::hotwire_finish( player_activity *act, player *p )
-{
-    //Grab this now, in case the vehicle gets shifted
-    if( const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
-                                           act->values[1],
-                                           p->posz() ) ) ) ) {
-        vehicle *const veh = &vp->vehicle();
-        const int mech_skill = act->values[2];
-        if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
-            //success
-            veh->is_locked = false;
-            add_msg( _( "This wire will start the engine." ) );
-        } else if( mech_skill > static_cast<int>( rng( 0, 4 ) ) ) {
-            //soft fail
-            veh->is_locked = false;
-            veh->is_alarm_on = veh->has_security_working();
-            add_msg( _( "This wire will probably start the engine." ) );
-        } else if( veh->is_alarm_on ) {
-            veh->is_locked = false;
-            add_msg( _( "By process of elimination, this wire will start the engine." ) );
-        } else {
-            //hard fail
-            veh->is_alarm_on = veh->has_security_working();
-            add_msg( _( "The red wire always starts the engine, doesn't it?" ) );
-        }
-    } else {
-        dbg( D_ERROR ) << "game:process_activity: ACT_HOTWIRE_CAR: vehicle not found";
-        debugmsg( "process_activity ACT_HOTWIRE_CAR: vehicle not found" );
-    }
-    act->set_to_null();
 }
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
