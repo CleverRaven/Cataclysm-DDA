@@ -134,8 +134,8 @@
     "items": {
       "c": { "item": "goblin_cookpot", "chance": 50 },
       "h": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-      "!": { "item": "lair_loot_generic", "chance": 40, "repeat": [ 1, 2 ] },
-      "$": { "item": "lair_loot_generic", "chance": 40, "repeat": [ 1, 2 ] },
+      "!": { "item": "boss_treasure_items", "chance": 40, "repeat": [ 1, 2 ] },
+      "$": { "item": "boss_treasure_items", "chance": 40, "repeat": [ 1, 2 ] },
       "%": { "item": "midden_heap", "chance": 40, "repeat": [ 1, 2 ] },
       "~": { "item": "midden_heap", "chance": 40, "repeat": [ 1, 2 ] }
     }
