@@ -1,5 +1,10 @@
 # Technology in the Cataclysm
 
+## Spoiler alert
+```
+- This section contains some spoilers for lore meant to be mysterious or hard to learn in game.
+```
+
 **Summary**:
 
 Technology native to Cataclysm Earth should, except in specific situations, be *at a modern real life level*.  The design rationale for this is simple: it allows straightforward answers to questions about things like "is this idea reasonable", "how much ____ should this do", and more.  If it is possible in real life (and you can prove it), it's probably appropriate for Cataclysm.  Likewise, if it's not possible in real life, it is probably not possible in Cataclysm... the exceptions will be enumerated in this document.
