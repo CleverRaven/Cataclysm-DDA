@@ -3944,8 +3944,8 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 {
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
-            vals[element.first].encumbrance += element.second;
+        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+            vals[element.first->token].encumbrance += element.second;
         }
     }
 
