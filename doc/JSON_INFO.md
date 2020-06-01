@@ -1422,29 +1422,29 @@ it is present to help catch errors.
             "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
             "str_mod" : 2
 },
-"wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
+"wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
-"restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
 "encumbrance_always" : [ // Adds this much encumbrance to selected body parts
-    [ "ARM_L", 20 ],
-    [ "ARM_R", 20 ]
+    [ "arm_l", 20 ],
+    [ "arm_r", 20 ]
 ],
 "encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
-    [ "HAND_L", 50 ],
-    [ "HAND_R", 50 ]
+    [ "hand_l", 50 ],
+    [ "hand_r", 50 ]
 ],
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
-        [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
+        [ "head" ],
         { "bash" : 2 } // The resistance provided to the body part(s) selected above
     ],
     [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
+        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
 ],
@@ -1471,7 +1471,7 @@ it is present to help catch errors.
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
-"no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
+"no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ], // List of body parts that can't receive cbms. (default: empty)
 "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.

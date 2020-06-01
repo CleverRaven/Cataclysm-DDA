@@ -3929,13 +3929,13 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                                    const trait_id &mut,
                                    const body_part_set &oversize )
 {
-    for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first].encumbrance += enc.second;
+    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
+        vals[enc.first->token].encumbrance += enc.second;
     }
 
-    for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
-        if( !oversize.test( convert_bp( enc.first ) ) ) {
-            vals[enc.first].encumbrance += enc.second;
+    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
+        if( !oversize.test( enc.first ) ) {
+            vals[enc.first->token].encumbrance += enc.second;
         }
     }
 }
@@ -6674,7 +6674,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp->token );
+        res += iter->damage_resistance( bp );
     }
 
     return res;
@@ -8120,14 +8120,14 @@ void Character::set_highest_cat_level()
 
 void Character::drench_mut_calc()
 {
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         int ignored = 0;
         int neutral = 0;
         int good = 0;
 
         for( const trait_id &iter : get_mutations() ) {
             const mutation_branch &mdata = iter.obj();
-            const auto wp_iter = mdata.protection.find( bp );
+            const auto wp_iter = mdata.protection.find( bp.id() );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
                 neutral += wp_iter->second.y;
@@ -8135,9 +8135,9 @@ void Character::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        mut_drench[bp->token][WT_GOOD] = good;
+        mut_drench[bp->token][WT_NEUTRAL] = neutral;
+        mut_drench[bp->token][WT_IGNORED] = ignored;
     }
 }
 
