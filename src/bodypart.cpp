@@ -340,9 +340,9 @@ std::string get_body_part_id( body_part bp )
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
 {
-    for( auto i = rhs.parts.begin(); i != rhs.parts.end(); i++ ) {
-        if( parts.count( *i ) == 0 ) {
-            parts.insert( *i );
+    for( const  bodypart_str_id &i : rhs.parts ) {
+        if( parts.count( i ) == 0 ) {
+            parts.insert( i );
         }
     }
     return *this;
@@ -350,9 +350,9 @@ body_part_set body_part_set::unify_set( const body_part_set &rhs )
 
 body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 {
-    for( auto j = parts.begin(); j != parts.end(); j++ ) {
-        if( rhs.parts.count( *j ) == 0 ) {
-            parts.erase( *j );
+    for( const  bodypart_str_id &j : parts ) {
+        if( rhs.parts.count( j ) == 0 ) {
+            parts.erase( j );
         }
     }
     return *this;
@@ -360,9 +360,9 @@ body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 
 body_part_set body_part_set::substract_set( const body_part_set &rhs )
 {
-    for( auto j = rhs.parts.begin(); j != rhs.parts.end(); j++ ) {
-        if( parts.count( *j ) > 0 ) {
-            parts.erase( *j );
+    for( const  bodypart_str_id &j : rhs.parts ) {
+        if( parts.count( j ) > 0 ) {
+            parts.erase( j );
         }
     }
     return *this;

@@ -179,6 +179,19 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
+enum class blood_type {
+    blood_O,
+    blood_A,
+    blood_B,
+    blood_AB,
+    num_bt
+};
+
+template<>
+struct enum_traits<blood_type> {
+    static constexpr auto last = blood_type::num_bt;
+};
+
 // This tries to represent both rating and
 // character's decision to respect said rating
 enum edible_rating {
@@ -1684,6 +1697,10 @@ class Character : public Creature, public visitable<Character>
         int tank_plut;
         int reactor_plut;
         int slow_rad;
+        blood_type my_blood_type;
+        bool blood_rh_factor;
+        // Randomizes characters' blood type and Rh
+        void randomize_blood();
 
         int focus_pool;
         int cash;
