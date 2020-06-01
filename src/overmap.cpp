@@ -567,8 +567,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
-    if( has_flag( line_drawing ) ) {
-        if( has_flag( no_rotate ) ) {
+    if( has_flag( oter_flags::line_drawing ) ) {
+        if( has_flag( oter_flags::no_rotate ) ) {
             jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
         }
 
@@ -601,7 +601,7 @@ void oter_type_t::finalize()
         for( om_direction::type dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
-    } else if( has_flag( line_drawing ) ) {
+    } else if( has_flag( oter_flags::line_drawing ) ) {
         for( size_t i = 0; i < om_lines::size; ++i ) {
             register_terrain( oter_t( *this, i ), i, om_lines::size );
         }
@@ -645,7 +645,7 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
 
 oter_id oter_type_t::get_linear( size_t n ) const
 {
-    if( !has_flag( line_drawing ) ) {
+    if( !has_flag( oter_flags::line_drawing ) ) {
         debugmsg( "Overmap terrain \"%s \" isn't drawn with lines.", id.c_str() );
         return ot_null;
     }
@@ -683,14 +683,14 @@ oter_t::oter_t( const oter_type_t &type, size_t line ) :
 
 std::string oter_t::get_mapgen_id() const
 {
-    return type->has_flag( line_drawing )
+    return type->has_flag( oter_flags::line_drawing )
            ? type->id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen]
            : type->id.str();
 }
 
 oter_id oter_t::get_rotated( om_direction::type dir ) const
 {
-    return type->has_flag( line_drawing )
+    return type->has_flag( oter_flags::line_drawing )
            ? type->get_linear( om_lines::rotate( this->line, dir ) )
            : type->get_rotated( om_direction::add( this->dir, dir ) );
 }
@@ -1005,7 +1005,7 @@ void overmap_special::check() const
         if( !elem.terrain ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] doesn't have a terrain.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z );
-        } else if( !elem.existing && !elem.terrain->has_flag( line_drawing ) ) {
+        } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
         } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
@@ -4463,12 +4463,12 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case exact: return "EXACT";
-        case type: return "TYPE";
-        case prefix: return "PREFIX";
-        case contains: return "CONTAINS";
+        case ot_match_type::exact: return "EXACT";
+        case ot_match_type::type: return "TYPE";
+        case ot_match_type::prefix: return "PREFIX";
+        case ot_match_type::contains: return "CONTAINS";
         // *INDENT-ON*
-        case num_ot_match_type:
+        case ot_match_type::num_ot_match_type:
             break;
     }
     debugmsg( "Invalid ot_match_type" );

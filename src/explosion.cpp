@@ -690,10 +690,10 @@ void emp_blast( const tripoint &p )
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     deact_chance = 6;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     deact_chance = 3;
                     break;
                 default:
