@@ -19,7 +19,6 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_bash": 2,
     "dodge": 5,
     "harvest": "demihuman",
     "vision_day": 30,
