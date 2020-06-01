@@ -13,6 +13,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -34,6 +35,7 @@ enum task_reason {
     LOW_LIGHT // Player cannot see enough to work (for operations that require it)
 };
 
+class ui_adaptor;
 class vehicle;
 struct vehicle_part;
 
@@ -78,7 +80,7 @@ class veh_interact
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
         // height of the stats window
         const int stats_h = 8;
-        catacurses::window w_grid;
+        catacurses::window w_border;
         catacurses::window w_mode;
         catacurses::window w_msg;
         catacurses::window w_disp;
@@ -87,7 +89,16 @@ class veh_interact
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
-        catacurses::window w_owner;
+
+        weak_ptr_fast<ui_adaptor> ui;
+
+        cata::optional<std::string> title;
+        cata::optional<std::string> msg;
+
+        int highlight_part = -1;
+
+        struct install_info_t;
+        std::unique_ptr<install_info_t> install_info;
 
         vehicle *veh;
         inventory crafting_inv;
@@ -98,9 +109,9 @@ class veh_interact
         // maximum level of available jacking equipment (if any)
         int max_jack;
 
-        player_activity serialize_activity();
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
-        void set_title( const std::string &msg ) const;
+        player_activity serialize_activity();
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
@@ -128,19 +139,19 @@ class veh_interact
          * One function for each specific task
          * @warning presently functions may mutate local state
          * @param msg failure message to display (if any)
-         * @return whether a redraw is required (typically necessary if task opened subwindows)
          */
         /*@{*/
-        bool do_install( std::string &msg );
-        bool do_repair( std::string &msg );
-        bool do_mend( std::string &msg );
-        bool do_refill( std::string &msg );
-        bool do_remove( std::string &msg );
-        bool do_rename( std::string &msg );
-        bool do_siphon( std::string &msg );
-        bool do_unload( std::string &msg );
-        bool do_assign_crew( std::string &msg );
-        bool do_relabel( std::string &msg );
+        void do_install();
+        void do_repair();
+        void do_mend();
+        void do_refill();
+        void do_remove();
+        void do_rename();
+        void do_siphon();
+        // Returns true if exiting the screen
+        bool do_unload();
+        void do_assign_crew();
+        void do_relabel();
         /*@}*/
 
         void display_grid();
@@ -152,17 +163,48 @@ class veh_interact
         void display_details( const vpart_info *part );
         size_t display_esc( const catacurses::window &win );
 
+        struct part_option {
+            part_option( const std::string &key, vehicle_part *part, char hotkey,
+                         std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
+                key( key ), part( part ), hotkey( hotkey ), details( details ) {}
+
+            part_option( const std::string &key, vehicle_part *part, char hotkey,
+                         std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
+                         std::function<void( const vehicle_part &pt )> message ) :
+                key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
+
+            std::string key;
+            vehicle_part *part;
+
+            /** Can @param action be run for this entry? */
+            char hotkey;
+
+            /** Writes any extra details for this entry */
+            std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
+
+            /** Writes to message window when part is selected */
+            std::function<void( const vehicle_part &pt )> message;
+        };
+        std::vector<part_option> overview_opts;
+        std::map<std::string, std::function<void( const catacurses::window &, int )>> overview_headers;
+        using overview_enable_t = std::function<bool( const vehicle_part &pt )>;
+        using overview_action_t = std::function<void( vehicle_part &pt )>;
+        overview_enable_t overview_enable;
+        overview_action_t overview_action;
+        int overview_pos = -1;
+
+        void calc_overview();
+        void display_overview();
         /**
          * Display overview of parts, optionally with interactive selection of one part
          *
          * @param enable used to determine parts of interest. If \p action also present, these
                          parts are the ones that can be selected. Otherwise, these are the parts
                          that will be highlighted
-         * @param action callback when part is selected, should return true if redraw required.
-         * @return whether redraw is required (always false if no action was run)
+         * @param action callback when part is selected.
          */
-        bool overview( const std::function<bool( const vehicle_part &pt )> &enable = {},
-                       const std::function<bool( vehicle_part &pt )> &action = {} );
+        void overview( const overview_enable_t &enable = {},
+                       const overview_action_t &action = {} );
         void move_overview_line( int );
 
         void count_durability();
