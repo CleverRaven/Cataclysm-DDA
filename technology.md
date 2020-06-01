@@ -22,8 +22,8 @@ Cybernetics were not available on CDDA-Earth prior to the portal storms.  Note t
 #### Prosthetics
 Prosthetic limbs available to civilians are not markedly above the level available on our Earth.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.
 
-### Robots
-Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.  They are, however, deeply stupid, especially without their central controllers.
+### Robots and AI
+Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.  They are, however, deeply stupid, especially without their central controllers and human supervision. These are not science fiction robots that can adapt to a situation and respond appropriately. They're not really anything more than you'd expect from slapping a processor and some algorithms onto a drone nowadays.  Some of these have guns and have foolishly been activated to use those guns without supervision.
 
 ### Energy Storage
 Energy storage among civilians is basically the same as real life earth, with a couple exceptions:
@@ -32,13 +32,10 @@ Energy storage among civilians is basically the same as real life earth, with a 
 - Radioactive power sources such as betavoltaic cells and even radioisotope thermoelectric generators are more common owing to a generally less safe attitude towards consumers. These aren't any better than equivalent devices in reality... just more common.
 
 ### Powered Suits
-Due to the availability of fuel cells, powered exoskeletons for industrial work are rare but not unheard of.  These suits are bulky but allow a degree of finesse that a crane or forklift can't match. 
+Due to the availability of fuel cells, powered exoskeletons for industrial work are extremely rare but do exist.  These suits are bulky but allow a degree of finesse that a crane or forklift can't match.  Their primary market is wealthy nerds.
 
 ## Widespread Military Technology
 The military at large has access to technology that far exceeds civilian capacity, but whose existence doesn't potentially compromise the secrets of interdimensional travel and research.
-
-#### Advanced prosthetics
-Military grade prosthetic limbs are able to offer somewhat increased strength and endurance over their living counterpart, at the cost of dexterity and tactile sense.  They still have some degree of feedback and are not insensate.  A common way of establishing prostheses in advanced cases would likely be to put a short range transmitter inside the limb stump, and the prosthetic would fit overtop the closed skin like a sleeve, receiving signals and power transcutaneously.
 
 ### Energy Storage
 Milspec energy storage is based around next generation power cells nicknamed "plutonium fuel cells".  These are neither radiation based nor fuel cells, but the name stuck.  From a design standpoint these are handwavium, items that exist to explain hypertech available to the military.  Design-wise they should be:
@@ -48,7 +45,10 @@ Milspec energy storage is based around next generation power cells nicknamed "pl
 From a story standpoint, these cells use a small amount of exotic matter from the netherum as a power source, catalyzed by plutonium.  When the exotic matter runs out the empty plutonium cell can be sent to a central facility to be reloaded... but that facility no longer exists.
 
 ### Power Armor
-Milspec power armor relies on plutonium cells to function, this is what enables its existence.  Aside from fictionalized power storage, the rest of its capabilities are real life.
+Milspec power armor relies on plutonium cells to function, this is what enables its existence.  Aside from fictionalized power storage, the rest of its capabilities are real life.  These are not like the power armour in fallout, more of a combat exoskeleton supporting some armour plating.
+
+#### Turrets and robots
+At the very end of the cataclysm, dimensional heuristic AI was used to create human-free automated turrets and combat robots. These protocols were never meant to be used without a human, and the developers and users of the technology warned against trying to use them in this way. Turrets and "independent" robots without a human overseer and a connection to Melchior should be *profoundly* stupid and quite dangerous to anyone around them.
 
 ### Weaponry
 Like power armor, the major divergence point for weaponry is the existence of high density fictionalized power cells.  All other technology should be as realistic as possible.  Due to the extreme rarity and "one and done" nature of plutonium cells, military lasers and things are rare.  Technology that hasn't even been prototyped, or at the very least modeled theoretically, in our world is probably not appropriate for Cataclysm.
