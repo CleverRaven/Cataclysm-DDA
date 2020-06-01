@@ -24,7 +24,7 @@
     "encumbrance_covered": [ [ "HEAD", 5 ] ],
     "changes_to": [ "BIOLUM2" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
-    "lumination": [ [ "HEAD", 8 ] ]
+    "lumination": [ [ "head", 8 ] ]
   },
   {
     "type": "mutation",
@@ -39,7 +39,7 @@
     "encumbrance_covered": [ [ "HEAD", 5 ] ],
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
-    "lumination": [ [ "HEAD", 20 ] ]
+    "lumination": [ [ "head", 20 ] ]
   },
   {
     "type": "mutation",

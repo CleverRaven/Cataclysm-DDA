@@ -1472,7 +1472,7 @@ it is present to help catch errors.
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
-"lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.

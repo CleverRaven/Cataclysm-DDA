@@ -175,7 +175,7 @@ struct mutation_branch {
         cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
-        std::map<body_part, float> lumination;
+        std::map<bodypart_str_id, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;

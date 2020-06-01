@@ -448,7 +448,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
-        const body_part bp = get_body_part_token( ja.next_string() );
+        const bodypart_str_id bp = bodypart_str_id( ja.next_string() );
         lumination.emplace( bp, static_cast<float>( ja.next_float() ) );
     }
 

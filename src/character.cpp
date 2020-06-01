@@ -6563,10 +6563,10 @@ float Character::active_light() const
     for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
-            for( const std::pair<body_part, float> elem : mut.first->lumination ) {
+            for( const std::pair<bodypart_str_id, float> elem : mut.first->lumination ) {
                 int coverage = 0;
                 for( const item &i : worn ) {
-                    if( i.covers( convert_bp( elem.first ).id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                         !i.has_flag( flag_SEMITANGIBLE ) &&
                         !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                         coverage += i.get_coverage();
