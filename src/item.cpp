@@ -4544,6 +4544,7 @@ std::string item::display_name( unsigned int quantity ) const
         // a book which has remaining unread chapters
         amount = get_remaining_chapters( g->u );
     } else if( magazine_current() ) {
+        show_amt = true;
         const item *mag = magazine_current();
         amount = ammo_remaining();
         const itype *adata = mag->ammo_data();
