@@ -23,7 +23,6 @@
 #include "map.h"
 #include "math_defines.h"
 #include "messages.h"
-//#include "monster.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -471,27 +470,27 @@ void weather_effect::mist()
     Character &target_character = g->u;//todo npcs, also
     if( calendar::once_every( g->weather.mist_spawn_time ) &&
         is_creature_outside( target_character ) ) {
+        int mist_type = 0;
+        if( g->weather.mist_intensity > 0 &&
+            g->weather.mist_intensity <= g->weather.mist_thick_threshold ) {
+            mist_type = 1;
+        } else if( g->weather.mist_intensity > g->weather.mist_thick_threshold &&
+                   g->weather.mist_intensity <= g->weather.mist_stifling_threshold ) {
+            mist_type = 2;
+        } else if( g->weather.mist_intensity > g->weather.mist_stifling_threshold ) {
+            mist_type = 3;
+        }
+
         int monsters_to_spawn = std::max<int>( 1, g->weather.mist_intensity / 5 );
         for( int monsters_spawned = 0; monsters_spawned < monsters_to_spawn; monsters_spawned++ ) {
-            mtype_id monster_id;
-            std::string category;
+            mtype_id monster_id = mon_mist_wraith;
+            std::string category = "mist_summon_wraith";
             bool is_hallucination = false;
-            int mist_type = std::min<int>( 3, g->weather.mist_intensity / 10 );
-            int rand = ( 1, 4 );
+
+            int rand = ( 0, mist_type );
             switch( rand ) {
-                case 1:
-                    monster_id = mon_mist_wraith;
-                    category = "mist_summon_wraith";
-                    break;
-                case 2:
-                    monster_id = mon_mist_spectre;
-                    category = "mist_summon_spectre";
-                    break;
-                case 3:
-                    monster_id = mon_mist_phantom;
-                    category = "mist_summon_phantom";
-                    break;
-                case 4: {
+                case 0: {
+                    //grab a random nearby outdoor non mist hostile creature to create a hallucination of
                     Creature *copy = g->get_creature_if( [&target_character]( const Creature & critter ) -> bool {
                         bool in_mist = is_creature_outside( critter );
                         bool not_self = target_character.pos() != critter.pos();
@@ -505,14 +504,23 @@ void weather_effect::mist()
                     if( copy_monster != nullptr ) {
                         monster_id = copy_monster->type->id;
                         is_hallucination = true;
-                    } else {
-                        monster_id = mon_mist_wraith;
-                        category = "mist_summon_wraith";
                     }
                     break;
                 }
+                case 1:
+                    monster_id = mon_mist_wraith;
+                    category = "mist_summon_wraith";
+                    break;
+                case 2:
+                    monster_id = mon_mist_spectre;
+                    category = "mist_summon_spectre";
+                    break;
+                case 3:
+                    monster_id = mon_mist_phantom;
+                    category = "mist_summon_phantom";
+                    break;
                 default:
-                    debugmsg( "HUH?" );
+                    debugmsg( "Random numbers gone wrong!" );
                     break;
             }
 
@@ -528,7 +536,6 @@ void weather_effect::mist()
                 }
             }
             if( found_location && is_hallucination ) {
-                g->u.add_msg_if_player( m_bad, "Hallucinate!" );
                 g->spawn_hallucination( target_point, monster_id );
             } else if( found_location && g->place_critter_at( monster_id, target_point ) != nullptr ) {
                 g->u.add_msg_if_player( m_bad, "%s",
@@ -536,6 +543,7 @@ void weather_effect::mist()
             }
         }
     }
+
 
     if( calendar::once_every( g->weather.mist_intensity_increase_time ) ) {
         g->weather.increase_mist_intensity();
@@ -1060,8 +1068,10 @@ weather_manager::weather_manager()
 void weather_manager::initialize()
 {
     nextweather = calendar::turn;
+    set_mist_length();
     set_next_mist_time();
-    mist_scaling = get_option<int>( "MIST_SCALING" );
+    set_mist_spawn_time();
+    mist_scaling = get_option<float>( "MIST_SCALING" );
     temperature = SPRING_TEMPERATURE;
     update_weather();
 }
@@ -1158,9 +1168,24 @@ void weather_manager::clear_temp_cache()
 
 void weather_manager::set_next_mist_time()
 {
-    int days = get_option<int>( "MIST_TIME_BETWEEN" );
-    mist_next_instance = calendar::turn + time_duration::from_days( rng( .5 * days,
-                         1.5 * days ) ) + time_duration::from_seconds( rng( 0, to_seconds<int>( 24_hours ) ) );
+    int days = get_option<int>( "MIST_INSTANCE_TIME" ) - ( mist_scaling * ( mist_instances / 10 ) );
+    mist_next_instance = calendar::turn + time_duration::from_days( rng( .5 * days, 1.5 * days ) )
+                         + time_duration::from_seconds( rng( 0, to_seconds<int>( 24_hours ) ) );
+}
+
+void weather_manager::set_mist_spawn_time()
+{
+    int seconds = get_option<int>( "MIST_SPAWN_TIME" ) - ( mist_scaling * ( mist_instances / 10 ) );
+    mist_spawn_time = time_duration::from_seconds( rng( .5 * seconds, 1.5 * seconds ) );
+}
+
+//calculates the total mist length then breaks that into pieces
+void weather_manager::set_mist_length()
+{
+    int hours = get_option<int>( "MIST_LENGTH" ) + ( mist_scaling * ( mist_instances / 5 ) );
+    mist_intensity_increase_time = ( time_duration::from_hours( rng( .7 * hours, 1.3 * hours ) )
+                                     + time_duration::from_seconds( rng( 0, to_seconds<int>( 1_hours ) ) ) )
+                                   / mist_intensity_increase_per_instance;
 }
 
 void weather_manager::increase_mist_intensity()
@@ -1169,8 +1194,15 @@ void weather_manager::increase_mist_intensity()
         return;
     }
 
+    int mist_min_intensity = 1 + ( mist_scaling * mist_instances );
+    int mist_max_intensity = 1 + mist_intensity_increase_per_instance + ( mist_scaling *
+                             mist_instances );
+
     if( mist_intensity < mist_min_intensity ) {
         mist_intensity = mist_min_intensity;
+        set_mist_length();
+        set_next_mist_time();
+        set_mist_spawn_time();
         g->u.add_msg_if_player( m_bad, "%s",
                                 SNIPPET.random_from_category( "mist_arrives" ).value_or( translation() ) );
     } else if( mist_intensity < mist_max_intensity ) {
@@ -1181,9 +1213,8 @@ void weather_manager::increase_mist_intensity()
         }
     } else {
         mist_intensity = 0;
-        mist_min_intensity += mist_scaling;
-        mist_max_intensity += mist_scaling;
         if( is_creature_outside( g->u ) ) {
+            mist_instances++;
             g->u.add_msg_if_player( m_bad, "%s",
                                     SNIPPET.random_from_category( "mist_leaves" ).value_or( translation() ) );
         }

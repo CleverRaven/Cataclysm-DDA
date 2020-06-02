@@ -1090,6 +1090,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
+    } else if( you.has_effect( effect_incorporeal ) ) {
+        add_msg( m_info, _( "You lack the substance to affect anything." ) );
+        return;
     }
     if( you.is_mounted() ) {
         monster *mons = g->u.mounted_creature.get();

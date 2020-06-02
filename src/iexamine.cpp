@@ -101,6 +101,7 @@ static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
@@ -5649,6 +5650,8 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         case start_craft: {
             if( p.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else if( p.has_effect( effect_incorporeal ) ) {
+                add_msg( m_info, _( "You lack the substance to affect anything." ) );
             } else {
                 p.craft( examp );
             }
@@ -5657,6 +5660,8 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         case repeat_craft: {
             if( p.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else if( p.has_effect( effect_incorporeal ) ) {
+                add_msg( m_info, _( "You lack the substance to affect anything." ) );
             } else {
                 p.recraft( examp );
             }
@@ -5665,6 +5670,8 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         case start_long_craft: {
             if( p.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else if( p.has_effect( effect_incorporeal ) ) {
+                add_msg( m_info, _( "You lack the substance to affect anything." ) );
             } else {
                 p.long_craft( examp );
             }

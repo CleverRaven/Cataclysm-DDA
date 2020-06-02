@@ -878,12 +878,15 @@ void Character::suffer_from_albinism()
 void Character::suffer_item_dropping()
 {
     if( has_effect( effect_incorporeal ) ) {
-        std::vector<item *> tmp = inv_dump();
-        for( auto i : tmp ) {
-            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *i } );
+        std::vector<item *> dump = inv_dump();
+        std::list<item> tumble_items;
+        for( item *dump_item : dump ) {
+            tumble_items.push_back( *dump_item );
+        }
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
+        for( auto i : dump ) {
             i_rem( i );
         }
-
     }
 }
 void Character::suffer_from_other_mutations()

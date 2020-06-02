@@ -183,16 +183,17 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    if( g->weather.mist_intensity > 0 &&
-        g->weather.mist_intensity <= g->weather.mist_thick_threshold ) {
-        return WEATHER_MIST;
-    } else if( g->weather.mist_intensity > g->weather.mist_thick_threshold &&
-               g->weather.mist_intensity <= g->weather.mist_stifling_threshold ) {
-        return WEATHER_THICK_MIST;
-    } else if( g->weather.mist_intensity > g->weather.mist_stifling_threshold ) {
-        return WEATHER_STIFLING_MIST;
+    if( get_option<bool>( "MIST_ACTIVE" ) ) {
+        if( g->weather.mist_intensity > 0 &&
+            g->weather.mist_intensity <= g->weather.mist_thick_threshold ) {
+            return WEATHER_MIST;
+        } else if( g->weather.mist_intensity > g->weather.mist_thick_threshold &&
+                   g->weather.mist_intensity <= g->weather.mist_stifling_threshold ) {
+            return WEATHER_THICK_MIST;
+        } else if( g->weather.mist_intensity > g->weather.mist_stifling_threshold ) {
+            return WEATHER_STIFLING_MIST;
+        }
     }
-
     weather_type r( WEATHER_CLEAR );
     if( w.pressure > 1020 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;

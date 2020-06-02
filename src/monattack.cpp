@@ -5810,13 +5810,11 @@ bool mattack::dissipate_drain( monster *z )
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
-
+    z->die( z );
     foe->mod_fatigue( 100 );
     foe->mod_stamina( -200 );
     foe->add_msg_if_player( m_bad,
                             _( "The %s takes a little of your strength." ), z->name() );
-
-    z->die( z );
     return true;
 }
 
@@ -5826,12 +5824,11 @@ bool mattack::dissipate_nightmares( monster *z )
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
+    z->die( z );
     foe->add_effect( effect_disrupted_sleep, 12_hours );
     foe->add_effect( effect_nightmares, 12_hours );
     foe->add_msg_if_player( m_bad,
                             _( "The %s leaves an unsettling feeling behind." ), z->name() );
-
-    z->die( z );
     return true;
 }
 
@@ -5841,7 +5838,7 @@ bool mattack::dissipate_force_scream( monster *z )
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
-
+    z->die( z );
     foe->add_morale( MORALE_TRAUMATIC_MEMORY, -10, -15, 1_hours );
     foe->add_msg_if_player( m_bad,
                             _( "The %s surfaces an intense memory, that feels like your own." ),
@@ -5851,8 +5848,6 @@ bool mattack::dissipate_force_scream( monster *z )
 
     foe->add_msg_if_player( m_info, "You hear yourself scream \"%s\"", shout_message );
     foe->shout( shout_message );
-    z->die( z );
-
     return true;
 }
 
@@ -5862,11 +5857,10 @@ bool mattack::dissipate_incorporeal( monster *z )
     if( foe == nullptr || !is_adjacent( z, foe, false ) ) {
         return false;
     }
+    z->die( z );
     foe->add_effect( effect_incorporeal, 3_seconds );
     foe->add_msg_if_player( m_bad,
-                            _( "The %s robs you of your form briefly." ), z->name() );
-
-    z->die( z );
+                            _( "The %s robs you of your form." ), z->name() );
     return true;
 }
 
