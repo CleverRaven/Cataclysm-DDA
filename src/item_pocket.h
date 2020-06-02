@@ -202,7 +202,7 @@ class item_pocket
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
-        void add( const item &it );
+        void add( const item &it, item **ret = nullptr );
         /** fills the pocket to the brim with the item */
         void fill_with( item contained );
         bool can_unload_liquid() const;
@@ -232,6 +232,8 @@ class item_pocket
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
+        /** same as above, except returns the stack where input item was placed */
+        item *restack( /*const*/ item *it ) __attribute__( ( optimize( "-O0" ) ) );
         bool has_item_stacks_with( const item &it ) const;
 
         bool better_pocket( const item_pocket &rhs, const item &it ) const;

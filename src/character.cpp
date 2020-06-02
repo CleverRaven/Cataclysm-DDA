@@ -2305,8 +2305,8 @@ item *Character::try_add( item it, const item *avoid )
             }
         }
     } else {
-        pocket->add( it );
-        ret = &pocket->back();
+        // this will set ret to either it, or to stack where it was placed
+        pocket->add( it, &ret );
     }
 
     if( keep_invlet ) {
