@@ -57,7 +57,6 @@
     "description_affix": "covered_in",
     "priority": 2,
     "phase": "solid",
-    "half_life": "2 h",
     "bash": {
       "str_min": 1,
       "str_max": 3,
