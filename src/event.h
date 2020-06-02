@@ -141,7 +141,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 64,
+static_assert( static_cast<int>( event_type::num_event_types ) == 66,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -210,6 +210,15 @@ template<>
 struct event_spec<event_type::causes_resonance_cascade> : event_spec_empty {};
 
 template<>
+struct event_spec<event_type::character_forgets_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id }
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::character_gains_effect> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
@@ -245,6 +254,15 @@ struct event_spec<event_type::character_kills_character> {
             { "killer", cata_variant_type::character_id },
             { "victim", cata_variant_type::character_id },
             { "victim_name", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_learns_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id }
         }
     };
 };
@@ -512,24 +530,6 @@ struct event_spec<event_type::player_levels_spell> {
             { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
             { "new_level", cata_variant_type::int_ },
-        }
-    };
-};
-
-template<>
-struct event_spec<event_type::character_learns_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
-            { "character", cata_variant_type::character_id },
-            { "spell", cata_variant_type::spell_id }
-        }
-    };
-};
-
-template<>
-struct event_spec<event_type::character_forgets_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
-            { "character", cata_variant_type::character_id },
-            { "spell", cata_variant_type::spell_id }
         }
     };
 };
