@@ -64,6 +64,31 @@ class item_pocket
             ERR_AMMO
         };
 
+        class favorite_settings
+        {
+            public:
+                void clear();
+
+                void set_priority( int priority );
+
+                void whitelist_item( const itype_id &id );
+                void blacklist_item( const itype_id &id );
+                void clear_item( const itype_id &id );
+
+                void whitelist_category( const item_category_id &id );
+                void blacklist_category( const item_category_id &id );
+                void clear_category( const item_category_id &id );
+
+                // essentially operator> but needs extra input. checks if *this is better
+                bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+            private:
+                int priority_rating = 0;
+                cata::flat_set<itype_id> item_whitelist;
+                cata::flat_set<itype_id> item_blacklist;
+                cata::flat_set<item_category_id> category_whitelist;
+                cata::flat_set<item_category_id> category_blacklist;
+        };
+
         item_pocket() = default;
         item_pocket( const pocket_data *data ) : data( data ) {}
 
@@ -240,6 +265,7 @@ class item_pocket
 
         bool operator==( const item_pocket &rhs ) const;
     private:
+        favorite_settings settings;
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST;
         bool _saved_sealed = false;
