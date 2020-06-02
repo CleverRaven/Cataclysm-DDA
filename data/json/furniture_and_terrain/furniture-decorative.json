@@ -207,7 +207,13 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "bash": { "str_min": 1, "str_max": 1, "sound": "crunch.", "sound_fail": "thump.", "items": [ { "item": "sand", "count": 8 } ] }
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "crunch.",
+      "sound_fail": "thump.",
+      "items": [ { "item": "material_sand", "count": 8 } ]
+    }
   },
   {
     "type": "furniture",
