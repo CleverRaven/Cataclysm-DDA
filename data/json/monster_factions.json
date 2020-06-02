@@ -201,5 +201,10 @@
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "base_faction": "plant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mist",
+    "neutral": [ "animal", "insect", "blob", "zombie", "zombie_aquatic","plant", "bot", "blob", "nether", "jabberwock" ]
   }
 ]
