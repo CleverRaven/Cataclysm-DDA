@@ -71,6 +71,7 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
+#include "get_version.h"
 #include "harvest.h"
 #include "help.h"
 #include "iexamine.h"
@@ -123,6 +124,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "popup.h"
+#include "profession.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -887,7 +889,8 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>( u.getID() );
+    g->events().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
+            u.custom_profession, getVersionString() );
     return true;
 }
 
@@ -2838,7 +2841,7 @@ bool game::load( const save_t &name )
     u = avatar();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
-    u.weapon = item( "null", 0 );
+    u.weapon = item();
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
@@ -9442,14 +9445,18 @@ bool game::walk_move( const tripoint &dest_loc )
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    if( dest_loc != u.pos() ) {
-        cata_event_dispatch::avatar_moves( u, m, dest_loc );
-    }
-
     tripoint oldpos = u.pos();
+    tripoint old_abs_pos = m.getabs( oldpos );
+
+    bool moving = dest_loc != oldpos;
+
     point submap_shift = place_player( dest_loc );
     point ms_shift = sm_to_ms_copy( submap_shift );
     oldpos = oldpos - ms_shift;
+
+    if( moving ) {
+        cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+    }
 
     if( pulling ) {
         const tripoint shifted_furn_pos = furn_pos - ms_shift;
@@ -10594,6 +10601,7 @@ void game::vertical_move( int movez, bool force )
         }
     }
     const tripoint old_pos = g->u.pos();
+    const tripoint old_abs_pos = m.getabs( old_pos );
     point submap_shift;
     vertical_shift( z_after );
     if( !force ) {
@@ -10718,7 +10726,7 @@ void game::vertical_move( int movez, bool force )
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
 
-    cata_event_dispatch::avatar_moves( u, m, u.pos() );
+    cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 }
 
 void game::start_hauling( const tripoint &pos )
@@ -12374,13 +12382,22 @@ bool game::slip_down( bool check_for_traps )
 
 namespace cata_event_dispatch
 {
-void avatar_moves( const avatar &u, const map &m, const tripoint &p )
+void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 {
+    const tripoint &new_pos = u.pos();
+    const tripoint &new_abs_pos = m.getabs( new_pos );
     mtype_id mount_type;
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;
     }
-    g->events().send<event_type::avatar_moves>( mount_type, m.ter( p ).id(),
-            u.current_movement_mode(), u.is_underwater(), p.z );
+    g->events().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
+            u.current_movement_mode(), u.is_underwater(), new_pos.z );
+
+    const tripoint old_abs_omt = ms_to_omt_copy( old_abs_pos );
+    const tripoint new_abs_omt = ms_to_omt_copy( new_abs_pos );
+    if( old_abs_omt != new_abs_omt ) {
+        const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
+        g->events().send<event_type::avatar_enters_omt>( new_abs_omt, cur_ter );
+    }
 }
 } // namespace cata_event_dispatch

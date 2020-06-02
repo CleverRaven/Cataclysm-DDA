@@ -110,5 +110,32 @@
     "type": "achievement",
     "name": "Ain't no valley low enough",
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
+  },
+  {
+    "id": "achievement_wield_crowbar",
+    "type": "achievement",
+    "name": "Freeman's favorite",
+    "requirements": [ { "event_statistic": "num_avatar_wields_crowbar", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_wear_power_armor",
+    "type": "achievement",
+    "name": "Impenetrable",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_wears_power_armor_heavy",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_lab_finale",
+    "type": "achievement",
+    "name": "What are they hiding?",
+    "requirements": [
+      { "event_statistic": "num_avatar_enter_lab_finale", "is": ">=", "target": 1, "visible": "when_achievement_completed" }
+    ]
   }
 ]

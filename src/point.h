@@ -38,6 +38,8 @@ struct point {
     constexpr point() = default;
     constexpr point( int X, int Y ) : x( X ), y( Y ) {}
 
+    static point from_string( const std::string & );
+
     constexpr point operator+( const point &rhs ) const {
         return point( x + rhs.x, y + rhs.y );
     }
@@ -112,7 +114,10 @@ struct point {
         return !( a == b );
     }
 
+#ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const point & );
+    friend std::istream &operator>>( std::istream &, point & );
+#endif
 };
 
 void serialize( const point &p, JsonOut &jsout );
@@ -126,6 +131,8 @@ struct tripoint {
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
     constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+
+    static tripoint from_string( const std::string & );
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -196,7 +203,10 @@ struct tripoint {
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
+#ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const tripoint & );
+    friend std::istream &operator>>( std::istream &, tripoint & );
+#endif
 
     friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
         return a.x == b.x && a.y == b.y && a.z == b.z;

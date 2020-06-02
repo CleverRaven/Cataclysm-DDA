@@ -27,6 +27,7 @@ enum class event_type : int {
     activates_mininuke,
     administers_mutagen,
     angers_amigara_horrors,
+    avatar_enters_omt,
     avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
@@ -42,6 +43,8 @@ enum class event_type : int {
     character_takes_damage,
     character_triggers_trap,
     character_wakes_up,
+    character_wields_item,
+    character_wears_item,
     consumes_marloss_item,
     crosses_marloss_threshold,
     crosses_mutation_threshold,
@@ -139,7 +142,15 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 64,
+struct event_spec_character_item {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "itype", cata_variant_type::itype_id },
+        }
+    };
+};
+
+static_assert( static_cast<int>( event_type::num_event_types ) == 67,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -166,6 +177,15 @@ struct event_spec<event_type::administers_mutagen> {
 
 template<>
 struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::avatar_enters_omt> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "pos", cata_variant_type::tripoint },
+            { "oter_id", cata_variant_type::oter_id },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::avatar_moves> {
@@ -283,13 +303,13 @@ struct event_spec<event_type::character_wakes_up> {
 };
 
 template<>
-struct event_spec<event_type::consumes_marloss_item> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
-            { "character", cata_variant_type::character_id },
-            { "itype", cata_variant_type::itype_id },
-        }
-    };
-};
+struct event_spec<event_type::character_wears_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::character_wields_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::consumes_marloss_item> : event_spec_character_item {};
 
 template<>
 struct event_spec<event_type::crosses_marloss_threshold> : event_spec_character {};
@@ -426,8 +446,13 @@ struct event_spec<event_type::game_over> {
 
 template<>
 struct event_spec<event_type::game_start> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
             { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "avatar_profession", cata_variant_type::profession_id },
+            { "avatar_custom_profession", cata_variant_type::string },
+            { "game_version", cata_variant_type::string },
         }
     };
 };

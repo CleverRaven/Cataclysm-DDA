@@ -620,7 +620,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item( "null", 0 );
+    weapon = item();
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -1674,7 +1674,7 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", 0 );
+    real_weapon = item();
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );

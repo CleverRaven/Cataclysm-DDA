@@ -2139,6 +2139,8 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
     std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
+    g->events().send<event_type::character_wears_item>( getID(), last_item );
+
     if( interactive ) {
         add_msg_player_or_npc(
             _( "You put on your %s." ),
@@ -2453,9 +2455,7 @@ item Character::i_rem( int pos )
 {
     item tmp;
     if( pos == -1 ) {
-        tmp = weapon;
-        weapon = item();
-        return tmp;
+        return remove_weapon();
     } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
         auto iter = worn.begin();
         std::advance( iter, worn_position_to_index( pos ) );
@@ -2585,6 +2585,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
     return tmp;
 }
