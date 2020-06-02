@@ -148,6 +148,11 @@ class item_contents
          */
         size_t num_item_stacks() const;
 
+        /**
+         * Open a menu for the avatar to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu();
+
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );
         bool spill_contents( const tripoint &pos );

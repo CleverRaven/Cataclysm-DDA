@@ -10,6 +10,7 @@
 #include "itype.h"
 #include "item_pocket.h"
 #include "map.h"
+#include "output.h"
 #include "units.h"
 
 struct tripoint;
@@ -19,6 +20,45 @@ static const std::vector<item_pocket::pocket_type> avail_types{
     item_pocket::pocket_type::MAGAZINE,
     item_pocket::pocket_type::MAGAZINE_WELL
 };
+
+class pocket_favorite_callback : public uilist_callback
+{
+    private:
+        std::list<item_pocket> *pockets = nullptr;
+    public:
+        pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
+        void refresh( uilist *menu ) override;
+};
+
+void pocket_favorite_callback::refresh( uilist *menu )
+{
+    item_pocket *selected_pocket = nullptr;
+    int i = 0;
+    for( item_pocket &pocket : *pockets ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+
+        if( i == menu->selected ) {
+            selected_pocket = &pocket;
+            break;
+        }
+        ++i;
+    }
+
+    if( selected_pocket != nullptr ) {
+        std::vector<iteminfo> info;
+        const int starty = 3;
+        const int startx = menu->w_width - menu->pad_right;
+
+        selected_pocket->general_info( info, menu->selected + 1, true );
+        selected_pocket->contents_info( info, menu->selected + 1, true );
+        fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1,
+                        c_light_gray, format_item_info( info, {} ) );
+    }
+
+    wrefresh( menu->window );
+}
 
 item_contents::item_contents( const std::vector<pocket_data> &pockets )
 {
@@ -1088,4 +1128,33 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
     if( parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
         info.insert( info.end(), contents_info.begin(), contents_info.end() );
     }
+}
+
+void item_contents::favorite_settings_menu()
+{
+    pocket_favorite_callback cb( &contents );
+    int num_container_pockets = 0;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            num_container_pockets++;
+        }
+    }
+    uilist pocket_selector;
+    pocket_selector.callback = &cb;
+    pocket_selector.w_x_setup = 0;
+    pocket_selector.w_width_setup = []() {
+        return TERMX;
+    };
+    pocket_selector.pad_right_setup = []() {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
+    pocket_selector.w_y_setup = 0;
+    pocket_selector.w_height_setup = []() {
+        return TERMY;
+    };
+    for( int i = 1; i <= num_container_pockets; i++ ) {
+        pocket_selector.addentry( string_format( "%d", i ) );
+    }
+
+    pocket_selector.query();
 }
