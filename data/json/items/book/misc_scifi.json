@@ -65,7 +65,6 @@
         "id": "scifi1_23",
         "text": "This is a copy of \"I Am Legend\" by Richard Matheson.  The sleeve is covered in dried blood."
       },
-      { "id": "scifi1_24", "text": "This is a copy of \"Roadside Picnic\" by Arkady and Boris Strugatsky." },
       {
         "id": "scifi1_25",
         "text": "This is a copy of \"The Forever War\" by Joe Haldeman.  This copy looks as if it's been slightly chewed by a dog or other large animal."
@@ -177,6 +176,14 @@
     "copy-from": "book_fict_soft_scifi_tpl",
     "relative": { "chapters": -6, "price_postapoc": -1490 }
   },
+  {
+    "id": "book_fict_soft_scifi_roadp",
+    "type": "BOOK",
+    "name": { "str": "Roadside Picnic", "str_pl": "copies of Roadside Picnic" },
+    "description": "This is a paperback copy of \"Roadside Picnic\" by Arkady and Boris Strugatsky.  It has been translated into over 20 languages, occasionally under the name \"Stalker.\"  This copy, fortunately for you, just happens to be in your native tongue.",
+    "copy-from": "book_fict_soft_scifi_tpl"
+  },
+
   {
     "id": "book_fict_soft_scifi_f451",
     "type": "BOOK",
