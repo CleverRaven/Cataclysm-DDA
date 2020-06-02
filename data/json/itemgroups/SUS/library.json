@@ -420,8 +420,9 @@
     "//2": "This returns a single hardback fictional scifi book.",
     "subtype": "distribution",
     "entries": [
-      { "item": "book_fict_hard_scifi_dune", "prob": 1 },
-      { "item": "book_fict_hard_scifi_talnt", "prob": 1 },
+      { "item": "book_fict_hard_scifi_dune", "prob": 2 },
+      { "item": "book_fict_hard_scifi_talnt", "prob": 2 },
+      { "item": "book_fict_hard_scifi_zamwe", "prob": 2 },
       { "item": "book_fict_hard_scifi_fifth", "prob": 1 }
     ]
   },

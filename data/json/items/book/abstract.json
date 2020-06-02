@@ -57,7 +57,7 @@
     "type": "BOOK",
     "name": "Nonfiction Book",
     "description": "template for hard bound nonfiction book",
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "1100 ml",
     "price": 1450,
     "price_postapoc": 2900,

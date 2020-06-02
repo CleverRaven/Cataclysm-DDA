@@ -175,9 +175,25 @@
     "name": { "str": "The Fifth Season", "str_pl": "signed copies of Fifth Season" },
     "description": "This is a signed hardcover copy of the Hugo award winning \"The Fifth Season\" by N.K. Jemisin.  It smells faintly of dirt.",
     "//isbn13": 9780356511931,
+    "//note": "if we make a rare or collectors' item library group, this should go there too",
     "price": 19999,
-    "weight": "1 kg",
     "copy-from": "book_fict_hard_scifi_tpl"
+  },
+  {
+    "id": "book_fict_hard_scifi_zamwe",
+    "type": "BOOK",
+    "name": { "str": "We", "str_pl": "copies of We" },
+    "description": "This hardback book is titled \"The Annotated We: A New Translation of Evgeny Zamiatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamiatin's language.",
+    "//isbn13": 9781611461787,
+    "price": 8799,
+    "weight": "458 g",
+    "volume": "756 ml",
+    "longest_side": "23 cm",
+    "bashing": 1,
+    "chapters": 40,
+    "time": "6 m",
+    "copy-from": "book_fict_hard_scifi_tpl",
+    "relative": { "intelligence": 1, "fun": -1 }
   },
   {
     "id": "book_fict_soft_scifi_cybrd",
