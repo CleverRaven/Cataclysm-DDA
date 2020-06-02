@@ -233,7 +233,7 @@ class item_pocket
         /** stacks like items inside the pocket */
         void restack();
         /** same as above, except returns the stack where input item was placed */
-        item *restack( /*const*/ item *it ) __attribute__( ( optimize( "-O0" ) ) );
+        item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
 
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
