@@ -83,10 +83,6 @@
         "id": "scifi1_31",
         "text": "This is a copy of William Gibson's \"Count Zero\".  The spine is stamped with 'Library Copy'.  And a sticker reading 'Science Fiction'."
       },
-      {
-        "id": "scifi1_32",
-        "text": "This is a copy of \"The Fifth Season\" by N.K. Jemsin.  It smells faintly of dirt."
-      },
       { "id": "scifi1_33", "text": "This is a copy of \"The Weapon Makers\" by A. E. van Vogt." },
       {
         "id": "scifi1_34",
@@ -157,6 +153,30 @@
     "//isbn13": 9780593099322,
     "//": "this variant of the book Dune is intentional",
     "price": 3299,
+    "copy-from": "book_fict_hard_scifi_tpl"
+  },
+  {
+    "id": "book_fict_hard_scifi_talnt",
+    "type": "BOOK",
+    "name": { "str": "Parable of the Talents", "str_pl": "copies of Parable of the Talents" },
+    "description": "This is a sturdy copy of \"Parable of the Talents.\".  It Octavia Butler's sequel to her book \"Parable of the Sower.\"",
+    "//isbn13": 9780613914314,
+    "price": 2575,
+    "weight": "517 g",
+    "volume": "963 ml",
+    "longest_side": "21 cm",
+    "bashing": 1,
+    "chapters": 25,
+    "copy-from": "book_fict_hard_scifi_tpl"
+  },
+  {
+    "id": "book_fict_hard_scifi_fifth",
+    "type": "BOOK",
+    "name": { "str": "The Fifth Season", "str_pl": "signed copies of Fifth Season" },
+    "description": "This is a signed hardcover copy of the Hugo award winning \"The Fifth Season\" by N.K. Jemisin.  It smells faintly of dirt.",
+    "//isbn13": 9780356511931,
+    "price": 19999,
+    "weight": "1 kg",
     "copy-from": "book_fict_hard_scifi_tpl"
   },
   {

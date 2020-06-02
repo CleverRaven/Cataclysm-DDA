@@ -281,9 +281,9 @@
     "//2": "This group is for a single hardback novel.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_fict_hard_sports", "prob": 6 },
+      { "group": "SUS_book_fict_hard_scifi", "prob": 4 },
+      { "group": "SUS_book_fict_hard_sports", "prob": 4 },
       { "group": "SUS_book_fict_hard_ya", "prob": 4 },
-      { "item": "book_fict_hard_scifi_dune", "prob": 1 },
       { "item": "novel_samurai", "prob": 1 }
     ]
   },
@@ -412,6 +412,17 @@
       { "item": "novel_spy", "prob": 2 },
       { "item": "novel_spy_comefly", "prob": 1 },
       { "item": "novel_spy_rocketsci", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_fict_hard_scifi",
+    "type": "item_group",
+    "//2": "This returns a single hardback fictional scifi book.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_fict_hard_scifi_dune", "prob": 1 },
+      { "item": "book_fict_hard_scifi_talnt", "prob": 1 },
+      { "item": "book_fict_hard_scifi_fifth", "prob": 1 }
     ]
   },
   {
