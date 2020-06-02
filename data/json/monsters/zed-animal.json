@@ -376,5 +376,35 @@
       "REVIVES",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_zombie_horse",
+    "type": "MONSTER",
+    "name": {"str": "Vernon" },
+    "description": "Maybe you haven't seen a loved one die, but getting close to it is definitely not a good choice.",
+    "default_faction": "zombie",
+    "bodytype": "horse",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "ZOMBIE" ],
+    "volume": "122 kg",
+    "hp": 70,
+    "speed": 215,
+    "material": [ "flesh" ],
+    "symbol": "V",
+    "color": "black",
+    "aggression": 100,
+    "morale": "80",
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "armor_bash": 5,
+    "armor_cut": 1,
+    "vision_day": 30,
+    "vision_night": 3,
+    "harvest": "zombie_leather",
+    "anger_triggers": [ "PLAYER_CLOSE","PLAYER_WEAK" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES","HEARS","SMELLS","BASHES","NO_BREATHE","REVIVES","BONES","FAT" ]
   }
 ]
