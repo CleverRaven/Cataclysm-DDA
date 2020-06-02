@@ -1703,9 +1703,11 @@ void npc::shop_restock()
 
     // This removes some items according to item spawn scaling factor,
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    ret.remove_if( [spawn_rate]( auto & ) {
-        return !( rng_float( 0, 1 ) < spawn_rate );
-    } );
+    if( spawn_rate < 1 ) {
+        ret.remove_if( [spawn_rate]( auto & ) {
+            return !( rng_float( 0, 1 ) < spawn_rate );
+        } );
+    }
 
     has_new_items = true;
     inv.clear();
