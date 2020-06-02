@@ -1620,6 +1620,10 @@
         "starts": 792,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
+      { "monster": "mon_zpider_mass", "freq": 1, "cost_multiplier": 10, "starts": 72 },
+      { "monster": "mon_zpider_mass", "freq": 1, "cost_multiplier": 10, "starts": 168 },
+      { "monster": "mon_zpider_mass", "freq": 1, "cost_multiplier": 10, "starts": 672 },
+      { "monster": "mon_zpider_mass", "freq": 1, "cost_multiplier": 10, "starts": 2160 },
       {
         "monster": "mon_wasp",
         "freq": 3,
@@ -3155,6 +3159,10 @@
         "starts": 792,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
+      { "monster": "mon_zpider_mass", "freq": 3, "cost_multiplier": 2, "starts": 72 },
+      { "monster": "mon_zpider_mass", "freq": 3, "cost_multiplier": 2, "starts": 168 },
+      { "monster": "mon_zpider_mass", "freq": 3, "cost_multiplier": 2, "starts": 672 },
+      { "monster": "mon_zpider_mass", "freq": 3, "cost_multiplier": 2, "starts": 2160 },
       { "monster": "mon_wasp", "freq": 1, "cost_multiplier": 0, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
         "monster": "mon_wasp",
