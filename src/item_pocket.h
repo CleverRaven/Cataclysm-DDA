@@ -192,6 +192,10 @@ class item_pocket
             return _saved_type;
         }
 
+        bool saved_sealed() const {
+            return _saved_sealed;
+        }
+
         // tries to put an item in the pocket. returns false if failure
         ret_val<contain_code> insert_item( const item &it );
         /**
@@ -236,6 +240,7 @@ class item_pocket
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST;
+        bool _saved_sealed = false;
         const pocket_data *data = nullptr;
         // the items inside the pocket
         std::list<item> contents;
