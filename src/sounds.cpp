@@ -48,17 +48,17 @@
 #include "weather.h"
 
 #if defined(SDL_SOUND)
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#include <SDL2/SDL_mixer.h>
-#else
-#include <SDL_mixer.h>
-#endif
-#include <thread>
-#if defined(_WIN32) && !defined(_MSC_VER)
-#include "mingw.thread.h"
-#endif
+    #if defined(_MSC_VER) && defined(USE_VCPKG)
+        #include <SDL2/SDL_mixer.h>
+    #else
+        #include <SDL_mixer.h>
+    #endif
+    #include <thread>
+    #if defined(_WIN32) && !defined(_MSC_VER)
+        #include "mingw.thread.h"
+    #endif
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+    #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 #endif
 
 weather_type previous_weather;
@@ -245,7 +245,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
         float dist_factor = max_map_distance;
         const auto cluster_end = sound_clusters.end();
         for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
-             ++centroid_iter ) {
+                ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
             tripoint centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
             const int dist = sound_distance( sound_event_pair.first, centroid_pos );
@@ -334,44 +334,44 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 {
     if( from_player_position ) {
         switch( category ) {
-            case sounds::sound_t::_LAST:
-                debugmsg( "ERROR: Incorrect sound category" );
-                return false;
-            case sounds::sound_t::background:
-            case sounds::sound_t::weather:
-            case sounds::sound_t::music:
-            // detailed music descriptions are printed in iuse::play_music
-            case sounds::sound_t::movement:
-            case sounds::sound_t::activity:
-            case sounds::sound_t::destructive_activity:
-            case sounds::sound_t::combat:
-            case sounds::sound_t::alert:
-            case sounds::sound_t::order:
-            case sounds::sound_t::speech:
-                return false;
-            case sounds::sound_t::electronic_speech:
-            case sounds::sound_t::alarm:
-                return true;
+        case sounds::sound_t::_LAST:
+            debugmsg( "ERROR: Incorrect sound category" );
+            return false;
+        case sounds::sound_t::background:
+        case sounds::sound_t::weather:
+        case sounds::sound_t::music:
+        // detailed music descriptions are printed in iuse::play_music
+        case sounds::sound_t::movement:
+        case sounds::sound_t::activity:
+        case sounds::sound_t::destructive_activity:
+        case sounds::sound_t::combat:
+        case sounds::sound_t::alert:
+        case sounds::sound_t::order:
+        case sounds::sound_t::speech:
+            return false;
+        case sounds::sound_t::electronic_speech:
+        case sounds::sound_t::alarm:
+            return true;
         }
     } else {
         switch( category ) {
-            case sounds::sound_t::background:
-            case sounds::sound_t::weather:
-            case sounds::sound_t::music:
-            case sounds::sound_t::movement:
-            case sounds::sound_t::activity:
-            case sounds::sound_t::destructive_activity:
-                return one_in( 100 );
-            case sounds::sound_t::speech:
-            case sounds::sound_t::electronic_speech:
-            case sounds::sound_t::alarm:
-            case sounds::sound_t::combat:
-            case sounds::sound_t::alert:
-            case sounds::sound_t::order:
-                return true;
-            case sounds::sound_t::_LAST:
-                debugmsg( "ERROR: Incorrect sound category" );
-                return false;
+        case sounds::sound_t::background:
+        case sounds::sound_t::weather:
+        case sounds::sound_t::music:
+        case sounds::sound_t::movement:
+        case sounds::sound_t::activity:
+        case sounds::sound_t::destructive_activity:
+            return one_in( 100 );
+        case sounds::sound_t::speech:
+        case sounds::sound_t::electronic_speech:
+        case sounds::sound_t::alarm:
+        case sounds::sound_t::combat:
+        case sounds::sound_t::alert:
+        case sounds::sound_t::order:
+            return true;
+        case sounds::sound_t::_LAST:
+            debugmsg( "ERROR: Incorrect sound category" );
+            return false;
         }
     }
     return true;
@@ -441,9 +441,9 @@ void sounds::process_sound_markers( player *p )
         if( p->has_effect( effect_sleep ) ) {
             if( ( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
                        p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
-                  ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
-                  ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
-                !p->has_effect( effect_narcosis ) ) {
+                    ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
+                    ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
+                    !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
@@ -463,7 +463,7 @@ void sounds::process_sound_markers( player *p )
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
             if( !p->activity.is_distraction_ignored( distraction_type::noise ) &&
-                !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
+                    !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
             }
@@ -487,7 +487,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
-            !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
+                !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep
@@ -723,7 +723,7 @@ void sfx::do_vehicle_engine_sfx()
         current_gear = 6;
     }
     if( veh->has_engine_type( fuel_type_muscle, true ) ||
-        veh->has_engine_type( fuel_type_wind, true ) ) {
+            veh->has_engine_type( fuel_type_wind, true ) ) {
         current_gear = previous_gear;
     }
 
@@ -783,8 +783,8 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
-            vehicle.v->vehicle_noise -
-            sound_distance( g->u.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
+                vehicle.v->vehicle_noise -
+                sound_distance( g->u.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
 
             noise_factor = vehicle.v->vehicle_noise - sound_distance( g->u.pos(), vehicle.v->global_pos3() );
             veh = vehicle.v;
@@ -862,7 +862,7 @@ void sfx::do_ambient()
     const bool weather_changed = g->weather.weather != previous_weather;
     // Step in at night time / we are not indoors
     if( is_night( calendar::turn ) && !is_sheltered &&
-        !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
+            !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
         fade_audio_group( group::time_of_day, 1000 );
         play_ambient_variant_sound( "environment", "nighttime", heard_volume,
                                     channel::nighttime_outdoors_env, 1000 );
@@ -875,8 +875,8 @@ void sfx::do_ambient()
     }
     // We are underground
     if( ( is_underground && !is_channel_playing( channel::underground_env ) &&
-          !is_deaf ) || ( is_underground &&
-                          weather_changed && !is_deaf ) ) {
+            !is_deaf ) || ( is_underground &&
+                            weather_changed && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         fade_audio_group( group::time_of_day, 1000 );
         play_ambient_variant_sound( "environment", "underground", heard_volume, channel::underground_env,
@@ -892,69 +892,69 @@ void sfx::do_ambient()
     }
     // We are indoors and it is also raining
     if( g->weather.weather >= WEATHER_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN &&
-        !is_underground
-        && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
+            !is_underground
+            && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
                                     1000 );
     }
     if( ( !is_sheltered && g->weather.weather != WEATHER_CLEAR && !is_deaf &&
-          !is_channel_playing( channel::outdoors_snow_env ) &&
-          !is_channel_playing( channel::outdoors_flurry_env ) &&
-          !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
-          !is_channel_playing( channel::outdoors_rain_env ) &&
-          !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) )
-        || ( !is_sheltered &&
-             weather_changed  && !is_deaf ) ) {
+            !is_channel_playing( channel::outdoors_snow_env ) &&
+            !is_channel_playing( channel::outdoors_flurry_env ) &&
+            !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
+            !is_channel_playing( channel::outdoors_rain_env ) &&
+            !is_channel_playing( channel::outdoors_drizzle_env ) &&
+            !is_channel_playing( channel::outdoor_blizzard ) )
+            || ( !is_sheltered &&
+                 weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
         switch( g->weather.weather ) {
-            case WEATHER_ACID_DRIZZLE:
-            case WEATHER_DRIZZLE:
-            case WEATHER_LIGHT_DRIZZLE:
-                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
-                                            channel::outdoors_drizzle_env,
-                                            1000 );
-                break;
-            case WEATHER_RAINY:
-                play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
-                                            channel::outdoors_rain_env,
-                                            1000 );
-                break;
-            case WEATHER_ACID_RAIN:
-            case WEATHER_THUNDER:
-            case WEATHER_LIGHTNING:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
-                                            channel::outdoors_thunderstorm_env,
-                                            1000 );
-                break;
-            case WEATHER_FLURRIES:
-                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
-                                            channel::outdoors_flurry_env,
-                                            1000 );
-                break;
-            case WEATHER_CLEAR:
-            case WEATHER_SUNNY:
-            case WEATHER_CLOUDY:
-            case WEATHER_SNOWSTORM:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume,
-                                            channel::outdoor_blizzard,
-                                            1000 );
-                break;
-            case WEATHER_SNOW:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
-                                            1000 );
-                break;
-            case WEATHER_MIST:
-            case WEATHER_THICK_MIST:
-            case WEATHER_STIFLING_MIST:
-                play_ambient_variant_sound( "environment", "WEATHER_MIST", heard_volume, channel::outdoors_mist,
-                                            1000 );
-                break;
-            case WEATHER_NULL:
-            case NUM_WEATHER_TYPES:
-                // nothing here, those are pseudo-types, they should not be active at all.
-                break;
+        case WEATHER_ACID_DRIZZLE:
+        case WEATHER_DRIZZLE:
+        case WEATHER_LIGHT_DRIZZLE:
+            play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
+                                        channel::outdoors_drizzle_env,
+                                        1000 );
+            break;
+        case WEATHER_RAINY:
+            play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
+                                        channel::outdoors_rain_env,
+                                        1000 );
+            break;
+        case WEATHER_ACID_RAIN:
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
+                                        channel::outdoors_thunderstorm_env,
+                                        1000 );
+            break;
+        case WEATHER_FLURRIES:
+            play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
+                                        channel::outdoors_flurry_env,
+                                        1000 );
+            break;
+        case WEATHER_CLEAR:
+        case WEATHER_SUNNY:
+        case WEATHER_CLOUDY:
+        case WEATHER_SNOWSTORM:
+            play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume,
+                                        channel::outdoor_blizzard,
+                                        1000 );
+            break;
+        case WEATHER_SNOW:
+            play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
+                                        1000 );
+            break;
+        case WEATHER_MIST:
+        case WEATHER_THICK_MIST:
+        case WEATHER_STIFLING_MIST:
+            play_ambient_variant_sound( "environment", "WEATHER_MIST", heard_volume, channel::outdoors_mist,
+                                        1000 );
+            break;
+        case WEATHER_NULL:
+        case NUM_WEATHER_TYPES:
+            // nothing here, those are pseudo-types, they should not be active at all.
+            break;
         }
     }
     // Keep track of weather to compare for next iteration
