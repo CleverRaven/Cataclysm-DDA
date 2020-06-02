@@ -28,6 +28,7 @@ class pocket_favorite_callback : public uilist_callback
     public:
         pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
         void refresh( uilist *menu ) override;
+        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
 
 void pocket_favorite_callback::refresh( uilist *menu )
@@ -58,6 +59,25 @@ void pocket_favorite_callback::refresh( uilist *menu )
     }
 
     wrefresh( menu->window );
+}
+
+bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu )
+{
+    if( event.get_first_input() == 't' && p->has_trait( vTraits[entnum] ) ) {
+        if( p->has_base_trait( vTraits[entnum] ) ) {
+            p->toggle_trait( vTraits[entnum] );
+            p->unset_mutation( vTraits[entnum] );
+
+        }
+        else {
+            p->set_mutation( vTraits[entnum] );
+            p->toggle_trait( vTraits[entnum] );
+        }
+        menu->entries[entnum].text_color = p->has_trait( vTraits[entnum] ) ? c_green : menu->text_color;
+        menu->entries[entnum].extratxt.txt = p->has_base_trait( vTraits[entnum] ) ? "T" : "";
+        return true;
+    }
+    return false;
 }
 
 item_contents::item_contents( const std::vector<pocket_data> &pockets )
