@@ -378,7 +378,7 @@
     ]
   },
   {
-    "id": "mon_zombie_spider_mass",
+    "id": "mon_zpider_mass",
     "type": "MONSTER",
     "name": { "str": "mass of zombie spiders" },
     "description": "Dozens, hundreds of spiders piling up high, each slowly oozing sticky green pus, struggling to keep the fetid mass together and moving.",
