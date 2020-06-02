@@ -2083,7 +2083,7 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "8 h",
-    "book_learn": [ [ "textbook_weapwest", 8 ] ],
+    "book_learn": [ [ "textbook_weapwest", 8 ], [ "scots_cookbook", 10 ] ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
