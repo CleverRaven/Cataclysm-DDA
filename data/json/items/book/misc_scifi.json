@@ -185,6 +185,7 @@
     "name": { "str": "We", "str_pl": "copies of We" },
     "description": "This hardback book is titled \"The Annotated We: A New Translation of Evgeny Zamiatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamiatin's language.",
     "//isbn13": 9781611461787,
+    "//": "this variant is intentional",
     "price": 8799,
     "weight": "458 g",
     "volume": "756 ml",
@@ -193,6 +194,22 @@
     "chapters": 40,
     "time": "6 m",
     "copy-from": "book_fict_hard_scifi_tpl",
+    "relative": { "intelligence": 1, "fun": -1 }
+  },
+  {
+    "id": "book_fict_soft_scifi_zamwe",
+    "type": "BOOK",
+    "name": { "str": "We", "str_pl": "copies of We" },
+    "description": "A seminal work of dystopian fiction, Evgeny Zamiatin's \"We\" was first published in 1924 but suppresed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciouly.",
+    "//isbn13": 9780140185850,
+    "//": "this variant is intentional",
+    "price": 1399,
+    "weight": "182 g",
+    "volume": "289 ml",
+    "longest_side": "20 cm",
+    "chapters": 40,
+    "time": "6 m",
+    "copy-from": "book_fict_soft_scifi_tpl",
     "relative": { "intelligence": 1, "fun": -1 }
   },
   {
