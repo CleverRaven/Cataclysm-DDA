@@ -254,7 +254,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
         "--\n"
         "<color_c_white>Techniques when wielded</color>:"
         " <color_c_light_blue>Brutal Strike</color>: <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color>,"
-        " <color_c_light_blue>Sweep Attack</color>: <color_c_cyan>Down 2 turns, crit only </color>, and"
+        " <color_c_light_blue>Sweep Attack</color>: <color_c_cyan>Down 2 turns, crit only</color>, and"
         " <color_c_light_blue>Block</color>: <color_c_cyan>Medium blocking ability</color>\n" );
 }
 
