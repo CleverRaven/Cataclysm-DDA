@@ -140,7 +140,7 @@
   {
     "id": "scots_tailor",
     "type": "BOOK",
-    "name": { "str": "Ye Scots Beuk o Tailoring", "str_pl": "copies of Ye Scots Beuk o Tailoring" },
+    "name": { "str": "Ye Scots Beuk o Tailorin'", "str_pl": "copies of Ye Scots Beuk o Tailorin'" },
     "description": "A semi-translated book from thirteenth century Scotland.  While a bit difficult to read, as there are a disquieting number of illustrations of people stabbing each other mixed amongst the pages, it provides insights into medieval Scottish fashion.",
     "weight": "2600 g",
     "volume": "2 L",
