@@ -159,7 +159,7 @@
     "id": "book_fict_hard_scifi_talnt",
     "type": "BOOK",
     "name": { "str": "Parable of the Talents", "str_pl": "copies of Parable of the Talents" },
-    "description": "This is a sturdy copy of \"Parable of the Talents.\".  It Octavia Butler's sequel to her book \"Parable of the Sower.\"",
+    "description": "This is a sturdy copy of \"Parable of the Talents.\".  It is Octavia Butler's sequel to her book \"Parable of the Sower.\"",
     "//isbn13": 9780613914314,
     "price": 2575,
     "weight": "517 g",
