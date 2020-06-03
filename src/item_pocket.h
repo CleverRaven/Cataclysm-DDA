@@ -81,6 +81,8 @@ class item_pocket
 
                 // essentially operator> but needs extra input. checks if *this is better
                 bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+
+                void info( std::vector<iteminfo> &info ) const;
             private:
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
@@ -250,6 +252,7 @@ class item_pocket
 
         void general_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
         void contents_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
+        void favorite_info( std::vector<iteminfo> &info );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -264,8 +267,9 @@ class item_pocket
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
-    private:
+
         favorite_settings settings;
+    private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST;
         bool _saved_sealed = false;

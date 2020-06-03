@@ -827,6 +827,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     }
 }
 
+void item_pocket::favorite_info( std::vector<iteminfo> &info )
+{
+    settings.info( info );
+}
+
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
 
@@ -1373,13 +1378,21 @@ void item_pocket::favorite_settings::set_priority( const int priority )
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
 {
     item_blacklist.clear();
-    item_whitelist.insert( id );
+    if( item_whitelist.count( id ) ) {
+        item_whitelist.erase( id );
+    } else {
+        item_whitelist.insert( id );
+    }
 }
 
 void item_pocket::favorite_settings::blacklist_item( const itype_id &id )
 {
     item_whitelist.clear();
-    item_blacklist.insert( id );
+    if( item_blacklist.count( id ) ) {
+        item_blacklist.erase( id );
+    } else {
+        item_blacklist.insert( id );
+    }
 }
 
 void item_pocket::favorite_settings::clear_item( const itype_id &id )
@@ -1391,13 +1404,21 @@ void item_pocket::favorite_settings::clear_item( const itype_id &id )
 void item_pocket::favorite_settings::whitelist_category( const item_category_id &id )
 {
     category_blacklist.clear();
-    category_whitelist.insert( id );
+    if( category_whitelist.count( id ) ) {
+        category_whitelist.erase( id );
+    } else {
+        category_whitelist.insert( id );
+    }
 }
 
 void item_pocket::favorite_settings::blacklist_category( const item_category_id &id )
 {
     category_whitelist.clear();
-    category_blacklist.insert( id );
+    if( category_blacklist.count( id ) ) {
+        category_blacklist.erase( id );
+    } else {
+        category_blacklist.insert( id );
+    }
 }
 
 void item_pocket::favorite_settings::clear_category( const item_category_id &id )
@@ -1413,14 +1434,43 @@ bool item_pocket::favorite_settings::is_better_favorite(
     const item_category_id &cat = it.get_category().id;
 
     if( category_blacklist.count( cat ) || item_blacklist.count( id ) ||
-        (!category_whitelist.empty() && !category_whitelist.count( cat ) ) ||
-        (!item_whitelist.empty() && !item_whitelist.count( id ) ) ) {
+        ( !category_whitelist.empty() && !category_whitelist.count( cat ) ) ||
+        ( !item_whitelist.empty() && !item_whitelist.count( id ) ) ) {
         return false;
     }
     if( rhs.category_blacklist.count( cat ) || rhs.item_blacklist.count( id ) ||
-        (!rhs.category_whitelist.empty() && !rhs.category_blacklist.count( cat ) ) ||
-        (!rhs.item_whitelist.empty() && !rhs.item_whitelist.count( id ) ) ) {
+        ( !rhs.category_whitelist.empty() && !rhs.category_blacklist.count( cat ) ) ||
+        ( !rhs.item_whitelist.empty() && !rhs.item_whitelist.count( id ) ) ) {
         return true;
     }
     return priority_rating > rhs.priority_rating;
+}
+
+template<typename T>
+std::string enumerate( cata::flat_set<T> container )
+{
+    std::vector<std::string> output;
+    for( const T &id : container ) {
+        output.push_back( id.c_str() );
+    }
+    return enumerate_as_string( output );
+}
+
+void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
+{
+    info.push_back( iteminfo( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Item Whitelist: %s" ),
+                              item_whitelist.empty() ? _( "(empty)" ) :
+    enumerate_as_string( item_whitelist.begin(), item_whitelist.end(), []( const itype_id & id ) {
+        return id->nname( 1 );
+    } ) ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Item Blacklist: %s" ),
+                              item_blacklist.empty() ? _( "(empty)" ) :
+    enumerate_as_string( item_blacklist.begin(), item_blacklist.end(), []( const itype_id & id ) {
+        return id->nname( 1 );
+    } ) ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Category Whitelist: %s" ),
+                              category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Category Blacklist: %s" ),
+                              category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) ) );
 }

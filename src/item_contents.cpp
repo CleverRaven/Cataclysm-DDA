@@ -11,6 +11,7 @@
 #include "item_pocket.h"
 #include "map.h"
 #include "output.h"
+#include "string_input_popup.h"
 #include "units.h"
 
 struct tripoint;
@@ -25,6 +26,8 @@ class pocket_favorite_callback : public uilist_callback
 {
     private:
         std::list<item_pocket> *pockets = nullptr;
+        // whitelist or blacklist, for interactions
+        bool whitelist = true;
     public:
         pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
         void refresh( uilist *menu ) override;
@@ -49,34 +52,96 @@ void pocket_favorite_callback::refresh( uilist *menu )
 
     if( selected_pocket != nullptr ) {
         std::vector<iteminfo> info;
-        const int starty = 3;
+        int starty = 3;
         const int startx = menu->w_width - menu->pad_right;
 
         selected_pocket->general_info( info, menu->selected + 1, true );
         selected_pocket->contents_info( info, menu->selected + 1, true );
-        fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1,
-                        c_light_gray, format_item_info( info, {} ) );
+        starty += fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1,
+                                  c_light_gray, format_item_info( info, {} ) ) + 2;
+
+        info.clear();
+        selected_pocket->favorite_info( info );
+        starty += fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1,
+                                  c_light_gray, format_item_info( info, {} ) );
     }
 
     wrefresh( menu->window );
 }
 
-bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int entnum, uilist *menu )
+bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
+                                    uilist *menu )
 {
-    if( event.get_first_input() == 't' && p->has_trait( vTraits[entnum] ) ) {
-        if( p->has_base_trait( vTraits[entnum] ) ) {
-            p->toggle_trait( vTraits[entnum] );
-            p->unset_mutation( vTraits[entnum] );
+    item_pocket *selected_pocket = nullptr;
+    int i = 0;
+    for( item_pocket &pocket : *pockets ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
 
+        if( i == menu->selected ) {
+            selected_pocket = &pocket;
+            break;
         }
-        else {
-            p->set_mutation( vTraits[entnum] );
-            p->toggle_trait( vTraits[entnum] );
-        }
-        menu->entries[entnum].text_color = p->has_trait( vTraits[entnum] ) ? c_green : menu->text_color;
-        menu->entries[entnum].extratxt.txt = p->has_base_trait( vTraits[entnum] ) ? "T" : "";
+        ++i;
+    }
+    if( selected_pocket == nullptr ) {
+        return false;
+    }
+
+    const char input = event.get_first_input();
+    if( input == 'w' ) {
+        whitelist = true;
+        return true;
+    } else if( input == 'b' ) {
+        whitelist = false;
         return true;
     }
+
+    const std::string whitelist_string = whitelist ? _( "whitelist" ) : _( "blacklist" );
+    const bool item_id = input == 'i';
+    const bool cat_id = input == 'c';
+    std::string id_string;
+    std::string query;
+
+    if( item_id ) {
+        id_string = _( "item id" );
+    } else if( cat_id ) {
+        id_string = _( "item category" );
+    }
+
+    if( item_id || cat_id ) {
+        const std::string title = string_format( _( "Enter %s to add to %s" ),
+                                  id_string, whitelist_string );
+        string_input_popup popup;
+        popup.title( title );
+        query = popup.query_string();
+    }
+
+    if( !query.empty() ) {
+        if( item_id ) {
+            const itype_id id( query );
+            if( whitelist ) {
+                selected_pocket->settings.whitelist_item( id );
+            } else {
+                selected_pocket->settings.blacklist_item( id );
+            }
+            return true;
+        } else if( cat_id ) {
+            const item_category_id id( query );
+            if( !id.is_valid() ) {
+                popup( "invalid id" );
+                return false;
+            }
+            if( whitelist ) {
+                selected_pocket->settings.whitelist_category( id );
+            } else {
+                selected_pocket->settings.blacklist_category( id );
+            }
+            return true;
+        }
+    }
+
     return false;
 }
 
