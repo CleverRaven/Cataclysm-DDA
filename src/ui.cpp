@@ -951,38 +951,60 @@ void uilist::settext( const std::string &str )
     text = str;
 }
 
-pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
+struct pointmenu_cb::impl_t {
+    const std::vector< tripoint > &points;
+    int last; // to suppress redrawing
+    tripoint last_view; // to reposition the view after selecting
+    shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
+
+    impl_t( const std::vector<tripoint> &pts );
+    ~impl_t();
+
+    void select( uilist *menu );
+};
+
+pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
 {
     last = INT_MIN;
     last_view = g->u.view_offset;
+    terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this]() {
+        if( last >= 0 && static_cast<size_t>( last ) < points.size() ) {
+            g->draw_trail_to_square( g->u.view_offset, true );
+        }
+    } );
+    g->add_draw_callback( terrain_draw_cb );
 }
 
-pointmenu_cb::~pointmenu_cb()
+pointmenu_cb::impl_t::~impl_t()
 {
     g->u.view_offset = last_view;
 }
 
-void pointmenu_cb::refresh( uilist *menu )
+void pointmenu_cb::impl_t::select( uilist *const menu )
 {
     if( last == menu->selected ) {
         return;
     }
-    if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-        last = menu->selected;
-        g->u.view_offset = tripoint_zero;
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-        menu->show();
-        return;
-    }
-
     last = menu->selected;
-    const tripoint &center = points[menu->selected];
-    g->u.view_offset = center - g->u.pos();
-    // TODO: Remove this line when it's safe
-    g->u.view_offset.z = 0;
-    g->draw_trail_to_square( g->u.view_offset, true );
-    menu->show();
+    if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
+        g->u.view_offset = tripoint_zero;
+    } else {
+        const tripoint &center = points[menu->selected];
+        g->u.view_offset = center - g->u.pos();
+        // TODO: Remove this line when it's safe
+        g->u.view_offset.z = 0;
+    }
+    g->invalidate_main_ui_adaptor();
+}
+
+pointmenu_cb::pointmenu_cb( const std::vector<tripoint> &pts ) : impl( pts )
+{
+}
+
+pointmenu_cb::~pointmenu_cb() = default;
+
+void pointmenu_cb::select( uilist *const menu )
+{
+    impl->select( menu );
 }
 

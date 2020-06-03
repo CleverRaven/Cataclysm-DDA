@@ -12,6 +12,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
+#include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
 
@@ -355,13 +356,12 @@ class uilist // NOLINT(cata-xy)
 class pointmenu_cb : public uilist_callback
 {
     private:
-        const std::vector< tripoint > &points;
-        int last; // to suppress redrawing
-        tripoint last_view; // to reposition the view after selecting
+        struct impl_t;
+        pimpl<impl_t> impl;
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() override;
-        void refresh( uilist *menu ) override;
+        void select( uilist *menu ) override;
 };
 
 #endif // CATA_SRC_UI_H

@@ -7134,10 +7134,7 @@ void draw_trail( const tripoint &start, const tripoint &end, const bool bDrawX )
 
 void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 {
-    //Reset terrain
-    draw_ter();
     ::draw_trail( u.pos(), u.pos() + t, bDrawX );
-    wrefresh( w_terrain );
 }
 
 static void centerlistview( const tripoint &active_item_position, int ui_width )
