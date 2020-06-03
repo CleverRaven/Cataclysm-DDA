@@ -295,24 +295,30 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
+    input_context ctxt( input_category );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "ANY_INPUT" );
     filter_popup = std::make_unique<string_input_popup>();
-    filter_popup->text( filter )
+    filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
-    input_event event;
     ime_sentry sentry;
     do {
         ui_manager::redraw();
         filter = filter_popup->query_string( false );
-        event = filter_popup->context().get_raw_input();
-        if( event.get_first_input() != KEY_ESCAPE ) {
-            if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
+        if( !filter_popup->canceled() ) {
+            const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
+            if( !scrollby( scroll_amount_from_action( action ) ) ) {
                 filterlist();
             }
         }
-    } while( event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE );
+    } while( !filter_popup->confirmed() && !filter_popup->canceled() );
 
-    if( event.get_first_input() == KEY_ESCAPE ) {
+    if( filter_popup->canceled() ) {
         filterlist();
     }
 
@@ -707,21 +713,6 @@ void uilist::show()
     wrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
-    }
-}
-
-int uilist::scroll_amount_from_key( const int key )
-{
-    if( key == KEY_UP ) {
-        return -1;
-    } else if( key == KEY_PPAGE ) {
-        return ( -vmax + 1 );
-    } else if( key == KEY_DOWN ) {
-        return 1;
-    } else if( key == KEY_NPAGE ) {
-        return vmax - 1;
-    } else {
-        return 0;
     }
 }
 
