@@ -1266,9 +1266,6 @@ void Item_factory::check_definitions() const
             if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
                 msg += string_format( "invalid default_ammo %s\n", type->magazine->default_ammo.str() );
             }
-            if( type->magazine->reliability < 0 || type->magazine->reliability > 100 ) {
-                msg += string_format( "invalid reliability %i\n", type->magazine->reliability );
-            }
             if( type->magazine->reload_time < 0 ) {
                 msg += string_format( "invalid reload_time %i\n", type->magazine->reload_time );
             }
@@ -2105,7 +2102,6 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "capacity", slot.capacity, strict, 0 );
     assign( jo, "count", slot.count, strict, 0 );
     assign( jo, "default_ammo", slot.default_ammo, strict );
-    assign( jo, "reliability", slot.reliability, strict, 0, 10 );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );
 }

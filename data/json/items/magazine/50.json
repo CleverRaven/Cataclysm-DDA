@@ -27,7 +27,6 @@
     "color": "light_gray",
     "ammo_type": [ "50" ],
     "capacity": 10,
-    "reliability": 9,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 10 } } ]
@@ -47,7 +46,6 @@
     "color": "dark_gray",
     "ammo_type": [ "50" ],
     "capacity": 10,
-    "reliability": 9,
     "reload_time": 110,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 10 } } ]
@@ -67,7 +65,6 @@
     "color": "dark_gray",
     "ammo_type": [ "50" ],
     "capacity": 5,
-    "reliability": 9,
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 5 } } ]

@@ -14,7 +14,6 @@
     "color": "dark_gray",
     "ammo_type": [ "20x66mm" ],
     "capacity": 10,
-    "reliability": 10,
     "reload_time": 60,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 10 } } ]
@@ -34,7 +33,6 @@
     "color": "dark_gray",
     "ammo_type": [ "20x66mm" ],
     "capacity": 20,
-    "reliability": 10,
     "reload_time": 60,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 20 } } ]
@@ -54,7 +52,6 @@
     "color": "dark_gray",
     "ammo_type": [ "20x66mm" ],
     "capacity": 40,
-    "reliability": 10,
     "reload_time": 70,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 40 } } ]
