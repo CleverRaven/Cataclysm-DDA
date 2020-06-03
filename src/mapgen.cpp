@@ -186,7 +186,7 @@ void map::generate( const tripoint &p, const time_point &when )
             random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, *pt );
+                add_spawn( spawn_details, *pt );
             }
         }
     }
@@ -561,12 +561,10 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
 
     if( x.valmax > mapgensize.x - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
-        return false;
     }
 
     if( y.valmax > mapgensize.y - 1 ) {
         jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
-        return false;
     }
 
     return true;
@@ -1884,13 +1882,13 @@ bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject
 }
 
 void jmapgen_objects::add( const jmapgen_place &place,
-                           shared_ptr_fast<const jmapgen_piece> piece )
+                           const shared_ptr_fast<const jmapgen_piece> &piece )
 {
     objects.emplace_back( place, piece );
 }
 
 template<typename PieceType>
-void jmapgen_objects::load_objects( JsonArray parray )
+void jmapgen_objects::load_objects( const JsonArray &parray )
 {
     for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
@@ -1905,7 +1903,7 @@ void jmapgen_objects::load_objects( JsonArray parray )
 }
 
 template<>
-void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
+void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
 {
     for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
@@ -5570,7 +5568,7 @@ void map::draw_connections( mapgendata &dat )
     }
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
-    if( terrain_type->has_flag( has_sidewalk ) ) {
+    if( terrain_type->has_flag( oter_flags::has_sidewalk ) ) {
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
             int n_num_dirs = terrain_type_to_nesw_array( oter_id( dat.t_nesw[dir] ), n_roads_nesw );
@@ -5644,15 +5642,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
         // Pick a monster type
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
-
-        const MonsterGroup &mg = group.obj();
-        auto mon_selected = std::find_if( mg.monsters.begin(), mg.monsters.end(),
-        [spawn_details]( const MonsterGroupEntry & mon ) {
-            return mon.name == spawn_details.name;
-        } );
-
         add_spawn( spawn_details.name, spawn_details.pack_size, { x, y, abs_sub.z },
-                   friendly, -1, mission_id, name, mon_selected->data );
+                   friendly, -1, mission_id, name, spawn_details.data );
     }
 }
 
@@ -5791,8 +5782,14 @@ std::vector<item *> map::put_items_from_loc( const items_location &loc, const tr
     return spawn_items( p, items );
 }
 
+void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const
+{
+    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
+               spawn_details.data );
+}
+
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name, spawn_data data ) const
+                     int faction_id, int mission_id, const std::string &name, const spawn_data &data ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );

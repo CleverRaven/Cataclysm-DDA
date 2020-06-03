@@ -7,6 +7,7 @@
 #include <tuple>
 #include <utility>
 
+#include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -939,6 +940,20 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Opened a strange temple." ) );
             break;
         }
+        case event_type::player_fails_conduct: {
+            add( pgettext( "memorial_male", "Lost the conduct %s%s." ),
+                 pgettext( "memorial_female", "Lost the conduct %s%s." ),
+                 e.get<achievement_id>( "conduct" )->name(),
+                 e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
+            break;
+        }
+        case event_type::player_gets_achievement: {
+            add( pgettext( "memorial_male", "Gained the achievement %s%s." ),
+                 pgettext( "memorial_female", "Gained the achievement %s%s." ),
+                 e.get<achievement_id>( "achievement" )->name(),
+                 e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
+            break;
+        }
         case event_type::player_levels_spell: {
             std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
             add( pgettext( "memorial_male", "Gained a spell level on %s." ),
@@ -1013,11 +1028,14 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         // All the events for which we have no memorial log are here
+        case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
+        case event_type::character_wears_item:
+        case event_type::character_wields_item:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

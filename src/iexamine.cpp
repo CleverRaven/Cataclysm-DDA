@@ -122,6 +122,7 @@ static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_flour( "flour" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_industrial( "id_industrial" );
 static const itype_id itype_id_military( "id_military" );
 static const itype_id itype_id_science( "id_science" );
@@ -3186,6 +3187,7 @@ void iexamine::keg( player &p, const tripoint &examp )
                     return; // They didn't actually drink
                 }
                 p.assign_activity( player_activity( consume_activity_actor( drink, false ) ) );
+                drink.charges--;
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
@@ -4296,6 +4298,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+
     cmenu.query();
 
     switch( cmenu.ret ) {
@@ -4341,28 +4344,35 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             const int height = examp.z - where.z;
             if( height == 0 ) {
-                p.add_msg_if_player( _( "You can't climb down there" ) );
+                p.add_msg_if_player( _( "You can't climb down there." ) );
                 return;
             }
 
+            const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
             const int climb_cost = p.climbing_cost( where, examp );
             const auto fall_mod = p.fall_damage_mod();
             std::string query_str = ngettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
+
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
                 return;
             } else if( height == 1 ) {
                 std::string query;
                 p.increase_activity_level( MODERATE_EXERCISE );
-                if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                    query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                } else if( climb_cost <= 0 ) {
-                    query = _( "You probably won't be able to get back up.  Climb down?" );
-                } else if( climb_cost < 200 ) {
-                    query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+
+                if( !has_grapnel ) {
+                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                    } else if( climb_cost <= 0 ) {
+                        query = _( "You probably won't be able to get back up.  Climb down?" );
+                    } else if( climb_cost < 200 ) {
+                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                    } else {
+                        query = _( "You may have problems climbing back up.  Climb down?" );
+                    }
                 } else {
-                    query = _( "You may have problems climbing back up.  Climb down?" );
+                    query = _( "Use your grappling hook to climb down?" );
                 }
 
                 if( !query_yn( query.c_str() ) ) {
@@ -4373,7 +4383,9 @@ void iexamine::ledge( player &p, const tripoint &examp )
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
 
-            if( g->m.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
+            if( has_grapnel ) {
+                p.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
+            } else if( g->m.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
                 return;
             }
 

@@ -1515,7 +1515,7 @@ static int HandleDPad()
                     return 0;
                 }
 
-                last_input = input_event( lc, CATA_INPUT_GAMEPAD );
+                last_input = input_event( lc, input_event_t::gamepad );
                 lastdpad = lc;
                 queued_dpad = ERR;
 
@@ -1535,7 +1535,7 @@ static int HandleDPad()
         // If we didn't hold it down for a while, just
         // fire the last registered press.
         if( queued_dpad != ERR ) {
-            last_input = input_event( queued_dpad, CATA_INPUT_GAMEPAD );
+            last_input = input_event( queued_dpad, input_event_t::gamepad );
             queued_dpad = ERR;
             return 1;
         }
@@ -2010,7 +2010,7 @@ int choose_best_key_for_action( const std::string &action, const std::string &ca
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action, category );
     int best_key = -1;
     for( const auto &events_event : events ) {
-        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
+        if( events_event.type == input_event_t::keyboard && events_event.sequence.size() == 1 ) {
             bool is_ascii_char = isprint( events_event.sequence.front() ) &&
                                  events_event.sequence.front() < 0xFF;
             bool is_best_ascii_char = best_key >= 0 && isprint( best_key ) && best_key < 0xFF;
@@ -2026,7 +2026,7 @@ bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back
 {
     if( key > 0 ) {
         quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name( category )];
-        input_event event = input_event( key, CATA_INPUT_KEYBOARD );
+        input_event event = input_event( key, input_event_t::keyboard );
         quick_shortcuts_t::iterator it = std::find( qsl.begin(), qsl.end(), event );
         if( it != qsl.end() ) { // already exists
             ( *it ).shortcut_last_used_action_counter =
@@ -2199,7 +2199,7 @@ void draw_quick_shortcuts()
             std::vector<input_context::manual_key> &registered_manual_keys =
                 touch_input_context.get_registered_manual_keys();
             for( const auto &manual_key : registered_manual_keys ) {
-                input_event event( manual_key.key, CATA_INPUT_KEYBOARD );
+                input_event event( manual_key.key, input_event_t::keyboard );
                 add_quick_shortcut( qsl, event, !shortcut_right, true );
             }
         }
@@ -2440,56 +2440,56 @@ void handle_finger_input( uint32_t ticks )
                  WindowHeight ) ) ) {
         if( !handle_diagonals ) {
             if( delta_x >= 0 && delta_y >= 0 ) {
-                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, CATA_INPUT_KEYBOARD );
+                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, input_event_t::keyboard );
             } else if( delta_x < 0 && delta_y >= 0 ) {
-                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, CATA_INPUT_KEYBOARD );
+                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, input_event_t::keyboard );
             } else if( delta_x >= 0 && delta_y < 0 ) {
-                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, CATA_INPUT_KEYBOARD );
+                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, input_event_t::keyboard );
             } else if( delta_x < 0 && delta_y < 0 ) {
-                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, CATA_INPUT_KEYBOARD );
+                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, input_event_t::keyboard );
             }
         } else {
             if( delta_x > 0 ) {
                 if( std::abs( delta_y ) < delta_x * 0.5f ) {
                     // swipe right
-                    last_input = input_event( KEY_RIGHT, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( KEY_RIGHT, input_event_t::keyboard );
                 } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-right
-                        last_input = input_event( JOY_RIGHTUP, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_RIGHTUP, input_event_t::gamepad );
                     } else {
                         // swipe down-right
-                        last_input = input_event( JOY_RIGHTDOWN, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_RIGHTDOWN, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
                         // swipe up
-                        last_input = input_event( KEY_UP, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_UP, input_event_t::keyboard );
                     } else {
                         // swipe down
-                        last_input = input_event( KEY_DOWN, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_DOWN, input_event_t::keyboard );
                     }
                 }
             } else {
                 if( std::abs( delta_y ) < -delta_x * 0.5f ) {
                     // swipe left
-                    last_input = input_event( KEY_LEFT, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( KEY_LEFT, input_event_t::keyboard );
                 } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-left
-                        last_input = input_event( JOY_LEFTUP, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_LEFTUP, input_event_t::gamepad );
 
                     } else {
                         // swipe down-left
-                        last_input = input_event( JOY_LEFTDOWN, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_LEFTDOWN, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
                         // swipe up
-                        last_input = input_event( KEY_UP, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_UP, input_event_t::keyboard );
                     } else {
                         // swipe down
-                        last_input = input_event( KEY_DOWN, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_DOWN, input_event_t::keyboard );
                     }
                 }
             }
@@ -2501,13 +2501,13 @@ void handle_finger_input( uint32_t ticks )
             // We only allow repeats for waiting, not confirming in menus as that's a bit silly
             if( is_default_mode ) {
                 last_input = input_event( get_key_event_from_string( get_option<std::string>( "ANDROID_TAP_KEY" ) ),
-                                          CATA_INPUT_KEYBOARD );
+                                          input_event_t::keyboard );
             }
         } else {
             if( last_tap_time > 0 &&
                 ticks - last_tap_time < static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                 // Double tap
-                last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, CATA_INPUT_KEYBOARD );
+                last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, input_event_t::keyboard );
                 last_tap_time = 0;
             } else {
                 // First tap detected, waiting to decide whether it's a single or a double tap input
@@ -2634,11 +2634,11 @@ static void CheckMessages()
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( g->u.movement_mode_is( CMM_RUN ) ) {
+                if( g->u.is_running() ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
                 // If we're already crouching, make it simple to toggle crouching to off.
-                if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+                if( g->u.is_crouching() ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
 
@@ -2755,7 +2755,7 @@ static void CheckMessages()
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( g->u.get_fatigue() > DEAD_TIRED ) {
+                if( g->u.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
                     actions.insert( ACTION_SLEEP );
                 }
 
@@ -2822,7 +2822,7 @@ static void CheckMessages()
             // Single tap
             last_tap_time = ticks;
             last_input = input_event( is_default_mode ? get_key_event_from_string(
-                                          get_option<std::string>( "ANDROID_TAP_KEY" ) ) : '\n', CATA_INPUT_KEYBOARD );
+                                          get_option<std::string>( "ANDROID_TAP_KEY" ) ) : '\n', input_event_t::keyboard );
             last_tap_time = 0;
             return;
         }
@@ -2917,7 +2917,7 @@ static void CheckMessages()
                 } else if( add_alt_code( lc ) ) {
                     // key was handled
                 } else {
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( lc, input_event_t::keyboard );
 #if defined(__ANDROID__)
                     if( !android_is_hardware_keyboard_available() ) {
                         if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
@@ -2926,7 +2926,7 @@ static void CheckMessages()
                             }
 
                             // add a quick shortcut
-                            if( !last_input.text.empty() || !inp_mngr.get_keyname( lc, CATA_INPUT_KEYBOARD ).empty() ) {
+                            if( !last_input.text.empty() || !inp_mngr.get_keyname( lc, input_event_t::keyboard ).empty() ) {
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
                                 refresh_display();
@@ -2960,7 +2960,7 @@ static void CheckMessages()
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
                     if( code ) {
-                        last_input = input_event( code, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( code, input_event_t::keyboard );
                         last_input.text = utf32_to_utf8( code );
                     }
                 }
@@ -2970,7 +2970,7 @@ static void CheckMessages()
                 if( !add_alt_code( *ev.text.text ) ) {
                     if( strlen( ev.text.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.text.text );
-                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( lc, input_event_t::keyboard );
 #if defined(__ANDROID__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
@@ -2993,7 +2993,7 @@ static void CheckMessages()
                     } else {
                         // no key pressed in this event
                         last_input = input_event();
-                        last_input.type = CATA_INPUT_KEYBOARD;
+                        last_input.type = input_event_t::keyboard;
                     }
                     last_input.text = ev.text.text;
                     text_refresh = true;
@@ -3002,11 +3002,11 @@ static void CheckMessages()
             case SDL_TEXTEDITING: {
                 if( strlen( ev.edit.text ) > 0 ) {
                     const unsigned lc = UTF8_getch( ev.edit.text );
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( lc, input_event_t::keyboard );
                 } else {
                     // no key pressed in this event
                     last_input = input_event();
-                    last_input.type = CATA_INPUT_KEYBOARD;
+                    last_input.type = input_event_t::keyboard;
                 }
                 last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
@@ -3014,7 +3014,7 @@ static void CheckMessages()
             }
             break;
             case SDL_JOYBUTTONDOWN:
-                last_input = input_event( ev.jbutton.button, CATA_INPUT_KEYBOARD );
+                last_input = input_event( ev.jbutton.button, input_event_t::keyboard );
                 break;
             case SDL_JOYAXISMOTION:
                 // on gamepads, the axes are the analog sticks
@@ -3028,26 +3028,26 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, CATA_INPUT_MOUSE );
+                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, CATA_INPUT_MOUSE );
+                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, CATA_INPUT_MOUSE );
+                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, CATA_INPUT_MOUSE );
+                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, CATA_INPUT_MOUSE );
+                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
                 }
                 break;
 
@@ -3143,7 +3143,7 @@ static void CheckMessages()
 
                                 if( std::max( d1, d2 ) < get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) {
                                     last_input = input_event( get_key_event_from_string(
-                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), input_event_t::keyboard );
                                 } else {
                                     float dot = ( x1 * x2 + y1 * y2 ) / ( d1 * d2 ); // dot product of two finger vectors, -1 to +1
                                     if( dot > 0.0f ) { // both fingers mostly heading in same direction, check for double-finger swipe gesture
@@ -3156,16 +3156,16 @@ static void CheckMessages()
                                             float yavg = 0.5f * ( y1 + y2 );
                                             if( xavg > 0 && xavg > std::abs( yavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), input_event_t::keyboard );
                                             } else if( xavg < 0 && -xavg > std::abs( yavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), input_event_t::keyboard );
                                             } else if( yavg > 0 && yavg > std::abs( xavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), input_event_t::keyboard );
                                             } else {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), input_event_t::keyboard );
                                             }
                                         }
                                     } else {
@@ -3181,10 +3181,10 @@ static void CheckMessages()
                                         const float zoom_ratio = 0.9f;
                                         if( curr_dist < down_dist * zoom_ratio ) {
                                             last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), input_event_t::keyboard );
                                         } else if( curr_dist > down_dist / zoom_ratio ) {
                                             last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), input_event_t::keyboard );
                                         }
                                     }
                                 }
@@ -3667,11 +3667,11 @@ input_event input_manager::get_input_event()
     if( inputdelay < 0 ) {
         do {
             CheckMessages();
-            if( last_input.type != CATA_INPUT_ERROR ) {
+            if( last_input.type != input_event_t::error ) {
                 break;
             }
             SDL_Delay( 1 );
-        } while( last_input.type == CATA_INPUT_ERROR );
+        } while( last_input.type == input_event_t::error );
     } else if( inputdelay > 0 ) {
         uint32_t starttime = SDL_GetTicks();
         uint32_t endtime = 0;
@@ -3679,29 +3679,29 @@ input_event input_manager::get_input_event()
         do {
             CheckMessages();
             endtime = SDL_GetTicks();
-            if( last_input.type != CATA_INPUT_ERROR ) {
+            if( last_input.type != input_event_t::error ) {
                 break;
             }
             SDL_Delay( 1 );
             timedout = endtime >= starttime + inputdelay;
             if( timedout ) {
-                last_input.type = CATA_INPUT_TIMEOUT;
+                last_input.type = input_event_t::timeout;
             }
         } while( !timedout );
     } else {
         CheckMessages();
     }
 
-    if( last_input.type == CATA_INPUT_MOUSE ) {
+    if( last_input.type == input_event_t::mouse ) {
         SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
-    } else if( last_input.type == CATA_INPUT_KEYBOARD ) {
+    } else if( last_input.type == input_event_t::keyboard ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
         android_vibrate();
 #endif
     }
 #if defined(__ANDROID__)
-    else if( last_input.type == CATA_INPUT_GAMEPAD ) {
+    else if( last_input.type == input_event_t::gamepad ) {
         android_vibrate();
     }
 #endif

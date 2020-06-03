@@ -590,7 +590,7 @@ void character_edit_menu()
             }
             p.worn.clear();
             p.inv.clear();
-            p.weapon = item();
+            p.remove_weapon();
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
@@ -603,6 +603,7 @@ void character_edit_menu()
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
                 p.weapon = to_wear;
+                g->events().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
             }
         }
         break;
@@ -905,7 +906,6 @@ void character_edit_menu()
             p.add_effect( effect_flu, 1000_minutes );
             break;
         }
-        break;
         case D_ASTHMA: {
             p.set_mutation( trait_ASTHMA );
             p.add_effect( effect_asthma, 10_minutes );

@@ -33,6 +33,18 @@
   },
   {
     "type": "AMMO",
+    "id": "flare_nitrate",
+    "name": { "str_sp": "flare pyrotechnic" },
+    "symbol": "~",
+    "description": "A pyrotechnic chemical used in flares.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "flare_nitrate"
+  },
+  {
+    "type": "AMMO",
     "id": "match",
     "name": { "str": "match", "str_pl": "matches" },
     "symbol": "|",
@@ -837,6 +849,21 @@
     "count": 250,
     "stack_size": 10,
     "fuel": { "energy": 30 }
+  },
+  {
+    "type": "AMMO",
+    "id": "albuterol",
+    "category": "drugs",
+    "name": { "str": "albuterol" },
+    "symbol": "=",
+    "color": "blue",
+    "description": "A bronchodilator that relaxes muscles in the airways and increases air flow to the lungs.",
+    "material": "plastic",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "gas",
+    "ammo_type": "albuterol"
   },
   {
     "type": "AMMO",

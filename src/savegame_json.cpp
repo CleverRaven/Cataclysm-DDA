@@ -130,7 +130,8 @@ static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const trap_str_id tr_brazier( "tr_brazier" );
 
-static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
+static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
+obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
         "OBJECT_TERRAIN", "OBJECT_FURNITURE"
     }
@@ -200,6 +201,7 @@ void item_pocket::serialize( JsonOut &json ) const
         json.start_object();
         json.member( "pocket_type", data->type );
         json.member( "contents", contents );
+        json.member( "_sealed", _sealed );
         json.end_object();
     }
 }
@@ -211,6 +213,8 @@ void item_pocket::deserialize( JsonIn &jsin )
     int saved_type_int;
     data.read( "pocket_type", saved_type_int );
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+    data.read( "_sealed", _sealed );
+    _saved_sealed = _sealed;
 }
 
 void pocket_data::deserialize( JsonIn &jsin )
@@ -449,6 +453,10 @@ void Character::load( const JsonObject &data )
 
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
+    if( !data.read( "blood_type", my_blood_type ) ||
+        !data.read( "blood_rh_factor", blood_rh_factor ) ) {
+        randomize_blood();
+    };
 
     data.read( "custom_profession", custom_profession );
 
@@ -615,7 +623,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item( "null", 0 );
+    weapon = item();
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -633,8 +641,14 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    for( const JsonMember member : data.get_object( "skills" ) ) {
+    JsonObject skill_data = data.get_object( "skills" );
+    for( const JsonMember member : skill_data ) {
         member.read( ( *_skills )[skill_id( member.name() )] );
+    }
+    if( savegame_loading_version <= 28 ) {
+        if( !skill_data.has_member( "chemistry" ) && skill_data.has_member( "cooking" ) ) {
+            skill_data.get_member( "cooking" ).read( ( *_skills )[skill_id( "chemistry" )] );
+        }
     }
 
     on_stat_change( "thirst", thirst );
@@ -711,6 +725,8 @@ void Character::store( JsonOut &json ) const
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
+    json.member_as_string( "blood_type", my_blood_type );
+    json.member( "blood_rh_factor", blood_rh_factor );
 
     json.member( "custom_profession", custom_profession );
 
@@ -1047,7 +1063,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "assigned_invlet" );
     json.start_array();
-    for( auto iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv.assigned_invlet ) {
         json.start_array();
         json.write( iter.first );
         json.write( iter.second );
@@ -1086,7 +1102,7 @@ void avatar::load( const JsonObject &data )
     }
     const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
     grab( iter == obj_type_name.end() ?
-          OBJECT_NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
+          object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
 
     data.read( "focus_pool", focus_pool );
@@ -1661,7 +1677,7 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", 0 );
+    real_weapon = item();
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
@@ -2994,7 +3010,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for( auto maps : *effects ) {
+    for( const auto &maps : *effects ) {
         for( const auto i : maps.second ) {
             std::ostringstream convert;
             convert << i.first;
@@ -3049,18 +3065,18 @@ void Creature::load( const JsonObject &jsin )
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
             jsin.read( "effects", tmp_map );
             int key_num = 0;
-            for( auto maps : tmp_map ) {
+            for( const auto &maps : tmp_map ) {
                 const efftype_id id( maps.first );
                 if( !id.is_valid() ) {
                     debugmsg( "Invalid effect: %s", id.c_str() );
                     continue;
                 }
-                for( auto i : maps.second ) {
+                for( const auto &i : maps.second ) {
                     if( !( std::istringstream( i.first ) >> key_num ) ) {
                         key_num = 0;
                     }
                     const body_part bp = static_cast<body_part>( key_num );
-                    effect &e = i.second;
+                    const effect &e = i.second;
 
                     ( *effects )[id][bp] = e;
                     on_effect_int_change( id, e.get_intensity(), bp );

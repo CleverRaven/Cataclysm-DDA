@@ -46,6 +46,7 @@
 #include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -149,10 +150,11 @@ class DefaultRemovePartHandler : public RemovePartHandler
             }
             // TODO: maybe do this for all the nearby NPCs as well?
 
-            if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
+            if( g->u.get_grab_type() == object_type::VEHICLE &&
+                g->u.grab_point == veh.global_part_pos3( part ) ) {
                 if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                    g->u.grab( OBJECT_NONE );
+                    g->u.grab( object_type::NONE );
                 }
             }
 
@@ -897,12 +899,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // we really want to avoid running the player over.
     // If its a helicopter, we dont need to worry about airborne obstacles so much
     // And fuel efficiency is terrible at low speeds.
-    int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
-        safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
-        safe_player_follow_speed = 200;
-    }
+    const int safe_player_follow_speed = 400 * g->u.current_movement_mode()->move_speed_mult();
     if( follow_protocol ) {
         if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
             rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
@@ -1817,7 +1814,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     const point mount_zero = point_zero;
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
-        for( auto carry_map : carry_data ) {
+        for( const mapping &carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
             std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
@@ -5224,7 +5221,7 @@ bool vehicle::remove_item( int part, item *it )
     return true;
 }
 
-vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator it )
+vehicle_stack::iterator vehicle::remove_item( int part, const vehicle_stack::const_iterator &it )
 {
     cata::colony<item> &veh_items = parts[part].items;
 
@@ -5283,7 +5280,7 @@ void vehicle::place_spawn_items()
                 }
                 for( const std::string &e : spawn.item_groups ) {
                     item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
-                    for( auto spawn_item : group_items ) {
+                    for( const auto &spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }
                 }

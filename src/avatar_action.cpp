@@ -38,6 +38,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -146,13 +147,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        if( you.movement_mode_is( CMM_WALK ) ) {
-            you.increase_activity_level( LIGHT_EXERCISE );
-        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-            you.increase_activity_level( MODERATE_EXERCISE );
-        } else {
-            you.increase_activity_level( ACTIVE_EXERCISE );
-        }
+        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -394,7 +389,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.movement_mode_is( CMM_WALK )
+        && you.is_walking()
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -564,10 +559,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
+    tripoint old_abs_pos = m.getabs( you.pos() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( you, m, p );
+    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
@@ -580,13 +576,13 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
 
     body_part_set drenchFlags{ {
-            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
         }
     };
 
     if( you.is_underwater() ) {
-        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
+        drenchFlags.unify_set( { { bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ) } } );
     }
     you.drench( 100, drenchFlags, true );
 }

@@ -215,8 +215,8 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+    for( const bodypart_str_id &bp : restricts_gear ) {
+        if( it.covers( bp.id() ) ) {
             return true;
         }
     }
@@ -224,9 +224,9 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
-    const auto iter = armor.find( bp );
+    const auto iter = armor.find( bp.id() );
     if( iter == armor.end() ) {
         static const resistances nulres;
         return nulres;
@@ -235,17 +235,17 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-m_size calculate_size( const Character &c )
+creature_size calculate_size( const Character &c )
 {
     if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
         c.has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
+        return creature_size::large;
     } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
+        return creature_size::huge;
     }
-    return MS_MEDIUM;
+    return creature_size::medium;
 }
 
 void Character::mutation_effect( const trait_id &mut )

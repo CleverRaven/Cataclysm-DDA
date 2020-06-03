@@ -457,10 +457,11 @@ void npc::assess_danger()
         }
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
+        int dist = rl_dist( pos(), critter.pos() );
         if( ( is_enemy() || !critter.friendly ) ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                warn_about( "monster", 10_minutes, critter.type->nname() );
+                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
         }
         // ignore targets behind glass even if we can see them
@@ -468,7 +469,6 @@ void npc::assess_danger()
             continue;
         }
 
-        int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
@@ -513,11 +513,11 @@ void npc::assess_danger()
     }
     const auto handle_hostile = [&]( const player & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
+        int dist = rl_dist( pos(), foe.pos() );
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-            warn_about( "monster", 10_minutes, bogey );
+            warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
 
-        int dist = rl_dist( pos(), foe.pos() );
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         // ignore targets behind glass even if we can see them
@@ -3805,6 +3805,7 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
+        complain_about( "camp_water_thanks", 1_hours, "<camp_water_thanks>", false );
         set_thirst( 0 );
         return true;
     }
@@ -3812,11 +3813,13 @@ bool npc::consume_food_from_camp()
     int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
                                          stomach.get_calories() ), yours->food_supply );
     if( camp_kcals > 0 ) {
+        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
         mod_hunger( -camp_kcals );
         mod_stored_kcal( camp_kcals );
         yours->food_supply -= camp_kcals;
         return true;
     }
+    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty", false );
     return false;
 }
 
@@ -4315,7 +4318,21 @@ static body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
+static std::string distance_string( int range )
+{
+    if( range < 6 ) {
+        return "<danger_close_distance>";
+    } else if( range < 11 ) {
+        return "<close_distance>";
+    } else if( range < 26 ) {
+        return "<medium_distance>";
+    } else {
+        return "<far_distance>";
+    }
+}
+
+void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name,
+                      int range, const tripoint &danger_pos )
 {
     std::string snip;
     sounds::sound_t spriority = sounds::sound_t::alert;
@@ -4355,9 +4372,16 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name.empty() ? snip :
-                               string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), spriority );
+    if( name.empty() ) {
+        complain_about( warning_name, d, snip, is_enemy(), spriority );
+    } else {
+        const std::string range_str = range < 1 ? "<punc>" :
+                                      string_format( _( " %s, %s" ),
+                                              direction_name( direction_from( pos(), danger_pos ) ),
+                                              distance_string( range ) );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        complain_about( warning_name, d, speech, is_enemy(), spriority );
+    }
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
@@ -4529,7 +4553,7 @@ bool npc::adjust_worn()
     const auto covers_broken = [this]( const item & it, side s ) {
         const auto covered = it.get_covered_body_parts( s );
         for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
+            if( hp_cur[ i ] <= 0 && covered.test( convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ) ) ) {
                 return true;
             }
         }
@@ -4553,7 +4577,7 @@ bool npc::adjust_worn()
     return false;
 }
 
-void npc::set_movement_mode( character_movemode new_mode )
+void npc::set_movement_mode( const move_mode_id &new_mode )
 {
     move_mode = new_mode;
 }

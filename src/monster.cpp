@@ -172,12 +172,12 @@ struct pathfinding_settings;
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 static constexpr int UPGRADE_MAX_ITERS = 5;
 
-static const std::map<m_size, translation> size_names {
-    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
-    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
-    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
-    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
-    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
+static const std::map<creature_size, translation> size_names {
+    { creature_size::tiny, to_translation( "size adj", "tiny" ) },
+    { creature_size::small, to_translation( "size adj", "small" ) },
+    { creature_size::medium, to_translation( "size adj", "medium" ) },
+    { creature_size::large, to_translation( "size adj", "large" ) },
+    { creature_size::huge, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -1897,19 +1897,19 @@ float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             size_bonus -= 7;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             size_bonus -= 3;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             size_bonus += 5;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             size_bonus += 10;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             break; // keep default
     }
 
@@ -1961,15 +1961,15 @@ float monster::fall_damage_mod() const
     }
 
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 0.2f;
-        case MS_SMALL:
+        case creature_size::small:
             return 0.6f;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 1.0f;
-        case MS_LARGE:
+        case creature_size::large:
             return 1.4f;
-        case MS_HUGE:
+        case creature_size::huge:
             return 2.0f;
     }
 
@@ -2354,7 +2354,8 @@ void monster::drop_items_on_death()
         // Temporary vector, to remember which items will be dropped
         std::vector<item> remaining;
         for( const item &it : items ) {
-            if( rng_float( 0, 1 ) < spawn_rate ) {
+            // Mission items are not affected by item spawn rate
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( "MISSION_ITEM" ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2546,7 +2547,7 @@ bool monster::make_fungus()
         polypick = 7;
     } else if( tid == mon_zombie_gasbag ) {
         polypick = 8;
-    } else if( type->in_species( species_SPIDER ) && get_size() > MS_TINY ) {
+    } else if( type->in_species( species_SPIDER ) && get_size() > creature_size::tiny ) {
         polypick = 9;
     }
 
@@ -2629,9 +2630,9 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-m_size monster::get_size() const
+creature_size monster::get_size() const
 {
-    return m_size( type->size + size_bonus );
+    return creature_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const

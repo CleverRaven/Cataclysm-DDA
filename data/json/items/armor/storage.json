@@ -1082,6 +1082,6 @@
     ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ]
   }
 ]

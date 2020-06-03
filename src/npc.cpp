@@ -53,6 +53,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "options.h"
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -839,6 +840,9 @@ void npc::starting_weapon( const npc_class_id &type )
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
         }
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+
     weapon.set_owner( get_faction()->id );
 }
 
@@ -1056,7 +1060,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
+            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) &&
+                it.covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
             }
@@ -1080,7 +1085,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id bp : get_all_body_parts() ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -1088,7 +1093,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( "SPLINT" ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp->token ) ) &&
+                                         iter->has_flag( "SPLINT" ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }
@@ -1152,6 +1158,7 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
@@ -1179,6 +1186,8 @@ bool npc::wield( item &it )
     } else {
         weapon = it;
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
@@ -1696,6 +1705,14 @@ void npc::shop_restock()
             count += 1;
             last_item = count > 10 && one_in( 100 );
         }
+    }
+
+    // This removes some items according to item spawn scaling factor,
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        ret.remove_if( [spawn_rate]( auto & ) {
+            return !( rng_float( 0, 1 ) < spawn_rate );
+        } );
     }
 
     has_new_items = true;

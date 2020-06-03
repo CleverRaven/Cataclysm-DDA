@@ -43,5 +43,15 @@
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
     "extend": { "cancels": [ "DRUNKEN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_SUBLIME",
+    "name": { "str": "Martial Adept" },
+    "points": 2,
+    "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_desert_wind", "style_mma_diamond_mind" ],
+    "valid": false
   }
 ]

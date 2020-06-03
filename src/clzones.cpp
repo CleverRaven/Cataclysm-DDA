@@ -926,7 +926,7 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, shared_ptr_fast<zone_options> options )
+                        const tripoint &end, const shared_ptr_fast<zone_options> &options )
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space

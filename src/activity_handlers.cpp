@@ -103,6 +103,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+enum class creature_size : int;
+
 static const efftype_id effect_sheared( "sheared" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -147,9 +149,7 @@ static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -240,13 +240,10 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 
@@ -373,7 +370,6 @@ activity_handlers::finish_functions = {
     { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
     { ACT_FORAGE, forage_finish },
-    { ACT_HOTWIRE_CAR, hotwire_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
@@ -386,7 +382,6 @@ activity_handlers::finish_functions = {
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
     { ACT_CRACKING, cracking_finish },
-    { ACT_LOCKPICK, lockpicking_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -615,7 +610,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                               u.has_amount( itype_vine_30, 1 ) ||
                               u.has_amount( itype_grapnel, 1 ) ||
                               u.has_amount( itype_chain, 1 );
-        const bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool big_corpse = corpse.size >= creature_size::medium;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -667,7 +662,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     }
 
     if( action == butcher_type::QUARTER ) {
-        if( corpse.size == MS_TINY ) {
+        if( corpse.size == creature_size::tiny ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname() );
             act.targets.pop_back();
@@ -734,19 +729,19 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     int time_to_cut = 0;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
+        case creature_size::tiny:
             time_to_cut = 150;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             time_to_cut = 300;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             time_to_cut = 450;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             time_to_cut = 600;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             time_to_cut = 1800;
             break;
     }
@@ -972,7 +967,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -1161,9 +1156,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 
     if( action == butcher_type::DISSECT ) {
-        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     } else {
-        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     }
 }
 
@@ -1826,38 +1823,6 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::hotwire_finish( player_activity *act, player *p )
-{
-    //Grab this now, in case the vehicle gets shifted
-    if( const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
-                                           act->values[1],
-                                           p->posz() ) ) ) ) {
-        vehicle *const veh = &vp->vehicle();
-        const int mech_skill = act->values[2];
-        if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
-            //success
-            veh->is_locked = false;
-            add_msg( _( "This wire will start the engine." ) );
-        } else if( mech_skill > static_cast<int>( rng( 0, 4 ) ) ) {
-            //soft fail
-            veh->is_locked = false;
-            veh->is_alarm_on = veh->has_security_working();
-            add_msg( _( "This wire will probably start the engine." ) );
-        } else if( veh->is_alarm_on ) {
-            veh->is_locked = false;
-            add_msg( _( "By process of elimination, this wire will start the engine." ) );
-        } else {
-            //hard fail
-            veh->is_alarm_on = veh->has_security_working();
-            add_msg( _( "The red wire always starts the engine, doesn't it?" ) );
-        }
-    } else {
-        dbg( D_ERROR ) << "game:process_activity: ACT_HOTWIRE_CAR: vehicle not found";
-        debugmsg( "process_activity ACT_HOTWIRE_CAR: vehicle not found" );
-    }
-    act->set_to_null();
-}
-
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
     static const std::string salvage_string = "salvage";
@@ -2480,91 +2445,6 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
     g->m.furn_set( act->placement, f_safe_c );
-    act->set_to_null();
-}
-
-void activity_handlers::lockpicking_finish( player_activity *act, player *p )
-{
-    item_location &loc = act->targets[ 0 ];
-    item *it = loc.get_item();
-    if( it == nullptr ) {
-        debugmsg( "lockpick item location lost" );
-        p->cancel_activity();
-        return;
-    }
-
-    const ter_id ter_type = g->m.ter( act->placement );
-    const furn_id furn_type = g->m.furn( act->placement );
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
-    if( ter_type == t_chaingate_l ) {
-        new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-               ter_type == t_door_locked_interior ) {
-        new_ter_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_locked_peep ) {
-        new_ter_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_metal_pickable ) {
-        new_ter_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_bar_locked ) {
-        new_ter_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else if( furn_type == f_gunsafe_ml ) {
-        new_furn_type = f_safe_o;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else {
-        act->set_to_null();
-    }
-
-    bool destroy = false;
-
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, p->get_skill_level( skill_lockpick ) ) *
-                    ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    p->dex_cur / 4.0;
-    int lock_roll = rng( 1, 120 );
-    if( ( pick_roll >= lock_roll ) || it->has_flag( "PSEUDO" ) ) {
-        p->practice( skill_lockpick, lock_roll );
-        g->m.has_furn( act->placement ) ?
-        g->m.furn_set( act->placement, new_furn_type ) :
-        static_cast<void>( g->m.ter_set( act->placement, new_ter_type ) );
-        p->add_msg_if_player( m_good, open_message );
-    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
-        p->add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( act->placement, furn_str_id( "f_gunsafe_mj" ) );
-    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
-        if( it->inc_damage() ) {
-            p->add_msg_if_player( m_bad,
-                                  _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
-            destroy = true;
-        } else {
-            p->add_msg_if_player( m_bad,
-                                  _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
-        }
-    } else {
-        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
-    }
-    if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
-        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                 p->global_sm_location() );
-        }
-    }
-    if( destroy || it->has_flag( "PSEUDO" ) ) {
-        p->i_rem( it );
-    }
-
     act->set_to_null();
 }
 
@@ -4566,22 +4446,22 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         // pay the cost
         int cost = spell_being_cast.energy_cost( *p );
         switch( spell_being_cast.energy_source() ) {
-            case mana_energy:
+            case magic_energy_type::mana:
                 p->magic.mod_mana( *p, -cost );
                 break;
-            case stamina_energy:
+            case magic_energy_type::stamina:
                 p->mod_stamina( -cost );
                 break;
-            case bionic_energy:
+            case magic_energy_type::bionic:
                 p->mod_power_level( -units::from_kilojoule( cost ) );
                 break;
-            case hp_energy:
+            case magic_energy_type::hp:
                 blood_magic( p, cost );
                 break;
-            case fatigue_energy:
+            case magic_energy_type::fatigue:
                 p->mod_fatigue( cost );
                 break;
-            case none_energy:
+            case magic_energy_type::none:
             default:
                 break;
         }

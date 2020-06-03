@@ -7,6 +7,7 @@
       { "monster": "mon_compsognathus_hatchling", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_gallimimus_hatchling", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_pachycephalosaurus_hatchling", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_camptosaurus_hatchling", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_tyrannosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_albertosaurus_hatchling", "freq": 4, "cost_multiplier": 1 },
@@ -40,6 +41,12 @@
     "type": "monstergroup",
     "default": "mon_pachycephalosaurus_hatchling",
     "monsters": [ { "monster": "mon_pachycephalosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_camptosaurus",
+    "type": "monstergroup",
+    "default": "mon_camptosaurus_hatchling",
+    "monsters": [ { "monster": "mon_camptosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_spinosaurus",

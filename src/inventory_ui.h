@@ -359,7 +359,7 @@ class inventory_column
             } else {
                 return preset.indent_entries();
             }
-        };
+        }
 
         void set_indent_entries_override( bool entry_override ) {
             indent_entries_override = entry_override;

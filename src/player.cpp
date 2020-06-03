@@ -756,22 +756,23 @@ void player::pause()
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_head, bp_eyes, bp_mouth,
-                    bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                    bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
-                    bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ),
+                    bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-            drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
+            drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+            false );
         }
     }
 
@@ -1047,7 +1048,7 @@ bool player::immune_to( const bodypart_id &bp, damage_unit dam ) const
     passive_absorb_hit( bp, dam );
 
     for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp->token ) ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
             cloth.mitigate_damage( dam );
         }
     }
@@ -1282,7 +1283,8 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -1301,7 +1303,8 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, bodypart_id( "torso" ),
+                     damage_instance( DT_BASH, static_cast<float>( np->get_size() ) ) );
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
@@ -1759,7 +1762,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = item();
+        remove_weapon();
     }
 
     std::vector<item_location> removed_items;
@@ -2750,6 +2753,10 @@ player::wear( item &to_wear, bool interactive )
             i_add( to_wear_copy );
         }
         return cata::nullopt;
+    }
+
+    if( was_weapon ) {
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     }
 
     return result;
@@ -4040,6 +4047,8 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     moves -= mv;
 
     weapon.on_wield( *this, mv );
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     return true;
 }

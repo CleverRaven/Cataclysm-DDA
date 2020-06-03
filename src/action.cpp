@@ -120,7 +120,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -727,11 +727,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( g->u.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( g->u.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 

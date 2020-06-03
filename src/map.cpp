@@ -1301,9 +1301,10 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     const furn_t &new_t = new_furniture.obj();
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
-    if( g->u.get_grab_type() == OBJECT_FURNITURE && g->u.grab_point == p && !new_t.is_movable() ) {
+    if( g->u.get_grab_type() == object_type::FURNITURE && g->u.grab_point == p &&
+        !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
-        g->u.grab( OBJECT_NONE );
+        g->u.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
     if( old_id == f_rubble && new_furniture == f_null ) {
@@ -3970,7 +3971,7 @@ map_stack map::i_at( const tripoint &p )
     return map_stack{ &current_submap->get_items( l ), p, this };
 }
 
-map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it )
+map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterator &it )
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
@@ -6775,7 +6776,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
                                          get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt, false );
+        add_spawn( spawn_details, pnt );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );

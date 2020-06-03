@@ -51,6 +51,8 @@ class item_contents
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
         bool full( bool allow_bucket ) const;
+        // are any CONTAINER pockets bigger on the inside than the container's volume?
+        bool bigger_on_the_inside( const units::volume &container_volume ) const;
         // number of pockets
         size_t size() const;
 

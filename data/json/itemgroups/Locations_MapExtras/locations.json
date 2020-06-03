@@ -647,6 +647,7 @@
       [ "glowstick_dead", 15 ],
       { "item": "cash_card", "prob": 5, "charges-min": 5, "charges-max": 5000 },
       [ "id_science", 3 ],
+      [ "sandbox_kit", 5 ],
       [ "ear_spool", 15 ],
       { "item": "lighter", "prob": 35, "charges-min": 0, "charges-max": 15 },
       [ "funnel", 25 ],
@@ -1824,7 +1825,9 @@
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
       [ "scots_cookbook", 1 ],
+      [ "scots_tailor", 1 ],
       [ "eclipse_glasses", 1 ],
+      [ "sandbox_kit", 1 ],
       [ "dnd_handbook", 1 ],
       [ "balloon", 5 ]
     ]

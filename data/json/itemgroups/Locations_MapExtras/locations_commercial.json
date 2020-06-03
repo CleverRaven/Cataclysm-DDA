@@ -96,6 +96,7 @@
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],
+      [ "sandbox_kit", 5 ],
       [ "survival_kit", 5 ]
     ]
   },
@@ -1150,7 +1151,7 @@
       [ "flour", 30 ],
       [ "milk_powder", 30 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 10 ],
+      [ "egg_bird_unfert", 10 ],
       [ "cooking_oil", 20 ],
       [ "irradiated_apple", 5 ],
       [ "irradiated_banana", 5 ],

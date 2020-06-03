@@ -63,7 +63,9 @@ static bool should_combine_bps( const player &p, body_part l, body_part r,
            enc_data[l] == enc_data[r] &&
            temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] ) &&
            // selected_clothing covers both or neither parts
-           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+           ( !selected_clothing ||
+             ( selected_clothing->covers( convert_bp( l ).id() ) == selected_clothing->covers( convert_bp(
+                         r ).id() ) ) );
 }
 
 static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const player &p,
@@ -119,7 +121,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         const body_part bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
         const encumbrance_data &e = enc_data[bp];
-        const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
+        const bool highlighted = selected_clothing ? selected_clothing->covers( convert_bp(
+                                     bp ).id() ) : false;
         std::string out = body_part_name_as_heading( convert_bp( bp ).id(), combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
             out = utf8_truncate( out, 7 );
@@ -360,6 +363,11 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), line_color( 6 ),
                you.age_string() );
+    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood type:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( io::enum_to_string( you.my_blood_type ) +
+                               ( you.blood_rh_factor ? "+" : "-" ) ), 8 ),
+               line_color( 7 ),
+               io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
 
     wrefresh( w_stats );
 }
@@ -381,7 +389,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                            string_format( _( "Melee damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
+                            string_format( _( "Bash damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
     } else if( line == 1 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -439,6 +447,14 @@ static void draw_stats_info( const catacurses::window &w_info,
                                           _( "This is how old you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.age_string() );
+    } else if( line == 7 ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "This is your blood type and Rh factor." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        string_format( _( "Blood type: %s" ), io::enum_to_string( you.my_blood_type ) ) );
+        fold_and_print( w_info, point( 1, 2 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        string_format( _( "Rh factor: %s" ), you.blood_rh_factor ? "positive (+)" : "negative (-)" ) );
     }
     wrefresh( w_info );
 }
@@ -965,7 +981,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
     unsigned int line_end = 0;
     switch( curtab ) {
         case player_display_tab::stats:
-            line_end = 7;
+            line_end = 8;
             break;
         case player_display_tab::encumbrance: {
             const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );

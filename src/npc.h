@@ -168,7 +168,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
-            for( std::pair<activity_id, int> elem : pairs ) {
+            for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
             return ret;
@@ -1045,7 +1045,7 @@ class npc : public player
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "" );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
@@ -1147,7 +1147,7 @@ class npc : public player
         // Same as if the player pressed '.'
         void move_pause();
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;

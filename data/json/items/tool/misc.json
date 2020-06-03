@@ -810,6 +810,28 @@
     "use_action": "VORTEX"
   },
   {
+    "id": "sandbox_kit",
+    "type": "TOOL",
+    "name": { "str": "sandbox kit" },
+    "description": "A plastic bucket holding a small spade and rake, perfect to build sand castles!",
+    "weight": "250 g",
+    "volume": "1 L",
+    "price": 300,
+    "price_postapoc": 3,
+    "material": "plastic",
+    "symbol": "u",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg"
+      }
+    ]
+  },
+  {
     "id": "whistle_multitool",
     "type": "TOOL",
     "category": "tools",

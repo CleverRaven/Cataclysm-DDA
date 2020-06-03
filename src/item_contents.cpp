@@ -73,6 +73,21 @@ bool item_contents::full( bool allow_bucket ) const
     return true;
 }
 
+bool item_contents::bigger_on_the_inside( const units::volume &container_volume ) const
+{
+    units::volume min_logical_volume = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            if( pocket.rigid() ) {
+                min_logical_volume += pocket.max_contains_volume();
+            } else {
+                min_logical_volume += pocket.magazine_well();
+            }
+        }
+    }
+    return container_volume < min_logical_volume;
+}
+
 size_t item_contents::size() const
 {
     return contents.size();
@@ -80,14 +95,36 @@ size_t item_contents::size() const
 
 void item_contents::combine( const item_contents &read_input )
 {
+    std::vector<item> uninserted_items;
+    size_t pocket_index = 0;
+
     for( const item_pocket &pocket : read_input.contents ) {
-        for( const item *it : pocket.all_items_top() ) {
-            const ret_val<bool> inserted = insert_item( *it, pocket.saved_type() );
-            if( !inserted.success() ) {
-                debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                          inserted.str() );
+        if( pocket_index < contents.size() ) {
+            auto current_pocket_iter = contents.begin();
+            std::advance( current_pocket_iter, pocket_index );
+
+            for( const item *it : pocket.all_items_top() ) {
+                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
+                if( !inserted.success() ) {
+                    uninserted_items.push_back( *it );
+                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
+                              inserted.str() );
+                }
+            }
+
+            if( pocket.saved_sealed() ) {
+                current_pocket_iter->seal();
+            }
+        } else {
+            for( const item *it : pocket.all_items_top() ) {
+                uninserted_items.push_back( *it );
             }
         }
+        ++pocket_index;
+    }
+
+    for( const item &uninserted_item : uninserted_items ) {
+        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
     }
 }
 

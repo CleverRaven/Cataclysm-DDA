@@ -2484,5 +2484,10 @@
     "type": "recipe",
     "result": "laser_cannon",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ammonia",
+    "obsolete": true
   }
 ]

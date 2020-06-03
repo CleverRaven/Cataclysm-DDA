@@ -311,7 +311,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
         // clear data first so that copy-from can override it
         encumbrance.clear();
         for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
-            encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+            encumbrance.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                  ja.get_int( 1 ) );
         }
     }
@@ -518,7 +518,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-bool Character::activate_bionic( int b, bool eff_only )
+bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 {
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
@@ -586,6 +586,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
         g->refresh_all();
+        if( close_bionics_ui ) {
+            *close_bionics_ui = true;
+        }
         avatar_action::fire_ranged_bionic( g->u, item( bio.info().fake_item ), bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
@@ -937,22 +940,22 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
+        if( !is_avatar() ) {
+            return false;
+        }
         g->refresh_all();
-        const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
-        if( pnt && g->m.has_flag( "PICKABLE", *pnt ) ) {
-            g->u.i_add( item( itype_pseudo_bio_picklock ) );
-            std::vector<item *> bio_picklocks = g->u.items_with( []( const item & itm ) {
-                return itm.typeId() == itype_pseudo_bio_picklock;
-            } );
-            if( !bio_picklocks.empty() ) {
-                add_msg_activate();
-                g->u.assign_activity( activity_id( "ACT_LOCKPICK" ), 400 );
-                g->u.activity.targets.push_back( item_location( g->u, bio_picklocks[0] ) );
-                g->u.activity.placement = *pnt;
+        cata::optional<tripoint> target = lockpick_activity_actor::select_location( g->u );
+        if( target.has_value() ) {
+            add_msg_activate();
+            item fake_lockpick = item( itype_pseudo_bio_picklock );
+            int moves = to_moves<int>( 4_seconds );
+            assign_activity( lockpick_activity_actor( moves, cata::nullopt, fake_lockpick,
+                             g->m.getabs( *target ) ) );
+            if( close_bionics_ui ) {
+                *close_bionics_ui = true;
             }
         } else {
             refund_power();
-            add_msg_if_player( m_info, _( "There is nothing to lockpick nearby." ) );
             return false;
         }
     } else if( bio.id == bio_flashbang ) {
@@ -1504,7 +1507,7 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
         const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
-                if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                     coverage += i.get_coverage();
@@ -2167,7 +2170,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     return true;
 }
 
-void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
+void Character::perform_uninstall( const bionic_id &bid, int difficulty, int success,
                                    const units::energy &power_lvl, int pl_skill )
 {
     if( success > 0 ) {
@@ -2408,8 +2411,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     return true;
 }
 
-void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                                 int pl_skill, const std::string &installer_name,
+void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, int difficulty,
+                                 int success, int pl_skill, const std::string &installer_name,
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
     if( success > 0 ) {
