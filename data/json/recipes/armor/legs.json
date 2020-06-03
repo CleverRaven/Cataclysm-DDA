@@ -211,7 +211,7 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "90 m",
-    "book_learn": [ [ "scots_cookbook", 4 ] ],
+    "book_learn": [ [ "scots_tailor", 4 ], [ "scots_cookbook", 7 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "felt_patch", 18 ] ] ]
   },
