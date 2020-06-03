@@ -781,6 +781,11 @@
   },
   {
     "type": "item_action",
+    "id": "RESET_IV",
+    "name": { "str": "Inject" }
+  },
+  {
+    "type": "item_action",
     "id": "PURIFY_SMART",
     "name": { "str": "Inject" }
   },

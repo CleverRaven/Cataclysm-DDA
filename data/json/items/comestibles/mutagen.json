@@ -538,5 +538,34 @@
     "material": "hflesh",
     "volume": "5 L",
     "fun": -20
+  },
+  {
+    "id": "iv_reset",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "recovery serum",
+    "description": "A prismatic serum capable of returning you to your original form prior to activation.  You need a syringe to activate this.",
+    "default_container": "test_tube",
+    "price": 900000,
+    "price_postapoc": 1000,
+    "//": "*May* have been used for resetting tests back to their previous state for mutagen testing purposes.",
+    "color": "magenta",
+    "reverts_to": "iv_reset_on",
+    "use_action": { "menu_text": "Activate", "type": "transform", "msg": "You add your blood to the serum.", "target": "iv_reset_on" }
+  },
+  {
+    "id": "iv_reset_on",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "recovery serum (activated)",
+    "description": "A prismatic serum capable of returning you to your original form prior to activation.  You need a syringe to inject it.",
+    "default_container": "test_tube",
+    "price": 900000,
+    "price_postapoc": 1000,
+    "color": "magenta",
+    "healthy": -50,
+    "fun": -50,
+    "use_action": "RESET_IV",
+    "flags": [ "IV_RESET" ]
   }
 ]

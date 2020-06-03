@@ -762,5 +762,21 @@
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_raptor", 2 ] ] ],
     "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_reset",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 10,
+    "time": "12 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_elfa", 8 ], [ "recipe_alpha", 7 ], [ "recipe_medicalmut", 7 ] ],
+    "using": [ [ "serum_production_standard", 100 ] ],
+    "tools": [ [ "vacutainer" ] ],
+    "components": [ [ [ "iv_mutagen_alpha", 1 ], [ "iv_mutagen_elfa", 1 ], [ "iv_mutagen_medical", 1 ] ] ],
+    "flags": [ "SECRET" ]
   }
 ]

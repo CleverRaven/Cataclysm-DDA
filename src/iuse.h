@@ -61,6 +61,7 @@ int poison( player *, item *, bool, const tripoint & );
 int prozac( player *, item *, bool, const tripoint & );
 int purifier( player *, item *, bool, const tripoint & );
 int purify_iv( player *, item *, bool, const tripoint & );
+int reset_iv( player *, item *, bool, const tripoint & );
 int purify_smart( player *, item *, bool, const tripoint & );
 int sewage( player *, item *, bool, const tripoint & );
 int sleep( player *, item *, bool, const tripoint & );

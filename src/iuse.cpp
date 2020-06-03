@@ -1245,6 +1245,78 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+static void print_mutation_change( player *p, trait_id mut, bool gained )
+{
+    const mutation_branch mdata = mut.obj();
+    game_message_type rating;
+
+    if( mdata.mixed_effect ) {
+        rating = m_mixed;
+    } else if( mdata.points > 0 ) {
+        rating = gained ? m_good : m_bad;
+    } else if( mdata.points < 0 ) {
+        rating = gained ? m_bad : m_good;
+    } else {
+        rating = m_neutral;
+    }
+
+    if( gained ) {
+        p->add_msg_if_player( rating, _( "you gain a mutation called %s." ),
+                              mutation_branch::get_name( mut ) );
+    } else {
+        p->add_msg_if_player( rating, _( "you lose a mutation called %s." ),
+                              mutation_branch::get_name( mut ) );
+    }
+}
+
+int iuse::reset_iv( player *p, item *it, bool, const tripoint & )
+{
+    // Add arbitrary flag for use as a persistent bool on an item-to-item basis.
+    if( !it->has_flag( "TRAITS_STORED" ) ) {
+        it->item_tags.insert( "TRAITS_STORED" );
+
+        // Store all current traits as flags on the item.
+        for( auto &traits_iter : mutation_branch::get_all() ) {
+            if( p->has_trait( traits_iter.id ) ) {
+                it->item_tags.insert( "M_" + traits_iter.id.str() );
+            }
+        }
+    } else {
+        // Clear all mutations outside of base traits.
+        for( trait_id mut : p->get_mutations() ) {
+            if( !p->has_base_trait( mut ) ) {
+                p->unset_mutation( mut );
+                print_mutation_change( p, mut, false );
+            }
+        }
+
+        // Restore and base traits that may have been lost.
+        for( trait_id trait : p->get_base_traits() ) {
+            if( !p->has_trait( trait ) ) {
+                p->set_mutation( trait );
+                print_mutation_change( p, trait, true );
+            }
+        }
+
+        // Loop through mutations stored in item tags
+        for( std::string mut : it->item_tags ) {
+            if( mut.find( "M_" ) != std::string::npos ) {
+                mut.erase( 0, 2 );
+
+                // Sequentially mutate to the stored mutagenic save state
+                while( !p->has_trait( trait_id( mut ) ) && p->mutate_towards( trait_id( mut ) ) ) {
+                    print_mutation_change( p, trait_id( mut ), true );
+                    p->mod_pain( 10 );
+                }
+            }
+        }
+
+        return it->type->charges_to_use();
+    }
+
+    return 0;
+}
+
 int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 {
     mutagen_attempt checks =
@@ -4242,7 +4314,8 @@ static std::string get_music_description()
     return _( "a sweet guitar solo!" );
 }
 
-void iuse::play_music( player &p, const tripoint &source, const int volume, const int max_morale )
+void iuse::play_music( player &p, const tripoint &source, const int volume,
+                       const int max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
@@ -7016,7 +7089,8 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     return std::string();
 }
 
-static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
+static std::string colorized_feature_description_at( const tripoint &center_point,
+        bool &item_found,
         const units::volume &min_visible_volume )
 {
     item_found = false;

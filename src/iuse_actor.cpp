@@ -281,6 +281,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
 
+    if( it.has_flag( "IV_RESET" ) ) {
+        iuse::reset_iv( &p, &it, false, pos );
+    }
+
     return 0;
 }
 
