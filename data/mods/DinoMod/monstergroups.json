@@ -28,7 +28,9 @@
     "name": "GROUP_DINOSAUR_HARMLESS",
     "default": "mon_null",
     "monsters": [
+      { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
     ]
   },
@@ -71,6 +73,15 @@
       { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
       { "monster": "mon_albertosaurus", "freq": 4, "cost_multiplier": 35 },
       { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_ZOMBIE",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 }
     ]
   },
   {
