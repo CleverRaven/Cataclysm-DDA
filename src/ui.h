@@ -193,12 +193,6 @@ class uilist // NOLINT(cata-xy)
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<const char *const> opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<uilist_entry> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<std::string> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                std::initializer_list<const char *const> opts );
 
         ~uilist();
 
