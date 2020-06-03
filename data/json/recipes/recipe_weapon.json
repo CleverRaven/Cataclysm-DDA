@@ -815,28 +815,6 @@
   },
   {
     "type": "recipe",
-    "result": "lever_shotgun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 7,
-    "time": "6 h",
-    "book_learn": [ [ "manual_gun", 3 ] ],
-    "reversible": true,
-    "autolearn": false,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "DRILL", "level": 3 },
-      { "id": "CUT", "level": 2 }
-    ],
-    "using": [ [ "welding_standard", 15 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 5 ] ], [ [ "2x4", 2 ] ], [ [ "scrap", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "rifle_9mm",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
