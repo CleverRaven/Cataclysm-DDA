@@ -1283,7 +1283,8 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -1302,7 +1303,8 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, bodypart_id( "torso" ),
+                     damage_instance( DT_BASH, static_cast<float>( np->get_size() ) ) );
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
@@ -1760,7 +1762,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = item();
+        remove_weapon();
     }
 
     std::vector<item_location> removed_items;
@@ -2751,6 +2753,10 @@ player::wear( item &to_wear, bool interactive )
             i_add( to_wear_copy );
         }
         return cata::nullopt;
+    }
+
+    if( was_weapon ) {
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     }
 
     return result;
@@ -4041,6 +4047,8 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     moves -= mv;
 
     weapon.on_wield( *this, mv );
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     return true;
 }

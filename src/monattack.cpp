@@ -2295,21 +2295,21 @@ static bool blobify( monster &blob, monster &target )
     }
 
     switch( target.get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             // Just consume it
             target.set_hp( 0 );
             blob.set_speed_base( blob.get_speed_base() + 5 );
             return false;
-        case MS_SMALL:
+        case creature_size::small:
             target.poly( mon_blob_small );
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             target.poly( mon_blob );
             break;
-        case MS_LARGE:
+        case creature_size::large:
             target.poly( mon_blob_large );
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             // No polymorphing huge stuff
             target.add_effect( effect_slimed, rng( 2_turns, 10_turns ) );
             break;

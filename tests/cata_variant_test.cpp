@@ -38,6 +38,14 @@ TEST_CASE( "variant_construction", "[variant]" )
         CHECK( v2.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
         CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
     }
+    SECTION( "point" ) {
+        point p( 7, 63 );
+        cata_variant v = cata_variant::make<cata_variant_type::point>( p );
+        CHECK( v.type() == cata_variant_type::point );
+        CHECK( v.get<cata_variant_type::point>() == p );
+        CHECK( v.get<point>() == p );
+        CHECK( v.get_string() == p.to_string() );
+    }
     SECTION( "construction_from_const_lvalue" ) {
         const character_id i;
         cata_variant v( i );

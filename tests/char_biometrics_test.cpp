@@ -240,7 +240,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
         REQUIRE( dummy.base_height() == init_height );
 
         WHEN( "they are normal-sized (MEDIUM)" ) {
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "height is initial height" ) {
                 CHECK( dummy.height() == init_height );
@@ -249,7 +249,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become SMALL" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "they are 50cm shorter" ) {
                 CHECK( dummy.height() == init_height - 50 );
@@ -258,7 +258,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become LARGE" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "they are 50cm taller" ) {
                 CHECK( dummy.height() == init_height + 50 );
@@ -267,7 +267,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become HUGE" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "they are 100cm taler" ) {
                 CHECK( dummy.height() == init_height + 100 );
@@ -313,7 +313,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
@@ -325,7 +325,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is small" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "bodyweight varies from ~25-55kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 25.0f ).margin( 0.1f ) );
@@ -336,7 +336,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is large" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "bodyweight varies from ~81-177kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 81.0f ).margin( 0.1f ) );
@@ -347,7 +347,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is huge" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "bodyweight varies from ~121-265kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 121.0f ).margin( 0.1f ) );
@@ -365,7 +365,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "bodyweight varies from ~57-126kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 57.8 ).margin( 0.1f ) );
@@ -376,7 +376,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is small" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "bodyweight varies from ~31-68kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 31.4f ).margin( 0.1f ) );
@@ -387,7 +387,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is large" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "bodyweight varies from ~92-201kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 92.16f ).margin( 0.1f ) );
@@ -398,7 +398,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is huge" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "bodyweight varies from ~134-294kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 134.6f ).margin( 0.1f ) );
@@ -548,7 +548,7 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
     // CHECK expressions have expected value on the left hand side for better readability.
 
     SECTION( "normal body size" ) {
-        REQUIRE( dummy.get_size() == MS_MEDIUM );
+        REQUIRE( dummy.get_size() == creature_size::medium );
 
         SECTION( "normal metabolism" ) {
             CHECK( 2087 == bmr_at_act_level( dummy, NO_EXERCISE ) );
@@ -577,7 +577,7 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
 
     SECTION( "small body size" ) {
         set_single_trait( dummy, "SMALL" );
-        REQUIRE( dummy.get_size() == MS_SMALL );
+        REQUIRE( dummy.get_size() == creature_size::small );
 
         CHECK( 1262 == bmr_at_act_level( dummy, NO_EXERCISE ) );
         CHECK( 1630 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
@@ -586,7 +586,7 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
 
     SECTION( "large body size" ) {
         set_single_trait( dummy, "LARGE" );
-        REQUIRE( dummy.get_size() == MS_LARGE );
+        REQUIRE( dummy.get_size() == creature_size::large );
 
         CHECK( 3062 == bmr_at_act_level( dummy, NO_EXERCISE ) );
         CHECK( 3955 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );

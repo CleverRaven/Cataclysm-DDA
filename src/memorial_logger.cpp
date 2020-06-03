@@ -1051,11 +1051,14 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         // All the events for which we have no memorial log are here
+        case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
+        case event_type::character_wears_item:
+        case event_type::character_wields_item:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

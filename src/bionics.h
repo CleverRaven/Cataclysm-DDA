@@ -88,7 +88,7 @@ struct bionic_data {
     /**
      * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
      */
-    std::map<body_part, int> encumbrance;
+    std::map<bodypart_str_id, int> encumbrance;
     /**
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.

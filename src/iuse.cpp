@@ -4429,7 +4429,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
                 it->ammo_consume( 1, p->pos() );
                 it->set_var( "gas_absorbed", 0 );
             }
-            if( it->charges == 0 ) {
+            if( it->ammo_remaining() == 0 ) {
                 p->add_msg_player_or_npc(
                     m_bad,
                     _( "Your %s requires new filter!" ),
@@ -4438,15 +4438,15 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             }
         }
     } else { // activate
-        if( it->charges == 0 ) {
-            p->add_msg_if_player( _( "Your %s don't have a filter." ), it->tname() );
+        if( it->ammo_remaining() == 0 ) {
+            p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
         } else {
             p->add_msg_if_player( _( "You prepared your %s." ), it->tname() );
             it->active = true;
             it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
         }
     }
-    if( it->charges == 0 ) {
+    if( it->ammo_remaining() == 0 ) {
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
@@ -7777,7 +7777,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     monster &z = *mon;
 
                     // shoot past small monsters and hallucinations
-                    if( trajectory_point != aim_point && ( z.type->size <= MS_SMALL || z.is_hallucination() ||
+                    if( trajectory_point != aim_point && ( z.type->size <= creature_size::small ||
+                                                           z.is_hallucination() ||
                                                            z.type->in_species( species_HALLUCINATION ) ) ) {
                         continue;
                     }
@@ -9553,13 +9554,13 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
     } else {
-        if( !it->has_property( "monster_size_capacity" ) ) {
-            debugmsg( "%s has no monster_size_capacity.", it->tname() );
+        if( !it->has_property( "creature_size_capacity" ) ) {
+            debugmsg( "%s has no creature_size_capacity.", it->tname() );
             return 0;
         }
-        const std::string capacity = it->get_property_string( "monster_size_capacity" );
+        const std::string capacity = it->get_property_string( "creature_size_capacity" );
         if( Creature::size_map.count( capacity ) == 0 ) {
-            debugmsg( "%s has invalid monster_size_capacity %s.",
+            debugmsg( "%s has invalid creature_size_capacity %s.",
                       it->tname(), capacity.c_str() );
             return 0;
         }

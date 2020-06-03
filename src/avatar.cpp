@@ -1573,6 +1573,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
+    g->events().send<event_type::character_wields_item>( getID(), last_item );
+
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
 

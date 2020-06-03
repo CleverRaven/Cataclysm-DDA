@@ -71,6 +71,7 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
+#include "get_version.h"
 #include "harvest.h"
 #include "help.h"
 #include "iexamine.h"
@@ -123,6 +124,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "popup.h"
+#include "profession.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -887,7 +889,8 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>( u.getID() );
+    g->events().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
+            u.custom_profession, getVersionString() );
     return true;
 }
 
@@ -2389,7 +2392,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
         last_mouse_edge_scroll = now;
     }
     const input_event event = ctxt.get_raw_input();
-    if( event.type == CATA_INPUT_MOUSE ) {
+    if( event.type == input_event_t::mouse ) {
         const int threshold_x = projected_window_width() / 100;
         const int threshold_y = projected_window_height() / 100;
         if( event.mouse_pos.x <= threshold_x ) {
@@ -2415,7 +2418,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
             }
         }
         ret.second = ret.first;
-    } else if( event.type == CATA_INPUT_TIMEOUT ) {
+    } else if( event.type == input_event_t::timeout ) {
         ret.first = ret.second;
     }
 #endif
@@ -2838,7 +2841,7 @@ bool game::load( const save_t &name )
     u = avatar();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
-    u.weapon = item( "null", 0 );
+    u.weapon = item();
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
@@ -5288,13 +5291,13 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( can_see ) {
             add_msg( _( "The %1$s hits the %2$s." ), door_name, critter.name() );
         }
-        if( critter.type->size <= MS_SMALL ) {
+        if( critter.type->size <= creature_size::small ) {
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
             critter.check_dead_state();
         }
-        if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
+        if( !critter.is_dead() && critter.type->size >= creature_size::huge ) {
             // big critters simply prevent the gate from closing
             // TODO: perhaps damage/destroy the gate
             // if the critter was really big?
@@ -5950,19 +5953,19 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                 if( u.sees_with_infrared( *creature ) ) {
                     std::string size_str;
                     switch( creature->get_size() ) {
-                        case MS_TINY:
+                        case creature_size::tiny:
                             size_str = pgettext( "infrared size", "tiny" );
                             break;
-                        case MS_SMALL:
+                        case creature_size::small:
                             size_str = pgettext( "infrared size", "small" );
                             break;
-                        case MS_MEDIUM:
+                        case creature_size::medium:
                             size_str = pgettext( "infrared size", "medium" );
                             break;
-                        case MS_LARGE:
+                        case creature_size::large:
                             size_str = pgettext( "infrared size", "large" );
                             break;
-                        case MS_HUGE:
+                        case creature_size::huge:
                             size_str = pgettext( "infrared size", "huge" );
                             break;
                     }
@@ -9161,13 +9164,13 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 bool game::walk_move( const tripoint &dest_loc )
 {
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
-        if( u.get_size() > MS_MEDIUM ) {
+        if( u.get_size() > creature_size::medium ) {
             add_msg( m_warning, _( "You can't fit there." ) );
             return false; // character too large to fit through a tight passage
         }
         if( u.is_mounted() ) {
             monster *mount = u.mounted_creature.get();
-            if( mount->get_size() > MS_MEDIUM ) {
+            if( mount->get_size() > creature_size::medium ) {
                 add_msg( m_warning, _( "Your mount can't fit there." ) );
                 return false; // char's mount is too large for tight passages
             }
@@ -9403,18 +9406,18 @@ bool game::walk_move( const tripoint &dest_loc )
             if( u.is_mounted() ) {
                 auto mons = u.mounted_creature.get();
                 switch( mons->get_size() ) {
-                    case MS_TINY:
+                    case creature_size::tiny:
                         volume = 0; // No sound for the tinies
                         break;
-                    case MS_SMALL:
+                    case creature_size::small:
                         volume /= 3;
                         break;
-                    case MS_MEDIUM:
+                    case creature_size::medium:
                         break;
-                    case MS_LARGE:
+                    case creature_size::large:
                         volume *= 1.5;
                         break;
-                    case MS_HUGE:
+                    case creature_size::huge:
                         volume *= 2;
                         break;
                     default:
@@ -9442,14 +9445,18 @@ bool game::walk_move( const tripoint &dest_loc )
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    if( dest_loc != u.pos() ) {
-        cata_event_dispatch::avatar_moves( u, m, dest_loc );
-    }
-
     tripoint oldpos = u.pos();
+    tripoint old_abs_pos = m.getabs( oldpos );
+
+    bool moving = dest_loc != oldpos;
+
     point submap_shift = place_player( dest_loc );
     point ms_shift = sm_to_ms_copy( submap_shift );
     oldpos = oldpos - ms_shift;
+
+    if( moving ) {
+        cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+    }
 
     if( pulling ) {
         const tripoint shifted_furn_pos = furn_pos - ms_shift;
@@ -10594,6 +10601,7 @@ void game::vertical_move( int movez, bool force )
         }
     }
     const tripoint old_pos = g->u.pos();
+    const tripoint old_abs_pos = m.getabs( old_pos );
     point submap_shift;
     vertical_shift( z_after );
     if( !force ) {
@@ -10718,7 +10726,7 @@ void game::vertical_move( int movez, bool force )
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
 
-    cata_event_dispatch::avatar_moves( u, m, u.pos() );
+    cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 }
 
 void game::start_hauling( const tripoint &pos )
@@ -10955,12 +10963,12 @@ void game::vertical_notes( int z_before, int z_after )
         }
         const oter_id &ter = overmap_buffer.ter( cursp_before );
         const oter_id &ter2 = overmap_buffer.ter( cursp_after );
-        if( z_after > z_before && ter->has_flag( known_up ) &&
-            !ter2->has_flag( known_down ) ) {
+        if( z_after > z_before && ter->has_flag( oter_flags::known_up ) &&
+            !ter2->has_flag( oter_flags::known_down ) ) {
             overmap_buffer.set_seen( cursp_after, true );
             overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
-        } else if( z_after < z_before && ter->has_flag( known_down ) &&
-                   !ter2->has_flag( known_up ) ) {
+        } else if( z_after < z_before && ter->has_flag( oter_flags::known_down ) &&
+                   !ter2->has_flag( oter_flags::known_up ) ) {
             overmap_buffer.set_seen( cursp_after, true );
             overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
         }
@@ -12374,13 +12382,22 @@ bool game::slip_down( bool check_for_traps )
 
 namespace cata_event_dispatch
 {
-void avatar_moves( const avatar &u, const map &m, const tripoint &p )
+void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 {
+    const tripoint &new_pos = u.pos();
+    const tripoint &new_abs_pos = m.getabs( new_pos );
     mtype_id mount_type;
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;
     }
-    g->events().send<event_type::avatar_moves>( mount_type, m.ter( p ).id(),
-            u.current_movement_mode(), u.is_underwater(), p.z );
+    g->events().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
+            u.current_movement_mode(), u.is_underwater(), new_pos.z );
+
+    const tripoint old_abs_omt = ms_to_omt_copy( old_abs_pos );
+    const tripoint new_abs_omt = ms_to_omt_copy( new_abs_pos );
+    if( old_abs_omt != new_abs_omt ) {
+        const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
+        g->events().send<event_type::avatar_enters_omt>( new_abs_omt, cur_ter );
+    }
 }
 } // namespace cata_event_dispatch

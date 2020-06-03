@@ -291,7 +291,8 @@
       { "item": "survnote", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
-      { "item": "dnd_handbook", "prob": 2 }
+      { "item": "dnd_handbook", "prob": 2 },
+      { "item": "scots_tailor", "prob": 8 }
     ]
   },
   {
@@ -529,7 +530,8 @@
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
       { "item": "book_lockpick", "prob": 1 },
-      { "group": "rare_martial_arts_books", "prob": 6 }
+      { "group": "rare_martial_arts_books", "prob": 6 },
+      { "item": "scots_tailor", "prob": 30 }
     ]
   },
   {

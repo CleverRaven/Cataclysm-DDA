@@ -565,7 +565,7 @@ void mapgen_road( mapgendata &dat )
     int neighbor_sidewalks = 0;
     // N E S W NE SE SW NW
     for( int dir = 0; dir < 8; dir++ ) {
-        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( oter_flags::has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -913,7 +913,7 @@ void mapgen_subway( mapgendata &dat )
 
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
-        if( dat.t_nesw[dir]->has_flag( subway_connection ) && !subway_nesw[dir] ) {
+        if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !subway_nesw[dir] ) {
             num_dirs++;
             subway_nesw[dir] = true;
         }
@@ -928,7 +928,7 @@ void mapgen_subway( mapgendata &dat )
         }
 
         if( dat.t_nesw[dir]->get_type_id().str() != "subway" &&
-            !dat.t_nesw[dir]->has_flag( subway_connection ) ) {
+            !dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) ) {
             continue;
         }
         // n_* contain details about the neighbor being considered
@@ -936,7 +936,7 @@ void mapgen_subway( mapgendata &dat )
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
         for( int dir = 0; dir < 4; dir++ ) {
-            if( dat.t_nesw[dir]->has_flag( subway_connection ) && !n_subway_nesw[dir] ) {
+            if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !n_subway_nesw[dir] ) {
                 n_num_dirs++;
                 n_subway_nesw[dir] = true;
             }

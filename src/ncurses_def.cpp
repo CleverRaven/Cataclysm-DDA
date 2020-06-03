@@ -256,9 +256,9 @@ input_event input_manager::get_input_event()
         rval = input_event();
         if( key == ERR ) {
             if( input_timeout > 0 ) {
-                rval.type = CATA_INPUT_TIMEOUT;
+                rval.type = input_event_t::timeout;
             } else {
-                rval.type = CATA_INPUT_ERROR;
+                rval.type = input_event_t::error;
             }
             // ncurses mouse handling
         } else if( key == KEY_RESIZE ) {
@@ -266,7 +266,7 @@ input_event input_manager::get_input_event()
         } else if( key == KEY_MOUSE ) {
             MEVENT event;
             if( getmouse( &event ) == OK ) {
-                rval.type = CATA_INPUT_MOUSE;
+                rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
                     rval.add_input( MOUSE_BUTTON_LEFT );
@@ -279,17 +279,17 @@ input_event input_manager::get_input_event()
                         set_timeout( input_timeout );
                     }
                 } else {
-                    rval.type = CATA_INPUT_ERROR;
+                    rval.type = input_event_t::error;
                 }
             } else {
-                rval.type = CATA_INPUT_ERROR;
+                rval.type = input_event_t::error;
             }
         } else {
             if( key == 127 ) { // == Unicode DELETE
                 previously_pressed_key = KEY_BACKSPACE;
-                return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+                return input_event( KEY_BACKSPACE, input_event_t::keyboard );
             }
-            rval.type = CATA_INPUT_KEYBOARD;
+            rval.type = input_event_t::keyboard;
             rval.text.append( 1, static_cast<char>( key ) );
             // Read the UTF-8 sequence (if any)
             if( key < 127 ) {
@@ -307,7 +307,7 @@ input_event input_manager::get_input_event()
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, CATA_INPUT_KEYBOARD );
+                return input_event( key, input_event_t::keyboard );
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -316,7 +316,7 @@ input_event input_manager::get_input_event()
                 // Invalid UTF-8 sequence, this should never happen, what now?
                 // Maybe return any error instead?
                 previously_pressed_key = key;
-                return input_event( key, CATA_INPUT_KEYBOARD );
+                return input_event( key, input_event_t::keyboard );
             }
             previously_pressed_key = cp;
             // for compatibility only add the first byte, not the code point
@@ -331,7 +331,7 @@ input_event input_manager::get_input_event()
 void input_manager::set_timeout( const int delay )
 {
     timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    // Use this to determine when curses should return a input_event_t::timeout event.
     input_timeout = delay;
 }
 
