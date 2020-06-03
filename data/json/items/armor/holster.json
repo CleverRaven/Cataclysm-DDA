@@ -23,6 +23,7 @@
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
+        "max_item_length": "1500 mm",
         "moves": 150
       }
     ],
@@ -54,6 +55,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "200 mm",
         "moves": 150
       }
     ],
@@ -85,6 +87,7 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
+        "max_item_length": "1200 mm",
         "moves": 50
       }
     ],
@@ -112,8 +115,9 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "300 ml",
-        "max_contains_volume": "800 ml",
+        "max_contains_volume": "850 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "245 mm",
         "moves": 50
       }
     ],
@@ -136,6 +140,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "200 mm",
         "moves": 80
       }
     ],
@@ -161,6 +166,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "200 mm",
         "moves": 210
       }
     ],
@@ -192,6 +198,7 @@
         "min_item_volume": "1250 ml",
         "max_contains_volume": "8 L",
         "max_contains_weight": "8200 g",
+        "max_item_length": "1200 mm"
         "moves": 50
       }
     ],
@@ -222,6 +229,7 @@
         "min_item_volume": "750 ml",
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "800 mm"
         "moves": 50
       }
     ],
