@@ -234,5 +234,38 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "techno_prepper",
+    "name": "Techno-Prepper",
+    "description": "You've long suspected the world might suddenly turn over. With your training, spells, and revolver, your chances are far better than most.",
+    "spells": [ { "id": "create_atomic_lamp", "level": 3 } ],
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "stabbing" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "hat_boonie", "longshirt", "socks", "jeans", "gloves_light", "boots", "trenchcoat" ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m47a1", "ammo-item": "38_special", "charges": 6, "container-item": "holster" },
+          { "item": "sheath", "contents-item": "knife_combat" },
+          { "item": "38_special", "charges": 24 },
+          { "item": "ref_lighter", "charges": 50 }
+        ]
+      },
+      "male": [ "undershirt", "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "TECHNOMANCER" ]
   }
 ]
