@@ -1052,9 +1052,20 @@ void veh_interact::do_install()
                         shape_ui_entries.push_back( entry );
                     }
                     sort_uilist_entries_by_line_drawing( shape_ui_entries );
-                    selected_shape = uilist(
-                                         point( getbegx( w_list ), getbegy( w_list ) ), getmaxx( w_list ),
-                                         _( "Choose shape:" ), shape_ui_entries );
+                    uilist smenu;
+                    smenu.settext( _( "Choose shape:" ) );
+                    smenu.entries = shape_ui_entries;
+                    smenu.w_width_setup = [this]() {
+                        return getmaxx( w_list );
+                    };
+                    smenu.w_x_setup = [this]( const int ) {
+                        return getbegx( w_list );
+                    };
+                    smenu.w_y_setup = [this]( const int ) {
+                        return getbegy( w_list );
+                    };
+                    smenu.query();
+                    selected_shape = smenu.ret;
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }

@@ -121,46 +121,6 @@ uilist::uilist( const std::string &msg, std::initializer_list<const char *const>
     query();
 }
 
-uilist::uilist( const point &start, int width, const std::string &msg,
-                const std::vector<uilist_entry> &opts )
-{
-    init();
-    w_x = start.x;
-    w_y = start.y;
-    w_width = width;
-    text = msg;
-    entries = opts;
-    query();
-}
-
-uilist::uilist( const point &start, int width, const std::string &msg,
-                const std::vector<std::string> &opts )
-{
-    init();
-    w_x = start.x;
-    w_y = start.y;
-    w_width = width;
-    text = msg;
-    for( const auto &opt : opts ) {
-        entries.emplace_back( opt );
-    }
-    query();
-}
-
-uilist::uilist( const point &start, int width, const std::string &msg,
-                std::initializer_list<const char *const> opts )
-{
-    init();
-    w_x = start.x;
-    w_y = start.y;
-    w_width = width;
-    text = msg;
-    for( auto opt : opts ) {
-        entries.emplace_back( opt );
-    }
-    query();
-}
-
 uilist::~uilist()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
