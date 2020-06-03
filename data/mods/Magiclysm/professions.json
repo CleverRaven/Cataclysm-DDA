@@ -267,5 +267,35 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "magic_vamp",
+    "name": "Bionic Pseudovamp",
+    "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night. Your neglect to your health in your pursuit has left you pale and unlively.",
+    "points": 7,
+    "spells": [
+      { "id": "recover_mana", "level": 2 },
+      { "id": "necrotic_gaze", "level": 2 },
+      { "id": "summon_zombie", "level": 2 },
+      { "id": "dark_sight", "level": 3 }
+    ],
+    "CBMs": [ "bio_fuel_cell_blood", "bio_power_storage_mkII", "bio_nanobots" ],
+    "skills": [
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 2, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "suit", "tie_necktie", "tieclip", "socks", "dress_shoes", "knit_scarf", "sunglasses", "wristwatch", "smart_phone" ],
+        "entries": [ { "item": "knife_baselard", "container-item": "sheath" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2" ]
   }
 ]
