@@ -241,7 +241,6 @@ class uilist // NOLINT(cata-xy)
         operator int() const;
 
     private:
-        int scroll_amount_from_key( int key );
         int scroll_amount_from_action( const std::string &action );
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
