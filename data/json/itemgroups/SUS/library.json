@@ -189,7 +189,7 @@
     "//2": "This group is for a set of novels.",
     "subtype": "collection",
     "entries": [
-      { "group": "SUS_book_fict", "count": [ 4, 20 ], "prob": 300 },
+      { "group": "SUS_book_fict", "count": [ 4, 22 ], "prob": 400 },
       { "item": "novel_war", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_adventure", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_experimental", "count": [ 1, 5 ], "prob": 80 },
@@ -199,7 +199,6 @@
       { "item": "novel_mystery", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_fantasy", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_erotic", "count": [ 1, 5 ], "prob": 80 },
-      { "item": "novel_pulp", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_thriller", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_crime", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_horror", "count": [ 1, 5 ], "prob": 80 },
@@ -264,6 +263,7 @@
     "//2": "This group is for a single paperback book of any fiction.",
     "subtype": "distribution",
     "entries": [
+      { "group": "SUS_book_fict_soft_pulp", "prob": 1 },
       { "group": "SUS_book_fict_soft_romc", "prob": 1 },
       { "group": "SUS_book_fict_soft_ya", "prob": 1 },
       { "group": "SUS_book_fict_soft_west", "prob": 1 },
@@ -288,6 +288,23 @@
     ]
   },
   {
+    "id": "SUS_book_fict_soft_pulp",
+    "type": "item_group",
+    "//": "Returns a single pulp fiction genre dimestore novel.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_fict_soft_pulp_venus", "prob": 2 },
+      { "item": "book_fict_soft_pulp_wtmrw", "prob": 2 },
+      { "item": "book_fict_soft_pulp_nogod", "prob": 2 },
+      { "item": "book_fict_soft_pulp_ddive", "prob": 2 },
+      { "item": "book_fict_soft_pulp_squids", "prob": 2 },
+      { "item": "book_fict_soft_pulp_flashcc", "prob": 2 },
+      { "item": "book_fict_soft_pulp_gcapes", "prob": 2 },
+      { "item": "book_fict_soft_pulp_yesmurd", "prob": 2 },
+      { "item": "novel_pulp", "prob": 1 }
+    ]
+  },
+  {
     "id": "SUS_book_fict_soft_west",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
@@ -307,19 +324,19 @@
   {
     "id": "SUS_book_fict_soft_scifi",
     "type": "item_group",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This returns a single paperback fictional scifi book.",
     "subtype": "distribution",
-    "//3": "cats cradle (book_fict_soft_satire_cats) is satire and scifi",
+    "//3": "satire_cats and pulp_ddive are both dual genre scifi",
     "entries": [
-      { "item": "novel_scifi", "prob": 5 },
+      { "item": "novel_scifi", "prob": 4 },
       { "item": "book_fict_soft_scifi_brave", "prob": 1 },
       { "item": "book_fict_soft_scifi_f451", "prob": 1 },
       { "item": "book_fict_soft_scifi_roadp", "prob": 1 },
       { "item": "book_fict_soft_scifi_cybrd", "prob": 1 },
-      { "item": "book_fict_soft_satire_cats", "prob": 1 },
       { "item": "book_fict_soft_scifi_dune", "prob": 1 },
-      { "item": "book_fict_soft_scifi_zamwe", "prob": 1 }
+      { "item": "book_fict_soft_scifi_zamwe", "prob": 1 },
+      { "item": "book_fict_soft_satire_cats", "prob": 1 },
+      { "item": "book_fict_soft_pulp_ddive", "prob": 1 }
     ]
   },
   {
