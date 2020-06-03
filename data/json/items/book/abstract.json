@@ -87,7 +87,7 @@
     "description": "This is a template for pulp books.  Which really all ought to be paperbacks, right?",
     "looks_like": "novel_pulp",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": -200, "price_postapoc": -1000, }
+    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": -200, "price_postapoc": -1000 }
   },
   {
     "abstract": "book_fict_soft_scifi_tpl",
