@@ -3347,10 +3347,12 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 
 void map::bash_field( const tripoint &p, bash_params &params )
 {
-    if( get_field( p, fd_web ) != nullptr ) {
-        params.did_bash = true;
-        params.bashed_solid = true; // To prevent bashing furniture/vehicles
-        remove_field( p, fd_web );
+    for( const  std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+        if( fd.first->bash_info.str_min > -1 ) {
+            params.did_bash = true;
+            params.bashed_solid = true; // To prevent bashing furniture/vehicles
+            remove_field( p, fd.first );
+        }
     }
 }
 
