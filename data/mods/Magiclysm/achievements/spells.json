@@ -46,7 +46,7 @@
     "id": "achievement_max_spell_level_1",
     "type": "achievement",
     "name": "Cast a Spell",
-    "description": "The first great milestone to becoming a full-fledged wizard is to cast a spell.  Some mages simply stuudy the spell in the spellbook until they think they understand it as well as they can, but you can't beat practice over theory.",
+    "description": "The first great milestone to becoming a full-fledged wizard is to cast a spell.  Some mages simply study the spell in the spellbook until they think they understand it as well as they can, but you can't beat practice over theory.",
     "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 1 } ]
   },
   {
