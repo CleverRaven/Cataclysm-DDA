@@ -42,7 +42,7 @@
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachycephalosaurus"
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "egg_camptosaurus",
     "name": "camptosaurus egg",
