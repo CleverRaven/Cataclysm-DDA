@@ -70,6 +70,12 @@ class item_pocket
                 void clear();
 
                 void set_priority( int priority );
+                int priority() const {
+                    return priority_rating;
+                }
+
+                // have these settings been modified by the player?
+                bool is_null() const;
 
                 void whitelist_item( const itype_id &id );
                 void blacklist_item( const itype_id &id );
@@ -83,6 +89,9 @@ class item_pocket
                 bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
 
                 void info( std::vector<iteminfo> &info ) const;
+
+                void serialize( JsonOut &json ) const;
+                void deserialize( JsonIn &jsin );
             private:
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
@@ -263,7 +272,7 @@ class item_pocket
         /** same as above, except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
-
+        // returns true if @rhs is a better pocket than this
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
