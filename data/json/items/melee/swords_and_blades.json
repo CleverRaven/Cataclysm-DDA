@@ -896,7 +896,7 @@
     "description": "This is a huge two-handed sword from Germany.  It packs a real wallop.",
     "weight": "3176 g",
     "volume": "3250 ml",
-    "longest_side": "200 cm",
+    "longest_side": "180 cm",
     "price": 160000,
     "price_postapoc": 9500,
     "to_hit": 2,
