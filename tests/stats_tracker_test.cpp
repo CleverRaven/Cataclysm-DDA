@@ -505,9 +505,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     } );
     b.subscribe( &a );
 
+    const character_id u_id = g->u.getID();
+
     SECTION( "time" ) {
         calendar::turn = calendar::start_of_game;
-        const character_id u_id = g->u.getID();
 
         const cata::event avatar_wakes_up =
             cata::event::make<event_type::character_wakes_up>( u_id );
@@ -526,7 +527,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         CHECK( achievements_completed.count( a_survive_one_day ) );
     }
     SECTION( "hidden_kills" ) {
-        const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
@@ -556,7 +556,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         CAPTURE( time_since_game_start );
         calendar::turn = calendar::start_of_game + time_since_game_start;
 
-        const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
@@ -690,7 +689,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_marathon( "achievement_marathon" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -709,7 +707,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_traverse_sharp_terrain( "achievement_traverse_sharp_terrain" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -728,7 +725,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_swim_merit_badge( "achievement_swim_merit_badge" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -751,7 +747,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_reach_max_z_level( "achievement_reach_max_z_level" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -768,7 +763,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_reach_min_z_level( "achievement_reach_min_z_level" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
