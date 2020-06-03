@@ -169,7 +169,7 @@
     "armor_bullet": 1,
     "hp": 80,
     "death_function": [ "NORMAL" ],
-    "description": "A large feathered bipedal dinosaur with strong legs, broad shoulders and a pointed beak. It moves slowly but with enormous strength.",
+    "description": "A large feathered bipedal dinosaur with strong legs, broad shoulders and a pointed beak.  It moves slowly but with enormous strength.",
     "reproduction": { "baby_egg": "egg_camptosaurus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
