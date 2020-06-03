@@ -31,6 +31,7 @@
       { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
       { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
     ]
   },
@@ -105,6 +106,13 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_camptosaurus",
+        "freq": 40,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_stegosaurus",
         "freq": 10,
         "cost_multiplier": 20,
@@ -153,6 +161,13 @@
     "is_animal": true,
     "monsters": [
       {
+        "monster": "mon_camptosaurus",
+        "freq": 60,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_parasaurolophus",
         "freq": 30,
         "cost_multiplier": 10,
@@ -187,6 +202,13 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
+      {
+        "monster": "mon_camptosaurus",
+        "freq": 60,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_parasaurolophus", "freq": 30, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
