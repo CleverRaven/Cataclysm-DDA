@@ -1,7 +1,9 @@
 #include <memory>
+#include <sstream>
 
 #include "achievement.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_variant.h"
 #include "catch/catch.hpp"
 #include "character_id.h"
@@ -9,6 +11,7 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "game.h"
+#include "optional.h"
 #include "stats_tracker.h"
 #include "string_id.h"
 #include "stringmaker.h"
@@ -128,6 +131,28 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
     b.send<am>( no_monster, t_null, move_mode_walk, true, 5 );
     CHECK( s.get_events( am ).maximum( "z" ) == 5 );
+}
+
+TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
+{
+    stats_tracker s;
+    event_bus b;
+    b.subscribe( &s );
+
+    const character_id u_id = g->u.getID();
+    constexpr event_type ctd = event_type::character_takes_damage;
+
+    const time_point start = calendar::turn;
+
+    CHECK( !s.get_events( ctd ).first_time() );
+    CHECK( !s.get_events( ctd ).last_time() );
+    b.send<ctd>( u_id, 10 );
+    CHECK( s.get_events( ctd ).first_time() == cata::optional<time_point>( start ) );
+    CHECK( s.get_events( ctd ).last_time() == cata::optional<time_point>( calendar::turn ) );
+    calendar::turn += 1_minutes;
+    b.send<ctd>( u_id, 10 );
+    CHECK( s.get_events( ctd ).first_time() == cata::optional<time_point>( start ) );
+    CHECK( s.get_events( ctd ).last_time() == cata::optional<time_point>( calendar::turn ) );
 }
 
 static void send_game_start( event_bus &b, const character_id &u_id )
@@ -814,4 +839,35 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
         REQUIRE( e != sub.events.end() );
         CHECK( e->get<bool>( "achievements_enabled" ) == true );
     }
+}
+
+TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
+{
+    std::string json_string = R"({
+        "data": {
+            "character_triggers_trap": {
+                "event_counts": [
+                    [
+                        {
+                            "character": [ "character_id", "20" ],
+                            "trap": [ "trap_str_id", "tr_goo" ]
+                        },
+                        2
+                    ]
+                ]
+            },
+            "character_kills_monster": {
+                "event_counts": []
+            }
+        },
+        "initial_scores": [
+            "score_distance_walked"
+        ]
+    })";
+    std::istringstream is( json_string );
+    JsonIn jsin( is );
+    stats_tracker s;
+    s.deserialize( jsin );
+    CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );
+    CHECK( s.get_events( event_type::character_kills_monster ).count() == 0 );
 }

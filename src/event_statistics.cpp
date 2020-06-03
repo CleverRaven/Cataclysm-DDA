@@ -460,11 +460,11 @@ struct event_transformation_impl : public event_transformation::impl {
         return result;
     }
 
-    event_multiset initialize( const event_multiset::counts_type &input,
+    event_multiset initialize( const event_multiset::summaries_type &input,
                                stats_tracker &stats ) const {
         event_multiset result;
 
-        for( const std::pair<const cata::event::data_type, int> &p : input ) {
+        for( const std::pair<const cata::event::data_type, event_summary> &p : input ) {
             cata::event::data_type event_data = p.first;
             EventVector transformed = match_and_transform( event_data, stats );
             for( cata::event::data_type &d : transformed ) {
@@ -878,12 +878,12 @@ struct event_statistic_unique_value : event_statistic::impl {
     std::string field_;
 
     cata_variant value( stats_tracker &stats ) const override {
-        const event_multiset::counts_type counts = source_->get( stats ).counts();
-        if( counts.size() != 1 ) {
+        const event_multiset::summaries_type summaries = source_->get( stats ).counts();
+        if( summaries.size() != 1 ) {
             return cata_variant();
         }
 
-        const cata::event::data_type &d = counts.begin()->first;
+        const cata::event::data_type &d = summaries.begin()->first;
         auto it = d.find( field_ );
         if( it == d.end() ) {
             return cata_variant();
