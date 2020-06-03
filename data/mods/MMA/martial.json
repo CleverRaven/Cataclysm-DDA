@@ -9,6 +9,15 @@
     "book_data": { "martial_art": "style_mma_desert_wind" }
   },
   {
+    "id": "manual_mma_diamond_mind",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Perfect Clarity of Mind and Body" },
+    "description": "This book contains the teaching of the Diamond Mind discipline.",
+    "book_data": { "martial_art": "style_mma_diamond_mind" }
+  },
+  {
     "id": "manual_mma_panzer",
     "copy-from": "book_martial",
     "looks_like": "manual_karate",
