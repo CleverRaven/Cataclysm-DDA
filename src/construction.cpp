@@ -770,6 +770,7 @@ construction_id construction_menu( const bool blueprint )
                     if( !player_can_see_to_build( g->u, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
+                        ui.reset();
                         place_construction( constructs[select] );
                         uistate.last_construction = constructs[select];
                     }
@@ -884,7 +885,6 @@ bool can_construct( const construction &con )
 
 void place_construction( const std::string &desc )
 {
-    g->refresh_all();
     const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc( desc );
@@ -897,12 +897,13 @@ void place_construction( const std::string &desc )
         }
     }
 
-    for( auto &elem : valid ) {
-        g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                     g->u.pos() + g->u.view_offset );
-    }
-    wrefresh( g->w_terrain );
-    g->draw_panels();
+    shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
+        for( auto &elem : valid ) {
+            g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
+                         g->u.pos() + g->u.view_offset );
+        }
+    } );
+    g->add_draw_callback( draw_valid );
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {

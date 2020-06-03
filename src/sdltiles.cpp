@@ -1033,16 +1033,22 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 
 void reinitialize_framebuffer()
 {
+    static int prev_height = -1;
+    static int prev_width = -1;
     //Re-initialize the framebuffer with new values.
-    const int new_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT ) );
-    const int new_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH ) );
-    oversized_framebuffer.resize( new_height );
-    for( int i = 0; i < new_height; i++ ) {
-        oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
-    }
-    terminal_framebuffer.resize( new_height );
-    for( int i = 0; i < new_height; i++ ) {
-        terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+    const int new_height = std::max( { TERMY, OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT } );
+    const int new_width = std::max( { TERMX, OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH } );
+    if( new_height != prev_height || new_width != prev_width ) {
+        prev_height = new_height;
+        prev_width = new_width;
+        oversized_framebuffer.resize( new_height );
+        for( int i = 0; i < new_height; i++ ) {
+            oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+        }
+        terminal_framebuffer.resize( new_height );
+        for( int i = 0; i < new_height; i++ ) {
+            terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+        }
     }
 }
 
@@ -1779,6 +1785,15 @@ bool handle_resize( int w, int h )
         return true;
     }
     return false;
+}
+
+void resize_term( const int cell_w, const int cell_h )
+{
+    int w = cell_w * fontwidth * scaling_factor;
+    int h = cell_h * fontheight * scaling_factor;
+    SDL_SetWindowSize( window.get(), w, h );
+    SDL_GetWindowSize( window.get(), &w, &h );
+    handle_resize( w, h );
 }
 
 void toggle_fullscreen_window()
@@ -3717,7 +3732,7 @@ bool gamepad_available()
 void rescale_tileset( int size )
 {
     tilecontext->set_draw_scale( size );
-    game_ui::init_ui();
+    g->mark_main_ui_adaptor_resize();
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,

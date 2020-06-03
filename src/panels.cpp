@@ -2404,8 +2404,7 @@ void panel_manager::show_adm()
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
             // tell the game that the main screen might have a different size now.
-            g->init_ui( false );
-            g->invalidate_main_ui_adaptor();
+            g->mark_main_ui_adaptor_resize();
             recalc = true;
         } else if( !swapping && ( action == "RIGHT" || action == "LEFT" ) ) {
             // there are only two columns
