@@ -1154,6 +1154,7 @@ class item : public visitable<item>
         bool is_book() const;
         bool is_map() const;
         bool is_salvageable() const;
+        bool is_disassemblable() const;
         bool is_craft() const;
 
         bool is_deployable() const;

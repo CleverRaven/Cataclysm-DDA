@@ -3064,19 +3064,6 @@ hint_rating player::rate_action_unload( const item &it ) const
     return hint_rating::iffy;
 }
 
-hint_rating player::rate_action_disassemble( const item &it )
-{
-    if( can_disassemble( it, crafting_inventory() ).success() ) {
-        return hint_rating::good; // possible
-
-    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-        return hint_rating::iffy; // potentially possible but we currently lack requirements
-
-    } else {
-        return hint_rating::cant; // never possible
-    }
-}
-
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );

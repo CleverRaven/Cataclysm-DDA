@@ -2020,6 +2020,20 @@ static hint_rating rate_action_change_side( const avatar &you, const item &it )
     return you.is_worn( it ) ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_disassemble( avatar &you, const item &it )
+{
+    if( you.can_disassemble( it, you.crafting_inventory() ).success() ) {
+        // Possible right now
+        return hint_rating::good;
+    } else if( it.is_disassemblable() ) {
+        // Potentially possible, but we currently lack requirements
+        return hint_rating::iffy;
+    } else {
+        // Never possible
+        return hint_rating::cant;
+    }
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( !you.can_consume( it ) ) {
@@ -2163,7 +2177,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
-        addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
+        addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.has_pockets() ) {
             addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );
             if( oThisItem.contents.num_item_stacks() > 0 ) {
