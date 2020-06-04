@@ -747,6 +747,9 @@ void player::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
+                    // Invalidate bionics menu so the remaining power gets redrawn
+                    // if other UIs are opened when activating the bionic.
+                    ui.invalidate_ui();
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {

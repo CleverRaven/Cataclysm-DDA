@@ -1566,25 +1566,6 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
     }
 }
 
-catacurses::window w_hit_animation;
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
-{
-    catacurses::window w_hit =
-        catacurses::newwin( 1, 1, p );
-    if( !w_hit ) {
-        return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    w_hit_animation = w_hit;
-
-    mvwprintz( w_hit, point_zero, cColor, cTile );
-    wrefresh( w_hit );
-
-    inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
-    // Skip input (if any), because holding down a key with nanosleep can get yourself killed
-    inp_mngr.get_input_event();
-    inp_mngr.reset_timeout();
-}
-
 #if defined(_MSC_VER)
 std::string cata::string_formatter::raw_string_format( const char *const format, ... )
 {

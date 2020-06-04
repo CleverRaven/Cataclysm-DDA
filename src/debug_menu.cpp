@@ -86,6 +86,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -1247,6 +1248,7 @@ void debug()
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
             }
+            g->invalidate_main_ui_adaptor();
             g->disp_NPCs();
             break;
         }
@@ -1469,19 +1471,22 @@ void debug()
 
         case DEBUG_SHOW_SOUND: {
 #if defined(TILES)
-            const point offset {
-                u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
-            };
-            g->draw_ter();
-            auto sounds_to_draw = sounds::get_monster_sounds();
-            for( const auto &sound : sounds_to_draw.first ) {
-                mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
-            }
-            for( const auto &sound : sounds_to_draw.second ) {
-                mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
-            }
-            wrefresh( g->w_terrain );
-            g->draw_panels();
+            const auto &sounds_to_draw = sounds::get_monster_sounds();
+
+            shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+                const point offset {
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
+                };
+                for( const auto &sound : sounds_to_draw.first ) {
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
+                }
+                for( const auto &sound : sounds_to_draw.second ) {
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
+                }
+            } );
+            g->add_draw_callback( sound_cb );
+
+            ui_manager::redraw();
             inp_mngr.wait_for_any_key();
 #else
             popup( _( "This binary was not compiled with tiles support." ) );
