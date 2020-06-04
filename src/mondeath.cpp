@@ -45,7 +45,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
