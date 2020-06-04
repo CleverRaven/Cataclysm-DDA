@@ -106,7 +106,7 @@ extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_j
         nested_mapgen;
 
 #if defined(TILES)
-    #include "sdl_wrappers.h"
+#include "sdl_wrappers.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

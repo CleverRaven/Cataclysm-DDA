@@ -96,112 +96,112 @@ static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_incorporeal( "incorporeal" 
-static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_meth( "meth" );
-static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_nausea( "nausea" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_paincysts( "paincysts" );
-static const efftype_id effect_recover( "recover" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_tapeworm( "tapeworm" );
-static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_incorporeal( "incorporeal"
+        static const efftype_id effect_infected( "infected" );
+        static const efftype_id effect_masked_scent( "masked_scent" );
+        static const efftype_id effect_meth( "meth" );
+        static const efftype_id effect_narcosis( "narcosis" );
+        static const efftype_id effect_nausea( "nausea" );
+        static const efftype_id effect_onfire( "onfire" );
+        static const efftype_id effect_paincysts( "paincysts" );
+        static const efftype_id effect_recover( "recover" );
+        static const efftype_id effect_sleep( "sleep" );
+        static const efftype_id effect_stunned( "stunned" );
+        static const efftype_id effect_tapeworm( "tapeworm" );
+        static const efftype_id effect_weed_high( "weed_high" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_battery( "battery" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
-static const itype_id itype_large_repairkit( "large_repairkit" );
-static const itype_id itype_plut_cell( "plut_cell" );
-static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
+        static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+        static const itype_id itype_battery( "battery" );
+        static const itype_id itype_brass_catcher( "brass_catcher" );
+        static const itype_id itype_cookbook_human( "cookbook_human" );
+        static const itype_id itype_large_repairkit( "large_repairkit" );
+        static const itype_id itype_plut_cell( "plut_cell" );
+        static const itype_id itype_small_repairkit( "small_repairkit" );
+        static const itype_id itype_UPS( "UPS" );
+        static const itype_id itype_UPS_off( "UPS_off" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_CF_HAIR( "CF_HAIR" );
-static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
-static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
-static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
-static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
-static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_FAT( "FAT" );
-static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
-static const trait_id trait_FUR( "FUR" );
-static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-static const trait_id trait_INSOMNIA( "INSOMNIA" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LARGE( "LARGE" );
-static const trait_id trait_LARGE_OK( "LARGE_OK" );
-static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
-static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
-static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
-static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
-static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
-static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
-static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
-static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_NOMAD( "NOMAD" );
-static const trait_id trait_NOMAD2( "NOMAD2" );
-static const trait_id trait_NOMAD3( "NOMAD3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SAVANT( "SAVANT" );
-static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
-static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
-static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
-static const trait_id trait_VOMITOUS( "VOMITOUS" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
-static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
-static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+        static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+        static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+        static const trait_id trait_CANNIBAL( "CANNIBAL" );
+        static const trait_id trait_CENOBITE( "CENOBITE" );
+        static const trait_id trait_CF_HAIR( "CF_HAIR" );
+        static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
+        static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
+        static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+        static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+        static const trait_id trait_CLUMSY( "CLUMSY" );
+        static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+        static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+        static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+        static const trait_id trait_DEFT( "DEFT" );
+        static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
+        static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+        static const trait_id trait_EATHEALTH( "EATHEALTH" );
+        static const trait_id trait_FAT( "FAT" );
+        static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
+        static const trait_id trait_FUR( "FUR" );
+        static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
+        static const trait_id trait_HUGE( "HUGE" );
+        static const trait_id trait_HUGE_OK( "HUGE_OK" );
+        static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+        static const trait_id trait_INSOMNIA( "INSOMNIA" );
+        static const trait_id trait_INT_SLIME( "INT_SLIME" );
+        static const trait_id trait_LARGE( "LARGE" );
+        static const trait_id trait_LARGE_OK( "LARGE_OK" );
+        static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
+        static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
+        static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+        static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
+        static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+        static const trait_id trait_M_SKIN3( "M_SKIN3" );
+        static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
+        static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
+        static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
+        static const trait_id trait_NAUSEA( "NAUSEA" );
+        static const trait_id trait_NOMAD( "NOMAD" );
+        static const trait_id trait_NOMAD2( "NOMAD2" );
+        static const trait_id trait_NOMAD3( "NOMAD3" );
+        static const trait_id trait_NOPAIN( "NOPAIN" );
+        static const trait_id trait_PACIFIST( "PACIFIST" );
+        static const trait_id trait_PAINRESIST( "PAINRESIST" );
+        static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+        static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+        static const trait_id trait_PARKOUR( "PARKOUR" );
+        static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+        static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
+        static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+        static const trait_id trait_QUILLS( "QUILLS" );
+        static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+        static const trait_id trait_SAVANT( "SAVANT" );
+        static const trait_id trait_SHELL2( "SHELL2" );
+        static const trait_id trait_SLIMY( "SLIMY" );
+        static const trait_id trait_SPINES( "SPINES" );
+        static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+        static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
+        static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
+        static const trait_id trait_THORNS( "THORNS" );
+        static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+        static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+        static const trait_id trait_VOMITOUS( "VOMITOUS" );
+        static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+        static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
+        static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
+        static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
+        static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const std::string flag_SPLINT( "SPLINT" );
+        static const std::string flag_SPLINT( "SPLINT" );
 
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_swimming( "swimming" );
+        static const skill_id skill_dodge( "dodge" );
+        static const skill_id skill_gun( "gun" );
+        static const skill_id skill_swimming( "swimming" );
 
-static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_soporific( "bio_soporific" );
-static const bionic_id bio_speed( "bio_speed" );
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+        static const bionic_id bio_cqb( "bio_cqb" );
+        static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+        static const bionic_id bio_soporific( "bio_soporific" );
+        static const bionic_id bio_speed( "bio_speed" );
+        static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
-stat_mod player::get_pain_penalty() const
+        stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
     int pain = get_perceived_pain();
@@ -283,10 +283,10 @@ player::player()
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+                    player::player( player && ) = default;
+                    player & player::operator=( player && ) = default;
 
-void player::normalize()
+                    void player::normalize()
 {
     Character::normalize();
 
@@ -3484,7 +3484,7 @@ bool player::studied_all_recipes( const itype &book ) const
     return true;
 }
 
-const recipe_subset &player::get_learned_recipes() const
+const recipe_subset & player::get_learned_recipes() const
 {
     // Cache validity check
     if( *_skills != *valid_autolearn_skills ) {

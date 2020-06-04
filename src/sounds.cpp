@@ -48,17 +48,17 @@
 #include "weather.h"
 
 #if defined(SDL_SOUND)
-    #if defined(_MSC_VER) && defined(USE_VCPKG)
-        #include <SDL2/SDL_mixer.h>
-    #else
-        #include <SDL_mixer.h>
-    #endif
-    #include <thread>
-    #if defined(_WIN32) && !defined(_MSC_VER)
-        #include "mingw.thread.h"
-    #endif
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#include <SDL2/SDL_mixer.h>
+#else
+#include <SDL_mixer.h>
+#endif
+#include <thread>
+#if defined(_WIN32) && !defined(_MSC_VER)
+#include "mingw.thread.h"
+#endif
 
-    #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 #endif
 
 weather_type previous_weather;
