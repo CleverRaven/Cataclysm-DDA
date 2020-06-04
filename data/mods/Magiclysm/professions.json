@@ -297,5 +297,33 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2" ]
+  },
+  {
+    "type": "profession",
+    "ident": "academy_wizard",
+    "name": "Academy Wizard",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells. With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "points": 4,
+    "spells": [
+      { "id": "magic_missile", "level": 6 },
+      { "id": "magus_mana_bolt", "level": 2 },
+      { "id": "create_atomic_light", "level": 3 },
+      { "id": "protection_aura", "level": 3 }
+    ],
+    "skills": [
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 4, "name": "spellcraft" },
+      { "level": 3, "name": "chemistry" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "copper_circlet", "robe", "bastsandals", "pocketwatch" ],
+        "entries": [ { "item": "q_staff", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "MAGUS" ]
   }
 ]
