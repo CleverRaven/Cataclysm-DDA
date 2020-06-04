@@ -2027,6 +2027,15 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
     return hint_rating::iffy;
 }
 
+static hint_rating rate_action_mend( const avatar &, const item &it )
+{
+    // TODO: check also if item damage could be repaired via a tool
+    if( !it.faults.empty() ) {
+        return hint_rating::good;
+    }
+    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
+}
+
 static hint_rating rate_action_read( const avatar &you, const item &it )
 {
     if( !it.is_book() ) {
@@ -2118,7 +2127,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
-        addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
+        addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
         if( oThisItem.has_pockets() ) {
             addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );

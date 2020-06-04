@@ -3088,15 +3088,6 @@ hint_rating player::rate_action_unload( const item &it ) const
     return hint_rating::iffy;
 }
 
-hint_rating player::rate_action_mend( const item &it ) const
-{
-    // TODO: check also if item damage could be repaired via a tool
-    if( !it.faults.empty() ) {
-        return hint_rating::good;
-    }
-    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
-}
-
 hint_rating player::rate_action_disassemble( const item &it )
 {
     if( can_disassemble( it, crafting_inventory() ).success() ) {

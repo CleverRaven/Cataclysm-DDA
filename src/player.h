@@ -496,7 +496,6 @@ class player : public Character
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
-        hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
         //returns true if the warning is now beyond final and results in hostility.
