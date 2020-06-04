@@ -44,6 +44,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_camptosaurus",
+    "name": "camptosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_camptosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_spinosaurus",
     "name": "spinosaurus egg",
     "copy-from": "egg_dino",

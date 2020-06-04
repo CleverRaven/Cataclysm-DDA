@@ -96,7 +96,7 @@ size_t item_contents::size() const
 void item_contents::combine( const item_contents &read_input )
 {
     std::vector<item> uninserted_items;
-    int pocket_index = 0;
+    size_t pocket_index = 0;
 
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {

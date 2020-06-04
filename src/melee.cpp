@@ -1963,7 +1963,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts.test( convert_bp( mut_atk.bp ) ) ) {
+            if( !mut_atk.bp.is_empty() && !usable_body_parts.test( mut_atk.bp ) ) {
                 continue;
             }
 

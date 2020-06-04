@@ -1045,7 +1045,7 @@ class npc : public player
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "" );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 

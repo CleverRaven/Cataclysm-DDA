@@ -130,6 +130,13 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     CHECK( s.get_events( am ).maximum( "z" ) == 5 );
 }
 
+static void send_game_start( event_bus &b, const character_id &u_id )
+{
+    b.send<event_type::game_start>(
+        u_id, "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION",
+        "VERION_STRING" );
+}
+
 TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
 {
     stats_tracker s;
@@ -250,7 +257,7 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         const string_id<event_statistic> num_avatar_zombie_kills( "num_avatar_zombie_kills" );
         const string_id<score> score_kills( "score_kills" );
 
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
         CHECK( avatar_id->value( s ) == cata_variant( u_id ) );
         CHECK( score_kills->value( s ).get<int>() == 0 );
         CHECK( score_kills->description( s ) == "0 monsters killed" );
@@ -274,7 +281,7 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
         const string_id<score> damage_taken( "score_damage_taken" );
 
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
         CHECK( damage_taken->value( s ).get<int>() == 0 );
         b.send( avatar_2_damage );
         CHECK( damage_taken->value( s ).get<int>() == 2 );
@@ -427,7 +434,7 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         s.add_watcher( num_avatar_monster_kills, &kills_watcher );
         s.add_watcher( num_avatar_zombie_kills, &zombie_kills_watcher );
 
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
         CHECK( kills_watcher.value == cata_variant( 0 ) );
         b.send( avatar_zombie_kill );
         CHECK( kills_watcher.value == cata_variant( 1 ) );
@@ -449,7 +456,7 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         s.add_watcher( damage_taken, &damage_watcher );
 
         CHECK( damage_watcher.value == cata_variant() );
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
         CHECK( damage_watcher.value == cata_variant( 0 ) );
         b.send( avatar_2_damage );
         CHECK( damage_watcher.value == cata_variant( 2 ) );
@@ -482,7 +489,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
         achievement_id a_survive_one_day( "achievement_survive_one_day" );
 
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
 
         // Waking up before the time in question should do nothing
         b.send( avatar_wakes_up );
@@ -493,7 +500,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         b.send( avatar_wakes_up );
         CHECK( achievements_completed.count( a_survive_one_day ) );
     }
-
     SECTION( "hidden_kills" ) {
         const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
@@ -505,7 +511,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         achievement_id c_pacifist( "conduct_zero_kills" );
         achievement_id c_merciful( "conduct_zero_character_kills" );
 
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
 
         CHECK( !a.is_hidden( &*a_kill_10 ) );
         CHECK( a.is_hidden( &*a_kill_100 ) );
@@ -535,7 +541,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         achievement_id a_kill_zombie( "achievement_kill_zombie" );
         achievement_id a_kill_in_first_minute( "achievement_kill_in_first_minute" );
 
-        b.send<event_type::game_start>( u_id );
+        send_game_start( b, u_id );
 
         CHECK( a.ui_text_for( &*a_kill_zombie ) ==
                "<color_c_yellow>One down, billions to go…</color>\n"
@@ -554,11 +560,12 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
         CHECK( a.ui_text_for( &*c_pacifist ) ==
                "<color_c_light_green>Pacifist</color>\n"
-               "  <color_c_light_green>Kill nothing</color>\n" );
+               "  <color_c_green>Kill no monsters</color>\n"
+               "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( a.ui_text_for( &*c_merciful ) ==
                "<color_c_light_green>Merciful</color>\n"
-               "  <color_c_light_green>Kill no characters</color>\n" );
+               "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_completed.empty() );
         CHECK( achievements_failed.empty() );
@@ -588,18 +595,20 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Kill nothing</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n" );
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_yellow>Kill no monsters</color>\n"
+                   "  <color_c_green>Kill no characters</color>\n" );
         } else {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Kill nothing</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n" );
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_yellow>Kill no monsters</color>\n"
+                   "  <color_c_green>Kill no characters</color>\n" );
         }
 
         CHECK( a.ui_text_for( &*c_merciful ) ==
                "<color_c_light_green>Merciful</color>\n"
-               "  <color_c_light_green>Kill no characters</color>\n" );
+               "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_failed.count( c_pacifist ) );
         CHECK( !achievements_failed.count( c_merciful ) );
@@ -657,7 +666,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
+                send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
                 WHEN( "the avatar runs the required distance" ) {
@@ -676,7 +685,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
+                send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
                 WHEN( "the avatar traverses the required number of sharp terrain" ) {
@@ -695,7 +704,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
+                send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
                 WHEN( "the avatar does the required actions" ) {
@@ -718,7 +727,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
+                send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
                 WHEN( "the avatar does the required actions" ) {
@@ -735,7 +744,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
             GIVEN( "a new game" ) {
                 const character_id u_id = g->u.getID();
-                b.send<event_type::game_start>( u_id );
+                send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
                 WHEN( "the avatar does the required actions" ) {
@@ -775,7 +784,7 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     g->events().subscribe( &sub );
 
     const character_id u_id = g->u.getID();
-    g->events().send<event_type::game_start>( u_id );
+    send_game_start( g->events(), u_id );
 
     const mtype_id mon_zombie( "mon_zombie" );
     const cata::event avatar_zombie_kill =

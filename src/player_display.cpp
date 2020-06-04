@@ -389,7 +389,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                            string_format( _( "Melee damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
+                            string_format( _( "Bash damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
     } else if( line == 1 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,

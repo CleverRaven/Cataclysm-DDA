@@ -683,12 +683,12 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
     std::vector<iteminfo_parts> varsize = { iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE };
     std::vector<iteminfo_parts> sided = { iteminfo_parts::DESCRIPTION_FLAGS_SIDED };
     std::vector<iteminfo_parts> powerarmor = { iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR };
-    std::vector<iteminfo_parts> powerarmor_rad = { iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT };
 
     // TODO: Test items with these
     //std::vector<iteminfo_parts> helmet_compat = { iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT };
     //std::vector<iteminfo_parts> fits = { iteminfo_parts::DESCRIPTION_FLAGS_FITS };
     //std::vector<iteminfo_parts> irradiation = { iteminfo_parts::DESCRIPTION_IRRADIATION };
+    //std::vector<iteminfo_parts> powerarmor_rad = { iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT };
 
     // Items with VARSIZE flag can be fitted
     item socks( "test_socks" );
@@ -706,10 +706,6 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
     CHECK( item_info_str( power_armor, powerarmor ) ==
            "--\n"
            "* This gear is a part of power armor.\n" );
-    CHECK( item_info_str( power_armor, powerarmor_rad ) ==
-           "--\n"
-           "* When worn with a power armor helmet, it will"
-           " <color_c_green>fully protect</color> you from <color_c_cyan>radiation</color>.\n" );
 }
 
 // Armor protction is based on materials, thickness, and/or environmental protection rating.

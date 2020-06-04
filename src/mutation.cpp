@@ -215,8 +215,8 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
-        if( it.covers( convert_bp( bp ).id() ) ) {
+    for( const bodypart_str_id &bp : restricts_gear ) {
+        if( it.covers( bp.id() ) ) {
             return true;
         }
     }
@@ -224,9 +224,9 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
-    const auto iter = armor.find( bp );
+    const auto iter = armor.find( bp.id() );
     if( iter == armor.end() ) {
         static const resistances nulres;
         return nulres;

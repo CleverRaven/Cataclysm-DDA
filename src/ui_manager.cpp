@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "cursesdef.h"
+#include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
 
@@ -199,6 +200,7 @@ void ui_adaptor::redraw_invalidated()
             ui.deferred_resize = false;
         }
     }
+    reinitialize_framebuffer();
 
     // redraw invalidated uis
     // TODO refresh only when all stacked UIs are drawn

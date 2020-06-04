@@ -143,8 +143,10 @@ struct achievement_requirement {
     string_id<event_statistic> statistic;
     achievement_comparison comparison;
     int target;
-    bool becomes_false;
     requirement_visibility visibility = requirement_visibility::always;
+    cata::optional<translation> description;
+
+    bool becomes_false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -156,6 +158,7 @@ struct achievement_requirement {
         }
 
         jo.read( "visible", visibility, false );
+        jo.read( "description", description, false );
     }
 
     void finalize() {
@@ -446,7 +449,11 @@ static cata::optional<std::string> text_for_requirement(
         target = req.target;
         result = string_format( _( "%s/%s " ), current, target );
     }
-    result += req.statistic->description().translated( target );
+    if( req.description ) {
+        result = req.description->translated();
+    } else {
+        result += req.statistic->description().translated( target );
+    }
     return colorize( result, c );
 }
 
@@ -775,6 +782,7 @@ std::string achievements_tracker::ui_text_for( const achievement *ach ) const
 
 void achievements_tracker::clear()
 {
+    enabled_ = true;
     trackers_.clear();
     initial_achievements_.clear();
     achievements_status_.clear();

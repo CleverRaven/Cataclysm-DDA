@@ -2139,6 +2139,8 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
     std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
+    g->events().send<event_type::character_wears_item>( getID(), last_item );
+
     if( interactive ) {
         add_msg_player_or_npc(
             _( "You put on your %s." ),
@@ -2453,9 +2455,7 @@ item Character::i_rem( int pos )
 {
     item tmp;
     if( pos == -1 ) {
-        tmp = weapon;
-        weapon = item();
-        return tmp;
+        return remove_weapon();
     } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
         auto iter = worn.begin();
         std::advance( iter, worn_position_to_index( pos ) );
@@ -2585,6 +2585,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
     return tmp;
 }
@@ -3929,13 +3930,13 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                                    const trait_id &mut,
                                    const body_part_set &oversize )
 {
-    for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first].encumbrance += enc.second;
+    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
+        vals[enc.first->token].encumbrance += enc.second;
     }
 
-    for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
-        if( !oversize.test( convert_bp( enc.first ) ) ) {
-            vals[enc.first].encumbrance += enc.second;
+    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
+        if( !oversize.test( enc.first ) ) {
+            vals[enc.first->token].encumbrance += enc.second;
         }
     }
 }
@@ -3944,8 +3945,8 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 {
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
-            vals[element.first].encumbrance += element.second;
+        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+            vals[element.first->token].encumbrance += element.second;
         }
     }
 
@@ -4935,7 +4936,8 @@ void Character::update_needs( int rate_multiplier )
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
+    if( in_vehicle && ( ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) )
+        && !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
         if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this->as_player() ) ) ) {
@@ -4945,7 +4947,8 @@ void Character::update_needs( int rate_multiplier )
                 npc &as_npc = dynamic_cast<npc &>( *this );
                 as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
             }
-            mod_pain_noresist( 2 * rng( 2, 3 ) );
+
+            mod_pain( rng( 4, 6 ) );
             focus_pool -= 1;
         }
     }
@@ -6563,10 +6566,10 @@ float Character::active_light() const
     for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
-            for( const std::pair<body_part, float> elem : mut.first->lumination ) {
+            for( const std::pair<bodypart_str_id, float> elem : mut.first->lumination ) {
                 int coverage = 0;
                 for( const item &i : worn ) {
-                    if( i.covers( convert_bp( elem.first ).id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                         !i.has_flag( flag_SEMITANGIBLE ) &&
                         !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                         coverage += i.get_coverage();
@@ -6674,7 +6677,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp->token );
+        res += iter->damage_resistance( bp );
     }
 
     return res;
@@ -8120,14 +8123,14 @@ void Character::set_highest_cat_level()
 
 void Character::drench_mut_calc()
 {
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         int ignored = 0;
         int neutral = 0;
         int good = 0;
 
         for( const trait_id &iter : get_mutations() ) {
             const mutation_branch &mdata = iter.obj();
-            const auto wp_iter = mdata.protection.find( bp );
+            const auto wp_iter = mdata.protection.find( bp.id() );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
                 neutral += wp_iter->second.y;
@@ -8135,9 +8138,9 @@ void Character::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        mut_drench[bp->token][WT_GOOD] = good;
+        mut_drench[bp->token][WT_NEUTRAL] = neutral;
+        mut_drench[bp->token][WT_IGNORED] = ignored;
     }
 }
 

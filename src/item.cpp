@@ -2807,19 +2807,18 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This gear is a part of power armor." ) ) );
-    }
-
-    if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-        if( covers( bodypart_id( "head" ) ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* When worn with a power armor suit, it will "
-                                         "<good>fully protect</good> you from "
-                                         "<info>radiation</info>." ) ) );
-        } else {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* When worn with a power armor helmet, it will "
-                                         "<good>fully protect</good> you from "
-                                         "<info>radiation</info>." ) ) );
+        if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
+            if( covers( bodypart_id( "head" ) ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* When worn with a power armor suit, it will "
+                                             "<good>fully protect</good> you from "
+                                             "<info>radiation</info>." ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* When worn with a power armor helmet, it will "
+                                             "<good>fully protect</good> you from "
+                                             "<info>radiation</info>." ) ) );
+            }
         }
     }
 
@@ -3226,8 +3225,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( convert_bp( element.first ).id(), 1 ),
+        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first.id(), 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -4544,6 +4543,7 @@ std::string item::display_name( unsigned int quantity ) const
         // a book which has remaining unread chapters
         amount = get_remaining_chapters( g->u );
     } else if( magazine_current() ) {
+        show_amt = true;
         const item *mag = magazine_current();
         amount = ammo_remaining();
         const itype *adata = mag->ammo_data();
@@ -4584,9 +4584,18 @@ std::string item::display_name( unsigned int quantity ) const
     if( !is_ammo() && ( ( is_gun() && ammo_required() ) || is_magazine() ) &&
         get_option<bool>( "AMMO_IN_NAMES" ) ) {
         if( !ammo_current().is_null() ) {
+            // Loaded with ammo
             ammotext = find_type( ammo_current() )->ammo->type->name();
         } else if( !ammo_types().empty() ) {
+            // Is not loaded but can be loaded
             ammotext = ammotype( *ammo_types().begin() )->name();
+        } else if( magazine_current() ) {
+            // Is not loaded but has magazine that can be loaded
+            ammotext = magazine_current()->ammo_default()->ammo->type->name();
+        } else if( !magazine_default().is_null() ) {
+            // Is not loaded and doesn't have magazine but can use magazines that could be loaded
+            item tmp_mag( magazine_default() );
+            ammotext = tmp_mag.ammo_default()->ammo->type->name();
         }
     }
 
