@@ -8,10 +8,6 @@
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
       [ [ "dks_powercell", 1 ] ],
       [ [ "dks_elecscrap", 1 ] ],
       [ [ "dks_biotech", 1 ] ],
@@ -28,10 +24,6 @@
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
       [ [ "dks_powercell", 1 ] ],
       [ [ "dks_elecscrap", 1 ] ],
       [ [ "dks_biotech", 1 ] ],
