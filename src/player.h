@@ -717,6 +717,7 @@ class player : public Character
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
+        double get_focus_probability( int focus ) const;
         int get_focus_chance( int focus ) const;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,

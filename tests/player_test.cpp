@@ -130,3 +130,45 @@ TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]
         test_temperature_spread( &dummy, {{ -115, -87, -54, -6, 36, 64, 80 }} );
     }
 }
+
+TEST_CASE( "Focus gain and drain.", "[focus]" )
+{
+
+    player &dummy = g->u;
+
+    SECTION( "Min and max for focus gain and drain" ) {
+
+        SECTION( "Ensure focus gain at 100 focus difference is 1" ) {
+            CHECK( g->u.get_focus_chance( 100 ) == 1 );
+        }
+
+        SECTION( "Ensure focus gain at over 100 focus difference is 1" ) {
+            CHECK( g->u.get_focus_chance( 150 ) == 1 );
+        }
+
+        SECTION( "Ensure focus gain at 0 focus difference is 0" ) {
+            CHECK( g->u.get_focus_chance( 0 ) == 0 );
+        }
+    }
+
+    SECTION( "Check if get_focus_probability follows the formula" ) {
+
+        // These values are directly extrapolated get_focus_probability()
+        std::vector<double> focus_prob_0_to_100 = {
+            0.000000, 0.000247, 0.000987, 0.002219, 0.003943, 0.006156, 0.008856, 0.012042, 0.015708, 0.019853,
+            0.024472, 0.029560, 0.035112, 0.041123, 0.047586, 0.054497, 0.061847, 0.069629, 0.077836, 0.086460,
+            0.095492, 0.104922, 0.114743, 0.124944, 0.135516, 0.146447, 0.157726, 0.169344, 0.181288, 0.193546,
+            0.206107, 0.218958, 0.232087, 0.245479, 0.259123, 0.273005, 0.287110, 0.301426, 0.315938, 0.330631,
+            0.345492, 0.360504, 0.375655, 0.390928, 0.406309, 0.421783, 0.437333, 0.452946, 0.468605, 0.484295,
+            0.500000, 0.515705, 0.531395, 0.547054, 0.562667, 0.578217, 0.593691, 0.609072, 0.624345, 0.639496,
+            0.654508, 0.669369, 0.684062, 0.698574, 0.712890, 0.726995, 0.740877, 0.754521, 0.767913, 0.781042,
+            0.793893, 0.806454, 0.818712, 0.830656, 0.842274, 0.853553, 0.864484, 0.875056, 0.885257, 0.895078,
+            0.904508, 0.913540, 0.922164, 0.930371, 0.938153, 0.945503, 0.952414, 0.958877, 0.964888, 0.970440,
+            0.975528, 0.980147, 0.984292, 0.987958, 0.991144, 0.993844, 0.996057, 0.997781, 0.999013, 0.999753
+        };
+
+        for( int i = 0; i != 100; i++ ) {
+            CHECK( focus_prob_0_to_100[i] == Approx( g->u.get_focus_probability( i ) ).margin( .000001 ) );
+        }
+    }
+}

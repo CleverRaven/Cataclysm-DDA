@@ -3791,12 +3791,18 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     return std::min( own_light, ambient_light );
 }
 
+
+double player::get_focus_probability( int focus ) const
+{
+    return ( .5 * ( 1 - std::cos( ( M_PI / 100 ) * ( focus % 100 ) ) ) );
+}
+
 int player::get_focus_chance( int focus ) const
 {
     if( focus >= 100 ) {
         return 1;
     } else {
-        return roll_remainder( .5 * ( 1 - std::cos( ( M_PI / 100 ) * ( focus % 100 ) ) ) );
+        return roll_remainder( get_focus_probability( focus ) );
     }
 }
 
