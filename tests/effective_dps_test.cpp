@@ -291,4 +291,17 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "spear_forked", 14.0 );
         calc_expected_dps( test_guy, "pike_fake", 10.0 );
     }
+    SECTION( "polearm" ) { // typical value around 35
+        calc_expected_dps( test_guy, "halberd", 36.0 );
+        calc_expected_dps( test_guy, "halberd_fake", 15.0 );
+        calc_expected_dps( test_guy, "ji", 35.0 );
+        calc_expected_dps( test_guy, "glaive", 35.0 );
+        calc_expected_dps( test_guy, "naginata", 35.0 );
+        calc_expected_dps( test_guy, "naginata_inferior", 21.0 );
+        calc_expected_dps( test_guy, "naginata_fake", 10.0 );
+        calc_expected_dps( test_guy, "lucern_hammer", 36.0 );
+        calc_expected_dps( test_guy, "lucern_hammerfake", 14.0 );
+        calc_expected_dps( test_guy, "spear_survivor", 26.0 );
+        calc_expected_dps( test_guy, "long_pole", 13.0 );
+    }
 }

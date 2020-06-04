@@ -315,8 +315,8 @@
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
-    "bashing": 14,
-    "cutting": 38,
+    "bashing": 17,
+    "cutting": 40,
     "price_postapoc": 8000
   },
   {
@@ -387,7 +387,7 @@
     "volume": "2250 ml",
     "bashing": 6,
     "cutting": 40,
-    "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "flags": [ "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
@@ -579,7 +579,6 @@
     "volume": "3750 ml",
     "price": 50000,
     "price_postapoc": 3500,
-    "to_hit": 2,
     "bashing": 11,
     "cutting": 57,
     "material": [ "wood", "bronze" ],

@@ -581,8 +581,8 @@
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3200 g",
     "volume": "3750 ml",
-    "bashing": 34,
-    "cutting": 34,
+    "bashing": 44,
+    "cutting": 33,
     "to_hit": 1,
     "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ] ]
@@ -601,8 +601,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "weight": "2700 g",
     "volume": "3750 ml",
-    "bashing": 48,
-    "cutting": 8,
+    "bashing": 25,
+    "cutting": 2,
     "to_hit": 1,
     "qualities": [ [ "COOK", 1 ] ]
   },
