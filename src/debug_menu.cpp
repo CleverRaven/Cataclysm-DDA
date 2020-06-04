@@ -1248,6 +1248,7 @@ void debug()
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
             }
+            g->invalidate_main_ui_adaptor();
             g->disp_NPCs();
             break;
         }
