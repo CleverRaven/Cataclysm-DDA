@@ -304,4 +304,25 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "spear_survivor", 26.0 );
         calc_expected_dps( test_guy, "long_pole", 13.0 );
     }
+    SECTION( "two-handed axe" ) { // typical value around 29
+        calc_expected_dps( test_guy, "battleaxe", 29.0 );
+        calc_expected_dps( test_guy, "battleaxe_fake", 11.0 );
+        calc_expected_dps( test_guy, "battleaxe_inferior", 20.0 );
+        calc_expected_dps( test_guy, "fire_ax", 25.0 );
+        calc_expected_dps( test_guy, "lobotomizer", 24.0 );
+        calc_expected_dps( test_guy, "ax", 21.0 );
+        calc_expected_dps( test_guy, "copper_ax", 12.0 );
+        calc_expected_dps( test_guy, "e_combatsaw_on", 28.0 );
+        calc_expected_dps( test_guy, "combatsaw_on", 28.0 );
+        calc_expected_dps( test_guy, "chainsaw_on", 16.0 );
+        calc_expected_dps( test_guy, "cs_lajatang_on", 17.0 );
+        calc_expected_dps( test_guy, "ecs_lajatang_on", 17.0 );
+        calc_expected_dps( test_guy, "circsaw_on", 18.0 );
+        calc_expected_dps( test_guy, "e_combatsaw_off", 3.0 );
+        calc_expected_dps( test_guy, "ecs_lajatang_off", 3.0 );
+        calc_expected_dps( test_guy, "combatsaw_off", 3.0 );
+        calc_expected_dps( test_guy, "chainsaw_off", 2.0 );
+        calc_expected_dps( test_guy, "cs_lajatang_off", 2.5 );
+        calc_expected_dps( test_guy, "circsaw_off", 2.0 );
+    }
 }
