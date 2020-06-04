@@ -18,6 +18,15 @@
     "book_data": { "martial_art": "style_mma_diamond_mind" }
   },
   {
+    "id": "manual_mma_hylian",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "The Book of Mudora" },
+    "description": "A collection of ancient Hylian lore and stories.  A section on historic battles is bookmarked.",
+    "book_data": { "martial_art": "style_mma_hylian" }
+  },
+  {
     "id": "manual_mma_panzer",
     "copy-from": "book_martial",
     "looks_like": "manual_karate",
