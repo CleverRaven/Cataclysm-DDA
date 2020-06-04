@@ -825,7 +825,7 @@ static void smash()
 
             int glove_coverage = 0;
             for( const item &i : u.worn ) {
-                if( ( i.covers( bp_hand_l ) || i.covers( bp_hand_r ) ) ) {
+                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
                     int temp_coverage = i.get_coverage();
                     if( glove_coverage < temp_coverage ) {
                         glove_coverage = temp_coverage;
