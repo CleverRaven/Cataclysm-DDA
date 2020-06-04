@@ -2270,18 +2270,16 @@ bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
 
 /**
- *  Hint value used in a hack to decide text color.
- *
- *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
- *  will eventually be rewritten to eliminate the need for this hack.
+ * Hint value used for item examination screen and filtering items by action.
+ * Represents whether an item permits given action (reload, wear, read, etc.).
  */
-enum class hint_rating : int {
-    /** Item should display as gray */
-    cant = 0,
-    /** Item should display as red */
-    iffy = 1,
-    /** Item should display as green */
-    good = -999
+enum class hint_rating {
+    /** Item permits this action */
+    good,
+    /** Item permits this action, but circumstances don't */
+    iffy,
+    /** Item does not permit this action */
+    cant
 };
 
 /**
