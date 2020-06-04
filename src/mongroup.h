@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "io_tags.h"
+#include "mapgen.h"
 #include "monster.h"
 #include "point.h"
 #include "type_id.h"
@@ -29,6 +30,7 @@ struct MonsterGroupEntry {
     int cost_multiplier;
     int pack_minimum;
     int pack_maximum;
+    spawn_data data;
     std::vector<std::string> conditions;
     time_duration starts;
     time_duration ends;
@@ -36,13 +38,15 @@ struct MonsterGroupEntry {
         return ends <= 0_turns;
     }
 
-    MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
-                       int new_pack_min, int new_pack_max, const time_duration &new_starts, const time_duration &new_ends )
+    MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost, int new_pack_min,
+                       int new_pack_max, spawn_data new_data, const time_duration &new_starts,
+                       const time_duration &new_ends )
         : name( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
         , pack_maximum( new_pack_max )
+        , data( new_data )
         , starts( new_starts )
         , ends( new_ends ) {
     }
@@ -51,19 +55,20 @@ struct MonsterGroupEntry {
 struct MonsterGroupResult {
     mtype_id name;
     int pack_size;
+    spawn_data data;
 
     MonsterGroupResult() : name( mtype_id::NULL_ID() ), pack_size( 0 ) {
     }
 
-    MonsterGroupResult( const mtype_id &id, int new_pack_size )
-        : name( id ), pack_size( new_pack_size ) {
+    MonsterGroupResult( const mtype_id &id, int new_pack_size, spawn_data new_data )
+        : name( id ), pack_size( new_pack_size ), data( new_data ) {
     }
 };
 
 struct MonsterGroup {
     mongroup_id name;
     mtype_id defaultMonster;
-    FreqDef  monsters;
+    FreqDef monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
     bool is_animal = false;
     // replaces this group after a period of

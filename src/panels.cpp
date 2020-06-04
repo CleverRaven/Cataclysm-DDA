@@ -35,6 +35,7 @@
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -674,7 +675,7 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
+static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -930,7 +931,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     werase( w );
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
@@ -998,24 +999,12 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return c_red;
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return c_light_blue;
-    } else {
-        return c_light_gray;
-    }
+    return u.current_movement_mode()->panel_color();
 }
 
-static std::string move_mode_string( avatar &u )
+static char move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return pgettext( "movement-type", "C" );
-    } else {
-        return pgettext( "movement-type", "W" );
-    }
+    return u.current_movement_mode()->panel_letter();
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1166,7 +1155,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
@@ -1190,7 +1179,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first->token ), 5 ) );
+                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
@@ -1212,7 +1201,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1253,7 +1242,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1577,7 +1566,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
         wmove( w, point( 14, i ) );
@@ -1635,7 +1624,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
@@ -1686,11 +1675,16 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
     wrefresh( w );
 }
 
@@ -1706,11 +1700,16 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
     wrefresh( w );
 }
 
@@ -1801,10 +1800,10 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -2405,8 +2404,7 @@ void panel_manager::show_adm()
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
             // tell the game that the main screen might have a different size now.
-            g->init_ui( false );
-            g->invalidate_main_ui_adaptor();
+            g->mark_main_ui_adaptor_resize();
             recalc = true;
         } else if( !swapping && ( action == "RIGHT" || action == "LEFT" ) ) {
             // there are only two columns

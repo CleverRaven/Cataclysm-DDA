@@ -44,7 +44,7 @@
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
-    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( serialize( liquid ) );
@@ -59,10 +59,10 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
         return &i == &liquid;
     } );
     if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( static_cast<int>( liquid_source_type::INFINITE_MAP ) );
         act.values.push_back( 0 ); // dummy
     } else {
-        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( static_cast<int>( liquid_source_type::MAP_ITEM ) );
         act.values.push_back( std::distance( stack.begin(), iter ) );
     }
     act.coords.push_back( pos );
@@ -71,14 +71,14 @@ static void serialize_liquid_source( player_activity &act, const tripoint &pos, 
 
 static void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
-    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
 }
 
-static void serialize_liquid_target( player_activity &act, item_location container_item )
+static void serialize_liquid_target( player_activity &act, const item_location &container_item )
 {
-    act.values.push_back( LTT_CONTAINER );
+    act.values.push_back( static_cast<int>( liquid_target_type::CONTAINER ) );
     act.values.push_back( 0 ); // dummy
     act.targets.push_back( container_item );
     act.coords.push_back( tripoint() ); // dummy
@@ -86,7 +86,7 @@ static void serialize_liquid_target( player_activity &act, item_location contain
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 {
-    act.values.push_back( LTT_MAP );
+    act.values.push_back( static_cast<int>( liquid_target_type::MAP ) );
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( pos );
 }
@@ -112,7 +112,7 @@ bool consume_liquid( item &liquid, const int radius )
     return original_charges != liquid.charges;
 }
 
-bool handle_liquid_from_ground( map_stack::iterator on_ground,
+bool handle_liquid_from_ground( const map_stack::iterator &on_ground,
                                 const tripoint &pos,
                                 const int radius )
 {
@@ -160,7 +160,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
                                const monster *const source_mon,
                                liquid_dest_opt &target )
 {
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -187,8 +187,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
     std::vector<std::function<void()>> actions;
-
-    if( g->u.can_consume( liquid ) && !source_mon ) {
+    if( g->u.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
         if( g->u.can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
@@ -308,7 +307,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                                      const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -333,7 +332,8 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.consume_item( liquid );
+            g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
+            liquid.charges--;
             transfer_ok = true;
             break;
         case LD_ITEM: {
@@ -400,13 +400,13 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
-    if( liquid.made_of_from_type( SOLID ) ) {
+    if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
-    if( !liquid.made_of( LIQUID ) ) {
+    if( !liquid.made_of( phase_id::LIQUID ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname() );
         return false;
     }

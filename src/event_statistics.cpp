@@ -165,14 +165,10 @@ class event_statistic::impl
 
 struct value_constraint {
     cata::optional<cata_variant> equals_;
-    cata::optional<std::string> equals_string_;
     cata::optional<string_id<event_statistic>> equals_statistic_;
 
     bool permits( const cata_variant &v, stats_tracker &stats ) const {
         if( equals_ && *equals_ != v ) {
-            return false;
-        }
-        if( equals_string_ && *equals_string_ != v.get_string() ) {
             return false;
         }
         if( equals_statistic_ && stats.value_of( *equals_statistic_ ) != v ) {
@@ -193,9 +189,9 @@ struct value_constraint {
             equals_ = cata_variant::make<cata_variant_type::bool_>( equals_bool );
         }
 
-        std::string equals_string;
-        if( jo.read( "equals", equals_string, false ) ) {
-            equals_string_ = equals_string;
+        cata_variant equals_variant;
+        if( jo.read( "equals", equals_variant, false ) ) {
+            equals_ = equals_variant;
         }
 
         string_id<event_statistic> stat;
@@ -203,7 +199,7 @@ struct value_constraint {
             equals_statistic_ = stat;
         }
 
-        if( !equals_ && !equals_string_ && !equals_statistic_ ) {
+        if( !equals_ && !equals_statistic_ ) {
             jo.throw_error( "No valid value constraint found" );
         }
     }
@@ -294,7 +290,7 @@ struct new_field {
             // been reported at startup time.
             return result;
         }
-        for( cata_variant v : transformation.function( it->second ) ) {
+        for( const cata_variant &v : transformation.function( it->second ) ) {
             result.push_back( data );
             result.back().emplace( new_field_name, v );
         }

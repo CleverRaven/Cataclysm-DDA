@@ -26,7 +26,7 @@ class character_id;
 class npc;
 class time_duration;
 
-enum class farm_ops;
+enum class farm_ops : int;
 class item;
 class mission_data;
 class recipe;
@@ -44,7 +44,6 @@ struct expansion_data {
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
-using itype_id = std::string;
 
 namespace catacurses
 {
@@ -234,7 +233,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result );
+        void place_results( const item &result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const point &dir,

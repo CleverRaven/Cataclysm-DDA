@@ -109,6 +109,14 @@ class editmap
         const int infoHeight = 20;
 
         point tmax;
+
+        void draw_main_ui_overlay();
+        void do_ui_invalidation();
+
+        // work around the limitation that you can't forward declare an inner class
+        class game_draw_callback_t_container;
+        std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
+        game_draw_callback_t_container &draw_cb_container();
 };
 
 #endif // CATA_SRC_EDITMAP_H

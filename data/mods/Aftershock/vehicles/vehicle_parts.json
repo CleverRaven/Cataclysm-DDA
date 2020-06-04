@@ -15,20 +15,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "afs_hauling_space",
-    "copy-from": "cargo_space",
-    "name": { "str": "hauling space" },
-    "looks_like": "cargo_space",
-    "item": "afs_hauling_space",
-    "location": "center",
-    "durability": 400,
-    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
-    "size": 6000,
-    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "afs_crude_plating",
     "name": { "str": "crude plating" },
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
@@ -48,21 +34,6 @@
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 4 }
-  },
-  {
-    "id": "laser_cannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted laser cannon" },
-    "item": "laser_cannon",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "looks_like": "laser_rifle",
-    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
   },
   {
     "type": "vehicle_part",

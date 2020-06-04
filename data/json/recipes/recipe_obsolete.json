@@ -2469,5 +2469,25 @@
     "type": "recipe",
     "result": "control_laptop",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_laserturret",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_laserturret",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "laser_cannon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ammonia",
+    "obsolete": true
   }
 ]

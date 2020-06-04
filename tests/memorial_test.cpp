@@ -14,6 +14,7 @@
 #include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
+#include "profession.h"
 #include "type_id.h"
 
 class event_bus;
@@ -186,7 +187,8 @@ TEST_CASE( "memorials" )
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
+        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );

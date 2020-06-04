@@ -19,7 +19,7 @@
 
 using efficiency_stat = statistics<long>;
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
 static void clear_game_drag( const ter_id &terrain )
 {
@@ -36,7 +36,6 @@ static void clear_game_drag( const ter_id &terrain )
     // Make sure the ST is 8 so that muscle powered results are consistent
     g->u.str_cur = 8;
 
-    clear_vehicles();
     build_test_map( terrain );
 
     // hard force a rebuild of caches
@@ -46,8 +45,7 @@ static void clear_game_drag( const ter_id &terrain )
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
-    clear_game_drag( ter_id( "t_pavement" ) );
-
+    clear_vehicles();
     const tripoint map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
 
@@ -133,13 +131,11 @@ static void print_drag_test_strings( const std::string &type )
 }
 
 static void test_vehicle_drag(
-    std::string type, const double expected_c_air, const double expected_c_rr,
+    const std::string &type, const double expected_c_air, const double expected_c_rr,
     const double expected_c_water, const int expected_safe, const int expected_max )
 {
-    SECTION( type ) {
-        test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,
-                   expected_safe, expected_max, true );
-    }
+    test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,
+               expected_safe, expected_max, true );
 }
 
 std::vector<std::string> vehs_to_test_drag = {
@@ -219,6 +215,8 @@ std::vector<std::string> vehs_to_test_drag = {
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 {
+    clear_game_drag( ter_id( "t_pavement" ) );
+
     for( const std::string &veh : vehs_to_test_drag ) {
         print_drag_test_strings( veh );
     }
@@ -228,27 +226,29 @@ TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 // coeffs are dimensionless, speeds are 100ths of mph, so 6101 is 61.01 mph
 TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
-    test_vehicle_drag( "bicycle", 0.609525, 0.017205, 43.304167, 2355, 3078 );
-    test_vehicle_drag( "bicycle_electric", 0.609525, 0.027581, 69.420833, 2753, 3268 );
+    clear_game_drag( ter_id( "t_pavement" ) );
+
+    test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 2360, 3082 );
+    test_vehicle_drag( "bicycle_electric", 0.609525, 0.019330, 48.652083, 2756, 3271 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
     test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.859065, 455.206250, 6423, 7657 );
     test_vehicle_drag( "quad_bike", 0.537285, 1.112797, 710.745536, 7457, 8918 );
-    test_vehicle_drag( "scooter", 0.609525, 0.172681, 130.389583, 4273, 5082 );
-    test_vehicle_drag( "scooter_electric", 0.609525, 0.183133, 138.281250, 4825, 5001 );
+    test_vehicle_drag( "scooter", 0.609525, 0.154345, 116.543750, 4279, 5088 );
+    test_vehicle_drag( "scooter_electric", 0.609525, 0.164796, 124.435417, 4831, 5006 );
     test_vehicle_drag( "superbike", 0.609525, 0.846042, 378.257812, 9912, 11797 );
-    test_vehicle_drag( "tandem", 0.609525, 0.021592, 40.759375, 2353, 3076 );
+    test_vehicle_drag( "tandem", 0.609525, 0.010590, 19.990625, 2359, 3081 );
     test_vehicle_drag( "unicycle", 0.690795, 0.002493, 25.100000, 2266, 2958 );
     test_vehicle_drag( "beetle", 0.785610, 1.800385, 1274.482813, 8969, 10711 );
-    test_vehicle_drag( "bubble_car", 0.823987, 1.918740, 1293.586310, 9280, 9627 );
+    test_vehicle_drag( "bubble_car", 0.823987, 1.764712, 1189.742560, 9304, 9651 );
     test_vehicle_drag( "car", 0.294604, 2.473484, 1167.310417, 11916, 14350 );
     test_vehicle_drag( "car_mini", 0.294604, 1.816015, 1285.546875, 12157, 14580 );
     test_vehicle_drag( "car_sports", 0.294604, 2.547639, 1442.767500, 20848, 24904 );
     test_vehicle_drag( "car_sports_atomic", 0.294604, 3.788275, 1787.798958, 23696, 24593 );
-    test_vehicle_drag( "car_sports_electric", 0.294604, 3.397004, 1923.776250, 23815, 24712 );
-    test_vehicle_drag( "electric_car", 0.304763, 2.485556, 1173.007292, 16208, 16826 );
-    test_vehicle_drag( "rara_x", 0.880425, 2.267517, 1180.809267, 8353, 8670 );
+    test_vehicle_drag( "car_sports_electric", 0.294604, 3.279649, 1857.316250, 23851, 24748 );
+    test_vehicle_drag( "electric_car", 0.304763, 2.309523, 1089.932292, 16266, 16883 );
+    test_vehicle_drag( "rara_x", 0.880425, 2.068105, 1076.965517, 8383, 8699 );
     test_vehicle_drag( "suv", 0.294604, 2.914201, 1178.826786, 13988, 16827 );
-    test_vehicle_drag( "suv_electric", 0.304763, 2.667296, 1078.950893, 16149, 16767 );
+    test_vehicle_drag( "suv_electric", 0.304763, 2.461925, 995.875893, 16216, 16833 );
     test_vehicle_drag( "golf_cart", 0.943313, 1.472114, 926.312500, 7039, 7303 );
     test_vehicle_drag( "golf_cart_4seat", 0.943313, 1.439476, 905.775000, 7044, 7308 );
     test_vehicle_drag( "hearse", 0.355556, 3.216780, 1301.223214, 11046, 13340 );
@@ -292,8 +292,8 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "security_van", 0.541800, 7.617575, 6252.103125, 11074, 13079 );
     test_vehicle_drag( "wienermobile", 1.063697, 2.385608, 1957.981250, 11253, 13409 );
     test_vehicle_drag( "canoe", 0.609525, 7.741047, 2.191938, 298, 628 );
-    test_vehicle_drag( "kayak", 0.609525, 4.036067, 1.523792, 544, 1067 );
-    test_vehicle_drag( "kayak_racing", 0.609525, 3.704980, 1.398792, 586, 1133 );
+    test_vehicle_drag( "kayak", 0.609525, 2.935863, 1.108417, 710, 1314 );
+    test_vehicle_drag( "kayak_racing", 0.609525, 2.604776, 0.983417, 779, 1406 );
     test_vehicle_drag( "DUKW", 0.776902, 3.850773, 83.288765, 10283, 12339 );
     test_vehicle_drag( "raft", 0.997815, 9.743243, 5.517750, 239, 508 );
     test_vehicle_drag( "inflatable_boat", 0.469560, 3.616690, 2.048188, 602, 1173 );

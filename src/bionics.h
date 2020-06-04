@@ -23,8 +23,6 @@ class JsonObject;
 class JsonOut;
 class player;
 
-using itype_id = std::string;
-
 struct bionic_data {
     bionic_data();
 
@@ -42,8 +40,6 @@ struct bionic_data {
     int charge_time = 0;
     /** Power bank size **/
     units::energy capacity = 0_kJ;
-
-
     /** Is true if a bionic is an active instead of a passive bionic */
     bool activated = false;
     /**
@@ -92,12 +88,12 @@ struct bionic_data {
     /**
      * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
      */
-    std::map<body_part, int> encumbrance;
+    std::map<bodypart_str_id, int> encumbrance;
     /**
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.
      */
-    std::string fake_item;
+    itype_id fake_item;
     /**
      * Mutations/trait that are removed upon installing this CBM.
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
@@ -132,10 +128,12 @@ struct bionic_data {
     cata::flat_set<std::string> flags;
     bool has_flag( const std::string &flag ) const;
 
+    itype_id itype() const;
+
     bool is_included( const bionic_id &id ) const;
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
+    void load( const JsonObject &obj, const std::string & );
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();
@@ -147,7 +145,7 @@ struct bionic {
         char        invlet  = 'a';
         bool        powered = false;
         /* Ammunition actually loaded in this bionic gun in deactivated state */
-        itype_id    ammo_loaded = "null";
+        itype_id    ammo_loaded = itype_id::NULL_ID();
         /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
         unsigned int         ammo_count = 0;
         /* An amount of time during which this bionic has been rendered inoperative. */
@@ -199,6 +197,7 @@ char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 
+int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const Character &target );
 int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 
 std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,

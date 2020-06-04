@@ -232,7 +232,8 @@
       { "item": "child_book", "prob": 50 },
       { "item": "manual_dodge_kid", "prob": 20 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
-      { "item": "mag_comic", "prob": 20 }
+      { "item": "mag_comic", "prob": 20 },
+      { "item": "basic_chemistry", "prob": 10 }
     ]
   },
   {
@@ -290,7 +291,8 @@
       { "item": "survnote", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
-      { "item": "dnd_handbook", "prob": 2 }
+      { "item": "dnd_handbook", "prob": 2 },
+      { "item": "scots_tailor", "prob": 8 }
     ]
   },
   {
@@ -353,6 +355,7 @@
       { "item": "reference_fabrication1", "prob": 1 },
       { "item": "reference_firstaid1", "prob": 1 },
       { "item": "reference_firstaid2", "prob": 1 },
+      { "item": "basic_chemistry", "prob": 10 },
       { "item": "survnote", "prob": 3 }
     ]
   },
@@ -421,7 +424,8 @@
       { "item": "textbook_armwest", "prob": 3 },
       { "item": "textbook_armeast", "prob": 3 },
       { "item": "survnote", "prob": 2 },
-      { "item": "book_lockpick", "prob": 2 }
+      { "item": "book_lockpick", "prob": 2 },
+      { "item": "basic_chemistry", "prob": 5 }
     ]
   },
   {
@@ -526,7 +530,8 @@
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
       { "item": "book_lockpick", "prob": 1 },
-      { "group": "rare_martial_arts_books", "prob": 6 }
+      { "group": "rare_martial_arts_books", "prob": 6 },
+      { "item": "scots_tailor", "prob": 30 }
     ]
   },
   {

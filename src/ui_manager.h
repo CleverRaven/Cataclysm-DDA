@@ -22,8 +22,7 @@ class ui_adaptor
 
         ui_adaptor();
         // ui_adaptor constructed this way will block any uis below from being
-        // redrawn or resized until it is deconstructed. It is used for `debug_msg`
-        // and for temporarily disabling redrawing of lower UIs in unmigrated UIs.
+        // redrawn or resized until it is deconstructed. It is used for `debug_msg`.
         ui_adaptor( disable_uis_below );
         ui_adaptor( const ui_adaptor &rhs ) = delete;
         ui_adaptor( ui_adaptor &&rhs ) = delete;
@@ -62,6 +61,7 @@ class ui_adaptor
 
         static void invalidate( const rectangle &rect );
         static void redraw();
+        static void redraw_invalidated();
         static void screen_resized();
     private:
         static void invalidation_consistency_and_optimization();
@@ -94,6 +94,8 @@ namespace ui_manager
 void invalidate( const rectangle &rect );
 // invalidate the top window and redraw all invalidated windows
 void redraw();
+// redraw all invalidated windows without invalidating the top window
+void redraw_invalidated();
 void screen_resized();
 } // namespace ui_manager
 

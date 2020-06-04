@@ -37,6 +37,8 @@
 
 static const std::string flag_FIREWOOD( "FIREWOOD" );
 
+static const item_category_id item_category_food( "food" );
+
 zone_manager::zone_manager()
 {
     types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
@@ -269,10 +271,10 @@ plot_options::query_seed_result plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        const auto &new_seed = std::get<0>( seed_entry );
-        std::string new_mark;
+        const itype_id &new_seed = std::get<0>( seed_entry );
+        itype_id new_mark;
 
-        item it = item( itype_id( new_seed ) );
+        item it = item( new_seed );
         if( it.is_seed() ) {
             new_mark = it.type->seed->fruit_id;
         } else {
@@ -288,9 +290,9 @@ plot_options::query_seed_result plot_options::query_seed()
         }
     } else if( seed_index == 0 ) {
         // No seeds
-        if( !seed.empty() || !mark.empty() ) {
-            seed.clear();
-            mark.clear();
+        if( !seed.is_empty() || !mark.is_empty() ) {
+            seed = itype_id();
+            mark = itype_id();
             return changed;
         } else {
             return successful;
@@ -368,7 +370,7 @@ std::string blueprint_options::get_zone_name_suggestion() const
 
 std::string plot_options::get_zone_name_suggestion() const
 {
-    if( !seed.empty() ) {
+    if( !seed.is_empty() ) {
         auto type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
@@ -394,8 +396,9 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Plant seed: " ),
-                                          !seed.empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+    options.emplace_back(
+        std::make_pair( _( "Plant seed: " ),
+                        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
     return options;
 }
@@ -827,7 +830,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         return *cat.zone();
     }
 
-    if( cat.get_id() == "food" ) {
+    if( cat.get_id() == item_category_food ) {
         // skip food without comestible, like MREs
         if( const item *it_food = it.get_food() ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
@@ -923,7 +926,7 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, shared_ptr_fast<zone_options> options )
+                        const tripoint &end, const shared_ptr_fast<zone_options> &options )
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space

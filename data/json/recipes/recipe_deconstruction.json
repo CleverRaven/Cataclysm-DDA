@@ -949,28 +949,6 @@
     ]
   },
   {
-    "result": "broken_laserturret",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "1 h",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "laser_cannon", 1 ] ],
-      [ [ "medium_storage_battery", 1 ] ],
-      [ [ "solar_cell", 4 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_science_bot",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -2276,10 +2254,10 @@
       [ [ "cable", 12 ] ],
       [ [ "chem_rdx", 20 ] ],
       [ [ "circuit", 6 ] ],
-      [ [ "plut_cell", 6 ] ],
+      [ [ "plutonium", 6 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 200 ] ],
-      [ [ "small_storage_battery", 2 ] ]
+      [ [ "plut_cell", 1 ] ]
     ]
   },
   {
@@ -3434,7 +3412,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": [ "chemistry", 1 ],
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],

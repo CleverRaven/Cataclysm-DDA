@@ -36,7 +36,6 @@ class mission_debug;
 }  // namespace debug_menu
 struct mtype;
 struct points_left;
-struct targeting_data;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -97,6 +96,9 @@ class avatar : public player
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
+
+        nc_color basic_symbol_color() const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
@@ -160,7 +162,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const override;
 
         hint_rating rate_action_read( const item &it ) const;
 
@@ -195,7 +197,7 @@ class avatar : public player
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.
         void cycle_move_mode();
@@ -206,7 +208,9 @@ class avatar : public player
         // Toggles crouching on/off.
         void toggle_crouch_mode();
 
+        bool wield( item_location target );
         bool wield( item &target ) override;
+        bool wield( item &target, int obtain_cost );
 
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
         std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
@@ -249,7 +253,7 @@ class avatar : public player
         mission *active_mission;
 
         // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
+        std::unordered_set<itype_id> items_identified;
 
         object_type grab_type;
 
@@ -261,16 +265,6 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
-
-        /** Targeting data used for aiming the player's weapon across turns. */
-        shared_ptr_fast<targeting_data> tdata;
-
-    public:
-        /** Accessor method for weapon targeting data. */
-        targeting_data &get_targeting_data();
-
-        /** Mutator method for weapon targeting data. */
-        void set_targeting_data( const targeting_data &td );
 };
 
 struct points_left {

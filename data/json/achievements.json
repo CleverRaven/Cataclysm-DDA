@@ -10,20 +10,20 @@
     "type": "achievement",
     "name": "Rude awakening",
     "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
     "name": "Decamate",
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 10 } ]
   },
   {
     "id": "achievement_kill_100_monsters",
     "type": "achievement",
     "name": "Centinel",
     "hidden_by": [ "achievement_kill_10_monsters" ],
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 100 } ]
   },
   {
     "id": "achievement_survive_one_day",
@@ -110,5 +110,32 @@
     "type": "achievement",
     "name": "Ain't no valley low enough",
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
+  },
+  {
+    "id": "achievement_wield_crowbar",
+    "type": "achievement",
+    "name": "Freeman's favorite",
+    "requirements": [ { "event_statistic": "num_avatar_wields_crowbar", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_wear_power_armor",
+    "type": "achievement",
+    "name": "Impenetrable",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_wears_power_armor_heavy",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_lab_finale",
+    "type": "achievement",
+    "name": "What are they hiding?",
+    "requirements": [
+      { "event_statistic": "num_avatar_enter_lab_finale", "is": ">=", "target": 1, "visible": "when_achievement_completed" }
+    ]
   }
 ]

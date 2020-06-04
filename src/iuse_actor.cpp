@@ -110,27 +110,27 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const bionic_id bio_syringe( "bio_syringe" );
 
+static const itype_id itype_barrel_small( "barrel_small" );
+static const itype_id itype_brazier( "brazier" );
+static const itype_id itype_char_smoker( "char_smoker" );
+static const itype_id itype_fire( "fire" );
+static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_UPS( "UPS" );
+
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_lockpick( "lockpick" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-
-static const species_id HUMAN( "HUMAN" );
-static const species_id ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
@@ -151,7 +151,7 @@ std::unique_ptr<iuse_actor> iuse_transform::clone() const
 
 void iuse_transform::load( const JsonObject &obj )
 {
-    target = obj.get_string( "target" ); // required
+    obj.read( "target", target, true );
 
     obj.read( "msg", msg_transform );
     obj.read( "container", container );
@@ -172,7 +172,7 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "countdown", countdown );
 
-    if( !ammo_type.empty() && !container.empty() ) {
+    if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
     }
 
@@ -228,7 +228,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( need_fire && possess ) {
-        if( !p.use_charges_if_avail( "fire", need_fire ) ) {
+        if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
             return 0;
         }
@@ -250,7 +250,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
-    if( container.empty() ) {
+    if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -260,9 +260,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
             } else {
                 qty = ammo_qty;
             }
-            if( !ammo_type.empty() ) {
+            if( !ammo_type.is_empty() ) {
                 obj->ammo_set( ammo_type, qty );
-            } else if( obj->ammo_current() != "null" ) {
+            } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
             } else {
                 obj->set_countdown( qty );
@@ -322,7 +322,7 @@ void iuse_transform::finalize( const itype_id & )
         debugmsg( "Invalid transform target: %s", target.c_str() );
     }
 
-    if( !container.empty() ) {
+    if( !container.is_empty() ) {
         if( !item::type_is_defined( container ) ) {
             debugmsg( "Invalid transform container: %s", container.c_str() );
         }
@@ -631,7 +631,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
     // Store the id of the item the vehicle is made of.
-    veh->tags.insert( std::string( "convertible:" ) + it.typeId() );
+    veh->tags.insert( std::string( "convertible:" ) + it.typeId().str() );
     if( !unfold_msg.empty() ) {
         p.add_msg_if_player( _( unfold_msg ), it.tname() );
     }
@@ -738,7 +738,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits );
     }
 
-    if( tools_needed.count( "syringe" ) ) {
+    if( tools_needed.count( itype_syringe ) ) {
         dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug." ) );
     }
 }
@@ -746,8 +746,8 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
-    if( need_these.count( "syringe" ) && p.has_bionic( bio_syringe ) ) {
-        need_these.erase( "syringe" ); // no need for a syringe with bionics like these!
+    if( need_these.count( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
+        need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
     }
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
@@ -862,8 +862,12 @@ void place_monster_iuse::load( const JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
-    skill1 = skill_id( obj.get_string( "skill1", skill1.str() ) );
-    skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
+    if( obj.has_array( "skills" ) ) {
+        JsonArray skills_ja = obj.get_array( "skills" );
+        for( JsonValue s : skills_ja ) {
+            skills.emplace( skill_id( s.get_string() ) );
+        }
+    }
 }
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
@@ -912,34 +916,28 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                  newmon.name() );
             amdef.second = ammo_item.charges;
         }
+    } else {
+        newmon.ammo = newmon.type->starting_ammo;
     }
+
     int skill_offset = 0;
-    if( skill1 ) {
-        skill_offset += p.get_skill_level( skill1 ) / 2;
-    }
-    if( skill2 ) {
-        skill_offset += p.get_skill_level( skill2 );
+    for( const skill_id &sk : skills ) {
+        skill_offset += p.get_skill_level( sk ) / 2;
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
     if( rng( 0, p.int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
-            p.add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
-                                 newmon.name() );
+            p.add_msg_if_player( m_bad, _( "You deploy the %s wrong.  It is hostile!" ), newmon.name() );
         } else {
             p.add_msg_if_player( m_bad, "%s", _( hostile_msg ) );
         }
     } else {
         if( friendly_msg.empty() ) {
-            p.add_msg_if_player( m_warning, _( "The %s emits an IFF beep as it scans you." ),
-                                 newmon.name() );
+            p.add_msg_if_player( m_warning, _( "You deploy the %s." ), newmon.name() );
         } else {
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }
         newmon.friendly = -1;
-    }
-    // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
-        p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     return 1;
 }
@@ -1000,7 +998,7 @@ static bool has_powersource( const item &i, const player &p )
     if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
         return true;
     }
-    return p.has_charges( "UPS", 1 );
+    return p.has_charges( itype_UPS, 1 );
 }
 
 int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -1057,50 +1055,19 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
-            return false;
-        }
-        return g->m.has_flag( "PICKABLE", pnt );
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
-    if( !pnt_ ) {
-        return 0;
-    }
-    const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
-    if( !f( pnt ) ) {
-        if( pnt == p.pos() ) {
-            p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-        } else if( g->critter_at<npc>( pnt ) ) {
-            p.add_msg_if_player( m_info,
-                                 _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
-        } else if( type == t_door_c ) {
-            p.add_msg_if_player( m_info, _( "That door isn't locked." ) );
-        } else {
-            p.add_msg_if_player( m_info, _( "That cannot be picked." ) );
-        }
+    avatar &you = dynamic_cast<avatar &>( p );
+    cata::optional<tripoint> target = lockpick_activity_actor::select_location( you );
+    if( !target.has_value() ) {
         return 0;
     }
 
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_LOCKPICK speeds up door lock picking */
-    const int duration = std::max( 0,
+    const int duration = std::max( to_moves<int>( 10_seconds ),
                                    to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
                                    ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
-    p.practice( skill_lockpick, std::pow( 2, p.get_skill_level( skill_lockpick ) ) + 1 );
-
-    p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
-    p.activity.targets.push_back( item_location( p, &it ) );
-    p.activity.placement = pnt;
-
+    you.assign_activity( lockpick_activity_actor( duration, item_location( p, &it ), cata::nullopt,
+                         g->m.getabs( *target ) ) );
     return it.type->charges_to_use();
 }
 
@@ -1135,7 +1102,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( the_furn.crafting_pseudo_item == "char_smoker" ) {
+    if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
@@ -1302,7 +1269,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     // Check for a brazier.
     bool has_unactivated_brazier = false;
     for( const auto &i : g->m.i_at( pos ) ) {
-        if( i.typeId() == "brazier" ) {
+        if( i.typeId() == itype_brazier ) {
             has_unactivated_brazier = true;
         }
     }
@@ -1549,7 +1516,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // What material components can we get back?
     std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     // What materials do we salvage (ids and counts).
-    std::map<std::string, int> materials_salvaged;
+    std::map<itype_id, int> materials_salvaged;
 
     // Final just in case check (that perhaps was not done elsewhere);
     if( cut.get_item() == &it ) {
@@ -1611,7 +1578,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     p.reset_encumbrance();
 
     for( const auto &salvaged : materials_salvaged ) {
-        std::string mat_name = salvaged.first;
+        itype_id mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
@@ -1663,7 +1630,7 @@ std::unique_ptr<iuse_actor> inscribe_actor::clone() const
 
 bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
-    if( !cut.made_of( SOLID ) ) {
+    if( !cut.made_of( phase_id::SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
         return false;
     }
@@ -1725,7 +1692,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
         cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_tool, tool.typeId() );
+        cut.set_var( carving_tool, tool.typeId().str() );
     }
 
     return true;
@@ -1859,7 +1826,7 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( flame ) {
-        p.use_charges( "fire", 4 );
+        p.use_charges( itype_fire, 4 );
         return 0;
 
     } else {
@@ -1884,7 +1851,7 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
     }
 
     if( flame ) {
-        if( !p.has_charges( "fire", 4 ) ) {
+        if( !p.has_charges( itype_fire, 4 ) ) {
             return ret_val<bool>::make_failure(
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
@@ -1904,7 +1871,7 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
 
 void fireweapon_off_actor::load( const JsonObject &obj )
 {
-    target_id           = obj.get_string( "target_id" );
+    obj.read( "target_id", target_id, true );
     success_message     = obj.get_string( "success_message", "hsss" );
     lacks_fuel_message  = obj.get_string( "lacks_fuel_message" );
     failure_message     = obj.get_string( "failure_message", "hsss" );
@@ -2166,10 +2133,10 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( morale_effect >= 0 ) {
         sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument",
-                       it.typeId() );
+                       it.typeId().str() );
     } else {
         sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument_bad",
-                       it.typeId() );
+                       it.typeId().str() );
     }
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
@@ -2228,6 +2195,10 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
 {
     if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
+        return 0;
+    }
+    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        p.add_msg_if_player( _( "You can't read." ) );
         return 0;
     }
     std::vector<uilist_entry> uilist_initializer;
@@ -2473,7 +2444,8 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        game_menus::inv::insert_items( *p.as_avatar(), item_location( p, &it ) );
+        item_location item_loc( p, &it );
+        game_menus::inv::insert_items( *p.as_avatar(), item_loc );
     }
 
     return 0;
@@ -2492,7 +2464,7 @@ std::unique_ptr<iuse_actor> ammobelt_actor::clone() const
 
 void ammobelt_actor::load( const JsonObject &obj )
 {
-    belt = obj.get_string( "belt" );
+    belt = itype_id( obj.get_string( "belt" ) );
 }
 
 void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -2765,7 +2737,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     int diff = find_repair_difficulty( pl, fix.typeId(), training );
 
     // If we don't find a recipe, see if there's a repairs_like that has a recipe
-    if( diff == -1 && !fix.type->repairs_like.empty() ) {
+    if( diff == -1 && !fix.type->repairs_like.is_empty() ) {
         diff = find_repair_difficulty( pl, fix.type->repairs_like, training );
     }
 
@@ -3148,10 +3120,10 @@ void heal_actor::load( const JsonObject &obj )
     }
 
     if( obj.has_string( "used_up_item" ) ) {
-        used_up_item_id = obj.get_string( "used_up_item", used_up_item_id );
+        obj.read( "used_up_item", used_up_item_id, true );
     } else if( obj.has_object( "used_up_item" ) ) {
         JsonObject u = obj.get_object( "used_up_item" );
-        used_up_item_id = u.get_string( "id", used_up_item_id );
+        u.read( "id", used_up_item_id, true );
         used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
         used_up_item_charges = u.get_int( "charges", used_up_item_charges );
         used_up_item_flags = u.get_tags( "flags" );
@@ -3339,7 +3311,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
-    if( !used_up_item_id.empty() ) {
+    if( !used_up_item_id.is_empty() ) {
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
@@ -3795,7 +3767,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
         return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
     }
 
-    if( target.gunmod_find( "barrel_small" ) ) {
+    if( target.gunmod_find( itype_barrel_small ) ) {
         return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
     }
 
@@ -4303,7 +4275,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     tmenu.text = _( "How do you want to modify it?" );
 
     int index = 0;
-    for( auto cm : clothing_mods ) {
+    for( const clothing_mod_id &cm : clothing_mods ) {
         auto obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();

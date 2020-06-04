@@ -38,6 +38,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -57,8 +58,6 @@
 
 class player;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -68,6 +67,11 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -145,13 +149,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        if( you.movement_mode_is( CMM_WALK ) ) {
-            you.increase_activity_level( LIGHT_EXERCISE );
-        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-            you.increase_activity_level( MODERATE_EXERCISE );
-        } else {
-            you.increase_activity_level( ACTIVE_EXERCISE );
-        }
+        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -393,7 +391,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.movement_mode_is( CMM_WALK )
+        && you.is_walking()
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -534,8 +532,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
-        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
-                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+        if( !you.is_underwater() &&
+            !( you.shoe_type_count( itype_swim_fins ) == 2 ||
+               ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
             you.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while sinking
@@ -562,10 +561,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
+    tripoint old_abs_pos = m.getabs( you.pos() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( you, m, p );
+    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
@@ -578,13 +578,13 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
 
     body_part_set drenchFlags{ {
-            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
         }
     };
 
     if( you.is_underwater() ) {
-        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
+        drenchFlags.unify_set( { { bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ) } } );
     }
     you.drench( 100, drenchFlags, true );
 }
@@ -603,7 +603,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
+    std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
         if( !c->is_npc() ) {
             return false;
@@ -693,13 +693,13 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = g->u.mounted_creature.get();
-            if( !mons->type->mech_weapon.empty() ) {
+            if( !mons->type->mech_weapon.is_empty() ) {
                 is_mech_weapon = true;
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
+                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
                    ( you.has_active_bionic( bio_ups ) &&
                      you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                 messages.push_back( string_format(
@@ -708,7 +708,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
                 result = false;
             }
         } else {
-            if( !you.has_charges( "UPS", ups_drain ) ) {
+            if( !you.has_charges( itype_UPS, ups_drain ) ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;
@@ -732,11 +732,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
 }
 
 // TODO: Move data/functions related to targeting out of game class
-/**
- * Checks if the weapon is valid and if the player meets certain conditions for firing it.
- * @return True if all conditions are true, otherwise false.
- */
-static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
+bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
 {
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
@@ -825,126 +821,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
     return false;
 }
 
-void avatar_action::aim_do_turn( avatar &you, map &m )
-{
-    targeting_data &args = you.get_targeting_data();
-
-    item *weapon = nullptr;
-    switch( args.weapon_source ) {
-        case WEAPON_SOURCE_WIELDED:
-            // TODO: if wielding a gun, check that this is the same gun that was used to start aiming
-            if( !you.weapon.is_null() ) {
-                // Gun wasn't lost (e.g. yanked by zombie technician)
-                weapon = &you.weapon;
-            }
-            break;
-
-        case WEAPON_SOURCE_BIONIC:
-        case WEAPON_SOURCE_MUTATION:
-            // TODO: this should check if the player lost relevant bionic/mutation
-            weapon = args.cached_fake_weapon.get();
-            break;
-
-        case WEAPON_SOURCE_INVALID:
-        case NUM_WEAPON_SOURCES:
-            debugmsg( "Expected valid targeting data" );
-            break;
-    }
-
-    if( !weapon || !can_fire_weapon( you, m, *weapon ) ) {
-        you.cancel_activity();
-        return;
-    }
-
-    int reload_time = 0;
-    gun_mode gun = weapon->gun_current_mode();
-
-    // TODO: use MODERATE_EXERCISE if firing a bow
-    you.increase_activity_level( LIGHT_EXERCISE );
-
-    // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( !gun->ammo_remaining() ) {
-            const auto ammo_location_is_valid = [&]() -> bool {
-                if( !you.ammo_location )
-                {
-                    return false;
-                }
-                if( !gun->can_reload_with( you.ammo_location->typeId() ) )
-                {
-                    return false;
-                }
-                if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
-                {
-                    return false;
-                }
-                return true;
-            };
-            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                                      weapon, you.ammo_location ) : you.select_ammo( *gun );
-            if( !opt ) {
-                // Menu canceled
-                return;
-            }
-            reload_time += opt.moves();
-            if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
-                // Reload not allowed
-                return;
-            }
-
-            // Burn 0.2% max base stamina x the strength required to fire.
-            you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
-                             get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
-            // At low stamina levels, firing starts getting slow.
-            int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
-            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-
-            g->refresh_all();
-        }
-    }
-
-    g->temp_exit_fullscreen();
-    m.draw( g->w_terrain, you.pos() );
-    bool reload_requested;
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *weapon, reload_requested );
-
-    //may be changed in target_ui
-    gun = weapon->gun_current_mode();
-
-    if( trajectory.empty() ) {
-        bool not_aiming = you.activity.id() != ACT_AIM;
-        if( not_aiming && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            const auto previous_moves = you.moves;
-            g->unload( *gun );
-            // Give back time for unloading as essentially nothing has been done.
-            // Note that reload_time has not been applied either.
-            you.moves = previous_moves;
-        }
-        g->reenter_fullscreen();
-
-        if( reload_requested ) {
-            // Reload the gun / select different arrows
-            g->reload_wielded( true );
-        }
-        return;
-    }
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
-
-    you.moves -= reload_time;
-
-    int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
-
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && ( args.bp_cost_per_shot > 0_J ) ) {
-        you.mod_power_level( -args.bp_cost_per_shot * shots_fired );
-    }
-    g->reenter_fullscreen();
-}
-
-void avatar_action::fire_wielded_weapon( avatar &you, map &m )
+void avatar_action::fire_wielded_weapon( avatar &you )
 {
     item &weapon = you.weapon;
     if( weapon.is_gunmod() ) {
@@ -954,30 +831,25 @@ void avatar_action::fire_wielded_weapon( avatar &you, map &m )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && weapon.type->gun &&
+               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
-                 weapon.tname(), weapon.ammo_current() );
+                 weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
     }
 
-    targeting_data args = targeting_data::use_wielded();
-    you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor::use_wielded(), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_gun )
+void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
 {
-    targeting_data args = targeting_data::use_mutation( fake_gun );
-    you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun,
-                                        units::energy cost_per_shot )
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
+                                        const units::energy &cost_per_shot )
 {
-    targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );
-    you.set_targeting_data( args );
-    avatar_action::aim_do_turn( you, m );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -1025,11 +897,10 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
             return true;
         } else {
-            you.moves -= 400;
             g->m.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
-            you.eat( food );
+            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
             return true;
         }
     }
@@ -1039,10 +910,9 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            you.moves -= 400;
             add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
-            you.eat( food );
+            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
             if( g->m.ter( you.pos() ) == t_grass_tall ) {
                 g->m.ter_set( you.pos(), t_grass_long );
             } else if( g->m.ter( you.pos() ) == t_grass_long ) {
@@ -1071,17 +941,17 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc );
+    avatar_action::eat( you, loc, true );
 }
 
-void avatar_action::eat( avatar &you, item_location loc )
+void avatar_action::eat( avatar &you, const item_location &loc, bool open_consume_menu )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc ) ) );
+    you.assign_activity( player_activity( consume_activity_actor( loc, open_consume_menu ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -1276,13 +1146,5 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    item *it = loc.get_item();
-    if( loc.where() != item_location::type::character ) {
-        it = loc.obtain( you ).get_item();
-    }
-    if( you.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            you.remove_item( *it );
-        }
-    }
+    you.unload( loc );
 }

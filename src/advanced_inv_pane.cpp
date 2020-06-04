@@ -112,30 +112,23 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
         advanced_inv_area &square )
 {
     std::vector<advanced_inv_listitem> items;
-    if( has_weapon() && !weapon.contents.empty() ) {
-        for( std::list<item *> it_stack : item_list_to_stack( weapon.contents.all_items_top() ) ) {
-            advanced_inv_listitem adv_it( it_stack, -1, square.id, false );
-            if( !pane.is_filtered( *adv_it.items.front() ) ) {
-                square.volume += adv_it.volume;
-                square.weight += adv_it.weight;
-                items.push_back( adv_it );
-            }
-        }
-    }
+    size_t item_index = 0;
 
     int worn_index = -2;
     for( item &worn_item : worn ) {
         if( worn_item.contents.empty() ) {
             continue;
         }
-        for( std::list<item *> it_stack : item_list_to_stack( worn_item.contents.all_items_top() ) ) {
-            advanced_inv_listitem adv_it( it_stack, worn_index--, square.id, false );
+        for( const std::list<item *> &it_stack : item_list_to_stack(
+                 worn_item.contents.all_items_top() ) ) {
+            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
                 square.weight += adv_it.weight;
                 items.push_back( adv_it );
             }
         }
+        worn_index--;
     }
 
     return items;
@@ -273,7 +266,6 @@ void advanced_inventory_pane::scroll_by( int offset )
     }
     mod_index( offset );
     skip_category_headers( offset > 0 ? +1 : -1 );
-    redraw = true;
 }
 
 void advanced_inventory_pane::scroll_category( int offset )
@@ -309,7 +301,6 @@ void advanced_inventory_pane::scroll_category( int offset )
     }
     // Make sure we land on an item entry.
     skip_category_headers( offset > 0 ? +1 : -1 );
-    redraw = true;
 }
 
 advanced_inv_listitem *advanced_inventory_pane::get_cur_item_ptr()

@@ -120,7 +120,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -618,7 +618,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
         if( movez == -1 ) {
             return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
+            return g->u.swim_speed() < 500 || g->u.is_wearing( itype_id( "swim_fins" ) );
         }
     }
 
@@ -727,11 +727,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( g->u.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( g->u.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
@@ -950,17 +950,11 @@ action_id handle_action_menu()
             title += ": " + catgname;
         }
 
-        int width = 0;
-        for( uilist_entry &cur_entry : entries ) {
-            width = std::max( width, utf8_width( cur_entry.txt ) );
-        }
-        //border=2, selectors=3, after=3 for balance.
-        width += 2 + 3 + 3;
-        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
-                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
-                                std::min( width, TERMX - 2 ), title, entries );
+        uilist smenu;
+        smenu.settext( title );
+        smenu.entries = entries;
+        smenu.query();
+        const int selection = smenu.ret;
 
         g->draw();
 
@@ -1006,17 +1000,11 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_SAVE );
     REGISTER_ACTION( ACTION_DEBUG );
 
-    int width = 0;
-    for( uilist_entry &entry : entries ) {
-        width = std::max( width, utf8_width( entry.txt ) );
-    }
-    //border=2, selectors=3, after=3 for balance.
-    width += 2 + 3 + 3;
-    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
-                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
-                            std::min( width, TERMX - 2 ), _( "MAIN MENU" ), entries );
+    uilist smenu;
+    smenu.settext( _( "MAIN MENU" ) );
+    smenu.entries = entries;
+    smenu.query();
+    int selection = smenu.ret;
 
     g->draw();
 

@@ -48,25 +48,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
-    "id": "combination_gun_shotgun_pipe",
-    "type": "GUNMOD",
-    "name": { "str": "pipe combination gun shotgun" },
-    "description": "The integrated underbarrel shotgun of a pipe combination gun which holds two shots.  It's irremovable.",
-    "weight": "1134 g",
-    "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "underbarrel",
-    "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
-  },
-  {
     "id": "factory_handguard",
     "type": "GUNMOD",
     "name": "factory handguard",
@@ -446,8 +427,16 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "20x66_10_mag" ]
+      }
+    ]
   },
   {
     "id": "rm121aux_mod",

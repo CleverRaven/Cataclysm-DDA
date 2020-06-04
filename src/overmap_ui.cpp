@@ -28,6 +28,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_ui.h"
 #include "ime.h"
 #include "input.h"
 #include "int_id.h"
@@ -1405,6 +1406,14 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
 {
     ui_adaptor ui;
     ui.on_screen_resize( []( ui_adaptor & ui ) {
+        /**
+         * Handle possibly different overmap font size
+         */
+        OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
+        OVERMAP_WINDOW_HEIGHT = TERMY;
+        OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+        to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
+
         /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
         /* because overmap legend will be absent */
         g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,

@@ -14,9 +14,6 @@
 // - Character::get_dodge_base, monster::get_dodge_base
 // - player::get_dodge, monster::get_dodge
 
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
-
 // Return the avatar's `get_hit_base` with a given DEX stat.
 static float hit_base_with_dex( avatar &dummy, int dexterity )
 {
@@ -37,7 +34,7 @@ static float dodge_base_with_dex_and_skill( avatar &dummy, int dexterity, int do
 }
 
 // Return the Creature's `get_dodge` with the given effect.
-static float dodge_with_effect( Creature &critter, std::string effect_name )
+static float dodge_with_effect( Creature &critter, const std::string &effect_name )
 {
     // Set one effect and leave other attributes alone
     critter.clear_effects();
@@ -51,7 +48,7 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
     dummy.wear_item( clothing );
 
     return dummy.get_dodge();

@@ -87,7 +87,6 @@ class selection_column_preset : public inventory_selector_preset
 {
     public:
         selection_column_preset() = default;
-
         std::string get_caption( const inventory_entry &entry ) const override {
             std::string res;
             const size_t available_count = entry.get_available_count();
@@ -103,10 +102,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, entry.get_total_charges(),
+                    res += item->display_money( available_count, item->ammo_remaining(),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, entry.get_total_charges() );
+                    res += item->display_money( available_count, item->ammo_remaining() );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -264,7 +263,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     const size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.get_total_charges() );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
     } else {
         disp_name = entry.any_item()->display_name( count );
     }
@@ -700,6 +699,58 @@ void inventory_column::on_input( const inventory_input &input )
     }
 }
 
+void inventory_column::order_by_parent()
+{
+    std::vector<inventory_entry> base_entries;
+    std::vector<inventory_entry> child_entries;
+    for( const inventory_entry &entry : entries ) {
+        if( entry.is_item() && entry.locations.front().where() ==
+            item_location::type::container ) {
+            child_entries.push_back( entry );
+        } else {
+            base_entries.push_back( entry );
+        }
+    }
+
+    int tries = 0;
+    const int max_tries = entries.size() * 2;
+    while( !child_entries.empty() ) {
+        const inventory_entry &possible = child_entries.back();
+        const item_location parent = possible.locations.front().parent_item();
+        bool found = false;
+        for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
+            if( base_entry_iter->is_item() ) {
+                for( const item_location &loc : base_entry_iter->locations ) {
+                    if( loc == parent ) {
+                        base_entries.insert( base_entry_iter + 1, possible );
+                        child_entries.pop_back();
+                        found = true;
+                        break;
+                    }
+                }
+                if( found ) {
+                    tries = 0;
+                    break;
+                }
+            }
+            ++base_entry_iter;
+        }
+        if( !found ) {
+            // move it to the front of the vector to check it again later
+            child_entries.insert( child_entries.begin(), possible );
+            child_entries.pop_back();
+            tries++;
+        }
+        if( tries > max_tries ) {
+            // the parent might not be in the list, so we add it to the top
+            base_entries.insert( base_entries.begin(), child_entries.begin(), child_entries.end() );
+            child_entries.clear();
+        }
+    }
+
+    entries = base_entries;
+}
+
 void inventory_column::add_entry( const inventory_entry &entry )
 {
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
@@ -877,7 +928,7 @@ int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, 
     return cur_invlet;
 }
 
-static int num_parents( item_location loc )
+static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
         return 0;
@@ -1224,12 +1275,12 @@ void inventory_selector::add_items( inventory_column &target_column,
     }
 }
 
-void inventory_selector::add_contained_items( item_location container )
+void inventory_selector::add_contained_items( item_location &container )
 {
     add_contained_items( container, own_inv_column );
 }
 
-void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
@@ -1936,6 +1987,7 @@ void inventory_selector::toggle_categorize_contained()
                            &item_category_id( "ITEMS_WORN" ).obj() );
             }
         }
+        own_gear_column.order_by_parent();
         own_inv_column.clear();
     }
 
@@ -2405,7 +2457,7 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
 
     if( count == 0 ) {
         entry.chosen_count = 0;
-        for( item_location loc : entry.locations ) {
+        for( const item_location &loc : entry.locations ) {
             for( auto iter = dropping.begin(); iter != dropping.end(); ) {
                 if( iter->first == loc ) {
                     dropping.erase( iter );
@@ -2417,9 +2469,9 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            dropping.emplace_back( it, entry.chosen_count );
+            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
         } else {
-            for( item_location loc : entry.locations ) {
+            for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }

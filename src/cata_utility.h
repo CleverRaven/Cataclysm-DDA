@@ -463,7 +463,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -553,8 +553,12 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ): t( t_in ), orig_t( t_in ),
-            impl( [this]() { t = orig_t; } ) {
+        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+
+        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
 };

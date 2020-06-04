@@ -17,7 +17,7 @@
 #include "type_id.h"
 #include "weighted_list.h"
 
-anatomy_id human_anatomy( "human_anatomy" );
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 namespace
 {
@@ -82,7 +82,7 @@ void anatomy::finalize()
 void anatomy::check_consistency()
 {
     anatomy_factory.check();
-    if( !human_anatomy.is_valid() ) {
+    if( !anatomy_human_anatomy.is_valid() ) {
         debugmsg( "Could not load human anatomy, expect crash" );
     }
 }

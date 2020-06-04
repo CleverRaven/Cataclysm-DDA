@@ -22,9 +22,6 @@
 #include "units.h"
 
 class player;
-
-using itype_id = std::string;
-
 class JsonObject;
 class vehicle;
 
@@ -49,6 +46,7 @@ enum vpart_bitflags : int {
     VPFLAG_COOLER,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
+    VPFLAG_ROTOR_SIMPLE,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
     VPFLAG_DOME_LIGHT,
@@ -209,10 +207,10 @@ class vpart_info
         std::set<emit_id> emissions;
 
         /** Fuel type of engine or tank */
-        itype_id fuel_type = "null";
+        itype_id fuel_type = itype_id::NULL_ID();
 
         /** Default ammo (for turrets) */
-        itype_id default_ammo = "null";
+        itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
         units::volume folded_volume = 0_ml;
@@ -361,6 +359,14 @@ class vpart_info
         static void reset();
 
         static const std::map<vpart_id, vpart_info> &all();
+
+        /**
+          * Exhaust emissions of part
+
+          * If the vehicle has an exhaust part, it is emitted there;
+          * otherwise, it is emitted in place
+          */
+        std::set<emit_id> exhaust;
 };
 
 struct vehicle_item_spawn {
@@ -385,7 +391,7 @@ struct vehicle_prototype {
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
-        itype_id fuel = "null";
+        itype_id fuel = itype_id::NULL_ID();
     };
 
     vehicle_prototype();

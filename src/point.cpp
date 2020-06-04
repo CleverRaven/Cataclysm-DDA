@@ -6,11 +6,35 @@
 
 #include "cata_utility.h"
 
+point point::from_string( const std::string &s )
+{
+    std::istringstream is( s );
+    point result;
+    is >> result;
+    if( !is ) {
+        debugmsg( "Could not convert string '" + s + "' to point" );
+        return point_zero;
+    }
+    return result;
+}
+
 std::string point::to_string() const
 {
     std::ostringstream os;
     os << *this;
     return os.str();
+}
+
+tripoint tripoint::from_string( const std::string &s )
+{
+    std::istringstream is( s );
+    tripoint result;
+    is >> result;
+    if( !is ) {
+        debugmsg( "Could not convert string '" + s + "' to tripoint" );
+        return tripoint_zero;
+    }
+    return result;
 }
 
 std::string tripoint::to_string() const
@@ -28,6 +52,22 @@ std::ostream &operator<<( std::ostream &os, const point &pos )
 std::ostream &operator<<( std::ostream &os, const tripoint &pos )
 {
     return os << "(" << pos.x << "," << pos.y << "," << pos.z << ")";
+}
+
+std::istream &operator>>( std::istream &is, point &pos )
+{
+    char c;
+    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
+                                is.get( c ) &&c == ')';
+    return is;
+}
+
+std::istream &operator>>( std::istream &is, tripoint &pos )
+{
+    char c;
+    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
+                                is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
+    return is;
 }
 
 point clamp_half_open( const point &p, const rectangle &r )

@@ -9,6 +9,8 @@
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
@@ -25,13 +27,13 @@ extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;
 } // namespace behavior
 
-static behavior::node_t make_test_node( std::string goal, const behavior::status_t *status )
+static behavior::node_t make_test_node( const std::string &goal, const behavior::status_t *status )
 {
     behavior::node_t node;
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.set_predicate( [status]( const behavior::oracle_t * ) {
+    node.set_predicate( [status]( const behavior::oracle_t *, const std::string & ) {
         return *status;
     } );
     return node;
@@ -183,18 +185,28 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
 
 TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
 {
+    const tripoint monster_location( 5, 5, 0 );
+    clear_map();
+    monster &test_monster = spawn_test_monster( "mon_locust", monster_location );
+
+    behavior::monster_oracle_t oracle( &test_monster );
     behavior::tree monster_goals;
-    monster_goals.add( &string_id<behavior::node_t>( "monster_special" ).obj() );
-    monster &test_monster = spawn_test_monster( "mon_zombie", { 5, 5, 0 } );
+    monster_goals.add( test_monster.type->get_goals() );
+
     for( const std::string &special_name : test_monster.type->special_attacks_names ) {
         test_monster.reset_special( special_name );
     }
-    behavior::monster_oracle_t oracle( &test_monster );
     CHECK( monster_goals.tick( &oracle ) == "idle" );
+    for( const tripoint &near_monster : g->m.points_in_radius( monster_location, 1 ) ) {
+        g->m.ter_set( near_monster, ter_id( "t_grass" ) );
+        g->m.furn_set( near_monster, furn_id( "f_null" ) );
+    }
     SECTION( "Special Attack" ) {
-        test_monster.set_special( "bite", 0 );
-        CHECK( monster_goals.tick( &oracle ) == "do_special" );
-        test_monster.set_special( "bite", 1 );
+        test_monster.set_special( "EAT_CROP", 0 );
+        CHECK( monster_goals.tick( &oracle ) == "idle" );
+        g->m.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
+        CHECK( monster_goals.tick( &oracle ) == "EAT_CROP" );
+        test_monster.set_special( "EAT_CROP", 1 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
     }
 }

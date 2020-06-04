@@ -163,6 +163,7 @@ void damage_instance::deserialize( JsonIn &jsin )
 dealt_damage_instance::dealt_damage_instance()
 {
     dealt_dams.fill( 0 );
+    bp_hit  = bodypart_id( "torso" );
 }
 
 void dealt_damage_instance::set_damage( damage_type dt, int amount )
@@ -372,7 +373,6 @@ damage_instance load_damage_instance( const JsonArray &jarr )
 {
     return load_damage_instance_inherit( jarr, blank_damage_instance() );
 }
-
 
 damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent )
 {

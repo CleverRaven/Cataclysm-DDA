@@ -19,7 +19,7 @@ class achievements_tracker;
 class requirement_watcher;
 class stats_tracker;
 
-enum class achievement_comparison {
+enum class achievement_comparison : int {
     less_equal,
     greater_equal,
     anything,
@@ -31,7 +31,7 @@ struct enum_traits<achievement_comparison> {
     static constexpr achievement_comparison last = achievement_comparison::last;
 };
 
-enum class achievement_completion {
+enum class achievement_completion : int {
     pending,
     completed,
     failed,
@@ -56,7 +56,7 @@ class achievement
         static const std::vector<achievement> &get_all();
         static void reset();
 
-        string_id<achievement> id;
+        achievement_id id;
         bool was_loaded = false;
 
         const translation &name() const {
@@ -67,25 +67,30 @@ class achievement
             return description_;
         }
 
-        const std::vector<string_id<achievement>> &hidden_by() const {
+        bool is_conduct() const {
+            return is_conduct_;
+        }
+
+        const std::vector<achievement_id> &hidden_by() const {
             return hidden_by_;
         }
 
         class time_bound
         {
             public:
-                enum class epoch {
+                enum class epoch : int {
                     cataclysm,
                     game_start,
                     last
                 };
 
                 void deserialize( JsonIn & );
-                void check( const string_id<achievement> & ) const;
+                void check( const achievement_id & ) const;
 
                 time_point target() const;
                 achievement_completion completed() const;
-                std::string ui_text() const;
+                bool becomes_false() const;
+                std::string ui_text( bool is_conduct ) const;
             private:
                 achievement_comparison comparison_;
                 epoch epoch_;
@@ -102,7 +107,8 @@ class achievement
     private:
         translation name_;
         translation description_;
-        std::vector<string_id<achievement>> hidden_by_;
+        bool is_conduct_ = false;
+        std::vector<achievement_id> hidden_by_;
         cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
@@ -166,7 +172,8 @@ class achievements_tracker : public event_subscriber
 
         achievements_tracker(
             stats_tracker &,
-            const std::function<void( const achievement *, bool )> &achievement_attained_callback );
+            const std::function<void( const achievement *, bool )> &achievement_attained_callback,
+            const std::function<void( const achievement *, bool )> &achievement_failed_callback );
         ~achievements_tracker() override;
 
         // Return all scores which are valid now and existed at game start
@@ -174,7 +181,7 @@ class achievements_tracker : public event_subscriber
 
         void report_achievement( const achievement *, achievement_completion );
 
-        achievement_completion is_completed( const string_id<achievement> & ) const;
+        achievement_completion is_completed( const achievement_id & ) const;
         bool is_hidden( const achievement * ) const;
         std::string ui_text_for( const achievement * ) const;
         bool is_enabled() const {
@@ -195,12 +202,13 @@ class achievements_tracker : public event_subscriber
         stats_tracker *stats_ = nullptr;
         bool enabled_ = true;
         std::function<void( const achievement *, bool )> achievement_attained_callback_;
-        std::unordered_set<string_id<achievement>> initial_achievements_;
+        std::function<void( const achievement *, bool )> achievement_failed_callback_;
+        std::unordered_set<achievement_id> initial_achievements_;
 
         // Class invariant: each valid achievement has exactly one of a watcher
         // (if it's pending) or a status (if it's completed or failed).
-        std::unordered_map<string_id<achievement>, achievement_tracker> trackers_;
-        std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
+        std::unordered_map<achievement_id, achievement_tracker> trackers_;
+        std::unordered_map<achievement_id, achievement_state> achievements_status_;
 };
 
 #endif // CATA_SRC_ACHIEVEMENT_H

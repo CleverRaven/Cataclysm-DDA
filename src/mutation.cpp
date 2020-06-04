@@ -36,11 +36,13 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_stunned( "stunned" );
 
+static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
@@ -213,8 +215,8 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+    for( const bodypart_str_id &bp : restricts_gear ) {
+        if( it.covers( bp.id() ) ) {
             return true;
         }
     }
@@ -222,9 +224,9 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
-    const auto iter = armor.find( bp );
+    const auto iter = armor.find( bp.id() );
     if( iter == armor.end() ) {
         static const resistances nulres;
         return nulres;
@@ -233,22 +235,22 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-m_size calculate_size( const Character &c )
+creature_size calculate_size( const Character &c )
 {
     if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
         c.has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
+        return creature_size::large;
     } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
+        return creature_size::huge;
     }
-    return MS_MEDIUM;
+    return creature_size::medium;
 }
 
 void Character::mutation_effect( const trait_id &mut )
 {
-    if( mut == "GLASSJAW" ) {
+    if( mut == trait_GLASSJAW ) {
         recalc_hp();
 
     } else if( mut == trait_STR_ALPHA ) {
@@ -320,7 +322,7 @@ void Character::mutation_effect( const trait_id &mut )
 
 void Character::mutation_loss_effect( const trait_id &mut )
 {
-    if( mut == "GLASSJAW" ) {
+    if( mut == trait_GLASSJAW ) {
         recalc_hp();
 
     } else if( mut == trait_STR_ALPHA ) {
@@ -474,7 +476,7 @@ void Character::activate_mutation( const trait_id &mut )
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
-        ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
+        ( mdata.fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                            mdata.name() );
@@ -515,7 +517,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
-    } else if( mut == "BURROW" ) {
+    } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
         invoke_item( &burrowing_item );
@@ -615,16 +617,16 @@ void Character::activate_mutation( const trait_id &mut )
             tdata.powered = false;
         }
         return;
-    } else if( !mdata.spawn_item.empty() ) {
+    } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
-    } else if( !mdata.ranged_mutation.empty() ) {
+    } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }

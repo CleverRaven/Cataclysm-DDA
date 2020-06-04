@@ -38,10 +38,22 @@ TEST_CASE( "box_shrinks", "[point]" )
     CHECK( b.contains_half_open( tripoint( 1, 1, 2 ) ) );
 }
 
-TEST_CASE( "point_to_string", "[point]" )
+TEST_CASE( "point_to_from_string", "[point]" )
 {
-    CHECK( point_south.to_string() == "(0,1)" );
-    CHECK( tripoint( -1, 0, 1 ).to_string() == "(-1,0,1)" );
+    SECTION( "points_from_string" ) {
+        CHECK( point_south.to_string() == "(0,1)" );
+        CHECK( tripoint( -1, 0, 1 ).to_string() == "(-1,0,1)" );
+    }
+
+    SECTION( "point_round_trip" ) {
+        point p( 10, -777 );
+        CHECK( point::from_string( p.to_string() ) == p );
+    }
+
+    SECTION( "tripoint_round_trip" ) {
+        tripoint p( 10, -777, 6 );
+        CHECK( tripoint::from_string( p.to_string() ) == p );
+    }
 }
 
 TEST_CASE( "tripoint_xy", "[point]" )

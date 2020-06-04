@@ -443,7 +443,7 @@
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
     "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
     "material": "cardboard",
@@ -464,7 +464,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "2990 ml",
         "max_contains_weight": "20 kg",
         "magazine_well": "2 L"
@@ -491,7 +491,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "4990 ml",
         "max_contains_weight": "50 kg",
         "magazine_well": "3 L"
@@ -1475,6 +1475,15 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "wrapper_pr",
+    "type": "GENERIC",
+    "name": { "str": "wrapper" },
+    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
+    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "copy-from": "wrapper",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },
   {
     "id": "styrofoam_cup",

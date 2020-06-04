@@ -184,7 +184,7 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1500 ml",
     "bashing": 6,
-    "cutting": 31,
+    "cutting": 18,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 1400,
     "qualities": [ [ "COOK", 1 ] ]

@@ -24,9 +24,9 @@ class relic
         // the item's name will be replaced with this if the string is not empty
         translation item_name_override;
 
-        int charges_per_activation;
+        int charges_per_activation = 0;
         // activating an artifact overrides all spell casting costs
-        int moves;
+        int moves = 0;
     public:
         std::string name() const;
         // returns number of charges that should be consumed

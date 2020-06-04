@@ -63,7 +63,7 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
 }
 
 static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
-                               std::function<void( JsonIn &, JsonOut &, int, bool )>write_func,
+                               const std::function<void( JsonIn &, JsonOut &, int, bool )> &write_func,
                                bool force_wrap )
 {
     if( depth > 1 && !force_wrap ) {
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
         header = "Content-type: application/json\n\n";
     }
 
-    if( in.str().size() == 0 ) {
+    if( in.str().empty() ) {
         std::cout << "Error, input empty." << std::endl;
         exit( EXIT_FAILURE );
     }

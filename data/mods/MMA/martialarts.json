@@ -1,6 +1,138 @@
 [
   {
     "type": "martial_art",
+    "id": "style_mma_desert_wind",
+    "name": { "str": "Desert Wind" },
+    "description": "Desert Wind maneuvers focus on quick movement and swirling, flaming strikes.  The complex spinning and slashing of the curved blade incorporated into many Desert Wind maneuvers are in fact carefully honed gestures that evoke the power of fire, if performed correctly and with the proper focus.",
+    "initiate": [
+      "You feel a wave of heat wash over you as you assume a running combat stance.",
+      "%s assumes into a running combat stance."
+    ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_desert_wind_ondodge",
+        "name": "Zephyr Dance",
+        "description": "You spin gracefully away from attacks, whirling like the dersert zephyr racing across the sands.\n\n+1.0 Dodging skill, +1 Dodge attempt\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_desert_wind_onmove",
+        "name": "Wind Stride",
+        "description": "A warm breeze swirls about you as you move speedily away.\n\n+1.0 Dodging skill.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [
+      "mma_tec_desert_wind_strike",
+      "mma_tec_desert_wind_crit",
+      "mma_tec_desert_wind_impale",
+      "mma_tec_desert_wind_spin",
+      "mma_tec_desert_wind_wide"
+    ],
+    "weapons": [
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "scimitar",
+      "scimitar_inferior",
+      "scimitar_fake",
+      "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
+      "spear_rebar",
+      "spear_pipe",
+      "spear_forked",
+      "spear_steel",
+      "spear_wood",
+      "spear_copper",
+      "spear_homemade_halfpike",
+      "sword_wood"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_diamond_mind",
+    "name": { "str": "Diamond Mind" },
+    "description": "True quickness lies in the mind, not the body.  A student of the Diamond Mind discipline seeks to hone his perceptions and discipline his thoughts so that he can act in slivers of time so narrow that others cannot even perceive them.  A corollary of this speed of thought and action is the concept of the mind as the battleground.  An enemy defeated in his mind must inevitably.",
+    "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_static",
+        "name": "Stance of Alacrity",
+        "description": "You move slightly faster than normal due to a combination of confidence, raining, and clarity of mind.  This slight edge adds up with each action.\n\n-10% move cost",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_ondodge",
+        "name": "Pearl of Black Doubt",
+        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\n+1 Dodge attempt\nLasts 1 turn. Stacks 2 times",
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "bonus_dodges": 1
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_ongethit",
+        "name": "Mind over Body",
+        "description": "Your training and mental toughness allow you to use your focus to overcome physical threats.\n\n+1 Accuracy.\nLasts 1 turn. Stacks 2 times",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_onpause",
+        "name": "Quicksilver Motion",
+        "description": "In the blink of an eye, you make your move.  Your speed, reflexes, and boundless confidence combine to allow you to make a fast, bold move that catches your foes off guard.\n\n+50 Speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 50.0 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
+    "weapons": [
+      "fencing_foil",
+      "fencing_epee",
+      "fencing_foil_sharpened",
+      "fencing_epee_sharpened",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "pointy_stick",
+      "rapier",
+      "rapier_fake",
+      "shock_foil",
+      "shock_epee"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_mma_panzer",
     "name": { "str": "Panzer Kunst" },
     "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",

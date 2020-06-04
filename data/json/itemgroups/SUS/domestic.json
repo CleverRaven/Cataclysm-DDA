@@ -103,24 +103,26 @@
       { "item": "pliers", "prob": 60 },
       { "item": "flashlight", "prob": 75 },
       { "item": "hammer", "prob": 75 },
-      { "item": "permanent_marker", "prob": 75 },
-      { "item": "permanent_marker", "prob": 40 },
+      { "item": "permanent_marker", "prob": 75, "charges-min": 50 },
+      { "item": "permanent_marker", "prob": 40, "charges-min": 50 },
       { "item": "paper", "prob": 55 },
-      { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85, "charges-min": 1 },
       { "item": "battery_charger", "prob": 85 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
-      { "item": "duct_tape", "prob": 50 },
-      { "item": "duct_tape", "prob": 30 },
+      { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ], "container-item": "box_small" },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
       { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
       { "item": "corkscrew", "prob": 60 },
       { "item": "bottle_opener", "prob": 75 },
-      { "item": "candle", "prob": 75 },
+      { "item": "candle", "prob": 75, "charges-min": 10 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "distribution": [ { "item": "matches" }, { "item": "lighter" } ], "prob": 90 }
+      {
+        "distribution": [ { "item": "matches", "charges-min": 1 }, { "item": "lighter", "charges-min": 1 } ],
+        "prob": 90
+      }
     ]
   },
   {
@@ -184,7 +186,7 @@
     "//2": "This group is for the cleaning materials under a kitchen sink.",
     "subtype": "collection",
     "entries": [
-      { "item": "detergent", "count": [ 1, 2 ] },
+      { "item": "detergent", "charges": [ 1, 40 ], "container-item": "box_small" },
       { "item": "rag", "count": [ 1, 6 ] },
       { "item": "towel", "count": [ 1, 3 ] },
       { "item": "brush" },
@@ -317,7 +319,11 @@
     "entries": [
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
-        "distribution": [ { "item": "milk", "prob": 94 }, { "item": "almond_milk", "prob": 3 }, { "item": "soy_milk", "prob": 3 } ],
+        "distribution": [
+          { "item": "milk", "charges-min": 1, "prob": 94 },
+          { "item": "almond_milk", "charges-min": 1, "prob": 3 },
+          { "item": "soy_milk", "charges-min": 1, "prob": 3 }
+        ],
         "prob": 95
       },
       { "group": "ketchup_sealed_rng", "prob": 85 },
@@ -331,7 +337,7 @@
       { "item": "yoghurt", "prob": 80 },
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
-      { "item": "egg_bird", "prob": 85, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
@@ -612,8 +618,8 @@
       { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
       { "item": "cotton_ball", "prob": 50 },
-      { "item": "bleach", "prob": 15 },
-      { "item": "ammonia", "prob": 20 },
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "ammonia", "prob": 20, "charges-min": 1 },
       { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 }
     ]
@@ -630,23 +636,59 @@
         "prob": 95
       },
       { "item": "eyedrops", "prob": 15 },
-      { "item": "pepto", "prob": 70 },
-      { "item": "inhaler", "prob": 25 },
+      { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
+      { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
       { "item": "pills_sleep", "prob": 10 },
-      { "distribution": [ { "item": "nyquil", "prob": 60 }, { "item": "dayquil", "prob": 20 } ], "prob": 50 },
+      {
+        "distribution": [ { "item": "nyquil", "prob": 60, "charges-min": 1 }, { "item": "dayquil", "prob": 20, "charges-min": 1 } ],
+        "prob": 50
+      },
       {
         "distribution": [
-          { "item": "vitamins", "prob": 60 },
-          { "item": "gummy_vitamins", "prob": 20 },
-          { "item": "calcium_tablet", "prob": 10 }
+          { "item": "vitamins", "prob": 60, "charges-min": 1, "charges-max": 40, "container-item": "bottle_plastic_small" },
+          {
+            "item": "gummy_vitamins",
+            "prob": 20,
+            "charges-min": 1,
+            "charges-max": 20,
+            "container-item": "bottle_plastic_small"
+          },
+          {
+            "item": "calcium_tablet",
+            "prob": 10,
+            "charges-min": 1,
+            "charges-max": 40,
+            "container-item": "bottle_plastic_small"
+          }
         ],
         "prob": 80
       },
       {
-        "distribution": [ { "item": "weak_antibiotic", "prob": 40 }, { "item": "antibiotics", "prob": 10 } ],
+        "distribution": [
+          { "item": "weak_antibiotic", "prob": 40, "charges-min": 1, "charges-max": 20, "container-item": "bottle_plastic_small" },
+          {
+            "item": "antibiotics",
+            "prob": 10,
+            "charges-min": 1,
+            "charges-max": 20,
+            "container-item": "bottle_plastic_small"
+          }
+        ],
         "prob": 10
       },
-      { "distribution": [ { "item": "antifungal", "prob": 60 }, { "item": "antiparasitic", "prob": 20 } ], "prob": 5 }
+      {
+        "distribution": [
+          { "item": "antifungal", "prob": 60, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
+          {
+            "item": "antiparasitic",
+            "prob": 20,
+            "charges-min": 1,
+            "charges-max": 10,
+            "container-item": "bottle_plastic_small"
+          }
+        ],
+        "prob": 5
+      }
     ]
   },
   {
@@ -689,18 +731,24 @@
     "entries": [
       { "item": "soap", "count": [ 1, 4 ], "prob": 70 },
       {
-        "distribution": [ { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 }, { "item": "shavingkit", "prob": 50 } ],
+        "distribution": [
+          { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "shavingkit", "charges-min": 0, "charges-max": 10, "prob": 50 }
+        ],
         "prob": 75
       },
       {
         "distribution": [ { "item": "bandages", "prob": 60 }, { "item": "medical_gauze", "prob": 20 }, { "item": "1st_aid", "prob": 10 } ],
         "prob": 20
       },
-      { "item": "disinfectant", "prob": 40 },
-      { "item": "chem_hydrogen_peroxide", "prob": 50 },
+      { "item": "disinfectant", "prob": 40, "charges-min": 1 },
+      { "item": "chem_hydrogen_peroxide", "prob": 50, "charges-min": 1 },
       { "item": "mirror", "prob": 25 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
-      { "collection": [ { "item": "candle", "count": [ 1, 2 ] }, { "item": "matches" } ], "prob": 20 },
+      {
+        "collection": [ { "item": "candle", "count": [ 1, 2 ], "charges-min": 10 }, { "item": "matches", "charges-min": 1 } ],
+        "prob": 20
+      },
       { "item": "toilet_paper", "prob": 80 },
       { "item": "towel", "count": [ 1, 2 ], "prob": 75 }
     ]

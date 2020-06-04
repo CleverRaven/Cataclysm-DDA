@@ -564,7 +564,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );

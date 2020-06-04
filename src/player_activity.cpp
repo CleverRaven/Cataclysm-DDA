@@ -23,16 +23,17 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
-static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -41,12 +42,12 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min ), auto_resume( false )
+    placement( tripoint_min )
 {
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+    actor( actor.clone() )
 {
 }
 
@@ -228,7 +229,7 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == "ACT_TRAVELLING";
+    const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );
@@ -279,6 +280,13 @@ void player_activity::do_turn( player &p )
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
         p.drop_invalid_inventory();
+    }
+}
+
+void player_activity::canceled( Character &who )
+{
+    if( *this && actor ) {
+        actor->canceled( *this, who );
     }
 }
 

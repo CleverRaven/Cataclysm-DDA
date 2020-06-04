@@ -285,6 +285,9 @@ class inventory_column
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
+        // orders the child entries in this column to be under their parent
+        void order_by_parent();
+
         inventory_entry *find_by_invlet( int invlet ) const;
 
         void draw( const catacurses::window &win, size_t x, size_t y ) const;
@@ -356,7 +359,7 @@ class inventory_column
             } else {
                 return preset.indent_entries();
             }
-        };
+        }
 
         void set_indent_entries_override( bool entry_override ) {
             indent_entries_override = entry_override;
@@ -471,8 +474,8 @@ class inventory_selector
         inventory_selector( player &u, const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
-        void add_contained_items( item_location container );
-        void add_contained_items( item_location container, inventory_column &column );
+        void add_contained_items( item_location &container );
+        void add_contained_items( item_location &container, inventory_column &column );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );

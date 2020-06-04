@@ -82,11 +82,15 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
-static const zone_type_id zone_type_camp_food( "CAMP_FOOD" );
-static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -374,7 +378,7 @@ int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, i
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total
 /// mass and volume
 /// @ref take, whether you take the item or count it
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance = 100,
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint &omt_tgt, int chance = 100,
                             bool take = true );
 void apply_camp_ownership( const tripoint &camp_pos, int radius );
 /*
@@ -429,11 +433,11 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
         int trips = 1, int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
-                              units::volume carry_volume );
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
 std::string camp_trip_description( const time_duration &total_time,
                                    const time_duration &working_time,
@@ -645,8 +649,8 @@ void talk_function::basecamp_mission( npc &p )
         }
         tripoint src_loc;
         const auto abspos = p.global_square_location();
-        if( mgr.has_near( zone_type_camp_storage, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
+        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {
@@ -681,7 +685,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
 {
     std::string entry;
-    std::string gather_bldg = "null";
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
@@ -719,6 +722,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     }
 
     if( has_provides( "gathering", dir ) ) {
+        std::string gather_bldg = "null";
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes:\n"
@@ -1203,7 +1207,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
-    const std::string base_dir_abbr = base_data.bracket_abbr.translated();
     reset_camp_resources();
     std::string gather_bldg = "null";
 
@@ -1243,6 +1246,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         std::map<recipe_id, translation> craft_recipes = recipe_deck( base_camps::base_dir );
         add_available_recipes( mission_key, base_camps::base_dir, craft_recipes );
     } else {
+        const std::string base_dir_abbr = base_data.bracket_abbr.translated();
         entry = miss_info.action.translated();
         bool avail = update_time_left( entry, npc_list );
         mission_key.add_return( base_dir_id + miss_info.ret_miss_id,
@@ -2268,11 +2272,11 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
 
 static bool farm_valid_seed( const item &itm )
 {
-    return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+    return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
-        npc_ptr comp = nullptr )
+        const npc_ptr &comp = nullptr )
 {
     size_t plots_cnt = 0;
     std::string crops;
@@ -2492,7 +2496,7 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
         if( !broken && !skill_break ) {
             //Higher level garages will salvage liquids from tanks
             if( !p_all[prt].is_battery() ) {
-                p_all[prt].ammo_consume( p_all[prt].ammo_capacity(),
+                p_all[prt].ammo_consume( p_all[prt].ammo_remaining(),
                                          car->global_part_pos3( p_all[prt] ) );
             }
             comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
@@ -3252,7 +3256,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
             target_bay.ter_set( p, t_dirt );
-            target_bay.spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+            target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
             harvested++;
         }
     }
@@ -3260,7 +3264,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     return harvested;
 }
 
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, bool take )
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
     target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
@@ -3488,8 +3492,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
     return work + one_way * trips * 1_seconds;
 }
 
-int om_carry_weight_to_trips( units::mass mass, units::volume volume,
-                              units::mass carry_mass, units::volume carry_volume )
+int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                              const units::mass &carry_mass, const units::volume &carry_volume )
 {
     int trips_m = 1 + mass / carry_mass;
     int trips_v = 1 + volume / carry_volume;
@@ -3497,7 +3501,7 @@ int om_carry_weight_to_trips( units::mass mass, units::volume volume,
     return 2 * std::max( trips_m, trips_v );
 }
 
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp )
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
@@ -3583,15 +3587,15 @@ bool basecamp::validate_sort_points()
     }
     tripoint src_loc = g->m.getlocal( bb_pos ) + point_north;
     const tripoint abspos = g->m.getabs( g->u.pos() );
-    if( !mgr.has_near( zone_type_camp_storage, abspos, 60 ) ||
-        !mgr.has_near( zone_type_camp_food, abspos, 60 ) ) {
+    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
+        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
             return false;
         }
     } else {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_camp_storage, abspos );
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src : src_sorted ) {
@@ -3837,7 +3841,7 @@ std::string camp_car_description( vehicle *car )
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
                                     static_cast<int>( 100.0 * pt.ammo_remaining() /
-                                            pt.ammo_capacity() ) );
+                                            pt.ammo_capacity( ammotype( "battery" ) ) ) );
         }
     }
     entry += "\n";
@@ -3885,7 +3889,7 @@ bool basecamp::distribute_food()
         mgr.cache_vzones();
     }
     const tripoint &abspos = get_dumping_spot();
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
+    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
     tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
 
@@ -3969,7 +3973,7 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-void basecamp::place_results( item result )
+void basecamp::place_results( const item &result )
 {
     if( by_radio ) {
         tinymap target_bay;
@@ -3984,8 +3988,8 @@ void basecamp::place_results( item result )
             mgr.cache_vzones();
         }
         const auto abspos = g->m.getabs( g->u.pos() );
-        if( mgr.has_near( zone_type_camp_storage, abspos ) ) {
-            const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
+        if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
+            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {

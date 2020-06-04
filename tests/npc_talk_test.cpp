@@ -190,7 +190,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    for( trait_id tr : g->u.get_mutations() ) {
+    for( const trait_id &tr : g->u.get_mutations() ) {
         g->u.unset_mutation( tr );
     }
 
@@ -366,7 +366,7 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.set_thirst( 90 );
     talker_npc.set_hunger( 90 );
-    talker_npc.set_fatigue( EXHAUSTED );
+    talker_npc.set_fatigue( fatigue_levels::EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc thirst test response." );
@@ -570,7 +570,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     g->u.remove_items_with( []( const item & it ) {
         return it.get_category().get_id() == item_category_id( "books" ) ||
                it.get_category().get_id() == item_category_id( "food" ) ||
-               it.typeId() == "bottle_glass";
+               it.typeId() == itype_id( "bottle_glass" );
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 1 );
@@ -684,24 +684,24 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
     CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
     CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
-    CHECK( d.responses[0].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "manual_speech" ) );
 
     d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 8 );
     CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[0].success.next_topic.item_type ==  "beer" );
+    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "beer" ) );
     CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[1].success.next_topic.item_type ==  "dnd_handbook" );
+    CHECK( d.responses[1].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
     CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[2].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[2].success.next_topic.item_type == itype_id( "manual_speech" ) );
     CHECK( d.responses[3].text == "This is a repeated category books test response" );
-    CHECK( d.responses[3].success.next_topic.item_type ==  "dnd_handbook" );
+    CHECK( d.responses[3].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
     CHECK( d.responses[4].text == "This is a repeated category books test response" );
-    CHECK( d.responses[4].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[4].success.next_topic.item_type == itype_id( "manual_speech" ) );
     CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[5].success.next_topic.item_type ==  "bottle_glass" );
+    CHECK( d.responses[5].success.next_topic.item_type == itype_id( "bottle_glass" ) );
     CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[6].success.next_topic.item_type ==  "beer" );
+    CHECK( d.responses[6].success.next_topic.item_type == itype_id( "beer" ) );
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     // test sell and consume
@@ -710,7 +710,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
     REQUIRE( has_beer_bottle( g->u, 2 ) );
     const std::vector<item *> glass_bottles = g->u.items_with( []( const item & it ) {
-        return it.typeId() == "bottle_glass";
+        return it.typeId() == itype_id( "bottle_glass" );
     } );
     REQUIRE( !glass_bottles.empty() );
     REQUIRE( g->u.wield( *glass_bottles.front() ) );
