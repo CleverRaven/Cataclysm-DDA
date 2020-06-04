@@ -144,15 +144,15 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
 
     const time_point start = calendar::turn;
 
-    CHECK( !s.get_events( ctd ).first_time() );
-    CHECK( !s.get_events( ctd ).last_time() );
+    CHECK( !s.get_events( ctd ).first() );
+    CHECK( !s.get_events( ctd ).last() );
     b.send<ctd>( u_id, 10 );
-    CHECK( s.get_events( ctd ).first_time() == cata::optional<time_point>( start ) );
-    CHECK( s.get_events( ctd ).last_time() == cata::optional<time_point>( calendar::turn ) );
+    CHECK( s.get_events( ctd ).first()->second.first == start );
+    CHECK( s.get_events( ctd ).last()->second.last == calendar::turn );
     calendar::turn += 1_minutes;
     b.send<ctd>( u_id, 10 );
-    CHECK( s.get_events( ctd ).first_time() == cata::optional<time_point>( start ) );
-    CHECK( s.get_events( ctd ).last_time() == cata::optional<time_point>( calendar::turn ) );
+    CHECK( s.get_events( ctd ).first()->second.first == start );
+    CHECK( s.get_events( ctd ).last()->second.last == calendar::turn );
 }
 
 static void send_game_start( event_bus &b, const character_id &u_id )
@@ -310,6 +310,35 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( damage_taken->value( s ).get<int>() == 0 );
         b.send( avatar_2_damage );
         CHECK( damage_taken->value( s ).get<int>() == 2 );
+    }
+
+    SECTION( "first_last_events" ) {
+        const character_id u_id = g->u.getID();
+        const oter_id field( "field" );
+        const itype_id crowbar( "crowbar" );
+        const itype_id pipe( "pipe" );
+        const string_id<event_statistic> first_omt( "first_omt" );
+        const string_id<event_statistic> last_wielded( "avatar_last_item_wielded" );
+
+        send_game_start( b, u_id );
+        CHECK( first_omt->value( s ) == cata_variant() );
+        CHECK( last_wielded->value( s ) == cata_variant() );
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::character_wields_item>( u_id, crowbar );
+        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+        b.send<event_type::character_wields_item>( u_id, pipe );
+        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( last_wielded->value( s ) == cata_variant( pipe ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::character_wields_item>( u_id, crowbar );
+        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
     }
 }
 
@@ -526,6 +555,50 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         b.send( avatar_wakes_up );
         CHECK( achievements_completed.count( a_survive_one_day ) );
     }
+
+    SECTION( "first_and_last" ) {
+        calendar::turn = calendar::start_of_game;
+        oter_id field( "field" );
+
+        auto send_enter_omt_zero = [&]() {
+            b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        };
+
+        auto send_enter_omt_other = [&]() {
+            b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+        };
+
+        achievement_id a_return_to_first_omt( "achievement_return_to_first_omt" );
+
+        send_game_start( b, u_id );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( achievements_completed.count( a_return_to_first_omt ) );
+    }
+
     SECTION( "hidden_kills" ) {
         const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =

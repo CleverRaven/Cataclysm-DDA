@@ -84,8 +84,8 @@ class event_multiset
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
         int minimum( const std::string &field ) const;
         int maximum( const std::string &field ) const;
-        cata::optional<time_point> first_time() const;
-        cata::optional<time_point> last_time() const;
+        cata::optional<summaries_type::value_type> first() const;
+        cata::optional<summaries_type::value_type> last() const;
 
         void add( const cata::event & );
         void add( const summaries_type::value_type & );

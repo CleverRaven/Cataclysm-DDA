@@ -153,28 +153,32 @@ int event_multiset::maximum( const std::string &field ) const
     return maximum;
 }
 
-cata::optional<time_point> event_multiset::first_time() const
+template<time_point event_summary::*Member>
+struct compare_times {
+    bool operator()( const event_multiset::summaries_type::value_type &l,
+                     const event_multiset::summaries_type::value_type &r ) const {
+        return l.second.*Member < r.second.*Member;
+    }
+};
+
+cata::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
 {
-    if( summaries_.empty() ) {
+    auto minimum = std::min_element( summaries_.begin(), summaries_.end(),
+                                     compare_times<&event_summary::first>() );
+    if( minimum == summaries_.end() ) {
         return cata::nullopt;
     }
-    time_point minimum = summaries_.begin()->second.first;
-    for( const auto &pair : summaries_ ) {
-        minimum = std::min( pair.second.first, minimum );
-    }
-    return minimum;
+    return *minimum;
 }
 
-cata::optional<time_point> event_multiset::last_time() const
+cata::optional<event_multiset::summaries_type::value_type> event_multiset::last() const
 {
-    if( summaries_.empty() ) {
+    auto minimum = std::max_element( summaries_.begin(), summaries_.end(),
+                                     compare_times<&event_summary::last>() );
+    if( minimum == summaries_.end() ) {
         return cata::nullopt;
     }
-    time_point maximum = summaries_.begin()->second.first;
-    for( const auto &pair : summaries_ ) {
-        maximum = std::max( pair.second.last, maximum );
-    }
-    return maximum;
+    return *minimum;
 }
 
 void event_multiset::add( const cata::event &e )
