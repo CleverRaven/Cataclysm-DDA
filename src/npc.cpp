@@ -53,6 +53,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "options.h"
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -839,6 +840,9 @@ void npc::starting_weapon( const npc_class_id &type )
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
         }
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+
     weapon.set_owner( get_faction()->id );
 }
 
@@ -1154,6 +1158,7 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
@@ -1181,6 +1186,8 @@ bool npc::wield( item &it )
     } else {
         weapon = it;
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
@@ -1698,6 +1705,14 @@ void npc::shop_restock()
             count += 1;
             last_item = count > 10 && one_in( 100 );
         }
+    }
+
+    // This removes some items according to item spawn scaling factor,
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        ret.remove_if( [spawn_rate]( auto & ) {
+            return !( rng_float( 0, 1 ) < spawn_rate );
+        } );
     }
 
     has_new_items = true;

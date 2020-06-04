@@ -41,7 +41,7 @@
     "description": "Your hands glow with mana energy.  You can fire seeker bolts from your fingertips.",
     "points": 2,
     "mana_modifier": 250,
-    "lumination": [ [ "HAND_R", 8 ], [ "HAND_L", 8 ] ],
+    "lumination": [ [ "hand_r", 8 ], [ "hand_l", 8 ] ],
     "prereqs": [ "MANA_LUM" ],
     "category": [ "MANATOUCHED" ],
     "threshreq": [ "THRESH_MANA" ],
@@ -53,7 +53,7 @@
     "name": { "str": "Subtle Spell" },
     "description": "You no longer need to move your arms to cast spells, due to your ley lines becoming untethered from your arms.  Arm encumbrance no longer applies to spell failure chance.",
     "points": 3,
-    "lumination": [ [ "ARM_R", 4 ], [ "ARM_L", 4 ] ],
+    "lumination": [ [ "arm_r", 4 ], [ "arm_l", 4 ] ],
     "threshreq": [ "THRESH_MANA" ],
     "prereqs": [ "MANA_LUM" ],
     "category": [ "MANATOUCHED" ],
@@ -65,7 +65,7 @@
     "name": { "str": "Silent Spell" },
     "description": "You no longer need to use your voice to enforce your will upon the world.  Mouth encumbrance no longer applies to spell failure chance.",
     "points": 3,
-    "lumination": [ [ "MOUTH", 4 ] ],
+    "lumination": [ [ "mouth", 4 ] ],
     "threshreq": [ "THRESH_MANA" ],
     "prereqs": [ "MANA_LUM" ],
     "category": [ "MANATOUCHED" ],
@@ -113,7 +113,7 @@
     "bodytemp_modifiers": [ 100, 100 ],
     "description": "Your body discards unusable mana as light and heat, making you glow softly.",
     "category": [ "MANATOUCHED" ],
-    "lumination": [ [ "TORSO", 8 ] ]
+    "lumination": [ [ "torso", 8 ] ]
   },
   {
     "type": "mutation",

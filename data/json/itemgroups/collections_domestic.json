@@ -867,6 +867,7 @@
       { "item": "manual_speech", "prob": 50 },
       { "item": "manual_business", "prob": 40 },
       { "item": "manual_computers", "prob": 20 },
+      { "item": "scots_tailor", "prob": 10 },
       { "group": "kids_books", "prob": 70 },
       { "item": "tailor_portfolio", "prob": 1 },
       { "item": "recipe_augs", "prob": 1 },

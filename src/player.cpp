@@ -1762,7 +1762,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = item();
+        remove_weapon();
     }
 
     std::vector<item_location> removed_items;
@@ -2753,6 +2753,10 @@ player::wear( item &to_wear, bool interactive )
             i_add( to_wear_copy );
         }
         return cata::nullopt;
+    }
+
+    if( was_weapon ) {
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     }
 
     return result;
@@ -4043,6 +4047,8 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     moves -= mv;
 
     weapon.on_wield( *this, mv );
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     return true;
 }

@@ -201,6 +201,7 @@ void item_pocket::serialize( JsonOut &json ) const
         json.start_object();
         json.member( "pocket_type", data->type );
         json.member( "contents", contents );
+        json.member( "_sealed", _sealed );
         json.end_object();
     }
 }
@@ -212,6 +213,8 @@ void item_pocket::deserialize( JsonIn &jsin )
     int saved_type_int;
     data.read( "pocket_type", saved_type_int );
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+    data.read( "_sealed", _sealed );
+    _saved_sealed = _sealed;
 }
 
 void pocket_data::deserialize( JsonIn &jsin )
@@ -450,7 +453,8 @@ void Character::load( const JsonObject &data )
 
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
-    if( !data.read( "blood_type", my_blood_type ) ) {
+    if( !data.read( "blood_type", my_blood_type ) ||
+        !data.read( "blood_rh_factor", blood_rh_factor ) ) {
         randomize_blood();
     };
 
@@ -619,7 +623,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item( "null", 0 );
+    weapon = item();
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -722,6 +726,7 @@ void Character::store( JsonOut &json ) const
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
     json.member_as_string( "blood_type", my_blood_type );
+    json.member( "blood_rh_factor", blood_rh_factor );
 
     json.member( "custom_profession", custom_profession );
 
@@ -1672,7 +1677,7 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", 0 );
+    real_weapon = item();
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );

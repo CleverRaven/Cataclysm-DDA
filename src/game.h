@@ -222,6 +222,7 @@ class game
         bool do_turn();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
+        void mark_main_ui_adaptor_resize() const;
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
@@ -1108,10 +1109,10 @@ int get_convection_temperature( const tripoint &location );
 namespace cata_event_dispatch
 {
 // Constructs and dispatches an avatar movement event with the necessary parameters
-// @param u The avatar moving
+// @param p The point the avatar moved from in absolute coordinates
+// @param u The avatar (should have already moved to the new pos)
 // @param m The map the avatar is moving on
-// @param p The point the avatar is moving to on map m
-void avatar_moves( const avatar &u, const map &m, const tripoint &p );
+void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
 
 #endif // CATA_SRC_GAME_H

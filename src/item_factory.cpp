@@ -1653,6 +1653,7 @@ void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
     }
 }
 
+// TODO: Refactor this with load_tool_armor
 void Item_factory::load_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -1821,12 +1822,25 @@ void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
     }
 }
 
+// TODO: Refactor this with load_armor
+// This function does load_slot( def.tool ), but otherwise they are the same
 void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
         load_slot( def.tool, jo, src );
-        load_armor( jo, src );
+        if( def.was_loaded ) {
+            if( def.armor ) {
+                def.armor->was_loaded = true;
+            } else {
+                def.armor = cata::make_value<islot_armor>();
+                def.armor->was_loaded = true;
+            }
+        } else {
+            def.armor = cata::make_value<islot_armor>();
+        }
+        def.armor->load( jo );
+        load_basic_info( jo, def, src );
     }
 }
 

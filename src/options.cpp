@@ -1706,12 +1706,12 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
-         translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE
        );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
-         translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the Y axis." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
@@ -2510,8 +2510,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        g->init_ui();
-        g->refresh_all();
+        g->mark_main_ui_adaptor_resize();
     }
 }
 #else
@@ -2978,7 +2977,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
 
-        handle_resize( projected_window_width(), projected_window_height() );
+        resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
     }
 #else
     ( void ) terminal_size_changed;

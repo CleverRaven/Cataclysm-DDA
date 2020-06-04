@@ -514,7 +514,7 @@ This section describes each json file and their contents. Each json has their ow
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
-    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
+    "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "installation_requirement": "sewing_standard",
@@ -525,7 +525,7 @@ This section describes each json file and their contents. Each json has their ow
     "type": "bionic",
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
@@ -1312,6 +1312,10 @@ Additional optional fields for each entry in `requirements` are:
   `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
   to dictate when a requirement is visible.  Non-visible requirements will be
   hidden in the UI.
+* `"description"` will override the default description of the requirement, for
+  cases where the default is not suitable.  The default takes the form `x/y
+  foo` where `x` is the current statistic value, `y` is the target value, and
+  `foo` is the statistic description (if any).
 
 There are further optional fields for the `achievement`:
 
@@ -1422,29 +1426,29 @@ it is present to help catch errors.
             "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
             "str_mod" : 2
 },
-"wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
+"wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
-"restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
 "encumbrance_always" : [ // Adds this much encumbrance to selected body parts
-    [ "ARM_L", 20 ],
-    [ "ARM_R", 20 ]
+    [ "arm_l", 20 ],
+    [ "arm_r", 20 ]
 ],
 "encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
-    [ "HAND_L", 50 ],
-    [ "HAND_R", 50 ]
+    [ "hand_l", 50 ],
+    [ "hand_r", 50 ]
 ],
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
-        [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
+        [ "head" ],
         { "bash" : 2 } // The resistance provided to the body part(s) selected above
     ],
     [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
+        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
 ],
@@ -1471,8 +1475,8 @@ it is present to help catch errors.
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
-"no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
-"lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ], // List of body parts that can't receive cbms. (default: empty)
+"lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
