@@ -2751,19 +2751,6 @@ player::wear( item &to_wear, bool interactive )
     return result;
 }
 
-hint_rating player::rate_action_takeoff( const item &it ) const
-{
-    if( !it.is_armor() ) {
-        return hint_rating::cant;
-    }
-
-    if( is_worn( it ) ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::iffy;
-}
-
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {

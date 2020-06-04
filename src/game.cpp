@@ -2046,6 +2046,19 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
     return you.get_book_reader( it, dummy ) ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_take_off( const avatar &you, const item &it )
+{
+    if( !it.is_armor() || it.has_flag( "NO_TAKEOFF" ) ) {
+        return hint_rating::cant;
+    }
+
+    if( you.is_worn( it ) ) {
+        return hint_rating::good;
+    }
+
+    return hint_rating::iffy;
+}
+
 static hint_rating rate_action_use( const avatar &you, const item &it )
 {
     if( it.is_tool() ) {
@@ -2135,7 +2148,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
         addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
-        addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
+        addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
