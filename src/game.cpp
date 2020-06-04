@@ -164,19 +164,19 @@ class computer;
 class inventory;
 
 #if defined(TILES)
-    #include "cata_tiles.h"
+#include "cata_tiles.h"
 #endif // TILES
 
 #if !(defined(_WIN32) || defined(TILES))
-    #include <langinfo.h>
-    #include <cstring>
+#include <langinfo.h>
+#include <cstring>
 #endif
 
 #if defined(_WIN32)
-    #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-        #include "platform_win.h"
-    #endif
-    #include <tchar.h>
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#include "platform_win.h"
+#endif
+#include <tchar.h>
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -453,9 +453,9 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 #define MINIMAP_WIDTH 7
 
 #if !(defined(_WIN32) || defined(TILES))
-    // in ncurses_def.cpp
-    void check_encoding();
-    void ensure_term_size();
+// in ncurses_def.cpp
+void check_encoding();
+void ensure_term_size();
 #endif
 
 void game::init_ui( const bool resized )
@@ -7192,7 +7192,7 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
 }
 
 #if defined(TILES)
-    #define MAXIMUM_ZOOM_LEVEL 4
+#define MAXIMUM_ZOOM_LEVEL 4
 #endif
 void game::zoom_out()
 {
