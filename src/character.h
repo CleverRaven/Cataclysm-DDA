@@ -2083,8 +2083,6 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
-        hint_rating rate_action_eat( const item &it ) const;
-
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,

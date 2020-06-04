@@ -2011,6 +2011,22 @@ static void handle_contents_changed( const item_location &acted_item )
     } while( parent.where() == item_location::type::container );
 }
 
+static hint_rating rate_action_eat( const avatar &you, const item &it )
+{
+    if( !you.can_consume( it ) ) {
+        return hint_rating::cant;
+    }
+
+    const auto rating = you.will_eat( it );
+    if( rating.success() ) {
+        return hint_rating::good;
+    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
+        return hint_rating::cant;
+    }
+
+    return hint_rating::iffy;
+}
+
 static hint_rating rate_action_use( const avatar &you, const item &it )
 {
     if( it.is_tool() ) {
@@ -2082,7 +2098,7 @@ int game::inventory_item_menu( item_location locThisItem,
         };
         addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
-        addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
+        addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
         addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
         addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
