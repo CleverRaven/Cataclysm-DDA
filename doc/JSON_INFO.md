@@ -1254,6 +1254,18 @@ given field for that unique event:
 "field": "avatar_id"
 ```
 
+The value of the given field for the first event in the input stream:
+```C++
+"stat_type": "first_value",
+"field": "avatar_id"
+```
+
+The value of the given field for the last event in the input stream:
+```C++
+"stat_type": "last_value",
+"field": "avatar_id"
+```
+
 Regardless of `stat_type`, each `event_statistic` can also have:
 ```C++
 // Intended for use in describing scores and achievement requirements.
