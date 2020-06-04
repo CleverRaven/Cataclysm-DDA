@@ -297,7 +297,7 @@ ret_val<bool> item_contents::can_contain( const item &it ) const
 bool item_contents::can_contain_liquid( bool held_or_ground ) const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
             pocket.can_contain_liquid( held_or_ground ) ) {
             return true;
         }
