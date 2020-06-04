@@ -274,4 +274,21 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "pool_cue", 10.0 );
         calc_expected_dps( test_guy, "broom", 4.0 );
     }
+    SECTION( "spear" ) { // typical value around 24
+        calc_expected_dps( test_guy, "spear_steel", 24.0 );
+        calc_expected_dps( test_guy, "pike", 23.0 );
+        calc_expected_dps( test_guy, "qiang", 23.0 );
+        calc_expected_dps( test_guy, "spear_dory", 23 );
+        calc_expected_dps( test_guy, "spear_homemade_halfpike", 20.0 );
+        calc_expected_dps( test_guy, "spear_copper", 19.0 );
+        calc_expected_dps( test_guy, "spear_pipe", 19.0 );
+        calc_expected_dps( test_guy, "spear_knife_superior", 18.0 );
+        calc_expected_dps( test_guy, "spear_knife", 18.0 );
+        calc_expected_dps( test_guy, "pike_inferior", 17.0 );
+        calc_expected_dps( test_guy, "spear_wood", 15.0 );
+        calc_expected_dps( test_guy, "pitchfork", 15.0 );
+        calc_expected_dps( test_guy, "spear_stone", 14.0 );
+        calc_expected_dps( test_guy, "spear_forked", 14.0 );
+        calc_expected_dps( test_guy, "pike_fake", 10.0 );
+    }
 }
