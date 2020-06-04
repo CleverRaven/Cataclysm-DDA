@@ -11475,10 +11475,12 @@ void game::display_scent()
             add_msg( _( "Never mind." ) );
             return;
         }
-        draw_ter();
-        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
-        wrefresh( w_terrain );
-        draw_panels();
+        shared_ptr_fast<game::draw_callback_t> scent_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
+        } );
+        g->add_draw_callback( scent_cb );
+
+        ui_manager::redraw();
         inp_mngr.wait_for_any_key();
     }
 }
