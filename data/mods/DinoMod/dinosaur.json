@@ -279,6 +279,7 @@
     "species": "DINOSAUR",
     "default_faction": "albertosaurus",
     "symbol": "D",
+    "looks_like": "mon_tyrannosaurus"
     "color": "light_red_white",
     "volume": "1000 L",
     "weight": "2500 kg",
