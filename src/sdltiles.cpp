@@ -256,7 +256,6 @@ static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
 static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
-extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
 //***********************************
 //Non-curses, Window functions      *
@@ -1067,7 +1066,7 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     if( !g || win == nullptr ) {
         return;
     }
-    if( win == g->w_overmap || win == g->w_terrain || win == w_hit_animation ) {
+    if( win == g->w_overmap || win == g->w_terrain ) {
         return;
     }
 
@@ -1243,13 +1242,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = overmap_font->draw_window( w );
-    } else if( w == w_hit_animation && map_font ) {
-        // The animation window overlays the terrain window,
-        // it uses the same font, but it's only 1 square in size.
-        // The offset must not use the global font, but the map font
-        int offsetx = win->pos.x * map_font->fontwidth;
-        int offsety = win->pos.y * map_font->fontheight;
-        update = map_font->draw_window( w, point( offsetx, offsety ) );
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
@@ -1305,8 +1297,7 @@ bool Font::draw_window( const catacurses::window &w, const point &offset )
     invalidate_framebuffer_proportion( win );
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
-                                            w == w_hit_animation );
+    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap );
 
     std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
                                           terminal_framebuffer;

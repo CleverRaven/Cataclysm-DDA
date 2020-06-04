@@ -31,6 +31,7 @@ class ui_adaptor
         ui_adaptor &operator=( const ui_adaptor &rhs ) = delete;
         ui_adaptor &operator=( ui_adaptor &&rhs ) = delete;
 
+        // If win is null, the function has the same effect as position( point_zero, point_zero )
         void position_from_window( const catacurses::window &win );
         // Set the position and size of the ui to that of an imaginary normal
         // catacurses::window, except that size can be zero.
