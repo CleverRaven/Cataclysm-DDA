@@ -2067,6 +2067,19 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
     return hint_rating::cant;
 }
 
+static hint_rating rate_action_wear( const avatar &you, const item &it )
+{
+    if( !it.is_armor() ) {
+        return hint_rating::cant;
+    }
+
+    if( you.is_worn( it ) ) {
+        return hint_rating::iffy;
+    }
+
+    return you.can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2118,7 +2131,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
         addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
-        addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
+        addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
         addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
         addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );

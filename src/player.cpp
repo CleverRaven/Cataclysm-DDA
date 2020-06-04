@@ -2445,17 +2445,6 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     return true;
 }
 
-hint_rating player::rate_action_wear( const item &it ) const
-{
-    // TODO: flag already-worn items as hint_rating::iffy
-
-    if( !it.is_armor() ) {
-        return hint_rating::cant;
-    }
-
-    return can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
-}
-
 bool player::can_reload( const item &it, const itype_id &ammo ) const
 {
 
