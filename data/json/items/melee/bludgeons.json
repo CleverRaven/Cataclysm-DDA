@@ -477,7 +477,7 @@
     "techniques": [ "WBLOCK_1" ],
     "weight": "420 g",
     "volume": "1750 ml",
-    "bashing": 18,
+    "bashing": 14,
     "cutting": 1,
     "to_hit": 2
   },
@@ -514,7 +514,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "2200 g",
     "volume": "3 L",
-    "bashing": 29,
+    "bashing": 32,
     "category": "weapons",
     "to_hit": 3,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -963,7 +963,7 @@
     "price": 8000,
     "to_hit": 3,
     "price_postapoc": 4500,
-    "bashing": 29,
+    "bashing": 32,
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",

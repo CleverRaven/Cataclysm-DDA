@@ -214,3 +214,64 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
         check_accuracy_dps( dummy, survivor, clumsy_sword, normal_sword, good_sword );
     }
 }
+
+static void make_experienced_tester( avatar &test_guy )
+{
+    clear_character( test_guy );
+    test_guy.str_max = 10;
+    test_guy.dex_max = 10;
+    test_guy.int_max = 10;
+    test_guy.per_max = 10;
+    test_guy.set_str_bonus( 0 );
+    test_guy.set_dex_bonus( 0 );
+    test_guy.set_int_bonus( 0 );
+    test_guy.set_per_bonus( 0 );
+    test_guy.reset_bonuses();
+    test_guy.set_speed_base( 100 );
+    test_guy.set_speed_bonus( 0 );
+    test_guy.hp_cur.fill( test_guy.get_hp_max() );
+    test_guy.set_skill_level( skill_id( "bashing" ), 4 );
+    test_guy.set_skill_level( skill_id( "cutting" ), 4 );
+    test_guy.set_skill_level( skill_id( "stabbing" ), 4 );
+    test_guy.set_skill_level( skill_id( "unarmed" ), 4 );
+    test_guy.set_skill_level( skill_id( "melee" ), 4 );
+
+    REQUIRE( test_guy.get_str() == 10 );
+    REQUIRE( test_guy.get_dex() == 10 );
+    REQUIRE( test_guy.get_per() == 10 );
+    REQUIRE( test_guy.get_skill_level( skill_id( "bashing" ) ) == 4 );
+    REQUIRE( test_guy.get_skill_level( skill_id( "cutting" ) ) == 4 );
+    REQUIRE( test_guy.get_skill_level( skill_id( "stabbing" ) ) == 4 );
+    REQUIRE( test_guy.get_skill_level( skill_id( "unarmed" ) ) == 4 );
+    REQUIRE( test_guy.get_skill_level( skill_id( "melee" ) ) == 4 );
+}
+static void calc_expected_dps( avatar &test_guy, const std::string &weapon_id, double target )
+{
+    item weapon( weapon_id );
+    CHECK( test_guy.melee_value( weapon ) == Approx( target ).margin( 0.75 ) );
+    if( test_guy.melee_value( weapon ) != Approx( target ).margin( 0.75 ) ) {
+        std::cout << weapon_id << " out of range, expected: " << target;
+        std::cout << " got " << test_guy.melee_value( weapon ) << std::endl;
+    }
+}
+/*
+ * A super tedious set of test cases to make sure that weapon values do not drift too far out
+ * of range without anyone noticing them and adjusting them.
+ * Used expected_dps(), which should make actual dps because of the calculations above.
+ */
+TEST_CASE( "expected weapon dps", "[expected][dps]" )
+{
+    avatar &test_guy = g->u;
+    make_experienced_tester( test_guy );
+
+    SECTION( "staves" ) { // typical value around 18
+        calc_expected_dps( test_guy, "i_staff", 18.0 );
+        calc_expected_dps( test_guy, "q_staff", 17.0 );
+        calc_expected_dps( test_guy, "l-stick_on", 18.0 );
+        calc_expected_dps( test_guy, "l-stick", 18.0 );
+        calc_expected_dps( test_guy, "shock_staff", 17.0 );
+        calc_expected_dps( test_guy, "hockey_stick", 13.0 );
+        calc_expected_dps( test_guy, "pool_cue", 10.0 );
+        calc_expected_dps( test_guy, "broom", 4.0 );
+    }
+}
