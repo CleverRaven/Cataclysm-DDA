@@ -5,7 +5,7 @@
     "om_terrain": [ "whately_lmoe" ],
     "//": "Above ground",
     "weight": 100,
-    "//2": "ask curstwist how to appropriately remove weight based on quest generated mapgen."
+    "//2": "ask curstwist how to appropriately remove weight based on quest generated mapgen.",
     "object": {
       "rows": [
         "       S     S         S",
