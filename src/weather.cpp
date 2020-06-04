@@ -487,7 +487,7 @@ void weather_effect::mist()
             std::string category = "mist_summon_wraith";
             bool is_hallucination = false;
 
-            int rand = rng( 0, mist_type );
+            int rand = ( 0, mist_type );
             switch( rand ) {
                 case 0: {
                     //grab a random nearby outdoor non mist hostile creature to create a hallucination of
@@ -1071,6 +1071,7 @@ void weather_manager::initialize()
     set_mist_length();
     set_next_mist_time();
     set_mist_spawn_time();
+    mist_scaling = get_option<float>( "MIST_SCALING" );
     temperature = SPRING_TEMPERATURE;
     update_weather();
 }
@@ -1167,7 +1168,6 @@ void weather_manager::clear_temp_cache()
 
 void weather_manager::set_next_mist_time()
 {
-    float mist_scaling = get_option<float>( "MIST_SCALING" );
     int days = get_option<int>( "MIST_INSTANCE_TIME" ) - ( mist_scaling * ( mist_instances / 10 ) );
     mist_next_instance = calendar::turn + time_duration::from_days( rng( .5 * days, 1.5 * days ) )
                          + time_duration::from_seconds( rng( 0, to_seconds<int>( 24_hours ) ) );
@@ -1175,7 +1175,6 @@ void weather_manager::set_next_mist_time()
 
 void weather_manager::set_mist_spawn_time()
 {
-    float mist_scaling = get_option<float>( "MIST_SCALING" );
     int seconds = get_option<int>( "MIST_SPAWN_TIME" ) - ( mist_scaling * ( mist_instances / 10 ) );
     mist_spawn_time = time_duration::from_seconds( rng( .5 * seconds, 1.5 * seconds ) );
 }
@@ -1183,7 +1182,6 @@ void weather_manager::set_mist_spawn_time()
 //calculates the total mist length then breaks that into pieces
 void weather_manager::set_mist_length()
 {
-    float mist_scaling = get_option<float>( "MIST_SCALING" );
     int hours = get_option<int>( "MIST_LENGTH" ) + ( mist_scaling * ( mist_instances / 5 ) );
     mist_intensity_increase_time = ( time_duration::from_hours( rng( .7 * hours, 1.3 * hours ) )
                                      + time_duration::from_seconds( rng( 0, to_seconds<int>( 1_hours ) ) ) )
@@ -1195,7 +1193,7 @@ void weather_manager::increase_mist_intensity()
     if( !get_option<bool>( "MIST_ACTIVE" ) ) {
         return;
     }
-    float mist_scaling = get_option<float>( "MIST_SCALING" );
+
     int mist_min_intensity = 1 + ( mist_scaling * mist_instances );
     int mist_max_intensity = 1 + mist_intensity_increase_per_instance + ( mist_scaling *
                              mist_instances );

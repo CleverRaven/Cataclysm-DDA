@@ -106,7 +106,7 @@ extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_j
         nested_mapgen;
 
 #if defined(TILES)
-    #include "sdl_wrappers.h"
+#include "sdl_wrappers.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -1412,6 +1412,7 @@ void debug()
             uilist smenu;
             smenu.addentry( 0, true, 'i', "%s: %d", _( "Intensity" ), g->weather.mist_intensity );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Mist Instances" ), g->weather.mist_instances );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Mist Scaling" ), g->weather.mist_scaling );
             smenu.addentry( 4, true, 't', "%s: %d", _( "Intensity Increase Time" ),
                             to_seconds<int>( g->weather.mist_intensity_increase_time ) );
             smenu.addentry( 5, true, 'w', "%s: %d", _( "Spawn Time" ),
@@ -1431,6 +1432,11 @@ void debug()
                     if( query_int( value, _( "Set mist instances to?  Currently: %d" ),
                                    g->weather.mist_instances ) ) {
                         g->weather.mist_instances = value;
+                    }
+                    break;
+                case 3:
+                    if( query_int( value, _( "Set mist scaling to?  Currently: %d" ), g->weather.mist_scaling ) ) {
+                        g->weather.mist_scaling = value;
                     }
                     break;
                 case 4:
