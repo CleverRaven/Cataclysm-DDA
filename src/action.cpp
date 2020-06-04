@@ -1076,31 +1076,33 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical )
 {
-    // Highlight nearby terrain according to the highlight function
-    if( allowed != nullptr ) {
-        cata::optional<tripoint> single;
-        bool highlighted = false;
+    std::vector<tripoint> valid;
+    if( allowed ) {
         for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
             if( allowed( pos ) ) {
-                if( !highlighted ) {
-                    single = pos;
-                    highlighted = true;
-                } else {
-                    single = cata::nullopt;
-                }
+                valid.emplace_back( pos );
+            }
+        }
+    }
+
+    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    if( valid.empty() && auto_select ) {
+        add_msg( failure_message );
+        return cata::nullopt;
+    } else if( valid.size() == 1 && auto_select ) {
+        return valid.back();
+    }
+
+    shared_ptr_fast<game::draw_callback_t> hilite_cb;
+    if( !valid.empty() ) {
+        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            for( const tripoint &pos : valid ) {
                 g->m.drawsq( g->w_terrain, g->u, pos,
                              true, true, g->u.pos() + g->u.view_offset );
             }
-        }
-        if( highlighted ) {
-            wrefresh( g->w_terrain );
-        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
-            add_msg( failure_message );
-            return cata::nullopt;
-        }
-        if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) && single ) {
-            return single;
-        }
+        } );
+        g->add_draw_callback( hilite_cb );
     }
+
     return choose_adjacent( message, allow_vertical );
 }
