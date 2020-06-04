@@ -325,5 +325,36 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "ident": "biomancer_musician",
+    "name": "Corrosive Rocker",
+    "description": "Your metal career soared to new heights when you swapped special effects for acrid gore and spiked whips. It seems the Cataclysm is now your final tour.",
+    "points": 4,
+    "spells": [
+      { "id": "vicious_tentacle", "level": 2 },
+      { "id": "bio_acidicspray", "level": 3 },
+      { "id": "biomancer_visceral_projection", "level": 2 }
+    ],
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 2, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [
+          "jacket_leather",
+          "pants_leather",
+          "leather_belt",
+          "socks",
+          "boots",
+          "gloves_fingerless",
+          "guitar_electric",
+          "switchblade"
+        ],
+        "entries": [ { "item": "pepto", "charges": 10, "container-item": "bottle_plastic_small" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "BIOMANCER" ]
   }
 ]
