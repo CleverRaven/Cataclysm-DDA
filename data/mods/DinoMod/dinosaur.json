@@ -431,7 +431,7 @@
     "species": "DINOSAUR",
     "default_faction": "Ceratosaurus",
     "symbol": "D",
-    "color": "red_orange",
+    "color": "brown_white",
     "volume": "540 L",
     "weight": "540 kg",
     "material": "flesh",
@@ -888,6 +888,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_ceratosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and white hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus" }
   },
   {
     "id": "mon_allosaurus_hatchling",
