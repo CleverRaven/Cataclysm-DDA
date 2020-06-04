@@ -5811,8 +5811,12 @@ bool mattack::dissipate_drain( monster *z )
         return false;
     }
     z->die( z );
-    foe->mod_fatigue( 100 );
-    foe->mod_stamina( -200 );
+
+    float mist_scaling = get_option<float>( "MIST_SCALING" );
+    int fatigue_drain_amount = 25 + ( mist_scaling * g->weather.mist_instances );
+    int stamina_drain_amount = 500 + ( 50 * mist_scaling * g->weather.mist_instances );
+    foe->mod_fatigue( fatigue_drain_amount );
+    foe->mod_stamina( -stamina_drain_amount );
     foe->add_msg_if_player( m_bad,
                             _( "The %s takes a little of your strength." ), z->name() );
     return true;
@@ -5825,8 +5829,12 @@ bool mattack::dissipate_nightmares( monster *z )
         return false;
     }
     z->die( z );
-    foe->add_effect( effect_disrupted_sleep, 12_hours );
-    foe->add_effect( effect_nightmares, 12_hours );
+
+    float mist_scaling = get_option<float>( "MIST_SCALING" );
+    time_duration effect_length = 10_hours + ( 5 * time_duration::from_minutes( mist_scaling *
+                                  g->weather.mist_instances ) );
+    foe->add_effect( effect_disrupted_sleep, effect_length );
+    foe->add_effect( effect_nightmares, effect_length );
     foe->add_msg_if_player( m_bad,
                             _( "The %s leaves an unsettling feeling behind." ), z->name() );
     return true;
@@ -5839,7 +5847,11 @@ bool mattack::dissipate_force_scream( monster *z )
         return false;
     }
     z->die( z );
-    foe->add_morale( MORALE_TRAUMATIC_MEMORY, -10, -15, 1_hours );
+
+    float mist_scaling = get_option<float>( "MIST_SCALING" );
+    time_duration effect_length = 1_hours + time_duration::from_minutes( mist_scaling *
+                                  g->weather.mist_instances );
+    foe->add_morale( MORALE_TRAUMATIC_MEMORY, -10, -15, effect_length );
     foe->add_msg_if_player( m_bad,
                             _( "The %s surfaces an intense memory, that feels like your own." ),
                             z->name() );
@@ -5858,7 +5870,10 @@ bool mattack::dissipate_incorporeal( monster *z )
         return false;
     }
     z->die( z );
-    foe->add_effect( effect_incorporeal, 3_seconds );
+
+    float mist_scaling = get_option<float>( "MIST_SCALING" );
+    time_duration effect_length = 2_seconds + ( .1 * time_duration::from_seconds( mist_scaling *
+                                  g->weather.mist_instances ) );
     foe->add_msg_if_player( m_bad,
                             _( "The %s robs you of your form." ), z->name() );
     return true;

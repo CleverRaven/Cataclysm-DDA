@@ -257,8 +257,6 @@ class weather_manager
 
         //current power of mist
         int mist_intensity = 0;
-        //how fast/often mist increases
-        float mist_scaling = 1;
         //amount mist intensity increases before ending
         int mist_intensity_increase_per_instance = 10;
         //number of times the mist has happened, scales mist difficulty
