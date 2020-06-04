@@ -217,7 +217,7 @@
         "T": "t_linoleum_gray"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-      "sealed_item": { "Q": { "item": { "item_group": "exoticplants" }, "furniture": "f_planter_harvest" } },
+      "sealed_item": { "Q": { "item": { "item": "exoticplants" }, "furniture": "f_planter_harvest" } },
       "furniture": {
         "T": "f_workbench",
         "h": "f_chair",
