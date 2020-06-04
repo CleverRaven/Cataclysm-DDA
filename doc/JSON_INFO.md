@@ -1312,6 +1312,10 @@ Additional optional fields for each entry in `requirements` are:
   `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
   to dictate when a requirement is visible.  Non-visible requirements will be
   hidden in the UI.
+* `"description"` will override the default description of the requirement, for
+  cases where the default is not suitable.  The default takes the form `x/y
+  foo` where `x` is the current statistic value, `y` is the target value, and
+  `foo` is the statistic description (if any).
 
 There are further optional fields for the `achievement`:
 

@@ -500,7 +500,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         b.send( avatar_wakes_up );
         CHECK( achievements_completed.count( a_survive_one_day ) );
     }
-
     SECTION( "hidden_kills" ) {
         const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
@@ -561,11 +560,12 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
         CHECK( a.ui_text_for( &*c_pacifist ) ==
                "<color_c_light_green>Pacifist</color>\n"
-               "  <color_c_light_green>Kill nothing</color>\n" );
+               "  <color_c_green>Kill no monsters</color>\n"
+               "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( a.ui_text_for( &*c_merciful ) ==
                "<color_c_light_green>Merciful</color>\n"
-               "  <color_c_light_green>Kill no characters</color>\n" );
+               "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_completed.empty() );
         CHECK( achievements_failed.empty() );
@@ -595,18 +595,20 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Kill nothing</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n" );
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_yellow>Kill no monsters</color>\n"
+                   "  <color_c_green>Kill no characters</color>\n" );
         } else {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Kill nothing</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n" );
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_yellow>Kill no monsters</color>\n"
+                   "  <color_c_green>Kill no characters</color>\n" );
         }
 
         CHECK( a.ui_text_for( &*c_merciful ) ==
                "<color_c_light_green>Merciful</color>\n"
-               "  <color_c_light_green>Kill no characters</color>\n" );
+               "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_failed.count( c_pacifist ) );
         CHECK( !achievements_failed.count( c_merciful ) );

@@ -600,6 +600,7 @@
       { "item": "cinnamon", "prob": 75 },
       { "item": "chilly-p", "prob": 75 },
       { "item": "sugar", "prob": 15 },
+      { "item": "artificial_sweetener", "prob": 5 },
       { "item": "curry_powder", "prob": 25 },
       { "item": "sprinkles", "prob": 10 },
       { "item": "thyme", "prob": 65 },
