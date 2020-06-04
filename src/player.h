@@ -492,7 +492,6 @@ class player : public Character
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_use( const item &it ) const;
         hint_rating rate_action_wear( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
