@@ -171,23 +171,6 @@ Increases proportional to capacity and should have a comparable ratio to similar
 ### Volume
 Scaled based upon the capacity relative to the `stack_size` of the ammo. For example 223 has a `stack size` of 20 so for 10 and 30 round magazines the volume would be 1 and 2. Extended magazine should always have larger volume than the standard type and for very large drum magazines consider applying an extra penalty. By default most handgun magazines should be volume 1 and most rifle magazines volume 2. Ammo belts should not specify volume as this will be determined from their length.
 
-### Reliability
-Should be specified first considering the below and then scaled against any equivalent magazines. For example if an extended version of a magazine exists place it one rank below the standard capacity version. Damaged guns or magazines will further adversely affect reliability.
-
-10 - **Perfectly reliable**. Factory specification or milspec only. Never extended magazines. Very rare.
-
-9 - **Reliable**. Failures only in burst fire. Factory or milspec magazines only. Never extended magazines. Uncommon.
-
-8 - **Dependable**. Failures infrequently in any fire mode. Highest reliability possible for extended magazines and those crafted using gunsmithing tools. Most common.
-
-7 - **Serviceable**. Fail infrequently in semi-automatic, more frequently in burst. Includes many extended and aftermarket gunsmithing tools. Common.
-
-6 - **Acceptable**. Failures can be problematic. Highest reliability possible for magazines crafted **without** gunsmithing tools. Includes most ammo belts.
-
-5 - **Usable**. Failures can be problematic and more serious. Mostly poor quality hand-crafted magazines.
-
-<4 - **Poor**. Significant risk of catastrophic failure. Not applied by default to any item but can be acquired by damage or other factors.
-
 ### Rarity
 Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9x19mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
 

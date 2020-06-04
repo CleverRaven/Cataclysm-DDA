@@ -638,12 +638,6 @@ struct islot_magazine {
     /** Default type of ammo contained by a magazine (often set for ammo belts) */
     itype_id default_ammo = itype_id::NULL_ID();
 
-    /**
-     * How reliable this magazine on a range of 0 to 10?
-     * @see doc/GAME_BALANCE.md
-     */
-    int reliability = 0;
-
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 

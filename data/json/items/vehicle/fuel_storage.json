@@ -12,7 +12,6 @@
     "weight": "22000 g",
     "volume": "55 L",
     "capacity": 2000,
-    "reliability": 10,
     "//": "mods will need to expand",
     "ammo_type": [ "charcoal" ],
     "price": 3000,

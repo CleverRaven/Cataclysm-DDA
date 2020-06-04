@@ -2308,7 +2308,6 @@
     "color": "light_gray",
     "ammo_type": [ "nail" ],
     "capacity": 50,
-    "reliability": 6,
     "reload_time": 300,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nail": 50 } } ]
