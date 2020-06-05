@@ -959,7 +959,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea",
-    "name": "tea",
+    "name": "black tea",
     "weight": "250 g",
     "color": "brown",
     "fatigue_mod": 9,
@@ -969,7 +969,7 @@
     "symbol": "~",
     "quench": 40,
     "calories": 2,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Stronger than green tea.",
     "price": 90,
     "price_postapoc": 25,
     "volume": "250 ml",
@@ -1044,7 +1044,7 @@
   },
    {
     "type": "COMESTIBLE",
-    "id": "green tea",
+    "id": "tea_green",
     "name": "green tea",
 	"copy-from": "tea"
     "color": "green",
@@ -1056,7 +1056,7 @@
   },
    {
     "type": "COMESTIBLE",
-    "id": "fruit tea",
+    "id": "tea_fruit",
     "name": "fruit tea",
 	"copy-from": "tea"
     "color": "red",

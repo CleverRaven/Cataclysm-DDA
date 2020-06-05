@@ -6494,5 +6494,17 @@
       [ [ "sugar", 1 ] ],
       [ [ "water_clean", 1 ] ]
     ]
+  },
+   {
+    "type": "recipe",
+    "result": "tea_green",
+    "copy-from": "tea",
+    "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+   {
+    "type": "recipe",
+    "result": "tea_fruit",
+    "copy-from": "tea",
+    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]
