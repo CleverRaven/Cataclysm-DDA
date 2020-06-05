@@ -1361,7 +1361,7 @@ std::pair<point, bool> input_context::get_coordinates_text( const catacurses::wi
 {
 #if !defined( TILES )
     ( void ) capture_win;
-    return std::make_tuple( point(), false );
+    return std::make_pair( point(), false );
 #else
     if( !coordinate_input_received ) {
         return std::make_pair( point(), false );
