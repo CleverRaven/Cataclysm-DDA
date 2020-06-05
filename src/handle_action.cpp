@@ -68,6 +68,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -243,7 +244,17 @@ input_context game::get_player_input( std::string &action )
         wPrint.vdrops.clear();
 
         ctxt.set_timeout( 125 );
-        bool initial_draw = true;
+
+        shared_ptr_fast<game::draw_callback_t> animation_cb =
+        make_shared_fast<game::draw_callback_t>( [&]() {
+            draw_weather( wPrint );
+
+            if( uquit != QUIT_WATCH ) {
+                draw_sct();
+            }
+        } );
+        add_draw_callback( animation_cb );
+
         do {
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
@@ -253,24 +264,8 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
+                invalidate_main_ui_adaptor();
 
-#if defined(TILES)
-                if( !use_tiles ) {
-#endif //TILES
-                    //If not using tiles, erase previous drops from w_terrain
-                    for( auto &elem : wPrint.vdrops ) {
-                        const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
-                        const lit_level lighting = visibility_cache[location.x][location.y];
-                        wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
-                        if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
-                            m.drawsq( w_terrain, u, location, false, true,
-                                      u.pos() + u.view_offset,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT );
-                        }
-                    }
-#if defined(TILES)
-                }
-#endif //TILES
                 wPrint.vdrops.clear();
 
                 for( int i = 0; i < dropCount; i++ ) {
@@ -292,28 +287,7 @@ input_context game::get_player_input( std::string &action )
             }
             // don't bother calculating SCT if we won't show it
             if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
-#if defined(TILES)
-                if( !use_tiles ) {
-#endif
-                    for( auto &elem : SCT.vSCT ) {
-                        //Erase previous text from w_terrain
-                        if( elem.getStep() > 0 ) {
-                            const int width = utf8_width( elem.getText() );
-                            for( int i = 0; i < width; ++i ) {
-                                const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
-                                const lit_level lighting = visibility_cache[location.x][location.y];
-                                wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
-                                if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
-                                    m.drawsq( w_terrain, u, location, false, true,
-                                              u.pos() + u.view_offset,
-                                              lighting == LL_LOW, lighting == LL_BRIGHT );
-                                }
-                            }
-                        }
-                    }
-#if defined(TILES)
-                }
-#endif
+                invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
 
@@ -344,27 +318,15 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
-            if( initial_draw ) {
-                werase( w_terrain );
-
-                draw_ter();
-                initial_draw = false;
-            }
-            draw_weather( wPrint );
-
-            if( uquit != QUIT_WATCH ) {
-                draw_sct();
-            }
-
-            wrefresh( w_terrain );
-            g->draw_panels();
-
+            std::unique_ptr<static_popup> deathcam_msg_popup;
             if( uquit == QUIT_WATCH ) {
-                query_popup()
-                .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
-                .on_top( true )
-                .show();
+                deathcam_msg_popup = std::make_unique<static_popup>();
+                deathcam_msg_popup
+                ->wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
+                .on_top( true );
             }
+
+            ui_manager::redraw_invalidated();
         } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
                  && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
@@ -1275,15 +1237,11 @@ static void read()
 static void reach_attack( int range, player &u )
 {
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, u.pos() );
     std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
                                        range );
     if( !trajectory.empty() ) {
         u.reach_attack( trajectory.back() );
     }
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
     g->reenter_fullscreen();
 }
 
