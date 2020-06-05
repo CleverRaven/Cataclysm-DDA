@@ -757,7 +757,7 @@
     "price_postapoc": 200,
     "description": "Paper sachet with tea leafs inside.  Put it into boiling water to get your cup of black tea."
   },
-    {
+  {
     "id": "tea_green_bag",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
@@ -765,7 +765,7 @@
     "copy-from": "tea_bag",
     "description": "Paper sachet with tea leafs inside.  Put it into boiling water to get your cup of green tea."
   },
- {
+  {
     "id": "tea_fruit_bag",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
