@@ -4,5 +4,11 @@
     "id": "acidic_bore",
     "name": "acidic bore",
     "default": "acidic_bore"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "x-xray_laser_barrel",
+    "name": "x-ray laser barrel",
+    "default": "x-xray_laser_barrel"
   }
 ]
