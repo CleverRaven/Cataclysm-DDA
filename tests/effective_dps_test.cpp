@@ -346,5 +346,16 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "knuckle_nail", 4.0 );
         calc_expected_dps( test_guy, "cestus", 3.0 );
     }
-
+    SECTION( "ax" ) { // expected value around 27 but no dedicated weapons
+        calc_expected_dps( test_guy, "hatchet", 24.0 );
+        calc_expected_dps( test_guy, "crash_axe", 24.0 );
+        calc_expected_dps( test_guy, "iceaxe", 19.0 );
+        calc_expected_dps( test_guy, "throwing_axe", 14.0 );
+        calc_expected_dps( test_guy, "carver_on", 22.5 );
+        calc_expected_dps( test_guy, "pickaxe", 10.5 );
+        calc_expected_dps( test_guy, "primitive_adze", 10.0 ); // rock on a stick
+        calc_expected_dps( test_guy, "primitive_axe", 10.0 ); // rock on a stick
+        calc_expected_dps( test_guy, "makeshift_axe", 9.0 ); // chunk of sharp steel
+        calc_expected_dps( test_guy, "hand_axe", 8.5 ); // chunk of sharp rock
+    }
 }
