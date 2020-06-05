@@ -5625,10 +5625,6 @@ void game::examine()
         return;
     }
     u.manual_examine = true;
-    // redraw terrain to erase 'examine' window
-    draw_ter();
-    wrefresh( w_terrain );
-    draw_panels( true );
     examine( *examp_ );
     u.manual_examine = false;
 }
@@ -5780,9 +5776,6 @@ void game::examine( const tripoint &examp )
 
     if( !m.tr_at( examp ).is_null() && !u.is_mounted() ) {
         iexamine::trap( u, examp );
-        draw_ter();
-        wrefresh( w_terrain );
-        draw_panels();
     } else if( !m.tr_at( examp ).is_null() && u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
     }
@@ -5832,17 +5825,16 @@ void game::pickup()
     if( !examp_ ) {
         return;
     }
-    // redraw terrain to erase 'pickup' window
-    draw_ter();
-    // wrefresh is called in pickup( const tripoint & )
     pickup( *examp_ );
 }
 
 void game::pickup( const tripoint &p )
 {
     // Highlight target
-    g->m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
-    wrefresh( w_terrain );
+    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
+    } );
+    add_draw_callback( hilite_cb );
 
     Pickup::pick_up( p, 0 );
 }
@@ -5858,7 +5850,6 @@ void game::peek()
 {
     const cata::optional<tripoint> p = choose_direction( _( "Peek where?" ), true );
     if( !p ) {
-        refresh_all();
         return;
     }
 
@@ -5869,10 +5860,7 @@ void game::peek()
         if( old_pos != u.pos() ) {
             look_around();
             vertical_move( p->z * -1, false );
-            draw_ter();
         }
-        wrefresh( w_terrain );
-        draw_panels();
         return;
     }
 
@@ -5898,10 +5886,6 @@ void game::peek( const tripoint &p )
         avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
-
-    draw_ter();
-    wrefresh( w_terrain );
-    draw_panels();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 cata::optional<tripoint> game::look_debug()
@@ -8641,9 +8625,6 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            draw_ter();
-            wrefresh( w_terrain );
-            draw_panels( true );
             u.activity.targets.emplace_back( map_cursor( u.pos() ), &*corpses[indexer_index] );
         }
         break;
