@@ -1363,7 +1363,6 @@ std::tuple<point, bool> input_context::get_coordinates_text( const catacurses::w
     static_cast<void>( capture_win );
     return std::make_tuple( point(), false );
 #else
-    std::tuple<point, bool> tuple;
     if( !coordinate_input_received ) {
         return std::make_tuple( point(), false );
     }
