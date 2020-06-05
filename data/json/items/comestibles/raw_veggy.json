@@ -714,12 +714,12 @@
     "charges": 20,
     "fun": -1
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "tea_green_raw",
     "name": { "str": "green tea leaf", "str_pl": "green tea leaves" },
     "copy-from": "tea_raw",
-    "description": "Dried leaves of a tropical plant.  You can boil them into green tea, or you can just eat them raw.  They aren't too filling though.",
+    "description": "Dried leaves of a tropical plant.  You can boil them into green tea, or you can just eat them raw.  They aren't too filling though."
   },
   {
     "type": "COMESTIBLE",
