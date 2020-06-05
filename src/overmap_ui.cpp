@@ -981,6 +981,12 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
+    if( data.debug_editor ) {
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), ccur_ter.id().str() );
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   _( "oter_type: %s" ), ccur_ter->get_type_id().str() );
+    }
+
     if( has_target ) {
         const int distance = rl_dist( center, target );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to active mission:" ) );
