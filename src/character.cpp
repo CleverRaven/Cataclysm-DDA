@@ -6721,6 +6721,22 @@ int Character::ammo_count_for( const item &gun )
     return ret;
 }
 
+bool Character::can_reload( const item &it, const itype_id &ammo ) const
+{
+    if( !it.is_reloadable_with( ammo ) ) {
+        return false;
+    }
+
+    if( it.is_ammo_belt() ) {
+        const cata::optional<itype_id> &linkage = it.type->magazine->linkage;
+        if( linkage && !has_charges( *linkage, 1 ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 hint_rating Character::rate_action_unload( const item &it ) const
 {
     if( it.is_container() && !it.contents.empty() &&

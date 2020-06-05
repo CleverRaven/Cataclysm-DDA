@@ -1405,6 +1405,15 @@ class Character : public Creature, public visitable<Character>
          */
         int ammo_count_for( const item &gun );
 
+        /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+
         hint_rating rate_action_unload( const item &it ) const;
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
