@@ -1287,8 +1287,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     } else if( changed ) {
         inp_mngr.action_contexts.swap( old_action_contexts );
     }
-    werase( w_help );
-    wrefresh( w_help );
 
     return action_to_execute;
 }
