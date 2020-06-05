@@ -857,15 +857,9 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
-        // Recenter our view
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
