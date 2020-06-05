@@ -1356,7 +1356,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::tuple<point, bool> input_context::get_coordinates_text( const catacurses::window
+std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
