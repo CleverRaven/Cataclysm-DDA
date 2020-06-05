@@ -38,7 +38,10 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                     except Exception as err:
                         errors.append("Problem reading file %s, reason: %s" % (json_file, err))
                     if type(candidates) != list:
-                        errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
+                        if type(candidates) == OrderedDict:
+                            data.append(candidates)
+                        else:
+                            errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
                     else:
                         data += candidates
     return (data, errors)
