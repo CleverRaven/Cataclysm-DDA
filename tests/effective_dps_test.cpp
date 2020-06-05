@@ -398,4 +398,21 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "heavy_flashlight", 7.0 );
         calc_expected_dps( test_guy, "rock", 6.0 );
     }
+    SECTION( "two-handed sword" ) { // expected value around 27, 25 for long swords
+        calc_expected_dps( test_guy, "nodachi", 27.0 );
+        calc_expected_dps( test_guy, "zweihander", 27.0 );
+        calc_expected_dps( test_guy, "estoc", 27.0 );
+        calc_expected_dps( test_guy, "longsword", 25.0 );
+        calc_expected_dps( test_guy, "katana", 25.0 );
+        calc_expected_dps( test_guy, "longsword_inferior", 18.5 );
+        calc_expected_dps( test_guy, "zweihander_inferior", 16.5 );
+        calc_expected_dps( test_guy, "katana_inferior", 16.0 );
+        calc_expected_dps( test_guy, "nodachi_inferior", 17.0 );
+        calc_expected_dps( test_guy, "estoc_inferior", 16.0 );
+        calc_expected_dps( test_guy, "estoc_fake", 11.0 );
+        calc_expected_dps( test_guy, "zweihander_fake", 10.0 );
+        calc_expected_dps( test_guy, "longsword_fake", 9.0 );
+        calc_expected_dps( test_guy, "nodachi_fake", 9.0 );
+        calc_expected_dps( test_guy, "katana_fake", 8.0 );
+    }
 }
