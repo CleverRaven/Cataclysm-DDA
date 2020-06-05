@@ -1833,7 +1833,7 @@ inventory_input inventory_selector::get_input()
     res.ch = ctxt.get_raw_input().get_first_input();
 
     std::pair<point, bool> ct_pair = ctxt.get_coordinates_text( w_inv );
-    if( std::get<1>( tuple ) ) {
+    if( ct_pair.second ) {
         point p = ct_pair.first;
         res.entry = find_entry_by_coordinate( p );
         if( res.entry != nullptr ) {
