@@ -287,7 +287,7 @@ game::game() :
     seed( 0 ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
-    player_was_sleeping = false;
+    first_redraw_since_waiting_started = true;
     reset_light_level();
     events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
@@ -1549,38 +1549,39 @@ bool game::do_turn()
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
-
+    bool wait_redraw = false;
+    std::string wait_message;
+    time_duration wait_refresh_rate;
     if( player_is_sleeping ) {
-        if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
-            ui_manager::redraw();
-            //Putting this in here to save on checking
-            if( calendar::once_every( 1_hours ) ) {
-                add_artifact_dreams( );
-            }
+        wait_redraw = true;
+        wait_message = _( "Wait till you wake up…" );
+        wait_refresh_rate = 30_minutes;
+        if( calendar::once_every( 1_hours ) ) {
+            add_artifact_dreams();
         }
-
-        if( calendar::once_every( 1_minutes ) ) {
-            query_popup()
-            .wait_message( "%s", _( "Wait till you wake up…" ) )
-            .on_top( true )
-            .show();
-
-            catacurses::refresh();
-            refresh_display();
-        }
-    } else if( calendar::once_every( 1_minutes ) ) {
-        if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
-            query_popup()
-            .wait_message( "%s", *progress )
-            .on_top( true )
-            .show();
-
-            catacurses::refresh();
-            refresh_display();
-        }
+    } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
+        wait_redraw = true;
+        wait_message = *progress;
+        wait_refresh_rate = 5_minutes;
     }
+    if( wait_redraw ) {
+        if( first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+            if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
+                ui_manager::redraw();
+            }
 
-    player_was_sleeping = player_is_sleeping;
+            // Avoid redrawing the main UI every time due to invalidation
+            ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+            static_popup popup;
+            popup.on_top( true ).wait_message( "%s", wait_message );
+            ui_manager::redraw();
+            refresh_display();
+            first_redraw_since_waiting_started = false;
+        }
+    } else {
+        // Nothing to wait for now
+        first_redraw_since_waiting_started = true;
+    }
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
@@ -1624,11 +1625,6 @@ void game::process_activity()
 {
     if( !u.activity ) {
         return;
-    }
-
-    if( calendar::once_every( 5_minutes ) ) {
-        ui_manager::redraw();
-        refresh_display();
     }
 
     while( u.moves > 0 && u.activity ) {
