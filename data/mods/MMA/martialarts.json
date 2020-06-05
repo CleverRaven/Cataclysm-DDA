@@ -248,6 +248,12 @@
       "mma_tec_iron_heart_wide_crit"
     ],
     "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
       "hand_axe",
       "hatchet",
       "katana",
