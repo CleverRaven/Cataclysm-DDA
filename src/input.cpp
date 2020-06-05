@@ -1382,7 +1382,7 @@ std::pair<point, bool> input_context::get_coordinates_text( const catacurses::wi
                           divide_round_down( screen_pos.y, fh ) );
 
     if( !win_bounds.contains_half_open( coordinate ) ) {
-        return std::make_tuple( selected, false );
+        return std::make_pair( selected, false );
     }
 
     return std::make_tuple( selected, true );
