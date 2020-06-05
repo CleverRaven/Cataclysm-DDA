@@ -336,4 +336,15 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "2h_flail_wood", 20.0 );
         calc_expected_dps( test_guy, "homewrecker", 13.0 );
     }
+    SECTION( "fist weapons" ) { // expected value around 10 but wide variation
+        calc_expected_dps( test_guy, "bio_claws_weapon", 18.0 ); // basically a knife
+        calc_expected_dps( test_guy, "bagh_nakha", 14.5 );
+        calc_expected_dps( test_guy, "punch_dagger", 11.0 );
+        calc_expected_dps( test_guy, "knuckle_katar", 10.5 );
+        calc_expected_dps( test_guy, "knuckle_steel", 4.0 );
+        calc_expected_dps( test_guy, "knuckle_brass", 4.0 );
+        calc_expected_dps( test_guy, "knuckle_nail", 4.0 );
+        calc_expected_dps( test_guy, "cestus", 3.0 );
+    }
+
 }
