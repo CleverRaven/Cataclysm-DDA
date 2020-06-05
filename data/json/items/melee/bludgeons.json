@@ -47,7 +47,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
-    "bashing": 26,
+    "bashing": 22,
     "price": 16000
   },
   {
@@ -65,7 +65,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
-    "bashing": 26,
+    "bashing": 22,
     "price": 16000
   },
   {
@@ -116,7 +116,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
     "volume": "750 ml",
-    "bashing": 18,
+    "bashing": 21,
     "price": 17500
   },
   {
@@ -209,9 +209,9 @@
     "weight": "1133 g",
     "volume": "2 L",
     "//": "MA reference I used held that a bokken crushes rather than cuts (or impales) but is otherwise just as damaging as a katana.  Nerfed by popular demand.",
-    "bashing": 26,
+    "bashing": 24,
     "cutting": 1,
-    "to_hit": 2,
+    "to_hit": 3,
     "category": "weapons"
   },
   {
@@ -230,7 +230,7 @@
     "weight": "680 g",
     "volume": "2 L",
     "bashing": 13,
-    "to_hit": 1,
+    "to_hit": 2,
     "category": "weapons"
   },
   {
@@ -248,8 +248,8 @@
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
     "volume": "2 L",
-    "bashing": 26,
-    "to_hit": 1,
+    "bashing": 17,
+    "to_hit": 2,
     "category": "weapons"
   },
   {
@@ -301,7 +301,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "volume": "2 L",
-    "bashing": 26,
+    "bashing": 22,
     "cutting": 8,
     "price": 20000
   },
@@ -336,7 +336,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": "600 ml",
-    "bashing": 8,
+    "bashing": 10,
     "price": 1000
   },
   {
@@ -701,14 +701,13 @@
     "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end.  It deals devastating crushing damage, with a small amount of piercing to boot.",
     "weight": "1400 g",
-    "to_hit": -1,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "iron", "wood" ],
     "techniques": [ "SWEEP" ],
     "volume": "1500 ml",
     "bashing": 38,
-    "cutting": 6,
+    "cutting": 8,
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
     "price": 120000,
     "price_postapoc": 8000,
@@ -727,7 +726,7 @@
     "material": [ "aluminum", "wood" ],
     "techniques": [ "SWEEP" ],
     "volume": "1500 ml",
-    "bashing": 26,
+    "bashing": 13,
     "cutting": 1,
     "flags": [ "SPEAR", "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "price": 12000,
@@ -765,7 +764,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "1750 ml",
-    "bashing": 26,
+    "bashing": 22,
     "cutting": 4,
     "flags": [ "STAB" ],
     "price": 16000,
@@ -821,7 +820,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
-    "bashing": 20,
+    "bashing": 22,
     "price": 30000,
     "price_postapoc": 750
   },
@@ -909,7 +908,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "weight": "910 g",
     "volume": "1500 ml",
-    "bashing": 26,
+    "bashing": 24,
     "to_hit": 2,
     "price_postapoc": 1250,
     "category": "weapons"
@@ -927,7 +926,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weight": "1135 g",
     "volume": "1500 ml",
-    "bashing": 30,
+    "bashing": 27,
     "to_hit": 2,
     "price_postapoc": 1750,
     "category": "weapons"
@@ -945,7 +944,7 @@
     "flags": [ "FRAGILE_MELEE" ],
     "weight": "850 g",
     "volume": "1500 ml",
-    "bashing": 26,
+    "bashing": 12,
     "to_hit": 1,
     "price_postapoc": 50,
     "category": "weapons"

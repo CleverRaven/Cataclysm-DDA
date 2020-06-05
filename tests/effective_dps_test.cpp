@@ -358,4 +358,44 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "makeshift_axe", 9.0 ); // chunk of sharp steel
         calc_expected_dps( test_guy, "hand_axe", 8.5 ); // chunk of sharp rock
     }
+    SECTION( "club" ) { // expected value around 24 but most aren't dedicated weapons
+        calc_expected_dps( test_guy, "mace", 24.0 );
+        calc_expected_dps( test_guy, "morningstar", 23.0 );
+        calc_expected_dps( test_guy, "shillelagh_weighted", 22.0 );
+        calc_expected_dps( test_guy, "bwirebat", 22.0 );
+        calc_expected_dps( test_guy, "baton-extended", 21.0 );
+        calc_expected_dps( test_guy, "bat_metal", 21.0 );
+        calc_expected_dps( test_guy, "nailbat", 21.0 );
+        calc_expected_dps( test_guy, "bat", 20.0 );
+        calc_expected_dps( test_guy, "shillelagh", 20.0 );
+        calc_expected_dps( test_guy, "bokken", 20.0 );
+        calc_expected_dps( test_guy, "PR24-extended", 20.0 );
+        calc_expected_dps( test_guy, "mace_inferior", 18.0 );
+        calc_expected_dps( test_guy, "tonfa", 17.0 );
+        calc_expected_dps( test_guy, "tonfa_wood", 16.0 );
+        calc_expected_dps( test_guy, "shocktonfa_off", 16.0 );
+        calc_expected_dps( test_guy, "shocktonfa_on", 16.0 );
+        calc_expected_dps( test_guy, "crowbar", 15.0 );
+        calc_expected_dps( test_guy, "morningstar_inferior", 15.0 );
+        calc_expected_dps( test_guy, "bokken_inferior", 13.0 );
+        calc_expected_dps( test_guy, "golf_club", 14.0 );
+        calc_expected_dps( test_guy, "mace_fake", 13.0 );
+        calc_expected_dps( test_guy, "claw_bar", 11.0 );
+        calc_expected_dps( test_guy, "shovel", 11.0 );
+        calc_expected_dps( test_guy, "e_tool", 11.0 );
+        calc_expected_dps( test_guy, "sword_nail", 11.0 );
+        calc_expected_dps( test_guy, "sword_wood", 10.5 );
+        calc_expected_dps( test_guy, "cane", 10.5 );
+        calc_expected_dps( test_guy, "cudgel", 10.5 );
+        calc_expected_dps( test_guy, "primitive_hammer", 10.0 );
+        calc_expected_dps( test_guy, "bokken_fake", 10.5 );
+        calc_expected_dps( test_guy, "shillelagh_fake", 9.5 );
+        calc_expected_dps( test_guy, "morningstar_fake", 8.0 );
+        calc_expected_dps( test_guy, "wrench", 7.0 );
+        calc_expected_dps( test_guy, "hammer", 6.0 );
+        calc_expected_dps( test_guy, "rebar", 7.0 );
+        calc_expected_dps( test_guy, "primitive_shovel", 7.0 );
+        calc_expected_dps( test_guy, "heavy_flashlight", 7.0 );
+        calc_expected_dps( test_guy, "rock", 6.0 );
+    }
 }
