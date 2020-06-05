@@ -415,4 +415,21 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "nodachi_fake", 9.0 );
         calc_expected_dps( test_guy, "katana_fake", 8.0 );
     }
+    SECTION( "sword" ) { // expected value 24, does not include shortswords
+        calc_expected_dps( test_guy, "broadsword", 24.0 );
+        calc_expected_dps( test_guy, "rapier", 24.0 );
+        calc_expected_dps( test_guy, "arming_sword", 24.0 ); // heavier than a broadsword
+        calc_expected_dps( test_guy, "jian", 24.0 );
+        calc_expected_dps( test_guy, "broadsword_inferior", 20.0 );
+        calc_expected_dps( test_guy, "arming_sword_inferior", 18.0 );
+        calc_expected_dps( test_guy, "jian_inferior", 19.0 );
+        calc_expected_dps( test_guy, "broadsword_fake", 10.0 );
+        calc_expected_dps( test_guy, "rapier_fake", 8.0 );
+        calc_expected_dps( test_guy, "arming_sword_fake", 13.0 );
+        calc_expected_dps( test_guy, "jian_fake", 8.0 );
+        calc_expected_dps( test_guy, "glass_macuahuitl", 11.0 );
+        calc_expected_dps( test_guy, "blade_scythe", 6.0 );
+
+    }
+
 }
