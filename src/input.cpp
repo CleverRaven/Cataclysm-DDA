@@ -1364,7 +1364,7 @@ std::pair<point, bool> input_context::get_coordinates_text( const catacurses::wi
     return std::make_tuple( point(), false );
 #else
     if( !coordinate_input_received ) {
-        return std::make_tuple( point(), false );
+        return std::make_pair( point(), false );
     }
 
     const window_dimensions dim = get_window_dimensions( capture_win );
