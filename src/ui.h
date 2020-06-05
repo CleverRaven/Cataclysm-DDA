@@ -12,6 +12,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
+#include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
 
@@ -192,12 +193,6 @@ class uilist // NOLINT(cata-xy)
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<const char *const> opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<uilist_entry> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<std::string> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                std::initializer_list<const char *const> opts );
 
         ~uilist();
 
@@ -240,7 +235,6 @@ class uilist // NOLINT(cata-xy)
         operator int() const;
 
     private:
-        int scroll_amount_from_key( int key );
         int scroll_amount_from_action( const std::string &action );
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
@@ -355,13 +349,12 @@ class uilist // NOLINT(cata-xy)
 class pointmenu_cb : public uilist_callback
 {
     private:
-        const std::vector< tripoint > &points;
-        int last; // to suppress redrawing
-        tripoint last_view; // to reposition the view after selecting
+        struct impl_t;
+        pimpl<impl_t> impl;
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() override;
-        void refresh( uilist *menu ) override;
+        void select( uilist *menu ) override;
 };
 
 #endif // CATA_SRC_UI_H

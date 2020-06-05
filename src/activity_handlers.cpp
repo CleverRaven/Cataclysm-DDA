@@ -4480,8 +4480,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( spell_being_cast.id(),
-                        spell_being_cast.get_level() );
+                g->events().send<event_type::player_levels_spell>( p->getID(),
+                        spell_being_cast.id(), spell_being_cast.get_level() );
             }
         }
     }

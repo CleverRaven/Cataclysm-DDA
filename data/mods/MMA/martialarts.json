@@ -64,6 +64,174 @@
   },
   {
     "type": "martial_art",
+    "id": "style_mma_diamond_mind",
+    "name": { "str": "Diamond Mind" },
+    "description": "True quickness lies in the mind, not the body.  A student of the Diamond Mind discipline seeks to hone his perceptions and discipline his thoughts so that he can act in slivers of time so narrow that others cannot even perceive them.  A corollary of this speed of thought and action is the concept of the mind as the battleground.  An enemy defeated in his mind must inevitably.",
+    "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_static",
+        "name": "Stance of Alacrity",
+        "description": "You move slightly faster than normal due to a combination of confidence, raining, and clarity of mind.  This slight edge adds up with each action.\n\n-10% move cost",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_ondodge",
+        "name": "Pearl of Black Doubt",
+        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\n+1 Dodge attempt\nLasts 1 turn. Stacks 2 times",
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "bonus_dodges": 1
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_ongethit",
+        "name": "Mind over Body",
+        "description": "Your training and mental toughness allow you to use your focus to overcome physical threats.\n\n+1 Accuracy.\nLasts 1 turn. Stacks 2 times",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_diamond_mind_onpause",
+        "name": "Quicksilver Motion",
+        "description": "In the blink of an eye, you make your move.  Your speed, reflexes, and boundless confidence combine to allow you to make a fast, bold move that catches your foes off guard.\n\n+50 Speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 50.0 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
+    "weapons": [
+      "fencing_foil",
+      "fencing_epee",
+      "fencing_foil_sharpened",
+      "fencing_epee_sharpened",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "pointy_stick",
+      "rapier",
+      "rapier_fake",
+      "shock_foil",
+      "shock_epee"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_hylian",
+    "name": { "str": "Hylian Swordsmanship" },
+    "description": "This rare form of combat has been practiced by many legendary heroes throughout the ages.  Hylian Swordsmanship favors mobility for offense and defense by using spins, jumps, and flips to confuse enemies and strike from unexpected angles.",
+    "initiate": [ "You begin to step lightly from side to side.", "%s begins to step lightly from side to side." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_hylian_static1",
+        "name": "Combat Acrobat",
+        "description": "Always stay light on your feet.  It is better to evade than be hit.\n\n+1.0 Dodging skill.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_hylian_static2",
+        "name": "Intermediate Combat Acrobat",
+        "description": "After a great deal of practice, you have become even more nimble in a battle.\n\n+1.0 Dodging skill.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_hylian_static3",
+        "name": "Master Combat Acrobat",
+        "description": "You have seen so much combat that your dodging skills have become top notch!\n\n+1.0 Dodging skill.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_hylian_ondodge",
+        "name": "Flurry Rush",
+        "description": "When you perfectly dodge an attack, you can attack rapidly for a short time.\n\n-25% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_hylian_onmove",
+        "name": "Dash Attack",
+        "description": "Taking advantage of momentum, you rush towards foes to deliver a powerful strike.\n\n+10% damage.\nLasts 1 turn.  Stacks 3 times.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_hylian_onpause",
+        "name": "Charge Up",
+        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage, enables \"Spin Attack\" technique.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
+    "weapons": [
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "cudgel",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "ladle",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "sickle",
+      "stick",
+      "sword_wood",
+      "torch",
+      "torch_lit",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_mma_panzer",
     "name": { "str": "Panzer Kunst" },
     "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",

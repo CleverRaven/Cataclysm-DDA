@@ -23,7 +23,7 @@
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
-        "max_item_length": "160 cm",
+        "max_item_length": "60 cm",
         "moves": 150
       }
     ],
@@ -229,7 +229,7 @@
         "min_item_volume": "750 ml",
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "5 kg",
-        "max_item_length": "38 cm",
+        "max_item_length": "30 cm",
         "moves": 50
       }
     ],

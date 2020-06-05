@@ -6494,5 +6494,121 @@
       [ [ "sugar", 1 ] ],
       [ [ "water_clean", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "coffee_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [
+      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "coffee_substitute_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [
+      [ [ "coffee_raw_kentucky", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_coffee_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 m 30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "tea_raw", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_tea_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 m 30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "tea", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
   }
 ]

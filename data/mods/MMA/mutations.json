@@ -31,6 +31,16 @@
   },
   {
     "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_HYLIAN",
+    "name": { "str": "Hero's Spirit" },
+    "points": 3,
+    "description": "You have studied the deeds and legends of ancient heroes.  From your research, you have learned an ancient form of combat called Hylian Swordsmanship.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_hylian" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "KI_STRIKE",
     "name": { "str": "Ki Strike" },
     "points": 2,
@@ -51,7 +61,7 @@
     "points": 2,
     "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_mma_desert_wind" ],
+    "initial_ma_styles": [ "style_mma_desert_wind", "style_mma_diamond_mind" ],
     "valid": false
   }
 ]

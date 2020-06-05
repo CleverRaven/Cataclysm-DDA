@@ -28,28 +28,28 @@ status_t character_oracle_t::needs_warmth_badly( const std::string & ) const
     // Use player::temp_conv to predict whether the Character is "in trouble".
     for( const body_part bp : all_body_parts ) {
         if( p->temp_conv[ bp ] <= BODYTEMP_VERY_COLD ) {
-            return running;
+            return status_t::running;
         }
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::needs_water_badly( const std::string & ) const
 {
     // Check thirst threshold.
     if( subject->get_thirst() > 520 ) {
-        return running;
+        return status_t::running;
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::needs_food_badly( const std::string & ) const
 {
     // Check hunger threshold.
     if( subject->get_hunger() >= 300 && subject->get_starvation() > 2500 ) {
-        return running;
+        return status_t::running;
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::can_wear_warmer_clothes( const std::string & ) const
@@ -60,10 +60,10 @@ status_t character_oracle_t::can_wear_warmer_clothes( const std::string & ) cons
     for( const auto &i : subject->inv.const_slice() ) {
         const item &candidate = i->front();
         if( candidate.get_warmth() > 0 || p->can_wear( candidate ).success() ) {
-            return running;
+            return status_t::running;
         }
     }
-    return failure;
+    return status_t::failure;
 }
 
 status_t character_oracle_t::can_make_fire( const std::string & ) const
@@ -76,23 +76,23 @@ status_t character_oracle_t::can_make_fire( const std::string & ) const
         if( candidate.has_flag( flag_FIRESTARTER ) ) {
             tool = true;
             if( fuel ) {
-                return running;
+                return status_t::running;
             }
         } else if( candidate.flammable() ) {
             fuel = true;
             if( tool ) {
-                return running;
+                return status_t::running;
             }
         }
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::can_take_shelter( const std::string & ) const
 {
     // See if we know about some shelter
     // Don't know how yet.
-    return failure;
+    return status_t::failure;
 }
 
 status_t character_oracle_t::has_water( const std::string & ) const
@@ -101,7 +101,7 @@ status_t character_oracle_t::has_water( const std::string & ) const
     bool found_water = subject->inv.has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->quench > 0;
     } );
-    return found_water ? running : failure;
+    return found_water ? status_t::running : status_t::failure;
 }
 
 status_t character_oracle_t::has_food( const std::string & ) const
@@ -110,7 +110,7 @@ status_t character_oracle_t::has_food( const std::string & ) const
     bool found_food = subject->inv.has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
-    return found_food ? running : failure;
+    return found_food ? status_t::running : status_t::failure;
 }
 
 } // namespace behavior

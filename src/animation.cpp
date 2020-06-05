@@ -18,6 +18,7 @@
 #include "type_id.h"
 #include "explosion.h"
 #include "point.h"
+#include "ui_manager.h"
 
 #if defined(TILES)
 #include <memory>
@@ -476,11 +477,35 @@ void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoi
 
 namespace
 {
+// short visual animation (player, monster, ...) (hit, dodge, ...)
+// cTile is a UTF-8 strings, and must be a single cell wide!
+void hit_animation( const player &u, const tripoint &center, nc_color cColor,
+                    const std::string &cTile )
+{
+    const tripoint init_pos = relative_view_pos( u, center );
+    // Only show animation if initially visible
+    if( init_pos.z == 0 && is_valid_in_w_terrain( init_pos.xy() ) ) {
+        shared_ptr_fast<game::draw_callback_t> hit_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            // In case the window is resized during waiting, we always re-calculate the animation position
+            const tripoint pos = relative_view_pos( u, center );
+            if( pos.z == 0 && is_valid_in_w_terrain( pos.xy() ) ) {
+                mvwprintz( g->w_terrain, pos.xy(), cColor, cTile );
+            }
+        } );
+        g->add_draw_callback( hit_cb );
+
+        ui_manager::redraw();
+        inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
+        // Skip input (if any), because holding down a key with nanosleep can get yourself killed
+        inp_mngr.get_input_event();
+        inp_mngr.reset_timeout();
+    }
+}
+
 void draw_hit_mon_curses( const tripoint &center, const monster &m, const player &u,
                           const bool dead )
 {
-    const tripoint p = relative_view_pos( u, center );
-    hit_animation( p.xy(), red_background( m.type->color ), dead ? "%" : m.symbol() );
+    hit_animation( u, center, red_background( m.type->color ), dead ? "%" : m.symbol() );
 }
 
 } // namespace
@@ -513,12 +538,9 @@ namespace
 {
 void draw_hit_player_curses( const game &g, const Character &p, const int dam )
 {
-    const tripoint q = relative_view_pos( g.u, p.pos() );
-    if( q.z == 0 ) {
-        nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
-                                 p.symbol_color() );
-        hit_animation( q.xy(), col, p.symbol() );
-    }
+    nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
+                             p.symbol_color() );
+    hit_animation( g.u, p.pos(), col, p.symbol() );
 }
 } //namespace
 

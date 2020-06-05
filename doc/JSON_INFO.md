@@ -1312,6 +1312,10 @@ Additional optional fields for each entry in `requirements` are:
   `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
   to dictate when a requirement is visible.  Non-visible requirements will be
   hidden in the UI.
+* `"description"` will override the default description of the requirement, for
+  cases where the default is not suitable.  The default takes the form `x/y
+  foo` where `x` is the current statistic value, `y` is the target value, and
+  `foo` is the statistic description (if any).
 
 There are further optional fields for the `achievement`:
 
@@ -1706,7 +1710,6 @@ See also VEHICLE_JSON.md
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
 "default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
-"reliability" : 8,               // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```

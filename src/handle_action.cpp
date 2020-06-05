@@ -788,6 +788,10 @@ static void smash()
             return;
         }
     }
+
+    const int bash_furn = m.furn( smashp )->bash.str_min;
+    const int bash_ter = m.ter( smashp )->bash.str_min;
+
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
@@ -814,6 +818,31 @@ static void smash()
                 }
                 u.remove_weapon();
                 u.check_dead_state();
+            }
+
+            // It hurts if you smash things with your hands.
+            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
+
+            int glove_coverage = 0;
+            for( const item &i : u.worn ) {
+                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
+                    int temp_coverage = i.get_coverage();
+                    if( glove_coverage < temp_coverage ) {
+                        glove_coverage = temp_coverage;
+                    }
+                }
+            }
+
+            if( !u.has_weapon() && hard_target ) {
+                int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
+                if( u.hp_cur[hp_arm_r] > u.hp_cur[hp_arm_l] ) {
+                    u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_BASH, dam ) );
+                } else {
+                    u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_BASH, dam ) );
+                }
+                if( dam > 0 ) {
+                    add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), m.furnname( smashp ) );
+                }
             }
         }
         u.moves -= move_cost;
@@ -2323,7 +2352,6 @@ bool game::handle_action()
 
             case ACTION_OPTIONS:
                 get_options().show( true );
-                g->init_ui( true );
                 break;
 
             case ACTION_AUTOPICKUP:

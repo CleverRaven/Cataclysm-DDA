@@ -115,7 +115,6 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
-    "achievement",
     "activity_type",
     "AMMO",
     "ammunition_type",
@@ -125,7 +124,6 @@ automatically_convertible = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
-    "conduct",
     "construction_category",
     "CONTAINER",
     "dream",
@@ -206,10 +204,14 @@ def gender_options(subject):
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
 
-def extract_harvest(item):
-    outfile = get_outfile("harvest")
-    if "message" in item:
-        writestr(outfile, item["message"])
+def extract_achievement(a):
+    outfile = get_outfile(a["type"])
+    for f in ("name", "description"):
+        if f in a:
+            writestr(outfile, a[f])
+    for req in a.get("requirements", ()):
+        if "description" in req:
+            writestr(outfile, req["description"])
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -236,6 +238,11 @@ def extract_construction(item):
     writestr(outfile, item["description"])
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
 
 def extract_material(item):
     outfile = get_outfile("material")
@@ -820,14 +827,16 @@ def extract_snippets(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
-    "harvest" : extract_harvest,
+    "achievement": extract_achievement,
     "body_part": extract_bodypart,
     "clothing_mod": extract_clothing_mod,
+    "conduct": extract_achievement,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
     "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
+    "harvest": extract_harvest,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,
