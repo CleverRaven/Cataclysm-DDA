@@ -1042,11 +1042,11 @@
     "relative": { "fun": 1 },
     "use_action": [  ]
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "tea_green",
     "name": "green tea",
-	"copy-from": "tea"
+    "copy-from": "tea",
     "color": "green",
     "fatigue_mod": 3,
     "stim": 1,
@@ -1054,11 +1054,11 @@
     "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/, but with a different taste to his brother black tea.",
     "fun": 6
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "tea_fruit",
     "name": "fruit tea",
-	"copy-from": "tea"
+    "copy-from": "tea",
     "color": "red",
     "calories": 6,
     "fatigue_mod": 0,
