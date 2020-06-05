@@ -454,7 +454,7 @@
       { "item": "granola", "prob": 10 },
       { "item": "cookies", "prob": 80 },
       { "item": "tea_raw", "prob": 10 },
-	   { "item": "tea_green_raw", "prob": 5 },
+      { "item": "tea_green_raw", "prob": 5 },
       { "item": "coffee_raw", "prob": 15 },
       { "item": "choco_coffee_beans", "prob": 10 },
       { "item": "salt", "prob": 10 },

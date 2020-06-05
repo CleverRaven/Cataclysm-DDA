@@ -123,7 +123,13 @@
       { "item": "raw_burdock", "prob": 10, "charges-min": 1, "charges-max": 48, "container-item": "jar_3l_glass" },
       { "item": "chamomile", "prob": 30, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
       { "item": "tea_raw", "prob": 60, "charges-min": 10, "charges-max": 40, "container-item": "jar_glass_sealed" },
-      { "item": "tea_green_raw", "prob": 30, "charges-min": 10, "charges-max": 40, "container-item": "jar_glass_sealed" },
+      {
+        "item": "tea_green_raw",
+        "prob": 30,
+        "charges-min": 10,
+        "charges-max": 40,
+        "container-item": "jar_glass_sealed"
+      },
       {
         "item": "wild_herbs",
         "prob": 50,
@@ -749,7 +755,7 @@
       { "item": "coffee_syrup", "prob": 35 },
       { "item": "coffee_raw", "prob": 45 },
       { "item": "tea_raw", "prob": 45 },
-	  { "item": "tea_green_raw", "prob": 20 },
+      { "item": "tea_green_raw", "prob": 20 },
       { "item": "salt", "prob": 50 },
       { "item": "pepper", "prob": 50 },
       { "item": "soysauce", "prob": 50 },
