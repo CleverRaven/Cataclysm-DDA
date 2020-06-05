@@ -172,6 +172,7 @@ def key_counter(data, where_fn_list):
             # We assume we are working with JSON data and that all keys are
             # strings
             stats.update(item.keys())
+            blobs_matched += 1
     return stats, blobs_matched
 
 
