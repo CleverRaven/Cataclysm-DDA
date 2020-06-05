@@ -1385,7 +1385,7 @@ std::pair<point, bool> input_context::get_coordinates_text( const catacurses::wi
         return std::make_pair( selected, false );
     }
 
-    return std::make_tuple( selected, true );
+    return std::make_pair( selected, true );
 #endif
 }
 
