@@ -1405,6 +1405,8 @@ class Character : public Creature, public visitable<Character>
          */
         int ammo_count_for( const item &gun );
 
+        hint_rating rate_action_unload( const item &it ) const;
+
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
         /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */

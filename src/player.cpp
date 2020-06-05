@@ -3031,39 +3031,6 @@ hint_rating player::rate_action_reload( const item &it ) const
     return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
 }
 
-hint_rating player::rate_action_unload( const item &it ) const
-{
-    if( it.is_container() && !it.contents.empty() &&
-        it.can_unload_liquid() ) {
-        return hint_rating::good;
-    }
-
-    if( it.has_flag( "NO_UNLOAD" ) ) {
-        return hint_rating::cant;
-    }
-
-    if( it.magazine_current() ) {
-        return hint_rating::good;
-    }
-
-    for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
-            return hint_rating::good;
-        }
-    }
-
-    if( it.ammo_types().empty() ) {
-        return hint_rating::cant;
-    }
-
-    if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::iffy;
-}
-
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );

@@ -493,7 +493,6 @@ class player : public Character
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
         hint_rating rate_action_reload( const item &it ) const;
-        hint_rating rate_action_unload( const item &it ) const;
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
