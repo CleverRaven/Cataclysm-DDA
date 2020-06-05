@@ -749,11 +749,11 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         comp_list npc_list = get_mission_workers( "_faction_camp_firewood" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_firewood" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to gather light brush and heavy sticks.\n\n"
+                                  "Send a companion to gather light brush and stout branches.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: N/A\n"
                                   "Gathering Possibilities:\n"
-                                  "> heavy sticks\n"
+                                  "> stout branches\n"
                                   "> withered plants\n"
                                   "> splintered wood\n\n"
                                   "Risk: Very Low\n"

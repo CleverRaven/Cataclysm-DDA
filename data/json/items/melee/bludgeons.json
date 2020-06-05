@@ -572,7 +572,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "lucerne hammer" },
-    "description": "This is a versatile polearm with a spiked hammer head, a spike, and a hook attached to a long stick.",
+    "description": "This is a versatile polearm with a spiked hammer head, a spike, and a hook attached to a beefy wooden pole.",
     "price": 50000,
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
