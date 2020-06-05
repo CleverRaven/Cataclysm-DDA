@@ -3878,7 +3878,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         // They don't lose Focus when practicing combat skills.
         if( !( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) ) {
             // Calculate focus chance to drop sinusoidally
-            focus_pool += get_focus_chance( focus_pool );
+            focus_pool -= get_focus_chance( focus_pool );
         }
     }
 
