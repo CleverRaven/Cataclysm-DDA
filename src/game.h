@@ -1049,8 +1049,8 @@ class game
         bool npcs_dirty = false;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false;
-        /** Was the player sleeping during this turn. */
-        bool player_was_sleeping = false;
+        /** Is this the first redraw since waiting (sleeping or activity) started */
+        bool first_redraw_since_waiting_started = true;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zones_manager_open = false;
 
