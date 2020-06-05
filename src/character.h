@@ -1414,6 +1414,9 @@ class Character : public Creature, public visitable<Character>
          */
         bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
 
+        /** Same as `Character::can_reload`, but checks for attached gunmods as well. */
+        hint_rating rate_action_reload( const item &it ) const;
+        /** Whether a tool or a gun can be unloaded. */
         hint_rating rate_action_unload( const item &it ) const;
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
