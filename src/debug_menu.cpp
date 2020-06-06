@@ -461,7 +461,6 @@ void spawn_nested_mapgen()
         target_map.save();
         g->load_npcs();
         g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
 }
 
@@ -1194,7 +1193,6 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
-    g->refresh_all();
     avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
@@ -1716,7 +1714,6 @@ void debug()
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     g->m.invalidate_map_cache( g->get_levz() );
-                    g->refresh_all();
                 }
             }
             break;

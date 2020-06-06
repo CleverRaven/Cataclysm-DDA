@@ -400,7 +400,6 @@ bool Character::activate_bionic( int b, bool eff_only )
     if( bio.info().gun_bionic ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        g->refresh_all();
         avatar_action::fire_ranged_bionic( g->u, g->m, item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().weapon_bionic ) {
@@ -426,7 +425,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u, g->m );
-            g->refresh_all();
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
@@ -658,7 +656,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
-        g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && g->m.is_flammable( *pnt ) ) {
             add_msg_activate();
@@ -690,7 +687,6 @@ bool Character::activate_bionic( int b, bool eff_only )
             add_effect( effect_adrenaline, 20_minutes );
         }
     } else if( bio.id == bio_emp ) {
-        g->refresh_all();
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
             explosion_handler::emp_blast( *pnt );
@@ -758,7 +754,6 @@ bool Character::activate_bionic( int b, bool eff_only )
             }
         }
 
-        g->refresh_all();
         for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
@@ -774,7 +769,6 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        g->refresh_all();
         bool used = false;
         bool tried_lockpick = false;
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
@@ -2009,7 +2003,6 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
 
     }
     g->m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
 }
 
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -2083,7 +2076,6 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
     }
-    g->refresh_all();
 
     return false;
 }
@@ -2280,7 +2272,6 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
     g->m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,

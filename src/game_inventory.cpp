@@ -244,10 +244,7 @@ void game_menus::inv::common( avatar &you )
             }
         }
 
-        g->refresh_all();
         res = g->inventory_item_menu( location );
-        g->refresh_all();
-
     } while( loop_options.count( res ) != 0 );
 }
 
@@ -1543,7 +1540,6 @@ void game_menus::inv::swap_letters( player &p )
         }
 
         reassign_letter( p, *loc );
-        g->refresh_all();
     }
 }
 

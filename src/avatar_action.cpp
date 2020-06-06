@@ -879,8 +879,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-
-            g->refresh_all();
         }
     }
 
@@ -888,7 +886,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     const itype *ammo = gun->ammo_data();
 
     g->temp_exit_fullscreen();
-    m.draw( g->w_terrain, you.pos() );
     std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, weapon, range,
                                        ammo );
 
@@ -908,10 +905,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
         g->reenter_fullscreen();
         return;
     }
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
 
     you.moves -= reload_time;
 
@@ -969,7 +962,6 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     item *turret_base = &*turret.base();
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     std::vector<tripoint> trajectory = target_handler().target_ui(
                                            you,
                                            TARGET_MODE_TURRET_MANUAL,
@@ -980,11 +972,6 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
                                        );
 
     if( !trajectory.empty() ) {
-        // Recenter our view
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
@@ -1108,7 +1095,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( !loc ) {
         loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
                                             _( "You don't have any items to throw." ) );
-        g->refresh_all();
     }
 
     if( !loc ) {
@@ -1266,8 +1252,6 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             you.mod_moves( obtain_cost );
         }
     }
-
-    g->refresh_all();
 
     if( use_in_place ) {
         update_lum( loc, false );

@@ -263,7 +263,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
 
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        g->refresh_all();
         const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
         if( !target_pos_ ) {
             return;
@@ -291,7 +290,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     }
 
     menu.query();
-    g->refresh_all();
     if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).

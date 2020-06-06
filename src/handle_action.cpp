@@ -1495,7 +1495,6 @@ bool game::handle_action()
 
         if( act == ACTION_KEYBINDINGS ) {
             // already handled by input context
-            refresh_all();
             return false;
         }
 
@@ -2039,16 +2038,13 @@ bool game::handle_action()
                 break;
             case ACTION_BIONICS:
                 u.power_bionics();
-                refresh_all();
                 break;
             case ACTION_MUTATIONS:
                 u.power_mutations();
-                refresh_all();
                 break;
 
             case ACTION_SORT_ARMOR:
                 u.sort_armor();
-                refresh_all();
                 break;
 
             case ACTION_WAIT:
@@ -2092,7 +2088,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    refresh_all();
                 }
                 break;
 
@@ -2198,7 +2193,6 @@ bool game::handle_action()
                         uquit = QUIT_SUICIDE;
                     }
                 }
-                refresh_all();
                 break;
 
             case ACTION_SAVE:
@@ -2208,7 +2202,6 @@ bool game::handle_action()
                         uquit = QUIT_SAVED;
                     }
                 }
-                refresh_all();
                 break;
 
             case ACTION_QUICKSAVE:
@@ -2249,17 +2242,14 @@ bool game::handle_action()
 
             case ACTION_MORALE:
                 u.disp_morale();
-                refresh_all();
                 break;
 
             case ACTION_MESSAGES:
                 Messages::display_messages();
-                refresh_all();
                 break;
 
             case ACTION_HELP:
                 get_help().display_help();
-                refresh_all();
                 break;
 
             case ACTION_OPTIONS:
@@ -2268,27 +2258,22 @@ bool game::handle_action()
 
             case ACTION_AUTOPICKUP:
                 get_auto_pickup().show();
-                refresh_all();
                 break;
 
             case ACTION_AUTONOTES:
                 get_auto_notes_settings().show_gui();
-                refresh_all();
                 break;
 
             case ACTION_SAFEMODE:
                 get_safemode().show();
-                refresh_all();
                 break;
 
             case ACTION_COLOR:
                 all_colors.show_gui();
-                refresh_all();
                 break;
 
             case ACTION_WORLD_MODS:
                 world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
-                refresh_all();
                 break;
 
             case ACTION_DEBUG:
