@@ -1280,6 +1280,7 @@ void Character::dismount()
         mounted_creature = nullptr;
         critter->mounted_player = nullptr;
         setpos( *pnt );
+        g->refresh_all();
         mod_moves( -100 );
         set_movement_mode( move_mode_id( "walk" ) );
     }
@@ -9209,9 +9210,6 @@ units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.contents.total_container_capacity();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity += it->contents.total_container_capacity();
-    }
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
     }
