@@ -425,6 +425,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         sp.make_sound( target );
         sp.create_field( target );
+        if( sp.get_damage_instance().type_damage( DT_HEAT ) > 0 && g->m.is_flammable( target ) ) {
+            ( g->m.add_field( target, fd_fire, 1, 10_minutes ) );
+        }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
