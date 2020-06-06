@@ -43,7 +43,7 @@
     "name": { "str_sp": "The Life and Work of Tiger Sauer" },
     "description": "A biography of a combat cyborg agent detailing his philosophy and martial art.",
     "book_data": { "martial_art": "style_mma_panzer" }
-  },  
+  },
   {
     "id": "manual_mma_pokken",
     "copy-from": "book_martial",
