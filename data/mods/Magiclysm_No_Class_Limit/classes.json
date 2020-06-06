@@ -3,48 +3,48 @@
     "type": "mutation",
     "id": "MAGUS",
     "copy-from": "MAGUS",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "ANIMIST",
     "copy-from": "ANIMIST",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "KELVINIST",
     "copy-from": "KELVINIST",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "STORMSHAPER",
     "copy-from": "STORMSHAPER",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "TECHNOMANCER",
     "copy-from": "TECHNOMANCER",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "EARTHSHAPER",
     "copy-from": "EARTHSHAPER",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "BIOMANCER",
     "copy-from": "BIOMANCER",
-    "cancels": [ ]
+    "cancels": [  ]
   },
   {
     "type": "mutation",
     "id": "DRUID",
     "copy-from": "DRUID",
-    "cancels": [ ]
+    "cancels": [  ]
   }
 ]
