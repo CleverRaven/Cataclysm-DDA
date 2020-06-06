@@ -439,5 +439,23 @@
     "base_energy_cost": 550,
     "energy_source": "BIONIC",
     "spell_class": "TECHNOMANCER"
+  },
+  {
+  	"type": "SPELL",
+	"name": "Knock",
+	"id": "knock",
+	"description": "You open a door and I can finally go to sleep.",
+	"valid_targets": [ "ground" ],
+	"effect": "ter_transform",
+	"effect_str": "unlock_door"
+	"flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE" ]
+	"max_level": 10,
+	"base_casting_time": 1200,
+	"base_energy_cost": 300,
+	"difficulty": 3,
+	"min_range": 4,
+	"max_range": 4,
+	"energy_source": "MANA",
+	"spell_class": "TECHNOMANCER"
   }
 ]
