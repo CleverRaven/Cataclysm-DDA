@@ -429,7 +429,33 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "jian_fake", 8.0 );
         calc_expected_dps( test_guy, "glass_macuahuitl", 11.0 );
         calc_expected_dps( test_guy, "blade_scythe", 6.0 );
-
     }
-
+    SECTION( "shortsword" ) { // expected value 22
+        calc_expected_dps( test_guy, "scimitar", 22.0 );
+        calc_expected_dps( test_guy, "butterfly_swords", 22.0 );
+        calc_expected_dps( test_guy, "cutlass", 22.0 );
+        calc_expected_dps( test_guy, "sword_bayonet", 22.0 );
+        calc_expected_dps( test_guy, "kukri", 22.0 );
+        calc_expected_dps( test_guy, "wakizashi", 22.0 );
+        calc_expected_dps( test_guy, "sword_xiphos", 22.0 );
+        calc_expected_dps( test_guy, "khopesh", 21.0 );
+        calc_expected_dps( test_guy, "survivor_machete", 21.0 );
+        calc_expected_dps( test_guy, "cavalry_sabre", 20.0 );
+        calc_expected_dps( test_guy, "machete", 20.0 );
+        calc_expected_dps( test_guy, "dao", 18.0 );
+        calc_expected_dps( test_guy, "sword_cane", 17.5 );
+        calc_expected_dps( test_guy, "cutlass_inferior", 15.0 );
+        calc_expected_dps( test_guy, "scimitar_inferior", 14.5 );
+        calc_expected_dps( test_guy, "sword_crude", 14.0 );
+        calc_expected_dps( test_guy, "wakizashi_inferior", 13.0 );
+        calc_expected_dps( test_guy, "makeshift_machete", 11.0 );
+        calc_expected_dps( test_guy, "cavalry_sabre_fake", 8.0 );
+        calc_expected_dps( test_guy, "cutlass_fake", 7.0 );
+        calc_expected_dps( test_guy, "scimitar_fake", 7.0 );
+        calc_expected_dps( test_guy, "wakizashi_fake", 7.0 );
+        calc_expected_dps( test_guy, "blade", 7.0 );
+        calc_expected_dps( test_guy, "fencing_epee", 5.0 );
+        calc_expected_dps( test_guy, "fencing_sabre", 4.0 );
+        calc_expected_dps( test_guy, "fencing_foil", 2.0 );
+    }
 }
