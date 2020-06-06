@@ -2652,7 +2652,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
         ammotype current_ammo;
-        if( !used_tool->ammo_current().is_null() ) {
+        if( used_tool->ammo_current().is_null() ) {
             current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
         } else {
             current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
