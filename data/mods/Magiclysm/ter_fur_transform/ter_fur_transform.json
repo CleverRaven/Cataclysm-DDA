@@ -138,7 +138,23 @@
   },
   {
 	"type": "ter_furn_transform",
-	"id": "unlock_door",
+	"id": "unlock_doors",
+	"terrain": [
+		{
+			"result": "t_door_o",
+			"valid_terrain": [ "t_door_locked", "t_door_locked_interior", "t_door_locked_alarm" ],
+			"message": "The door opens forcefully!"
+		},
+		{
+			"result": "t_door_o_peep",
+			"valid_terrain": [ "t_door_locked_peep" ],
+			"message": "The door opens forcefully!"
+		}
+	]
+  },
+  {
+	"type": "ter_furn_transform",
+	"id": "unlock_all_doors",
 	"terrain": [
 		{
 			"result": "t_door_o",
@@ -155,6 +171,5 @@
 			"valid_terrain": [ "t_door_metal_locked", "t_door_metal_pickable", "t_door_bar_locked" ],
 			"message": "The door opens forcefully!"
 		}
-	]
-  }
+  }		
 ]
