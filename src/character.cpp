@@ -9214,9 +9214,6 @@ units::volume Character::volume_capacity() const
     }
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity += it->contents.total_container_capacity();
-        }
     }
     return volume_capacity;
 }
