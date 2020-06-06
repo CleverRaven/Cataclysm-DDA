@@ -3421,11 +3421,11 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Bash damage
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
-            // NOTE: Using "BASE" instead of "DESCRIPTION" so numbers will work
-            // (output.cpp:format_item_info adds newlines and does not do <num> interpolation)
+            // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+            // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
             info.push_back( iteminfo( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
                                       non_crit.type_damage( DT_BASH ) ) );
-            info.push_back( iteminfo( "BASE", space + _( "Critical hit: " ), "<num>", iteminfo::no_flags,
+            info.push_back( iteminfo( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
                                       crit.type_damage( DT_BASH ) ) );
         }
         // Cut damage
@@ -3434,7 +3434,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             info.push_back( iteminfo( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
                                       non_crit.type_damage( DT_CUT ) ) );
-            info.push_back( iteminfo( "BASE", space + _( "Critical hit: " ), "<num>", iteminfo::no_flags,
+            info.push_back( iteminfo( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
                                       crit.type_damage( DT_CUT ) ) );
         }
         // Pierce/stab damage
@@ -3443,7 +3443,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             info.push_back( iteminfo( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
                                       non_crit.type_damage( DT_STAB ) ) );
-            info.push_back( iteminfo( "BASE", space + _( "Critical hit: " ), "<num>", iteminfo::no_flags,
+            info.push_back( iteminfo( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
                                       crit.type_damage( DT_STAB ) ) );
         }
         // Moves
