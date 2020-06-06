@@ -296,30 +296,35 @@ namespace io
     // *INDENT-ON*
 } // namespace io
 
-void reflex_activation_data::load( const JsonObject &jsobj, const std::string &member )
+void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    JsonObject j = jsobj.get_object( member );
     std::string tmp;
-    mandatory( j, was_loaded, "trigger_type", tmp );
+    mandatory( jsobj, was_loaded, "trigger_type", tmp );
     trigger = io::string_to_enum<trigger_type>( tmp );
 
-    optional( j, was_loaded, "threshold_low",  threshold_low, INT_MIN );
-    optional( j, was_loaded, "threshold_high", threshold_high, INT_MAX );
+    optional( jsobj, was_loaded, "threshold_low",  threshold_low, INT_MIN );
+    optional( jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX );
 
-    if( j.has_object( "msg_on" ) ) {
-        JsonObject jo = j.get_object( "msg_on" );
+    if( jsobj.has_object( "msg_on" ) ) {
+        JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
         std::string tmp_rating;
-        optional( jo, was_loaded, "rating", tmp_rating, "m_neutral" );
+        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
         msg_on.second = io::string_to_enum<game_message_type>( tmp_rating );
     }
-    if( j.has_object( "msg_off" ) ) {
-        JsonObject jo = j.get_object( "msg_off" );
+    if( jsobj.has_object( "msg_off" ) ) {
+        JsonObject jo = jsobj.get_object( "msg_off" );
         optional( jo, was_loaded, "text", msg_off.first );
         std::string tmp_rating;
-        optional( jo, was_loaded, "rating", tmp_rating, "m_neutral" );
+        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
         msg_off.second = io::string_to_enum<game_message_type>( tmp_rating );
     }
+}
+
+void reflex_activation_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
 }
 
 void mutation_branch::load( const JsonObject &jo, const std::string & )
@@ -359,10 +364,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         transform = cata::make_value<mut_transform>();
         transform->load( jo, "transform" );
     }
-    if( jo.has_object( "reflex_activation" ) ) {
-        reflex_activation = cata::make_value<reflex_activation_data>();
-        reflex_activation->load( jo, "reflex_activation" );
-    }
+
+    optional( jo, was_loaded, "triggers", triger_list );
+
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {

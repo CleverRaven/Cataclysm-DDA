@@ -186,30 +186,65 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
 {
-    if( !mut->reflex_activation ) {
+    if( mut->triger_list.empty() ) {
         return;
     }
 
     bool activate = false;
-    bool deactivate = false;
+
+    std::pair<translation, game_message_type> msg_on;
+    std::pair<translation, game_message_type> msg_off;
+
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+        activate = false;
+        // OR conditions: if any trigger is true then this condition is true
+        for( const reflex_activation_data &rdata : vect_rdata ) {
+            if( rdata.is_trigger_true( *this ) ) {
+                activate = true;
+                msg_on = rdata.msg_on;
+                break;
+            }
+            msg_off = rdata.msg_off;
+        }
+        // AND conditions: if any OR condition is false then this is false
+        if( !activate ) {
+            break;
+        }
+    }
+
+    if( activate && !has_active_mutation( mut ) ) {
+        activate_mutation( mut );
+        if( !msg_on.first.empty() ) {
+            add_msg_if_player( msg_on.second, msg_on.first );
+        }
+    } else if( !activate && has_active_mutation( mut ) ) {
+        deactivate_mutation( mut );
+        if( !msg_off.first.empty() ) {
+            add_msg_if_player( msg_off.second, msg_off.first );
+        }
+    }
+}
+
+bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+{
+    bool activate = false;
 
     int var = 0;
-
-    switch( mut->reflex_activation->trigger ) {
+    switch( trigger ) {
         case PAIN:
-            var = get_pain();
+            var = guy.get_pain();
             break;
         case HUNGER:
-            var = get_hunger();
+            var = guy.get_hunger();
             break;
         case THRIST:
-            var = get_thirst();
+            var = guy.get_thirst();
             break;
         case MOOD:
-            var = get_morale_level();
+            var = guy.get_morale_level();
             break;
         case STAMINA:
-            var = get_stamina();
+            var = guy.get_stamina();
             break;
         case MOON:
             var = static_cast<int>( get_moon_phase( calendar::turn ) );
@@ -219,38 +254,21 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
             break;
         default:
             debugmsg( "Invalid trigger" );
-            return;
+            return false;
     }
 
-    if( mut->reflex_activation->threshold_low < mut->reflex_activation->threshold_high ) {
-        if( var < mut->reflex_activation->threshold_high &&
-            var > mut->reflex_activation->threshold_low ) {
-            activate = !has_active_mutation( mut );
-        } else if( var > mut->reflex_activation->threshold_high ||
-                   var < mut->reflex_activation->threshold_low ) {
-            deactivate = has_active_mutation( mut );
+    if( threshold_low < threshold_high ) {
+        if( var < threshold_high &&
+            var > threshold_low ) {
+            activate = true;
         }
     } else {
-        if( var > mut->reflex_activation->threshold_high ||
-            var < mut->reflex_activation->threshold_low ) {
-            activate = !has_active_mutation( mut );
-        } else if( var < mut->reflex_activation->threshold_high &&
-                   var > mut->reflex_activation->threshold_low ) {
-            deactivate = has_active_mutation( mut );
+        if( var > threshold_high ||
+            var < threshold_low ) {
+            activate = true;
         }
     }
-
-    if( activate ) {
-        activate_mutation( mut );
-        if( !mut->reflex_activation->msg_on.first.empty() ) {
-            add_msg_if_player( mut->reflex_activation->msg_on.second, mut->reflex_activation->msg_on.first );
-        }
-    } else if( deactivate ) {
-        deactivate_mutation( mut );
-        if( !mut->reflex_activation->msg_off.first.empty() ) {
-            add_msg_if_player( mut->reflex_activation->msg_off.second, mut->reflex_activation->msg_off.first );
-        }
-    }
+    return activate;
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const

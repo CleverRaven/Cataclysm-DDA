@@ -116,8 +116,11 @@ struct reflex_activation_data {
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    bool was_loaded;
-    void load( const JsonObject &jsobj, const std::string &member );
+    bool is_trigger_true( const Character &guy ) const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
 };
 
 struct mutation_branch {
@@ -200,7 +203,7 @@ struct mutation_branch {
 
         cata::value_ptr<mut_transform> transform;
 
-        cata::value_ptr<reflex_activation_data> reflex_activation;
+        std::vector<std::vector<reflex_activation_data>> triger_list;
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;
