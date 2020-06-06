@@ -2799,7 +2799,7 @@
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   },
-{
+  {
     "type": "GENERIC",
     "id": "bone_plate",
     "symbol": "]",
