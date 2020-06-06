@@ -304,7 +304,6 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.moves -= reload_time;
-    g->refresh_all();
     return true;
 }
 
@@ -329,7 +328,6 @@ void aim_activity_actor::unload_RAS_weapon()
         if( first_turn ) {
             you.moves = moves_before_unload;
         }
-        g->refresh_all();
     }
 }
 

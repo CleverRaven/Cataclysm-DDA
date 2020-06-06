@@ -535,7 +535,6 @@ void game::reload_tileset()
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
-    g->refresh_all();
 #endif // TILES
 }
 
@@ -3136,8 +3135,6 @@ void game::disp_NPC_epilogues()
         }
         scrollable_text( w, guy->disp_name(), guy->get_epilogue() );
     }
-
-    refresh_all();
 }
 
 void game::display_faction_epilogues()
@@ -3158,8 +3155,6 @@ void game::display_faction_epilogues()
             }
         }
     }
-
-    refresh_all();
 }
 
 struct npc_dist_to_player {
@@ -3601,17 +3596,6 @@ void game::draw_veh_dir_indicator( bool next )
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, indicator_offset->xy() - u.view_offset.xy() + point( POSX, POSY ), col, 'X' );
     }
-}
-
-void game::refresh_all()
-{
-    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
-    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    for( int z = minz; z <= maxz; z++ ) {
-        m.reset_vehicle_cache( z );
-    }
-
-    draw();
 }
 
 void game::draw_minimap()
@@ -8153,7 +8137,6 @@ void game::drop()
 void game::drop_in_direction()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        refresh_all();
         u.drop( game_menus::inv::multidrop( u ), *pnt );
     }
 }
@@ -8743,8 +8726,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         }
         u.activity.targets.push_back( std::move( opt.ammo ) );
     }
-
-    refresh_all();
 }
 
 // Reload something.
@@ -10717,7 +10698,6 @@ void game::vertical_move( int movez, bool force )
     }
 
     m.invalidate_map_cache( g->get_levz() );
-    refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
 

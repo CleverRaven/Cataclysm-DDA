@@ -2224,7 +2224,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
         } else {
             if( vp ) {
                 g->m.invalidate_map_cache( g->get_levz() );
-                g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {

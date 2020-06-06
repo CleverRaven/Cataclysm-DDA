@@ -967,7 +967,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( !loc ) {
         loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
                                             _( "You don't have any items to throw." ) );
-        g->refresh_all();
     }
 
     if( !loc ) {
@@ -1104,8 +1103,6 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             }
         }
     }
-
-    g->refresh_all();
 
     if( use_in_place ) {
         update_lum( loc, false );

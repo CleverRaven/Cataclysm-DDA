@@ -547,7 +547,6 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
-        void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( player &p );

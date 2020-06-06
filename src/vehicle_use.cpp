@@ -1861,7 +1861,6 @@ void vehicle::use_bike_rack( int part )
     }
     if( success ) {
         g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
 }
 

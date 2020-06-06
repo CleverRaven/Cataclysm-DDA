@@ -1528,7 +1528,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
@@ -1536,22 +1536,22 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "A sea of white caps, waving gently.  A haze of spores wafting silently over a forest." ) );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
         popup( _( "The natives have a saying: \"E Pluribus Unum.\"  Out of many, one." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "The blazing pink redness of the berry.  The juices spreading across your tongue, the warmth draping over us like a lover's embrace." ) );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
         popup( _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world.  Even now, our fruits adapt to better serve local physiology." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "The sky-blue of the seed.  The nutty, creamy flavors intermingling with the berry, a memory that will never leave us." ) );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
         popup( _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "The amber-yellow of the sap.  Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"" ) );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
         popup( _( "We are the Mycus." ) );
         /*p->add_msg_if_player( m_good,
                               _( "We welcome into us.  We have endured long in this forbidding world." ) );
