@@ -1161,6 +1161,9 @@ class Character : public Creature, public visitable<Character>
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
+        /**When a critical failure occurs*/
+        void roll_critical_bionics_failure( body_part bp );
+
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill );
