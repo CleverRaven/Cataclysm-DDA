@@ -150,7 +150,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
     g->reenter_fullscreen();
 
@@ -179,11 +178,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         }
         return;
     }
-
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
 
     // Fire!
     item *weapon = get_weapon();
@@ -264,7 +258,7 @@ void aim_activity_actor::restore_view()
     g->u.view_offset = initial_view_offset;
     if( changed_z ) {
         g->m.invalidate_map_cache( g->u.view_offset.z );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
     }
 }
 
@@ -310,7 +304,6 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.moves -= reload_time;
-    g->refresh_all();
     return true;
 }
 
@@ -335,7 +328,6 @@ void aim_activity_actor::unload_RAS_weapon()
         if( first_turn ) {
             you.moves = moves_before_unload;
         }
-        g->refresh_all();
     }
 }
 

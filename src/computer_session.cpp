@@ -1488,9 +1488,6 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
                 return ynq::quit;
             }
         }
-        if( action == "HELP_KEYBINDINGS" ) {
-            refresh();
-        }
     } while( true );
 }
 

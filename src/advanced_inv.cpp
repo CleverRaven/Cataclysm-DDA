@@ -113,12 +113,6 @@ advanced_inventory::~advanced_inventory()
     }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
-        werase( head );
-        werase( minimap );
-        werase( mm_border );
-        werase( panes[left].window );
-        werase( panes[right].window );
-        g->refresh_all();
         g->u.check_item_encumbrance_flag();
     }
 }
@@ -1681,12 +1675,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     }
     // Selected keyed to uilist.entries, which starts at 0.
     menu.selected = save_state->last_popup_dest - AIM_SOUTHWEST;
-    // generate and show window.
-    menu.show();
-    // query, but don't loop
-    while( menu.ret == UILIST_WAIT_INPUT ) {
-        menu.query( false );
-    }
+    menu.query();
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
         assert( squares[menu.ret].canputitems() );
         def = static_cast<aim_location>( menu.ret );

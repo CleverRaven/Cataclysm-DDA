@@ -437,8 +437,13 @@ void player::power_bionics()
     catacurses::window w_title;
     catacurses::window w_tabs;
 
+    bool hide = false;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        if( hide ) {
+            ui.position( point_zero, point_zero );
+            return;
+        }
         // Main window
         /** Total required height is:
          * top frame line:                                         + 1
@@ -509,6 +514,10 @@ void player::power_bionics()
     ctxt.register_action( "TOGGLE_AUTO_START" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( hide ) {
+            return;
+        }
+
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
 
         werase( wBio );
@@ -647,7 +656,6 @@ void player::power_bionics()
             }
             const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
-            wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;
             }
@@ -747,9 +755,8 @@ void player::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
-                    // Invalidate bionics menu so the remaining power gets redrawn
-                    // if other UIs are opened when activating the bionic.
-                    ui.invalidate_ui();
+                    hide = true;
+                    ui.mark_resize();
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {
@@ -760,6 +767,8 @@ void player::power_bionics()
                             break;
                         }
                     }
+                    hide = false;
+                    ui.mark_resize();
                     g->invalidate_main_ui_adaptor();
                     if( moves < 0 ) {
                         return;

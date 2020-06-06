@@ -218,9 +218,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
 
-    catacurses::refresh();
     wrefresh( w_open );
-    catacurses::refresh();
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -457,7 +455,6 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
     wrefresh( w_border );
     wrefresh( w_text );
-    catacurses::refresh();
 }
 
 void main_menu::load_char_templates()
@@ -487,9 +484,7 @@ bool main_menu::opening_screen()
     world_generator->init();
 
     get_help().load();
-    init_windows();
     init_strings();
-    print_menu( w_open, 0, menu_offset );
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         popup( _( "Unable to make config directory.  Check permissions." ) );
@@ -595,7 +590,7 @@ bool main_menu::opening_screen()
         init_windows();
         ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_open );
+    ui.mark_resize();
 
     while( !start ) {
         ui_manager::redraw();
@@ -783,10 +778,6 @@ bool main_menu::opening_screen()
             }
         }
     }
-    if( start ) {
-        g->refresh_all();
-        g->draw();
-    }
     return start;
 }
 
@@ -895,6 +886,7 @@ bool main_menu::new_character_tab()
                         g->u = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
+                    g->gamemode = nullptr;
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
@@ -984,6 +976,7 @@ bool main_menu::new_character_tab()
                     g->u = avatar();
                     world_generator->set_active_world( nullptr );
                 } );
+                g->gamemode = nullptr;
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
                     continue;
@@ -1180,6 +1173,7 @@ bool main_menu::load_character_tab( bool transfer )
                         world_generator->set_active_world( nullptr );
                     } );
 
+                    g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
                     world_generator->last_character_name = savegames[sel3].player_name();

@@ -671,10 +671,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         forage_return( p );
     }
 
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels( true );
-
     return true;
 }
 

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <set>
@@ -523,7 +524,16 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
-    const auto opts = item_controller->all();
+    std::vector<std::pair<std::string, const itype *>> opts;
+    for( const itype *i : item_controller->all() ) {
+        opts.emplace_back( item( i, 0 ).tname( 1, false ), i );
+    }
+    std::sort( opts.begin(), opts.end(), localized_compare );
+    std::vector<const itype *> itypes;
+    std::transform( opts.begin(), opts.end(), std::back_inserter( itypes ),
+    []( const auto & pair ) {
+        return pair.second;
+    } );
 
     int prev_amount = 1;
     int amount = 1;
@@ -536,12 +546,12 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         return std::max( TERMX / 2, TERMX - 50 );
     };
     wmenu.selected = uistate.wishitem_selected;
-    wish_item_callback cb( opts );
+    wish_item_callback cb( itypes );
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i], 0 );
-        wmenu.addentry( i, true, 0, ity.tname( 1, false ) );
+        item ity( opts[i].second, 0 );
+        wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
         entry_extra_text.color = ity.color();
@@ -554,7 +564,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret] );
+            item granted( opts[wmenu.ret].second );
             if( cb.incontainer ) {
                 granted = granted.in_its_container();
             }
@@ -674,9 +684,6 @@ void debug_menu::wishskill( player *p )
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
             }
             sksetmenu.query();
-            g->draw_ter();
-            wrefresh( g->w_terrain );
-            g->draw_panels( true );
             skset = sksetmenu.ret;
         }
 
