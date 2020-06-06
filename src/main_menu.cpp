@@ -895,6 +895,7 @@ bool main_menu::new_character_tab()
                         g->u = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
+                    g->gamemode = nullptr;
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
@@ -984,6 +985,7 @@ bool main_menu::new_character_tab()
                     g->u = avatar();
                     world_generator->set_active_world( nullptr );
                 } );
+                g->gamemode = nullptr;
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
                     continue;
@@ -1180,6 +1182,7 @@ bool main_menu::load_character_tab( bool transfer )
                         world_generator->set_active_world( nullptr );
                     } );
 
+                    g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
                     world_generator->last_character_name = savegames[sel3].player_name();
