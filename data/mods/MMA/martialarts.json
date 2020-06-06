@@ -231,6 +231,7 @@
     ]
   },
   {
+    "type": "martial_art",
     "id": "style_mma_iron_heart",
     "name": { "str": "Iron Heart" },
     "description": "Absolute mastery of the sword is the goal of the Iron Heart discipline.  Through unending practice and study, the Iron Heart adept achieves superhuman skill with her weapons.  Iron Heart maneuvers are demonstrations of uncanny martial skill—weaving patterns of steel that dizzy, confuse, and ultimately kill with no recourse.",
