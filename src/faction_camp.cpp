@@ -1545,10 +1545,6 @@ bool basecamp::handle_mission( const std::string &miss_id,
         emergency_recall();
     }
 
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels( true );
-
     return true;
 
 }
@@ -1921,7 +1917,6 @@ void basecamp::start_cut_logs()
                        chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
-        g->draw_ter();
 
         npc_ptr comp = start_mission( "_faction_camp_cut_log", work_time, true,
                                       _( "departs to cut logs…" ), false, {},
@@ -1967,7 +1962,6 @@ void basecamp::start_clearcut()
                        chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
-        g->draw_ter();
 
         npc_ptr comp = start_mission( "_faction_camp_clearcut", work_time,
                                       true, _( "departs to clear a forest…" ), false, {},
@@ -3559,9 +3553,6 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
 {
     std::vector<item *> equipment_lost;
     do {
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-
         std::vector<std::string> names;
         names.reserve( equipment.size() );
         for( auto &i : equipment ) {

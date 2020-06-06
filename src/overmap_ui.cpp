@@ -1404,6 +1404,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint &curs,
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
+    background_pane bg_pane;
+
     ui_adaptor ui;
     ui.on_screen_resize( []( ui_adaptor & ui ) {
         /**

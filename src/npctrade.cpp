@@ -699,7 +699,6 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
             g->u.practice( skill_barter, practice / 10000 );
         }
     }
-    g->refresh_all();
     return traded;
 }
 

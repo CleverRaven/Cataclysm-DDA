@@ -146,8 +146,6 @@ void string_input_popup::show_history( utf8_wrapper &ret )
                 finished = true;
             }
         } while( !finished );
-        werase( hmenu.window );
-        wrefresh( hmenu.window );
     }
 }
 
