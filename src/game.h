@@ -580,7 +580,9 @@ class game
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
                                   const std::string &area_name, int column,
-                                  int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
+                                  int &line, int last_line, const visibility_variables &cache );
+
+        void draw_terrain_indicator( const tripoint &lp, const visibility_variables &cache ) const;
 
         /** Long description of (visible) things at tile. */
         void extended_description( const tripoint &p );
@@ -845,7 +847,7 @@ class game
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                     visibility_type visibility );
-        void print_visibility_indicator( visibility_type visibility );
+        void print_visibility_indicator( visibility_type visibility ) const;
         void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,

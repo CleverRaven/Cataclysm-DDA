@@ -5888,10 +5888,44 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+void game::draw_terrain_indicator( const tripoint &lp, const visibility_variables &cache ) const
+{
+    visibility_type visibility = VIS_HIDDEN;
+    const bool inbounds = m.inbounds( lp );
+    if( inbounds ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    }
+    const Creature *creature = critter_at( lp, true );
+    switch( visibility ) {
+        case VIS_CLEAR:
+#if defined( TILES )
+            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
+#endif
+            {
+                if( creature != nullptr && u.sees( *creature ) ) {
+                    creature->draw( w_terrain, lp, true );
+                } else {
+                    m.drawsq( w_terrain, u, lp, true, true, lp );
+                }
+            }
+            break;
+        case VIS_HIDDEN:
+#if defined( TILES )
+            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
+#endif
+            {
+                print_visibility_indicator( visibility );
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
                                 const std::string &area_name, int column,
                                 int &line,
-                                const int last_line, bool draw_terrain_indicators,
+                                const int last_line,
                                 const visibility_variables &cache )
 {
     visibility_type visibility = VIS_HIDDEN;
@@ -5911,14 +5945,6 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 last_line );
             print_items_info( lp, w_look, column, line, last_line );
             print_graffiti_info( lp, w_look, column, line, last_line );
-
-            if( draw_terrain_indicators && !liveview.is_enabled() ) {
-                if( creature != nullptr && u.sees( *creature ) ) {
-                    creature->draw( w_terrain, lp, true );
-                } else {
-                    m.drawsq( w_terrain, u, lp, true, true, lp );
-                }
-            }
         }
         break;
         case VIS_BOOMER:
@@ -5954,10 +5980,6 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                 } else if( u.sees_with_specials( *creature ) ) {
                     mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
                 }
-            }
-
-            if( draw_terrain_indicators && !liveview.is_enabled() ) {
-                print_visibility_indicator( visibility );
             }
             break;
     }
@@ -6148,7 +6170,7 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_visibility_indicator( visibility_type visibility )
+void game::print_visibility_indicator( visibility_type visibility ) const
 {
     std::string visibility_indicator;
     nc_color visibility_indicator_color = c_white;
@@ -6745,8 +6767,7 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
     const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
     // we only need the area name and then pass it to print_all_tile_info() function below
     const std::string area_name = cur_ter_m->get_name();
-    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(),
-                         cache );
+    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
 }
 
 cata::optional<tripoint> game::look_around()
@@ -6852,6 +6873,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     bool blink = true;
     look_around_result result;
 
+    shared_ptr_fast<draw_callback_t> ter_indicator_cb;
+
     if( show_window && ui ) {
         ui->on_redraw( [&]( const ui_adaptor & ) {
             werase( w_info );
@@ -6876,6 +6899,10 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             wrefresh( w_info );
         } );
+        ter_indicator_cb = make_shared_fast<draw_callback_t>( [&]() {
+            draw_terrain_indicator( lp, cache );
+        } );
+        add_draw_callback( ter_indicator_cb );
     }
 
     cata::optional<tripoint> zone_start;
@@ -6902,13 +6929,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
-        } else {
-            zone_start = lp;
-            zone_end = cata::nullopt;
-            // Actually accessed from the terrain overlay callback `zone_cb` in the
-            // call to `ui_manager::redraw`.
-            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-            zone_blink = false;
         }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
