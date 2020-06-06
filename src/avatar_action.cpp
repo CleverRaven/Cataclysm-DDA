@@ -1171,11 +1171,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const tripoint original_player_position = you.pos();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
-        g->draw_ter();
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
 
     const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;

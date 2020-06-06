@@ -2794,7 +2794,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        g->draw();
         item_location item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2840,7 +2839,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
-            g->draw();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {
@@ -3092,7 +3090,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         p->omt_path.pop_back();
         if( p->omt_path.empty() ) {
             p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-            g->draw();
             act->set_to_null();
             return;
         }
@@ -3119,7 +3116,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
     } else {
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
     }
-    g->draw();
     act->set_to_null();
 }
 

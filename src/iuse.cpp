@@ -1900,7 +1900,6 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     if( !it->ammo_sufficient() ) {
         return 0;
     }
-    g->draw();
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const cata::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
