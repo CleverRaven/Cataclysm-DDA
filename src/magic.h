@@ -457,6 +457,7 @@ class known_magic
     public:
         // ignores all distractions when casting a spell when true
         bool casting_ignore = false;
+        static bool disable_spell_class_conflict;
 
         known_magic();
 

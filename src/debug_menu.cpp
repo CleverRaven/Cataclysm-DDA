@@ -169,6 +169,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS,
+    DEBUG_CLASS_CONFLICT_SPELLS,
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
     DEBUG_NESTED_MAPGEN
 };
@@ -202,6 +203,8 @@ static int player_uilist()
                                          _( "Learn all spells" ) ) );
         uilist_initializer.emplace_back( uilist_entry( DEBUG_LEVEL_SPELLS, true, 'L',
                                          _( "Level a spell" ) ) );
+        uilist_initializer.emplace_back( uilist_entry( DEBUG_CLASS_CONFLICT_SPELLS, true, 'C',
+                                         _( "Disable spell class conflict" ) ) );
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
@@ -1814,6 +1817,9 @@ void debug()
             add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
             break;
         }
+        case DEBUG_CLASS_CONFLICT_SPELLS:
+            known_magic::disable_spell_class_conflict = true;
+            break;
         case DEBUG_TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
             break;

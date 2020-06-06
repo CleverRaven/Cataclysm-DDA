@@ -1412,8 +1412,12 @@ void known_magic::forget_spell( const spell_id &sp )
     spellbook.erase( sp );
 }
 
+bool known_magic::disable_spell_class_conflict = false;
 bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
 {
+    if( disable_spell_class_conflict ) {
+        return true;
+    }
     const spell_type &sp_t = sp.obj();
     if( sp_t.spell_class == trait_NONE ) {
         return true;
