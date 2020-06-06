@@ -99,6 +99,7 @@
     "aoe": "wide"
   },
   {
+    "type": "technique",
     "id": "mma_tec_iron_heart_disarm",
     "name": "Disarming Strike",
     "messages": [ "You skillfully disarm %s", "<npcname> skillfully disarms %s" ],
@@ -229,7 +230,6 @@
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ]
   },
-
   {
     "type": "technique",
     "id": "mma_tec_pokken_kick",
