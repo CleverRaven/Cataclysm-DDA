@@ -105,7 +105,8 @@
     "messages": [ "You skillfully disarm %s", "<npcname> skillfully disarms %s" ],
     "unarmed_allowed": true,
     "disarms": true
-
+  },
+  {
     "type": "technique",
     "id": "mma_tec_iron_heart_feint",
     "name": "Lightning Recovery",
