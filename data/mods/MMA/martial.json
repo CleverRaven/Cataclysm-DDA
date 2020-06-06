@@ -27,6 +27,15 @@
     "book_data": { "martial_art": "style_mma_hylian" }
   },
   {
+    "id": "manual_mma_pokken",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Pocket Monster Encyclopedia" },
+    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them the in a real fight.",
+    "book_data": { "martial_art": "style_mma_pokken" }
+  },
+  {
     "id": "manual_mma_panzer",
     "copy-from": "book_martial",
     "looks_like": "manual_karate",
