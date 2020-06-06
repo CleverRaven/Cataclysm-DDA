@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "magiclysm_no_class_limit",
+    "name": "Magiclysm No Class Limit",
+    "authors": [ "martinrhan" ],
+    "maintainers": [ "martinrhan" ],
+    "description": "Remove limitation of conflict spell classes.",
+    "category": "content",
+    "dependencies": [ "magiclysm" ]
+  }
+]

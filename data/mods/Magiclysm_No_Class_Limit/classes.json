@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mutation",
+    "id": "MAGUS",
+    "copy-from": "MAGUS",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMIST",
+    "copy-from": "ANIMIST",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "KELVINIST",
+    "copy-from": "KELVINIST",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "STORMSHAPER",
+    "copy-from": "STORMSHAPER",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "TECHNOMANCER",
+    "copy-from": "TECHNOMANCER",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "EARTHSHAPER",
+    "copy-from": "EARTHSHAPER",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER",
+    "copy-from": "BIOMANCER",
+    "cancels": [ ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID",
+    "copy-from": "DRUID",
+    "cancels": [ ]
+  }
+]
