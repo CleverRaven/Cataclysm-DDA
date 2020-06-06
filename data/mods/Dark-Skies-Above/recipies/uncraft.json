@@ -1,0 +1,34 @@
+[
+  {
+    "result": "broken_dks_glowdrone",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "dks_powercell", 1 ] ],
+      [ [ "dks_elecscrap", 1 ] ],
+      [ [ "dks_biotech", 1 ] ],
+      [ [ "dks_blend_scrap", 1 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_dks_scidrone",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "dks_powercell", 1 ] ],
+      [ [ "dks_elecscrap", 1 ] ],
+      [ [ "dks_biotech", 1 ] ],
+      [ [ "dks_blend_scrap", 1 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  }
+]

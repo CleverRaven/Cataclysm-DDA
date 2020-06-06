@@ -72,6 +72,34 @@
   },
   {
     "type": "technique",
+    "id": "mma_tec_hylian_spin",
+    "name": "Spin Attack",
+    "messages": [
+      "You unleash a spin attack against %s and those nearby",
+      "<npcname> unleashes a spin attack against %s and those nearby"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "crit_ok": true,
+    "aoe": "spin"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_hylian_wide",
+    "name": "Spin Attack",
+    "messages": [
+      "You unleash a spin attack against %s and those nearby",
+      "<npcname> unleashes a spin attack against %s and those nearby"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "crit_ok": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
     "id": "mma_tec_panzer_counter",
     "name": "Ausstoß",
     "//": "Outer Thrust.",

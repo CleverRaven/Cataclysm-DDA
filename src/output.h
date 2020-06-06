@@ -589,10 +589,6 @@ size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_colo
                        const std::string &fmt );
 std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
 
-// short visual animation (player, monster, ...) (hit, dodge, ...)
-// cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile );
-
 /**
  * @return Pair of a string containing the bar, and its color
  * @param cur Current value being formatted
