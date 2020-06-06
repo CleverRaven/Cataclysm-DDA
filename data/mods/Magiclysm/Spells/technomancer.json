@@ -447,8 +447,8 @@
 	"description": "You open a door and I can finally go to sleep.",
 	"valid_targets": [ "ground" ],
 	"effect": "ter_transform",
-	"effect_str": "unlock_door"
-	"flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE" ]
+	"effect_str": "unlock_door",
+	"flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE" ],
 	"max_level": 10,
 	"base_casting_time": 1200,
 	"base_energy_cost": 300,
