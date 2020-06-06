@@ -9215,7 +9215,7 @@ units::volume Character::volume_capacity() const
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
         for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            if ( it->contents.all_pockets_rigid() ) {
+            if( it->contents.all_pockets_rigid() ) {
                 volume_capacity += it->contents.total_container_capacity();
             }
         }
@@ -9233,7 +9233,7 @@ units::volume Character::volume_carried() const
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_contained_volume();
         for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            if ( it->contents.all_pockets_rigid() ) {
+            if( it->contents.all_pockets_rigid() ) {
                 volume_capacity += it->contents.total_contained_volume();
             }
         }
