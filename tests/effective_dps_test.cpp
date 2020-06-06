@@ -458,4 +458,27 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "fencing_sabre", 4.0 );
         calc_expected_dps( test_guy, "fencing_foil", 2.0 );
     }
+    SECTION( "knife" ) { // expected value 19
+        calc_expected_dps( test_guy, "bio_blade_weapon", 25.0 ); // much better than any other knife
+        calc_expected_dps( test_guy, "knife_trench", 19.0 );
+        calc_expected_dps( test_guy, "kirpan", 18.0 );
+        calc_expected_dps( test_guy, "knife_combat", 19.0 );
+        calc_expected_dps( test_guy, "tanto", 18.0 );
+        calc_expected_dps( test_guy, "kris", 18.0 );
+        calc_expected_dps( test_guy, "knife_rambo", 17.0 );
+        calc_expected_dps( test_guy, "tanto_inferior", 15.0 );
+        calc_expected_dps( test_guy, "knife_hunting", 11.0 );
+        calc_expected_dps( test_guy, "kirpan_cheap", 11.0 );
+        calc_expected_dps( test_guy, "switchblade", 10.5 );
+        calc_expected_dps( test_guy, "knife_meat_cleaver", 8.5 );
+        calc_expected_dps( test_guy, "diveknife", 8.0 );
+        calc_expected_dps( test_guy, "copper_knife", 8.0 );
+        calc_expected_dps( test_guy, "knife_butcher", 7.5 );
+        calc_expected_dps( test_guy, "throwing_knife", 7.0 );
+        calc_expected_dps( test_guy, "tanto_fake", 7.0 );
+        calc_expected_dps( test_guy, "pockknife", 4.5 );
+        calc_expected_dps( test_guy, "spike", 4.0 );
+        calc_expected_dps( test_guy, "kris_fake", 2.5 );
+        calc_expected_dps( test_guy, "primitive_knife", 2.5 );
+    }
 }
