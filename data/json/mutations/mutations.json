@@ -13,6 +13,36 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM0",
+    "name": { "str": "Reflex Photophore" },
+    "points": -1,
+    "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
+    "cost": 1,
+    "time": 810000,
+    "hunger": true,
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "changes_to": [ "BIOLUM1" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "triggers": [
+      [
+        {
+          "trigger_type": "MOOD",
+          "threshold_low": 20,
+          "msg_on": { "text": "You're so happy you're glowing!", "rating": "mixed" },
+          "msg_off": { "text": "Your glow fades." }
+        },
+        {
+          "trigger_type": "HUNGER",
+          "threshold_low": 110,
+          "msg_on": { "text": "You're feeling hungry, time to lure some preys!", "rating": "mixed" },
+          "msg_off": { "text": "Your glow fades." }
+        }
+      ]
+    ],
+    "lumination": [ [ "HEAD", 8 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BIOLUM1",
     "name": { "str": "Weak Photophore" },
     "points": 1,
@@ -22,6 +52,7 @@
     "time": 810000,
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
+    "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "lumination": [ [ "head", 8 ] ]
@@ -40,6 +71,61 @@
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "lumination": [ [ "head", 20 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "JEKYLL",
+    "name": { "str": "Normal Human" },
+    "points": 0,
+    "description": "You're a normal human, there's nothing wrong with you.  No need to worry.",
+    "category": [ "MEDICAL" ],
+    "triggers": [
+      [
+        {
+          "trigger_type": "MOOD",
+          "threshold_high": -50,
+          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
+        }
+      ],
+      [
+        {
+          "trigger_type": "TIME",
+          "threshold_low": 20,
+          "threshold_high": 2,
+          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
+        }
+      ]
+    ],
+    "transform": { "target": "MRHYDE", "msg_transform": "The anger overtakes you!  You feel yourself changing.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "MRHYDE",
+    "valid": false,
+    "name": { "str": "Violent Monster" },
+    "points": -1,
+    "description": "",
+    "category": [ "MEDICAL" ],
+    "triggers": [
+      [
+        {
+          "trigger_type": "MOOD",
+          "threshold_low": -50,
+          "msg_on": { "text": "From within you hear your voice calling your true name.", "rating": "good" }
+        }
+      ],
+      [
+        {
+          "trigger_type": "TIME",
+          "threshold_low": 2,
+          "threshold_high": 20,
+          "msg_on": { "text": "From within you hear your voice calling your true name.", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.  You feel yourself returning to normal.", "active": false, "moves": 10 },
+    "passive_mods": { "int_mod": -8, "str_mod": 3 },
+    "ugliness": 8
   },
   {
     "type": "mutation",
@@ -2627,6 +2713,7 @@
     "id": "CLAWS_RETRACT",
     "name": { "str": "Retractable Claws" },
     "points": 2,
+    "active": true,
     "description": "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS" ],
@@ -2640,6 +2727,7 @@
     "id": "CLAWS_RETRACT_active",
     "name": { "str": "Extended Claws" },
     "copy-from": "CLAWS_RETRACT",
+    "active": true,
     "valid": false,
     "ugliness": 1,
     "cut_dmg_bonus": 3,

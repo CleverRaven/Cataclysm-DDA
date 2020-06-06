@@ -177,11 +177,9 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
                                   bool start_powered )
 {
     unset_mutation( switched );
-    mutation_loss_effect( switched );
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target );
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -598,6 +596,10 @@ void Character::activate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+
+        if( !mdata.transform->msg_transform.empty() ) {
+            add_msg_if_player( m_neutral, mdata.transform->msg_transform );
+        }
         return;
     }
 
@@ -730,6 +732,10 @@ void Character::deactivate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( -trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+    }
+
+    if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
+        add_msg_if_player( m_neutral, mdata.transform->msg_transform );
     }
 }
 
