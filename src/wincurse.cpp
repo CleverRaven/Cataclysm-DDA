@@ -188,7 +188,6 @@ bool handle_resize( int, int )
         if( SetDIBColorTable( backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
             throw std::runtime_error( "SetDIBColorTable failed" );
         }
-        catacurses::refresh();
         ui_manager::screen_resized();
     }
 
