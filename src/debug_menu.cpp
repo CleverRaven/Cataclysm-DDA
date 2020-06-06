@@ -1819,6 +1819,7 @@ void debug()
         }
         case DEBUG_CLASS_CONFLICT_SPELLS:
             known_magic::disable_spell_class_conflict = true;
+            add_msg( m_good, "Spell class confict is now disabled!" );
             break;
         case DEBUG_TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
