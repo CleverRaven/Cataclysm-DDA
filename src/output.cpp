@@ -336,14 +336,6 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
     return textformatted.size();
 }
 
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text )
-{
-    scrollable_text( [&w]() {
-        return w;
-    }, title, text );
-}
-
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text )
 {

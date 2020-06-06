@@ -324,8 +324,6 @@ void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
 int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
