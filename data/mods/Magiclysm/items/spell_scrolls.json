@@ -876,5 +876,13 @@
     "name": { "str": "Scroll of Wall of Fog", "str_pl": "Scrolls of Wall of Fog" },
     "description": "Draws forth a broad wall of thick fog.  While the sudden force of air pressure will floor any enemies caught in it, the conjuration is otherwise harmless.",
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_wall_of_fog" ] }
+  },
+  {
+	"type": "BOOK",
+	"copy-from": "spell_scroll",
+	"id": "spell_scroll_knock",
+	"name": { "str": "Scroll of Knock", "str_pl": "Scrolls of Knock" },
+	"description": "You can channel magical energy to open a locked door from a short range away.",
+	"use_action": { "type": "learn_spell", "spells": [ "knock" ] }
   }
 ]
