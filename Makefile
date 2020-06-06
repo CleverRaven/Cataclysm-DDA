@@ -1102,22 +1102,18 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
-JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
-
-style-json: $(JSON_WHITELIST)
-
-$(JSON_WHITELIST): json_blacklist json_formatter
+style-json: json_blacklist $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	@$(JSON_FORMATTER_BIN) $@
+	find data -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
+	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
-style-all-json: json_formatter
+style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
-json_formatter: $(JSON_FORMATTER_SOURCES)
+$(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
