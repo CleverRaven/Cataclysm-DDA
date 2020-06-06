@@ -3568,7 +3568,6 @@ void game::refresh_all()
     }
 
     draw();
-    catacurses::refresh();
 }
 
 void game::draw_minimap()
