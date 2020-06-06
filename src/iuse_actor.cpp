@@ -1251,7 +1251,6 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
-            g->refresh_all();
             return false;
         }
     }

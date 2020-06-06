@@ -309,7 +309,7 @@ game::game() :
     tileset_zoom( DEFAULT_TILESET_ZOOM ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
-    player_was_sleeping = false;
+    first_redraw_since_waiting_started = true;
     reset_light_level();
     events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
@@ -535,7 +535,6 @@ void game::reload_tileset()
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
-    g->refresh_all();
 #endif // TILES
 }
 
@@ -1566,38 +1565,39 @@ bool game::do_turn()
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
-
+    bool wait_redraw = false;
+    std::string wait_message;
+    time_duration wait_refresh_rate;
     if( player_is_sleeping ) {
-        if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
-            ui_manager::redraw();
-            //Putting this in here to save on checking
-            if( calendar::once_every( 1_hours ) ) {
-                add_artifact_dreams( );
-            }
+        wait_redraw = true;
+        wait_message = _( "Wait till you wake up…" );
+        wait_refresh_rate = 30_minutes;
+        if( calendar::once_every( 1_hours ) ) {
+            add_artifact_dreams();
         }
-
-        if( calendar::once_every( 1_minutes ) ) {
-            query_popup()
-            .wait_message( "%s", _( "Wait till you wake up…" ) )
-            .on_top( true )
-            .show();
-
-            catacurses::refresh();
-            refresh_display();
-        }
-    } else if( calendar::once_every( 1_minutes ) ) {
-        if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
-            query_popup()
-            .wait_message( "%s", *progress )
-            .on_top( true )
-            .show();
-
-            catacurses::refresh();
-            refresh_display();
-        }
+    } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
+        wait_redraw = true;
+        wait_message = *progress;
+        wait_refresh_rate = 5_minutes;
     }
+    if( wait_redraw ) {
+        if( first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+            if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
+                ui_manager::redraw();
+            }
 
-    player_was_sleeping = player_is_sleeping;
+            // Avoid redrawing the main UI every time due to invalidation
+            ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+            static_popup popup;
+            popup.on_top( true ).wait_message( "%s", wait_message );
+            ui_manager::redraw();
+            refresh_display();
+            first_redraw_since_waiting_started = false;
+        }
+    } else {
+        // Nothing to wait for now
+        first_redraw_since_waiting_started = true;
+    }
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
@@ -1641,13 +1641,6 @@ void game::process_activity()
 {
     if( !u.activity ) {
         return;
-    }
-
-    if( calendar::once_every( 5_minutes )
-        && u.activity.moves_total > to_moves<int>
-        ( 5_minutes ) ) {//This is a hack to prevent an issue with the consume menu popping up again when this fires, since eating is not at present ever 5 minutes long this works
-        ui_manager::redraw();
-        refresh_display();
     }
 
     while( u.moves > 0 && u.activity ) {
@@ -3131,32 +3124,33 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::disp_NPC_epilogues()
 {
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ), std::max( 0,
-                                   ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         shared_ptr_fast<npc> guy = overmap_buffer.find_npc( elem );
         if( !guy ) {
             continue;
         }
-        scrollable_text( w, guy->disp_name(), guy->get_epilogue() );
+        const auto new_win = []() {
+            return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                       point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                              std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+        };
+        scrollable_text( new_win, guy->disp_name(), guy->get_epilogue() );
     }
-
-    refresh_all();
 }
 
 void game::display_faction_epilogues()
 {
-    catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                           point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
-                                  std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
-
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             const std::vector<std::string> epilogue = elem.second.epilogue();
             if( !epilogue.empty() ) {
-                scrollable_text( w, elem.second.name,
+                const auto new_win = []() {
+                    return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                               point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                                      std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
+                };
+                scrollable_text( new_win, elem.second.name,
                                  std::accumulate( epilogue.begin() + 1, epilogue.end(), epilogue.front(),
                 []( const std::string & lhs, const std::string & rhs ) -> std::string {
                     return lhs + "\n" + rhs;
@@ -3164,8 +3158,6 @@ void game::display_faction_epilogues()
             }
         }
     }
-
-    refresh_all();
 }
 
 struct npc_dist_to_player {
@@ -3607,18 +3599,6 @@ void game::draw_veh_dir_indicator( bool next )
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, indicator_offset->xy() - u.view_offset.xy() + point( POSX, POSY ), col, 'X' );
     }
-}
-
-void game::refresh_all()
-{
-    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
-    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    for( int z = minz; z <= maxz; z++ ) {
-        m.reset_vehicle_cache( z );
-    }
-
-    draw();
-    catacurses::refresh();
 }
 
 void game::draw_minimap()
@@ -5625,10 +5605,6 @@ void game::examine()
         return;
     }
     u.manual_examine = true;
-    // redraw terrain to erase 'examine' window
-    draw_ter();
-    wrefresh( w_terrain );
-    draw_panels( true );
     examine( *examp_ );
     u.manual_examine = false;
 }
@@ -5780,9 +5756,6 @@ void game::examine( const tripoint &examp )
 
     if( !m.tr_at( examp ).is_null() && !u.is_mounted() ) {
         iexamine::trap( u, examp );
-        draw_ter();
-        wrefresh( w_terrain );
-        draw_panels();
     } else if( !m.tr_at( examp ).is_null() && u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
     }
@@ -5832,17 +5805,16 @@ void game::pickup()
     if( !examp_ ) {
         return;
     }
-    // redraw terrain to erase 'pickup' window
-    draw_ter();
-    // wrefresh is called in pickup( const tripoint & )
     pickup( *examp_ );
 }
 
 void game::pickup( const tripoint &p )
 {
     // Highlight target
-    g->m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
-    wrefresh( w_terrain );
+    shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
+    } );
+    add_draw_callback( hilite_cb );
 
     Pickup::pick_up( p, 0 );
 }
@@ -5858,7 +5830,6 @@ void game::peek()
 {
     const cata::optional<tripoint> p = choose_direction( _( "Peek where?" ), true );
     if( !p ) {
-        refresh_all();
         return;
     }
 
@@ -5869,10 +5840,7 @@ void game::peek()
         if( old_pos != u.pos() ) {
             look_around();
             vertical_move( p->z * -1, false );
-            draw_ter();
         }
-        wrefresh( w_terrain );
-        draw_panels();
         return;
     }
 
@@ -5898,10 +5866,6 @@ void game::peek( const tripoint &p )
         avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
-
-    draw_ter();
-    wrefresh( w_terrain );
-    draw_panels();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 cata::optional<tripoint> game::look_debug()
@@ -5911,10 +5875,44 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+void game::draw_terrain_indicator( const tripoint &lp, const visibility_variables &cache ) const
+{
+    visibility_type visibility = VIS_HIDDEN;
+    const bool inbounds = m.inbounds( lp );
+    if( inbounds ) {
+        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+    }
+    const Creature *creature = critter_at( lp, true );
+    switch( visibility ) {
+        case VIS_CLEAR:
+#if defined( TILES )
+            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
+#endif
+            {
+                if( creature != nullptr && u.sees( *creature ) ) {
+                    creature->draw( w_terrain, lp, true );
+                } else {
+                    m.drawsq( w_terrain, u, lp, true, true, lp );
+                }
+            }
+            break;
+        case VIS_HIDDEN:
+#if defined( TILES )
+            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
+#endif
+            {
+                print_visibility_indicator( visibility );
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
                                 const std::string &area_name, int column,
                                 int &line,
-                                const int last_line, bool draw_terrain_indicators,
+                                const int last_line,
                                 const visibility_variables &cache )
 {
     visibility_type visibility = VIS_HIDDEN;
@@ -5934,14 +5932,6 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 last_line );
             print_items_info( lp, w_look, column, line, last_line );
             print_graffiti_info( lp, w_look, column, line, last_line );
-
-            if( draw_terrain_indicators && !liveview.is_enabled() ) {
-                if( creature != nullptr && u.sees( *creature ) ) {
-                    creature->draw( w_terrain, lp, true );
-                } else {
-                    m.drawsq( w_terrain, u, lp, true, true, lp );
-                }
-            }
         }
         break;
         case VIS_BOOMER:
@@ -5977,10 +5967,6 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                 } else if( u.sees_with_specials( *creature ) ) {
                     mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
                 }
-            }
-
-            if( draw_terrain_indicators && !liveview.is_enabled() ) {
-                print_visibility_indicator( visibility );
             }
             break;
     }
@@ -6171,7 +6157,7 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_visibility_indicator( visibility_type visibility )
+void game::print_visibility_indicator( visibility_type visibility ) const
 {
     std::string visibility_indicator;
     nc_color visibility_indicator_color = c_white;
@@ -6768,8 +6754,7 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
     const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
     // we only need the area name and then pass it to print_all_tile_info() function below
     const std::string area_name = cur_ter_m->get_name();
-    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(),
-                         cache );
+    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
 }
 
 cata::optional<tripoint> game::look_around()
@@ -6875,6 +6860,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     bool blink = true;
     look_around_result result;
 
+    shared_ptr_fast<draw_callback_t> ter_indicator_cb;
+
     if( show_window && ui ) {
         ui->on_redraw( [&]( const ui_adaptor & ) {
             werase( w_info );
@@ -6899,6 +6886,10 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             wrefresh( w_info );
         } );
+        ter_indicator_cb = make_shared_fast<draw_callback_t>( [&]() {
+            draw_terrain_indicator( lp, cache );
+        } );
+        add_draw_callback( ter_indicator_cb );
     }
 
     cata::optional<tripoint> zone_start;
@@ -6925,13 +6916,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
-        } else {
-            zone_start = lp;
-            zone_end = cata::nullopt;
-            // Actually accessed from the terrain overlay callback `zone_cb` in the
-            // call to `ui_manager::redraw`.
-            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-            zone_blink = false;
         }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
@@ -8156,7 +8140,6 @@ void game::drop()
 void game::drop_in_direction()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        refresh_all();
         u.drop( game_menus::inv::multidrop( u ), *pnt );
     }
 }
@@ -8641,9 +8624,6 @@ void game::butcher()
             break;
         case BUTCHER_CORPSE: {
             butcher_submenu( corpses, indexer_index );
-            draw_ter();
-            wrefresh( w_terrain );
-            draw_panels( true );
             u.activity.targets.emplace_back( map_cursor( u.pos() ), &*corpses[indexer_index] );
         }
         break;
@@ -8749,8 +8729,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         }
         u.activity.targets.push_back( std::move( opt.ammo ) );
     }
-
-    refresh_all();
 }
 
 // Reload something.
@@ -10258,7 +10236,9 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
         range--;
         steps++;
         if( animate && ( seen || u.sees( *c ) ) ) {
-            draw();
+            invalidate_main_ui_adaptor();
+            ui_manager::redraw_invalidated();
+            refresh_display();
         }
     }
 
@@ -10721,7 +10701,6 @@ void game::vertical_move( int movez, bool force )
     }
 
     m.invalidate_map_cache( g->get_levz() );
-    refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
 

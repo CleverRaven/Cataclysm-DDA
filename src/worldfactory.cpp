@@ -1304,7 +1304,6 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
                     ctxtp.get_desc( "HELP_KEYBINDINGS" )
                   );
     wrefresh( win );
-    catacurses::refresh();
 }
 
 void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t current )

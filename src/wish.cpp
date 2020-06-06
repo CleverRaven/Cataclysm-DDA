@@ -674,9 +674,6 @@ void debug_menu::wishskill( player *p )
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
             }
             sksetmenu.query();
-            g->draw_ter();
-            wrefresh( g->w_terrain );
-            g->draw_panels( true );
             skset = sksetmenu.ret;
         }
 

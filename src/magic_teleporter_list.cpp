@@ -183,7 +183,6 @@ class teleporter_callback : public uilist_callback
 cata::optional<tripoint> teleporter_list::choose_teleport_location()
 {
     cata::optional<tripoint> ret = cata::nullopt;
-    g->refresh_all();
 
     uilist teleport_selector;
     teleport_selector.w_height_setup = 24;

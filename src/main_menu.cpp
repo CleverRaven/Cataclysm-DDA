@@ -218,9 +218,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
 
-    catacurses::refresh();
     wrefresh( w_open );
-    catacurses::refresh();
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -457,7 +455,6 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
     wrefresh( w_border );
     wrefresh( w_text );
-    catacurses::refresh();
 }
 
 void main_menu::load_char_templates()
@@ -487,9 +484,7 @@ bool main_menu::opening_screen()
     world_generator->init();
 
     get_help().load();
-    init_windows();
     init_strings();
-    print_menu( w_open, 0, menu_offset );
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         popup( _( "Unable to make config directory.  Check permissions." ) );
@@ -595,7 +590,7 @@ bool main_menu::opening_screen()
         init_windows();
         ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_open );
+    ui.mark_resize();
 
     while( !start ) {
         ui_manager::redraw();
@@ -782,10 +777,6 @@ bool main_menu::opening_screen()
                 }
             }
         }
-    }
-    if( start ) {
-        g->refresh_all();
-        g->draw();
     }
     return start;
 }
