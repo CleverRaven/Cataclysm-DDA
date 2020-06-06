@@ -956,8 +956,6 @@ action_id handle_action_menu()
         smenu.query();
         const int selection = smenu.ret;
 
-        g->draw();
-
         if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
         } else if( selection == 2 * NUM_ACTIONS ) {
@@ -1005,8 +1003,6 @@ action_id handle_main_menu()
     smenu.entries = entries;
     smenu.query();
     int selection = smenu.ret;
-
-    g->draw();
 
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;

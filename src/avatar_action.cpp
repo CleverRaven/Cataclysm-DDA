@@ -1024,11 +1024,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const tripoint original_player_position = you.pos();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
-        g->draw_ter();
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
 
     target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
                                             blind_throw_from_pos.has_value() );

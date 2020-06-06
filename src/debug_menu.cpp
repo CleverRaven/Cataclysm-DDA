@@ -75,6 +75,7 @@
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
@@ -1096,13 +1097,19 @@ void draw_benchmark( const int max_difference )
     auto end_tick = std::chrono::steady_clock::now();
     int64_t difference = 0;
     int draw_counter = 0;
+
+    static_popup popup;
+    popup.on_top( true ).message( "%s", _( "Benchmark in progress…" ) );
+
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
         difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
         if( difference >= max_difference ) {
             break;
         }
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
+        refresh_display();
         draw_counter++;
     }
 
@@ -1818,9 +1825,7 @@ void debug()
             MapExtras::debug_spawn_test();
             break;
     }
-    catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
 }
 
 } // namespace debug_menu

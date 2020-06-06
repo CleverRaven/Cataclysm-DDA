@@ -778,10 +778,6 @@ bool main_menu::opening_screen()
             }
         }
     }
-    if( start ) {
-        g->refresh_all();
-        g->draw();
-    }
     return start;
 }
 

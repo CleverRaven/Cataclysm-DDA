@@ -411,7 +411,6 @@ class atm_menu
                 if( !u.activity.is_null() ) {
                     break;
                 }
-                g->draw();
             }
         }
     private:

@@ -2239,13 +2239,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MAP:
-                werase( w_terrain );
                 ui::omap::display();
                 break;
 
             case ACTION_SKY:
                 if( m.is_outside( u.pos() ) ) {
-                    werase( w_terrain );
                     ui::omap::display_visible_weather();
                 } else {
                     add_msg( m_info, _( "You can't see the sky from here." ) );
