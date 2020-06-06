@@ -381,7 +381,7 @@
     "id": "mon_zpider_mass",
     "type": "MONSTER",
     "name": { "str": "mass of zombie spiders" },
-    "description": "Dozens, hundreds of spiders piling up high, each slowly oozing sticky green pus, struggling to keep the fetid mass together and moving.",
+    "description": "Thousands, maybe millions of spiders piling up high, each slowly oozing sticky green pus, struggling to keep the fetid mass together and moving.",
     "default_faction": "zombie",
     "bodytype": "blob",
     "categories": [ "CLASSIC" ],
