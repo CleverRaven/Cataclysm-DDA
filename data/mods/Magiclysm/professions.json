@@ -356,5 +356,33 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "BIOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "storm_police",
+    "name": "Shock Officer",
+    "description": "You were enrolled in a experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
+    "points": 4,
+    "spells": [
+      { "id": "windstrike", "level": 3 },
+      { "id": "windrun", "level": 3 },
+      { "id": "jolt", "level": 4 },
+      { "id": "stormshaper_ionization", "level": 2 }
+    ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 4, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "whistle", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "PR24-retracted", "container-item": "police_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    },
+    "traits": [ "PROF_POLICE", "STORMSHAPER" ]
   }
 ]
