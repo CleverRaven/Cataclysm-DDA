@@ -80,7 +80,7 @@
       { "monster": [ "mon_deino_bio_op" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
       { "monster": [ "mon_deino_bio_op" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
       { "monster": [ "mon_trice_bio_op" ], "x": [ 11, 13 ], "y": [ 13, 14 ], "chance": 100 },
-      { "monster": "mon_zombie_scientist", "x": [ 15, 19 ], "y": 12, "chance": 90, "repeat": [ 1, 2 ] },
+      { "monster": "mon_zeinonychus", "x": [ 15, 19 ], "y": 12, "chance": 90, "repeat": [ 1, 2 ] },
       { "monster": "mon_zeinonychus", "x": [ 9, 10 ], "y": [ 12, 13 ] }
     ]
   }
