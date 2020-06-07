@@ -122,7 +122,7 @@
     "weight": "30 g",
     "volume": "250 ml",
     "price": 0,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": "*",
     "color": "light_green",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]

@@ -27,7 +27,7 @@
     "volume": "10ml",
     "price": 10,
     "price_postapoc": 10,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]

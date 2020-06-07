@@ -354,7 +354,7 @@
     "volume": "750 ml",
     "price": 0,
     "price_postapoc": 5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "white"
   },
@@ -720,7 +720,7 @@
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "3000 g",
     "volume": "750 ml"
   },
@@ -782,7 +782,7 @@
     "description": "A heating element, like the ones used in hotplates or kettles.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -796,7 +796,7 @@
     "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -1646,7 +1646,7 @@
     "color": "red",
     "name": { "str": "blood soaked rag" },
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "material": "cotton",
+    "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": "80 g",
     "volume": "250 ml"
@@ -1774,7 +1774,7 @@
     "category": "other",
     "price": 20000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "36287 g",
     "volume": "3 L",
