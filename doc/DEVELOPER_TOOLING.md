@@ -174,7 +174,7 @@ mkdir -p build
 cd build
 cmake \
     -DCMAKE_MAKE_PROGRAM="<mingw-w64-root>/bin/mingw32-make" \
-    -G "MSYS Makefiles" \
+    -G "MinGW Makefiles" \
     -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra' \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DLLVM_TARGETS_TO_BUILD='X86' \
