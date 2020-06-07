@@ -174,7 +174,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "G": "t_dirtfloor" },
-      "monster": { "G": { "monster": "mon_goblin_chieftain" } }
+      "monster": { "G": { "monster": "mon_goblin_chieftain" }, "g": { "monster": "mon_goblin_slinger" } }
     }
   },
   {
@@ -305,7 +305,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100, "pack_size": [ 2, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
     }
   },
   {
@@ -325,7 +325,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100, "pack_size": [ 2, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
     }
   },
   {
@@ -345,7 +345,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100, "pack_size": [ 2, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
     }
   },
   {
@@ -365,7 +365,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100, "pack_size": [ 2, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
     }
   },
   {
@@ -385,7 +385,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100, "pack_size": [ 2, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
     }
   },
   {
@@ -405,7 +405,7 @@
       ],
       "palettes": [ "goblin_palette" ],
       "terrain": { "c": "t_dirtfloor", "~": "t_dirtfloor", "h": "t_dirtfloor", " ": "t_dirtfloor" },
-      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100, "pack_size": [ 2, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 100 } ]
     }
   },
   {
