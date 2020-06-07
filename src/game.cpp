@@ -1578,6 +1578,9 @@ bool game::do_turn()
     } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
+        if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
+            wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
+        }
         wait_refresh_rate = 5_minutes;
     }
     if( wait_redraw ) {
