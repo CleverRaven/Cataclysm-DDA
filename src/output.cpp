@@ -2330,10 +2330,6 @@ bool is_draw_tiles_mode()
 {
     return false;
 }
-
-void refresh_display()
-{
-}
 #endif
 
 void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
