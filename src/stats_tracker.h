@@ -25,16 +25,33 @@ class stats_tracker;
 
 // The stats_tracker is intended to keep a summary of events that have occured.
 // For each event_type it stores an event_multiset.
-// Within the event_tracker, counts are kept.  The events are partitioned
-// according to their data (an event::data_type object, which is a map of keys
-// to values).
+// Within the event_tracker, the events are partitioned according to their data
+// (an event::data_type object, which is a map of keys to values).
+// Within each partition, an event_summary is stored, which contains the first
+// and last times such events were seen, and the number of them seen.
 // The stats_tracker can be queried in various ways to get summary statistics
 // about events that have occured.
+
+struct event_summary {
+    event_summary();
+    event_summary( int c, time_point f, time_point l );
+
+    int count;
+    time_point first;
+    time_point last;
+
+    void add( const cata::event & );
+    void add( const event_summary & );
+
+    void serialize( JsonOut & ) const;
+    void deserialize( JsonIn & );
+};
 
 class event_multiset
 {
     public:
-        using counts_type = std::unordered_map<cata::event::data_type, int, cata::range_hash>;
+        using summaries_type =
+            std::unordered_map<cata::event::data_type, event_summary, cata::range_hash>;
 
         // Default constructor for deserialization deliberately uses invalid
         // type
@@ -43,8 +60,8 @@ class event_multiset
 
         void set_type( event_type );
 
-        const counts_type &counts() const {
-            return counts_;
+        const summaries_type &counts() const {
+            return summaries_;
         }
 
         // count returns the number of events matching given criteria that have
@@ -67,15 +84,17 @@ class event_multiset
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
         int minimum( const std::string &field ) const;
         int maximum( const std::string &field ) const;
+        cata::optional<summaries_type::value_type> first() const;
+        cata::optional<summaries_type::value_type> last() const;
 
         void add( const cata::event & );
-        void add( const counts_type::value_type & );
+        void add( const summaries_type::value_type & );
 
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
         event_type type_;
-        counts_type counts_;
+        summaries_type summaries_;
 };
 
 class base_watcher
