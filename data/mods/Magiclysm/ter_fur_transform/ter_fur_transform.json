@@ -171,5 +171,6 @@
 			"valid_terrain": [ "t_door_metal_locked", "t_door_metal_pickable", "t_door_bar_locked" ],
 			"message": "The door opens forcefully!"
 		}
-  }		
+	]
+  }  
 ]
