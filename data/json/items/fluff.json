@@ -11,7 +11,7 @@
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "white",
-    "use_action": "MAGIC_8_BALL"
+    "use_action": [ "MAGIC_8_BALL" ]
   },
   {
     "id": "deck_of_cards",
@@ -26,7 +26,7 @@
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "coin_quarter",
@@ -40,7 +40,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "use_action": "COIN_FLIP"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "id": "family_photo",

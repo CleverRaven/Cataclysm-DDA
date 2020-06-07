@@ -19,7 +19,7 @@
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "artifact_data": { "charge_type": "ARTC_SOLAR" },
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "knife_crt",
@@ -38,7 +38,7 @@
     "to_hit": 2,
     "symbol": ";",
     "qualities": [ [ "CUT_FINE", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE", "UNARMED_WEAPON", "STAB", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_2", "UHAND", "PROD" ]
   },

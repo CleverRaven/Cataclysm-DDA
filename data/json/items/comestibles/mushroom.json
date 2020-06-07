@@ -18,7 +18,7 @@
     "weight": "78 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -1,

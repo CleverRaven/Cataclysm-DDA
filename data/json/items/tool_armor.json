@@ -1062,7 +1062,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_s",
-    "use_action": "GASMASK"
+    "use_action": [ "GASMASK" ]
   },
   {
     "id": "mask_gas",
@@ -1113,7 +1113,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
   },
   {
@@ -1140,7 +1140,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1167,7 +1167,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
@@ -1188,7 +1188,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "covers": [ "MOUTH", "EYES" ],
     "warmth": 30,
     "environmental_protection": 1,
@@ -1211,7 +1211,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1239,7 +1239,7 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1266,7 +1266,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1293,7 +1293,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "material": [ "kevlar", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1320,7 +1320,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "material": [ "kevlar", "fur" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1347,7 +1347,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "ammo": "gasfilter_m",
-    "use_action": "GASMASK",
+    "use_action": [ "GASMASK" ],
     "material": [ "kevlar", "fur" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1521,7 +1521,7 @@
     "initial_charges": 5,
     "charges_per_use": 1,
     "ammo": "stimpack_ammo",
-    "use_action": "STIMPACK",
+    "use_action": [ "STIMPACK" ],
     "material_thickness": 3
   },
   {
@@ -2704,7 +2704,7 @@
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
-    "use_action": "SOLARPACK",
+    "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
@@ -2725,7 +2725,7 @@
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,
-    "use_action": "SOLARPACK_OFF",
+    "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },

@@ -47,7 +47,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "MAKEMOUND"
+    "use_action": [ "MAKEMOUND" ]
   },
   {
     "id": "primitive_shovel",

@@ -484,7 +484,7 @@
     "name": { "str": "pumpkin seeds", "str_pl": "pumpkin seeds" },
     "weight": "2 g",
     "color": "green",
-    "use_action": "SEED",
+    "use_action": [ "SEED" ],
     "calories": 17,
     "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
@@ -498,7 +498,7 @@
     "name": { "str": "sunflower seeds", "str_pl": "sunflower seeds" },
     "weight": "2 g",
     "color": "green",
-    "use_action": "SEED",
+    "use_action": [ "SEED" ],
     "calories": 17,
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
@@ -701,7 +701,7 @@
     "charges": 4,
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
   },
   {

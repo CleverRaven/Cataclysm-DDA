@@ -717,7 +717,7 @@
     "name": "dehydrated alien fungus chunk",
     "copy-from": "dry_veggy",
     "looks_like": "dry_mushroom",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "description": "Pieces of alien mushroom that have been dried to prevent them from rotting away.  It will still poison you if you eat this.",
     "price": 0,
     "flags": [ "EDIBLE_FROZEN" ]

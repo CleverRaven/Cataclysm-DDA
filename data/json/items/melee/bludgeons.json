@@ -954,7 +954,7 @@
     "charges_per_use": 100,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "magazines": [
       [
@@ -982,7 +982,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "use_action": "SHOCKTONFA_OFF",
+    "use_action": [ "SHOCKTONFA_OFF" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "magazines": [
       [
@@ -1000,7 +1000,7 @@
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "power_draw": 15000,
     "revert_to": "shocktonfa_off",
-    "use_action": "SHOCKTONFA_ON",
+    "use_action": [ "SHOCKTONFA_ON" ],
     "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
     "magazine_well": 2
   },

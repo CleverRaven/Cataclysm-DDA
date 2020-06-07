@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "copy-from": "weak_antibiotic",
     "name": "Atreyupan",
-    "use_action": "ANTIBIOTIC"
+    "use_action": [ "ANTIBIOTIC" ]
   },
   {
     "id": "antibiotics",
@@ -12,6 +12,6 @@
     "copy-from": "antibiotics",
     "name": "antibiotics",
     "name_plural": "antibiotics",
-    "use_action": "STRONG_ANTIBIOTIC"
+    "use_action": [ "STRONG_ANTIBIOTIC" ]
   }
 ]

@@ -13,7 +13,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER" ],
     "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
   },
   {

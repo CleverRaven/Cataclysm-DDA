@@ -65,7 +65,7 @@
     "type": "COMESTIBLE",
     "name": "revival serum",
     "spoils_in": 0,
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "stim": -50,
     "container": "flask_glass",
     "comestible_type": "MED",

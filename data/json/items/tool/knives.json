@@ -30,7 +30,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE" ]
   },
   {

@@ -439,7 +439,7 @@
     "color": "pink",
     "healthy": 5,
     "addiction_potential": 8,
-    "use_action": "PURIFIER"
+    "use_action": [ "PURIFIER" ]
   },
   {
     "id": "iv_purifier",
@@ -451,7 +451,7 @@
     "//": "*May* have been commercially traded, but not in this preparation.",
     "color": "magenta",
     "addiction_potential": 8,
-    "use_action": "PURIFY_IV"
+    "use_action": [ "PURIFY_IV" ]
   },
   {
     "id": "purifier_smart_shot",

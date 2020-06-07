@@ -2217,7 +2217,7 @@
     "weight": "2 g",
     "volume": "1 ml",
     "price": 5,
-    "use_action": "PACK_CBM",
+    "use_action": [ "PACK_CBM" ],
     "to_hit": -1,
     "material": [ "plastic", "paper" ],
     "symbol": "]",

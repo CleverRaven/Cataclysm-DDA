@@ -148,7 +148,7 @@
     "name": { "str": "chamomile tea", "str_pl": "chamomile tea" },
     "copy-from": "tea",
     "color": "green",
-    "use_action": "SLEEP",
+    "use_action": [ "SLEEP" ],
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,

@@ -827,7 +827,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "MAGIC_FOCUS", "THERMOMETER" ]
   },
   {

@@ -25,7 +25,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 5,
     "proportional": { "weight": 0.21, "volume": 0.25, "price": 0.2 },
-    "use_action": "RADIOCONTROL",
+    "use_action": [ "RADIOCONTROL" ],
     "magazines": [
       [
         "battery",
@@ -80,7 +80,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": "RADIO_MOD"
+    "use_action": [ "RADIO_MOD" ]
   },
   {
     "id": "radio",
@@ -97,7 +97,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": "RADIO_OFF",
+    "use_action": [ "RADIO_OFF" ],
     "magazines": [
       [
         "battery",
@@ -122,7 +122,7 @@
     "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
     "power_draw": 500,
     "revert_to": "radio",
-    "use_action": "RADIO_ON",
+    "use_action": [ "RADIO_ON" ],
     "flags": [ "TRADER_AVOID" ],
     "magazine_well": 1
   },
@@ -172,7 +172,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "turns_per_charge": 10,
-    "use_action": "REMOTEVEH",
+    "use_action": [ "REMOTEVEH" ],
     "magazines": [
       [
         "battery",

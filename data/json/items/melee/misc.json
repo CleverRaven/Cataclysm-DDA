@@ -52,7 +52,7 @@
     "color": "dark_gray",
     "ammo": "battery",
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "magazines": [
       [
         "battery",

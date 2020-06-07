@@ -61,7 +61,7 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": "CAMERA",
+    "use_action": [ "CAMERA" ],
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
     "magazines": [
       [
@@ -401,7 +401,7 @@
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
     "power_draw": 1000,
     "revert_to": "mp3",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "TRADER_AVOID" ],
     "magazine_well": 1
   },
@@ -420,7 +420,7 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": "NOISE_EMITTER_OFF",
+    "use_action": [ "NOISE_EMITTER_OFF" ],
     "flags": [ "RADIO_MODABLE" ],
     "magazines": [
       [
@@ -445,7 +445,7 @@
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
     "power_draw": 10000,
     "revert_to": "noise_emitter",
-    "use_action": "NOISE_EMITTER_ON",
+    "use_action": [ "NOISE_EMITTER_ON" ],
     "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
   },
   {
@@ -460,7 +460,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "use_action": "PORTABLE_GAME",
+    "use_action": [ "PORTABLE_GAME" ],
     "magazines": [
       [
         "battery",
@@ -516,7 +516,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "power_draw": 300,
     "revert_to": "smart_phone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "magazine_well": 1
   },
@@ -568,7 +568,7 @@
     "color": "dark_gray",
     "ammo": "battery",
     "charges_per_use": 10,
-    "use_action": "VIBE",
+    "use_action": [ "VIBE" ],
     "magazines": [
       [
         "battery",

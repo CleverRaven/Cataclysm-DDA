@@ -607,7 +607,7 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN",
+    "use_action": [ "SPRAY_CAN" ],
     "flags": [ "WRITE_MESSAGE" ]
   },
   {
@@ -743,7 +743,7 @@
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": "CALL_OF_TINDALOS"
+    "use_action": [ "CALL_OF_TINDALOS" ]
   },
   {
     "id": "umbrella",
@@ -778,7 +778,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": "VORTEX"
+    "use_action": [ "VORTEX" ]
   },
   {
     "id": "whistle_multitool",

@@ -55,7 +55,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": "CROWBAR"
+    "use_action": [ "CROWBAR" ]
   },
   {
     "id": "halligan",
@@ -92,7 +92,7 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "EXTINGUISHER"
+    "use_action": [ "EXTINGUISHER" ]
   },
   {
     "id": "throw_extinguisher",

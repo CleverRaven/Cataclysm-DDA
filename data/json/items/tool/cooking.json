@@ -63,7 +63,7 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": "CARVER_OFF",
+    "use_action": [ "CARVER_OFF" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "magazines": [
       [
@@ -142,7 +142,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "clay_pot",
@@ -159,7 +159,7 @@
     "color": "brown",
     "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -744,7 +744,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "pressure_cooker",
@@ -763,7 +763,7 @@
     "looks_like": "pot_canning",
     "container_data": { "contains": "2 L", "seals": true, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

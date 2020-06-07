@@ -688,7 +688,7 @@
     "color": "dark_gray",
     "container_data": { "contains": "25 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "type": "GENERIC",
@@ -760,7 +760,7 @@
     "color": "light_gray",
     "container_data": { "contains": "1 L", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -779,7 +779,7 @@
     "color": "light_red",
     "container_data": { "contains": "1 L", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "type": "GENERIC",
