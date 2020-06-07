@@ -440,17 +440,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     int drawx = 0;
     int drawy = 0;
     wchar_t tmp;
-    RECT update = {win->pos.x * fontwidth, -1,
-                   ( win->pos.x + win->width ) *fontwidth, -1
-                  };
 
     for( j = 0; j < win->height; j++ ) {
         if( win->line[j].touched ) {
-            update.bottom = ( win->pos.y + j + 1 ) * fontheight;
-            if( update.top == -1 ) {
-                update.top = update.bottom - fontheight;
-            }
-
             win->line[j].touched = false;
 
             for( i = 0; i < win->width; i++ ) {
@@ -555,9 +547,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     }// for (j=0;j<win->height;j++)
     // We drew the window, mark it as so
     win->draw = false;
-    if( update.top != -1 ) {
-        RedrawWindow( WindowHandle, &update, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
-    }
 }
 
 // Check for any window messages (keypress, paint, mousemove, etc)
@@ -570,6 +559,7 @@ static void CheckMessages()
     }
     if( needs_resize ) {
         handle_resize( 0, 0 );
+        refresh_display();
     }
 }
 
@@ -782,6 +772,11 @@ int get_scaling_factor()
 HWND getWindowHandle()
 {
     return WindowHandle;
+}
+
+void refresh_display()
+{
+    RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
 }
 
 #endif
