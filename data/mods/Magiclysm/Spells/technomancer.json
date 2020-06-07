@@ -473,7 +473,7 @@
 	"max_level": 15,
 	"base_casting_time": 2600,
 	"final_casting_time": 2375,
-	casting_time_increment": -15,
+	"casting_time_increment": -15,
 	"base_energy_cost": 800,
 	"difficulty": 7,
 	"min_range": 6,
