@@ -1149,6 +1149,11 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
+    // Prevent interruptions from this point onwards, so that e.g. pain from
+    // injecting serum doesn't pop up messages about cancelling consuming (it's
+    // too late; we've already consumed).
+    act.interruptable = false;
+
     if( consume_location ) {
         if( consume_location.where() == item_location::type::character ) {
             g->u.consume( consume_location, force );
