@@ -32,7 +32,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 3 ] ],
-    "use_action": { "type": "picklock" }
+    "use_action": "PICK_LOCK"
   },
   {
     "id": "iceaxe",
@@ -87,7 +87,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 5 ] ],
-    "use_action": { "type": "picklock" }
+    "use_action": "PICK_LOCK"
   },
   {
     "id": "pseudo_bio_picklock",

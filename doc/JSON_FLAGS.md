@@ -364,6 +364,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NONE``` Do nothing.
 - ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
 - ```PHEROMONE``` Makes zombies ignore you.
+- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK' item quality and 'PERFECT_LOCKPICK' item flag
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 - ```PORTABLE_GAME``` Play games.

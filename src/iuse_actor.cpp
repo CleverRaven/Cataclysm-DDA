@@ -118,7 +118,6 @@ static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -134,11 +133,8 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
 
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
-
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
@@ -1037,53 +1033,6 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         }
     }
     return 0;
-}
-
-std::unique_ptr<iuse_actor> pick_lock_actor::clone() const
-{
-    return std::make_unique<pick_lock_actor>( *this );
-}
-
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint &pos ) const
-{
-    if( p.is_npc() ) {
-        return 0;
-    }
-
-    avatar &you = dynamic_cast<avatar &>( p );
-
-    cata::optional<tripoint> target;
-    // Prompt for a target lock to pick, or use the given tripoint
-    if( pos == p.pos() ) {
-        target = lockpick_activity_actor::select_location( you );
-    } else {
-        target = pos;
-    }
-    if( !target.has_value() ) {
-        return 0;
-    }
-
-    int qual = it.get_quality( qual_LOCKPICK );
-    if( qual < 1 ) {
-        debugmsg( "Item %s with 'picklock' use action requires LOCKPICK quality of at least 1.",
-                  it.typeId().c_str() );
-        qual = 1;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration;
-    if( it.has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = to_moves<int>( 5_seconds );
-    } else {
-        duration = std::max( to_moves<int>( 10_seconds ),
-                             to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
-                             ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
-    }
-
-    you.assign_activity( lockpick_activity_actor( duration, item_location( p, &it ), cata::nullopt,
-                         g->m.getabs( *target ) ) );
-    return it.type->charges_to_use();
 }
 
 std::unique_ptr<iuse_actor> deploy_furn_actor::clone() const

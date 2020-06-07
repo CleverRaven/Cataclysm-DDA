@@ -1431,13 +1431,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
-        const auto actor = dynamic_cast<const pick_lock_actor *>
-                           ( it->type->get_use( "picklock" )->get_actor_ptr() );
+        const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
                              g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), it->tname() );
-        const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+        const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {
-            actor->use( p, *it, false, examp );
+            iuse_fn->call( p, *it, false, examp );
             return;
         } else {
             p.add_msg_if_player( m_bad, can_use.str() );
