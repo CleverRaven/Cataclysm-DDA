@@ -222,7 +222,7 @@
 	"copy-from": "spell_wand",
 	"price": 15000,
 	"description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts knock.",
-	"use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail: true, "level": 15, "need_wielding": true }
+	"use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
 	"type": "TOOL",
