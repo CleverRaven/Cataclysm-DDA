@@ -380,7 +380,7 @@
   {
     "id": "mon_zombie_horse",
     "type": "MONSTER",
-    "name": { "str": "zombie hourse" },
+    "name": { "str": "zombie horse" },
     "description": "From the looks of this zombie horse's ghastly features, with its protruding ribs, whitish skull , and Empty eyes,The exposed part of the internal organs shows a seemingly lifeless color, and the black body fluid drips slowly.  The new strength makes the horse no longer dependent on its muscles, but it can still pursue the enemy quickly.",
     "default_faction": "zombie",
     "bodytype": "horse",
