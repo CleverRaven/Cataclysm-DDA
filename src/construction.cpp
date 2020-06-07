@@ -233,7 +233,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
     mvwputch( w, point( 0, 2 ), c_light_gray, LINE_XXXO );
     mvwputch( w, point( list_width, 2 ), c_light_gray, LINE_XOXX );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static nc_color construction_color( const std::string &con_name, bool highlight )
@@ -613,13 +613,13 @@ construction_id construction_menu( const bool blueprint )
         }
 
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
-        wrefresh( w_con );
+        wnoutrefresh( w_con );
 
         // place the cursor at the selected construction name as expected by screen readers
         if( cursor_pos ) {
             wmove( w_list, cursor_pos.value() );
         }
-        wrefresh( w_list );
+        wnoutrefresh( w_list );
     } );
 
     do {

@@ -176,7 +176,7 @@ class teleporter_callback : public uilist_callback
                                           rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
                                           index_pairs[entnum].x, index_pairs[entnum].y ) );
             }
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 

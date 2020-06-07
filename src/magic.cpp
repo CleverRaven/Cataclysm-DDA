@@ -1586,7 +1586,7 @@ class spellcasting_callback : public uilist_callback
             if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
                 draw_spell_info( *known_spells[menu->selected], menu );
             }
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 
@@ -2046,7 +2046,7 @@ void spellbook_callback::refresh( uilist *menu )
     if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
         draw_spellbook_info( spells[menu->selected], menu );
     }
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 void fake_spell::load( const JsonObject &jo )

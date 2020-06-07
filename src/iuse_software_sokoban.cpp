@@ -266,7 +266,7 @@ int sokoban_game::start_game()
         print_score( w_sokoban, iScore, iMoves );
 
         draw_level( w_sokoban );
-        wrefresh( w_sokoban );
+        wnoutrefresh( w_sokoban );
     } );
 
     int iPlayerY = 0;

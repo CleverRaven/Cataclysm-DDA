@@ -202,7 +202,7 @@ class wish_mutate_callback: public uilist_callback
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 
         ~wish_mutate_callback() override = default;
@@ -371,7 +371,7 @@ class wish_monster_callback: public uilist_callback
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
-            wrefresh( w_info );
+            wnoutrefresh( w_info );
         }
 
         ~wish_monster_callback() override = default;
@@ -509,7 +509,7 @@ class wish_item_callback: public uilist_callback
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 

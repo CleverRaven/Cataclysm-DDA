@@ -218,7 +218,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
 
-    wrefresh( w_open );
+    wnoutrefresh( w_open );
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -453,8 +453,8 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
     draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
-    wrefresh( w_border );
-    wrefresh( w_text );
+    wnoutrefresh( w_border );
+    wnoutrefresh( w_text );
 }
 
 void main_menu::load_char_templates()
@@ -566,7 +566,7 @@ bool main_menu::opening_screen()
                 point offset( menu_offset + point( -( xlen / 4 ) + 32 + extra_w / 2, -2 ) );
                 print_menu_items( w_open, special_names, sel2, offset );
 
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             } else if( sel1 == 5 ) {  // Settings Menu
                 int settings_subs_to_display = vSettingsSubItems.size();
                 std::vector<std::string> settings_subs;
@@ -582,7 +582,7 @@ bool main_menu::opening_screen()
                     offset.x -= 6;
                 }
                 print_menu_items( w_open, settings_subs, sel2, offset );
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             }
         }
     } );
@@ -817,7 +817,7 @@ bool main_menu::new_character_tab()
             center_print( w_open, getmaxy( w_open ) - 7, c_yellow, hints[sel2] );
 
             print_menu_items( w_open, vSubItems, sel2, menu_offset + point( 0, -2 ) );
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         } else if( layer == 3 && sel1 == 1 ) {
             // Then view presets
             if( templates.empty() ) {
@@ -833,7 +833,7 @@ bool main_menu::new_character_tab()
                                templates[i] );
                 }
             }
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         }
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
@@ -1072,7 +1072,7 @@ bool main_menu::load_character_tab( bool transfer )
                                world_name, savegames_count );
                 }
             }
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         } else if( layer == 3 && sel1 == 2 ) {
             savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
 
@@ -1094,7 +1094,7 @@ bool main_menu::load_character_tab( bool transfer )
                                "%s", savename.player_name() );
                 }
             }
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         }
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
@@ -1235,7 +1235,7 @@ void main_menu::world_tab()
                     wprintz( w_open, c_light_gray, "]" );
                 }
 
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             } else if( layer == 2 ) { // Show world names
                 mvwprintz( w_open, menu_offset + point( 25 + extra_w / 2, -2 ),
                            ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
@@ -1257,7 +1257,7 @@ void main_menu::world_tab()
                                ( sel2 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
                 }
 
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             }
         }
     } );

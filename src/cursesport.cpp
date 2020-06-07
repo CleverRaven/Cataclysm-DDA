@@ -392,7 +392,6 @@ void catacurses::werase( const window &win_ )
     }
     win->draw = true;
     wmove( win_, point_zero );
-    //    wrefresh(win);
     handle_additional_window_clear( win );
 }
 

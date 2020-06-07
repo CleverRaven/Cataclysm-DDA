@@ -163,7 +163,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
-    wrefresh( window );
+    wnoutrefresh( window );
 }
 
 //builds the power usage string of a given bionic
@@ -242,7 +242,7 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     // -|
     mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 static void draw_description( const catacurses::window &win, const bionic &bio )
@@ -263,7 +263,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
         fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
                         _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
     }
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
@@ -582,7 +582,7 @@ void player::power_bionics()
 
         draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), point( 0, list_start_y ) );
 
-        wrefresh( wBio );
+        wnoutrefresh( wBio );
         draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
 
         draw_bionics_titlebar( w_title, this, menu_mode );

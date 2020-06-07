@@ -713,7 +713,7 @@ static void draw_header( const catacurses::window &w )
     mvwprintz( w, point( 21, 3 ), c_white, _( "Normal" ) );
     mvwprintz( w, point( 52, 3 ), c_white, _( "Invert" ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void color_manager::show_gui()
@@ -789,7 +789,7 @@ void color_manager::show_gui()
                 mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
             }
         }
-        wrefresh( w_colors_border );
+        wnoutrefresh( w_colors_border );
 
         draw_header( w_colors_header );
 
@@ -809,7 +809,7 @@ void color_manager::show_gui()
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
 
         draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, point( 0, 5 ) );
-        wrefresh( w_colors_border );
+        wnoutrefresh( w_colors_border );
 
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
@@ -842,7 +842,7 @@ void color_manager::show_gui()
             }
         }
 
-        wrefresh( w_colors );
+        wnoutrefresh( w_colors );
     } );
 
     while( true ) {

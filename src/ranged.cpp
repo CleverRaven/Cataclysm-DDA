@@ -2790,7 +2790,7 @@ void target_ui::draw_ui_window()
         draw_controls_list( text_y );
     }
 
-    wrefresh( w_target );
+    wnoutrefresh( w_target );
 }
 
 std::string target_ui::uitext_title()
