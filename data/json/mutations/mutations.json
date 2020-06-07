@@ -96,7 +96,7 @@
         }
       ]
     ],
-    "transform": { "target": "MRHYDE", "msg_transform": "The anger overtakes you!  You feel yourself changing.", "active": false, "moves": 10 }
+    "transform": { "target": "MRHYDE", "msg_transform": "The anger overtakes you!", "active": false, "moves": 10 }
   },
   {
     "type": "mutation",
@@ -104,28 +104,24 @@
     "valid": false,
     "name": { "str": "Violent Monster" },
     "points": -1,
-    "description": "",
+    "description": "Anger clouds your mind, you can't think straight but you feel strong.",
+    "mixed_effect": true,
     "category": [ "MEDICAL" ],
     "triggers": [
       [
         {
-          "trigger_type": "MOOD",
-          "threshold_low": -50,
-          "msg_on": { "text": "From within you hear your voice calling your true name.", "rating": "good" }
-        }
-      ],
-      [
-        {
           "trigger_type": "TIME",
-          "threshold_low": 2,
-          "threshold_high": 20,
-          "msg_on": { "text": "From within you hear your voice calling your true name.", "rating": "good" }
+          "threshold_low": 6,
+          "threshold_high": 21,
+          "msg_on": { "text": "As the morning comes you return back to normal.", "rating": "good" }
         }
       ]
     ],
-    "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.  You feel yourself returning to normal.", "active": false, "moves": 10 },
+    "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.", "active": false, "moves": 10 },
     "passive_mods": { "int_mod": -8, "str_mod": 3 },
-    "ugliness": 8
+    "ugliness": 8,
+    "visibility": 8,
+    "social_modifiers": { "intimidate": 4 }
   },
   {
     "type": "mutation",

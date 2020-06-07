@@ -1626,6 +1626,10 @@ void Character::process_turn()
         }
     }
 
+    for( const trait_id mut : get_mutations() ) {
+        mutation_reflex_trigger( mut );
+    }
+
     Creature::process_turn();
 
     enchantment_cache.activate_passive( *this );

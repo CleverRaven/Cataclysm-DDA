@@ -1446,8 +1446,6 @@ void Character::suffer()
             suffer_water_damage( mdata );
         }
 
-        mutation_reflex_trigger( mut.first );
-
         Character::trait_data &tdata = mut.second;
         if( tdata.powered ) {
             suffer_mutation_power( mdata, tdata );
