@@ -2330,9 +2330,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                points_left &points )
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
-    const std::string RANDOM_START_LOC_TEXT_TEMPLATE =
-        _( "<color_red>* Random location *</color> (<color_white>%d</color> variants)" );
-    const std::string START_LOC_TEXT_TEMPLATE = _( "%s (<color_white>%d</color> variants)" );
 
     ui_adaptor ui;
     catacurses::window w;
@@ -2390,15 +2387,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 1;
-    const std::string random_start_location_text = string_format( RANDOM_START_LOC_TEXT_TEMPLATE,
-            g->scen->start_location_targets_count() );
+    const std::string random_start_location_text = string_format( ngettext(
+                "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
+                "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
+                g->scen->start_location_targets_count() ), g->scen->start_location_targets_count() );
     uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
             random_start_location_text );
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_locations::get_all() ) {
         if( g->scen->allowed_start( loc.id ) ) {
-            uilist_entry entry( loc.id.get_cid().to_i(), true, -1,
-                                string_format( START_LOC_TEXT_TEMPLATE, loc.name(), loc.targets_count() ) );
+            uilist_entry entry( loc.id.get_cid().to_i(), true, -1, string_format(
+                                    ngettext( "%s (<color_white>%d</color> variant)",
+                                              "%s (<color_white>%d</color> variants)",
+                                              loc.targets_count() ), loc.name(), loc.targets_count() ) );
 
             select_location.entries.emplace_back( entry );
 
@@ -2596,9 +2597,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
                    you.random_start_location ? c_red : c_white,
                    you.random_start_location ? remove_color_tags( random_start_location_text ) :
-                   string_format( remove_color_tags( START_LOC_TEXT_TEMPLATE ),
-                                  you.start_location.obj().name(),
-                                  you.start_location.obj().targets_count() ) );
+                   string_format( ngettext( "%s (%d variant)", "%s (%d variants)",
+                                            you.start_location.obj().targets_count() ),
+                                  you.start_location.obj().name(), you.start_location.obj().targets_count() ) );
         wrefresh( w_location );
 
         werase( w_vehicle );
