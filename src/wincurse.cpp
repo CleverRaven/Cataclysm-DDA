@@ -77,6 +77,9 @@ static std::wstring widen( const std::string &s )
     return std::wstring( buffer.data(), newlen );
 }
 
+static constexpr uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SIZEBOX |
+                                     WS_MAXIMIZEBOX | WS_SYSMENU | WS_VISIBLE;
+
 // Registers, creates, and shows the Window!!
 static bool WinCreate()
 {
@@ -102,8 +105,6 @@ static bool WinCreate()
 
     // Adjust window size
     // Basic window, show on creation
-    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU |
-                        WS_VISIBLE;
     RECT WndRect;
     WndRect.left   = WndRect.top = 0;
     WndRect.right  = WindowWidth;
@@ -180,6 +181,7 @@ bool handle_resize( int, int )
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
         catacurses::resizeterm();
         create_backbuffer();
         SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
@@ -192,6 +194,24 @@ bool handle_resize( int, int )
     }
 
     return true;
+}
+
+void resize_term( const int cell_w, const int cell_h )
+{
+    RECT WndRect;
+    WndRect.left = WndRect.top = 0;
+    WndRect.right = cell_w * fontwidth * get_scaling_factor();
+    WndRect.bottom = cell_h * fontheight * get_scaling_factor();
+    if( !AdjustWindowRect( &WndRect, WndStyle, false ) ) {
+        return;
+    }
+    if( !SetWindowPos( WindowHandle, nullptr, 0, 0,
+                       WndRect.right - WndRect.left, WndRect.bottom - WndRect.top,
+                       SWP_NOMOVE | SWP_NOZORDER ) ) {
+        return;
+    }
+    GetClientRect( WindowHandle, &WndRect );
+    handle_resize( WndRect.right - WndRect.left, WndRect.bottom - WndRect.top );
 }
 
 // Copied from sdlcurses.cpp
@@ -335,8 +355,11 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             return 0;
 
         case WM_SIZE:
-        case WM_SIZING:
-            needs_resize = true;
+            WINDOWPLACEMENT win_placement;
+            win_placement.length = sizeof( win_placement );
+            if( GetWindowPlacement( hWnd, &win_placement ) && win_placement.showCmd != SW_SHOWMINIMIZED ) {
+                needs_resize = true;
+            }
             return 0;
 
         case WM_SYSCHAR:
@@ -372,9 +395,6 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
 
         case WM_PAINT:
             BitBlt( WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0, SRCCOPY );
-            ui_manager::invalidate( rectangle( point_zero, point( getmaxx( catacurses::stdscr ),
-                                               getmaxy( catacurses::stdscr ) ) ) );
-            ui_manager::redraw();
             ValidateRect( WindowHandle, nullptr );
             return 0;
 

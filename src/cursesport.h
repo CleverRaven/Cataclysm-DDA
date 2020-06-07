@@ -84,6 +84,7 @@ void clear_window_area( const catacurses::window &win );
 int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
+void resize_term( int cell_w, int cell_h );
 int get_scaling_factor();
 
 #endif
