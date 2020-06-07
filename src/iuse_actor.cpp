@@ -4289,7 +4289,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( it.charges < thread_needed ) {
+            if( !it.ammo_sufficient( thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt ), thread_needed );
