@@ -888,9 +888,9 @@
   {
 	"type": "BOOK",
 	"copy-from": "spell_scroll",
-	"id": "spell_scroll_greater_knock",
-	"name": { "str": "Scroll of Greater Knock", "str_pl": "Scrolls of Greater Knock" },
+	"id": "spell_scroll_improved_knock",
+	"name": { "str": "Scroll of Improved Knock", "str_pl": "Scrolls of Improved Knock" },
 	"description": "You can channel magical energy to open any locked door from a short range away.",
-	"use_action": { "type": "learn_spell", "spells": [ "greater_knock" ] }
+	"use_action": { "type": "learn_spell", "spells": [ "improved_knock" ] }
   }
 ]
