@@ -326,8 +326,6 @@ int right_print( const catacurses::window &w, int line, int right_indent,
 void insert_table( const catacurses::window &w, int pad, int line, int columns,
                    const nc_color &FG, const std::string &divider, bool r_align,
                    const std::vector<std::string> &data );
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );

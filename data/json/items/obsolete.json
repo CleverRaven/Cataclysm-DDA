@@ -2798,5 +2798,21 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_plate",
+    "symbol": "]",
+    "color": "white",
+    "name": { "str": "bone armor kit" },
+    "description": "Bone plating made for a vehicle.",
+    "price": 1200,
+    "price_postapoc": 100,
+    "material": [ "bone" ],
+    "weight": "4000 g",
+    "volume": "9500 ml",
+    "bashing": 8,
+    "to_hit": -4,
+    "category": "veh_parts"
   }
 ]

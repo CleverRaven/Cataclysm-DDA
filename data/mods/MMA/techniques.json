@@ -100,6 +100,81 @@
   },
   {
     "type": "technique",
+    "id": "mma_tec_iron_heart_disarm",
+    "name": "Disarming Strike",
+    "messages": [ "You skillfully disarm %s", "<npcname> skillfully disarms %s" ],
+    "unarmed_allowed": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_feint",
+    "name": "Lightning Recovery",
+    "messages": [ "You miss %s but recover in the blink of an eye", "<npcname> misses %s but recovers in the blink of an eye" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_execute",
+    "name": "Finishing Move",
+    "messages": [ "You finish off %s with a powerful slash", "<npcname> finishes off %s with a powerful slash" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_stun",
+    "name": "Dazing Strike",
+    "messages": [ "You harshly stun %s", "<npcname> harshly stuns %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_wide",
+    "name": "Steel Wind",
+    "messages": [
+      "You cleave through %s and those nearby like a steel wind",
+      "<npcname> cleaves through %s and those nearby like a steel wind"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_wide_crit",
+    "name": "Scything Blade",
+    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap throug %s and those nearby" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "aoe": "wide",
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "mma_tec_panzer_counter",
     "name": "Ausstoß",
     "//": "Outer Thrust.",

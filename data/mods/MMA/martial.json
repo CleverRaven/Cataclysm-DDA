@@ -27,6 +27,15 @@
     "book_data": { "martial_art": "style_mma_hylian" }
   },
   {
+    "id": "manual_mma_iron_heart",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Stormguard Warrior" },
+    "description": "This book contains the teaching of the Iron Heart discipline.",
+    "book_data": { "martial_art": "style_mma_iron_heart" }
+  },
+  {
     "id": "manual_mma_panzer",
     "copy-from": "book_martial",
     "looks_like": "manual_karate",

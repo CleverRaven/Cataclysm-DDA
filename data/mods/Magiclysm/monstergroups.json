@@ -120,8 +120,8 @@
     "name": "GROUP_GOBLIN_STANDARD",
     "default": "mon_goblin_warrior",
     "monsters": [
-      { "monster": "mon_goblin_warrior", "freq": 35, "cost_multiplier": 1 },
-      { "monster": "mon_goblin_slinger", "freq": 65, "cost_multiplier": 1 }
+      { "monster": "mon_goblin_warrior", "freq": 35, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_goblin_slinger", "freq": 65, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
     ]
   },
   {

@@ -1280,7 +1280,6 @@ void Character::dismount()
         mounted_creature = nullptr;
         critter->mounted_player = nullptr;
         setpos( *pnt );
-        g->refresh_all();
         mod_moves( -100 );
         set_movement_mode( move_mode_id( "walk" ) );
     }

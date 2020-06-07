@@ -2501,9 +2501,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
-            if( ingame ) {
-                g->refresh_all();
-            }
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );

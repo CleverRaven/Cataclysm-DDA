@@ -84,6 +84,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui_manager.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -681,7 +682,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Redraw scene
     // But only if the vehicle was seen before or after the move
     if( seen || sees_veh( g->u, veh, true ) ) {
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
         refresh_display();
     }
     return new_vehicle;
