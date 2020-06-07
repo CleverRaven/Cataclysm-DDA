@@ -1044,11 +1044,6 @@ std::unique_ptr<iuse_actor> pick_lock_actor::clone() const
     return std::make_unique<pick_lock_actor>( *this );
 }
 
-void pick_lock_actor::load( const JsonObject &obj )
-{
-    pick_quality = obj.get_int( "pick_quality" );
-}
-
 int pick_lock_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
     if( p.is_npc() ) {

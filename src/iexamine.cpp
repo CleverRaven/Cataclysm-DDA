@@ -170,6 +170,7 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -1426,11 +1427,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
-        const auto actor_a = dynamic_cast<const pick_lock_actor *>
-                             ( a->type->get_use( "picklock" )->get_actor_ptr() );
-        const auto actor_b = dynamic_cast<const pick_lock_actor *>
-                             ( b->type->get_use( "picklock" )->get_actor_ptr() );
-        return actor_a->pick_quality > actor_b->pick_quality;
+        return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
     } );
 
     for( item *it : picklocks ) {
