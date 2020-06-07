@@ -1464,7 +1464,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
+        if( it.is_disassemblable() ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
