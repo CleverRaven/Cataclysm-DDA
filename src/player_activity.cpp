@@ -341,7 +341,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
 bool player_activity::is_interruptible() const
 {
-    return interruptable;
+    return ( type.is_null() || type->interruptable() ) && interruptable;
 }
 
 bool player_activity::is_distraction_ignored( distraction_type distraction ) const
