@@ -517,7 +517,7 @@
     "price": 1000,
     "price_postapoc": 50,
     "bashing": 4,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
     "qualities": [ [ "SMOOTH", 2 ] ]
@@ -823,7 +823,7 @@
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],

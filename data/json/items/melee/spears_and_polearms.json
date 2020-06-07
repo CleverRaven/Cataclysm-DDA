@@ -237,7 +237,7 @@
     "description": "A somewhat sharpened piece of rebar.",
     "price": 500,
     "price_postapoc": 50,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "908 g",
     "volume": "1500 ml",
     "bashing": 5,

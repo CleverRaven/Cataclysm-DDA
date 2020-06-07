@@ -83,7 +83,7 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],

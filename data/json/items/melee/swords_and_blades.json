@@ -489,7 +489,7 @@
     "description": "This is a curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
     "price": 93000,
     "price_postapoc": 3500,
-    "material": "iron",
+    "material": [ "iron" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weight": "1133 g",
