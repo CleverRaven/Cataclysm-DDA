@@ -462,7 +462,7 @@
 	"type": "SPELL",
 	"name": "Greater Knock",
 	"id": "greater_knock",
-	"description": You channel magic into a force capable of opening doors. This variant can open any locked door.",
+	"description": "You channel magic into a force capable of opening doors. This variant can open any locked door.",
 	"valid_targets": [ "ground" ],
 	"effect": "ter_transform",
 	"effect_str": "unlock_all_doors",
