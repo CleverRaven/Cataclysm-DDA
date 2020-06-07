@@ -1445,7 +1445,6 @@ void Character::suffer()
         if( calendar::once_every( 1_minutes ) ) {
             suffer_water_damage( mdata );
         }
-
         Character::trait_data &tdata = mut.second;
         if( tdata.powered ) {
             suffer_mutation_power( mdata, tdata );

@@ -90,8 +90,8 @@
       [
         {
           "trigger_type": "TIME",
-          "threshold_low": 20,
-          "threshold_high": 2,
+          "threshold_low": 21,
+          "threshold_high": 6,
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ]
