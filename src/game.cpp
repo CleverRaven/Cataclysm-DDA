@@ -193,6 +193,7 @@ static const mtype_id mon_manhack( "mon_manhack" );
 
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
@@ -816,6 +817,9 @@ bool game::start_game()
 
     g->events().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
+    tripoint abs_omt = u.global_omt_location();
+    const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
+    g->events().send<event_type::avatar_enters_omt>( abs_omt, cur_ter );
     return true;
 }
 
@@ -2003,6 +2007,111 @@ static void handle_contents_changed( const item_location &acted_item )
     } while( parent.where() == item_location::type::container );
 }
 
+static hint_rating rate_action_change_side( const avatar &you, const item &it )
+{
+    if( !it.is_sided() ) {
+        return hint_rating::cant;
+    }
+
+    return you.is_worn( it ) ? hint_rating::good : hint_rating::iffy;
+}
+
+static hint_rating rate_action_disassemble( avatar &you, const item &it )
+{
+    if( you.can_disassemble( it, you.crafting_inventory() ).success() ) {
+        // Possible right now
+        return hint_rating::good;
+    } else if( it.is_disassemblable() ) {
+        // Potentially possible, but we currently lack requirements
+        return hint_rating::iffy;
+    } else {
+        // Never possible
+        return hint_rating::cant;
+    }
+}
+
+static hint_rating rate_action_eat( const avatar &you, const item &it )
+{
+    if( !you.can_consume( it ) ) {
+        return hint_rating::cant;
+    }
+
+    const auto rating = you.will_eat( it );
+    if( rating.success() ) {
+        return hint_rating::good;
+    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
+        return hint_rating::cant;
+    }
+
+    return hint_rating::iffy;
+}
+
+static hint_rating rate_action_mend( const avatar &, const item &it )
+{
+    // TODO: check also if item damage could be repaired via a tool
+    if( !it.faults.empty() ) {
+        return hint_rating::good;
+    }
+    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
+}
+
+static hint_rating rate_action_read( const avatar &you, const item &it )
+{
+    if( !it.is_book() ) {
+        return hint_rating::cant;
+    }
+
+    std::vector<std::string> dummy;
+    return you.get_book_reader( it, dummy ) ? hint_rating::good : hint_rating::iffy;
+}
+
+static hint_rating rate_action_take_off( const avatar &you, const item &it )
+{
+    if( !it.is_armor() || it.has_flag( "NO_TAKEOFF" ) ) {
+        return hint_rating::cant;
+    }
+
+    if( you.is_worn( it ) ) {
+        return hint_rating::good;
+    }
+
+    return hint_rating::iffy;
+}
+
+static hint_rating rate_action_use( const avatar &you, const item &it )
+{
+    if( it.is_tool() ) {
+        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
+    } else if( it.is_gunmod() ) {
+        /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
+        if( you.get_skill_level( skill_gun ) == 0 ) {
+            return hint_rating::iffy;
+        } else {
+            return hint_rating::good;
+        }
+    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
+        // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
+        return hint_rating::iffy;
+    } else if( it.type->has_use() ) {
+        return hint_rating::good;
+    }
+
+    return hint_rating::cant;
+}
+
+static hint_rating rate_action_wear( const avatar &you, const item &it )
+{
+    if( !it.is_armor() ) {
+        return hint_rating::cant;
+    }
+
+    if( you.is_worn( it ) ) {
+        return hint_rating::iffy;
+    }
+
+    return you.can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2051,20 +2160,20 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
             }
         };
-        addentry( 'a', pgettext( "action", "activate" ), u.rate_action_use( oThisItem ) );
-        addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
-        addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
-        addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
+        addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
+        addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
+        addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
+        addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
         addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
         addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
-        addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
-        addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
+        addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
+        addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
-        addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
-        addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
+        addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
+        addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.has_pockets() ) {
             addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );
             if( oThisItem.contents.num_item_stacks() > 0 ) {

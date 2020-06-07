@@ -396,7 +396,7 @@
     "copy-from": "base_plastic_dish",
     "pocket_data": [
       {
-        "max_contains_volume": "125 ml",
+        "max_contains_volume": "120 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -428,7 +428,7 @@
     "proportional": { "weight": 0.4, "volume": 0.5 },
     "description": "A plastic cup with a spill-proof lid, designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "pocket_data": [ { "max_contains_volume": "125 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "120 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },

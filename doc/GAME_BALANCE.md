@@ -62,7 +62,7 @@ Grip is a measure of how well you can control the weapon to quickly respond to s
 
 +0 - Any object that doesn't fall into one of the categories below. Examples include 2x4s, computer monitors, wires, stingers and clothing. Basically, anything that has a grippable component, but which is too thick, too thin, or too flimsy to grab comfortably in a way that can reliably control the object.
 
-+1 - A weapon with a fairly solid grip, like a pipe, a rock, guitar neck, pool cue or a heavy stick.
++1 - A weapon with a fairly solid grip, like a pipe, a rock, guitar neck, or pool cue.
 
 +2 - A weapon with a dedicated grip shaped to the hand, like a sword, axe, knife, or police baton, or that is strapped to the body (or is a piece of the body). Fists would get a +2 bonus here, bringing them to "0" total, since none of the others would apply.
 

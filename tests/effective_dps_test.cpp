@@ -331,4 +331,71 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "halligan", 17.0 );
         calc_expected_dps( test_guy, "stick_long", 6.0 );
     }
+    SECTION( "two-handed flails" ) { // expected value ideally around 28
+        calc_expected_dps( test_guy, "2h_flail_steel", 25.0 );
+        calc_expected_dps( test_guy, "2h_flail_wood", 20.0 );
+        calc_expected_dps( test_guy, "homewrecker", 13.0 );
+    }
+    SECTION( "fist weapons" ) { // expected value around 10 but wide variation
+        calc_expected_dps( test_guy, "bio_claws_weapon", 18.0 ); // basically a knife
+        calc_expected_dps( test_guy, "bagh_nakha", 14.5 );
+        calc_expected_dps( test_guy, "punch_dagger", 11.0 );
+        calc_expected_dps( test_guy, "knuckle_katar", 10.5 );
+        calc_expected_dps( test_guy, "knuckle_steel", 4.0 );
+        calc_expected_dps( test_guy, "knuckle_brass", 4.0 );
+        calc_expected_dps( test_guy, "knuckle_nail", 4.0 );
+        calc_expected_dps( test_guy, "cestus", 3.0 );
+    }
+    SECTION( "ax" ) { // expected value around 27 but no dedicated weapons
+        calc_expected_dps( test_guy, "hatchet", 24.0 );
+        calc_expected_dps( test_guy, "crash_axe", 24.0 );
+        calc_expected_dps( test_guy, "iceaxe", 19.0 );
+        calc_expected_dps( test_guy, "throwing_axe", 14.0 );
+        calc_expected_dps( test_guy, "carver_on", 22.5 );
+        calc_expected_dps( test_guy, "pickaxe", 10.5 );
+        calc_expected_dps( test_guy, "primitive_adze", 10.0 ); // rock on a stick
+        calc_expected_dps( test_guy, "primitive_axe", 10.0 ); // rock on a stick
+        calc_expected_dps( test_guy, "makeshift_axe", 9.0 ); // chunk of sharp steel
+        calc_expected_dps( test_guy, "hand_axe", 8.5 ); // chunk of sharp rock
+    }
+    SECTION( "club" ) { // expected value around 24 but most aren't dedicated weapons
+        calc_expected_dps( test_guy, "mace", 24.0 );
+        calc_expected_dps( test_guy, "morningstar", 23.0 );
+        calc_expected_dps( test_guy, "shillelagh_weighted", 22.0 );
+        calc_expected_dps( test_guy, "bwirebat", 22.0 );
+        calc_expected_dps( test_guy, "baton-extended", 21.0 );
+        calc_expected_dps( test_guy, "bat_metal", 21.0 );
+        calc_expected_dps( test_guy, "nailbat", 21.0 );
+        calc_expected_dps( test_guy, "bat", 20.0 );
+        calc_expected_dps( test_guy, "shillelagh", 20.0 );
+        calc_expected_dps( test_guy, "bokken", 20.0 );
+        calc_expected_dps( test_guy, "PR24-extended", 20.0 );
+        calc_expected_dps( test_guy, "mace_inferior", 18.0 );
+        calc_expected_dps( test_guy, "tonfa", 17.0 );
+        calc_expected_dps( test_guy, "tonfa_wood", 16.0 );
+        calc_expected_dps( test_guy, "shocktonfa_off", 16.0 );
+        calc_expected_dps( test_guy, "shocktonfa_on", 16.0 );
+        calc_expected_dps( test_guy, "crowbar", 15.0 );
+        calc_expected_dps( test_guy, "morningstar_inferior", 15.0 );
+        calc_expected_dps( test_guy, "bokken_inferior", 13.0 );
+        calc_expected_dps( test_guy, "golf_club", 14.0 );
+        calc_expected_dps( test_guy, "mace_fake", 13.0 );
+        calc_expected_dps( test_guy, "claw_bar", 11.0 );
+        calc_expected_dps( test_guy, "shovel", 11.0 );
+        calc_expected_dps( test_guy, "e_tool", 11.0 );
+        calc_expected_dps( test_guy, "sword_nail", 11.0 );
+        calc_expected_dps( test_guy, "sword_wood", 10.5 );
+        calc_expected_dps( test_guy, "cane", 10.5 );
+        calc_expected_dps( test_guy, "cudgel", 10.5 );
+        calc_expected_dps( test_guy, "primitive_hammer", 10.0 );
+        calc_expected_dps( test_guy, "bokken_fake", 10.5 );
+        calc_expected_dps( test_guy, "shillelagh_fake", 9.5 );
+        calc_expected_dps( test_guy, "morningstar_fake", 8.0 );
+        calc_expected_dps( test_guy, "wrench", 7.0 );
+        calc_expected_dps( test_guy, "hammer", 6.0 );
+        calc_expected_dps( test_guy, "rebar", 7.0 );
+        calc_expected_dps( test_guy, "primitive_shovel", 7.0 );
+        calc_expected_dps( test_guy, "heavy_flashlight", 7.0 );
+        calc_expected_dps( test_guy, "rock", 6.0 );
+    }
 }

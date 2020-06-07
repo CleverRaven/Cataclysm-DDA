@@ -310,7 +310,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
-- ```BREAK_STICK``` Breaks long stick into two.
+- ```BREAK_STICK``` Breaks long branch into two.
 - ```C4``` Arm the C4.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAN_GOO``` Release a little blob buddy.

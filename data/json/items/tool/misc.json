@@ -413,7 +413,7 @@
     "type": "GENERIC",
     "name": { "str": "makeshift glaive" },
     "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a long stick.  It could do a considerable amount of damage.",
+    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
     "weight": "1800 g",
     "volume": "3 L",
     "price": 5000,
