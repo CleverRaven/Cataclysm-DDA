@@ -669,7 +669,7 @@ void uilist::show()
     }
     apply_scrollbar();
 
-    wrefresh( window );
+    wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
     }

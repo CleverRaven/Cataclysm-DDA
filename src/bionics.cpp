@@ -611,7 +611,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                     }
                 }
             }
-            wrefresh( w );
+            wnoutrefresh( w );
         } );
         input_context ctxt( "BLOOD_TEST_RESULTS" );
         ctxt.register_action( "CONFIRM" );

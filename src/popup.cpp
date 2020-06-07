@@ -236,7 +236,7 @@ void query_popup::show() const
                             col, col, btn.text );
     }
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()

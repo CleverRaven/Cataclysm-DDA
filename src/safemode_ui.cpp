@@ -132,7 +132,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         }
 
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         static const std::vector<std::string> hotkeys = {{
                 translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
@@ -186,7 +186,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
         shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
-        wrefresh( w_header );
+        wnoutrefresh( w_header );
 
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
@@ -211,7 +211,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         }
 
         draw_scrollbar( w_border, line, content_height, current_tab.size(), point( 0, 5 ) );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         calcStartPos( start_pos, line, content_height, current_tab.size() );
 
@@ -245,7 +245,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         }
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     while( true ) {
@@ -370,7 +370,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                             break;
                     }
                     draw_border( w_help );
-                    wrefresh( w_help );
+                    wnoutrefresh( w_help );
                 } );
 
                 current_tab[line].rule = wildcard_trim_rule( string_input_popup()
@@ -544,7 +544,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
                       _( "Lists monsters regardless of their attitude." ) );
 
-        wrefresh( w_test_rule_border );
+        wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
@@ -571,7 +571,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
             }
         }
 
-        wrefresh( w_test_rule_content );
+        wnoutrefresh( w_test_rule_content );
     } );
 
     while( true ) {

@@ -168,7 +168,7 @@ static void update_note_preview( const std::string &note,
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( *w_preview, point( 1, 1 ), c_white, _( "Note preview" ) );
-    wrefresh( *w_preview );
+    wnoutrefresh( *w_preview );
 
     werase( *w_preview_title );
     nc_color default_color = c_unset;
@@ -179,7 +179,7 @@ static void update_note_preview( const std::string &note,
         mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
     }
     mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
-    wrefresh( *w_preview_title );
+    wnoutrefresh( *w_preview_title );
 
     const int npm_offset_x = 1;
     const int npm_offset_y = 1;
@@ -193,7 +193,7 @@ static void update_note_preview( const std::string &note,
     }
     mvwputch( *w_preview_map, point( npm_width / 2 + npm_offset_x, npm_height / 2 + npm_offset_y ),
               note_color, symbol );
-    wrefresh( *w_preview_map );
+    wnoutrefresh( *w_preview_map );
 }
 
 static weather_type get_weather_at_point( const tripoint &pos )
@@ -1059,9 +1059,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
     }
     // Done with all drawing!
-    wrefresh( wbar );
+    wnoutrefresh( wbar );
     wmove( w, point( om_half_width, om_half_height ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void create_note( const tripoint &curs )
@@ -1255,7 +1255,7 @@ static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &ori
         fold_and_print( w_search, point( 1, 11 ), search_width, c_white,
                         _( "Press [<color_yellow>%s</color>] to quit." ), ctxt.get_desc( "QUIT" ) );
         draw_border( w_search );
-        wrefresh( w_search );
+        wnoutrefresh( w_search );
     } );
 
     std::string action;
@@ -1381,7 +1381,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint &curs,
             mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Apply" ),
                        ctxt.get_desc( "CONFIRM" ) );
             mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
-            wrefresh( w_editor );
+            wnoutrefresh( w_editor );
         } );
 
         std::string action;

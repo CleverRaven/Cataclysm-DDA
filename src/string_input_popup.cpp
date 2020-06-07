@@ -271,7 +271,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )

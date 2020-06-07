@@ -362,7 +362,7 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), line_color( 6 ),
                you.age_string() );
 
-    wrefresh( w_stats );
+    wnoutrefresh( w_stats );
 }
 
 static void draw_stats_info( const catacurses::window &w_info,
@@ -435,7 +435,7 @@ static void draw_stats_info( const catacurses::window &w_info,
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.age_string() );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static void draw_encumbrance_tab( const catacurses::window &w_encumb,
@@ -450,7 +450,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
     } else {
         you.print_encumbrance( w_encumb );
     }
-    wrefresh( w_encumb );
+    wnoutrefresh( w_encumb );
 }
 
 static void draw_encumbrance_info( const catacurses::window &w_info,
@@ -468,7 +468,7 @@ static void draw_encumbrance_info( const catacurses::window &w_info,
     const std::string s = get_encumbrance_description( you, bp, combined_here );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, s );
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static void draw_traits_tab( const catacurses::window &w_traits,
@@ -507,7 +507,7 @@ static void draw_traits_tab( const catacurses::window &w_traits,
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - min ) ), getmaxx( w_traits ) - 1,
                         is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
     }
-    wrefresh( w_traits );
+    wnoutrefresh( w_traits );
 }
 
 static void draw_traits_info( const catacurses::window &w_info, const unsigned int line,
@@ -520,7 +520,7 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned i
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format(
                             "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static void draw_bionics_tab( const catacurses::window &w_bionics,
@@ -558,7 +558,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
                         is_current_tab && i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
     }
-    wrefresh( w_bionics );
+    wnoutrefresh( w_bionics );
 }
 
 static void draw_bionics_info( const catacurses::window &w_info, const unsigned int line,
@@ -570,7 +570,7 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, "%s",
                         bionicslist[line].info().description );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static void draw_effects_tab( const catacurses::window &w_effects,
@@ -611,7 +611,7 @@ static void draw_effects_tab( const catacurses::window &w_effects,
         trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - min ) ), getmaxx( w_effects ) - 1,
                         is_current_tab && i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
-    wrefresh( w_effects );
+    wnoutrefresh( w_effects );
 }
 
 static void draw_effects_info( const catacurses::window &w_info, const unsigned int line,
@@ -624,7 +624,7 @@ static void draw_effects_info( const catacurses::window &w_info, const unsigned 
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         effect_name_and_text[line].second );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 struct HeaderSkill {
@@ -728,7 +728,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                         // NOLINTNEXTLINE(cata-use-named-point-constants)
                         point( 0, 1 ) );
     }
-    wrefresh( w_skills );
+    wnoutrefresh( w_skills );
 }
 
 static void draw_skills_info( const catacurses::window &w_info, unsigned int line,
@@ -750,7 +750,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         selectedSkill->description() );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static void draw_speed_tab( const catacurses::window &w_speed,
@@ -852,7 +852,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     col = ( newmoves >= 100 ? c_green : c_red );
     mvwprintz( w_speed, point( 21 + ( newmoves >= 100 ? 0 : ( newmoves < 10 ? 2 : 1 ) ), 2 ), col,
                "%d", newmoves );
-    wrefresh( w_speed );
+    wnoutrefresh( w_speed );
 }
 
 static void draw_info_window( const catacurses::window &w_info, const player &you,
@@ -915,7 +915,7 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
                      _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
-    wrefresh( w_tip );
+    wnoutrefresh( w_tip );
 }
 
 static bool handle_player_display_action( player &you, unsigned int &line,
@@ -1274,7 +1274,7 @@ void player::disp_info()
     ui_stats.mark_resize();
     ui_stats.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_stats_border );
-        wrefresh( w_stats_border );
+        wnoutrefresh( w_stats_border );
         draw_stats_tab( w_stats, *this, line, curtab );
     } );
 
@@ -1296,7 +1296,7 @@ void player::disp_info()
     ui_traits.mark_resize();
     ui_traits.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_traits_border );
-        wrefresh( w_traits_border );
+        wnoutrefresh( w_traits_border );
         draw_traits_tab( w_traits, line, curtab, traitslist, trait_win_size_y );
     } );
 
@@ -1320,7 +1320,7 @@ void player::disp_info()
     ui_bionics.mark_resize();
     ui_bionics.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_bionics_border );
-        wrefresh( w_bionics_border );
+        wnoutrefresh( w_bionics_border );
         draw_bionics_tab( w_bionics, *this, line, curtab, bionicslist, bionics_win_size_y );
     } );
 
@@ -1337,7 +1337,7 @@ void player::disp_info()
     ui_encumb.mark_resize();
     ui_encumb.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_encumb_border );
-        wrefresh( w_encumb_border );
+        wnoutrefresh( w_encumb_border );
         draw_encumbrance_tab( w_encumb, *this, line, curtab );
     } );
 
@@ -1357,7 +1357,7 @@ void player::disp_info()
     ui_effects.mark_resize();
     ui_effects.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_effects_border );
-        wrefresh( w_effects_border );
+        wnoutrefresh( w_effects_border );
         draw_effects_tab( w_effects, line, curtab, effect_name_and_text, effect_win_size_y );
     } );
 
@@ -1376,7 +1376,7 @@ void player::disp_info()
     ui_speed.mark_resize();
     ui_speed.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_speed_border );
-        wrefresh( w_speed_border );
+        wnoutrefresh( w_speed_border );
         draw_speed_tab( w_speed, *this, speed_effects );
     } );
 
@@ -1402,7 +1402,7 @@ void player::disp_info()
     ui_skills.mark_resize();
     ui_skills.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_skills_border );
-        wrefresh( w_skills_border );
+        wnoutrefresh( w_skills_border );
         draw_skills_tab( w_skills, *this, line, curtab, skillslist, skill_win_size_y );
     } );
 
@@ -1422,7 +1422,7 @@ void player::disp_info()
     ui_info.mark_resize();
     ui_info.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_info_border );
-        wrefresh( w_info_border );
+        wnoutrefresh( w_info_border );
         draw_info_window( w_info, *this, line, curtab,
                           traitslist, bionicslist, effect_name_and_text, skillslist );
     } );
