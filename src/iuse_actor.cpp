@@ -138,6 +138,7 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
@@ -1067,11 +1068,24 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         return 0;
     }
 
+    int qual = it.get_quality( qual_LOCKPICK );
+    if( qual < 1 ) {
+        debugmsg( "Item %s with 'picklock' use action requires LOCKPICK quality of at least 1.",
+                  it.typeId().c_str() );
+        qual = 1;
+    }
+
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_LOCKPICK speeds up door lock picking */
-    const int duration = std::max( to_moves<int>( 10_seconds ),
-                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
-                                   ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
+    int duration;
+    if( it.has_flag( flag_PERFECT_LOCKPICK ) ) {
+        duration = to_moves<int>( 5_seconds );
+    } else {
+        duration = std::max( to_moves<int>( 10_seconds ),
+                             to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
+                             ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
+    }
+
     you.assign_activity( lockpick_activity_actor( duration, item_location( p, &it ), cata::nullopt,
                          g->m.getabs( *target ) ) );
     return it.type->charges_to_use();

@@ -61,7 +61,7 @@
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "flags": [ "ARTC_TIME" ],
+    "flags": [ "ARTC_TIME", "PERFECT_LOCKPICK" ],
     "use_action": { "type": "picklock", "pick_quality": 50 }
   },
   {
