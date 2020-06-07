@@ -1048,14 +1048,21 @@ void pick_lock_actor::load( const JsonObject &obj )
     pick_quality = obj.get_int( "pick_quality" );
 }
 
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
+int pick_lock_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
     if( p.is_npc() ) {
         return 0;
     }
 
     avatar &you = dynamic_cast<avatar &>( p );
-    cata::optional<tripoint> target = lockpick_activity_actor::select_location( you );
+
+    cata::optional<tripoint> target;
+    // Prompt for a target lock to pick, or use the given tripoint
+    if( pos == p.pos() ) {
+        target = lockpick_activity_actor::select_location( you );
+    } else {
+        target = pos;
+    }
     if( !target.has_value() ) {
         return 0;
     }
