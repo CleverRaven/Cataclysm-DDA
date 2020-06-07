@@ -89,6 +89,17 @@ void character_martial_arts::reset_style()
     style_selected = style_none;
 }
 
+void character_martial_arts::clear_styles()
+{
+    keep_hands_free = false;
+
+    ma_styles = { {
+            style_none, style_kicks
+        }
+    };
+    reset_style();
+}
+
 void character_martial_arts::selected_style_check()
 {
     // check if player knows current style naturally, otherwise drop them back to style_none
