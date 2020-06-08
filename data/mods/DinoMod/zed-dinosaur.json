@@ -47,7 +47,6 @@
     "id": "mon_syrannosaurus",
     "name": { "str": "S-Rex", "str_pl": "S-Rexes" },
     "copy-from": "mon_zyrannosaurus",
-    "looks_like": "mon_zyrannosaurus",
     "color": "white",
     "material": "bone",
     "speed": 35,
