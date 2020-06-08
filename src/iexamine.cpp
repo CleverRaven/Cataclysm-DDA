@@ -198,7 +198,6 @@ static const std::string flag_FIRE( "FIRE" );
 static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MILLABLE( "MILLABLE" );
 static const std::string flag_NO_CVD( "NO_CVD" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
@@ -4804,13 +4803,12 @@ static void mill_activate( player &p, const tripoint &examp )
             add_msg( _( "Remove it before starting the mill again." ) );
             return;
         }
-        if( it.has_flag( flag_MILLABLE ) ) {
+        if( it.type->milling_data ) {
             food_present = true;
             food_volume += it.volume();
             continue;
         } else {
-            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1,
-                     false ) );
+            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1, false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
             p.mod_moves( -p.item_handling_cost( it ) );
@@ -4831,7 +4829,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
 
     for( auto &it : g->m.i_at( examp ) ) {
-        if( it.has_flag( flag_MILLABLE ) ) {
+        if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );
@@ -4971,9 +4969,10 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
     }
 
     for( item &it : items ) {
-        if( it.has_flag( flag_MILLABLE ) && it.get_comestible() ) {
+        if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
-            item result( "flour", start_time + milling_time, it.charges * 15 );
+            const auto &mdata = *it.type->milling_data;
+            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
             // Set flag to tell set_relative_rot() to calc from bday not now
             result.set_flag( flag_PROCESSING_RESULT );
             result.set_relative_rot( it.get_relative_rot() );
@@ -5163,7 +5162,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         return it.rotten();
     } );
     std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( flag_MILLABLE );
+        return static_cast<bool>( it.type->milling_data );
     } );
 
     uilist smenu;
