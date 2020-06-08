@@ -256,7 +256,7 @@
     },
     "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
     "traits": [ "MAGUS" ]
-  },
+  }
   },
   {
     "type": "profession",
