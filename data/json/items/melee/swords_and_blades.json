@@ -114,7 +114,7 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
@@ -333,7 +333,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
@@ -863,7 +863,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
@@ -926,7 +926,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
@@ -946,7 +946,7 @@
     "material": "budget_steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
@@ -968,7 +968,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "tanto",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
   },
@@ -990,7 +990,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "looks_like": "tanto",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
@@ -1282,7 +1282,7 @@
     "price_postapoc": 750,
     "material": "budget_steel",
     "flags": [ "SHEATH_SWORD" ],
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "weight": "1133 g",
     "volume": "1750 ml",
     "longest_side": "100 cm",
@@ -1302,7 +1302,7 @@
     "price": 9600,
     "price_postapoc": 50,
     "material": "aluminum",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "634 g",
     "volume": "1750 ml",
@@ -1322,7 +1322,7 @@
     "price": 96000,
     "price_postapoc": 500,
     "material": "budget_steel",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "weight": "955 g",
     "volume": "1250 ml",
     "longest_side": "90 cm",
@@ -1467,7 +1467,7 @@
     "price_postapoc": 50,
     "material": "aluminum",
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "weight": "753 g",
     "volume": "1750 ml",
     "longest_side": "90 cm",
@@ -1700,7 +1700,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },

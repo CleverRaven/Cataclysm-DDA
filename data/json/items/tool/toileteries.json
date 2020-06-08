@@ -73,7 +73,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "use_action": "MOP"
   },
   {

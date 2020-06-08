@@ -1228,7 +1228,7 @@
     "fun": -5,
     "spoils_in": "28 days",
     "use_action": "ANTIPARASITIC",
-    "flags": "NPC_SAFE"
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "nic_gum",

@@ -9,7 +9,7 @@
     "category": "spare_parts",
     "material": "stone",
     "ammo_type": "rock",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "657 g",
     "volume": "250 ml",
     "bashing": 7,

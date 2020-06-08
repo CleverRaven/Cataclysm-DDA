@@ -424,7 +424,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },

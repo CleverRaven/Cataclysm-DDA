@@ -866,7 +866,7 @@
     "price": 330,
     "price_postapoc": 20,
     "material": "flesh",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "stack_size": 1,
     "fun": -12
   },
