@@ -5310,7 +5310,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     bool f_check = false;
 
     for( const item &it : items_here ) {
-        if( it.is_food() ) {
+        if( it.typeId() != itype_fake_milling_item ) {
             f_check = true;
             f_volume += it.volume();
         }
@@ -5405,7 +5405,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         case 3:
             // remove food
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
-                if( it->is_food() ) {
+                if( it->typeId() != itype_fake_milling_item ) {
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( *it );
 
