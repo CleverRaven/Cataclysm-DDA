@@ -245,18 +245,14 @@
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-      "items": [
-      [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ]
-        ],
-        "entries": [
-        { "item": "primitive_knife", "container-item": "sheath" }
-        ],
-      "male": [ "chestwrap_fur", "loincloth_fur" ],
-      "female": [ "bikini_top_fur", "hot_pants_fur" ]
-    },
-    "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
-    "traits": [ "MAGUS" ]
-  }
+        "items": [ [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ] ],
+        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ],
+        "male": [ "chestwrap_fur", "loincloth_fur" ],
+        "female": [ "bikini_top_fur", "hot_pants_fur" ]
+      },
+      "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
+      "traits": [ "MAGUS" ]
+    }
   },
   {
     "type": "profession",
@@ -286,4 +282,4 @@
     },
     "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   }
-]
+  ]
