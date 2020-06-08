@@ -230,5 +230,46 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_kick",
+    "name": "Mega Kick",
+    "messages": [ "You use Mega Kick on %s", "<npcname> uses Mega Kick on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "hit", "scale": -2.0 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_lariat",
+    "name": "Darkest Lariat",
+    "messages": [ "You use Darkest Lariat on %s", "<npcname> uses Darkest Lariat on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_strike",
+    "name": "Smart Strike",
+    "messages": [ "You use Smart Strike on %s", "<npcname> uses Smart Strike on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_sweep",
+    "name": "Low Sweep",
+    "messages": [ "You use Low Sweep on %s", "<npcname> uses Low Sweep on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
   }
 ]
