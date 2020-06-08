@@ -4811,8 +4811,8 @@ static void mill_activate( player &p, const tripoint &examp )
                      false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
+            g->m.i_rem( examp, &it );
             return;
         }
     }
