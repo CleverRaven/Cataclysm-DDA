@@ -154,7 +154,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A simple fletched steel crossbow bolt with a flattened and sharpened tip.  Stands a somewhat low chance of remaining intact once fired.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "250 ml",
     "price_postapoc": 500,
     "weight": "55 g",

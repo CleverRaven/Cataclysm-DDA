@@ -10,7 +10,7 @@
     "price": 4000,
     "price_postapoc": 10,
     "looks_like": "motor_small",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray"
   },
