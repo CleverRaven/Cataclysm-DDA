@@ -51,7 +51,6 @@ readability-*,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
--readability-redundant-control-flow,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'

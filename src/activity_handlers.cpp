@@ -2194,7 +2194,6 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     }
 
     act->set_to_null();
-    return;
 }
 
 void activity_handlers::vehicle_finish( player_activity *act, player *p )
@@ -3699,7 +3698,6 @@ void activity_handlers::atm_finish( player_activity *act, player * )
 void activity_handlers::eat_menu_finish( player_activity *, player * )
 {
     // Only exists to keep the eat activity alive between turns
-    return;
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player * )
