@@ -3,7 +3,7 @@ Aftershock is a set of parallel dimensions to Cataclysm Prime that have until th
 
 ### Areas seeking contributors
 Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and Whately Clan.  PrepNet is at war with the Mycus and the Whately's are mad scientists.  
-Uplifted mobs and mutation lines are always wanted.  I'd love to see someone make a Rabbit or Jackelope line.  
+Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Rabbit or Jackelope line.  
 Hi-tech item recipes.  Aftershock has it's own special crafting for ultratech and we'd love to see what you come up with.
 Missions, locations, and lore snippets we want this to feel like a world just as real as Cataclysm Prime.
 Please feel free to reach out to us about ideas and implementations.
