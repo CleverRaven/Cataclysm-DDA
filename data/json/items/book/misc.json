@@ -197,7 +197,7 @@
     "id": "novel_adventure",
     "type": "BOOK",
     "name": { "str": "adventure novel" },
-    "description": "The stirring tale of a race against time, in search of a lost city located in the dark heart of the African continent.",
+    "description": "The stirring tale of a race against time, in search of a lost city located in the heart of the African continent.",
     "copy-from": "book_fict_soft_tpl",
     "price": 850,
     "price_postapoc": 50,
