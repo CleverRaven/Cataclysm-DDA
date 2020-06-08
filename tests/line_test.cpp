@@ -136,159 +136,180 @@ TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" 
 {
 
     // Test the unit cube, which are the only values this function is valid for.
-    REQUIRE( make_xyz_unit( -1, -1, -1 ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz_unit( -1, -1, 1 ) == direction::ABOVENORTHWEST );
     REQUIRE( make_xyz_unit( -1, -1, 0 ) == direction::NORTHWEST );
-    REQUIRE( make_xyz_unit( -1, -1, 1 ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz_unit( 0, -1, -1 ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz_unit( -1, -1, -1 ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz_unit( 0, -1, 1 ) == direction::ABOVENORTH );
     REQUIRE( make_xyz_unit( 0, -1, 0 ) == direction::NORTH );
-    REQUIRE( make_xyz_unit( 0, -1, 2 ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz_unit( 1, -1, -1 ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz_unit( 0, -1, -2 ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz_unit( 1, -1, 1 ) == direction::ABOVENORTHEAST );
     REQUIRE( make_xyz_unit( 1, -1, 0 ) == direction::NORTHEAST );
-    REQUIRE( make_xyz_unit( 1, -1, 1 ) == direction::BELOWNORTHEAST );
-    REQUIRE( make_xyz_unit( -1, 0, -1 ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz_unit( 1, -1, -1 ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz_unit( -1, 0, 1 ) == direction::ABOVEWEST );
     REQUIRE( make_xyz_unit( -1, 0, 0 ) == direction::WEST );
-    REQUIRE( make_xyz_unit( -1, 0, 1 ) == direction::BELOWWEST );
-    REQUIRE( make_xyz_unit( 0, 0, -1 ) == direction::ABOVECENTER );
+    REQUIRE( make_xyz_unit( -1, 0, -1 ) == direction::BELOWWEST );
+    REQUIRE( make_xyz_unit( 0, 0, 1 ) == direction::ABOVECENTER );
     REQUIRE( make_xyz_unit( 0, 0, 0 ) == direction::CENTER );
-    REQUIRE( make_xyz_unit( 0, 0, 1 ) == direction::BELOWCENTER );
-    REQUIRE( make_xyz_unit( 1, 0, -1 ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz_unit( 0, 0, -1 ) == direction::BELOWCENTER );
+    REQUIRE( make_xyz_unit( 1, 0, 1 ) == direction::ABOVEEAST );
     REQUIRE( make_xyz_unit( 1, 0, 0 ) == direction::EAST );
-    REQUIRE( make_xyz_unit( 1, 0, 1 ) == direction::BELOWEAST );
-    REQUIRE( make_xyz_unit( -1, 1, -1 ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz_unit( 1, 0, -1 ) == direction::BELOWEAST );
+    REQUIRE( make_xyz_unit( -1, 1, 1 ) == direction::ABOVESOUTHWEST );
     REQUIRE( make_xyz_unit( -1, 1, 0 ) == direction::SOUTHWEST );
-    REQUIRE( make_xyz_unit( -1, 1, 1 ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz_unit( 0, 1, -1 ) == direction::ABOVESOUTH );
+    REQUIRE( make_xyz_unit( -1, 1, -1 ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz_unit( 0, 1, 1 ) == direction::ABOVESOUTH );
     REQUIRE( make_xyz_unit( 0, 1, 0 ) == direction::SOUTH );
-    REQUIRE( make_xyz_unit( 0, 1, 1 ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz_unit( 1, 1, -1 ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz_unit( 0, 1, -1 ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz_unit( 1, 1, 1 ) == direction::ABOVESOUTHEAST );
     REQUIRE( make_xyz_unit( 1, 1, 0 ) == direction::SOUTHEAST );
-    REQUIRE( make_xyz_unit( 1, 1, 1 ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz_unit( 1, 1, -1 ) == direction::BELOWSOUTHEAST );
 
     // Test the unit square values at distance 1 and 2.
     // Test the multiples of 30deg at 60 squares.
     // Test 22 deg to either side of the cardinal directions.
-    REQUIRE( make_xyz( tripoint( -1, -1, -1 ) ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz( tripoint( -2, -2, -2 ) ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz( tripoint( -30, -60, -1 ) ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, -60, -1 ) ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, -30, -1 ) ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz( tripoint( -2, -2, 2 ) ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz( tripoint( -30, -60, 1 ) ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, -60, 1 ) ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, -30, 1 ) ) == direction::ABOVENORTHWEST );
     REQUIRE( make_xyz( tripoint_north_west ) == direction::NORTHWEST );
     REQUIRE( make_xyz( tripoint( -2, -2, 0 ) ) == direction::NORTHWEST );
     REQUIRE( make_xyz( tripoint( -60, -60, 0 ) ) == direction::NORTHWEST );
-    REQUIRE( make_xyz( tripoint( -1, -1, 1 ) ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz( tripoint( -2, -2, 2 ) ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz( tripoint( -30, -60, 1 ) ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, -60, 1 ) ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, -30, 1 ) ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz( tripoint( 0, -1, -1 ) ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz( tripoint( 0, -2, -2 ) ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz( tripoint( -22, -60, -1 ) ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz( tripoint( 0, -60, -1 ) ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz( tripoint( 22, -60, -1 ) ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz( tripoint( -1, -1, -1 ) ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz( tripoint( -2, -2, -2 ) ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz( tripoint( -30, -60, -1 ) ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, -60, -1 ) ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, -30, -1 ) ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz( tripoint( 0, -1, 1 ) ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz( tripoint( 0, -2, 2 ) ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz( tripoint( -22, -60, 1 ) ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz( tripoint( 0, -60, 1 ) ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz( tripoint( 22, -60, 1 ) ) == direction::ABOVENORTH );
     REQUIRE( make_xyz( tripoint_north ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( 0, -2, 0 ) ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( -22, -60, 0 ) ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( 0, -60, 0 ) ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( 22, -60, 0 ) ) == direction::NORTH );
-    REQUIRE( make_xyz( tripoint( 0, -1, 1 ) ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz( tripoint( 0, -2, 2 ) ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz( tripoint( -22, -60, 1 ) ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz( tripoint( 0, -60, 1 ) ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz( tripoint( 22, -60, 1 ) ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz( tripoint( 1, -1, -1 ) ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz( tripoint( 2, -2, -2 ) ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz( tripoint( 30, -60, -1 ) ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, -60, -1 ) ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, -30, -1 ) ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz( tripoint( 0, -1, -1 ) ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz( tripoint( 0, -2, -2 ) ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz( tripoint( -22, -60, -1 ) ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz( tripoint( 0, -60, -1 ) ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz( tripoint( 22, -60, -1 ) ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz( tripoint( 1, -1, 1 ) ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz( tripoint( 2, -2, 2 ) ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz( tripoint( 30, -60, 1 ) ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, -60, 1 ) ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, -30, 1 ) ) == direction::ABOVENORTHEAST );
     REQUIRE( make_xyz( tripoint_north_east ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 2, -2, 0 ) ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 30, -60, 0 ) ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 60, -60, 0 ) ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 60, -30, 0 ) ) == direction::NORTHEAST );
-    REQUIRE( make_xyz( tripoint( 1, -1, 1 ) ) == direction::BELOWNORTHEAST );
-    REQUIRE( make_xyz( tripoint( 2, -2, 2 ) ) == direction::BELOWNORTHEAST );
-    REQUIRE( make_xyz( tripoint( 30, -60, 1 ) ) == direction::BELOWNORTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, -60, 1 ) ) == direction::BELOWNORTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, -30, 1 ) ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz( tripoint( 1, -1, -1 ) ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz( tripoint( 2, -2, -2 ) ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz( tripoint( 30, -60, -1 ) ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, -60, -1 ) ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, -30, -1 ) ) == direction::BELOWNORTHEAST );
 
-    REQUIRE( make_xyz( tripoint( -1, 0, -1 ) ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz( tripoint( -2, 0, -2 ) ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz( tripoint( -60, -22, -1 ) ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz( tripoint( -60, 0, -1 ) ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz( tripoint( -60, 22, -1 ) ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz( tripoint( -1, 0, 1 ) ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz( tripoint( -2, 0, 2 ) ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz( tripoint( -60, -22, 1 ) ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz( tripoint( -60, 0, 1 ) ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz( tripoint( -60, 22, 1 ) ) == direction::ABOVEWEST );
     REQUIRE( make_xyz( tripoint_west ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -2, 0, 0 ) ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -60, -22, 0 ) ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -60, 0, 0 ) ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -60, 22, 0 ) ) == direction::WEST );
-    REQUIRE( make_xyz( tripoint( -1, 0, 1 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz( tripoint( -2, 0, 2 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz( tripoint( -60, -22, 1 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz( tripoint( -60, 0, 1 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz( tripoint( -60, 22, 1 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz( tripoint_below ) == direction::ABOVECENTER );
-    REQUIRE( make_xyz( tripoint( 0, 0, -2 ) ) == direction::ABOVECENTER );
+    REQUIRE( make_xyz( tripoint( -1, 0, -1 ) ) == direction::BELOWWEST );
+    REQUIRE( make_xyz( tripoint( -2, 0, -2 ) ) == direction::BELOWWEST );
+    REQUIRE( make_xyz( tripoint( -60, -22, -1 ) ) == direction::BELOWWEST );
+    REQUIRE( make_xyz( tripoint( -60, 0, -1 ) ) == direction::BELOWWEST );
+    REQUIRE( make_xyz( tripoint( -60, 22, -1 ) ) == direction::BELOWWEST );
+    REQUIRE( make_xyz( tripoint_above ) == direction::ABOVECENTER );
+    REQUIRE( make_xyz( tripoint( 0, 0, 2 ) ) == direction::ABOVECENTER );
     REQUIRE( make_xyz( tripoint_zero ) == direction::CENTER );
-    REQUIRE( make_xyz( tripoint_above ) == direction::BELOWCENTER );
-    REQUIRE( make_xyz( tripoint( 0, 0, 2 ) ) == direction::BELOWCENTER );
-    REQUIRE( make_xyz( tripoint( 1, 0, -1 ) ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz( tripoint( 2, 0, -2 ) ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz( tripoint( 60, -22, -1 ) ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz( tripoint( 60, 0, -1 ) ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz( tripoint( 60, 22, -1 ) ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz( tripoint_below ) == direction::BELOWCENTER );
+    REQUIRE( make_xyz( tripoint( 0, 0, -2 ) ) == direction::BELOWCENTER );
+    REQUIRE( make_xyz( tripoint( 1, 0, 1 ) ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz( tripoint( 2, 0, 2 ) ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz( tripoint( 60, -22, 1 ) ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz( tripoint( 60, 0, 1 ) ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz( tripoint( 60, 22, 1 ) ) == direction::ABOVEEAST );
     REQUIRE( make_xyz( tripoint_east ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 2, 0, 0 ) ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 60, -22, 0 ) ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 60, 0, 0 ) ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 60, 22, 0 ) ) == direction::EAST );
-    REQUIRE( make_xyz( tripoint( 1, 0, 1 ) ) == direction::BELOWEAST );
-    REQUIRE( make_xyz( tripoint( 2, 0, 2 ) ) == direction::BELOWEAST );
-    REQUIRE( make_xyz( tripoint( 60, -22, 1 ) ) == direction::BELOWEAST );
-    REQUIRE( make_xyz( tripoint( 60, 0, 1 ) ) == direction::BELOWEAST );
-    REQUIRE( make_xyz( tripoint( 60, 22, 1 ) ) == direction::BELOWEAST );
+    REQUIRE( make_xyz( tripoint( 1, 0, -1 ) ) == direction::BELOWEAST );
+    REQUIRE( make_xyz( tripoint( 2, 0, -2 ) ) == direction::BELOWEAST );
+    REQUIRE( make_xyz( tripoint( 60, -22, -1 ) ) == direction::BELOWEAST );
+    REQUIRE( make_xyz( tripoint( 60, 0, -1 ) ) == direction::BELOWEAST );
+    REQUIRE( make_xyz( tripoint( 60, 22, -1 ) ) == direction::BELOWEAST );
 
-    REQUIRE( make_xyz( tripoint( -1, 1, -1 ) ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -2, 2, -2 ) ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -30, 60, -1 ) ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, 60, -1 ) ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, 30, -1 ) ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -1, 1, 1 ) ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -2, 2, 2 ) ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -30, 60, 1 ) ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, 60, 1 ) ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, 30, 1 ) ) == direction::ABOVESOUTHWEST );
     REQUIRE( make_xyz( tripoint_south_west ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -2, 2, 0 ) ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -30, 60, 0 ) ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -60, 60, 0 ) ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -60, 30, 0 ) ) == direction::SOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -1, 1, 1 ) ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -2, 2, 2 ) ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -30, 60, 1 ) ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, 60, 1 ) ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz( tripoint( -60, 30, 1 ) ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz( tripoint( 0, 1, -1 ) ) == direction::ABOVESOUTH );
-    REQUIRE( make_xyz( tripoint( 0, 2, -2 ) ) == direction::ABOVESOUTH );
-    REQUIRE( make_xyz( tripoint( 0, 60, -1 ) ) == direction::ABOVESOUTH );
+    REQUIRE( make_xyz( tripoint( -1, 1, -1 ) ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -2, 2, -2 ) ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -30, 60, -1 ) ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, 60, -1 ) ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz( tripoint( -60, 30, -1 ) ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz( tripoint( 0, 1, 1 ) ) == direction::ABOVESOUTH );
+    REQUIRE( make_xyz( tripoint( 0, 2, 2 ) ) == direction::ABOVESOUTH );
+    REQUIRE( make_xyz( tripoint( 0, 60, 1 ) ) == direction::ABOVESOUTH );
     REQUIRE( make_xyz( tripoint_south ) == direction::SOUTH );
     REQUIRE( make_xyz( tripoint( -22, 60, 0 ) ) == direction::SOUTH );
     REQUIRE( make_xyz( tripoint( 0, 60, 0 ) ) == direction::SOUTH );
     REQUIRE( make_xyz( tripoint( 22, 60, 0 ) ) == direction::SOUTH );
-    REQUIRE( make_xyz( tripoint( 0, 1, 1 ) ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz( tripoint( 0, 2, 2 ) ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz( tripoint( -22, 60, 1 ) ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz( tripoint( 0, 60, 1 ) ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz( tripoint( 22, 60, 1 ) ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz( tripoint( 1, 1, -1 ) ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 2, 2, -2 ) ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 30, 60, -1 ) ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, 60, -1 ) ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, 30, -1 ) ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 0, 1, -1 ) ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz( tripoint( 0, 2, -2 ) ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz( tripoint( -22, 60, -1 ) ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz( tripoint( 0, 60, -1 ) ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz( tripoint( 22, 60, -1 ) ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz( tripoint( 1, 1, 1 ) ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 2, 2, 2 ) ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 30, 60, 1 ) ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, 60, 1 ) ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, 30, 1 ) ) == direction::ABOVESOUTHEAST );
     REQUIRE( make_xyz( tripoint_south_east ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 2, 2, 0 ) ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 30, 60, 0 ) ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 60, 60, 0 ) ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 60, 30, 0 ) ) == direction::SOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 1, 1, 1 ) ) == direction::BELOWSOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 2, 2, 2 ) ) == direction::BELOWSOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 30, 60, 1 ) ) == direction::BELOWSOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, 60, 1 ) ) == direction::BELOWSOUTHEAST );
-    REQUIRE( make_xyz( tripoint( 60, 30, 1 ) ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 1, 1, -1 ) ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 2, 2, -2 ) ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 30, 60, -1 ) ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, 60, -1 ) ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz( tripoint( 60, 30, -1 ) ) == direction::BELOWSOUTHEAST );
+}
+
+TEST_CASE( "direction_from", "[line]" )
+{
+    for( int x = -2; x <= 2; ++x ) {
+        for( int y = -2; y <= 2; ++y ) {
+            for( int z = -2; z <= 2; ++z ) {
+                tripoint p( x, y, z );
+                CHECK( direction_from( tripoint_zero, p ) == direction_from( p ) );
+                CHECK( direction_from( p ) == make_xyz( p ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "direction_name", "[line]" )
+{
+    CHECK( direction_name( direction_from( tripoint_north_east + tripoint_above ) ) ==
+           "northeast and above" );
+    CHECK( direction_name_short( direction_from( tripoint_north_east + tripoint_above ) ) ==
+           "UP_NE" );
 }
 
 TEST_CASE( "squares_closer_to_test", "[line]" )
