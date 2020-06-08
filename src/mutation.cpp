@@ -261,8 +261,8 @@ bool reflex_activation_data::is_trigger_true( const Character &guy ) const
             activate = true;
         }
     } else {
-        if( var > threshold_high ||
-            var < threshold_low ) {
+        if( var < threshold_high ||
+            var > threshold_low ) {
             activate = true;
         }
     }
@@ -586,9 +586,6 @@ void Character::activate_mutation( const trait_id &mut )
             mod_fatigue( cost );
         }
         tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
         recalc_sight_limits();
     }
 
