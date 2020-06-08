@@ -237,6 +237,26 @@
   },
   {
     "type": "profession",
+    "ident": "ranger",
+    "name": "Introspectionist",
+    "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone. ",
+    "spells": [ { "id": "magic_missile", "level": 4 } ],
+    "points": 4,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
+    "items": {
+      "both": {
+      "items": {
+      [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ],
+        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+    },
+    "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
     "ident": "vengpreacher",
     "name": "Vengeful Preacher",
     "description": "You lost your faith when your spouse died of illness.  You've been drinking yourself to death ever since.  God is punishing everyone with this apocalypse, you are going to show them your brand of mercy.",
