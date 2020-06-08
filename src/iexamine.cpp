@@ -121,7 +121,6 @@ static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_flour( "flour" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_industrial( "id_industrial" );
@@ -4799,11 +4798,6 @@ static void mill_activate( player &p, const tripoint &examp )
     units::volume food_volume = 0_ml;
 
     for( item &it : items ) {
-        if( it.typeId() == itype_flour ) {
-            add_msg( _( "This mill already contains flour." ) );
-            add_msg( _( "Remove it before starting the mill again." ) );
-            return;
-        }
         if( it.type->milling_data ) {
             food_present = true;
             food_volume += it.volume();
