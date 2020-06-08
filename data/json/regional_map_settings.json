@@ -930,7 +930,7 @@
         {
           "index": 14,
           "hallucinations": true,
-		  "spawns": [ "mon_mist_wraith" ],
+          "spawns": [ "mon_mist_wraith" ],
           "time_between_spawns": 60,
           "chance_to_spawn": 75,
           "max_spawns": 2,
@@ -941,18 +941,18 @@
         {
           "index": 15,
           "hallucinations": true,
-		  "spawns": [ "mon_mist_wraith", "mon_mist_spectre" ],
+          "spawns": [ "mon_mist_wraith", "mon_mist_spectre" ],
           "time_between_spawns": 50,
           "chance_to_spawn": 75,
           "max_spawns": 2,
           "max_radius": 6,
           "min_radius": 4,
-          "message": "The mist reacts to you and nightmarish shapes form."		  
+          "message": "The mist reacts to you and nightmarish shapes form."
         },
         {
           "index": 16,
           "hallucinations": true,
-		  "spawns": [ "mon_mist_wraith", "mon_mist_spectre", "mon_mist_phantom" ],
+          "spawns": [ "mon_mist_wraith", "mon_mist_spectre", "mon_mist_phantom" ],
           "time_between_spawns": 40,
           "chance_to_spawn": 75,
           "max_spawns": 3,
