@@ -246,7 +246,7 @@
     "items": {
       "both": {
       "items": [
-      [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ],
+      [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ]
         ],
         "entries": [
         { "item": "primitive_knife", "container-item": "sheath" }
