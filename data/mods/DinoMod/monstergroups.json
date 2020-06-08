@@ -192,6 +192,10 @@
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 168 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 672 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 2160 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 168 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 672 },
@@ -222,6 +226,10 @@
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 168 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 672 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 2160 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 168 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 672 },
@@ -319,6 +327,7 @@
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 }
     ]
   },
