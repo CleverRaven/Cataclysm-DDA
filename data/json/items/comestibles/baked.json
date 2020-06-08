@@ -1,0 +1,23 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "pumpkin_muffins",
+    "name": { "str_sp": "pumpkin muffin" },
+    "weight": "30 g",
+    "color": "red",
+    "spoils_in": "3 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "healthy": 2,
+    "calories": 45,
+    "description": "Baked muffins made of pumpkin.  Perfect for your fall feast.",
+    "price": 50,
+    "price_postapoc": 5,
+    "material": "fruit",
+    "volume": "35 ml",
+    "stack_size": 24,
+    "fun": 3,
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+  }
+]

@@ -79,8 +79,7 @@ profession::profession()
     : _name_male( no_translation( "null" ) ),
       _name_female( no_translation( "null" ) ),
       _description_male( no_translation( "null" ) ),
-      _description_female( no_translation( "null" ) ),
-      _point_cost( 0 )
+      _description_female( no_translation( "null" ) )
 {
 }
 
@@ -139,7 +138,7 @@ class item_reader : public generic_typed_reader<item_reader>
         void erase_next( JsonIn &jin, C &container ) const {
             const std::string id = jin.get_string();
             reader_detail::handler<C>().erase_if( container, [&id]( const profession::itypedec & e ) {
-                return e.type_id == id;
+                return e.type_id.str() == id;
             } );
         }
 };
@@ -256,15 +255,16 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id );
+            debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
-                debugmsg( "profession %s: item %s has no snippet category - no description can be set",
-                          id.str(), itd.type_id );
+                debugmsg( "profession %s: item %s has no snippet category - no description can "
+                          "be set", id.str(), itd.type_id.str() );
             } else {
                 if( !itd.snip_id.is_valid() ) {
-                    debugmsg( "profession %s: there's no snippet with id %s", id.str(), itd.snip_id.str() );
+                    debugmsg( "profession %s: there's no snippet with id %s",
+                              id.str(), itd.snip_id.str() );
                 }
             }
         }
@@ -276,7 +276,7 @@ void profession::check_definition() const
     check_item_definitions( legacy_starting_items );
     check_item_definitions( legacy_starting_items_female );
     check_item_definitions( legacy_starting_items_male );
-    if( !no_bonus.empty() && !item::type_is_defined( no_bonus ) ) {
+    if( !no_bonus.is_empty() && !item::type_is_defined( no_bonus ) ) {
         debugmsg( "no_bonus item '%s' is not an itype_id", no_bonus.c_str() );
     }
 
@@ -389,10 +389,12 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
-    std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
-    for( const itype_id &elem : bonus ) {
-        if( elem != no_bonus ) {
-            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+    if( !has_flag( "NO_BONUS_ITEMS" ) ) {
+        std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
+        for( const itype_id &elem : bonus ) {
+            if( elem != no_bonus ) {
+                result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            }
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
@@ -405,10 +407,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        clear_faults( it );
-        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
-            clear_faults( it.contents.front() );
-        }
+        it.visit_items( []( item * it ) {
+            clear_faults( *it );
+            return VisitResponse::NEXT;
+        } );
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
@@ -431,43 +433,6 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
             } else {
                 ++inner;
             }
-        }
-    }
-
-    /*  Purpose:    Post processing on profession selection and generation on start.
-                    Professions are newly generated each time on selection, even
-                    if the profession has already been selected previously. The profession
-                    is even generated again after selection, and the game is started.
-                    The purpose of this loop is to provide default numbers for item charges
-                    and ammo. This extends to food as well, however due to the nature of
-                    the way these professions are generated, food items one see's on the profession
-                    screen will be different in-game, but still these charge numbers will be
-                    dictated by the default of said items.
-
-        Graphical Issue:    Currently, worn items can fluctuate between 0 and their default value
-                            upon entering the game this issue will resolve itself and the correct
-                            default value will be given to the player. This issue occurs
-                            on holding the enter key to make rapid selection of a profession.
-
-        TODO:   Currently the way magazines are implemented they do not contain a default value.
-                Professions contain a max charge value found in the JSON file however, this
-                does not help in choosing a default. Below is a compromise that takes the
-                half of the magazines capacity as a default. This was chosen because most
-                defaults are half of the items max value.
-       -- Ideally, the default value of a magazine would be defined in the profession JSON file. --
-    */
-    for( auto &item : result ) {
-        /* Set top level items that have a charge to their default states */
-        /* includes refillable liters */
-
-        item.charges = item::find_type( item.typeId() )->charges_default();
-
-        /* Top level item has a magazine */
-        if( item.is_magazine() ) {
-            //Check the TODO for more information as to why we are dividing by two here.
-            item.ammo_set( item.ammo_default(), item.ammo_capacity() / 2 );
-        } else {
-            item.contents.set_item_defaults();
         }
     }
 
@@ -565,10 +530,10 @@ void json_item_substitution::reset()
 json_item_substitution::substitution::info::info( const JsonValue &value )
 {
     if( value.test_string() ) {
-        new_item = value.get_string();
+        value.read( new_item, true );
     } else {
         const JsonObject jo = value.get_object();
-        new_item = jo.get_string( "item" );
+        jo.read( "item", new_item, true );
         ratio = jo.get_float( "ratio" );
         if( ratio <= 0.0 ) {
             jo.throw_error( "Ratio must be positive", "ratio" );
@@ -598,13 +563,14 @@ void json_item_substitution::load( const JsonObject &jo )
             return p.first == it;
         } ) != bonuses.end();
     };
-    if( item_mode && check_duplicate_item( title ) ) {
+    if( item_mode && check_duplicate_item( itype_id( title ) ) ) {
         jo.throw_error( "Duplicate definition of item" );
     }
 
     if( item_mode ) {
         if( jo.has_member( "bonus" ) ) {
-            bonuses.emplace_back( title, trait_requirements( jo.get_object( "bonus" ) ) );
+            bonuses.emplace_back( itype_id( title ),
+                                  trait_requirements( jo.get_object( "bonus" ) ) );
         }
 
         for( const JsonValue sub : jo.get_array( "sub" ) ) {
@@ -614,12 +580,13 @@ void json_item_substitution::load( const JsonObject &jo )
             for( const JsonValue info : obj.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
-            substitutions[title].push_back( s );
+            substitutions[itype_id( title )].push_back( s );
         }
     } else {
         for( const JsonObject sub : jo.get_array( "sub" ) ) {
             substitution s;
-            const itype_id old_it = sub.get_string( "item" );
+            itype_id old_it;
+            sub.read( "item", old_it, true );
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
@@ -702,18 +669,17 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item, advanced_spawn_time() );
-        const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
+        int new_amount = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {
-            for( int i = 0; i < new_amt; i++ ) {
+            for( int i = 0; i < new_amount; i++ ) {
                 ret.push_back( result.in_its_container() );
             }
         } else {
-            result.mod_charges( -result.charges + new_amt );
-            while( result.charges > 0 ) {
-                const item pushed = result.in_its_container();
+            while( new_amount > 0 ) {
+                const item pushed = result.in_its_container( new_amount );
+                new_amount -= pushed.charges_of( inf.new_item );
                 ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
             }
         }
     }

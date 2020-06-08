@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_H
-#define GAME_H
+#ifndef CATA_SRC_GAME_H
+#define CATA_SRC_GAME_H
 
 #include <array>
 #include <chrono>
@@ -53,7 +53,6 @@ class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
 extern int fov_3d_z_range;
@@ -68,7 +67,7 @@ class input_context;
 
 input_context get_default_mode_input_context();
 
-enum class dump_mode {
+enum class dump_mode : int {
     TSV,
     HTML
 };
@@ -91,11 +90,8 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
-
-using itype_id = std::string;
 
 class achievements_tracker;
 class avatar;
@@ -153,7 +149,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
     public:
         game();
         ~game();
@@ -227,16 +222,38 @@ class game
         bool do_turn();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
+        void mark_main_ui_adaptor_resize() const;
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
 
+        class draw_callback_t
+        {
+            public:
+                draw_callback_t( const std::function<void()> &cb );
+                ~draw_callback_t();
+                void operator()();
+                friend class game;
+            private:
+                std::function<void()> cb;
+                bool added = false;
+        };
+        /* Add callback that would be called in `game::draw`. This can be used to
+         * implement map overlays in game menus. If parameters of the callback changes
+         * during its lifetime, `invaliate_main_ui_adaptor` has to be called for
+         * the changes to take effect immediately on the next call to `ui_manager::redraw`.
+         * Otherwise the callback may not take effect until the main ui is invalidated
+         * due to resizing or other menus closing. The callback is disabled once all
+         * shared pointers to the callback are deconstructed, and is removed afterwards. */
+        void add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb );
+    private:
+        bool is_looking = false;
+        std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
+
+    public:
         // when force_redraw is true, redraw all panel instead of just animated panels
         // mostly used after UI updates
         void draw_panels( bool force_draw = false );
-        // when force_redraw is true, redraw all panel instead of just animated panels
-        // mostly used after UI updates
-        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -530,7 +547,6 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
-        void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( player &p );
@@ -553,7 +569,7 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        look_around_result look_around( catacurses::window w_info, tripoint &center,
+        look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
 
         // Shared method to print "look around" info
@@ -563,7 +579,9 @@ class game
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
                                   const std::string &area_name, int column,
-                                  int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
+                                  int &line, int last_line, const visibility_variables &cache );
+
+        void draw_terrain_indicator( const tripoint &lp, const visibility_variables &cache ) const;
 
         /** Long description of (visible) things at tile. */
         void extended_description( const tripoint &p );
@@ -576,11 +594,17 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
-                                 inventory_item_menu_positon position = RIGHT_OF_INFO );
+        int inventory_item_menu( item_location locThisItem,
+        const std::function<int()> &startx = []() {
+            return 0;
+        },
+        const std::function<int()> &width = []() {
+            return 50;
+        },
+        inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+        item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
 
         bool has_gametype() const;
@@ -588,7 +612,6 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void toggle_panel_adm();
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -649,9 +672,9 @@ class game
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
-        void draw_hit_player( const player &p, int dam );
+        void draw_hit_player( const Character &p, int dam );
         void draw_line( const tripoint &p, const tripoint &center_point,
-                        const std::vector<tripoint> &points );
+                        const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
@@ -719,7 +742,7 @@ class game
         void on_move_effects();
     private:
         // Game-start procedures
-        void load( const save_t &name ); // Load a player-specific save file
+        bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
@@ -782,13 +805,13 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
-        void reload_wielded();
+        void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item &it ); // Unload a gun/tool  'U'
+        bool unload( item_location &loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 
@@ -805,7 +828,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( item_location &loc );
+        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -823,7 +846,7 @@ class game
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                     visibility_type visibility );
-        void print_visibility_indicator( visibility_type visibility );
+        void print_visibility_indicator( visibility_type visibility ) const;
         void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -946,6 +969,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 
@@ -968,11 +992,6 @@ class game
         catacurses::window w_minimap;
         catacurses::window w_pixel_minimap;
         //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_panel_adm_ptr;
-        catacurses::window w_panel_adm;
-
-        catacurses::window w_blackspace;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -1031,8 +1050,8 @@ class game
         bool npcs_dirty = false;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false;
-        /** Was the player sleeping during this turn. */
-        bool player_was_sleeping = false;
+        /** Is this the first redraw since waiting (sleeping or activity) started */
+        bool first_redraw_since_waiting_started = true;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zones_manager_open = false;
 
@@ -1071,6 +1090,13 @@ class game
 
         // called on map shifting
         void shift_destination_preview( const point &delta );
+
+        /**
+        Checks if player is able to successfully climb to/from some terrain and not slip down
+        @param check_for_traps Used if needed to call trap function on player's location after slipping down
+        @return whether player has slipped down
+        */
+        bool slip_down( bool check_for_traps = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
@@ -1081,4 +1107,13 @@ int get_heat_radiation( const tripoint &location, bool direct );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
 
-#endif
+namespace cata_event_dispatch
+{
+// Constructs and dispatches an avatar movement event with the necessary parameters
+// @param p The point the avatar moved from in absolute coordinates
+// @param u The avatar (should have already moved to the new pos)
+// @param m The map the avatar is moving on
+void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m );
+} // namespace cata_event_dispatch
+
+#endif // CATA_SRC_GAME_H

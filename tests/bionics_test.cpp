@@ -48,14 +48,22 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
 
-    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
+    if( !it.magazine_default().is_null() ) {
+        item mag( it.magazine_default() );
+        mag.ammo_set( mag.ammo_default() );
+        it.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    } else if( !it.ammo_default().is_null() ) {
+        it.ammo_set( it.ammo_default() ); // fill
+    }
+
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
-    player &dummy = g->u;
+    avatar &dummy = g->u;
+    clear_avatar();
 
     // one section failing shouldn't affect the rest
     clear_bionics( dummy );
@@ -90,6 +98,8 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
+    clear_bionics( dummy );
+
     SECTION( "bio_batteries" ) {
         give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
 
@@ -111,6 +121,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
+    clear_bionics( dummy );
     // TODO: bio_cable bio_reactor
     // TODO: (pick from stuff with power_source)
 }

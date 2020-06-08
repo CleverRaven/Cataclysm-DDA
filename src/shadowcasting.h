@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SHADOWCASTING_H
-#define SHADOWCASTING_H
+#ifndef CATA_SRC_SHADOWCASTING_H
+#define CATA_SRC_SHADOWCASTING_H
 
 #include <algorithm>
 #include <array>
@@ -19,8 +19,11 @@ struct tripoint;
 // player is looking at is lit.
 // For non-opaque tiles direction doesn't matter so we just use the single
 // default_ value.
-enum class quadrant {
-    NE, SE, SW, NW,
+enum class quadrant : int {
+    NE,
+    SE,
+    SW,
+    NW,
     default_ = NE
 };
 
@@ -123,4 +126,4 @@ void cast_zlight(
     const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, T numerator );
 
-#endif
+#endif // CATA_SRC_SHADOWCASTING_H

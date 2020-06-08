@@ -11,16 +11,16 @@
 namespace mapf
 {
 
-void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
+void formatted_set_simple( map *m, const point &start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
 {
     const char *p = cstr;
-    int x = startx;
-    int y = starty;
+    int x = start.x;
+    int y = start.y;
     while( *p != 0 ) {
         if( *p == '\n' ) {
             y++;
-            x = startx;
+            x = start.x;
         } else {
             const ter_id ter = ter_b.translate( *p );
             const furn_id furn = furn_b.translate( *p );

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VITAMIN_H
-#define VITAMIN_H
+#ifndef CATA_SRC_VITAMIN_H
+#define CATA_SRC_VITAMIN_H
 
 #include <map>
 #include <set>
@@ -15,7 +15,7 @@
 class JsonObject;
 template <typename T> struct enum_traits;
 
-enum vitamin_type {
+enum class vitamin_type : int {
     VITAMIN,
     TOXIN,
     DRUG,
@@ -110,4 +110,4 @@ class vitamin
         std::set<std::string> flags_;
 };
 
-#endif
+#endif // CATA_SRC_VITAMIN_H

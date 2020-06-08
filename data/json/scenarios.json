@@ -5,7 +5,7 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "sloc_shelter" ],
+    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ]
   },
@@ -63,7 +63,9 @@
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
-      "sloc_cemetery"
+      "sloc_cemetery",
+      "sloc_fire_station",
+      "sloc_police"
     ],
     "start_name": "In Town",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
@@ -112,6 +114,33 @@
       "sloc_cemetery"
     ],
     "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "fungal_start",
+    "name": "Challenge - Fungal Infection",
+    "points": -8,
+    "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
+    "start_name": "In Town",
+    "blacklist_professions": true,
+    "professions": [ "bionic_patient" ],
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery"
+    ],
+    "flags": [ "FUNGAL_INFECTION", "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -172,12 +201,12 @@
     "type": "scenario",
     "ident": "medieval",
     "name": "Challenge - Medieval Peasant",
-    "points": -6,
+    "points": -8,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "professions": [ "churl" ],
-    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH" ],
+    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "WAYFARER", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
@@ -418,11 +447,24 @@
     "ident": "foodplace",
     "name": "The Mascot Rises",
     "points": 0,
-    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace delicious food is going to be enough for them.",
+    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace's delicious food™ is going to be enough for them.",
     "allowed_locs": [ "sloc_restaraunt_foodplace_break_room" ],
     "professions": [ "true_foodperson", "unemployed" ],
     "start_name": "Foodplace Break Room",
     "flags": [ "CITY_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "last_delivery",
+    "name": "The Last Delivery",
+    "points": 2,
+    "description": "While the world was falling apart someone called to order some of Foodplace's delicious food™ and they sent you to do the delivery.  You're not sure about much, but one thing is certain: that delicious food™ is going to get delivered even if that's the last thing you do!",
+    "vehicle": "food_truck_delivery_mission",
+    "professions": [ "true_foodperson", "unemployed" ],
+    "start_name": "A Stop On The Road",
+    "allowed_locs": [ "sloc_gas_station" ],
+    "missions": [ "MISSION_LAST_DELIVERY" ],
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -442,7 +484,7 @@
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician" ],
+    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician", "mili_pilot" ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
   },
@@ -476,13 +518,13 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic" ],
+    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
     "ident": "presort",
-    "name": "Crazy party",
+    "name": "Crazy Party",
     "points": 0,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WEATHER_H
-#define WEATHER_H
+#ifndef CATA_SRC_WEATHER_H
+#define CATA_SRC_WEATHER_H
 
 #include "color.h"
 #include "optional.h"
@@ -264,4 +264,4 @@ class weather_manager
         void clear_temp_cache();
 };
 
-#endif
+#endif // CATA_SRC_WEATHER_H

@@ -42,22 +42,16 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
 }
 
 advanced_inv_listitem::advanced_inv_listitem()
-    : idx()
-    , area()
+    : area()
     , id( "null" )
-    , autopickup()
-    , stacks()
     , cat( nullptr )
 {
 }
 
 advanced_inv_listitem::advanced_inv_listitem( const item_category *cat )
-    : idx()
-    , area()
+    : area()
     , id( "null" )
     , name( cat->name() )
-    , autopickup()
-    , stacks()
     , cat( cat )
 {
 }

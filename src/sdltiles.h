@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SDLTILES_H
-#define CATA_SDLTILES_H
+#ifndef CATA_SRC_SDLTILES_H
+#define CATA_SRC_SDLTILES_H
 
 #include <array>
 #if defined(TILES)
@@ -29,6 +29,7 @@ void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
 void load_tileset();
 void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
+void resize_term( int cell_w, int cell_h );
 void toggle_fullscreen_window();
 
 struct window_dimensions {
@@ -39,7 +40,10 @@ struct window_dimensions {
     point window_size_pixel;
 };
 window_dimensions get_window_dimensions( const catacurses::window &win );
+// Get dimensional info of an imaginary normal catacurses::window with the given
+// position and size. Unlike real catacurses::window, size can be zero.
+window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 #endif // TILES
 
-#endif // CATA_SDLTILES_H
+#endif // CATA_SRC_SDLTILES_H

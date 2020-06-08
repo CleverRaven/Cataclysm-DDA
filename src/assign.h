@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ASSIGN_H
-#define ASSIGN_H
+#ifndef CATA_SRC_ASSIGN_H
+#define CATA_SRC_ASSIGN_H
 
 #include <algorithm>
 #include <map>
@@ -319,6 +319,71 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::mass tmp;
+        err = relative;
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = proportional;
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+inline bool assign( const JsonObject &jo, const std::string &name, units::length &val,
+                    bool strict = false,
+                    const units::length lo = units::length_min,
+                    const units::length hi = units::length_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::length & out ) {
+        if( obj.has_int( name ) ) {
+            out = units::from_millimeter<std::int64_t>( obj.get_int( name ) );
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::length>( *obj.get_raw( name ), units::length_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::length out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        units::length tmp;
         err = relative;
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
@@ -763,6 +828,12 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     // What we'll eventually be returning for the damage instance
     damage_instance out;
 
+    std::string id_err = "no id found";
+    // Grab the id for good error reporting
+    if( jo.has_string( "id" ) ) {
+        id_err = jo.get_string( "id" );
+    }
+
     if( jo.has_array( name ) ) {
         out = load_damage_instance_inherit( jo.get_array( name ), val );
     } else if( jo.has_object( name ) ) {
@@ -782,6 +853,12 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
             arpen = jo.get_float( "pierce" );
+        }
+
+        if( amount != 0.0f || arpen != 0.0f || unc_dmg_mult != 1.0f ) {
+            // Give a load warning, it's likely anything loading damage this way
+            // is a gun, and as such is using the wrong damage type
+            debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
         }
 
         out.add_damage( DT_STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
@@ -827,6 +904,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             unc_dmg_mul = relative.get_float( "prop_damage" );
         }
 
+        // Give a load warning, it's likely anything loading damage this way
+        // is a gun, and as such is using the wrong damage type
+        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+
         assign_dmg_relative( out, val, damage_instance( DT_STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
                              unc_dmg_mul ), strict );
     } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
@@ -848,6 +929,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             unc_dmg_mul = proportional.get_float( "prop_damage" );
         }
 
+        // Give a load warning, it's likely anything loading damage this way
+        // is a gun, and as such is using the wrong damage type
+        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+
         assign_dmg_proportional( proportional, name, out, val, damage_instance( DT_STAB, amt, arpen, 1.0f,
                                  1.0f, 1.0f, unc_dmg_mul ), strict );
     } else if( !jo.has_member( name ) && !jo.has_member( "prop_damage" ) ) {
@@ -859,11 +944,11 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     check_assigned_dmg( err, name, out, lo, hi );
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( err, "Assigned damage does not update value", name );
     }
 
     if( out.damage_units.empty() ) {
-        out = damage_instance( DT_STAB, 0.0f );
+        out = damage_instance( DT_BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it
@@ -871,4 +956,4 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
 
     return true;
 }
-#endif
+#endif // CATA_SRC_ASSIGN_H

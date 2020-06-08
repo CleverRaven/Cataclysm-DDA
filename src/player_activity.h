@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PLAYER_ACTIVITY_H
-#define PLAYER_ACTIVITY_H
+#ifndef CATA_SRC_PLAYER_ACTIVITY_H
+#define CATA_SRC_PLAYER_ACTIVITY_H
 
 #include <climits>
 #include <cstddef>
@@ -39,14 +39,17 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
-        /** An activity specific value. */
+        /** Controls whether this activity can be cancelled with 'pause' action */
+        bool interruptable_with_kb = true;
+
+        // The members in the following block are deprecated, prefer creating a new
+        // activity_actor.
         int index = 0;
         /**
          *   An activity specific value.
          *   DO NOT USE FOR ITEM INDEX
         */
         int position = 0;
-        /** An activity specific value. */
         std::string name;
         std::vector<item_location> targets;
         std::vector<int> values;
@@ -55,6 +58,7 @@ class player_activity
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
+
         bool no_drink_nearby_for_auto_consume = false;
         bool no_food_nearby_for_auto_consume = false;
         /** If true, the activity will be auto-resumed next time the player attempts
@@ -72,7 +76,7 @@ class player_activity
          */
         player_activity( const activity_actor &actor );
 
-        player_activity( player_activity && ) = default;
+        player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
         player_activity &operator=( const player_activity & ) = default;
@@ -123,11 +127,23 @@ class player_activity
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
         /**
+         * Preform necessary initialization to start or resume the activity. Must be
+         * called whenever a Character starts a new activity.
+         * When resuming an activity, do not call activity_actor::start
+         */
+        void start_or_resume( Character &who, bool resuming );
+
+        /**
          * Performs the activity for a single turn. If the activity is complete
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
         void do_turn( player &p );
+
+        /**
+         * Performs activity-specific cleanup when Character::cancel_activity() is called
+         */
+        void canceled( Character &who );
 
         /**
          * Returns true if activities are similar enough that this activity
@@ -141,4 +157,4 @@ class player_activity
         void inherit_distractions( const player_activity & );
 };
 
-#endif
+#endif // CATA_SRC_PLAYER_ACTIVITY_H

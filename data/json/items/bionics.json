@@ -10,6 +10,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
+    "price_postapoc": 1000,
     "use_action": "install_bionic",
     "flags": [ "CBM" ],
     "is_upgrade": false,
@@ -28,6 +29,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "abstract faulty bionic module" },
     "price": 0,
+    "price_postapoc": 0,
     "weight": "500 g",
     "description": "This CBM is broken beyond repair, you can't do anything with it."
   },
@@ -678,7 +680,7 @@
     "id": "bio_power_storage_mkII",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Power Storage CBM Mk. II", "str_pl": "Power Storage CBM Mk. II" },
+    "name": { "str_sp": "Power Storage CBM Mk. II" },
     "looks_like": "bio_int_enhancer",
     "description": "A Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases the user's power capacity by 250 units.",
     "price": 1000000,
@@ -1025,7 +1027,7 @@
     "id": "bio_ankles",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Squeaky Ankles", "str_pl": "Squeaky Ankles" },
+    "name": { "str_sp": "Squeaky Ankles" },
     "description": "A pair of defective bionics that make squeaking noises.",
     "weight": "100 g",
     "difficulty": 4
@@ -1173,7 +1175,7 @@
     "id": "bio_thumbs",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Self-Locking Thumbs", "str_pl": "Self-Locking Thumbs" },
+    "name": { "str_sp": "Self-Locking Thumbs" },
     "description": "A pair of faulty, self-locking thumb bionics.",
     "weight": "50 g",
     "difficulty": 5

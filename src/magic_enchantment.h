@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAGIC_ENCHANTMENT_H
-#define MAGIC_ENCHANTMENT_H
+#ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
+#define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <algorithm>
 #include <map>
@@ -76,6 +76,7 @@ class enchantment
             ARMOR_BASH,
             ARMOR_CUT,
             ARMOR_STAB,
+            ARMOR_BULLET,
             ARMOR_HEAT,
             ARMOR_COLD,
             ARMOR_ELEC,
@@ -85,6 +86,7 @@ class enchantment
             ITEM_DAMAGE_BASH,
             ITEM_DAMAGE_CUT,
             ITEM_DAMAGE_STAB,
+            ITEM_DAMAGE_BULLET,
             ITEM_DAMAGE_HEAT,
             ITEM_DAMAGE_COLD,
             ITEM_DAMAGE_ELEC,
@@ -94,6 +96,7 @@ class enchantment
             ITEM_ARMOR_BASH,
             ITEM_ARMOR_CUT,
             ITEM_ARMOR_STAB,
+            ITEM_ARMOR_BULLET,
             ITEM_ARMOR_HEAT,
             ITEM_ARMOR_COLD,
             ITEM_ARMOR_ELEC,
@@ -146,6 +149,7 @@ class enchantment
         void cast_hit_me( Character &caster, const Creature *target ) const;
     private:
         cata::optional<emit_id> emitter;
+        std::map<efftype_id, int> ench_effects;
         // values that add to the base value
         std::map<mod, int> values_add;
         // values that get multiplied to the base value
@@ -171,4 +175,4 @@ class enchantment
                                      const fake_spell &sp ) const;
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_ENCHANTMENT_H

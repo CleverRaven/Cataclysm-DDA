@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPC_H
-#define NPC_H
+#ifndef CATA_SRC_NPC_H
+#define CATA_SRC_NPC_H
 
 #include <algorithm>
 #include <array>
@@ -67,7 +67,7 @@ using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
-                 const itype_id &item_type = "null" );
+                 const itype_id &item_type = itype_id::NULL_ID() );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -168,7 +168,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
-            for( std::pair<activity_id, int> elem : pairs ) {
+            for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
             return ret;
@@ -274,46 +274,46 @@ struct npc_opinion {
     void deserialize( JsonIn &jsin );
 };
 
-enum combat_engagement {
-    ENGAGE_NONE = 0,
-    ENGAGE_CLOSE,
-    ENGAGE_WEAK,
-    ENGAGE_HIT,
-    ENGAGE_ALL,
-    ENGAGE_FREE_FIRE,
-    ENGAGE_NO_MOVE
+enum class combat_engagement : int {
+    NONE = 0,
+    CLOSE,
+    WEAK,
+    HIT,
+    ALL,
+    FREE_FIRE,
+    NO_MOVE
 };
 const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
-        { "ENGAGE_NONE", ENGAGE_NONE },
-        { "ENGAGE_CLOSE", ENGAGE_CLOSE },
-        { "ENGAGE_WEAK", ENGAGE_WEAK },
-        { "ENGAGE_HIT", ENGAGE_HIT },
-        { "ENGAGE_ALL", ENGAGE_ALL },
-        { "ENGAGE_FREE_FIRE", ENGAGE_FREE_FIRE },
-        { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
+        { "ENGAGE_NONE", combat_engagement::NONE },
+        { "ENGAGE_CLOSE", combat_engagement::CLOSE },
+        { "ENGAGE_WEAK", combat_engagement::WEAK },
+        { "ENGAGE_HIT", combat_engagement::HIT },
+        { "ENGAGE_ALL", combat_engagement::ALL },
+        { "ENGAGE_FREE_FIRE", combat_engagement::FREE_FIRE },
+        { "ENGAGE_NO_MOVE", combat_engagement::NO_MOVE }
     }
 };
 
-enum aim_rule {
+enum class aim_rule : int {
     // Aim some
-    AIM_WHEN_CONVENIENT = 0,
+    WHEN_CONVENIENT = 0,
     // No concern for ammo efficiency
-    AIM_SPRAY,
+    SPRAY,
     // Aim when possible, then shoot
-    AIM_PRECISE,
+    PRECISE,
     // If you can't aim, don't shoot
-    AIM_STRICTLY_PRECISE
+    STRICTLY_PRECISE
 };
 const std::unordered_map<std::string, aim_rule> aim_rule_strs = { {
-        { "AIM_WHEN_CONVENIENT", AIM_WHEN_CONVENIENT },
-        { "AIM_SPRAY", AIM_SPRAY },
-        { "AIM_PRECISE", AIM_PRECISE },
-        { "AIM_STRICTLY_PRECISE", AIM_STRICTLY_PRECISE }
+        { "AIM_WHEN_CONVENIENT", aim_rule::WHEN_CONVENIENT },
+        { "AIM_SPRAY", aim_rule::SPRAY },
+        { "AIM_PRECISE", aim_rule::PRECISE },
+        { "AIM_STRICTLY_PRECISE", aim_rule::STRICTLY_PRECISE }
     }
 };
 
 // How much CBM power should remain before attempting to recharge, values are percents of power
-enum cbm_recharge_rule {
+enum class cbm_recharge_rule : int {
     CBM_RECHARGE_ALL = 90,
     CBM_RECHARGE_MOST = 75,
     CBM_RECHARGE_SOME = 50,
@@ -321,16 +321,16 @@ enum cbm_recharge_rule {
     CBM_RECHARGE_NONE = 10
 };
 const std::unordered_map<std::string, cbm_recharge_rule> cbm_recharge_strs = { {
-        { "CBM_RECHARGE_ALL", CBM_RECHARGE_ALL },
-        { "CBM_RECHARGE_MOST", CBM_RECHARGE_MOST },
-        { "CBM_RECHARGE_SOME", CBM_RECHARGE_SOME },
-        { "CBM_RECHARGE_LITTLE", CBM_RECHARGE_LITTLE },
-        { "CBM_RECHARGE_NONE", CBM_RECHARGE_NONE }
+        { "CBM_RECHARGE_ALL", cbm_recharge_rule::CBM_RECHARGE_ALL },
+        { "CBM_RECHARGE_MOST", cbm_recharge_rule::CBM_RECHARGE_MOST },
+        { "CBM_RECHARGE_SOME", cbm_recharge_rule::CBM_RECHARGE_SOME },
+        { "CBM_RECHARGE_LITTLE", cbm_recharge_rule::CBM_RECHARGE_LITTLE },
+        { "CBM_RECHARGE_NONE", cbm_recharge_rule::CBM_RECHARGE_NONE }
     }
 };
 
 // How much CBM power to reserve for defense, values are percents of total power
-enum cbm_reserve_rule {
+enum class cbm_reserve_rule : int {
     CBM_RESERVE_ALL = 100,
     CBM_RESERVE_MOST = 75,
     CBM_RESERVE_SOME = 50,
@@ -338,15 +338,15 @@ enum cbm_reserve_rule {
     CBM_RESERVE_NONE = 0
 };
 const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
-        { "CBM_RESERVE_ALL", CBM_RESERVE_ALL },
-        { "CBM_RESERVE_MOST", CBM_RESERVE_MOST },
-        { "CBM_RESERVE_SOME", CBM_RESERVE_SOME },
-        { "CBM_RESERVE_LITTLE", CBM_RESERVE_LITTLE },
-        { "CBM_RESERVE_NONE", CBM_RESERVE_NONE }
+        { "CBM_RESERVE_ALL", cbm_reserve_rule::CBM_RESERVE_ALL },
+        { "CBM_RESERVE_MOST", cbm_reserve_rule::CBM_RESERVE_MOST },
+        { "CBM_RESERVE_SOME", cbm_reserve_rule::CBM_RESERVE_SOME },
+        { "CBM_RESERVE_LITTLE", cbm_reserve_rule::CBM_RESERVE_LITTLE },
+        { "CBM_RESERVE_NONE", cbm_reserve_rule::CBM_RESERVE_NONE }
     }
 };
 
-enum class ally_rule {
+enum class ally_rule : int {
     DEFAULT = 0,
     use_guns = 1,
     use_grenades = 2,
@@ -490,9 +490,9 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
 
 struct npc_follower_rules {
     combat_engagement engagement;
-    aim_rule aim = AIM_WHEN_CONVENIENT;
-    cbm_recharge_rule cbm_recharge = CBM_RECHARGE_SOME;
-    cbm_reserve_rule cbm_reserve = CBM_RESERVE_SOME;
+    aim_rule aim = aim_rule::WHEN_CONVENIENT;
+    cbm_recharge_rule cbm_recharge = cbm_recharge_rule::CBM_RECHARGE_SOME;
+    cbm_reserve_rule cbm_reserve = cbm_reserve_rule::CBM_RESERVE_SOME;
     ally_rule flags;
     ally_rule override_enable;
     ally_rule overrides;
@@ -527,8 +527,8 @@ struct dangerous_sound {
     int volume;
 };
 
-const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
-                                      SOUTHEAST, SOUTH, SOUTHWEST, WEST
+const direction npc_threat_dir[8] = { direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
+                                      direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST
                                     };
 
 struct healing_options {
@@ -819,9 +819,9 @@ class npc : public player
         faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
-         * @param mx,my,mz are global submap coordinates.
+         * @param m global submap coordinates.
          */
-        void spawn_at_sm( int mx, int my, int mz );
+        void spawn_at_sm( const tripoint &p );
         /**
          * As spawn_at, but also sets position within the submap.
          * Note: final submap may differ from submap_offset if @ref square has
@@ -956,13 +956,17 @@ class npc : public player
         bool took_painkiller() const;
         void use_painkiller();
         void activate_item( int item_index );
-        bool has_identified( const std::string & ) const override {
+        bool has_identified( const itype_id & ) const override {
             return true;
         }
         bool has_artifact_with( const art_effect_passive ) const override {
             return false;
         }
-        /** Is the item safe or does the NPC trust you enough? */
+        /**
+         * Is the item safe or does the NPC trust you enough?
+         * Is not recursive, only checks the item that is the parameter.
+         * to check contents, call this on the items inside the item.
+         */
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
@@ -1041,7 +1045,7 @@ class npc : public player
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "" );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
@@ -1056,7 +1060,7 @@ class npc : public player
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( int sx, int sy );
+        void shift( const point &s );
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
@@ -1143,7 +1147,7 @@ class npc : public player
         // Same as if the player pressed '.'
         void move_pause();
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
@@ -1158,7 +1162,8 @@ class npc : public player
         // Move to, or grab, our targeted item
         void pick_up_item();
         // Drop wgt and vol, including all items with less value than min_val
-        void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
+        void drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
+                         int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1399,7 +1404,7 @@ class standard_npc : public npc
     public:
         standard_npc( const std::string &name = "",
                       const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                      const std::vector<itype_id> &clothing = {},
+                      const std::vector<std::string> &clothing = {},
                       int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
@@ -1412,7 +1417,7 @@ class npc_template
         npc guy;
         translation name_unique;
         translation name_suffix;
-        enum class gender {
+        enum class gender : int {
             random,
             male,
             female
@@ -1429,4 +1434,4 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
 
-#endif
+#endif // CATA_SRC_NPC_H

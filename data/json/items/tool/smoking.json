@@ -8,18 +8,22 @@
     "weight": "200 g",
     "volume": "250 ml",
     "price": 5000,
+    "price_postapoc": 100,
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "!",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 7500,
     "use_action": "ECIG",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -28,9 +32,8 @@
           "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "crackpipe",
@@ -40,6 +43,7 @@
     "weight": "242 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 10,
     "to_hit": -10,
     "material": [ "glass" ],
     "symbol": ",",
@@ -54,6 +58,7 @@
     "weight": "163 g",
     "volume": "250 ml",
     "price": 2000,
+    "price_postapoc": 100,
     "to_hit": -10,
     "bashing": 1,
     "material": [ "glass" ],
@@ -69,6 +74,7 @@
     "weight": "372 g",
     "volume": "250 ml",
     "price": 3000,
+    "price_postapoc": 100,
     "to_hit": -10,
     "bashing": 1,
     "material": [ "wood" ],

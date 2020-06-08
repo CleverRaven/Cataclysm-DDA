@@ -303,7 +303,7 @@ void auto_note_manager_gui::show()
                     wprintz( w, c_yellow, "   " );
                 }
 
-                wprintz( w, lineColor, "%s", _( cacheEntry.first.name ) );
+                wprintz( w, lineColor, "%s", cacheEntry.first.name() );
 
                 // Print the character this map extra is indicated by on the map
                 mvwprintz( w, point( 55, i - startPosition ), charColor, "%s", displayChar );

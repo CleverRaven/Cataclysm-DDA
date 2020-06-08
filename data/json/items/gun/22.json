@@ -4,7 +4,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "American-180", "str_pl": "American-180" },
+    "name": { "str_sp": "American-180" },
     "description": "The American-180 is a submachine gun developed in the 1960's that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
     "weight": "2600 g",
     "volume": "1250 ml",
@@ -15,9 +15,9 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "smg",
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 39,
@@ -38,14 +38,22 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "22", [ "a180mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "a180mag" ]
+      }
+    ]
   },
   {
     "id": "marlin_9a",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Marlin 39A", "str_pl": "Marlin 39A" },
+    "name": { "str_sp": "Marlin 39A" },
     "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
     "weight": "2948 g",
     "volume": "2500 ml",
@@ -56,14 +64,13 @@
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 90,
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 19,
-    "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -79,14 +86,23 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "marlin_tubeloader" ]
+      }
+    ]
   },
   {
     "id": "moss_brownie",
     "looks_like": "glock_17",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": { "str": "Mossberg Brownie", "str_pl": "Mossberg Brownie" },
+    "name": { "str_sp": "Mossberg Brownie" },
     "description": "The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
     "weight": "280 g",
     "volume": "137ml",
@@ -96,8 +112,8 @@
     "bashing": 1,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
-    "ammo": "22",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 520,
     "durability": 6,
     "blackpowder_tolerance": 96,
@@ -113,7 +129,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 4 } } ]
   },
   {
     "id": "rifle_22",
@@ -131,9 +148,9 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -152,14 +169,15 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 1 } } ]
   },
   {
     "id": "ruger_1022",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Ruger 10/22", "str_pl": "Ruger 10/22" },
+    "name": { "str_sp": "Ruger 10/22" },
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
     "weight": "2270 g",
     "volume": "2500 ml",
@@ -170,9 +188,9 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 39,
@@ -192,26 +210,33 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ]
+      }
+    ]
   },
   {
     "id": "ruger_lcr_22",
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
-    "name": { "str": "Ruger LCR .22", "str_pl": "Ruger LCR .22" },
+    "name": { "str_sp": "Ruger LCR .22" },
     "weight": "420 g",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "clip_size": 8,
-    "magazines": [ [ "22", [ "22_speedloader8" ] ] ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "sig_mosquito",
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "SIG Mosquito", "str_pl": "SIG Mosquito" },
+    "name": { "str_sp": "SIG Mosquito" },
     "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the latter 20th-early 21st centuries; it has an underbarrel rail.",
     "weight": "700 g",
     "volume": "250 ml",
@@ -222,9 +247,9 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 39,
@@ -242,15 +267,22 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "22", [ "mosquitomag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mosquitomag" ]
+      }
+    ]
   },
   {
     "id": "sw_22",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "S&W 22A", "str_pl": "S&W 22A" },
+    "name": { "str_sp": "S&W 22A" },
     "description": "A popular .22 pistol.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -260,12 +292,19 @@
     "bashing": 9,
     "material": [ "aluminum", "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": 1,
-    "magazines": [ [ "22", [ "sw22mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "sw22mag" ]
+      }
+    ]
   },
   {
     "id": "j22",
@@ -282,12 +321,20 @@
     "bashing": 1,
     "material": [ "budget_steel" ],
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "22", [ "j22mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "j22mag" ]
+      }
+    ]
   },
   {
     "id": "walther_p22",
@@ -304,11 +351,18 @@
     "bashing": 4,
     "material": [ "plastic", "zinc" ],
     "color": "dark_gray",
-    "ammo": "22",
+    "ammo": [ "22" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": 1,
-    "magazines": [ [ "22", [ "wp22mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "wp22mag" ]
+      }
+    ]
   }
 ]

@@ -15,15 +15,37 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "ar15",
@@ -41,11 +63,33 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "ar_pistol",
@@ -56,6 +100,7 @@
     "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
     "weight": "2267 g",
     "volume": "1758 ml",
+    "longest_side": "1116 mm",
     "price": 91400,
     "price_postapoc": 3500,
     "to_hit": -2,
@@ -63,20 +108,28 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "range": -6,
-    "ranged_damage": -9,
+    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30", "stanag50", "survivor223mag" ]
+      }
+    ]
   },
   {
     "id": "famas",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "MAS 223", "str_pl": "MAS 223" },
+    "name": { "str_sp": "MAS 223" },
     "description": "A bullpup assault rifle that was used by French armed forces only until recently.  While the FAMAS was famous for its high fire rate, the MAS .223 is a semi-auto only variation imported to the US in the late eighties.  It retains the integral bipod, though.",
     "weight": "3800 g",
     "volume": "4162 ml",
@@ -86,8 +139,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
-    "ranged_damage": -2,
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -106,7 +159,56 @@
       [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "famasmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "famasmag" ]
+      }
+    ]
+  },
+  {
+    "id": "fs2000",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": "FS2000",
+    "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
+    "weight": "3319 g",
+    "volume": "7986 ml",
+    "price": 125000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "dispersion": 150,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "default_mods": [ "factory_handguard" ],
+    "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30" ]
+      }
+    ]
   },
   {
     "id": "h&k416a5",
@@ -125,13 +227,35 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "hk_g36",
@@ -149,12 +273,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ]
+      }
+    ]
   },
   {
     "id": "m249",
@@ -172,7 +304,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "dispersion": 200,
     "durability": 7,
     "min_cycle_recoil": 1350,
@@ -192,7 +324,38 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "belt223",
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "m249_semi",
+    "type": "GUN",
+    "copy-from": "m249",
+    "name": { "str": "M249S" },
+    "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
     "id": "m27iar",
@@ -202,8 +365,30 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
-    "relative": { "ranged_damage": { "damage_type": "stab", "amount": 1 }, "durability": 1 }
+    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "m4a1",
@@ -221,13 +406,35 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "m16a4",
@@ -245,12 +452,34 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "oa93",
@@ -268,52 +497,21 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "range": -6,
-    "ranged_damage": -11,
+    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
-  },
-  {
-    "id": "rifle_223",
-    "copy-from": "gun_base",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "pipe rifle: .223", "str_pl": "pipe rifles: .223" },
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": "4080 g",
-    "volume": "3 L",
-    "price": 110000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "223",
-    "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": "1000 ml",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30", "stanag50", "survivor223mag" ]
+      }
+    ]
   },
   {
     "id": "ruger_mini",
@@ -331,8 +529,8 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 100,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -351,7 +549,15 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30", "ruger_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "scar_l",
@@ -369,13 +575,35 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "sig552",
@@ -391,13 +619,35 @@
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
-    "ammo": "223",
+    "ammo": [ "223" ],
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "steyr_aug",
@@ -415,7 +665,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "223",
+    "ammo": [ "223" ],
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
@@ -435,44 +685,14 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
-  },
-  {
-    "id": "surv_carbine_223",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "handmade carbine" },
-    "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well-designed improvised lever-action carbine with a shortened barrel.  Accepting crude detachable magazines or STANAG magazines, this is one of the better homemade weapons.",
-    "weight": "1950 g",
-    "volume": "1500 ml",
-    "price": 10000,
-    "price_postapoc": 2750,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "223",
-    "ranged_damage": { "damage_type": "stab", "amount": -4 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 32,
-    "loudness": 25,
-    "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
-    ],
-    "magazines": [ [ "223", [ "survivor223mag", "stanag30", "stanag50" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ]
+      }
+    ]
   }
 ]

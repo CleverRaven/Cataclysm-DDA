@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MARTIALARTS_H
-#define MARTIALARTS_H
+#ifndef CATA_SRC_MARTIALARTS_H
+#define CATA_SRC_MARTIALARTS_H
 
 #include <algorithm>
 #include <cstddef>
@@ -232,7 +232,7 @@ class martialart
         // determines if a technique is valid or not for this style
         bool has_technique( const Character &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon( const std::string &itt ) const;
+        bool has_weapon( const itype_id & ) const;
         // Is this weapon OK with this art?
         bool weapon_valid( const item &it ) const;
         // Getter for Character style change message
@@ -253,7 +253,7 @@ class martialart
         bool arm_block_with_bio_armor_arms = false;
         bool leg_block_with_bio_armor_legs = false;
         std::set<matec_id> techniques; // all available techniques
-        std::set<std::string> weapons; // all style weapons
+        std::set<itype_id> weapons; // all style weapons
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
         bool allow_melee = false; // Can use unarmed or with ANY weapon
@@ -297,4 +297,4 @@ std::string martialart_difficulty( const matype_id &mstyle );
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
 
-#endif
+#endif // CATA_SRC_MARTIALARTS_H

@@ -1,13 +1,13 @@
 #pragma once
-#ifndef AMMO_H
-#define AMMO_H
+#ifndef CATA_SRC_AMMO_H
+#define CATA_SRC_AMMO_H
 
 #include <string>
 #include <utility>
 
-class JsonObject;
+#include"type_id.h"
 
-using itype_id = std::string;
+class JsonObject;
 
 class ammunition_type
 {
@@ -31,4 +31,4 @@ class ammunition_type
         static void check_consistency();
 };
 
-#endif
+#endif // CATA_SRC_AMMO_H

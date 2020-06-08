@@ -15,5 +15,16 @@
     "type": "uncraft",
     "time": 300,
     "components": [ [ [ "withered", 3 ] ] ]
+  },
+  {
+    "result": "crt_plant_tunic",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "autolearn": true,
+    "components": [ [ [ "withered_bundle", 20 ] ] ]
   }
 ]

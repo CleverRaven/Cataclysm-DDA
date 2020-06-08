@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPDATA_H
-#define MAPDATA_H
+#ifndef CATA_SRC_MAPDATA_H
+#define CATA_SRC_MAPDATA_H
 
 #include <array>
 #include <bitset>
@@ -24,8 +24,6 @@ struct ter_t;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
-
-using itype_id = std::string;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -186,6 +184,7 @@ enum ter_bitflags : int {
     TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
+    TFLAG_SHALLOW_WATER,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -217,6 +216,7 @@ enum ter_connects : int {
     TERCONN_CHAINFENCE,
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
+    TERCONN_POOLWATER,
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
@@ -278,6 +278,10 @@ struct map_data_common_t {
         };
 
         bool transparent = false;
+
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) > 0;
@@ -357,7 +361,7 @@ struct furn_t : map_data_common_t {
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
-    std::string crafting_pseudo_item;
+    itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
@@ -564,7 +568,8 @@ extern furn_id f_null,
        f_firering,
        f_tourist_table,
        f_camp_chair,
-       f_sign;
+       f_sign,
+       f_gunsafe_ml;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -574,4 +579,4 @@ void check_furniture_and_terrain();
 
 void finalize_furniture_and_terrain();
 
-#endif
+#endif // CATA_SRC_MAPDATA_H

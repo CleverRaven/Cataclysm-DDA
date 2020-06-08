@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UISTATE_H
-#define UISTATE_H
+#ifndef CATA_SRC_UISTATE_H
+#define CATA_SRC_UISTATE_H
 
 #include <list>
 #include <map>
@@ -89,8 +89,6 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        // not needed for compilation, but keeps syntax plugins happy
-        using itype_id = std::string;
         enum side { left = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -102,8 +100,8 @@ class uistatedata
 
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        itype_id adv_inv_container_type = "null";
-        itype_id adv_inv_container_content_type = "null";
+        itype_id adv_inv_container_type = itype_id::NULL_ID();
+        itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
 
         advanced_inv_save_state transfer_save;
@@ -275,4 +273,4 @@ class uistatedata
 };
 extern uistatedata uistate;
 
-#endif
+#endif // CATA_SRC_UISTATE_H

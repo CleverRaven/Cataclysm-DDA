@@ -36,7 +36,7 @@ static const skill_id skill_melee( "melee" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
-static const species_id FUNGUS( "FUNGUS" );
+static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -64,13 +64,13 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
-            !critter.type->in_species( FUNGUS ) ) {
+            !critter.type->in_species( species_FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
-            critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
+            critter.apply_damage( origin, bodypart_id( "torso" ), rng( 25, 50 ) );
         }
     } else if( gm.u.pos() == p ) {
         // TODO: Make this accept NPCs when they understand fungals

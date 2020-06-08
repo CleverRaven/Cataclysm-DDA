@@ -14,7 +14,7 @@
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 }
     ],
     "messages": [ "You step forward and stab at %s", "<npcname> stabs into %s flesh" ],
-    "description": "110% Stab damage, STR (E) and PER (D) provides bonus damage, min 1 melee"
+    "description": "110% Stab DMG, STR (E) and PER (D) adds DMG, melee (1)"
   },
   {
     "type": "technique",
@@ -31,7 +31,7 @@
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.2 }
     ],
     "messages": [ "You explosively jab at %s", "<npcname> violently jabs at %s" ],
-    "description": "Crit only, 115% Stab damage, Crit only, Strength (D) and Perception (D) provides bonus damage, min 2 melee"
+    "description": "CRIT!, 115% Stab DMG, Strength (D) and Perception (D) adds DMG, melee (2)"
   },
   {
     "type": "technique",
@@ -44,12 +44,11 @@
     "weighting": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 }, { "stat": "damage", "type": "stab", "scale": 0.7 } ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.15 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": 0.25 }
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": 0.5 }
     ],
     "messages": [ "You prod at %s defensively", "<npcname> prods at %s " ],
-    "description": "66% movecost, 70% Stab damage, STR (E) and PER (C) provides bonus damage, DEX (C) reduces action cost, min 3 melee"
+    "description": "66% AP, 70% Stab DMG, PER (C) adds Arpen, DEX (B) reduces AP cost, melee (3)"
   },
   {
     "type": "technique",
@@ -60,13 +59,12 @@
     "melee_allowed": true,
     "crit_tec": false,
     "weighting": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "stab", "scale": 0.75 } ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.25 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.3 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.12 }
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.55 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.125 }
     ],
-    "messages": [ "You probe %s's openings", "<npcname> probe %s " ],
-    "description": "80% movecost, 75% Stab damage, STR (C) and PER (C) provides bonus damage and also provides armor pierce (E), min 3 melee"
+    "messages": [ "You probe at %s's openings with your weapon", "<npcname> probes their weapon at %s " ],
+    "description": "80% AP, PER (C) adds DMG and Arpen (E), melee (3)"
   }
 ]

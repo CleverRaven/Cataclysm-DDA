@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MUTATION_H
-#define MUTATION_H
+#ifndef CATA_SRC_MUTATION_H
+#define CATA_SRC_MUTATION_H
 
 #include <map>
 #include <set>
@@ -28,8 +28,6 @@ class player;
 struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
-
-using itype_id = std::string;
 class JsonArray;
 
 extern std::vector<dream> dreams;
@@ -62,8 +60,8 @@ struct mut_attack {
     /** Need none of those to qualify for this attack */
     std::set<trait_id> blocker_mutations;
 
-    /** If not num_bp, this body part needs to be uncovered for the attack to proc */
-    body_part bp = num_bp;
+    /** If not empty, this body part needs to be uncovered for the attack to proc */
+    bodypart_str_id bp;
 
     /** Chance to proc is one_in( chance - dex - unarmed ) */
     int chance = 0;
@@ -74,6 +72,20 @@ struct mut_attack {
 
     /** Should be true when and only when this attack needs hardcoded handling */
     bool hardcoded_effect = false;
+};
+
+struct mut_transform {
+
+    trait_id target;
+
+    /** displayed if player sees transformation with %s replaced by item name */
+    translation msg_transform;
+    /** used to set the active property of the transformed @ref target */
+    bool active = false;
+    /** subtracted from @ref Creature::moves when transformation is successful */
+    int moves = 0;
+    mut_transform();
+    bool load( const JsonObject &jsobj, const std::string &member );
 };
 
 struct mutation_branch {
@@ -131,6 +143,7 @@ struct mutation_branch {
         float str_modifier = 0.0f;
         //melee bonuses
         int cut_dmg_bonus = 0;
+        float pierce_dmg_bonus = 0.0;
         std::pair<int, int> rand_cut_bonus;
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
@@ -151,6 +164,10 @@ struct mutation_branch {
         cata::optional<int> scent_mask;
         int bleed_resist = 0;
 
+        int butchering_quality = 0;
+
+        cata::value_ptr<mut_transform> transform;
+
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;
 
@@ -158,7 +175,7 @@ struct mutation_branch {
         cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
-        std::map<body_part, float> lumination;
+        std::map<bodypart_str_id, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
@@ -183,6 +200,8 @@ struct mutation_branch {
         float fatigue_regen_modifier = 0.0f;
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;
+        // the modifier for obtaining an item from a container as a handling penalty
+        float obtain_cost_multiplier = 1.0f;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
         float overmap_sight = 0.0f;
@@ -198,6 +217,9 @@ struct mutation_branch {
 
         // Multiplier for skill rust, defaulting to 1.
         float skill_rust_multiplier = 1.0f;
+
+        // Multiplier for consume time, defaulting to 1.
+        float consume_time_modifier = 1.0f;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -222,7 +244,7 @@ struct mutation_branch {
         std::set<std::string> allowed_category;
 
         /**List of body parts locked out of bionics*/
-        std::set<body_part> no_cbm_on_bp;
+        std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
@@ -262,16 +284,16 @@ struct mutation_branch {
         std::vector<trait_id> additions; // Mutations that add to this one
         std::vector<std::string> category; // Mutation Categories
         std::set<std::string> flags; // Mutation flags
-        std::map<body_part, tripoint> protection; // Mutation wet effects
-        std::map<body_part, int> encumbrance_always; // Mutation encumbrance that always applies
+        std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
+        std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
-        std::map<body_part, int> encumbrance_covered;
+        std::map<bodypart_str_id, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
-        std::set<body_part> restricts_gear;
+        std::set<bodypart_str_id> restricts_gear;
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
-        std::map<body_part, resistances> armor;
+        std::map<bodypart_str_id, resistances> armor;
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
@@ -292,7 +314,7 @@ struct mutation_branch {
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
-        const resistances &damage_resistance( body_part bp ) const;
+        const resistances &damage_resistance( const bodypart_id &bp ) const;
         /**
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode
@@ -490,7 +512,7 @@ struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
 
-enum class mutagen_rejection {
+enum class mutagen_rejection : int {
     accepted,
     rejected,
     destroyed
@@ -502,9 +524,9 @@ struct mutagen_attempt {
     int charges_used;
 };
 
-mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        mutagen_technique technique );
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
-#endif
+#endif // CATA_SRC_MUTATION_H

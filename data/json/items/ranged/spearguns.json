@@ -76,7 +76,7 @@
     "material": [ "plastic", "steel" ],
     "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NON-FOULING" ],
     "skill": "rifle",
-    "ammo": "fishspear",
+    "ammo": [ "fishspear" ],
     "weight": "3460 g",
     "volume": "2 L",
     "bashing": 8,
@@ -96,7 +96,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 4 } } ]
   },
   {
     "id": "doublespeargun",
@@ -110,9 +111,9 @@
     "price": 17500,
     "price_postapoc": 2000,
     "material": [ "wood", "plastic" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "rifle",
-    "ammo": "fishspear",
+    "ammo": [ "fishspear" ],
     "weight": "3060 g",
     "volume": "2 L",
     "bashing": 8,
@@ -131,7 +132,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 2 } } ]
   },
   {
     "id": "minispeargun",
@@ -145,9 +147,9 @@
     "price": 10000,
     "price_postapoc": 1500,
     "material": [ "wood", "plastic" ],
-    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "pistol",
-    "ammo": "fishspear",
+    "ammo": [ "fishspear" ],
     "weight": "840 g",
     "volume": "1 L",
     "bashing": 7,
@@ -163,7 +165,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
   },
   {
     "id": "speargun",
@@ -177,9 +180,9 @@
     "price": 11500,
     "price_postapoc": 1500,
     "material": [ "wood", "plastic" ],
-    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "rifle",
-    "ammo": "fishspear",
+    "ammo": [ "fishspear" ],
     "weight": "2100 g",
     "volume": "1750 ml",
     "bashing": 7,
@@ -198,6 +201,7 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
   }
 ]

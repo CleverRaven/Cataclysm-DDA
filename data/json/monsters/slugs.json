@@ -52,6 +52,7 @@
     "melee_cut": 1,
     "armor_bash": 8,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "vision_day": 30,
     "harvest": "mutant_meatslug",
     "special_attacks": [ [ "ACID", 10 ] ],

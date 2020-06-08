@@ -8,7 +8,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "FIELD_DRESS", "name": { "str": "carcass", "str_pl": "carcasses" } },
       { "type": "FLAG", "condition": "FIELD_DRESS_FAILED", "name": { "str": "carcass", "str_pl": "carcasses" } },
-      { "type": "FLAG", "condition": "SKINNED", "name": { "str": "skinned %s", "str_pl": "skinned %s" } },
+      { "type": "FLAG", "condition": "SKINNED", "name": { "str_sp": "skinned %s" } },
       { "type": "FLAG", "condition": "QUARTERED", "name": "carcass quarter" }
     ],
     "description": "A dead body.",

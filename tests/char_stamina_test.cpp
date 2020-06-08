@@ -15,6 +15,9 @@
 
 static const efftype_id effect_winded( "winded" );
 
+static const move_mode_id move_mode_walk( "walk" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_crouch( "crouch" );
 // These test cases cover stamina-related functions in the `Character` class, including:
 //
 // - stamina_move_cost_modifier
@@ -46,7 +49,7 @@ static void catch_breath( player &dummy )
 }
 
 // Return `stamina_move_cost_modifier` in the given move_mode with [0.0 .. 1.0] stamina remaining
-static float move_cost_mod( player &dummy, character_movemode move_mode,
+static float move_cost_mod( player &dummy, const move_mode_id &move_mode,
                             float stamina_proportion = 1.0 )
 {
     // Reset and be able to run
@@ -68,7 +71,7 @@ static float move_cost_mod( player &dummy, character_movemode move_mode,
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode.
-static int actual_burn_rate( player &dummy, character_movemode move_mode )
+static int actual_burn_rate( player &dummy, const move_mode_id &move_mode )
 {
     // Ensure we can run if necessary (aaaa zombies!)
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -107,7 +110,7 @@ static void burden_player( player &dummy, float burden_proportion )
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode,
 // while carrying the given proportion [0.0, inf) of their maximum weight capacity.
-static int burdened_burn_rate( player &dummy, character_movemode move_mode,
+static int burdened_burn_rate( player &dummy, const move_mode_id &move_mode,
                                float burden_proportion = 0.0 )
 {
     clear_character( dummy, false );
@@ -137,39 +140,45 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
     player &dummy = g->u;
 
     SECTION( "running cost is double walking cost for the same stamina level" ) {
-        CHECK( move_cost_mod( dummy, CMM_RUN, 1.0 ) == 2 * move_cost_mod( dummy, CMM_WALK, 1.0 ) );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.5 ) == 2 * move_cost_mod( dummy, CMM_WALK, 0.5 ) );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.0 ) == 2 * move_cost_mod( dummy, CMM_WALK, 0.0 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 1.0 ) == 2 * move_cost_mod( dummy, move_mode_walk,
+                1.0 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 0.5 ) == 2 * move_cost_mod( dummy, move_mode_walk,
+                0.5 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 0.0 ) == 2 * move_cost_mod( dummy, move_mode_walk,
+                0.0 ) );
     }
 
     SECTION( "walking cost is double crouching cost for the same stamina level" ) {
-        CHECK( move_cost_mod( dummy, CMM_WALK, 1.0 ) == 2 * move_cost_mod( dummy, CMM_CROUCH, 1.0 ) );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.5 ) == 2 * move_cost_mod( dummy, CMM_CROUCH, 0.5 ) );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.0 ) == 2 * move_cost_mod( dummy, CMM_CROUCH, 0.0 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 1.0 ) == 2 * move_cost_mod( dummy, move_mode_crouch,
+                1.0 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 0.5 ) == 2 * move_cost_mod( dummy, move_mode_crouch,
+                0.5 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 0.0 ) == 2 * move_cost_mod( dummy, move_mode_crouch,
+                0.0 ) );
     }
 
     SECTION( "running cost goes from 2.0 to 1.0 as stamina goes to zero" ) {
-        CHECK( move_cost_mod( dummy, CMM_RUN, 1.00 ) == Approx( 2.00 ) );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.75 ) == Approx( 1.75 ) );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.50 ) == Approx( 1.50 ) );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.25 ) == Approx( 1.25 ) );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.00 ) == Approx( 1.00 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 1.00 ) == Approx( 2.00 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 0.75 ) == Approx( 1.75 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 0.50 ) == Approx( 1.50 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 0.25 ) == Approx( 1.25 ) );
+        CHECK( move_cost_mod( dummy, move_mode_run, 0.00 ) == Approx( 1.00 ) );
     }
 
     SECTION( "walking cost goes from 1.0 to 0.5 as stamina goes to zero" ) {
-        CHECK( move_cost_mod( dummy, CMM_WALK, 1.00 ) == Approx( 1.000 ) );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.75 ) == Approx( 0.875 ) );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.50 ) == Approx( 0.750 ) );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.25 ) == Approx( 0.625 ) );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.00 ) == Approx( 0.500 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 1.00 ) == Approx( 1.000 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 0.75 ) == Approx( 0.875 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 0.50 ) == Approx( 0.750 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 0.25 ) == Approx( 0.625 ) );
+        CHECK( move_cost_mod( dummy, move_mode_walk, 0.00 ) == Approx( 0.500 ) );
     }
 
     SECTION( "crouching cost goes from 0.5 to 0.25 as stamina goes to zero" ) {
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 1.00 ) == Approx( 0.5000 ) );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.75 ) == Approx( 0.4375 ) );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.50 ) == Approx( 0.3750 ) );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.25 ) == Approx( 0.3125 ) );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.00 ) == Approx( 0.2500 ) );
+        CHECK( move_cost_mod( dummy, move_mode_crouch, 1.00 ) == Approx( 0.5000 ) );
+        CHECK( move_cost_mod( dummy, move_mode_crouch, 0.75 ) == Approx( 0.4375 ) );
+        CHECK( move_cost_mod( dummy, move_mode_crouch, 0.50 ) == Approx( 0.3750 ) );
+        CHECK( move_cost_mod( dummy, move_mode_crouch, 0.25 ) == Approx( 0.3125 ) );
+        CHECK( move_cost_mod( dummy, move_mode_crouch, 0.00 ) == Approx( 0.2500 ) );
     }
 }
 
@@ -258,55 +267,55 @@ TEST_CASE( "stamina burn for movement", "[stamina][burn][move]" )
 
     GIVEN( "player is naked and unburdened" ) {
         THEN( "walking burns the normal amount of stamina per turn" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 0.0 ) == normal_burn_rate );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 0.0 ) == normal_burn_rate );
         }
 
         THEN( "running burns 14 times the normal amount of stamina per turn" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 0.0 ) == normal_burn_rate * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 0.0 ) == normal_burn_rate * 14 );
         }
 
         THEN( "crouching burns 1/2 the normal amount of stamina per turn" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 0.0 ) == normal_burn_rate / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 0.0 ) == normal_burn_rate / 2 );
         }
     }
 
     GIVEN( "player is at their maximum weight capacity" ) {
         THEN( "walking burns the normal amount of stamina per turn" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.0 ) == normal_burn_rate );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 1.0 ) == normal_burn_rate );
         }
 
         THEN( "running burns 14 times the normal amount of stamina per turn" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.0 ) == normal_burn_rate * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 1.0 ) == normal_burn_rate * 14 );
         }
 
         THEN( "crouching burns 1/2 the normal amount of stamina per turn" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.0 ) == normal_burn_rate / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.0 ) == normal_burn_rate / 2 );
         }
     }
 
     GIVEN( "player is overburdened" ) {
         THEN( "walking burn rate increases by 1 for each percent overburdened" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.01 ) == normal_burn_rate + 1 );
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.02 ) == normal_burn_rate + 2 );
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.50 ) == normal_burn_rate + 50 );
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.99 ) == normal_burn_rate + 99 );
-            CHECK( burdened_burn_rate( dummy, CMM_WALK, 2.00 ) == normal_burn_rate + 100 );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 1.01 ) == normal_burn_rate + 1 );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 1.02 ) == normal_burn_rate + 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 1.50 ) == normal_burn_rate + 50 );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 1.99 ) == normal_burn_rate + 99 );
+            CHECK( burdened_burn_rate( dummy, move_mode_walk, 2.00 ) == normal_burn_rate + 100 );
         }
 
         THEN( "running burn rate increases by 14 for each percent overburdened" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.01 ) == ( normal_burn_rate + 1 ) * 14 );
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.02 ) == ( normal_burn_rate + 2 ) * 14 );
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.50 ) == ( normal_burn_rate + 50 ) * 14 );
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.99 ) == ( normal_burn_rate + 99 ) * 14 );
-            CHECK( burdened_burn_rate( dummy, CMM_RUN, 2.00 ) == ( normal_burn_rate + 100 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 1.01 ) == ( normal_burn_rate + 1 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 1.02 ) == ( normal_burn_rate + 2 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 1.50 ) == ( normal_burn_rate + 50 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 1.99 ) == ( normal_burn_rate + 99 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, move_mode_run, 2.00 ) == ( normal_burn_rate + 100 ) * 14 );
         }
 
         THEN( "crouching burn rate increases by 1/2 for each percent overburdened" ) {
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.01 ) == ( normal_burn_rate + 1 ) / 2 );
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.02 ) == ( normal_burn_rate + 2 ) / 2 );
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.50 ) == ( normal_burn_rate + 50 ) / 2 );
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.99 ) == ( normal_burn_rate + 99 ) / 2 );
-            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 2.00 ) == ( normal_burn_rate + 100 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.01 ) == ( normal_burn_rate + 1 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.02 ) == ( normal_burn_rate + 2 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.50 ) == ( normal_burn_rate + 50 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.99 ) == ( normal_burn_rate + 99 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, move_mode_crouch, 2.00 ) == ( normal_burn_rate + 100 ) / 2 );
         }
     }
 }
@@ -389,16 +398,16 @@ TEST_CASE( "stamina regen in different movement modes", "[stamina][update][regen
 
     int turn_moves = to_moves<int>( 1_turns );
 
-    dummy.set_movement_mode( CMM_RUN );
-    REQUIRE( dummy.movement_mode_is( CMM_RUN ) );
+    dummy.set_movement_mode( move_mode_run );
+    REQUIRE( dummy.movement_mode_is( move_mode_run ) );
     float run_regen_rate = actual_regen_rate( dummy, turn_moves );
 
-    dummy.set_movement_mode( CMM_WALK );
-    REQUIRE( dummy.movement_mode_is( CMM_WALK ) );
+    dummy.set_movement_mode( move_mode_walk );
+    REQUIRE( dummy.movement_mode_is( move_mode_walk ) );
     float walk_regen_rate = actual_regen_rate( dummy, turn_moves );
 
-    dummy.set_movement_mode( CMM_CROUCH );
-    REQUIRE( dummy.movement_mode_is( CMM_CROUCH ) );
+    dummy.set_movement_mode( move_mode_crouch );
+    REQUIRE( dummy.movement_mode_is( move_mode_crouch ) );
     float crouch_regen_rate = actual_regen_rate( dummy, turn_moves );
 
     THEN( "run and walk mode give the same stamina regen per turn" ) {

@@ -295,7 +295,9 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "tieclip",
-    "color": "brown"
+    "color": "brown",
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "copper_locket",
@@ -368,7 +370,7 @@
   {
     "id": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "garnet and gold cufflinks" },
+    "name": { "str_sp": "garnet and gold cufflinks" },
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
     "volume": 0,
@@ -384,7 +386,7 @@
     "id": "diamond_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "diamond and gold cufflinks" },
+    "name": { "str_sp": "diamond and gold cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
     "material": [ "gold", "diamond" ],
     "color": "white"
@@ -393,7 +395,7 @@
     "id": "amethyst_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "amethyst and gold cufflinks" },
+    "name": { "str_sp": "amethyst and gold cufflinks" },
     "description": "A pair of cufflinks with inset amethysts.",
     "color": "blue"
   },
@@ -401,7 +403,7 @@
     "id": "aquamarine_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "aquamarine and gold cufflinks" },
+    "name": { "str_sp": "aquamarine and gold cufflinks" },
     "description": "A pair of cufflinks with inset aquamarines.",
     "color": "light_blue"
   },
@@ -409,7 +411,7 @@
     "id": "emerald_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "emerald and gold cufflinks" },
+    "name": { "str_sp": "emerald and gold cufflinks" },
     "description": "A pair of cufflinks with inset emeralds.",
     "color": "green"
   },
@@ -417,7 +419,7 @@
     "id": "alexandrite_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "alexandrite and gold cufflinks" },
+    "name": { "str_sp": "alexandrite and gold cufflinks" },
     "description": "A pair of cufflinks with inset alexandrites.",
     "color": "green"
   },
@@ -425,14 +427,14 @@
     "id": "ruby_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "ruby and gold cufflinks" },
+    "name": { "str_sp": "ruby and gold cufflinks" },
     "description": "A pair of cufflinks with inset rubies."
   },
   {
     "id": "peridot_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "peridot and gold cufflinks" },
+    "name": { "str_sp": "peridot and gold cufflinks" },
     "description": "A pair of cufflinks with inset peridots.",
     "color": "light_green"
   },
@@ -440,7 +442,7 @@
     "id": "sapphire_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "sapphire and gold cufflinks" },
+    "name": { "str_sp": "sapphire and gold cufflinks" },
     "description": "A pair of cufflinks with inset sapphires.",
     "color": "blue"
   },
@@ -448,7 +450,7 @@
     "id": "tourmaline_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "tourmaline and gold cufflinks" },
+    "name": { "str_sp": "tourmaline and gold cufflinks" },
     "description": "A pair of cufflinks with inset tourmalines.",
     "color": "light_red"
   },
@@ -456,7 +458,7 @@
     "id": "citrine_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "citrine and gold cufflinks" },
+    "name": { "str_sp": "citrine and gold cufflinks" },
     "description": "A pair of cufflinks with inset citrines.",
     "color": "yellow"
   },
@@ -464,7 +466,7 @@
     "id": "blue_topaz_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "blue topaz and gold cufflinks" },
+    "name": { "str_sp": "blue topaz and gold cufflinks" },
     "description": "A pair of cufflinks with inset blue topaz.",
     "color": "light_blue"
   },
@@ -472,7 +474,7 @@
     "id": "opal_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "opal and gold cufflinks" },
+    "name": { "str_sp": "opal and gold cufflinks" },
     "description": "A pair of cufflinks with inset opals.",
     "color": "white"
   },
@@ -480,14 +482,14 @@
     "id": "pearl_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "pearl and gold cufflinks" },
+    "name": { "str_sp": "pearl and gold cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
     "color": "white"
   },
   {
     "id": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "garnet and silver cufflinks" },
+    "name": { "str_sp": "garnet and silver cufflinks" },
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
     "volume": 0,
@@ -503,7 +505,7 @@
     "id": "diamond_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "diamond and silver cufflinks" },
+    "name": { "str_sp": "diamond and silver cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
     "material": [ "silver", "diamond" ],
     "color": "white"
@@ -512,7 +514,7 @@
     "id": "amethyst_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "amethyst and silver cufflinks" },
+    "name": { "str_sp": "amethyst and silver cufflinks" },
     "description": "A pair of cufflinks with inset amethysts.",
     "color": "blue"
   },
@@ -520,7 +522,7 @@
     "id": "aquamarine_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "aquamarine and silver cufflinks" },
+    "name": { "str_sp": "aquamarine and silver cufflinks" },
     "description": "A pair of cufflinks with inset aquamarines.",
     "color": "light_blue"
   },
@@ -528,7 +530,7 @@
     "id": "emerald_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "emerald and silver cufflinks" },
+    "name": { "str_sp": "emerald and silver cufflinks" },
     "description": "A pair of cufflinks with inset emeralds.",
     "color": "green"
   },
@@ -536,7 +538,7 @@
     "id": "alexandrite_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "alexandrite and silver cufflinks" },
+    "name": { "str_sp": "alexandrite and silver cufflinks" },
     "description": "A pair of cufflinks with inset alexandrites.",
     "color": "green"
   },
@@ -544,14 +546,14 @@
     "id": "ruby_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "ruby and silver cufflinks" },
+    "name": { "str_sp": "ruby and silver cufflinks" },
     "description": "A pair of cufflinks with inset rubies."
   },
   {
     "id": "peridot_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "peridot and silver cufflinks" },
+    "name": { "str_sp": "peridot and silver cufflinks" },
     "description": "A pair of cufflinks with inset peridots.",
     "color": "light_green"
   },
@@ -559,7 +561,7 @@
     "id": "sapphire_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "sapphire and silver cufflinks" },
+    "name": { "str_sp": "sapphire and silver cufflinks" },
     "description": "A pair of cufflinks with inset sapphires.",
     "color": "blue"
   },
@@ -567,7 +569,7 @@
     "id": "tourmaline_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "tourmaline and silver cufflinks" },
+    "name": { "str_sp": "tourmaline and silver cufflinks" },
     "description": "A pair of cufflinks with inset tourmalines.",
     "color": "light_red"
   },
@@ -575,7 +577,7 @@
     "id": "citrine_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "citrine and silver cufflinks" },
+    "name": { "str_sp": "citrine and silver cufflinks" },
     "description": "A pair of cufflinks with inset citrines.",
     "color": "yellow"
   },
@@ -583,7 +585,7 @@
     "id": "blue_topaz_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "blue topaz and silver cufflinks" },
+    "name": { "str_sp": "blue topaz and silver cufflinks" },
     "description": "A pair of cufflinks with inset blue topaz.",
     "color": "light_blue"
   },
@@ -591,7 +593,7 @@
     "id": "opal_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "opal and silver cufflinks" },
+    "name": { "str_sp": "opal and silver cufflinks" },
     "description": "A pair of cufflinks with inset opals.",
     "color": "white"
   },
@@ -599,14 +601,14 @@
     "id": "pearl_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "pearl and silver cufflinks" },
+    "name": { "str_sp": "pearl and silver cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
     "color": "white"
   },
   {
     "id": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "garnet and platinum cufflinks" },
+    "name": { "str_sp": "garnet and platinum cufflinks" },
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
     "volume": 0,
@@ -622,7 +624,7 @@
     "id": "diamond_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "diamond and platinum cufflinks" },
+    "name": { "str_sp": "diamond and platinum cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
     "material": [ "platinum", "diamond" ],
     "color": "white"
@@ -631,7 +633,7 @@
     "id": "amethyst_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "amethyst and platinum cufflinks" },
+    "name": { "str_sp": "amethyst and platinum cufflinks" },
     "description": "A pair of cufflinks with inset amethysts.",
     "color": "blue"
   },
@@ -639,7 +641,7 @@
     "id": "aquamarine_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "aquamarine and platinum cufflinks" },
+    "name": { "str_sp": "aquamarine and platinum cufflinks" },
     "description": "A pair of cufflinks with inset aquamarines.",
     "color": "light_blue"
   },
@@ -647,7 +649,7 @@
     "id": "emerald_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "emerald and platinum cufflinks" },
+    "name": { "str_sp": "emerald and platinum cufflinks" },
     "description": "A pair of cufflinks with inset emeralds.",
     "color": "green"
   },
@@ -655,7 +657,7 @@
     "id": "alexandrite_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "alexandrite and platinum cufflinks" },
+    "name": { "str_sp": "alexandrite and platinum cufflinks" },
     "description": "A pair of cufflinks with inset alexandrites.",
     "color": "green"
   },
@@ -663,14 +665,14 @@
     "id": "ruby_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "ruby and platinum cufflinks" },
+    "name": { "str_sp": "ruby and platinum cufflinks" },
     "description": "A pair of cufflinks with inset rubies."
   },
   {
     "id": "peridot_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "peridot and platinum cufflinks" },
+    "name": { "str_sp": "peridot and platinum cufflinks" },
     "description": "A pair of cufflinks with inset peridots.",
     "color": "light_green"
   },
@@ -678,7 +680,7 @@
     "id": "sapphire_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "sapphire and platinum cufflinks" },
+    "name": { "str_sp": "sapphire and platinum cufflinks" },
     "description": "A pair of cufflinks with inset sapphires.",
     "color": "blue"
   },
@@ -686,7 +688,7 @@
     "id": "tourmaline_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "tourmaline and platinum cufflinks" },
+    "name": { "str_sp": "tourmaline and platinum cufflinks" },
     "description": "A pair of cufflinks with inset tourmalines.",
     "color": "light_red"
   },
@@ -694,7 +696,7 @@
     "id": "citrine_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "citrine and platinum cufflinks" },
+    "name": { "str_sp": "citrine and platinum cufflinks" },
     "description": "A pair of cufflinks with inset citrines.",
     "color": "yellow"
   },
@@ -702,7 +704,7 @@
     "id": "blue_topaz_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "blue topaz and platinum cufflinks" },
+    "name": { "str_sp": "blue topaz and platinum cufflinks" },
     "description": "A pair of cufflinks with inset blue topaz.",
     "color": "light_blue"
   },
@@ -710,7 +712,7 @@
     "id": "opal_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "opal and platinum cufflinks" },
+    "name": { "str_sp": "opal and platinum cufflinks" },
     "description": "A pair of cufflinks with inset opals.",
     "color": "white"
   },
@@ -718,7 +720,7 @@
     "id": "pearl_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
-    "name": { "str": "pearl and platinum cufflinks" },
+    "name": { "str_sp": "pearl and platinum cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
     "color": "white"
   },
@@ -793,7 +795,9 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "gold_locket",
@@ -1090,7 +1094,9 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "platinum_locket",
@@ -1216,7 +1222,9 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
     "id": "silver_locket",

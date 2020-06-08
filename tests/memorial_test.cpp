@@ -14,6 +14,7 @@
 #include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
+#include "profession.h"
 #include "type_id.h"
 
 class event_bus;
@@ -174,7 +175,7 @@ TEST_CASE( "memorials" )
         m, b, "The fuel tank of the vehicle_name exploded!", "vehicle_name" );
 
     check_memorial<event_type::gains_addiction>(
-        m, b, "Became addicted to alcohol.", ch, ADD_ALCOHOL );
+        m, b, "Became addicted to alcohol.", ch, add_type::ALCOHOL );
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
@@ -186,7 +187,8 @@ TEST_CASE( "memorials" )
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
+        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -198,7 +200,7 @@ TEST_CASE( "memorials" )
         m, b, "Learned Aikido.", ch, matype_id( "style_aikido" ) );
 
     check_memorial<event_type::loses_addiction>(
-        m, b, "Overcame addiction to alcohol.", ch, ADD_ALCOHOL );
+        m, b, "Overcame addiction to alcohol.", ch, add_type::ALCOHOL );
 
     check_memorial<event_type::npc_becomes_hostile>(
         m, b, "npc_name became hostile.", ch2, "npc_name" );
@@ -209,8 +211,14 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
+    check_memorial<event_type::character_forgets_spell>(
+        m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_learns_spell>(
+        m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
+
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", spell_id( "pain_damage" ), 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

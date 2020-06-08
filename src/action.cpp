@@ -120,7 +120,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -594,12 +594,12 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = g->u.max_quality( qual_BUTCHER );
     const int factorD = g->u.max_quality( qual_CUT_FINE );
-    auto items = g->m.i_at( p );
+    map_stack items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
     const inventory &crafting_inv = g->u.crafting_inventory();
-    for( auto &items_it : items ) {
+    for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
@@ -618,7 +618,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
         if( movez == -1 ) {
             return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
+            return g->u.swim_speed() < 500 || g->u.is_wearing( itype_id( "swim_fins" ) );
         }
     }
 
@@ -727,11 +727,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( g->u.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( g->u.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
@@ -950,19 +950,11 @@ action_id handle_action_menu()
             title += ": " + catgname;
         }
 
-        int width = 0;
-        for( auto &cur_entry : entries ) {
-            width = std::max( width, utf8_width( cur_entry.txt ) );
-        }
-        //border=2, selectors=3, after=3 for balance.
-        width += 2 + 3 + 3;
-        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
-                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
-                                std::min( width, TERMX - 2 ), title, entries );
-
-        g->draw();
+        uilist smenu;
+        smenu.settext( title );
+        smenu.entries = entries;
+        smenu.query();
+        const int selection = smenu.ret;
 
         if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
@@ -1006,19 +998,11 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_SAVE );
     REGISTER_ACTION( ACTION_DEBUG );
 
-    int width = 0;
-    for( auto &entry : entries ) {
-        width = std::max( width, utf8_width( entry.txt ) );
-    }
-    //border=2, selectors=3, after=3 for balance.
-    width += 2 + 3 + 3;
-    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
-                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
-                            std::min( width, TERMX - 2 ), _( "MAIN MENU" ), entries );
-
-    g->draw();
+    uilist smenu;
+    smenu.settext( _( "MAIN MENU" ) );
+    smenu.entries = entries;
+    smenu.query();
+    int selection = smenu.ret;
 
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
@@ -1088,31 +1072,33 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical )
 {
-    // Highlight nearby terrain according to the highlight function
-    if( allowed != nullptr ) {
-        cata::optional<tripoint> single;
-        bool highlighted = false;
+    std::vector<tripoint> valid;
+    if( allowed ) {
         for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
             if( allowed( pos ) ) {
-                if( !highlighted ) {
-                    single = pos;
-                    highlighted = true;
-                } else {
-                    single = cata::nullopt;
-                }
+                valid.emplace_back( pos );
+            }
+        }
+    }
+
+    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    if( valid.empty() && auto_select ) {
+        add_msg( failure_message );
+        return cata::nullopt;
+    } else if( valid.size() == 1 && auto_select ) {
+        return valid.back();
+    }
+
+    shared_ptr_fast<game::draw_callback_t> hilite_cb;
+    if( !valid.empty() ) {
+        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            for( const tripoint &pos : valid ) {
                 g->m.drawsq( g->w_terrain, g->u, pos,
                              true, true, g->u.pos() + g->u.view_offset );
             }
-        }
-        if( highlighted ) {
-            wrefresh( g->w_terrain );
-        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
-            add_msg( failure_message );
-            return cata::nullopt;
-        }
-        if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) && single ) {
-            return single;
-        }
+        } );
+        g->add_draw_callback( hilite_cb );
     }
+
     return choose_adjacent( message, allow_vertical );
 }

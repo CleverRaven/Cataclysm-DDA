@@ -90,6 +90,10 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
+
+    if( jo.has_string( "vehicle" ) ) {
+        _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
+    }
 }
 
 const scenario *scenario::generic()
@@ -110,7 +114,7 @@ const scenario *scenario::weighted_random()
     while( true ) {
         const scenario &scen = random_entry_ref( list );
 
-        if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
+        if( x_in_y( 2, std::abs( scen.point_cost() ) + 2 ) ) {
             return &scen;
         }
         // else reroll in the while loop.
@@ -185,6 +189,11 @@ void scenario::check_definition() const
             debugmsg( "starting mission %s for scenario %s must include an origin of ORIGIN_GAME_START",
                       m.c_str(), id.c_str() );
         }
+    }
+
+    if( _starting_vehicle && !_starting_vehicle.is_valid() ) {
+        debugmsg( "vehicle prototype %s for profession %s does not exist", _starting_vehicle.c_str(),
+                  id.c_str() );
     }
 }
 
@@ -386,7 +395,6 @@ std::string scenario::start_name() const
     return _start_name.translated();
 }
 
-
 int scenario::start_location_count() const
 {
     return _allowed_locs.size();
@@ -399,6 +407,11 @@ int scenario::start_location_targets_count() const
         cnt += sloc.obj().targets_count();
     }
     return cnt;
+}
+
+vproto_id scenario::vehicle() const
+{
+    return _starting_vehicle;
 }
 
 bool scenario::traitquery( const trait_id &trait ) const

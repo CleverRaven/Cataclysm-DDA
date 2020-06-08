@@ -57,7 +57,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( const player *const foe = dynamic_cast<player *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
-            if( ( i.covers( bp_hand_l ) || i.covers( bp_hand_r ) ) &&
+            if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
                 !i.conductive() && i.get_coverage() >= 95 ) {
                 return;
             }
@@ -86,8 +86,8 @@ void mdefense::zapback( monster &m, Creature *const source,
     const damage_instance shock {
         DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
-    source->deal_damage( &m, bp_arm_l, shock );
-    source->deal_damage( &m, bp_arm_r, shock );
+    source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
+    source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
     source->check_dead_state();
 }
@@ -118,7 +118,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
                 const damage_instance acid_burn{
                     DT_ACID, static_cast<float>( rng( 1, 5 ) )
                 };
-                source->deal_damage( &m, one_in( 2 ) ? bp_hand_l : bp_hand_r, acid_burn );
+                source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
+                                     acid_burn );
                 source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ), m.disp_name() );
             }
         }
@@ -189,10 +190,10 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             // ...skills...
             for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
-                if( skill.first == "gun" ) {
+                if( skill.first == skill_gun ) {
                     tmp.set_skill_level( skill_gun, skill.second );
                 }
-                if( skill.first == "rifle" ) {
+                if( skill.first == skill_rifle ) {
                     tmp.set_skill_level( skill_rifle, skill.second );
                 }
             }

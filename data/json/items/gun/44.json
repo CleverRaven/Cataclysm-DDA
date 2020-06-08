@@ -4,10 +4,11 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Desert Eagle .44", "str_pl": "Desert Eagle .44" },
+    "name": { "str_sp": "Desert Eagle .44" },
     "description": "One of the most recognizable handguns due to its popularity in movies and video games, the Desert Eagle is better known for its menacing appearance than its performance.  It's a large pistol, but its heavy weight reduces recoil.",
     "weight": "1700 g",
-    "volume": "750 ml",
+    "volume": "617 ml",
+    "longest_side": "29 cm",
     "price": 87500,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -15,9 +16,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "44",
+    "ammo": [ "44" ],
     "skill": "pistol",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 1413,
@@ -35,26 +36,34 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "44", [ "deaglemag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "deaglemag" ]
+      }
+    ]
   },
   {
     "id": "henry_big_boy",
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Henry Big Boy .44", "str_pl": "Henry Big Boy .44" },
+    "name": { "str_sp": "Henry Big Boy .44" },
     "description": "This fine lever action rifle is chambered in the powerful .44 magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
     "weight": "3937 g",
-    "volume": "3 L",
+    "volume": "2310 ml",
+    "longest_side": "98 cm",
     "price": 89995,
     "price_postapoc": 3500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
-    "ammo": "44",
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ammo": [ "44" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 8,
     "blackpowder_tolerance": 32,
@@ -72,7 +81,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 10 } } ]
   },
   {
     "id": "rifle_44",
@@ -89,9 +99,9 @@
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "44",
+    "ammo": [ "44" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -110,17 +120,19 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 1 } } ]
   },
   {
     "id": "ruger_redhawk",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "Ruger Redhawk", "str_pl": "Ruger Redhawk" },
+    "name": { "str_sp": "Ruger Redhawk" },
     "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers.",
-    "weight": "1386 g",
-    "volume": "750 ml",
+    "weight": "1389 g",
+    "volume": "699 ml",
+    "longest_side": "31 cm",
     "price": 86100,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -128,12 +140,11 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "44",
+    "ammo": [ "44" ],
     "dispersion": 280,
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -144,30 +155,31 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "44": 6 } } ]
   },
   {
     "id": "sw629",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "S&W 629", "str_pl": "S&W 629" },
+    "name": { "str_sp": "S&W 629" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "weight": "1267 g",
-    "volume": "750 ml",
+    "volume": "675 ml",
+    "longest_side": "30 cm",
     "price": 86100,
     "price_postapoc": 2750,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "44",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ammo": [ "44" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 280,
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -178,6 +190,7 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "44": 6 } } ]
   }
 ]

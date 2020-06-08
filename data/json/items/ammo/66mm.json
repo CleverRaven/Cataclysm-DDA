@@ -10,11 +10,12 @@
     "description": "66mm incendiary rockets used in the M202 FLASH rocket launcher.  Their warheads are filled with a thickened pyrophoric agent, which burns at 2200 degrees Fahrenheit.",
     "material": [ "steel", "powder" ],
     "volume": "2 L",
+    "longest_side": "53 cm",
     "price_postapoc": 8000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "1338 g",
     "ammo_type": "m235",
-    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 10 },
     "range": 70,
     "dispersion": 150,
     "recoil": 150,
@@ -31,6 +32,7 @@
     "description": "A 66mm high-explosive anti-tank round.  It could blow through up to two feet of concrete.",
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
+    "longest_side": "508 mm",
     "price_postapoc": 8000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "2131 g",
@@ -39,6 +41,6 @@
     "range": 80,
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_66mmHEAT", "TRAIL" ]
   }
 ]

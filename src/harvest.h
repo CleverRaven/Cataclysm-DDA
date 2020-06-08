@@ -1,6 +1,6 @@
 #pragma once
-#ifndef HARVEST_H
-#define HARVEST_H
+#ifndef CATA_SRC_HARVEST_H
+#define CATA_SRC_HARVEST_H
 
 #include <algorithm>
 #include <list>
@@ -13,12 +13,12 @@
 #include "translations.h"
 #include "type_id.h"
 
-using itype_id = std::string;
 class JsonObject;
 
 // Could be reused for butchery
 struct harvest_entry {
-    itype_id drop = "null";
+    // drop can be either an itype_id or a group id
+    std::string drop = "null";
     std::pair<float, float> base_num = { 1.0f, 1.0f };
     // This is multiplied by survival and added to the above
     // TODO: Make it a map: skill->scaling
@@ -92,4 +92,4 @@ class harvest_list
         void finalize();
 };
 
-#endif
+#endif // CATA_SRC_HARVEST_H

@@ -4,7 +4,7 @@
     "copy-from": "rifle_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Barrett M107A1", "str_pl": "Barrett M107A1" },
+    "name": { "str_sp": "Barrett M107A1" },
     "//": "Price based on unit cost quote for fiscal year 2005 listed at inetres.com, with gunmod modifiers to be added later.",
     "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle.  Its large size, recoil, and noise is offset by its damage and range.",
     "weight": "12602 g",
@@ -14,23 +14,30 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel" ],
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 100,
-    "ranged_damage": { "damage_type": "stab", "amount": -5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 130,
     "durability": 8,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazine_well": 1,
-    "magazines": [ [ "50", [ "m107a1mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m107a1mag" ]
+      }
+    ]
   },
   {
     "id": "m2browning",
     "copy-from": "gun_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "M2HB Browning HMG", "str_pl": "M2HB Browning HMG" },
+    "name": { "str_sp": "M2HB Browning HMG" },
     "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.  Its massive size and design make it impossible to use unless deployed or mounted to a vehicle.",
     "weight": "38000 g",
     "volume": "5 L",
@@ -39,7 +46,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel" ],
-    "ammo": "50",
+    "ammo": [ "50" ],
     "skill": "rifle",
     "range": 110,
     "dispersion": 250,
@@ -59,8 +66,16 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "50", [ "belt50" ] ] ],
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt50" ]
+      }
+    ]
   },
   {
     "id": "m2browning_sawn",
@@ -85,16 +100,16 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [  ],
     "relative": {
       "weight": -21500,
       "volume": -6,
       "price": -1210000,
-      "ranged_damage": { "damage_type": "stab", "amount": -4 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -4 },
       "dispersion": 60,
       "barrel_length": -1
     },
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "50": 1 } } ]
   },
   {
     "id": "as50",
@@ -110,17 +125,24 @@
     "to_hit": -1,
     "bashing": 13,
     "material": [ "steel" ],
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 115,
-    "ranged_damage": { "damage_type": "stab", "amount": -5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 80,
     "durability": 7,
     "reload": 400,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazine_well": 1,
-    "magazines": [ [ "50", [ "as50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "as50mag" ]
+      }
+    ]
   },
   {
     "id": "tac50",
@@ -136,17 +158,24 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel" ],
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 45,
-    "ranged_damage": { "damage_type": "stab", "amount": -5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 50,
     "durability": 8,
     "reload": 450,
     "barrel_length": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazine_well": 1,
-    "magazines": [ [ "50", [ "tac50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tac50mag" ]
+      }
+    ]
   },
   {
     "id": "bfg50",
@@ -162,14 +191,15 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel" ],
-    "ammo": "50",
+    "ammo": [ "50" ],
     "range": 45,
-    "ranged_damage": { "damage_type": "stab", "amount": -5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 110,
     "durability": 8,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "clip_size": 1,
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 1 } } ]
   }
 ]

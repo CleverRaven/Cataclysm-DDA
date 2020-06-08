@@ -8,6 +8,7 @@
     "weight": "1438 g",
     "volume": "1 L",
     "price": 175000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "aluminum" ],
@@ -25,6 +26,7 @@
     "weight": "1438 g",
     "volume": "1 L",
     "price": 175000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "aluminum" ],
@@ -48,6 +50,7 @@
     "weight": "214 g",
     "volume": "250 ml",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "plastic", "aluminum" ],
@@ -70,6 +73,7 @@
     "weight": "214 g",
     "volume": "250 ml",
     "price": 125000,
+    "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "plastic", "aluminum" ],
@@ -92,6 +96,7 @@
     "weight": "225 g",
     "volume": "250 ml",
     "price": 100,
+    "price_postapoc": 50,
     "to_hit": -2,
     "material": [ "veggy" ],
     "symbol": ",",
@@ -111,11 +116,12 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "name": { "str": "candle", "str_pl": "candles" },
+    "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "225 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -2,
     "material": [ "veggy" ],
     "symbol": ",",
@@ -138,13 +144,14 @@
     "weight": "980 g",
     "volume": "1 L",
     "price": 1000,
+    "price_postapoc": 100,
     "bashing": 1,
     "to_hit": 2,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
@@ -154,10 +161,13 @@
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_battery_cell",
           "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell",
@@ -166,9 +176,8 @@
           "light_plus_battery_cell",
           "light_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 2
+      }
+    ]
   },
   {
     "id": "electric_lantern_on",
@@ -191,8 +200,9 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 500,
+    "price_postapoc": 100,
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -201,10 +211,14 @@
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -213,9 +227,8 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "flashlight_on",
@@ -235,12 +248,13 @@
     "weight": "1400 g",
     "volume": "750 ml",
     "price": 3000,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -274,6 +288,7 @@
     "weight": "29 g",
     "volume": "250 ml",
     "price": 100,
+    "price_postapoc": 10,
     "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": ";",
@@ -297,6 +312,7 @@
     "weight": "29 g",
     "volume": "250 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 2,
     "material": [ "plastic" ],
@@ -333,7 +349,9 @@
     "weight": "128 g",
     "volume": "250 ml",
     "price": 400,
-    "max_charges": 300,
+    "price_postapoc": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 } } ],
+    "ammo": "flare_nitrate",
     "initial_charges": 300,
     "use_action": {
       "menu_text": "Strike the striker",
@@ -364,13 +382,13 @@
     "weight": "650 g",
     "volume": "750 ml",
     "price": 950,
+    "price_postapoc": 200,
     "bashing": 8,
-    "to_hit": 2,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -379,10 +397,14 @@
       "need_charges": 1,
       "need_charges_msg": "The heavy duty flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_plus_battery_cell",
@@ -391,9 +413,8 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "heavy_flashlight_on",
@@ -417,6 +438,7 @@
     "weight": "27 g",
     "volume": "250 ml",
     "price": 500,
+    "price_postapoc": 25,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
@@ -442,7 +464,7 @@
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "target": "lightstrip",
       "msg": "You irreversibly activate the lightstrip.",
@@ -450,10 +472,13 @@
       "need_charges": 1,
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -462,9 +487,8 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
-    ],
-    "magazine_well": 0
+      }
+    ]
   },
   {
     "id": "oil_lamp",
@@ -474,12 +498,13 @@
     "weight": "1720 g",
     "volume": "1 L",
     "price": 1000,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 1,
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "lamp_oil",
+    "ammo": [ "lamp_oil" ],
     "initial_charges": 750,
     "max_charges": 750,
     "charges_per_use": 1,
@@ -513,11 +538,12 @@
     "weight": "800 g",
     "volume": "500 ml",
     "price": 6500,
+    "price_postapoc": 100,
     "symbol": ";",
     "color": "red",
     "material": [ "copper", "glass" ],
     "charges_per_use": 1,
-    "ammo": "weldgas",
+    "ammo": [ "weldgas" ],
     "use_action": {
       "type": "transform",
       "msg": "You light the %s.",
@@ -526,7 +552,15 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "weldtank", "tinyweldtank" ]
+      }
+    ]
   },
   {
     "id": "oxylamp_on",
@@ -541,15 +575,16 @@
   {
     "id": "reading_light",
     "type": "TOOL",
-    "name": { "str": "reading light", "str_pl": "reading lights" },
+    "name": { "str": "reading light" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
     "volume": "100 ml",
     "price": 100,
+    "price_postapoc": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -559,8 +594,15 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 1
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+      }
+    ]
   },
   {
     "id": "reading_light_on",
@@ -581,12 +623,13 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 500,
+    "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",
@@ -597,10 +640,13 @@
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -609,9 +655,8 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   },
   {
     "id": "smart_lamp_on",
@@ -622,8 +667,7 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "torch",
@@ -633,6 +677,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 8,
     "material": [ "wood" ],
@@ -659,6 +704,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": 1,
     "bashing": 8,
     "material": [ "wood" ],

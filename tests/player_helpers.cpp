@@ -29,7 +29,7 @@ int get_remaining_charges( const std::string &tool_id )
     const inventory crafting_inv = g->u.crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
-        return i.typeId() == tool_id;
+        return i.typeId() == itype_id( tool_id );
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
@@ -42,7 +42,7 @@ bool player_has_item_of_type( const std::string &type )
 {
     std::vector<item *> matching_items = g->u.inv.items_with(
     [&]( const item & i ) {
-        return i.type->get_id() == type;
+        return i.type->get_id() == itype_id( type );
     } );
 
     return !matching_items.empty();
@@ -50,27 +50,42 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    dummy.normalize(); // In particular this clears martial arts style
+
+    // delete all worn items.
+    dummy.worn.clear();
+    dummy.reset_encumbrance();
     dummy.inv.clear();
     dummy.remove_weapon();
-    dummy.empty_traits();
+    dummy.clear_mutations();
 
     // Prevent spilling, but don't cause encumbrance
     if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    // Clear stomach and then eat a nutritious meal to normalize stomach
+    // contents (needs to happen before clear_morale).
+    dummy.stomach.empty();
+    dummy.guts.empty();
+    item food( "debug_nutrition" );
+    dummy.consume( food );
+
     dummy.empty_skills();
+    dummy.martial_arts_data.clear_styles();
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
-    dummy.set_movement_mode( CMM_WALK );
+    dummy.set_movement_mode( move_mode_id( "walk" ) );
+    dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
@@ -84,9 +99,15 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
     dummy.set_per_bonus( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
+    dummy.hp_cur.fill( dummy.get_hp_max() );
+
+    dummy.cash = 0;
 
     const tripoint spot( 60, 60, 0 );
-    g->place_player( spot );
+    dummy.setpos( spot );
 }
 
 void clear_avatar()
@@ -139,16 +160,29 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->toggled && !bio.powered ) {
+    if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
         const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
-            p.set_value( fuel_opts.front(), "2" );
+            p.set_value( fuel_opts.front().str(), "2" );
         }
         p.activate_bionic( bioindex );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
         if( !fuel_opts.empty() ) {
-            p.remove_value( fuel_opts.front() );
+            p.remove_value( fuel_opts.front().str() );
         }
     }
+}
+
+item tool_with_ammo( const std::string &tool, const int qty )
+{
+    item tool_it( tool );
+    if( !tool_it.ammo_default().is_null() ) {
+        tool_it.ammo_set( tool_it.ammo_default(), qty );
+    } else if( !tool_it.magazine_default().is_null() ) {
+        item tool_it_mag( tool_it.magazine_default() );
+        tool_it_mag.ammo_set( tool_it_mag.ammo_default(), qty );
+        tool_it.put_in( tool_it_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    }
+    return tool_it;
 }

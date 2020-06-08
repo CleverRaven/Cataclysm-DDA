@@ -17,6 +17,7 @@
     "dispersion": 250,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_2" ]
   },
   {
@@ -38,6 +39,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_30" ]
   },
   {
@@ -49,7 +51,7 @@
     "description": "A fletched wooden arrow shaft with a blunt rubber tip.  Can stun weaker enemies.  Stands a good chance of remaining intact once fired.",
     "price": 500,
     "price_postapoc": 100,
-    "material": [ "wood", "plastic" ],
+    "material": [ "wood", "rubber" ],
     "volume": "250 ml",
     "weight": "60 g",
     "bashing": 2,
@@ -102,6 +104,7 @@
     "dispersion": 110,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_25" ]
   },
   {
@@ -123,6 +126,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_6" ]
   },
   {
@@ -144,6 +148,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_35", "NOGIB" ]
   },
   {
@@ -162,11 +167,12 @@
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "arrow",
-    "prop_damage": 1.25,
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "show_stats": true,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_8" ]
   },
   {
@@ -189,6 +195,7 @@
     "loudness": 0,
     "count": 10,
     "show_stats": true,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_20" ]
   },
   {
@@ -212,6 +219,7 @@
     "dispersion": 75,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_35" ]
   },
   {
@@ -235,6 +243,7 @@
     "dispersion": 75,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_40" ]
   },
   {
@@ -258,6 +267,7 @@
     "dispersion": 75,
     "loudness": 0,
     "count": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_45", "NOGIB" ]
   },
   {
@@ -281,6 +291,7 @@
     "loudness": 0,
     "count": 10,
     "stack_size": 10,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_30" ]
   },
   {
@@ -339,6 +350,7 @@
     "dispersion": 285,
     "loudness": 0,
     "count": 5,
+    "critical_multiplier": 10,
     "effects": [ "IGNITE" ]
   },
   {
@@ -357,17 +369,18 @@
     "loudness": 8,
     "skill": "archery",
     "min_strength": 6,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "1360 g",
     "volume": "2500 ml",
     "price_postapoc": 50,
     "bashing": 6,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
-    "ranged_damage": { "damage_type": "stab", "amount": 7 },
+    "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "range": 8,
     "dispersion": 1250,
     "durability": 4,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "shortbow",
@@ -383,7 +396,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
     "price_postapoc": 500,
@@ -391,12 +404,13 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 20 },
+    "ranged_damage": { "damage_type": "stab", "amount": 4 },
     "range": 10,
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow",
@@ -412,7 +426,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "907 g",
     "volume": "1500 ml",
     "price_postapoc": 3500,
@@ -420,7 +434,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 50 },
+    "ranged_damage": { "damage_type": "stab", "amount": 10 },
     "range": 18,
     "dispersion": 850,
     "durability": 6,
@@ -432,7 +446,8 @@
       "target": "compbow_high",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow_high",
@@ -442,7 +457,7 @@
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
     "//": "80 lb draw weight, efficient, 0.62 slugs of momentum with a 30g arrow.",
     "min_strength": 11,
-    "ranged_damage": { "damage_type": "stab", "amount": 61 },
+    "ranged_damage": { "damage_type": "stab", "amount": 12 },
     "use_action": {
       "menu_text": "Loosen Limbs",
       "type": "transform",
@@ -459,7 +474,7 @@
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "//": "40 lb draw weight, efficient, 0.45 slugs of momentum with a 30g arrow.",
     "min_strength": 7,
-    "ranged_damage": { "damage_type": "stab", "amount": 35 },
+    "ranged_damage": { "damage_type": "stab", "amount": 7 },
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -482,7 +497,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 12,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "400 g",
     "volume": "1750 ml",
     "price_postapoc": 3000,
@@ -490,12 +505,13 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 38 },
+    "ranged_damage": { "damage_type": "stab", "amount": 8 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "recurbow",
@@ -511,7 +527,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "540 g",
     "volume": "2500 ml",
     "price_postapoc": 2000,
@@ -519,12 +535,13 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 28 },
+    "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 14,
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexbow",
@@ -539,7 +556,7 @@
     "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "min_strength": 9,
     "weight": "400 g",
     "volume": "1500 ml",
@@ -548,12 +565,13 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 29 },
+    "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "hybridbow",
@@ -569,7 +587,7 @@
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 11,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "600 g",
     "volume": "3500 ml",
     "price_postapoc": 5000,
@@ -577,12 +595,13 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 58 },
+    "ranged_damage": { "damage_type": "stab", "amount": 10 },
     "range": 14,
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "longbow",
@@ -597,7 +616,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "680 g",
     "volume": "3500 ml",
     "price_postapoc": 3000,
@@ -605,12 +624,13 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 23 },
+    "ranged_damage": { "damage_type": "stab", "amount": 5 },
     "range": 18,
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "woodgreatbow",
@@ -627,7 +647,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 7, "material_thickness": 2, "encumbrance": 25 },
     "durability": 8,
     "loudness": 16,
-    "ranged_damage": { "damage_type": "stab", "amount": 44 },
+    "ranged_damage": { "damage_type": "stab", "amount": 11 },
     "range": 20
   },
   {
@@ -644,7 +664,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT" ],
     "skill": "archery",
     "min_strength": 15,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "2000 g",
     "volume": "4 L",
     "price_postapoc": 3000,
@@ -652,11 +672,12 @@
     "reload_noise_volume": 4,
     "loudness": 20,
     "durability": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 43 },
+    "ranged_damage": { "damage_type": "stab", "amount": 11 },
     "range": 22,
     "dispersion": 1000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexrecurvebow",
@@ -672,7 +693,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "450 g",
     "volume": "2 L",
     "price_postapoc": 6000,
@@ -680,11 +701,12 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 28 },
+    "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 18,
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

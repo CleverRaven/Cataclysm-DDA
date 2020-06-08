@@ -12,7 +12,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "acidic_bore",
-    "damage": 5,
+    "damage": { "damage_type": "stab", "amount": 5 },
     "dispersion": 100,
     "count": 80,
     "stack_size": 80,

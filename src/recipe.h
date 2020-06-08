@@ -1,6 +1,6 @@
 #pragma once
-#ifndef RECIPE_H
-#define RECIPE_H
+#ifndef CATA_SRC_RECIPE_H
+#define CATA_SRC_RECIPE_H
 
 #include <cstddef>
 #include <functional>
@@ -18,8 +18,6 @@
 class JsonObject;
 class item;
 class time_duration;
-
-using itype_id = std::string; // From itype.h
 class Character;
 
 enum class recipe_filter_flags : int {
@@ -38,13 +36,13 @@ class recipe
         friend class recipe_dictionary;
 
     private:
-        itype_id result_ = "null";
+        itype_id result_ = itype_id::NULL_ID();
 
     public:
         recipe();
 
         operator bool() const {
-            return result_ != "null";
+            return !result_.is_null();
         }
 
         const itype_id &result() const {
@@ -117,9 +115,18 @@ class recipe
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
-        std::string required_skills_string( const Character *, bool print_skill_level ) const;
-        std::string required_skills_string( const Character * ) const;
-        std::string required_skills_string() const;
+
+        // These are primarily used by the crafting menu.
+        // Format the primary skill string.
+        std::string primary_skill_string( const Character *c, bool print_skill_level ) const;
+
+        // Format the other skills string.  This is also used for searching within the crafting
+        // menu which includes the primary skill.
+        std::string required_skills_string( const Character *, bool include_primary_skill,
+                                            bool print_skill_level ) const;
+
+        // This is used by the basecamp bulletin board.
+        std::string required_all_skills_string() const;
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -187,7 +194,7 @@ class recipe
         bool reversible = false;
 
         /** What does the item spawn contained in? Unset ("null") means default container. */
-        itype_id container = "null";
+        itype_id container = itype_id::NULL_ID();
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;
@@ -226,4 +233,4 @@ class recipe
         std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };
 
-#endif // RECIPE_H
+#endif // CATA_SRC_RECIPE_H

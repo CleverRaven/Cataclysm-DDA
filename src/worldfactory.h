@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WORLDFACTORY_H
-#define WORLDFACTORY_H
+#ifndef CATA_SRC_WORLDFACTORY_H
+#define CATA_SRC_WORLDFACTORY_H
 
 #include <cstddef>
 #include <functional>
@@ -165,4 +165,4 @@ void load_external_option( const JsonObject &jo );
 
 extern std::unique_ptr<worldfactory> world_generator;
 
-#endif
+#endif // CATA_SRC_WORLDFACTORY_H

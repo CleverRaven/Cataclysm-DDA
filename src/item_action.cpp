@@ -88,11 +88,24 @@ bool item::item_has_uses_recursive() const
 
 bool item_contents::item_has_uses_recursive() const
 {
-    for( const item &it : items ) {
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+            pocket.item_has_uses_recursive() ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool item_pocket::item_has_uses_recursive() const
+{
+    for( const item &it : contents ) {
         if( it.item_has_uses_recursive() ) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -159,7 +172,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
             }
 
             if( better ) {
-                candidates[use] = i;
+                candidates[use] = actual_item;
                 if( actual_item->ammo_required() == 0 ) {
                     to_remove.insert( use );
                 }
@@ -274,7 +287,7 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss += string_format( " (%d/%d)", elem.second->ammo_required(), elem.second->ammo_remaining() );
+            ss += string_format( "(-%d)", elem.second->ammo_required() );
         }
 
         const auto method = elem.second->get_use( elem.first );
@@ -323,10 +336,6 @@ void game::item_action_menu()
     if( kmenu.ret < 0 || kmenu.ret >= static_cast<int>( iactions.size() ) ) {
         return;
     }
-
-    draw_ter();
-    wrefresh( w_terrain );
-    draw_panels( true );
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];

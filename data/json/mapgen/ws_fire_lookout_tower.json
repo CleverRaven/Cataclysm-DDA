@@ -157,7 +157,9 @@
         { "vehicle": "motorcycle", "x": 11, "y": 9, "rotation": 180, "chance": 25 },
         { "vehicle": "motorcycle", "x": 12, "y": 7, "rotation": 0, "chance": 25 },
         { "vehicle": "bicycle", "x": 6, "y": 10, "rotation": 100, "chance": 25 },
-        { "vehicle": "bicycle", "x": 19, "y": 10, "rotation": 90, "chance": 25 }
+        { "vehicle": "bicycle", "x": 19, "y": 10, "rotation": 90, "chance": 25 },
+        { "vehicle": "surv_rv", "x": 4, "y": 20, "chance": 8, "rotation": 180, "fuel": 0 },
+        { "vehicle": "surv_car", "x": 16, "y": 2, "chance": 15, "rotation": 0, "fuel": 0 }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },

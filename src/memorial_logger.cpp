@@ -7,6 +7,7 @@
 #include <tuple>
 #include <utility>
 
+#include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -323,8 +324,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -343,8 +342,6 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
-            file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
     }
@@ -441,7 +438,7 @@ void memorial_logger::notify( const cata::event &e )
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( part ) );
+                     body_part_name( convert_bp( part ).id() ) );
             }
             break;
         }
@@ -843,9 +840,9 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_skill_level: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
+                    skill_id skill = e.get<skill_id>( "skill" );
                     add( pgettext( "memorial_male",
                                    //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
@@ -943,11 +940,48 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Opened a strange temple." ) );
             break;
         }
+        case event_type::player_fails_conduct: {
+            add( pgettext( "memorial_male", "Lost the conduct %s%s." ),
+                 pgettext( "memorial_female", "Lost the conduct %s%s." ),
+                 e.get<achievement_id>( "conduct" )->name(),
+                 e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
+            break;
+        }
+        case event_type::player_gets_achievement: {
+            add( pgettext( "memorial_male", "Gained the achievement %s%s." ),
+                 pgettext( "memorial_female", "Gained the achievement %s%s." ),
+                 e.get<achievement_id>( "achievement" )->name(),
+                 e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
+            break;
+        }
+        case event_type::character_forgets_spell: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+                add( pgettext( "memorial_male", "Forgot the spell %s." ),
+                     pgettext( "memorial_female", "Forgot the spell %s." ),
+                     spell_name );
+            }
+            break;
+        }
+        case event_type::character_learns_spell: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+                add( pgettext( "memorial_male", "Learned the spell %s." ),
+                     pgettext( "memorial_female", "Learned the spell %s." ),
+                     spell_name );
+            }
+            break;
+        }
         case event_type::player_levels_spell: {
-            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
-            add( pgettext( "memorial_male", "Gained a spell level on %s." ),
-                 pgettext( "memorial_female", "Gained a spell level on %s." ),
-                 spell_name );
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+                add( pgettext( "memorial_male", "Gained a spell level on %s." ),
+                     pgettext( "memorial_female", "Gained a spell level on %s." ),
+                     spell_name );
+            }
             break;
         }
         case event_type::releases_subspace_specimens: {
@@ -1017,10 +1051,14 @@ void memorial_logger::notify( const cata::event &e )
             break;
         }
         // All the events for which we have no memorial log are here
+        case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
+        case event_type::character_wakes_up:
+        case event_type::character_wears_item:
+        case event_type::character_wields_item:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

@@ -15,12 +15,25 @@
     "color": "brown",
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 70,
-    "encumbrance": 5,
-    "storage": "2 L",
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "apron_cut_resistant",
+    "type": "ARMOR",
+    "name": { "str": "cut-resistant apron" },
+    "description": "An apron made of kevlar fabric which provides excellent protection from cuts.",
+    "copy-from": "apron_leather",
+    "price": 3800,
+    "material": [ "kevlar" ]
   },
   {
     "id": "blazer",
@@ -37,8 +50,14 @@
     "color": "dark_gray",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 85,
-    "encumbrance": 20,
-    "storage": "500 ml",
+    "encumbrance": 16,
+    "max_encumbrance": 20,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 }
+    ],
     "warmth": 20,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
@@ -82,8 +101,9 @@
     "color": "white",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 5,
-    "storage": "250 ml",
+    "encumbrance": 4,
+    "max_encumbrance": 5,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
@@ -230,8 +250,13 @@
     "color": "dark_gray",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
-    "encumbrance": 12,
-    "storage": "2250 ml",
+    "encumbrance": 6,
+    "max_encumbrance": 12,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
@@ -307,7 +332,7 @@
   {
     "id": "leotard",
     "type": "ARMOR",
-    "name": { "str": "leotard", "str_pl": "leotard" },
+    "name": { "str_sp": "leotard" },
     "description": "A skin-tight spandex garment, covering the body from the groin to the shoulders.  With its deep scoop-cut back and high waist cuts, this garment is perfect for showcasing your physique on the stage.",
     "weight": "60 g",
     "volume": "500 ml",
@@ -401,7 +426,7 @@
     "id": "maid_dress",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "French maid clothes", "str_pl": "French maid clothes" },
+    "name": { "str_sp": "French maid clothes" },
     "description": "The French maid dress, blue with a frilly white apron.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -413,8 +438,12 @@
     "color": "blue",
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "coverage": 75,
-    "encumbrance": 7,
-    "storage": "500 ml",
+    "encumbrance": 5,
+    "max_encumbrance": 7,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
@@ -455,7 +484,10 @@
     "color": "light_blue",
     "covers": [ "TORSO" ],
     "coverage": 90,
-    "storage": "1 L",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
@@ -476,8 +508,9 @@
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 5,
-    "storage": "500 ml",
+    "encumbrance": 3,
+    "max_encumbrance": 5,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
@@ -581,8 +614,9 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 5,
-    "storage": "250 ml",
+    "encumbrance": 4,
+    "max_encumbrance": 5,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 8,
     "material_thickness": 1,
     "snippet_category": [
@@ -699,8 +733,14 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 90,
-    "encumbrance": 8,
-    "storage": "1 L",
+    "encumbrance": 4,
+    "max_encumbrance": 8,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
@@ -722,8 +762,13 @@
     "color": "dark_gray",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
-    "encumbrance": 12,
-    "storage": "2250 ml",
+    "encumbrance": 6,
+    "max_encumbrance": 12,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
+    ],
     "warmth": 45,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],

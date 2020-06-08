@@ -73,8 +73,8 @@ void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     std::string ter;
-    ot_match_type ter_match_type = ot_match_type::type;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        ot_match_type ter_match_type = ot_match_type::type;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
@@ -396,7 +396,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp_part, 6_minutes );
+                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
@@ -405,7 +405,7 @@ void start_location::handle_heli_crash( player &u ) const
                 const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, bp_part, dmg );
+                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
                 break;
             }
             // No damage

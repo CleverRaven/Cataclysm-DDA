@@ -188,7 +188,6 @@ bool handle_resize( int, int )
         if( SetDIBColorTable( backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
             throw std::runtime_error( "SetDIBColorTable failed" );
         }
-        catacurses::refresh();
         ui_manager::screen_resized();
     }
 
@@ -689,17 +688,17 @@ input_event input_manager::get_input_event()
     input_event rval;
     if( lastchar == ERR ) {
         if( input_timeout > 0 ) {
-            rval.type = CATA_INPUT_TIMEOUT;
+            rval.type = input_event_t::timeout;
         } else {
-            rval.type = CATA_INPUT_ERROR;
+            rval.type = input_event_t::error;
         }
     } else {
         // == Unicode DELETE
         if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+            return input_event( KEY_BACKSPACE, input_event_t::keyboard );
         }
-        rval.type = CATA_INPUT_KEYBOARD;
+        rval.type = input_event_t::keyboard;
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point

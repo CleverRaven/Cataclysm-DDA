@@ -4,10 +4,11 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "SIG Sauer P230", "str_pl": "SIG Sauer P230" },
+    "name": { "str_sp": "SIG Sauer P230" },
     "description": "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  Due to its small dimensions, it was often carried as a backup weapon.",
     "weight": "460 g",
     "volume": "312 ml",
+    "longest_side": "194 mm",
     "price": 43000,
     "price_postapoc": 1000,
     "to_hit": -1,
@@ -15,7 +16,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "32",
+    "ammo": [ "32" ],
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
@@ -34,8 +35,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "32", [ "sigp230mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "sigp230mag" ]
+      }
+    ]
   },
   {
     "id": "skorpion_61",
@@ -47,6 +55,7 @@
     "description": "The Skorpion Vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
     "weight": "1300 g",
     "volume": "788 ml",
+    "longest_side": "1116 mm",
     "price": 150000,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -54,7 +63,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "32",
+    "ammo": [ "32" ],
     "skill": "smg",
     "dispersion": 360,
     "durability": 6,
@@ -76,17 +85,26 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "32", [ "skorpion61mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "skorpion61mag" ]
+      }
+    ]
   },
   {
     "id": "walther_ppk",
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Walther PPK", "str_pl": "Walther PPK" },
+    "name": { "str_sp": "Walther PPK" },
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
     "weight": "540 g",
     "volume": "216 ml",
+    "longest_side": "173 mm",
     "price": 45000,
     "price_postapoc": 1250,
     "to_hit": -1,
@@ -94,7 +112,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "32",
+    "ammo": [ "32" ],
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
@@ -113,8 +131,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "32", [ "ppkmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppkmag" ]
+      }
+    ]
   },
   {
     "id": "kp32",
@@ -123,19 +148,27 @@
     "type": "GUN",
     "name": { "str": "Kel-Tec P32" },
     "description": "One of Kel-tec's oldest designs, the P32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
-    "weight": "198 g",
-    "volume": "132ml",
+    "weight": "186 g",
+    "volume": "138 ml",
+    "longest_side": "147 mm",
     "price": 14000,
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 1,
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",
-    "ammo": "32",
-    "magazine_well": "41 ml",
+    "ammo": [ "32" ],
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,
-    "magazines": [ [ "32", [ "kp32mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "kp32mag" ]
+      }
+    ]
   }
 ]

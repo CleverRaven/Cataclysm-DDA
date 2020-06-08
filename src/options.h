@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef CATA_SRC_OPTIONS_H
+#define CATA_SRC_OPTIONS_H
 
 #include <functional>
 #include <map>
@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 #include <tuple>
 
 #include "translations.h"
@@ -29,7 +30,7 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
-        static std::vector<id_and_option> lang_options;
+        static std::vector<id_and_option> get_lang_options();
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -37,6 +38,7 @@ class options_manager
             const std::string &path );
         static std::vector<id_and_option> load_soundpack_from(
             const std::string &path );
+        static std::unordered_set<std::string> get_langs_with_translation_files();
 
         bool load_legacy();
 
@@ -108,7 +110,7 @@ class options_manager
                 //set to previous item
                 void setPrev();
                 //set value
-                void setValue( std::string sSetIn );
+                void setValue( const std::string &sSetIn );
                 void setValue( float fSetIn );
                 void setValue( int iSetIn );
 
@@ -193,8 +195,8 @@ class options_manager
         void add_options_general();
         void add_options_interface();
         void add_options_graphics();
-        void add_options_debug();
         void add_options_world_default();
+        void add_options_debug();
         void add_options_android();
         void load();
         bool save();
@@ -295,8 +297,8 @@ class options_manager
         Page general_page_;
         Page interface_page_;
         Page graphics_page_;
-        Page debug_page_;
         Page world_default_page_;
+        Page debug_page_;
         Page android_page_;
 
         std::vector<std::reference_wrapper<Page>> pages_;
@@ -323,4 +325,4 @@ inline T get_option( const std::string &name )
     return get_options().get_option( name ).value_as<T>();
 }
 
-#endif
+#endif // CATA_SRC_OPTIONS_H

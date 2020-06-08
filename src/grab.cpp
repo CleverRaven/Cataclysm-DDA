@@ -22,7 +22,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );
     if( !grabbed_vehicle_vp ) {
         add_msg( m_info, _( "No vehicle at grabbed point." ) );
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
@@ -36,7 +36,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
                      mon->get_name() );
-            u.grab( OBJECT_NONE );
+            u.grab( object_type::NONE );
             return false;
         }
     }
@@ -55,7 +55,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( dp == prev_grab ) {
         // We are pushing in the direction of vehicle
         dp_veh = dp;
-    } else if( abs( dp.x + dp_veh.x ) != 2 && abs( dp.y + dp_veh.y ) != 2 ) {
+    } else if( std::abs( dp.x + dp_veh.x ) != 2 && std::abs( dp.y + dp_veh.y ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
         u.grab_point = -( dp + dp_veh );
         return false;

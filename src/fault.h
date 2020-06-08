@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FAULT_H
-#define FAULT_H
+#ifndef CATA_SRC_FAULT_H
+#define CATA_SRC_FAULT_H
 
 #include <map>
 #include <set>
@@ -82,4 +82,4 @@ class fault
         std::set<std::string> flags;
 };
 
-#endif
+#endif // CATA_SRC_FAULT_H

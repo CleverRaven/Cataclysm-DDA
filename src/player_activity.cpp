@@ -23,16 +23,17 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
-static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -41,12 +42,12 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min ), auto_resume( false )
+    placement( tripoint_min )
 {
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+    actor( actor.clone() )
 {
 }
 
@@ -170,6 +171,16 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                     get_verb().translated(), extra_info );
 }
 
+void player_activity::start_or_resume( Character &who, bool resuming )
+{
+    if( actor && !resuming ) {
+        actor->start( *this, who );
+    }
+    if( rooted() ) {
+        who.rooted_message();
+    }
+}
+
 void player_activity::do_turn( player &p )
 {
     // Should happen before activity or it may fail du to 0 moves
@@ -218,7 +229,7 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == "ACT_TRAVELLING";
+    const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );
@@ -272,6 +283,13 @@ void player_activity::do_turn( player &p )
     }
 }
 
+void player_activity::canceled( Character &who )
+{
+    if( *this && actor ) {
+        actor->canceled( *this, who );
+    }
+}
+
 template <typename T>
 bool containers_equal( const T &left, const T &right )
 {
@@ -282,16 +300,19 @@ bool containers_equal( const T &left, const T &right )
     return std::equal( left.begin(), left.end(), right.begin() );
 }
 
-bool player_activity::can_resume_with( const player_activity &other, const Character & ) const
+bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // TODO: Once activity_handler_actors exist, the less ugly method of using a
-    // pure virtual can_resume_with should be used
-
     if( !*this || !other || type->no_resume() ) {
         return false;
+    }
+
+    // if actor XOR other.actor then id() != other.id() so
+    // we will correctly return false based on final return statement
+    if( actor && other.actor ) {
+        return actor->can_resume_with( *other.actor, who );
     }
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
@@ -310,24 +331,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
             }
         }
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
-            return false;
-        }
-    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
-        // We must be digging in the same location.
-        if( placement != other.placement ) {
-            return false;
-        }
-
-        // And all our parameters must be the same.
-        if( !std::equal( values.begin(), values.end(), other.values.begin() ) ) {
-            return false;
-        }
-
-        if( !std::equal( str_values.begin(), str_values.end(), other.str_values.begin() ) ) {
-            return false;
-        }
-
-        if( !std::equal( coords.begin(), coords.end(), other.coords.begin() ) ) {
             return false;
         }
     }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_INVENTORY_H
-#define GAME_INVENTORY_H
+#ifndef CATA_SRC_GAME_INVENTORY_H
+#define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
 #include <list>
@@ -47,7 +47,9 @@ namespace inv
 item_location titled_menu( avatar &you, const std::string &title,
                            const std::string &none_message = "" );
 // item selector for items in @you's inventory with a filter
-item_location titled_filter_menu( item_filter filter, avatar &you,
+item_location titled_filter_menu( const item_filter &filter, avatar &you,
+                                  const std::string &title, const std::string &none_message = "" );
+item_location titled_filter_menu( const item_location_filter &filter, avatar &you,
                                   const std::string &title, const std::string &none_message = "" );
 
 /**
@@ -62,6 +64,7 @@ item_location titled_filter_menu( item_filter filter, avatar &you,
 /*@{*/
 
 void common( avatar &you );
+void common( item_location &loc, avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
@@ -95,7 +98,8 @@ item_location use( avatar &you );
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */
-item_location holster( player &p, item &holster );
+drop_locations holster( player &p, const item_location &holster );
+void insert_items( avatar &you, item_location &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
 /** Choose item to wear. */
@@ -118,4 +122,4 @@ item_location sterilize_cbm( player &p );
 
 } // namespace game_menus
 
-#endif // GAME_INVENTORY_H
+#endif // CATA_SRC_GAME_INVENTORY_H

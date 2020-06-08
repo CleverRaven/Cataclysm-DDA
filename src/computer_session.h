@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COMPUTER_SESSION_H
-#define COMPUTER_SESSION_H
+#ifndef CATA_SRC_COMPUTER_SESSION_H
+#define CATA_SRC_COMPUTER_SESSION_H
 
 #include <map>
 #include <string>
@@ -62,7 +62,7 @@ class computer_session
         template<typename ...Args>
         void print_text( const std::string &text, Args &&... args );
         // Prints a line and waits for Y/N/Q
-        enum class ynq {
+        enum class ynq : int {
             yes,
             no,
             quit,
@@ -142,4 +142,4 @@ class computer_session
         computer_failure_functions;
 };
 
-#endif
+#endif // CATA_SRC_COMPUTER_SESSION_H

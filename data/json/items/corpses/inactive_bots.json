@@ -7,6 +7,7 @@
     "weight": "4700 g",
     "volume": "750 ml",
     "price": 64500,
+    "price_postapoc": 3000,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -21,8 +22,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -33,6 +33,7 @@
     "weight": "5870 g",
     "volume": "250 ml",
     "price": 67500,
+    "price_postapoc": 3000,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -47,8 +48,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -59,6 +59,7 @@
     "weight": "4536 g",
     "volume": "750 ml",
     "price": 59500,
+    "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -73,8 +74,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -85,6 +85,7 @@
     "weight": "5360 g",
     "volume": "750 ml",
     "price": 60500,
+    "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -99,8 +100,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -111,6 +111,7 @@
     "weight": "4480 g",
     "volume": "250 ml",
     "price": 60000,
+    "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -125,30 +126,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
-    "id": "bot_laserturret",
-    "type": "TOOL",
-    "name": { "str": "inactive laser turret" },
-    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 600000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "white",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_laserturret",
-      "difficulty": 6,
-      "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -159,6 +137,7 @@
     "weight": "172 kg",
     "volume": "30 L",
     "price": 500500,
+    "price_postapoc": 8000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -169,8 +148,7 @@
       "monster_id": "mon_turret_bmg",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -181,6 +159,7 @@
     "weight": "5400 g",
     "volume": "750 ml",
     "price": 60000,
+    "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -195,8 +174,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -207,6 +185,7 @@
     "weight": "25000 g",
     "volume": "18750 ml",
     "price": 2677500,
+    "price_postapoc": 10000,
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -221,8 +200,7 @@
       "difficulty": 5,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -234,6 +212,7 @@
     "volume": "30 L",
     "price": 500000,
     "to_hit": -3,
+    "price_postapoc": 5000,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
@@ -243,8 +222,7 @@
       "monster_id": "mon_turret_rifle",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -255,6 +233,7 @@
     "weight": "172 kg",
     "volume": "30 L",
     "price": 500000,
+    "price_postapoc": 6000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -265,8 +244,7 @@
       "monster_id": "mon_crows_m240",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -277,6 +255,7 @@
     "weight": "125000 g",
     "volume": "60 L",
     "price": 200500,
+    "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -287,8 +266,7 @@
       "monster_id": "mon_turret_riot",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -299,6 +277,7 @@
     "weight": "40750 g",
     "volume": "30 L",
     "price": 400000,
+    "price_postapoc": 3000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -309,8 +288,7 @@
       "monster_id": "mon_turret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -321,6 +299,7 @@
     "weight": "40750 g",
     "volume": "30 L",
     "price": 750000,
+    "price_postapoc": 4000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -333,8 +312,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -345,6 +323,7 @@
     "weight": "40750 g",
     "volume": "30 L",
     "price": 750000,
+    "price_postapoc": 3000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -357,8 +336,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -369,6 +347,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "price": 750000,
+    "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -381,8 +360,7 @@
       "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -393,6 +371,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "price": 750000,
+    "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -405,8 +384,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -417,6 +395,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "price": 750000,
+    "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -429,8 +408,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -442,6 +420,7 @@
     "volume": "62500 ml",
     "//": "It is a disgusting mass of rotting flesh and jagged metal pieces, no one will buy it.",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "flesh" ],
@@ -455,8 +434,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -468,6 +446,7 @@
     "volume": "62500 ml",
     "//": "It is an affront to humanity, no one will buy it.",
     "price": 0,
+    "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "flesh" ],
@@ -481,8 +460,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -494,6 +472,7 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "price": 100000,
+    "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -507,8 +486,7 @@
       "//": "Wheeled and must be easy-to-use for police deployment",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -520,6 +498,7 @@
     "weight": "40750 g",
     "volume": "30 L",
     "price": 10000,
+    "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -533,8 +512,7 @@
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -545,6 +523,7 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "price": 10000,
+    "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -558,8 +537,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -571,6 +549,7 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "price": 25000,
+    "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -584,8 +563,7 @@
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -597,6 +575,7 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "price": 35000,
+    "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -610,8 +589,7 @@
       "//": "Pretty easy but you want to be careful with the gas",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -623,6 +601,7 @@
     "weight": "40750 g",
     "volume": "30 L",
     "price": 80000,
+    "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -636,8 +615,7 @@
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -649,6 +627,7 @@
     "weight": "100000 g",
     "volume": "65000 ml",
     "price": 80000,
+    "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -662,8 +641,7 @@
       "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -674,6 +652,7 @@
     "weight": "120000 g",
     "volume": "92500 ml",
     "price": 500000,
+    "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -687,8 +666,7 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -699,7 +677,7 @@
     "volume": "95 L",
     "weight": "250 kg",
     "price": 10000000,
-    "price_postapoc": 100000,
+    "price_postapoc": 10000,
     "to_hit": -3,
     "bashing": 6,
     "material": [ "steel" ],
@@ -712,8 +690,7 @@
       "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -724,7 +701,7 @@
     "volume": "95 L",
     "weight": "300 kg",
     "price": 100000000,
-    "price_postapoc": 500000,
+    "price_postapoc": 25000,
     "to_hit": -3,
     "bashing": 6,
     "material": [ "steel" ],
@@ -737,8 +714,31 @@
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_turret_speaker",
+    "type": "TOOL",
+    "name": { "str": "inactive loudspeaker" },
+    "description": "This is an inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the loudspeaker will continuously shout pre-recorded messages.",
+    "weight": "100 kg",
+    "volume": "50500 ml",
+    "price": 500000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_speaker",
+      "friendly_msg": "The loudspeaker activates and begins his non-stopping shouts.",
+      "hostile_msg": "The loudspeaker activates and begins his non-stopping shouts.",
+      "difficulty": 2,
+      "moves": 150,
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

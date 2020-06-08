@@ -46,8 +46,6 @@ int TERMX;
 int TERMY;
 int POSX;
 int POSY;
-int VIEW_OFFSET_X;
-int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
 int TERRAIN_WINDOW_TERM_WIDTH;
@@ -338,14 +336,6 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
     return textformatted.size();
 }
 
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text )
-{
-    scrollable_text( [&w]() {
-        return w;
-    }, title, text );
-}
-
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text )
 {
@@ -522,7 +512,7 @@ void draw_custom_border(
     const catacurses::window &w, const catacurses::chtype ls, const catacurses::chtype rs,
     const catacurses::chtype ts, const catacurses::chtype bs, const catacurses::chtype tl,
     const catacurses::chtype tr, const catacurses::chtype bl, const catacurses::chtype br,
-    const nc_color FG, const point &pos, int height, int width )
+    const nc_color &FG, const point &pos, int height, int width )
 {
     wattron( w, FG );
 
@@ -596,6 +586,102 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
     mvwputch( w, point( width - 1, height - 1 ), border_color, LINE_XOOX ); // _|
 }
 
+border_helper::border_info::border_info( border_helper &helper )
+    : helper( helper )
+{
+}
+
+void border_helper::border_info::set( const point &pos, const point &size )
+{
+    this->pos = pos;
+    this->size = size;
+    helper.get().border_connection_map.reset();
+}
+
+border_helper::border_info &border_helper::add_border()
+{
+    border_info_list.emplace_front( border_info( *this ) );
+    return border_info_list.front();
+}
+
+void border_helper::draw_border( const catacurses::window &win )
+{
+    if( !border_connection_map.has_value() ) {
+        border_connection_map.emplace();
+        for( const border_info &info : border_info_list ) {
+            const point beg = info.pos;
+            const point end = info.pos + info.size;
+            for( int x = beg.x; x < end.x; ++x ) {
+                const point ptop( x, beg.y );
+                const point pbottom( x, end.y - 1 );
+                if( x > beg.x ) {
+                    border_connection_map.value()[ptop].left =
+                        border_connection_map.value()[pbottom].left = true;
+                }
+                if( x < end.x - 1 ) {
+                    border_connection_map.value()[ptop].right =
+                        border_connection_map.value()[pbottom].right = true;
+                }
+            }
+            for( int y = beg.y; y < end.y; ++y ) {
+                const point pleft( beg.x, y );
+                const point pright( end.x - 1, y );
+                if( y > beg.y ) {
+                    border_connection_map.value()[pleft].top =
+                        border_connection_map.value()[pright].top = true;
+                }
+                if( y < end.y - 1 ) {
+                    border_connection_map.value()[pleft].bottom =
+                        border_connection_map.value()[pright].bottom = true;
+                }
+            }
+        }
+    }
+    const point win_beg( getbegx( win ), getbegy( win ) );
+    const point win_end = win_beg + point( getmaxx( win ), getmaxy( win ) );
+    for( const std::pair<const point, border_connection> &conn : border_connection_map.value() ) {
+        if( conn.first.x >= win_beg.x && conn.first.x < win_end.x &&
+            conn.first.y >= win_beg.y && conn.first.y < win_end.y ) {
+            mvwputch( win, conn.first - win_beg, BORDER_COLOR, conn.second.as_curses_line() );
+        }
+    }
+}
+
+int border_helper::border_connection::as_curses_line() const
+{
+    constexpr int t = 0x8;
+    constexpr int r = 0x4;
+    constexpr int b = 0x2;
+    constexpr int l = 0x1;
+    const int conn = ( top ? t : 0 ) | ( right ? r : 0 ) | ( bottom ? b : 0 ) | ( left ? l : 0 );
+    switch( conn ) {
+        default:
+            return '?';
+        case 0x3:
+            return LINE_OOXX;
+        case 0x5:
+            return LINE_OXOX;
+        case 0x6:
+            return LINE_OXXO;
+        case 0x7:
+            return LINE_OXXX;
+        case 0x9:
+            return LINE_XOOX;
+        case 0xA:
+            return LINE_XOXO;
+        case 0xB:
+            return LINE_XOXX;
+        case 0xC:
+            return LINE_XXOO;
+        case 0xD:
+            return LINE_XXOX;
+        case 0xE:
+            return LINE_XXXO;
+        case 0xF:
+            return LINE_XXXX;
+    }
+}
+
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -665,7 +751,7 @@ int popup( const std::string &text, PopupFlags flags )
 
     pop.context( "POPUP_WAIT" );
     const auto &res = pop.query();
-    if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+    if( res.evt.type == input_event_t::keyboard ) {
         return res.evt.get_first_input();
     } else {
         return UNKNOWN_UNICODE;
@@ -681,7 +767,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
 {
     catacurses::window win =
         catacurses::newwin( iHeight, iWidth,
-                            point( iLeft + VIEW_OFFSET_X, iTop + VIEW_OFFSET_Y ) );
+                            point( iLeft, iTop ) );
 
 #if defined(TILES)
     clear_window_area( win );
@@ -946,10 +1032,13 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
+    if( data.any_input ) {
+        ctxt.register_action( "ANY_INPUT" );
+    }
 
     std::string action;
-    do {
+    bool exit = false;
+    while( !exit ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -961,8 +1050,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
+            exit = true;
+        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
+            exit = true;
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+    }
 
     return ctxt.get_raw_input();
 }
@@ -1389,6 +1482,16 @@ void scrolling_text_view::scroll_down()
     }
 }
 
+void scrolling_text_view::page_up()
+{
+    offset_ = std::max( 0, offset_ - getmaxy( w_ ) );
+}
+
+void scrolling_text_view::page_down()
+{
+    offset_ = std::min( max_offset(), offset_ + getmaxy( w_ ) );
+}
+
 void scrolling_text_view::draw( const nc_color &base_color )
 {
     werase( w_ );
@@ -1453,30 +1556,6 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
             iStartPos = 1 + iCurrentLine - iContentHeight;
         }
     }
-}
-
-catacurses::window w_hit_animation;
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
-{
-    /*
-    chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
-    mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
-    */
-
-    catacurses::window w_hit =
-        catacurses::newwin( 1, 1, p + point( VIEW_OFFSET_X, VIEW_OFFSET_Y ) );
-    if( !w_hit ) {
-        return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    w_hit_animation = w_hit;
-
-    mvwprintz( w_hit, point_zero, cColor, cTile );
-    wrefresh( w_hit );
-
-    inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
-    // Skip input (if any), because holding down a key with nanosleep can get yourself killed
-    inp_mngr.get_input_event();
-    inp_mngr.reset_timeout();
 }
 
 #if defined(_MSC_VER)
@@ -1651,19 +1730,19 @@ void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
     while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
+        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
                            false );
     }
     while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
+        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
                            false );
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
                            false );
     }
     while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
+        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
                            false );
     }
 }
@@ -1807,7 +1886,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     };
     // Avoid magic number
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
-    const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
+    const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
@@ -1820,53 +1899,68 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
 }
 
 /**
- * Display data in table, each cell contains one entry from the
- * data vector. Allows vertical scrolling if the data does not fit.
- * Data is displayed using fold_and_print_from, which allows coloring!
- * @param columns Number of columns, can be 1. Make sure each entry
- * of the data vector fits into one cell.
- * @param title The title text, displayed on top.
- * @param w The window to draw this in, the whole widow is used.
+ * Inserts a table into a window, with data right-aligned.
+ * @param pad Reduce table width by padding left side.
+ * @param line Line to insert table.
+ * @param columns Number of columns. Can be 1.
+ * @param nc_color &FG Default color of table text.
+ * @param divider To insert a character separating table entries. Can be blank.
+ * @param r_align true for right aligned, false for left aligned.
  * @param data Text data to fill.
+ * Make sure each entry of the data vector fits into one cell, including divider if any.
  */
-void display_table( const catacurses::window &w, const std::string &title, int columns,
-                    const std::vector<std::string> &data )
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data )
 {
-    const int width = getmaxx( w ) - 2; // -2 for border
-    const int rows = getmaxy( w ) - 2 - 1; // -2 for border, -1 for title
-    const int col_width = width / columns;
+    const int width = getmaxx( w );
+    const int rows = getmaxy( w );
+    const int col_width = ( ( width - pad ) / columns );
+    int indent = 1;  // 1 for right window border
+    if( r_align ) {
+        indent = ( col_width * columns ) + 1;
+    }
+    int div = columns - 1;
     int offset = 0;
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
 #if defined(__ANDROID__)
-    // no bindings, but give it its own input context so stale buttons don't hang around.
-    input_context ctxt( "DISPLAY_TABLE" );
+    input_context ctxt( "INSERT_TABLE" );
 #endif
-    for( ;; ) {
-        werase( w );
-        draw_border( w, BORDER_COLOR, title, c_white );
-        for( int i = 0; i < rows * columns; i++ ) {
-            if( i + offset * columns >= static_cast<int>( data.size() ) ) {
-                break;
-            }
-            const int x = 2 + ( i % columns ) * col_width;
-            const int y = ( i / columns ) + 2;
-            fold_and_print_from( w, point( x, y ), col_width, 0, c_white, data[i + offset * columns] );
-        }
-        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, point( 0, 2 ) );
-        wrefresh( w );
-        // TODO: use input context
-        int ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < static_cast<int>( data.size() ) ) {
-            offset++;
-        } else if( ch == KEY_UP && offset > 0 ) {
-            offset--;
-        } else if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
+    wattron( w, FG );
+    for( int i = 0; i < rows * columns; i++ ) {
+        if( i + offset * columns >= static_cast<int>( data.size() ) ) {
             break;
         }
+        int y = line + ( i / columns );
+        if( r_align ) {
+            indent -= col_width;
+        }
+        if( div != 0 ) {
+            if( r_align ) {
+                right_print( w, y, indent - utf8_width( divider ), FG, divider );
+            } else {
+                fold_and_print_from( w, point( indent + col_width - utf8_width( divider ), y ),
+                                     utf8_width( divider ), 0, FG, divider );
+            }
+            div--;
+        } else {
+            div = columns - 1;
+        }
+
+        if( r_align ) {
+            right_print( w, y, indent, c_white, data[i + offset * columns] );
+            if( indent == 1 ) {
+                indent = ( col_width * columns ) + 1;
+            }
+        } else {
+            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + offset * columns] );
+            indent += col_width;
+            if( indent == ( col_width * columns ) + 1 ) {
+                indent = 1;
+            }
+        }
     }
+    wattroff( w, FG );
 }
 
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
@@ -1879,18 +1973,19 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     oDir = p_oDir;
 
     // translate from player relative to screen relative direction
-    iso_mode = false;
 #if defined(TILES)
     iso_mode = tile_iso && use_tiles;
+#else
+    iso_mode = false;
 #endif
-    oUp = iso_mode ? NORTHEAST : NORTH;
-    oUpRight = iso_mode ? EAST : NORTHEAST;
-    oRight = iso_mode ? SOUTHEAST : EAST;
-    oDownRight = iso_mode ? SOUTH : SOUTHEAST;
-    oDown = iso_mode ? SOUTHWEST : SOUTH;
-    oDownLeft = iso_mode ? WEST : SOUTHWEST;
-    oLeft = iso_mode ? NORTHWEST : WEST;
-    oUpLeft = iso_mode ? NORTH : NORTHWEST;
+    oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
+    oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
+    oRight = iso_mode ? direction::SOUTHEAST : direction::EAST;
+    oDownRight = iso_mode ? direction::SOUTH : direction::SOUTHEAST;
+    oDown = iso_mode ? direction::SOUTHWEST : direction::SOUTH;
+    oDownLeft = iso_mode ? direction::WEST : direction::SOUTHWEST;
+    oLeft = iso_mode ? direction::NORTHWEST : direction::WEST;
+    oUpLeft = iso_mode ? direction::NORTH : direction::NORTHWEST;
 
     point pairDirXY = direction_XY( oDir );
 
@@ -1898,7 +1993,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     if( dir == point_zero ) {
         // This would cause infinite loop otherwise
-        oDir = WEST;
+        oDir = direction::WEST;
         dir.x = -1;
     }
 
@@ -1933,26 +2028,29 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
             //Remove old HP bar
             removeCreatureHP();
 
-            if( p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == ( iso_mode ? NORTH : SOUTHWEST ) ) {
-                p_oDir = ( iso_mode ? NORTHWEST : WEST );
+            if( p_oDir == direction::WEST || p_oDir == direction::NORTHWEST ||
+                p_oDir == ( iso_mode ? direction::NORTH : direction::SOUTHWEST ) ) {
+                p_oDir = ( iso_mode ? direction::NORTHWEST : direction::WEST );
             } else {
-                p_oDir = ( iso_mode ? SOUTHEAST : EAST );
+                p_oDir = ( iso_mode ? direction::SOUTHEAST : direction::EAST );
             }
 
         } else {
             //reserve Left/Right for creature hp display
-            if( p_oDir == ( iso_mode ? SOUTHEAST : EAST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? EAST : NORTHEAST ) : ( iso_mode ? SOUTH : SOUTHEAST );
+            if( p_oDir == ( iso_mode ? direction::SOUTHEAST : direction::EAST ) ) {
+                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
+                         ( iso_mode ? direction::SOUTH : direction::SOUTHEAST );
 
-            } else if( p_oDir == ( iso_mode ? NORTHWEST : WEST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? NORTH : NORTHWEST ) : ( iso_mode ? WEST : SOUTHWEST );
+            } else if( p_oDir == ( iso_mode ? direction::NORTHWEST : direction::WEST ) ) {
+                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
+                         ( iso_mode ? direction::WEST : direction::SOUTHWEST );
             }
         }
 
         // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
         // oversize ASCII tiles overdrawing messages below them.
-        if( tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH ||
-                       p_oDir == ( iso_mode ? WEST : SOUTHEAST ) ) ) {
+        if( tiled && ( p_oDir == direction::SOUTHWEST || p_oDir == direction::SOUTH ||
+                       p_oDir == ( iso_mode ? direction::WEST : direction::SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
             for( auto &iter : vSCT ) {

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#ifndef CATA_SRC_VEHICLE_H
+#define CATA_SRC_VEHICLE_H
 
 #include <array>
 #include <climits>
@@ -225,10 +225,11 @@ struct vehicle_part {
         itype_id ammo_current() const;
 
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
-        int ammo_capacity() const;
+        int ammo_capacity( const ammotype &ammo ) const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
         int ammo_remaining() const;
+        int remaining_ammo_capacity() const;
 
         /** Type of fuel used by an engine */
         itype_id fuel_current() const;
@@ -434,7 +435,7 @@ struct vehicle_part {
         cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
-        itype_id ammo_pref = "null";
+        itype_id ammo_pref = itype_id::NULL_ID();
 
         /**
          *  What NPC (if any) is assigned to this part (seat, turret etc)?
@@ -489,7 +490,7 @@ class turret_data
         int ammo_remaining() const;
 
         /** Maximum quantity of ammunition turret can itself contain */
-        int ammo_capacity() const;
+        int ammo_capacity( const ammotype &ammo ) const;
 
         /** Specific ammo data or returns nullptr if no ammo available */
         const itype *ammo_data() const;
@@ -541,7 +542,7 @@ class turret_data
         bool can_reload() const;
         bool can_unload() const;
 
-        enum class status {
+        enum class status : int {
             invalid,
             no_ammo,
             no_power,
@@ -1071,8 +1072,10 @@ class vehicle
         std::vector<itype_id> get_printable_fuel_types() const;
 
         // Vehicle fuel indicators (all of them)
-        void print_fuel_indicators( const catacurses::window &win, int y, int x, int start_index = 0,
-                                    bool fullsize = false, bool verbose = false, bool desc = false, bool isHorizontal = false );
+        void print_fuel_indicators(
+            const catacurses::window &win, const point &, int start_index = 0,
+            bool fullsize = false, bool verbose = false, bool desc = false,
+            bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, int dir, const point &pivot );
@@ -1330,6 +1333,12 @@ class vehicle
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
         bool is_rotorcraft() const;
+        // Can the vehicle safely fly? E.g. there haven't been any player modifications
+        // of non-simple parts
+        bool is_flyable() const;
+        void set_flyable( bool val );
+        // Would interacting with this part prevent the vehicle from being flyable?
+        bool would_prevent_flyable( const vpart_info &vpinfo ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1410,7 +1419,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( int x, int y );
+        void autodrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1452,7 +1461,7 @@ class vehicle
 
         // remove item from part's cargo
         bool remove_item( int part, item *it );
-        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
+        vehicle_stack::iterator remove_item( int part, const vehicle_stack::const_iterator &it );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
@@ -1868,6 +1877,7 @@ class vehicle
         mutable bool in_water = false;
         // is the vehicle currently flying
         mutable bool is_flying = false;
+        bool flyable = true;
         int requested_z_change = 0;
 
     public:
@@ -1901,6 +1911,12 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+
+        // return vehicle part index and muffle value
+        std::pair<int, double> get_exhaust_part() const;
+
+        // destination for exhaust emissions
+        tripoint exhaust_dest( int part ) const;
 };
 
-#endif
+#endif // CATA_SRC_VEHICLE_H

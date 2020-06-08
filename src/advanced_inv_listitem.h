@@ -1,10 +1,11 @@
 #pragma once
-#ifndef ADVANCED_INV_LISTITEM_H
-#define ADVANCED_INV_LISTITEM_H
+#ifndef CATA_SRC_ADVANCED_INV_LISTITEM_H
+#define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
 #include <list>
 #include <string>
 
+#include "type_id.h"
 #include "units.h"
 
 // see item_factory.h
@@ -21,7 +22,6 @@ enum aim_location : char;
 class advanced_inv_listitem
 {
     public:
-        using itype_id = std::string;
         /**
          * Index of the item in the itemstack.
          */
@@ -104,4 +104,4 @@ class advanced_inv_listitem
         advanced_inv_listitem( const std::list<item *> &list, int index,
                                aim_location area, bool from_vehicle );
 };
-#endif
+#endif // CATA_SRC_ADVANCED_INV_LISTITEM_H

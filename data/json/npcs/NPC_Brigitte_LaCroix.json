@@ -38,18 +38,16 @@
     "id": "BONE_SEER_Brigitte_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "loincloth_leather" },
+      { "item": "boxer_briefs" },
       { "item": "socks" },
-      { "item": "cloak" },
-      { "item": "hsurvivor_suit" },
-      { "item": "balclava" },
+      { "item": "tshirt_tour" },
+      { "item": "jacket_leather_bone" },
       { "item": "gloves_liner" },
-      { "item": "tac_helmet" },
-      { "item": "gloves_lsurvivor" },
-      { "item": "boots_hsurvivor" },
-      { "item": "elbow_pads" },
-      { "item": "survivor_goggles" },
-      { "item": "survivor_pack" }
+      { "item": "helmet_skull" },
+      { "item": "gloves_leather" },
+      { "item": "pants_leather" },
+      { "item": "boots_bone" },
+      { "item": "backpack_leather" }
     ]
   },
   {
