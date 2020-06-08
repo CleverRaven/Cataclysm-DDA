@@ -2078,9 +2078,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
-"material": "wood",   // Material types.  See materials.json for possible options
-"techniques": "FLAMING", // Combat techniques used by this tool
-"flags": "FIRE",      // Indicates special effects
+"material": [ "wood" ],   // Material types.  See materials.json for possible options
+"techniques": [ "FLAMING" ], // Combat techniques used by this tool
+"flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"
 "bashing": 12,        // Bashing damage caused by using it as a melee weapon
