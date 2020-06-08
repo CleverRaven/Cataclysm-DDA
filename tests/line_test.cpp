@@ -89,7 +89,7 @@ static void check_bresenham( const tripoint &source, const tripoint &destination
     CHECK( path == generated_path );
 }
 
-TEST_CASE( "3D_bresenham" )
+TEST_CASE( "3D_bresenham", "[line]" )
 {
     check_bresenham( { 0, 0, 0 }, { -1, -1, -1 }, { { -1, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
     check_bresenham( { 0, 0, 0 }, { -1, -1, 0 }, { { -1, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
@@ -120,7 +120,7 @@ TEST_CASE( "3D_bresenham" )
     check_bresenham( { 0, 0, 0 }, { 1, 1, 1 }, { { 1, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
 }
 
-TEST_CASE( "test_normalized_angle" )
+TEST_CASE( "test_normalized_angle", "[line]" )
 {
     CHECK( get_normalized_angle( point_zero, {10, 0} ) == Approx( 0.0 ) );
     CHECK( get_normalized_angle( point_zero, {0, 10} ) == Approx( 0.0 ) );
@@ -132,7 +132,7 @@ TEST_CASE( "test_normalized_angle" )
     CHECK( get_normalized_angle( point_zero, {-10, -10} ) == Approx( 1.0 ) );
 }
 
-TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum" )
+TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" )
 {
 
     // Test the unit cube, which are the only values this function is valid for.
@@ -291,7 +291,7 @@ TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum" )
     REQUIRE( make_xyz( tripoint( 60, 30, 1 ) ) == direction::BELOWSOUTHEAST );
 }
 
-TEST_CASE( "squares_closer_to_test" )
+TEST_CASE( "squares_closer_to_test", "[line]" )
 {
     // TODO: make this ordering agnostic.
     auto actual = squares_closer_to( tripoint_zero, {10, 0, 0} );
@@ -390,7 +390,7 @@ static void line_to_comparison( const int iterations )
 }
 
 // Check the boundaries of inputs we can give line_to without breaking it.
-TEST_CASE( "line_to_boundaries" )
+TEST_CASE( "line_to_boundaries", "[line]" )
 {
     for( int i = -60; i < 60; ++i ) {
         for( int j = -60; j < 60; ++j ) {
@@ -414,7 +414,7 @@ TEST_CASE( "line_to_boundaries" )
     }
 }
 
-TEST_CASE( "line_to_regression" )
+TEST_CASE( "line_to_regression", "[line]" )
 {
     line_to_comparison( 1 );
 }
