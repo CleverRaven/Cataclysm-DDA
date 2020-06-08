@@ -22,6 +22,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "flag.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
@@ -4973,6 +4974,14 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
             it.calc_rot_while_processing( milling_time );
             const auto &mdata = *it.type->milling_data;
             item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            result.components.push_back( it );
+            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+            for( const std::string &f : it.type->item_tags ) {
+                if( json_flag::get( f ).craft_inherit() ) {
+                    result.set_flag( f );
+                }
+            }
+            result.recipe_charges = result.charges;
             // Set flag to tell set_relative_rot() to calc from bday not now
             result.set_flag( flag_PROCESSING_RESULT );
             result.set_relative_rot( it.get_relative_rot() );
