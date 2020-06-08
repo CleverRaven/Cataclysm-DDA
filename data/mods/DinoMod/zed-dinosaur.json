@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zpinosaurus",
-    "name": { "str": "Spinosaurus zombie", "str_pl": "Spinosaurus zombies" },
+    "name": { "str": "Spinosaurus zombie" },
     "looks_like": "mon_spinosaurus",
     "species": "DINOSAUR",
     "default_faction": "zombie",
@@ -112,7 +112,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus",
-    "name": { "str": "Deinonychus zombie", "str_pl": "Deinonychus zombies" },
+    "name": { "str": "Deinonychus zombie" },
     "looks_like": "mon_deinonychus",
     "species": [ "ZOMBIE", "DINOSAUR" ],
     "default_faction": "zombie",
