@@ -160,6 +160,7 @@ int oxytorch( player *, item *, bool, const tripoint & );
 int pack_cbm( player *p, item *it, bool, const tripoint & );
 int pack_item( player *, item *, bool, const tripoint & );
 int pheromone( player *, item *, bool, const tripoint & );
+int pick_lock( player *p, item *it, bool, const tripoint &pos );
 int pickaxe( player *, item *, bool, const tripoint & );
 int play_game( player *, item *, bool, const tripoint & );
 int portable_game( player *, item *, bool, const tripoint & );

@@ -2397,10 +2397,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
-},
-"use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
     "moves_cost": 15 // Number of moves it takes to start the fire.
 },
