@@ -40,17 +40,21 @@ ui_adaptor::~ui_adaptor()
 
 void ui_adaptor::position_from_window( const catacurses::window &win )
 {
-    const rectangle old_dimensions = dimensions;
-    // ensure position is updated before calling invalidate
+    if( !win ) {
+        position( point_zero, point_zero );
+    } else {
+        const rectangle old_dimensions = dimensions;
+        // ensure position is updated before calling invalidate
 #ifdef TILES
-    const window_dimensions dim = get_window_dimensions( win );
-    dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
+        const window_dimensions dim = get_window_dimensions( win );
+        dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
 #else
-    const point origin( getbegx( win ), getbegy( win ) );
-    dimensions = rectangle( origin, origin + point( getmaxx( win ), getmaxy( win ) ) );
+        const point origin( getbegx( win ), getbegy( win ) );
+        dimensions = rectangle( origin, origin + point( getmaxx( win ), getmaxy( win ) ) );
 #endif
-    invalidated = true;
-    ui_manager::invalidate( old_dimensions );
+        invalidated = true;
+        ui_manager::invalidate( old_dimensions );
+    }
 }
 
 void ui_adaptor::position( const point &topleft, const point &size )
@@ -240,7 +244,7 @@ background_pane::background_pane()
     ui.position_from_window( catacurses::stdscr );
     ui.on_redraw( []( const ui_adaptor & ) {
         catacurses::erase();
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 }
 

@@ -50,7 +50,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "An underwater fishing spear made from metal.  It's light, but doesn't have much range.  Stands a very good chance of remaining intact once fired.",
-    "material": "iron",
+    "material": [ "iron" ],
     "volume": "250 ml",
     "weight": "28 g",
     "bashing": 1,

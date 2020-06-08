@@ -133,6 +133,141 @@
   },
   {
     "type": "martial_art",
+    "id": "style_mma_hylian",
+    "name": { "str": "Hylian Swordsmanship" },
+    "description": "This rare form of combat has been practiced by many legendary heroes throughout the ages.  Hylian Swordsmanship favors mobility for offense and defense by using spins, jumps, and flips to confuse enemies and strike from unexpected angles.",
+    "initiate": [ "You begin to step lightly from side to side.", "%s begins to step lightly from side to side." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_hylian_static1",
+        "name": "Combat Acrobat",
+        "description": "Always stay light on your feet.  It is better to evade than be hit.\n\n+1.0 Dodging skill.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_hylian_static2",
+        "name": "Intermediate Combat Acrobat",
+        "description": "After a great deal of practice, you have become even more nimble in a battle.\n\n+1.0 Dodging skill.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_hylian_static3",
+        "name": "Master Combat Acrobat",
+        "description": "You have seen so much combat that your dodging skills have become top notch!\n\n+1.0 Dodging skill.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "mma_buff_hylian_ondodge",
+        "name": "Flurry Rush",
+        "description": "When you perfectly dodge an attack, you can attack rapidly for a short time.\n\n-25% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_hylian_onmove",
+        "name": "Dash Attack",
+        "description": "Taking advantage of momentum, you rush towards foes to deliver a powerful strike.\n\n+10% damage.\nLasts 1 turn.  Stacks 3 times.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_hylian_onpause",
+        "name": "Charge Up",
+        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage, enables \"Spin Attack\" technique.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
+    "weapons": [
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "cudgel",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "ladle",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "sickle",
+      "stick",
+      "sword_wood",
+      "torch",
+      "torch_lit",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_iron_heart",
+    "name": { "str": "Iron Heart" },
+    "description": "Absolute mastery of the sword is the goal of the Iron Heart discipline.  Through unending practice and study, the Iron Heart adept achieves superhuman skill with her weapons.  Iron Heart maneuvers are demonstrations of uncanny martial skill—weaving patterns of steel that dizzy, confuse, and ultimately kill with no recourse.",
+    "initiate": [ "You push away your fear and stand tall.", "%s takes a bold and fearless stance." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "techniques": [
+      "mma_tec_iron_heart_disarm",
+      "mma_tec_iron_heart_feint",
+      "mma_tec_iron_heart_execute",
+      "mma_tec_iron_heart_stun",
+      "mma_tec_iron_heart_wide",
+      "mma_tec_iron_heart_wide_crit"
+    ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "hand_axe",
+      "hatchet",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "makeshift_axe",
+      "sword_wood"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_mma_panzer",
     "name": { "str": "Panzer Kunst" },
     "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
@@ -170,5 +305,101 @@
     ],
     "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
     "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_pokken",
+    "name": { "str": "Pokken" },
+    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokemon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various pokemon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
+    "initiate": [ "You get ready to battle.", "%s is about to challenge someone to a battle." ],
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_pokken_oncrit",
+        "name": "Sniper",
+        "description": "Powers up your techniques after you score a critical hit.\n\n+50% damage.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.5 },
+          { "stat": "damage", "type": "cut", "scale": 1.5 },
+          { "stat": "damage", "type": "stab", "scale": 1.5 }
+        ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_pokken_ongethit",
+        "name": "Stamina",
+        "description": "Boosts your defense after you get hit.\n\nGain bash, cut, stab armor equal to 50% of Strength.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
+        ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "mma_buff_pokken_onkill",
+        "name": "Moxie",
+        "description": "Boosts your damage after defeating an opponent.\n\n+50% damage.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.5 },
+          { "stat": "damage", "type": "cut", "scale": 1.5 },
+          { "stat": "damage", "type": "stab", "scale": 1.5 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_pokken_kick", "mma_tec_pokken_lariat", "mma_tec_pokken_strike", "mma_tec_pokken_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_setting_sun",
+    "name": { "str": "Setting Sun" },
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
+    "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
+    "arm_block": 0,
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_setting_sun_ongethit",
+        "name": "Feigned Opening",
+        "description": "By intentionally openning your guard, you force your opponent to overextend and are able to take full advantage of your next attack!\n\n+20 Speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 20.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_setting_sun_onpause",
+        "name": "Baffling Defense",
+        "description": "You intentionally move and position yourself awkwardly to confuse and throw off your opponents.\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
+      }
+    ],
+    "techniques": [
+      "mma_tec_setting_sun_counter",
+      "mma_tec_setting_sun_stun",
+      "mma_tec_setting_sun_throw",
+      "mma_tec_setting_sun_throw_crit"
+    ],
+    "weapons": [ "i_staff", "shock_staff", "sword_crude", "sword_nail", "sword_wood", "q_staff" ]
   }
 ]

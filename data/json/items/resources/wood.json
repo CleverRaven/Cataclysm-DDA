@@ -80,7 +80,7 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "weight": "2250 g",
     "volume": "3750 ml",
     "longest_side": "305 cm",

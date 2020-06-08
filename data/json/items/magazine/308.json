@@ -26,7 +26,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 30,
-    "reliability": 8,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 30 } } ]
   },
@@ -45,7 +44,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
@@ -64,7 +62,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 1,
     "reload_time": 150,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
@@ -84,7 +81,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
@@ -104,7 +100,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
@@ -130,7 +125,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
@@ -149,7 +143,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 10,
     "reload_time": 50,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
@@ -177,7 +170,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
@@ -205,7 +197,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
@@ -232,7 +223,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
@@ -251,7 +241,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 10,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 10 } } ]
   },
@@ -278,7 +267,6 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },

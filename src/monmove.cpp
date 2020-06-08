@@ -1109,7 +1109,6 @@ void monster::footsteps( const tripoint &p )
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
-    return;
 }
 
 tripoint monster::scent_move()

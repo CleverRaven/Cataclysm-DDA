@@ -1885,6 +1885,9 @@ target_handler::trajectory target_ui::run()
         draw_turret_lines = vturrets->size() == 1;
     }
 
+    on_out_of_scope cleanup( []() {
+        g->m.invalidate_map_cache( g->u.pos().z + g->u.view_offset.z );
+    } );
     restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
@@ -2520,7 +2523,6 @@ void target_ui::set_view_offset( const tripoint &new_offset )
         // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
         g->m.invalidate_map_cache( new_z );
-        g->refresh_all();
     }
 }
 
@@ -2788,7 +2790,7 @@ void target_ui::draw_ui_window()
         draw_controls_list( text_y );
     }
 
-    wrefresh( w_target );
+    wnoutrefresh( w_target );
 }
 
 std::string target_ui::uitext_title()

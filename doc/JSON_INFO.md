@@ -1254,6 +1254,18 @@ given field for that unique event:
 "field": "avatar_id"
 ```
 
+The value of the given field for the first event in the input stream:
+```C++
+"stat_type": "first_value",
+"field": "avatar_id"
+```
+
+The value of the given field for the last event in the input stream:
+```C++
+"stat_type": "last_value",
+"field": "avatar_id"
+```
+
 Regardless of `stat_type`, each `event_statistic` can also have:
 ```C++
 // Intended for use in describing scores and achievement requirements.
@@ -1710,7 +1722,6 @@ See also VEHICLE_JSON.md
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
 "default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
-"reliability" : 8,               // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
@@ -2067,9 +2078,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
-"material": "wood",   // Material types.  See materials.json for possible options
-"techniques": "FLAMING", // Combat techniques used by this tool
-"flags": "FIRE",      // Indicates special effects
+"material": [ "wood" ],   // Material types.  See materials.json for possible options
+"techniques": [ "FLAMING" ], // Combat techniques used by this tool
+"flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"
 "bashing": 12,        // Bashing damage caused by using it as a melee weapon
@@ -2384,10 +2395,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
-},
-"use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.

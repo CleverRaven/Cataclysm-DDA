@@ -766,7 +766,7 @@
     "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "dark_gray"
   },
@@ -998,7 +998,7 @@
     "price_postapoc": 10,
     "to_hit": 2,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ] ]

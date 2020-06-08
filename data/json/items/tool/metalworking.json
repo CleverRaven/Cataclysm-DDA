@@ -10,7 +10,7 @@
     "price_postapoc": 2000,
     "to_hit": -5,
     "bashing": 40,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
@@ -235,7 +235,7 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 500,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]

@@ -236,7 +236,7 @@ void query_popup::show() const
                             col, col, btn.text );
     }
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
@@ -350,11 +350,6 @@ query_popup::result query_popup::query()
     do {
         res = query_once();
     } while( res.wait_input );
-    // Erase the window so there's feedback during consecutive popups
-    werase( win );
-    wrefresh( win );
-    catacurses::refresh();
-    refresh_display();
     return res;
 }
 

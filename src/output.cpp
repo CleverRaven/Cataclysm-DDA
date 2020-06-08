@@ -336,14 +336,6 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
     return textformatted.size();
 }
 
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text )
-{
-    scrollable_text( [&w]() {
-        return w;
-    }, title, text );
-}
-
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text )
 {
@@ -394,7 +386,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
         }
         scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
         .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     std::string action;
@@ -781,7 +773,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     clear_window_area( win );
 #endif // TILES
     wclear( win );
-    wrefresh( win );
+    wnoutrefresh( win );
 
     const input_event result = draw_item_info( win, data );
     return result;
@@ -869,7 +861,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
@@ -1013,7 +1005,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
         }
-        wrefresh( win );
+        wnoutrefresh( win );
     };
 
     if( data.without_getch ) {
@@ -1527,7 +1519,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
                             text_[line_num + offset_] );
     }
 
-    wrefresh( w_ );
+    wnoutrefresh( w_ );
 }
 
 int scrolling_text_view::text_width()
@@ -1564,25 +1556,6 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
             iStartPos = 1 + iCurrentLine - iContentHeight;
         }
     }
-}
-
-catacurses::window w_hit_animation;
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
-{
-    catacurses::window w_hit =
-        catacurses::newwin( 1, 1, p );
-    if( !w_hit ) {
-        return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    w_hit_animation = w_hit;
-
-    mvwprintz( w_hit, point_zero, cColor, cTile );
-    wrefresh( w_hit );
-
-    inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
-    // Skip input (if any), because holding down a key with nanosleep can get yourself killed
-    inp_mngr.get_input_event();
-    inp_mngr.reset_timeout();
 }
 
 #if defined(_MSC_VER)
@@ -2416,10 +2389,6 @@ int get_terminal_height()
 bool is_draw_tiles_mode()
 {
     return false;
-}
-
-void refresh_display()
-{
 }
 #endif
 

@@ -811,7 +811,7 @@ void faction_manager::display() const
             default:
                 break;
         }
-        wrefresh( w_missions );
+        wnoutrefresh( w_missions );
     } );
 
     while( true ) {

@@ -9,7 +9,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "player.h"
 #include "ret_val.h"
 #include "value_ptr.h"
 #include "weather.h"
@@ -24,46 +23,42 @@ namespace behavior
 // approaches time to freeze.
 status_t character_oracle_t::needs_warmth_badly( const std::string & ) const
 {
-    const player *p = dynamic_cast<const player *>( subject );
     // Use player::temp_conv to predict whether the Character is "in trouble".
     for( const body_part bp : all_body_parts ) {
-        if( p->temp_conv[ bp ] <= BODYTEMP_VERY_COLD ) {
-            return running;
+        if( subject->temp_conv[ bp ] <= BODYTEMP_VERY_COLD ) {
+            return status_t::running;
         }
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::needs_water_badly( const std::string & ) const
 {
     // Check thirst threshold.
     if( subject->get_thirst() > 520 ) {
-        return running;
+        return status_t::running;
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::needs_food_badly( const std::string & ) const
 {
     // Check hunger threshold.
     if( subject->get_hunger() >= 300 && subject->get_starvation() > 2500 ) {
-        return running;
+        return status_t::running;
     }
-    return success;
+    return status_t::success;
 }
 
 status_t character_oracle_t::can_wear_warmer_clothes( const std::string & ) const
 {
-    const player *p = dynamic_cast<const player *>( subject );
     // Check inventory for wearable warmer clothes, greedily.
     // Don't consider swapping clothes yet, just evaluate adding clothes.
-    for( const auto &i : subject->inv.const_slice() ) {
-        const item &candidate = i->front();
-        if( candidate.get_warmth() > 0 || p->can_wear( candidate ).success() ) {
-            return running;
-        }
-    }
-    return failure;
+    bool found_clothes = subject->has_item_with( [this]( const item & candidate ) {
+        return candidate.get_warmth() > 0 && subject->can_wear( candidate ).success() &&
+               !subject->is_worn( candidate );
+    } );
+    return found_clothes ? status_t::running : status_t::failure;
 }
 
 status_t character_oracle_t::can_make_fire( const std::string & ) const
@@ -71,46 +66,46 @@ status_t character_oracle_t::can_make_fire( const std::string & ) const
     // Check inventory for firemaking tools and fuel
     bool tool = false;
     bool fuel = false;
-    for( const auto &i : subject->inv.const_slice() ) {
-        const item &candidate = i->front();
+    bool found_fire_stuff = subject->has_item_with( [&tool, &fuel]( const item & candidate ) {
         if( candidate.has_flag( flag_FIRESTARTER ) ) {
             tool = true;
             if( fuel ) {
-                return running;
+                return true;
             }
         } else if( candidate.flammable() ) {
             fuel = true;
             if( tool ) {
-                return running;
+                return true;
             }
         }
-    }
-    return success;
+        return false;
+    } );
+    return found_fire_stuff ? status_t::running : status_t::success;
 }
 
 status_t character_oracle_t::can_take_shelter( const std::string & ) const
 {
-    // See if we know about some shelter
-    // Don't know how yet.
-    return failure;
+    // There be no shelter here.
+    // The frontline is everywhere.
+    return status_t::failure;
 }
 
 status_t character_oracle_t::has_water( const std::string & ) const
 {
     // Check if we know about water somewhere
-    bool found_water = subject->inv.has_item_with( []( const item & cand ) {
+    bool found_water = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->quench > 0;
     } );
-    return found_water ? running : failure;
+    return found_water ? status_t::running : status_t::failure;
 }
 
 status_t character_oracle_t::has_food( const std::string & ) const
 {
     // Check if we know about food somewhere
-    bool found_food = subject->inv.has_item_with( []( const item & cand ) {
+    bool found_food = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
-    return found_food ? running : failure;
+    return found_food ? status_t::running : status_t::failure;
 }
 
 } // namespace behavior

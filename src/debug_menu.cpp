@@ -75,6 +75,7 @@
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
@@ -86,6 +87,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -441,7 +443,6 @@ void spawn_nested_mapgen()
         target_map.save();
         g->load_npcs();
         g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
 }
 
@@ -1095,13 +1096,19 @@ void draw_benchmark( const int max_difference )
     auto end_tick = std::chrono::steady_clock::now();
     int64_t difference = 0;
     int draw_counter = 0;
+
+    static_popup popup;
+    popup.on_top( true ).message( "%s", _( "Benchmark in progress…" ) );
+
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
         difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
         if( difference >= max_difference ) {
             break;
         }
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
+        refresh_display();
         draw_counter++;
     }
 
@@ -1145,7 +1152,6 @@ void debug()
         }
     }
 
-    g->refresh_all();
     avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
@@ -1247,6 +1253,7 @@ void debug()
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
             }
+            g->invalidate_main_ui_adaptor();
             g->disp_NPCs();
             break;
         }
@@ -1469,19 +1476,22 @@ void debug()
 
         case DEBUG_SHOW_SOUND: {
 #if defined(TILES)
-            const point offset {
-                u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
-            };
-            g->draw_ter();
-            auto sounds_to_draw = sounds::get_monster_sounds();
-            for( const auto &sound : sounds_to_draw.first ) {
-                mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
-            }
-            for( const auto &sound : sounds_to_draw.second ) {
-                mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
-            }
-            wrefresh( g->w_terrain );
-            g->draw_panels();
+            const auto &sounds_to_draw = sounds::get_monster_sounds();
+
+            shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+                const point offset {
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
+                };
+                for( const auto &sound : sounds_to_draw.first ) {
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
+                }
+                for( const auto &sound : sounds_to_draw.second ) {
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
+                }
+            } );
+            g->add_draw_callback( sound_cb );
+
+            ui_manager::redraw();
             inp_mngr.wait_for_any_key();
 #else
             popup( _( "This binary was not compiled with tiles support." ) );
@@ -1653,7 +1663,6 @@ void debug()
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     g->m.invalidate_map_cache( g->get_levz() );
-                    g->refresh_all();
                 }
             }
             break;
@@ -1813,9 +1822,7 @@ void debug()
             MapExtras::debug_spawn_test();
             break;
     }
-    catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
 }
 
 } // namespace debug_menu

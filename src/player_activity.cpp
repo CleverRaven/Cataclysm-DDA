@@ -339,9 +339,15 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
            position == other.position && name == other.name && targets == other.targets;
 }
 
-bool player_activity::is_distraction_ignored( distraction_type type ) const
+bool player_activity::is_interruptible() const
 {
-    return ignored_distractions.find( type ) != ignored_distractions.end();
+    return ( type.is_null() || type->interruptable() ) && interruptable;
+}
+
+bool player_activity::is_distraction_ignored( distraction_type distraction ) const
+{
+    return !is_interruptible() ||
+           ignored_distractions.find( distraction ) != ignored_distractions.end();
 }
 
 void player_activity::ignore_distraction( distraction_type type )

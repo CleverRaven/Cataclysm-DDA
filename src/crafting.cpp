@@ -1896,11 +1896,11 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
 
 ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const
 {
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-
-    if( !r || obj.has_flag( flag_ETHEREAL_ITEM ) ) {
+    if( !obj.is_disassemblable() ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
     }
+
+    const recipe &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {

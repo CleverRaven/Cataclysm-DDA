@@ -1903,7 +1903,7 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "use_action": "PICK_LOCK",
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -1918,7 +1918,7 @@
     "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
-    "use_action": { "type": "picklock", "pick_quality": 1 },
+    "use_action": "PICK_LOCK",
     "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]
   },
@@ -1931,7 +1931,7 @@
     "description": "This is a fluffy and large towel.  It could be used to dry yourself.  Any person that can travel the length and breadth of the apocalypse, rough it, slum it, struggle against terrible odds, win through and still know where their towel is, is clearly a force to be reckoned with.",
     "price": 4500,
     "price_postapoc": 10,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "covers": [ "TORSO", "LEGS" ],
     "weight": "370 g",
     "volume": "500 ml",
@@ -1951,7 +1951,7 @@
     "description": "This is a large, sopping wet towel.  If you wait a little bit, it should dry out.  Don't panic.",
     "price": 2000,
     "price_postapoc": 0,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "covers": [ "TORSO", "LEGS" ],
     "weight": "400 g",
     "volume": "500 ml",
@@ -1972,7 +1972,7 @@
     "description": "This is a large towel, covered in a thick, gooey liquid.  You'll need to wash it in some water to make it usable again.  Don't panic.",
     "price": 2000,
     "price_postapoc": 0,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "covers": [ "TORSO", "LEGS" ],
     "weight": "400 g",
     "volume": "500 ml",
@@ -2534,7 +2534,6 @@
     "weight": "200 g",
     "color": "brown",
     "covers": [ "HEAD" ],
-    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2564,7 +2563,6 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "to_hit": 2,
-    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2602,7 +2600,6 @@
     "color": "red",
     "covers": [ "TORSO" ],
     "to_hit": 2,
-    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2645,7 +2642,6 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "to_hit": -2,
-    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2687,7 +2683,6 @@
     "covers": [ "TORSO" ],
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": -1,
-    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2723,7 +2718,6 @@
     "covers": [ "TORSO" ],
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": 1,
-    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",

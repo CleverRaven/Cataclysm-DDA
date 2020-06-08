@@ -211,8 +211,25 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
+    // In magiclysm, the first character_forgets_spell event will trigger an
+    // achievement which also enters the log.  We don't want that to pollute
+    // the test case, so send another event first.
+    b.send<event_type::character_forgets_spell>( ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_forgets_spell>(
+        m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    // Similarly for character_learns_spell
+    b.send<event_type::character_learns_spell>( ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_learns_spell>(
+        m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    // Similarly for character_levels_spell
+    b.send<event_type::player_levels_spell>( ch, spell_id( "pain_damage" ), 5 );
+
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", spell_id( "pain_damage" ), 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

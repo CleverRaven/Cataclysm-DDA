@@ -351,7 +351,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             werase( w_parts );
             veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part,
                                   true );
-            wrefresh( w_parts );
+            wnoutrefresh( w_parts );
 
             werase( w_msg );
             if( !msg.has_value() ) {
@@ -360,7 +360,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red, msg.value() );
             }
-            wrefresh( w_msg );
+            wnoutrefresh( w_msg );
 
             if( install_info ) {
                 display_list( install_info->pos, install_info->tab_vparts, 2 );
@@ -1599,7 +1599,7 @@ void veh_interact::display_overview()
         }
     }
 
-    wrefresh( w_list );
+    wnoutrefresh( w_list );
 }
 
 void veh_interact::overview( const overview_enable_t &enable,
@@ -1723,8 +1723,10 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vehicle_part = &veh->parts[idx];
     sel_vpart_info = &sel_vehicle_part->info();
     std::string nmsg;
+    bool smash_remove = sel_vpart_info->has_flag( "SMASH_REMOVE" );
 
-    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
+    if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) &&
+        !smash_remove ) {
         msg = _( "This vehicle cannot be modified in this way.\n" );
         return false;
     } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
@@ -1736,6 +1738,13 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         nmsg += string_format(
                     _( "<color_white>Removing the broken %1$s may yield some fragments.</color>\n" ),
                     sel_vehicle_part->name() );
+    } else if( smash_remove ) {
+        std::set<std::string> removed_names;
+        for( const item &it : sel_vehicle_part->pieces_for_broken_part() ) {
+            removed_names.insert( it.tname() );
+        }
+        nmsg += string_format( _( "<color_white>Removing the %1$s may yield:</color>\n> %2$s\n" ),
+                               sel_vehicle_part->name(), enumerate_as_string( removed_names ) );
     } else {
         item result_of_removal = sel_vehicle_part->properties_to_item();
         nmsg += string_format(
@@ -2157,7 +2166,7 @@ void veh_interact::display_grid()
                                getmaxy( w_mode ) + 2 + page_size ),
               BORDER_COLOR, LINE_XXOX );
 
-    wrefresh( w_border );
+    wnoutrefresh( w_border );
 }
 
 /**
@@ -2241,7 +2250,7 @@ void veh_interact::display_veh()
     int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
-    wrefresh( w_disp );
+    wnoutrefresh( w_disp );
 }
 
 static std::string wheel_state_description( const vehicle &veh )
@@ -2499,7 +2508,7 @@ void veh_interact::display_stats() const
         }
     }
 
-    wrefresh( w_stats );
+    wnoutrefresh( w_stats );
 }
 
 void veh_interact::display_name()
@@ -2511,7 +2520,7 @@ void veh_interact::display_name()
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
                !veh->is_owned_by( g->u, true ) ? c_light_red : c_light_green,
                string_format( _( "%s (%s)" ), veh->name, veh->get_owner_name() ) );
-    wrefresh( w_name );
+    wnoutrefresh( w_name );
 }
 
 /**
@@ -2571,7 +2580,7 @@ void veh_interact::display_mode()
                             actions[i] );
         }
     }
-    wrefresh( w_mode );
+    wnoutrefresh( w_mode );
 }
 
 size_t veh_interact::display_esc( const catacurses::window &win )
@@ -2619,7 +2628,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
                        i ) ); // one space padding and add a space after selected tab
         }
     }
-    wrefresh( w_list );
+    wnoutrefresh( w_list );
 }
 
 /**
@@ -2636,7 +2645,7 @@ void veh_interact::display_details( const vpart_info *part )
              LINE_XOOX );
 
     if( part == nullptr ) {
-        wrefresh( w_details );
+        wnoutrefresh( w_details );
         return;
     }
     // displays data in two columns
@@ -2770,7 +2779,7 @@ void veh_interact::display_details( const vpart_info *part )
         }
     }
 
-    wrefresh( w_details );
+    wnoutrefresh( w_details );
 }
 
 void veh_interact::count_durability()
@@ -3128,25 +3137,33 @@ void veh_interact::complete_vehicle( player &p )
                 veh->tow_data.clear_towing();
             }
             bool broken = veh->parts[ vehicle_part ].is_broken();
+            bool smash_remove = veh->parts[vehicle_part].info().has_flag( "SMASH_REMOVE" );
 
             if( broken ) {
                 p.add_msg_if_player( _( "You remove the broken %1$s from the %2$s." ),
+                                     veh->parts[ vehicle_part ].name(), veh->name );
+            } else if( smash_remove ) {
+                p.add_msg_if_player( _( "You smash the %1$s to bits, removing it from the %2$s." ),
                                      veh->parts[ vehicle_part ].name(), veh->name );
             } else {
                 p.add_msg_if_player( _( "You remove the %1$s from the %2$s." ),
                                      veh->parts[ vehicle_part ].name(), veh->name );
             }
 
-            if( !broken ) {
-                resulting_items.push_back( veh->parts[vehicle_part].properties_to_item() );
-                for( const auto &sk : vpinfo.install_skills ) {
+            if( broken ) {
+                item_group::ItemList pieces = veh->parts[vehicle_part].pieces_for_broken_part();
+                resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
+            } else {
+                if( smash_remove ) {
+                    item_group::ItemList pieces = veh->parts[vehicle_part].pieces_for_broken_part();
+                    resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
+                } else {
+                    resulting_items.push_back( veh->parts[vehicle_part].properties_to_item() );
+                }
+                for( const std::pair<const skill_id, int> &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
                     p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
                 }
-
-            } else {
-                auto pieces = veh->parts[vehicle_part].pieces_for_broken_part();
-                resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
             }
 
             if( veh->parts.size() < 2 ) {

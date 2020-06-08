@@ -1161,6 +1161,9 @@ class Character : public Creature, public visitable<Character>
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
+        /**When a critical failure occurs*/
+        void roll_critical_bionics_failure( body_part bp );
+
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill );
@@ -1404,6 +1407,20 @@ class Character : public Creature, public visitable<Character>
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
         int ammo_count_for( const item &gun );
+
+        /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+
+        /** Same as `Character::can_reload`, but checks for attached gunmods as well. */
+        hint_rating rate_action_reload( const item &it ) const;
+        /** Whether a tool or a gun can be unloaded. */
+        hint_rating rate_action_unload( const item &it ) const;
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
@@ -2083,8 +2100,6 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
-        hint_rating rate_action_eat( const item &it ) const;
-
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,
@@ -2119,10 +2134,6 @@ class Character : public Creature, public visitable<Character>
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
-
-        /** Used to determine player feedback on item use for the inventory code.
-         *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_change_side( const item &it ) const;
 
         bool get_check_encumbrance() {
             return check_encumbrance;

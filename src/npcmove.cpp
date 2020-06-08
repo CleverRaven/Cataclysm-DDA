@@ -3947,7 +3947,6 @@ void npc::look_for_player( const player &sought )
     complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
     move_to_next();
-    return;
     // The part below is not implemented properly
     /*
     if( sees( sought ) ) {

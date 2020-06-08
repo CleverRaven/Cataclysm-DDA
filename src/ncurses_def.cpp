@@ -39,6 +39,11 @@ catacurses::window catacurses::newwin( const int nlines, const int ncols, const 
     } );
 }
 
+void catacurses::wnoutrefresh( const window &win )
+{
+    return curses_check_result( ::wnoutrefresh( win.get<::WINDOW>() ), OK, "wnoutrefresh" );
+}
+
 void catacurses::wrefresh( const window &win )
 {
     return curses_check_result( ::wrefresh( win.get<::WINDOW>() ), OK, "wrefresh" );
@@ -109,6 +114,16 @@ void catacurses::wprintw( const window &win, const std::string &text )
 void catacurses::refresh()
 {
     return curses_check_result( ::refresh(), OK, "refresh" );
+}
+
+void refresh_display()
+{
+    catacurses::doupdate();
+}
+
+void catacurses::doupdate()
+{
+    return curses_check_result( ::doupdate(), OK, "doupdate" );
 }
 
 void catacurses::clear()
@@ -238,6 +253,8 @@ input_event input_manager::get_input_event()
     input_event rval;
     do {
         previously_pressed_key = 0;
+        // flush any output
+        catacurses::doupdate();
         key = getch();
         if( key != ERR ) {
             int newch;

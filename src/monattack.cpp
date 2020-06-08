@@ -75,6 +75,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "weighted_list.h"
@@ -2672,7 +2673,9 @@ bool mattack::ranged_pull( monster *z )
         target->setpos( pt );
         range--;
         if( target->is_player() && seen ) {
-            g->draw();
+            g->invalidate_main_ui_adaptor();
+            ui_manager::redraw_invalidated();
+            refresh_display();
         }
     }
     // The monster might drag a target that's not on it's z level
