@@ -44,6 +44,19 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
+int divide_round_down( int a, int b )
+{
+    if( b < 0 ) {
+        a = -a;
+        b = -b;
+    }
+    if( a >= 0 ) {
+        return a / b;
+    } else {
+        return -( ( -a + b - 1 ) / b );
+    }
+}
+
 int modulo( int v, int m )
 {
     // C++11: negative v and positive m result in negative v%m (or 0),
