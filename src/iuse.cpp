@@ -3399,8 +3399,8 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
         duration = to_moves<int>( 5_seconds );
     } else {
         duration = std::max( to_moves<int>( 10_seconds ),
-                             to_moves<int>( 10_minutes - time_duration::from_minutes( it->get_quality( qual_LOCKPICK ) ) ) -
-                             ( you.dex_cur + you.get_skill_level( skill_lockpick ) ) * 2300 );
+                             to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) - ( you.dex_cur +
+                                     you.get_skill_level( skill_lockpick ) ) * 2300 );
     }
 
     you.assign_activity( lockpick_activity_actor( duration, item_location( you, it ), cata::nullopt,
