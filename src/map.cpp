@@ -6594,7 +6594,6 @@ void map::vertical_shift( const int newz )
     set_abs_sub( tripoint( trp.xy(), newz ) );
 
     // TODO: Remove the function when it's safe
-    return;
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file

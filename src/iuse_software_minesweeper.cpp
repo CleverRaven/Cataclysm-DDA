@@ -203,7 +203,7 @@ int minesweeper_game::start_game()
 
         mvwputch( w_minesweeper_border, point( 2, 0 ), hilite( c_white ), _( "Minesweeper" ) );
 
-        wrefresh( w_minesweeper_border );
+        wnoutrefresh( w_minesweeper_border );
 
         if( !started ) {
             return;
@@ -256,7 +256,7 @@ int minesweeper_game::start_game()
                 mvwputch( w_minesweeper, offset + point( x, y ), col, ch );
             }
         }
-        wrefresh( w_minesweeper );
+        wnoutrefresh( w_minesweeper );
     } );
 
     std::function<void ( int, int )> rec_reveal = [&]( const int y, const int x ) {

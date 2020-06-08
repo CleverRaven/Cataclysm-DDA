@@ -1682,6 +1682,7 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
 
         CHECK( item_info_str( sonic, qualities ) ==
                "--\n"
+               "Has level <color_c_cyan>30 lockpicking</color> quality.\n"
                "Has level <color_c_cyan>2 prying</color> quality.\n"
                "Has level <color_c_cyan>2 screw driving</color> quality.\n"
                "Has level <color_c_cyan>1 fine screw driving</color> quality.\n"

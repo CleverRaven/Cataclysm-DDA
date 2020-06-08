@@ -170,6 +170,7 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -764,7 +765,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         }
 
         draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
-        wrefresh( w );
+        wnoutrefresh( w );
 
         // Item info
         auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
@@ -782,7 +783,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
         mvwprintw( w_item_info, point_east, "<%s>", name );
-        wrefresh( w_item_info );
+        wnoutrefresh( w_item_info );
     } );
 
     for( ;; ) {
@@ -1063,7 +1064,6 @@ void iexamine::rubble( player &p, const tripoint &examp )
     }
     p.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
     p.activity.placement = examp;
-    return;
 }
 
 /**
@@ -1413,7 +1413,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't include worn items such as hairpins
         if( !p.is_worn( it ) ) {
-            return it.type->get_use( "picklock" ) != nullptr;
+            return it.type->get_use( "PICK_LOCK" ) != nullptr;
         }
         return false;
     } );
@@ -1426,21 +1426,16 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
-        const auto actor_a = dynamic_cast<const pick_lock_actor *>
-                             ( a->type->get_use( "picklock" )->get_actor_ptr() );
-        const auto actor_b = dynamic_cast<const pick_lock_actor *>
-                             ( b->type->get_use( "picklock" )->get_actor_ptr() );
-        return actor_a->pick_quality > actor_b->pick_quality;
+        return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
     } );
 
     for( item *it : picklocks ) {
-        const auto actor = dynamic_cast<const pick_lock_actor *>
-                           ( it->type->get_use( "picklock" )->get_actor_ptr() );
+        const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
                              g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), it->tname() );
-        const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+        const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {
-            actor->use( p, *it, false, examp );
+            iuse_fn->call( p, *it, false, examp );
             return;
         } else {
             p.add_msg_if_player( m_bad, can_use.str() );
@@ -3510,7 +3505,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
     p.activity.placement = g->m.getabs( examp );
     p.activity.auto_resume = true;
-    return;
 }
 
 void iexamine::recycle_compactor( player &, const tripoint &examp )

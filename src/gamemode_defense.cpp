@@ -742,7 +742,7 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     mvwprintz( w, point( 34, 21 ), TOGCOL( 18, sleep ), _( "Sleep" ) );
     mvwprintz( w, point( 46, 21 ), TOGCOL( 19, mercenaries ), _( "Mercenaries" ) );
     mvwprintz( w, point( 59, 21 ), TOGCOL( 20, allow_save ), _( "Allow save" ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 std::string defense_style_name( defense_style style )
@@ -1198,7 +1198,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
     // Quick reminded about help.
     // NOLINTNEXTLINE(cata-text-style): literal question mark
     mvwprintz( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), c_red, _( "Press ? for help." ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -1218,7 +1218,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
         mvwprintz( w, point( 1, i + 3 ), ( i == category_selected ? h_white : c_white ),
                    caravan_category_name( static_cast<caravan_category>( i ) ) );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
@@ -1252,7 +1252,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 int caravan_price( player &u, int price )

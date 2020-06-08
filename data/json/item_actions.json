@@ -26,7 +26,7 @@
   },
   {
     "type": "item_action",
-    "id": "picklock",
+    "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
   },
   {

@@ -65,7 +65,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
-    wrefresh( window );
+    wnoutrefresh( window );
 }
 
 void player::power_mutations()
@@ -260,13 +260,13 @@ void player::power_mutations()
 
         draw_scrollbar( wBio, scroll_position, list_height, mutations_count,
                         point( 0, list_start_y ), c_white, true );
-        wrefresh( wBio );
+        wnoutrefresh( wBio );
         show_mutations_titlebar( w_title, menu_mode, ctxt );
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
             fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, examine_id.value()->desc() );
-            wrefresh( w_description );
+            wnoutrefresh( w_description );
         }
     } );
 

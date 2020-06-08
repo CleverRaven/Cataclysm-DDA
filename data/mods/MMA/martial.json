@@ -43,5 +43,14 @@
     "name": { "str_sp": "The Life and Work of Tiger Sauer" },
     "description": "A biography of a combat cyborg agent detailing his philosophy and martial art.",
     "book_data": { "martial_art": "style_mma_panzer" }
+  },
+  {
+    "id": "manual_mma_pokken",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Pocket Monster Encyclopedia" },
+    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them the in a real fight.",
+    "book_data": { "martial_art": "style_mma_pokken" }
   }
 ]
