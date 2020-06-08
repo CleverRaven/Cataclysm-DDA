@@ -15,11 +15,32 @@
     "text": [
       { "id": "note_dinomod_1", "text": "\"SWAMPS BAD TEETH HUGE OHGOD\"" },
       { "id": "note_dinomod_2", "text": "\"Why is that place just fucking crawling with lizards?\"" },
-      { "id": "note_dinomod_3", "text": "\"Fellow scaly bretheren!  Tonight we feast on the hairless apes.\"" },
+      {
+        "id": "note_dinomod_3",
+        "text": "\"I bet dinosaurs can read and play chess so don't eat us because we can teach you important things like magnets and ramen\""
+      },
       { "id": "note_dinomod_4", "text": "\"where's some .700 t-rex medicine when you need it?\"" },
       {
         "id": "note_dinomod_5",
         "text": "\"So is this what happens when you stray off the path and step on a butterfly?\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "newest_news",
+    "text": [
+      {
+        "id": "dinomod_newest_news_1",
+        "text": "MANY MISSING: A wave of missing persons reports have shaken an already troubled nation, especially among members of the popular Swampers religion and hotel and casino chain.  Asked to comment, their charismatic CEO Bo Baronyx refused to explain their whereabouts, saying only 'The great eaters have returned and they will be sated' and winked and smiled in the most charming way.  The Swampers are doing their part in this crisis and are accepting donations of meat and money to feed the hungry."
+      },
+      {
+        "id": "dinomod_newest_news_2",
+        "text": "CUTEST VISITORS: A mysterious portal of shimmering blue energy and flashing lights opened above Cretaceous Kindergarten today, showering children with the cutest tiny fuzzy dinosaurs and dinosaur babies.  Local paleontologist and exotic dancer Othniel Marsh expressed skepticism that dinosaurs had not died out millions of years ago but 'at this point why not, at least they're cute'.  And cute they are!"
+      },
+      {
+        "id": "dinomod_newest_news_3",
+        "text": "DENIES DINOSAURS: FEMA official Ernst Stromer said late last night that the cities are not safe and reports of dinosaurs outside the cities are wrong and 'possibly drug-related' but cautioned refugees to 'get all the guns you can' because 'it's bad out there'."
       }
     ]
   }

@@ -36,11 +36,11 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR_LAYER );
-    CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
-    CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
-    CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );
-    CHECK( item( "2byarm_guard" ).get_layer() == BELTED_LAYER );
+    CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
+    CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
+    CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
+    CHECK( item( "aep_suit" ).get_layer() == layer_level::OUTER );
+    CHECK( item( "2byarm_guard" ).get_layer() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
@@ -49,7 +49,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, item_pocket::pocket_type::MOD );
-    CHECK( gun.get_layer() == BELTED_LAYER );
+    CHECK( gun.get_layer() == layer_level::BELTED );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )
@@ -163,14 +163,14 @@ TEST_CASE( "stacking_over_time", "[item]" )
 
 static void assert_minimum_length_to_volume_ratio( const item &target )
 {
-    if( target.type->get_id() == "null" ) {
+    if( target.type->get_id().is_null() ) {
         return;
     }
     CAPTURE( target.type->get_id() );
     CAPTURE( target.volume() );
     CAPTURE( target.base_volume() );
     CAPTURE( target.type->volume );
-    if( target.made_of( LIQUID ) || target.is_soft() ) {
+    if( target.made_of( phase_id::LIQUID ) || target.is_soft() ) {
         CHECK( target.length() == 0_mm );
         return;
     }

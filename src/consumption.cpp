@@ -74,19 +74,20 @@ static const efftype_id effect_visuals( "visuals" );
 
 static const item_category_id item_category_chems( "chems" );
 
+static const itype_id itype_apparatus( "apparatus" );
+static const itype_id itype_dab_pen_on( "dab_pen_on" );
+static const itype_id itype_syringe( "syringe" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
-static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
-static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
@@ -94,21 +95,17 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_MANDIBLES( "MANDIBLES" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
-static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
@@ -176,9 +173,9 @@ const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {
-    { "plut_cell",         PLUTONIUM_CHARGES * 10 },
-    { "plut_slurry_dense", PLUTONIUM_CHARGES },
-    { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
+    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
+    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
+    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
 };
 
 int Character::stomach_capacity() const
@@ -409,7 +406,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         }
         if( result_it.typeId() != comest_it.typeId() ) {
             debugmsg( "When creating recipe result expected %s, got %s\n",
-                      comest_it.typeId(), result_it.typeId() );
+                      comest_it.typeId().str(), result_it.typeId().str() );
         }
         std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
@@ -553,7 +550,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
-    for( auto vit : vitamins ) {
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
         vitamin_mod( vit.first, vit.second, capped );
     }
 }
@@ -689,7 +686,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    if( comest->tool != "null" ) {
+    if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
@@ -1349,22 +1346,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-hint_rating Character::rate_action_eat( const item &it ) const
-{
-    if( !can_consume( it ) ) {
-        return hint_rating::cant;
-    }
-
-    const auto rating = will_eat( it );
-    if( rating.success() ) {
-        return hint_rating::good;
-    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
-        return hint_rating::cant;
-    }
-
-    return hint_rating::iffy;
-}
-
 bool Character::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{
@@ -1497,7 +1478,7 @@ bool Character::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
-    const std::string str_loaded  = get_value( it.typeId() );
+    const std::string str_loaded  = get_value( it.typeId().str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1507,7 +1488,7 @@ bool Character::fuel_bionic_with( item &it )
 
     it.charges -= loadable;
     // Type and amount of fuel
-    set_value( it.typeId(), new_charge );
+    set_value( it.typeId().str(), new_charge );
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
@@ -1639,6 +1620,9 @@ time_duration Character::get_consume_time( const item &it )
 {
     const int charges = std::max( it.charges, 1 );
     int volume = units::to_milliliter( it.volume() ) / charges;
+    if( 0 == volume && it.type ) {
+        volume = units::to_milliliter( it.type->volume );
+    }
     time_duration time = time_duration::from_seconds( std::max( ( volume /
                          5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
     float consume_time_modifier = 1;//only for food and drinks
@@ -1658,11 +1642,11 @@ time_duration Character::get_consume_time( const item &it )
         if( consume_drug != nullptr ) { //its a drug
             const auto consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                                           ( consume_drug->get_actor_ptr() );
-            if( consume_drug_use->tools_needed.find( "syringe" ) != consume_drug_use->tools_needed.end() ) {
+            if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
-            } else if( consume_drug_use->tools_needed.find( "apparatus" ) !=
+            } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
                        consume_drug_use->tools_needed.end() ||
-                       consume_drug_use->tools_needed.find( "dab_pen_on" ) != consume_drug_use->tools_needed.end() ) {
+                       consume_drug_use->tools_needed.find( itype_dab_pen_on ) != consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_seconds( 30 );//smoke a bowl
             } else {
                 time = time_duration::from_seconds( 5 );//popping a pill is quick
@@ -1725,7 +1709,7 @@ static bool consume_med( item &target, player &you )
     const itype_id tool_type = target.get_comestible()->tool;
     const auto req_tool = item::find_type( tool_type );
     bool tool_override = false;
-    if( tool_type == "syringe" && you.has_bionic( bio_syringe ) ) {
+    if( tool_type == itype_syringe && you.has_bionic( bio_syringe ) ) {
         tool_override = true;
     }
     if( req_tool->tool ) {
@@ -1766,7 +1750,7 @@ static bool consume_med( item &target, player &you )
     return target.charges <= 0;
 }
 
-bool player::consume( item &target )
+bool player::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1791,7 +1775,7 @@ bool player::consume( item &target )
         return false;
     }
     if( consume_med( comest, *this ) ||
-        eat( comest, *this ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
+        eat( comest, *this, force ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
         fuel_bionic_with( comest ) ) {
 
         if( &target != &comest ) {
@@ -1804,7 +1788,7 @@ bool player::consume( item &target )
     return false;
 }
 
-bool player::consume( item_location loc )
+bool player::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1815,7 +1799,7 @@ bool player::consume( item_location loc )
     bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
-    if( consume( target ) ) {
+    if( consume( target, force ) ) {
 
         i_rem( loc.get_item() );
 
@@ -1829,4 +1813,3 @@ bool player::consume( item_location loc )
 
     return true;
 }
-

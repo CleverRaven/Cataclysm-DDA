@@ -29,6 +29,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "mapdata.h"
+#include "mapgen.h"
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
@@ -67,11 +68,11 @@ struct rl_vec2d;
 struct trap;
 
 enum class special_item_type : int;
-using itype_id = std::string;
 class npc_template;
 class tileray;
 class vpart_reference;
 struct mongroup;
+struct MonsterGroupResult;
 struct projectile;
 struct veh_collision;
 template<typename T>
@@ -999,8 +1000,8 @@ class map
         }
         // i_rem() methods that return values act like container::erase(),
         // returning an iterator to the next item after removal.
-        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator it );
-        map_stack::iterator i_rem( const point &location, map_stack::const_iterator it ) {
+        map_stack::iterator i_rem( const tripoint &p, const map_stack::const_iterator &it );
+        map_stack::iterator i_rem( const point &location, const map_stack::const_iterator &it ) {
             return i_rem( tripoint( location, abs_sub.z ), it );
         }
         void i_rem( const tripoint &p, item *it );
@@ -1009,9 +1010,22 @@ class map
         }
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, artifact_natural_property prop );
-        void spawn_item( const tripoint &p, const std::string &type_id,
+        void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 );
+        void spawn_item( const point &p, const itype_id &type_id,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel );
+        }
+
+        // FIXME: remove these overloads and require spawn_item to take an
+        // itype_id
+        void spawn_item( const tripoint &p, const std::string &type_id,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel );
+        }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0 ) {
@@ -1338,7 +1352,8 @@ class map
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::string &name = "NONE" ) const;
+                        const std::string &name = "NONE", const spawn_data &data = spawn_data() ) const;
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
@@ -1671,8 +1686,8 @@ class map
         void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, item_stack::iterator begin,
-                                   item_stack::iterator end );
+        void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                   const item_stack::iterator &end );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features

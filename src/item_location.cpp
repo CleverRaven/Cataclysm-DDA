@@ -576,7 +576,8 @@ class item_location::impl::item_in_container : public item_location::impl
                 // TODO: Differentiate holsters from backpacks
                 parent_obtain_cost /= 2;
             }
-            return ch.item_handling_cost( *target(), true, container_mv ) +
+            return ch.mutation_value( "obtain_cost_multiplier" ) *
+                   ch.item_handling_cost( *target(), true, container_mv ) +
                    // we aren't "obtaining" the parent item, just digging through it
                    parent_obtain_cost;
         }

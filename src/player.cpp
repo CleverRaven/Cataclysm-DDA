@@ -87,25 +87,17 @@
 #include "weather_gen.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_darkness( "darkness" );
-static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
-static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_fungus( "fungus" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
@@ -117,10 +109,18 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_brass_catcher( "brass_catcher" );
+static const itype_id itype_cookbook_human( "cookbook_human" );
+static const itype_id itype_large_repairkit( "large_repairkit" );
+static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
@@ -131,18 +131,15 @@ static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
-static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
-static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
@@ -150,46 +147,39 @@ static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
-static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_MOREPAIN( "MORE_PAIN" );
-static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
-static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
+static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
+static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
+static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
-static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
@@ -204,16 +194,10 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
-static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_cqb( "bio_cqb" );
-static const bionic_id bio_earplugs( "bio_earplugs" );
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_jointservo( "bio_jointservo" );
-static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
-static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 stat_mod player::get_pain_penalty() const
@@ -463,7 +447,7 @@ void player::process_turn()
     }
 }
 
-int player::kcal_speed_penalty()
+int player::kcal_speed_penalty() const
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
@@ -597,36 +581,6 @@ void player::set_underwater( bool u )
         underwater = u;
         recalc_sight_limits();
     }
-}
-
-nc_color player::basic_symbol_color() const
-{
-    if( has_effect( effect_onfire ) ) {
-        return c_red;
-    }
-    if( has_effect( effect_stunned ) ) {
-        return c_light_blue;
-    }
-    if( has_effect( effect_boomered ) ) {
-        return c_pink;
-    }
-    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
-        return c_magenta;
-    }
-    if( underwater ) {
-        return c_blue;
-    }
-    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
-        is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
-        return c_dark_gray;
-    }
-    if( move_mode == CMM_RUN ) {
-        return c_yellow;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        return c_light_gray;
-    }
-    return c_white;
 }
 
 void player::mod_stat( const std::string &stat, float modifier )
@@ -802,22 +756,23 @@ void player::pause()
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_head, bp_eyes, bp_mouth,
-                    bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                    bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
-                    bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ),
+                    bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-            drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
+            drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+            false );
         }
     }
 
@@ -1093,7 +1048,7 @@ bool player::immune_to( const bodypart_id &bp, damage_unit dam ) const
     passive_absorb_hit( bp, dam );
 
     for( const item &cloth : worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp->token ) ) {
+        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
             cloth.mitigate_damage( dam );
         }
     }
@@ -1108,11 +1063,11 @@ void player::mod_pain( int npain )
             return;
         }
         // always increase pain gained by one from these bad mutations
-        if( has_trait( trait_MOREPAIN ) ) {
+        if( has_trait( trait_MORE_PAIN ) ) {
             npain += std::max( 1, roll_remainder( npain * 0.25 ) );
-        } else if( has_trait( trait_MOREPAIN2 ) ) {
+        } else if( has_trait( trait_MORE_PAIN2 ) ) {
             npain += std::max( 1, roll_remainder( npain * 0.5 ) );
-        } else if( has_trait( trait_MOREPAIN3 ) ) {
+        } else if( has_trait( trait_MORE_PAIN3 ) ) {
             npain += std::max( 1, roll_remainder( npain * 1.0 ) );
         }
 
@@ -1328,7 +1283,8 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                     static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
@@ -1347,7 +1303,8 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bodypart_id( "torso" ), damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, bodypart_id( "torso" ),
+                     damage_instance( DT_BASH, static_cast<float>( np->get_size() ) ) );
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
@@ -1805,11 +1762,11 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
-        weapon = item();
+        remove_weapon();
     }
 
     std::vector<item_location> removed_items;
-    for( item_location it : all_items_loc() ) {
+    for( item_location it : top_items_loc() ) {
         if( !it ) {
             continue;
         }
@@ -1823,11 +1780,6 @@ void player::process_items()
         removed.remove_item();
     }
 
-    // worn items
-    remove_worn_items_with( [this]( item & itm ) {
-        return itm.needs_processing() && itm.process( this, pos(), false );
-    } );
-
     // Active item processing done, now we're recharging.
     item *cloak = nullptr;
     item *power_armor = nullptr;
@@ -1839,9 +1791,9 @@ void player::process_items()
     for( size_t index = 0; index < inv.size(); index++ ) {
         item &it = inv.find_item( index );
         itype_id identifier = it.type->get_id();
-        if( identifier == "UPS_off" ) {
+        if( identifier == itype_UPS_off ) {
             ch_UPS += it.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" ) {
+        } else if( identifier == itype_adv_UPS_off ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
         if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
@@ -1865,9 +1817,9 @@ void player::process_items()
         }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w.typeId();
-        if( identifier == "UPS_off" ) {
+        if( identifier == itype_UPS_off ) {
             ch_UPS += w.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" ) {
+        } else if( identifier == itype_adv_UPS_off ) {
             ch_UPS += w.ammo_remaining() / 0.6;
         }
         if( !update_required && w.encumbrance_update_ ) {
@@ -1884,13 +1836,13 @@ void player::process_items()
     int ch_UPS_used = 0;
     if( cloak != nullptr ) {
         if( ch_UPS >= 20 ) {
-            use_charges( "UPS", 20 );
+            use_charges( itype_UPS, 20 );
             ch_UPS -= 20;
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
             }
         } else if( ch_UPS > 0 ) {
-            use_charges( "UPS", ch_UPS );
+            use_charges( itype_UPS, ch_UPS );
             return;
         } else {
             add_msg_if_player( m_bad,
@@ -1908,7 +1860,7 @@ void player::process_items()
         // Bionic power costs are handled elsewhere.
         if( !bio_powered ) {
             if( ch_UPS >= power_cost ) {
-                use_charges( "UPS", power_cost );
+                use_charges( itype_UPS, power_cost );
                 ch_UPS -= power_cost;
             } else {
                 // Deactivate armor here, bypassing the usual deactivation message.
@@ -1940,7 +1892,7 @@ void player::process_items()
         worn_item->charges++;
     }
     if( ch_UPS_used > 0 ) {
-        use_charges( "UPS", ch_UPS_used );
+        use_charges( itype_UPS, ch_UPS_used );
     }
 }
 
@@ -2056,7 +2008,7 @@ item::reload_option player::select_ammo( const item &base,
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( names ), [&]( const item::reload_option & e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
-            if( e.ammo->ammo_current() == "battery" ) {
+            if( e.ammo->ammo_current() == itype_battery ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
                 //~ battery storage (charges)
                 return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
@@ -2142,7 +2094,8 @@ item::reload_option player::select_ammo( const item &base,
         return row;
     };
 
-    itype_id last = uistate.lastreload[ ammotype( base.ammo_default() ) ];
+    const ammotype base_ammotype( base.ammo_default().str() );
+    itype_id last = uistate.lastreload[ base_ammotype ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
     int last_key = inp_mngr.get_previously_pressed_key();
@@ -2250,10 +2203,10 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
-    uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
-            // get first item in all magazine pockets
-            sel->contents.first_ammo().typeId() :
-            sel->typeId();
+    uistate.lastreload[ base_ammotype ] = sel->is_ammo_container() ?
+                                          // get first item in all magazine pockets
+                                          sel->contents.first_ammo().typeId() :
+                                          sel->typeId();
     return opts[ menu.ret ];
 }
 
@@ -2313,8 +2266,9 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                 } else if( base.is_watertight_container() ) {
                     name = base.is_container_empty() ? "liquid" : base.contents.legacy_front().tname();
                 } else {
-                    name = enumerate_as_string( base.ammo_types().begin(),
-                    base.ammo_types().end(), []( const ammotype & at ) {
+                    const std::set<ammotype> types_of_ammo = base.ammo_types();
+                    name = enumerate_as_string( types_of_ammo.begin(),
+                    types_of_ammo.end(), []( const ammotype & at ) {
                         return at->name();
                     }, enumeration_conjunction::none );
                 }
@@ -2353,7 +2307,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
 
 ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.made_of_from_type( LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
@@ -2491,33 +2445,6 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     return true;
 }
 
-hint_rating player::rate_action_wear( const item &it ) const
-{
-    // TODO: flag already-worn items as hint_rating::iffy
-
-    if( !it.is_armor() ) {
-        return hint_rating::cant;
-    }
-
-    return can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
-}
-
-bool player::can_reload( const item &it, const itype_id &ammo ) const
-{
-    if( !it.is_reloadable_with( ammo ) ) {
-        return false;
-    }
-
-    if( it.is_ammo_belt() ) {
-        const auto &linkage = it.type->magazine->linkage;
-        if( linkage && !has_charges( *linkage, 1 ) ) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 void player::mend_item( item_location &&obj, bool interactive )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2573,8 +2500,10 @@ void player::mend_item( item_location &&obj, bool interactive )
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
             if( obj->damage() > 0 ) {
-                const std::set<std::string> &rep = obj->repaired_with();
-                if( !rep.empty() ) {
+                const std::set<itype_id> &rep = obj->repaired_with();
+                if( rep.empty() ) {
+                    add_msg( m_info, _( "It is damaged, but cannot be repaired." ) );
+                } else {
                     const std::string repair_options =
                     enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
                         return item::nname( e );
@@ -2722,7 +2651,14 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     /** @EFFECT_SHOTGUN decreases time taken to reload a shotgun */
     /** @EFFECT_LAUNCHER decreases time taken to reload a launcher */
 
-    int cost = ( it.is_gun() ? it.get_reload_time() : it.type->magazine->reload_time ) * qty;
+    int cost = 0;
+    if( it.is_gun() ) {
+        cost = it.get_reload_time();
+    } else if( it.type->magazine ) {
+        cost = it.type->magazine->reload_time * qty;
+    } else {
+        cost = it.contents.obtain_cost( ammo );
+    }
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
@@ -2791,20 +2727,11 @@ player::wear( item &to_wear, bool interactive )
         return cata::nullopt;
     }
 
+    if( was_weapon ) {
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    }
+
     return result;
-}
-
-hint_rating player::rate_action_takeoff( const item &it ) const
-{
-    if( !it.is_armor() ) {
-        return hint_rating::cant;
-    }
-
-    if( is_worn( it ) ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::iffy;
 }
 
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
@@ -2872,7 +2799,7 @@ bool player::takeoff( int pos )
 
 bool player::add_or_drop_with_msg( item &it, const bool unloading, const item *avoid )
 {
-    if( it.made_of( LIQUID ) ) {
+    if( it.made_of( phase_id::LIQUID ) ) {
         liquid_handler::consume_liquid( it, 1 );
         return it.charges <= 0;
     }
@@ -2949,7 +2876,7 @@ bool player::unload( item_location &loc )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) {
+    if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
@@ -3010,7 +2937,7 @@ bool player::unload( item_location &loc )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == "plut_cell" ) {
+        if( target->ammo_current() == itype_plut_cell ) {
             if( qty / PLUTONIUM_CHARGES > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty / PLUTONIUM_CHARGES );
             } else {
@@ -3025,7 +2952,7 @@ bool player::unload( item_location &loc )
             ammo.set_flag( "FILTHY" );
         }
 
-        if( ammo.made_of_from_type( LIQUID ) ) {
+        if( ammo.made_of_from_type( phase_id::LIQUID ) ) {
             if( !this->add_or_drop_with_msg( ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
@@ -3060,111 +2987,6 @@ bool player::unload( item_location &loc )
 void player::use_wielded()
 {
     use( -1 );
-}
-
-hint_rating player::rate_action_reload( const item &it ) const
-{
-    hint_rating res = hint_rating::cant;
-
-    // Guns may contain additional reloadable mods so check these first
-    for( const auto mod : it.gunmods() ) {
-        switch( rate_action_reload( *mod ) ) {
-            case hint_rating::good:
-                return hint_rating::good;
-
-            case hint_rating::cant:
-                continue;
-
-            case hint_rating::iffy:
-                res = hint_rating::iffy;
-        }
-    }
-
-    if( !it.is_reloadable() ) {
-        return res;
-    }
-
-    return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
-}
-
-hint_rating player::rate_action_unload( const item &it ) const
-{
-    if( it.is_container() && !it.contents.empty() &&
-        it.can_unload_liquid() ) {
-        return hint_rating::good;
-    }
-
-    if( it.has_flag( "NO_UNLOAD" ) ) {
-        return hint_rating::cant;
-    }
-
-    if( it.magazine_current() ) {
-        return hint_rating::good;
-    }
-
-    for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
-            return hint_rating::good;
-        }
-    }
-
-    if( it.ammo_types().empty() ) {
-        return hint_rating::cant;
-    }
-
-    if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
-        return hint_rating::good;
-    }
-
-    if( it.ammo_capacity() > 0 ) {
-        return hint_rating::iffy;
-    }
-
-    return hint_rating::cant;
-}
-
-hint_rating player::rate_action_mend( const item &it ) const
-{
-    // TODO: check also if item damage could be repaired via a tool
-    if( !it.faults.empty() ) {
-        return hint_rating::good;
-    }
-    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
-}
-
-hint_rating player::rate_action_disassemble( const item &it )
-{
-    if( can_disassemble( it, crafting_inventory() ).success() ) {
-        return hint_rating::good; // possible
-
-    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-        return hint_rating::iffy; // potentially possible but we currently lack requirements
-
-    } else {
-        return hint_rating::cant; // never possible
-    }
-}
-
-hint_rating player::rate_action_use( const item &it ) const
-{
-    if( it.is_tool() ) {
-        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
-
-    } else if( it.is_gunmod() ) {
-        /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
-        if( get_skill_level( skill_gun ) == 0 ) {
-            return hint_rating::iffy;
-        } else {
-            return hint_rating::good;
-        }
-    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
-        return hint_rating::iffy; //the rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
-    } else if( it.type->has_use() ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::cant;
 }
 
 void player::use( int inventory_position )
@@ -3277,7 +3099,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
     //TODO: add activity for removing gunmods
 
-    if( mod.typeId() == "brass_catcher" ) {
+    if( mod.typeId() == itype_brass_catcher ) {
         gun.casings_handle( [&]( item & e ) {
             return i_add_or_drop( e );
         } );
@@ -3392,7 +3214,7 @@ void player::gunmod_add( item &gun, item &mod )
                          string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
         actions.emplace_back( [&] {} );
 
-        prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
+        prompt.addentry( -1, has_charges( itype_small_repairkit, 100 ), 'f',
                          string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
 
         actions.emplace_back( [&] {
@@ -3402,7 +3224,7 @@ void player::gunmod_add( item &gun, item &mod )
             risk /= 2; // ...and reduces the risk of damage upon failure
         } );
 
-        prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
+        prompt.addentry( -1, has_charges( itype_large_repairkit, 25 ), 'g',
                          string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
 
         actions.emplace_back( [&] {
@@ -3459,7 +3281,7 @@ bool player::fun_to_read( const item &book ) const
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
           has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == "cookbook_human" ) {
+        book.typeId() == itype_cookbook_human ) {
         return true;
     } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
@@ -3479,7 +3301,7 @@ int player::book_fun_for( const item &book, const player &p ) const
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
           p.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == "cookbook_human" ) {
+        book.typeId() == itype_cookbook_human ) {
         fun_bonus = std::abs( fun_bonus );
     } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         fun_bonus = std::abs( fun_bonus * 3 );
@@ -3708,7 +3530,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
     }
-    assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
+    assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
 }
 
 int player::sleep_spot( const tripoint &p ) const
@@ -3745,10 +3567,10 @@ int player::sleep_spot( const tripoint &p ) const
         sleepy += 10; //comfy water!
     }
 
-    if( get_fatigue() < TIRED + 1 ) {
-        sleepy -= static_cast<int>( ( TIRED + 1 - get_fatigue() ) / 4 );
+    if( get_fatigue() < fatigue_levels::TIRED + 1 ) {
+        sleepy -= static_cast<int>( ( fatigue_levels::TIRED + 1 - get_fatigue() ) / 4 );
     } else {
-        sleepy += static_cast<int>( ( get_fatigue() - TIRED + 1 ) / 16 );
+        sleepy += static_cast<int>( ( get_fatigue() - fatigue_levels::TIRED + 1 ) / 16 );
     }
 
     if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
@@ -3831,8 +3653,6 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    std::string skill_name = skill.name();
-
     if( !level.can_train() && !in_sleep_state() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
         // Leaving as a skill method rather than global for possible future skill cap setting
@@ -3887,6 +3707,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
+        std::string skill_name = skill.name();
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
@@ -3991,39 +3812,25 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().tname(), weapon.type_name() );
+        std::string gunmode;
+        // only required for empty mags and empty guns
+        std::string mag_ammo;
+        if( weapon.gun_all_modes().size() > 1 ) {
+            gunmode = weapon.gun_current_mode().tname();
+        }
 
-        // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
-
-        const auto mods = weapon.gunmods();
-        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
-            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
-        } );
-
-        if( base || aux ) {
-            str += " (";
-            if( base ) {
-                str += std::to_string( weapon.ammo_remaining() );
-                if( weapon.magazine_integral() ) {
-                    str += "/" + std::to_string( weapon.ammo_capacity() );
-                }
+        if( weapon.ammo_remaining() == 0 ) {
+            if( weapon.magazine_current() != nullptr ) {
+                const item *mag = weapon.magazine_current();
+                mag_ammo = string_format( " (0/%d)",
+                                          mag->ammo_capacity( item( mag->ammo_default() ).ammo_type() ) );
             } else {
-                str += "---";
-            }
-            str += ")";
-
-            for( auto e : mods ) {
-                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str += " (" + std::to_string( e->ammo_remaining() );
-                    if( e->magazine_integral() ) {
-                        str += "/" + std::to_string( e->ammo_capacity() );
-                    }
-                    str += ")";
-                }
+                mag_ammo = _( " (empty)" );
             }
         }
-        return str;
+
+        return utf8_truncate( string_format( "%s%s%s",
+                                             gunmode, weapon.display_name(), mag_ammo ), truncate );
 
     } else if( !is_armed() ) {
         return _( "fists" );
@@ -4098,6 +3905,8 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     moves -= mv;
 
     weapon.on_wield( *this, mv );
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     return true;
 }

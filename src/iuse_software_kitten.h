@@ -42,7 +42,7 @@ class robot_finds_kitten
         int nummessages;
         int bogus_messages[MAXMESSAGES];
 
-        enum class ui_state {
+        enum class ui_state : int {
             instructions,
             main,
             invalid_input,

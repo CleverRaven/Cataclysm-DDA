@@ -115,7 +115,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -131,7 +131,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -443,7 +443,7 @@
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
     "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
     "material": "cardboard",
@@ -464,7 +464,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "2990 ml",
         "max_contains_weight": "20 kg",
         "magazine_well": "2 L"
@@ -491,7 +491,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "4990 ml",
         "max_contains_weight": "50 kg",
         "magazine_well": "3 L"
@@ -1017,7 +1017,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [

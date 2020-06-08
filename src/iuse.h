@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "type_id.h"
 #include "units.h"
 
 class Character;
@@ -17,8 +18,6 @@ class monster;
 class player;
 struct iteminfo;
 template<typename T> class ret_val;
-
-using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -161,6 +160,7 @@ int oxytorch( player *, item *, bool, const tripoint & );
 int pack_cbm( player *p, item *it, bool, const tripoint & );
 int pack_item( player *, item *, bool, const tripoint & );
 int pheromone( player *, item *, bool, const tripoint & );
+int pick_lock( player *p, item *it, bool, const tripoint &pos );
 int pickaxe( player *, item *, bool, const tripoint & );
 int play_game( player *, item *, bool, const tripoint & );
 int portable_game( player *, item *, bool, const tripoint & );

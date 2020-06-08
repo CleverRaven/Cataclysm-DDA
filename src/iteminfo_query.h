@@ -11,6 +11,7 @@ enum class iteminfo_parts : size_t {
     BASE_CATEGORY = 0,
     BASE_PRICE,
     BASE_BARTER,
+    BASE_OWNER,
     BASE_VOLUME,
     BASE_WEIGHT,
     BASE_LENGTH,
@@ -18,6 +19,7 @@ enum class iteminfo_parts : size_t {
     BASE_DAMAGE,
     BASE_TOHIT,
     BASE_MOVES,
+    BASE_DPS,
     BASE_REQUIREMENTS,
     BASE_MATERIAL,
     BASE_CONTENTS,
@@ -40,6 +42,7 @@ enum class iteminfo_parts : size_t {
     FOOD_CANNIBALISM,
     FOOD_TAINT,
     FOOD_POISON,
+    FOOD_ALLERGEN,
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
     FOOD_CONSUME_TIME,
@@ -137,6 +140,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_BOOK_ADDITIONAL_RECIPES,
 
     BOOK_UNREAD,
+    BOOK_INCLUDED_RECIPES,
 
     CONTAINER_DETAILS,
 
@@ -164,6 +168,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_USE_METHODS,
     DESCRIPTION_REPAIREDWITH,
 
+    DESCRIPTION_ALLERGEN,
     DESCRIPTION_CONDUCTIVITY,
     DESCRIPTION_FLAGS,
     DESCRIPTION_FLAGS_HELMETCOMPAT,
@@ -202,6 +207,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
 
     DESCRIPTION_NOTES,
+
+    DESCRIPTION_DIE,
 
     DESCRIPTION_CONTENTS,
 

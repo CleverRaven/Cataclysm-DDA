@@ -87,7 +87,6 @@ class selection_column_preset : public inventory_selector_preset
 {
     public:
         selection_column_preset() = default;
-
         std::string get_caption( const inventory_entry &entry ) const override {
             std::string res;
             const size_t available_count = entry.get_available_count();
@@ -103,10 +102,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, entry.get_total_charges(),
+                    res += item->display_money( available_count, item->ammo_remaining(),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, entry.get_total_charges() );
+                    res += item->display_money( available_count, item->ammo_remaining() );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -264,7 +263,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     const size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.get_total_charges() );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
     } else {
         disp_name = entry.any_item()->display_name( count );
     }
@@ -700,6 +699,58 @@ void inventory_column::on_input( const inventory_input &input )
     }
 }
 
+void inventory_column::order_by_parent()
+{
+    std::vector<inventory_entry> base_entries;
+    std::vector<inventory_entry> child_entries;
+    for( const inventory_entry &entry : entries ) {
+        if( entry.is_item() && entry.locations.front().where() ==
+            item_location::type::container ) {
+            child_entries.push_back( entry );
+        } else {
+            base_entries.push_back( entry );
+        }
+    }
+
+    int tries = 0;
+    const int max_tries = entries.size() * 2;
+    while( !child_entries.empty() ) {
+        const inventory_entry &possible = child_entries.back();
+        const item_location parent = possible.locations.front().parent_item();
+        bool found = false;
+        for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
+            if( base_entry_iter->is_item() ) {
+                for( const item_location &loc : base_entry_iter->locations ) {
+                    if( loc == parent ) {
+                        base_entries.insert( base_entry_iter + 1, possible );
+                        child_entries.pop_back();
+                        found = true;
+                        break;
+                    }
+                }
+                if( found ) {
+                    tries = 0;
+                    break;
+                }
+            }
+            ++base_entry_iter;
+        }
+        if( !found ) {
+            // move it to the front of the vector to check it again later
+            child_entries.insert( child_entries.begin(), possible );
+            child_entries.pop_back();
+            tries++;
+        }
+        if( tries > max_tries ) {
+            // the parent might not be in the list, so we add it to the top
+            base_entries.insert( base_entries.begin(), child_entries.begin(), child_entries.end() );
+            child_entries.clear();
+        }
+    }
+
+    entries = base_entries;
+}
+
 void inventory_column::add_entry( const inventory_entry &entry )
 {
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
@@ -877,7 +928,7 @@ int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, 
     return cur_invlet;
 }
 
-static int num_parents( item_location loc )
+static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
         return 0;
@@ -885,7 +936,7 @@ static int num_parents( item_location loc )
     return 2 + num_parents( loc.parent_item() );
 }
 
-void inventory_column::draw( const catacurses::window &win, size_t x, size_t y ) const
+void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
 {
     if( !visible() ) {
         return;
@@ -901,7 +952,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
     // Do the actual drawing
     for( size_t index = page_offset, line = 0; index < entries.size() &&
          line < entries_per_page; ++index, ++line ) {
-        const inventory_entry &entry = entries[index];
+        inventory_entry &entry = entries[index];
         const inventory_column::entry_cell_cache_t &entry_cell_cache = get_entry_cell_cache( index );
 
         if( !entry ) {
@@ -920,8 +971,13 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
 
         const bool selected = active && is_selected( entry );
 
+        entry.drawn_info.text_x_start = x1;
+        const int hx_max = x + get_width() + contained_offset;
+        entry.drawn_info.text_x_end = hx_max;
+        entry.drawn_info.y = yy;
+
         if( selected && visible_cells() > 1 ) {
-            for( int hx = x1, hx_max = x + get_width() + contained_offset; hx < hx_max; ++hx ) {
+            for( int hx = x1; hx < hx_max; ++hx ) {
                 mvwputch( win, point( hx, yy ), h_white, ' ' );
             }
         }
@@ -1224,12 +1280,12 @@ void inventory_selector::add_items( inventory_column &target_column,
     }
 }
 
-void inventory_selector::add_contained_items( item_location container )
+void inventory_selector::add_contained_items( item_location &container )
 {
     add_contained_items( container, own_inv_column );
 }
 
-void inventory_selector::add_contained_items( item_location container, inventory_column &column )
+void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
@@ -1360,6 +1416,26 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     }
     return nullptr;
 }
+
+inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate ) const
+{
+    std::vector<inventory_column *> columns = get_visible_columns();
+    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
+        return entry.is_selectable();
+    };
+    for( inventory_column *column : columns ) {
+        std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
+        for( inventory_entry *entry : entries ) {
+            if( entry->drawn_info.text_x_start <= coordinate.x &&
+                coordinate.x <= entry->drawn_info.text_x_end &&
+                entry->drawn_info.y == coordinate.y ) {
+                return entry;
+            }
+        }
+    }
+    return nullptr;
+}
+
 
 // FIXME: if columns are merged due to low screen width, they will not be splitted
 // once screen width becomes enough for the columns.
@@ -1597,7 +1673,7 @@ void inventory_selector::resize_window( int width, int height )
     }
 }
 
-void inventory_selector::refresh_window() const
+void inventory_selector::refresh_window()
 {
     assert( w_inv );
 
@@ -1608,7 +1684,7 @@ void inventory_selector::refresh_window() const
     draw_columns( w_inv );
     draw_footer( w_inv );
 
-    wrefresh( w_inv );
+    wnoutrefresh( w_inv );
 }
 
 void inventory_selector::set_filter()
@@ -1660,7 +1736,7 @@ std::string inventory_selector::get_filter() const
     return filter;
 }
 
-void inventory_selector::draw_columns( const catacurses::window &w ) const
+void inventory_selector::draw_columns( const catacurses::window &w )
 {
     const auto columns = get_visible_columns();
 
@@ -1775,6 +1851,7 @@ inventory_selector::inventory_selector( player &u, const inventory_selector_pres
     ctxt.register_action( "PREV_TAB", to_translation( "Page up" ) );
     ctxt.register_action( "HOME", to_translation( "Home" ) );
     ctxt.register_action( "END", to_translation( "End" ) );
+    ctxt.register_action( "SELECT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "VIEW_CATEGORY_MODE" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
@@ -1805,12 +1882,20 @@ inventory_input inventory_selector::get_input()
 
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
-    res.entry = find_entry_by_invlet( res.ch );
 
+    std::pair<point, bool> ct_pair = ctxt.get_coordinates_text( w_inv );
+    if( ct_pair.second ) {
+        point p = ct_pair.first;
+        res.entry = find_entry_by_coordinate( p );
+        if( res.entry != nullptr ) {
+            return res;
+        }
+    }
+
+    res.entry = find_entry_by_invlet( res.ch );
     if( res.entry != nullptr && !res.entry->is_selectable() ) {
         res.entry = nullptr;
     }
-
     return res;
 }
 
@@ -1936,6 +2021,7 @@ void inventory_selector::toggle_categorize_contained()
                            &item_category_id( "ITEMS_WORN" ).obj() );
             }
         }
+        own_gear_column.order_by_parent();
         own_inv_column.clear();
     }
 
@@ -2405,7 +2491,7 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
 
     if( count == 0 ) {
         entry.chosen_count = 0;
-        for( item_location loc : entry.locations ) {
+        for( const item_location &loc : entry.locations ) {
             for( auto iter = dropping.begin(); iter != dropping.end(); ) {
                 if( iter->first == loc ) {
                     dropping.erase( iter );
@@ -2419,7 +2505,7 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
         if( it->count_by_charges() ) {
             dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
         } else {
-            for( item_location loc : entry.locations ) {
+            for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }

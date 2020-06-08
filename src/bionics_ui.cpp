@@ -84,17 +84,17 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                 fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel.str() ),
                            c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
-            if( !rem_fuel.empty() ) {
+            if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
                 if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
-                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
                                    c_green ) + " ";
                 }
                 found_fuel = true;
@@ -163,7 +163,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
-    wrefresh( window );
+    wnoutrefresh( window );
 }
 
 //builds the power usage string of a given bionic
@@ -242,7 +242,7 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     // -|
     mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 static void draw_description( const catacurses::window &win, const bionic &bio )
@@ -263,7 +263,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
         fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
                         _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
     }
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
@@ -437,8 +437,13 @@ void player::power_bionics()
     catacurses::window w_title;
     catacurses::window w_tabs;
 
+    bool hide = false;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        if( hide ) {
+            ui.position( point_zero, point_zero );
+            return;
+        }
         // Main window
         /** Total required height is:
          * top frame line:                                         + 1
@@ -509,6 +514,10 @@ void player::power_bionics()
     ctxt.register_action( "TOGGLE_AUTO_START" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( hide ) {
+            return;
+        }
+
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
 
         werase( wBio );
@@ -573,7 +582,7 @@ void player::power_bionics()
 
         draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), point( 0, list_start_y ) );
 
-        wrefresh( wBio );
+        wnoutrefresh( wBio );
         draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
 
         draw_bionics_titlebar( w_title, this, menu_mode );
@@ -647,7 +656,6 @@ void player::power_bionics()
             }
             const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
-            wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;
             }
@@ -747,15 +755,20 @@ void player::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
+                    hide = true;
+                    ui.mark_resize();
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {
-                        activate_bionic( b );
-                        // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().has_flag( "BIONIC_GUN" ) || tmp->ammo_count > 0 ) {
+                        bool close_ui = false;
+                        activate_bionic( b, false, &close_ui );
+                        // Exit this ui if we are firing a complex bionic
+                        if( close_ui || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }
+                    hide = false;
+                    ui.mark_resize();
                     g->invalidate_main_ui_adaptor();
                     if( moves < 0 ) {
                         return;

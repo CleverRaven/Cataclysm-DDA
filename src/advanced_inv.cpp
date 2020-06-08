@@ -77,11 +77,9 @@ enum aim_exit {
 
 // *INDENT-OFF*
 advanced_inventory::advanced_inventory()
-    : inCategoryMode( false )
-    , recalc( true )
+    : recalc( true )
     , src( left )
     , dest( right )
-    , filter_edit( false )
       // panes don't need initialization, they are recalculated immediately
     , squares( {
     {
@@ -115,12 +113,6 @@ advanced_inventory::~advanced_inventory()
     }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
-        werase( head );
-        werase( minimap );
-        werase( mm_border );
-        werase( panes[left].window );
-        werase( panes[right].window );
-        g->refresh_all();
         g->u.check_item_encumbrance_flag();
     }
 }
@@ -338,7 +330,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
             for( const auto item : sitem.items ) {
-                charges_total += item->charges;
+                charges_total += item->ammo_remaining();
             }
             if( stolen ) {
                 item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
@@ -679,7 +671,6 @@ void advanced_inventory::redraw_pane( side p )
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
-    std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
@@ -691,12 +682,13 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( !filter_edit && !pane.filter.empty() ) {
+        std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
         mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
                    pane.filter );
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 // be explicit with the values
@@ -792,7 +784,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item *elemit : elem.items ) {
-            if( elemit->made_of_from_type( LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
                 liquid_items++;
             }
         }
@@ -1092,7 +1084,7 @@ void advanced_inventory::redraw_sidebar()
             const std::string time = to_string_time_of_day( calendar::turn );
             mvwprintz( head, point( 2, 0 ), c_white, time );
         }
-        wrefresh( head );
+        wnoutrefresh( head );
         refresh_minimap();
     }
 }
@@ -1297,7 +1289,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             // important if item is worn
-            if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
+            if( g->u.can_unwield( *sitem->items.front() ).success() ) {
                 g->u.assign_activity( ACT_DROP );
                 g->u.activity.placement = squares[destarea].off;
 
@@ -1306,7 +1298,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     g->u.activity.str_values.push_back( "force_ground" );
                 }
 
-                g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
+                g->u.activity.targets.push_back( item_location( g->u, sitem->items.front() ) );
                 g->u.activity.values.push_back( amount_to_move );
 
                 // exit so that the activity can be carried out
@@ -1345,9 +1337,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         return colstart + ( src == advanced_inventory::side::left ? w_width / 2 : 0 );
     };
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
-                  player::worn_position_to_index( sitem->idx );
-        item_location loc( g->u, &g->u.i_at( idx ) );
+        item_location loc( g->u, sitem->items.front() );
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
         // "return to AIM". Once the new activity is finished, "return to AIM" comes back
@@ -1643,7 +1633,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
         wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -1685,12 +1675,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     }
     // Selected keyed to uilist.entries, which starts at 0.
     menu.selected = save_state->last_popup_dest - AIM_SOUTHWEST;
-    // generate and show window.
-    menu.show();
-    // query, but don't loop
-    while( menu.ret == UILIST_WAIT_INPUT ) {
-        menu.query( false );
-    }
+    menu.query();
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
         assert( squares[menu.ret].canputitems() );
         def = static_cast<aim_location>( menu.ret );
@@ -1716,7 +1701,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     item &src_contents = src_container.contents.legacy_front();
 
-    if( !src_contents.made_of( LIQUID ) ) {
+    if( !src_contents.made_of( phase_id::LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
@@ -1756,7 +1741,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.
-    if( it.made_of_from_type( LIQUID ) && !it.is_frozen_liquid() ) {
+    if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "You can't pick up a liquid." ) );
         return false;
     }
@@ -1859,8 +1844,8 @@ void advanced_inventory::refresh_minimap()
         mvwprintz( mm_border, point( 1, 0 ), c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
     }
     // refresh border, then minimap
-    wrefresh( mm_border );
-    wrefresh( minimap );
+    wnoutrefresh( mm_border );
+    wnoutrefresh( minimap );
 }
 
 void advanced_inventory::draw_minimap()

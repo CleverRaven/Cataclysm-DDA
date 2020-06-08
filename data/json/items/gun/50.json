@@ -21,8 +21,16 @@
     "durability": 8,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazines": [ [ "50", [ "m107a1mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m107a1mag" ]
+      }
+    ]
   },
   {
     "id": "m2browning",
@@ -58,8 +66,16 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "50", [ "belt50" ] ] ],
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt50" ]
+      }
+    ]
   },
   {
     "id": "m2browning_sawn",
@@ -84,7 +100,6 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [  ],
     "relative": {
       "weight": -21500,
       "volume": -6,
@@ -94,7 +109,7 @@
       "barrel_length": -1
     },
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "50": 1 } } ]
   },
   {
     "id": "as50",
@@ -118,8 +133,16 @@
     "reload": 400,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazines": [ [ "50", [ "as50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "as50mag" ]
+      }
+    ]
   },
   {
     "id": "tac50",
@@ -143,8 +166,16 @@
     "reload": 450,
     "barrel_length": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazines": [ [ "50", [ "tac50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tac50mag" ]
+      }
+    ]
   },
   {
     "id": "bfg50",

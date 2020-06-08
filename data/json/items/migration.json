@@ -1188,5 +1188,20 @@
     "id": "akmbigmag",
     "type": "MIGRATION",
     "replace": "akmag40"
+  },
+  {
+    "id": "rm99_pistol",
+    "type": "MIGRATION",
+    "replace": "rm103a_pistol"
+  },
+  {
+    "id": "8x40_speedloader5",
+    "type": "MIGRATION",
+    "replace": "8x40_10_mag"
+  },
+  {
+    "id": "kevlar_plate",
+    "type": "MIGRATION",
+    "replace": "sheet_kevlar_layered"
   }
 ]

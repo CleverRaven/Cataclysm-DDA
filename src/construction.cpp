@@ -64,6 +64,12 @@ static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
+static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_nail( "nail" );
+static const itype_id itype_sheet( "sheet" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_string_36( "string_36" );
+
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -227,7 +233,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
     mvwputch( w, point( 0, 2 ), c_light_gray, LINE_XXXO );
     mvwputch( w, point( list_width, 2 ), c_light_gray, LINE_XOXX );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static nc_color construction_color( const std::string &con_name, bool highlight )
@@ -607,13 +613,13 @@ construction_id construction_menu( const bool blueprint )
         }
 
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
-        wrefresh( w_con );
+        wnoutrefresh( w_con );
 
         // place the cursor at the selected construction name as expected by screen readers
         if( cursor_pos ) {
             wmove( w_list, cursor_pos.value() );
         }
-        wrefresh( w_list );
+        wnoutrefresh( w_list );
     } );
 
     do {
@@ -764,6 +770,7 @@ construction_id construction_menu( const bool blueprint )
                     if( !player_can_see_to_build( g->u, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
+                        ui.reset();
                         place_construction( constructs[select] );
                         uistate.last_construction = constructs[select];
                     }
@@ -878,7 +885,6 @@ bool can_construct( const construction &con )
 
 void place_construction( const std::string &desc )
 {
-    g->refresh_all();
     const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc( desc );
@@ -891,12 +897,13 @@ void place_construction( const std::string &desc )
         }
     }
 
-    for( auto &elem : valid ) {
-        g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                     g->u.pos() + g->u.view_offset );
-    }
-    wrefresh( g->w_terrain );
-    g->draw_panels();
+    shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
+        for( auto &elem : valid ) {
+            g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
+                         g->u.pos() + g->u.view_offset );
+        }
+    } );
+    g->add_draw_callback( draw_valid );
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
@@ -922,7 +929,6 @@ void place_construction( const std::string &desc )
     // create the partial construction struct
     partial_con pc;
     pc.id = con.id;
-    pc.counter = 0;
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
@@ -1153,7 +1159,7 @@ void construct::done_grave( const tripoint &p )
     g->m.destroy_furn( p, true );
 }
 
-static vpart_id vpart_from_item( const std::string &item_id )
+static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -1257,7 +1263,7 @@ static void unroll_digging( const int numer_of_2x4s )
     item rope( "rope_30" );
     g->m.add_item_or_charges( g->u.pos(), rope );
     // presuming 2x4 to conserve lumber.
-    g->m.spawn_item( g->u.pos(), "2x4", numer_of_2x4s );
+    g->m.spawn_item( g->u.pos(), itype_2x4, numer_of_2x4s );
 }
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
@@ -1360,10 +1366,10 @@ void construct::done_wood_stairs( const tripoint &p )
 void construct::done_window_curtains( const tripoint & )
 {
     // copied from iexamine::curtains
-    g->m.spawn_item( g->u.pos(), "nail", 1, 4 );
-    g->m.spawn_item( g->u.pos(), "sheet", 2 );
-    g->m.spawn_item( g->u.pos(), "stick" );
-    g->m.spawn_item( g->u.pos(), "string_36" );
+    g->m.spawn_item( g->u.pos(), itype_nail, 1, 4 );
+    g->m.spawn_item( g->u.pos(), itype_sheet, 2 );
+    g->m.spawn_item( g->u.pos(), itype_stick );
+    g->m.spawn_item( g->u.pos(), itype_string_36 );
     g->u.add_msg_if_player(
         _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
@@ -1471,8 +1477,6 @@ void load_construction( const JsonObject &jo )
         && con.pre_terrain[0] == 'f'
         && con.pre_terrain[1] == '_' ) {
         con.pre_is_furniture = true;
-    } else {
-        con.pre_is_furniture = false;
     }
 
     con.post_terrain = jo.get_string( "post_terrain", "" );
@@ -1480,8 +1484,6 @@ void load_construction( const JsonObject &jo )
         && con.post_terrain[0] == 'f'
         && con.post_terrain[1] == '_' ) {
         con.post_is_furniture = true;
-    } else {
-        con.post_is_furniture = false;
     }
 
     con.pre_flags = jo.get_tags( "pre_flags" );

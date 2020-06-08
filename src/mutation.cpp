@@ -215,8 +215,8 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+    for( const bodypart_str_id &bp : restricts_gear ) {
+        if( it.covers( bp.id() ) ) {
             return true;
         }
     }
@@ -224,9 +224,9 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
-    const auto iter = armor.find( bp );
+    const auto iter = armor.find( bp.id() );
     if( iter == armor.end() ) {
         static const resistances nulres;
         return nulres;
@@ -235,17 +235,17 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-m_size calculate_size( const Character &c )
+creature_size calculate_size( const Character &c )
 {
     if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
         c.has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
+        return creature_size::large;
     } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
+        return creature_size::huge;
     }
-    return MS_MEDIUM;
+    return creature_size::medium;
 }
 
 void Character::mutation_effect( const trait_id &mut )
@@ -476,7 +476,7 @@ void Character::activate_mutation( const trait_id &mut )
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
-        ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
+        ( mdata.fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                            mdata.name() );
@@ -617,16 +617,15 @@ void Character::activate_mutation( const trait_id &mut )
             tdata.powered = false;
         }
         return;
-    } else if( !mdata.spawn_item.empty() ) {
+    } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
-    } else if( !mdata.ranged_mutation.empty() ) {
+    } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        g->refresh_all();
-        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }

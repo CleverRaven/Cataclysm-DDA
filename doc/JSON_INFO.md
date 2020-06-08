@@ -45,11 +45,12 @@ Use the `Home` key to return to the top.
     + [Recipes](#recipes)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
-    + [Scores and Achievements](#scores-and-achievements)
+    + [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
+      - [`conduct`](#conduct)
     + [Skills](#skills)
     + [Traits/Mutations](#traits-mutations)
     + [Vehicle Groups](#vehicle-groups)
@@ -190,6 +191,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | bionics.json                | bionics, does NOT include bionic effects
 | body_parts.json             | an expansion of anatomy.json - do not edit
 | clothing_mods.json          | definition of clothing mods
+| conducts.json               | conducts
 | construction.json           | definition of construction menu tasks
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
@@ -512,7 +514,7 @@ This section describes each json file and their contents. Each json has their ow
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
-    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
+    "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "installation_requirement": "sewing_standard",
@@ -523,7 +525,7 @@ This section describes each json file and their contents. Each json has their ow
     "type": "bionic",
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
@@ -715,6 +717,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 | `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
 | `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)
 | `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)
+| `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with.
 
 ```C++
 {
@@ -1107,7 +1110,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
   }
 ```
 
-### Scores and Achievements
+### Scores, Achievements, and Conducts
 
 Scores are defined in two or three steps based on *events*.  To see what events
 exist and what data they contain, read [`event.h`](../src/event.h).
@@ -1191,14 +1194,23 @@ Here are examples of each modification:
 "value_constraints" : { // A dictionary of constraints
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
-    // "equals" can be used to specify a constant string value the field must take.
+    // "equals" can be used to specify a constant cata_variant value the field must take.
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
-    "mount" : { "equals": "mon_horse" }
+    "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
 }
 // Since we are filtering to only those events where 'mount' is 'mon_horse', we
 // might as well drop the 'mount' field, since it provides no useful information.
 "drop_fields" : [ "mount" ]
 ```
+
+The parameter to `"equals"` is normally a length-two array specifying a
+`cata_variant_type` and a value.  As a short cut, you can simply specify an
+`int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
+those types.
+
+Value constraints are type-checked, so you should see an error message at game
+data verification time if the variant type you have specified doesn't match the
+type of the field you're matching.
 
 #### `event_statistic`
 
@@ -1241,6 +1253,18 @@ Assume there is only a single event to consider, and take the value of the
 given field for that unique event:
 ```C++
 "stat_type": "unique_value",
+"field": "avatar_id"
+```
+
+The value of the given field for the first event in the input stream:
+```C++
+"stat_type": "first_value",
+"field": "avatar_id"
+```
+
+The value of the given field for the last event in the input stream:
+```C++
+"stat_type": "last_value",
 "field": "avatar_id"
 ```
 
@@ -1296,7 +1320,18 @@ an `event_statistic`.  For example:
 The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
 `"anything"` the `"target"` must be present, and must be an integer.
 
-There are further optional fields:
+Additional optional fields for each entry in `requirements` are:
+
+* `"visible"`, which can take the values `"always"`,
+  `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
+  to dictate when a requirement is visible.  Non-visible requirements will be
+  hidden in the UI.
+* `"description"` will override the default description of the requirement, for
+  cases where the default is not suitable.  The default takes the form `x/y
+  foo` where `x` is the current statistic value, `y` is the target value, and
+  `foo` is the statistic description (if any).
+
+There are further optional fields for the `achievement`:
 
 ```C++
 "hidden_by": [ "other_achievement_id" ]
@@ -1307,6 +1342,9 @@ not appear in the achievements UI) until all of the achievements listed have
 been completed.
 
 Use this to prevent spoilers or to reduce clutter in the list of achievements.
+
+If you want an achievement to be hidden until completed, then mark it as
+`hidden_by` its own id.
 
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
@@ -1336,6 +1374,26 @@ add an `"anything"` constraint on it.  For example:
 
 This is a simple "survive a day" but is triggered by waking up, so it will be
 completed when you wake up for the first time after 24 hours into the game.
+
+#### `conduct`
+
+A conduct is a self-imposed constraint that players can choose to aspire to
+maintain.  In some ways a conduct is the opposite of an achievement: it
+specifies a set of conditions which can be true at the start of a game, but
+might cease to be true at some point.
+
+The implementation of conducts shares a lot with achievements, and their
+specification in JSON uses all the same fields.  Simply change the `"type"`
+from `"achievement"` to `"conduct"`.
+
+The game enforces that any requirements you specify for a conduct must "become
+false" in the sense that once they are false, they can never become true again.
+So, for example, an upper bound on some monotonically increasing statistic is
+acceptable, but you cannot use a constraint on a statistic which might go down
+and up arbitrarily.
+
+With a good motivating example, this constraint might be weakened, but for now
+it is present to help catch errors.
 
 ### Skills
 
@@ -1382,29 +1440,29 @@ completed when you wake up for the first time after 24 hours into the game.
             "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
             "str_mod" : 2
 },
-"wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
+"wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
-"restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
 "encumbrance_always" : [ // Adds this much encumbrance to selected body parts
-    [ "ARM_L", 20 ],
-    [ "ARM_R", 20 ]
+    [ "arm_l", 20 ],
+    [ "arm_r", 20 ]
 ],
 "encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
-    [ "HAND_L", 50 ],
-    [ "HAND_R", 50 ]
+    [ "hand_l", 50 ],
+    [ "hand_r", 50 ]
 ],
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
-        [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
+        [ "head" ],
         { "bash" : 2 } // The resistance provided to the body part(s) selected above
     ],
     [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
+        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
 ],
@@ -1431,8 +1489,8 @@ completed when you wake up for the first time after 24 hours into the game.
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
-"no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
-"lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ], // List of body parts that can't receive cbms. (default: empty)
+"lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
@@ -1666,7 +1724,6 @@ See also VEHICLE_JSON.md
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
 "default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
-"reliability" : 8,               // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
@@ -1885,23 +1942,26 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 ```C++
 "pocket_data": [
   {
-    "pocket_type": "CONTAINER",               // The typical container pocket. Pockets can also be MAGAZINE.
-    "min_item_volume": "0 ml",                // The minimum volume of item that can be placed into this pocket.  For reference, 1 ml is a small grain of uncooked rice, and 16 ml is a 6 sided die from a game like monopoly or yahtzee.
-    "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
-    "max_contains_weight": mandatory,         // The maximum weight this pocket can hold, totaled among all container items.  For reference, a bowling ball is about 6 kg.
-    "ammo_restriction": { "ammotype": count }, // this overrides the three previous values to be an ammotype and count instead. you can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now.) if this is left out, it will be empty.
-    "spoil_multiplier": 1.0,                  // how putting an item in this pocket affects spoilage. less than 1.0 and the item will be preserved longer.
-    "weight_multiplier": 1.0,                 // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplies.
-    "magazine_well": "0 ml",                  // only works if rigid = false, this is the amount of space you can put items in the pocket before it starts expanding
-    "moves": 100,                             // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
-    "fire_protection": false,                 // If the pocket protects the contained items from exploding in a fire or not.  This is for protecting ammo from exploding if the container is tossed into a fire.
-    "watertight": false,                      // can contain liquid
-    "airtight": false,                        // can contain gas
-    "open_container": false,                  // Default is false. If true, the contents of this pocket will spill if this item is placed into another item.
-    "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
-    "rigid": false,                           // Default is false. If false, this pocket's contents contribute to this item's size. If true, they do not.  Think glass jar vs plastic bag: a plastic bag containing nothing takes up almost no space, whereas a glass jar containing nothing takes up as much space as a completely full glass jar. The property magazine_well only works if rigid is false.
-    "holster": false, // if this value is set to true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
-    "sealed_data": { "spoil_multiplier": 0.0 } // have anything in sealed_data means the pocket cannot be resealed. Additionally, the sealed version of the pocket will override the unsealed version of the same datatype.
+    "pocket_type": "CONTAINER",       // Typical container pocket. Pockets can also be MAGAZINE.
+    "max_contains_volume": mandatory, // Maximum volume this pocket can hold, totaled among all contained items.  For example "2 L" or "2000 ml" would hold two liters of items.
+    "max_contains_weight": mandatory, // Maximum weight this pocket can hold, totaled among all container items.  For example "6 kg" is about enough to contain a bowling ball.
+    "min_item_volume": "0 ml",        // Minimum volume of item that can be placed into this pocket.  Items smaller than this cannot be placed in the pocket.
+    "max_item_volume": "0 ml",        // Maximum volume of item that can fit through the opening into this pocket.  For example, a 2-liter bottle has a "17 ml" opening.
+    "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.  Default is the diagonal opening length assuming volume is a cube (cube_root(vol)*square_root(2))
+    "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
+    "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
+    "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
+    "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
+    "magazine_well": "0 ml",          // Amount of space you can put items in the pocket before it starts expanding.  Only works if rigid = false.
+    "watertight": false,              // Default false. If true, can contain liquid.
+    "airtight": false,                // Default false. If true, can contain gas.
+    "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
+    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
+    "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
+    "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume and weight to use the given ammo type instead.  A pocket can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
+    "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
+
+    "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
@@ -2020,9 +2080,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
-"material": "wood",   // Material types.  See materials.json for possible options
-"techniques": "FLAMING", // Combat techniques used by this tool
-"flags": "FIRE",      // Indicates special effects
+"material": [ "wood" ],   // Material types.  See materials.json for possible options
+"techniques": [ "FLAMING" ], // Combat techniques used by this tool
+"flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"
 "bashing": 12,        // Bashing damage caused by using it as a melee weapon
@@ -2317,8 +2377,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
-    "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
-    "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
+    "skills": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
@@ -2338,10 +2397,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
-},
-"use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
@@ -3323,6 +3378,10 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "intensity_levels": [
+      { "name": "shadow",  // name of this level of intensity
+        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
+     ],
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket

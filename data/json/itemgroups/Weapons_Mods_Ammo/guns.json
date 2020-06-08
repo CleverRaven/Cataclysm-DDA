@@ -151,7 +151,6 @@
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
@@ -555,7 +554,8 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
+      { "item": "lever_shotgun", "prob": 10, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {

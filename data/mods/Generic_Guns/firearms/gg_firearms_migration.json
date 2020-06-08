@@ -145,7 +145,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "rm99_pistol", "m47a1" ],
+    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -206,16 +206,6 @@
     "id": [ "m134", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
-  },
-  {
-    "id": [ "surv_carbine_223" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_carbine"
-  },
-  {
-    "id": [ "rifle_3006", "rifle_223", "rifle_308" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_rifle"
   },
   {
     "id": [
@@ -287,7 +277,7 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },

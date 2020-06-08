@@ -14,9 +14,9 @@
     "techniques": [ "WBLOCK_1" ],
     "weight": "907 g",
     "volume": "1 L",
-    "bashing": 14,
-    "cutting": 8,
-    "to_hit": -1,
+    "bashing": 17,
+    "cutting": 28,
+    "to_hit": -2,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
   },
@@ -48,8 +48,8 @@
     "volume": "2 L",
     "price": 20000,
     "price_postapoc": 1500,
-    "bashing": 21,
-    "cutting": 35,
+    "bashing": 17,
+    "cutting": 34,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
@@ -130,7 +130,7 @@
     "volume": "3250 ml",
     "bashing": 20,
     "cutting": 6,
-    "to_hit": 2,
+    "to_hit": -1,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -149,7 +149,7 @@
     "volume": "1900 ml",
     "bashing": 15,
     "cutting": 13,
-    "to_hit": 1,
+    "to_hit": -1,
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "DIG", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ]
   }

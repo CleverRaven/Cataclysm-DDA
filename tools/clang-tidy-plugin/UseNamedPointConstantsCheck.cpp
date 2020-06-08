@@ -44,16 +44,6 @@ static auto isInteger( const std::string &bind )
            ).bind( bind );
 }
 
-static auto testWhetherParentIsVarDecl()
-{
-    return expr(
-               anyOf(
-                   hasParent( varDecl().bind( "parentVarDecl" ) ),
-                   anything()
-               )
-           );
-}
-
 void UseNamedPointConstantsCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(

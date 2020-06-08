@@ -43,6 +43,7 @@ class field_entry
         mongroup_id monster_spawn_group() const;
 
         float light_emitted() const;
+        float local_light_override() const;
         float translucency() const;
         bool is_transparent() const;
         int convection_temperature_mod() const;
@@ -90,7 +91,7 @@ class field_entry
         }
 
         bool gas_can_spread() {
-            return is_field_alive() && type.obj().phase == GAS && type.obj().percent_spread > 0;
+            return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
         time_duration get_underwater_age_speedup() const {

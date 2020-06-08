@@ -225,10 +225,11 @@ struct vehicle_part {
         itype_id ammo_current() const;
 
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
-        int ammo_capacity() const;
+        int ammo_capacity( const ammotype &ammo ) const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
         int ammo_remaining() const;
+        int remaining_ammo_capacity() const;
 
         /** Type of fuel used by an engine */
         itype_id fuel_current() const;
@@ -434,7 +435,7 @@ struct vehicle_part {
         cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
-        itype_id ammo_pref = "null";
+        itype_id ammo_pref = itype_id::NULL_ID();
 
         /**
          *  What NPC (if any) is assigned to this part (seat, turret etc)?
@@ -489,7 +490,7 @@ class turret_data
         int ammo_remaining() const;
 
         /** Maximum quantity of ammunition turret can itself contain */
-        int ammo_capacity() const;
+        int ammo_capacity( const ammotype &ammo ) const;
 
         /** Specific ammo data or returns nullptr if no ammo available */
         const itype *ammo_data() const;
@@ -541,7 +542,7 @@ class turret_data
         bool can_reload() const;
         bool can_unload() const;
 
-        enum class status {
+        enum class status : int {
             invalid,
             no_ammo,
             no_power,
@@ -1460,7 +1461,7 @@ class vehicle
 
         // remove item from part's cargo
         bool remove_item( int part, item *it );
-        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
+        vehicle_stack::iterator remove_item( int part, const vehicle_stack::const_iterator &it );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );

@@ -14,10 +14,14 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": { "type": "firestarter" },
-    "magazines": [
-      [
-        "battery",
-        [
+    "flags": [ "FIRESTARTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -26,9 +30,8 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
-    ],
-    "flags": [ "FIRESTARTER" ]
+      }
+    ]
   },
   {
     "id": "fire_drill",
@@ -100,8 +103,9 @@
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 100 } } ],
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "NO_UNLOAD" ]
   },
   {
     "id": "magnifying_glass",
@@ -134,8 +138,9 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "ref_lighter",

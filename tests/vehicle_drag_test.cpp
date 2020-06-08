@@ -19,7 +19,7 @@
 
 using efficiency_stat = statistics<long>;
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
 static void clear_game_drag( const ter_id &terrain )
 {
@@ -36,7 +36,6 @@ static void clear_game_drag( const ter_id &terrain )
     // Make sure the ST is 8 so that muscle powered results are consistent
     g->u.str_cur = 8;
 
-    clear_vehicles();
     build_test_map( terrain );
 
     // hard force a rebuild of caches
@@ -46,8 +45,7 @@ static void clear_game_drag( const ter_id &terrain )
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
-    clear_game_drag( ter_id( "t_pavement" ) );
-
+    clear_vehicles();
     const tripoint map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
 
@@ -133,13 +131,11 @@ static void print_drag_test_strings( const std::string &type )
 }
 
 static void test_vehicle_drag(
-    std::string type, const double expected_c_air, const double expected_c_rr,
+    const std::string &type, const double expected_c_air, const double expected_c_rr,
     const double expected_c_water, const int expected_safe, const int expected_max )
 {
-    SECTION( type ) {
-        test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,
-                   expected_safe, expected_max, true );
-    }
+    test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,
+               expected_safe, expected_max, true );
 }
 
 std::vector<std::string> vehs_to_test_drag = {
@@ -219,6 +215,8 @@ std::vector<std::string> vehs_to_test_drag = {
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 {
+    clear_game_drag( ter_id( "t_pavement" ) );
+
     for( const std::string &veh : vehs_to_test_drag ) {
         print_drag_test_strings( veh );
     }
@@ -228,6 +226,8 @@ TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 // coeffs are dimensionless, speeds are 100ths of mph, so 6101 is 61.01 mph
 TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
+    clear_game_drag( ter_id( "t_pavement" ) );
+
     test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 2360, 3082 );
     test_vehicle_drag( "bicycle_electric", 0.609525, 0.019330, 48.652083, 2756, 3271 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );

@@ -77,6 +77,9 @@ static std::wstring widen( const std::string &s )
     return std::wstring( buffer.data(), newlen );
 }
 
+static constexpr uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SIZEBOX |
+                                     WS_MAXIMIZEBOX | WS_SYSMENU | WS_VISIBLE;
+
 // Registers, creates, and shows the Window!!
 static bool WinCreate()
 {
@@ -102,8 +105,6 @@ static bool WinCreate()
 
     // Adjust window size
     // Basic window, show on creation
-    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU |
-                        WS_VISIBLE;
     RECT WndRect;
     WndRect.left   = WndRect.top = 0;
     WndRect.right  = WindowWidth;
@@ -180,6 +181,7 @@ bool handle_resize( int, int )
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
         catacurses::resizeterm();
         create_backbuffer();
         SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
@@ -188,11 +190,28 @@ bool handle_resize( int, int )
         if( SetDIBColorTable( backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
             throw std::runtime_error( "SetDIBColorTable failed" );
         }
-        catacurses::refresh();
         ui_manager::screen_resized();
     }
 
     return true;
+}
+
+void resize_term( const int cell_w, const int cell_h )
+{
+    RECT WndRect;
+    WndRect.left = WndRect.top = 0;
+    WndRect.right = cell_w * fontwidth * get_scaling_factor();
+    WndRect.bottom = cell_h * fontheight * get_scaling_factor();
+    if( !AdjustWindowRect( &WndRect, WndStyle, false ) ) {
+        return;
+    }
+    if( !SetWindowPos( WindowHandle, nullptr, 0, 0,
+                       WndRect.right - WndRect.left, WndRect.bottom - WndRect.top,
+                       SWP_NOMOVE | SWP_NOZORDER ) ) {
+        return;
+    }
+    GetClientRect( WindowHandle, &WndRect );
+    handle_resize( WndRect.right - WndRect.left, WndRect.bottom - WndRect.top );
 }
 
 // Copied from sdlcurses.cpp
@@ -336,8 +355,11 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             return 0;
 
         case WM_SIZE:
-        case WM_SIZING:
-            needs_resize = true;
+            WINDOWPLACEMENT win_placement;
+            win_placement.length = sizeof( win_placement );
+            if( GetWindowPlacement( hWnd, &win_placement ) && win_placement.showCmd != SW_SHOWMINIMIZED ) {
+                needs_resize = true;
+            }
             return 0;
 
         case WM_SYSCHAR:
@@ -373,9 +395,6 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
 
         case WM_PAINT:
             BitBlt( WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0, SRCCOPY );
-            ui_manager::invalidate( rectangle( point_zero, point( getmaxx( catacurses::stdscr ),
-                                               getmaxy( catacurses::stdscr ) ) ) );
-            ui_manager::redraw();
             ValidateRect( WindowHandle, nullptr );
             return 0;
 
@@ -421,17 +440,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     int drawx = 0;
     int drawy = 0;
     wchar_t tmp;
-    RECT update = {win->pos.x * fontwidth, -1,
-                   ( win->pos.x + win->width ) *fontwidth, -1
-                  };
 
     for( j = 0; j < win->height; j++ ) {
         if( win->line[j].touched ) {
-            update.bottom = ( win->pos.y + j + 1 ) * fontheight;
-            if( update.top == -1 ) {
-                update.top = update.bottom - fontheight;
-            }
-
             win->line[j].touched = false;
 
             for( i = 0; i < win->width; i++ ) {
@@ -536,9 +547,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     }// for (j=0;j<win->height;j++)
     // We drew the window, mark it as so
     win->draw = false;
-    if( update.top != -1 ) {
-        RedrawWindow( WindowHandle, &update, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
-    }
 }
 
 // Check for any window messages (keypress, paint, mousemove, etc)
@@ -551,6 +559,7 @@ static void CheckMessages()
     }
     if( needs_resize ) {
         handle_resize( 0, 0 );
+        refresh_display();
     }
 }
 
@@ -689,17 +698,17 @@ input_event input_manager::get_input_event()
     input_event rval;
     if( lastchar == ERR ) {
         if( input_timeout > 0 ) {
-            rval.type = CATA_INPUT_TIMEOUT;
+            rval.type = input_event_t::timeout;
         } else {
-            rval.type = CATA_INPUT_ERROR;
+            rval.type = input_event_t::error;
         }
     } else {
         // == Unicode DELETE
         if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+            return input_event( KEY_BACKSPACE, input_event_t::keyboard );
         }
-        rval.type = CATA_INPUT_KEYBOARD;
+        rval.type = input_event_t::keyboard;
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point
@@ -763,6 +772,11 @@ int get_scaling_factor()
 HWND getWindowHandle()
 {
     return WindowHandle;
+}
+
+void refresh_display()
+{
+    RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
 }
 
 #endif

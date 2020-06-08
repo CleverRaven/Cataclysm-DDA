@@ -248,5 +248,26 @@
     "stack_size": 2,
     "fun": 1,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pumpkin_yeast_bread",
+    "name": { "str_sp": "pumpkin yeast bread" },
+    "weight": "50 g",
+    "color": "red",
+    "spoils_in": "7 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "healthy": 2,
+    "calories": 130,
+    "description": "A festive autumnal bread with a golden color in either rolls or sliced loaves of bread.",
+    "price": 220,
+    "price_postapoc": 50,
+    "material": "fruit",
+    "volume": "250 ml",
+    "stack_size": 24,
+    "fun": 3,
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
   }
 ]

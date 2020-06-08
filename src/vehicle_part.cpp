@@ -28,6 +28,9 @@
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_muscle( "muscle" );
+
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -171,14 +174,14 @@ bool vehicle_part::is_available( const bool carried ) const
 itype_id vehicle_part::fuel_current() const
 {
     if( is_engine() ) {
-        if( ammo_pref == "null" ) {
-            return info().fuel_type != "muscle" ? info().fuel_type : "null";
+        if( ammo_pref.is_null() ) {
+            return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
         } else {
             return ammo_pref;
         }
     }
 
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 bool vehicle_part::fuel_set( const itype_id &fuel )
@@ -197,7 +200,7 @@ bool vehicle_part::fuel_set( const itype_id &fuel )
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
-        return "battery";
+        return itype_battery;
     }
 
     if( is_tank() && !base.contents.empty() ) {
@@ -208,17 +211,17 @@ itype_id vehicle_part::ammo_current() const
         return base.ammo_current();
     }
 
-    return "null";
+    return itype_id::NULL_ID();
 }
 
-int vehicle_part::ammo_capacity() const
+int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 {
     if( is_tank() ) {
         return item::find_type( ammo_current() )->charges_per_volume( base.get_total_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_capacity();
+        return base.ammo_capacity( ammo );
     }
 
     return 0;
@@ -237,15 +240,21 @@ int vehicle_part::ammo_remaining() const
     return 0;
 }
 
+int vehicle_part::remaining_ammo_capacity() const
+{
+    return base.remaining_ammo_capacity();
+}
+
 int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
     const itype *liquid = item::find_type( ammo );
 
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
-    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
+    if( is_tank() && liquid->phase >= phase_id::LIQUID && qty != 0 ) {
         base.contents.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
-        const int limit = units::from_milliliter( ammo_capacity() ) / stack;
+        const int limit = units::from_milliliter( ammo_capacity( item::find_type(
+                              ammo )->ammo->type ) ) / stack;
         // assuming "ammo" isn't really going into a magazine as this is a vehicle part
         base.put_in( item( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ),
                      item_pocket::pocket_type::CONTAINER );
@@ -253,11 +262,17 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     }
 
     if( is_turret() ) {
-        return base.ammo_set( ammo, qty ).ammo_remaining();
+        if( base.is_magazine() ) {
+            return base.ammo_set( ammo, qty ).ammo_remaining();
+        } else if( !base.magazine_default().is_null() ) {
+            item mag( base.magazine_default() );
+            mag.ammo_set( ammo, qty );
+            base.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        }
     }
 
     if( is_fuel_store() ) {
-        base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity() );
+        base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( item::find_type( ammo )->ammo->type ) );
         return base.ammo_remaining();
     }
 
@@ -330,15 +345,15 @@ bool vehicle_part::can_reload( const item &obj ) const
         }
 
         // forbid filling tanks with solids or non-material things
-        if( is_tank() && ( obj.made_of( SOLID ) || obj.made_of( PNULL ) ) ) {
+        if( is_tank() && ( obj.made_of( phase_id::SOLID ) || obj.made_of( phase_id::PNULL ) ) ) {
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( !obj.made_of( SOLID ) && !is_tank() ) {
+        else if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
-        if( ammo_current() != "null" && ammo_current() != obj_type ) {
+        if( !ammo_current().is_null() && ammo_current() != obj_type ) {
             return false;
         }
         // For storage with set type, prevent filling with different types
@@ -351,7 +366,7 @@ bool vehicle_part::can_reload( const item &obj ) const
         }
     }
 
-    return ammo_remaining() < ammo_capacity();
+    return ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -361,9 +376,9 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     if( base.has_item_with( []( const item & it ) {
     return it.needs_processing();
     } ) ) {
-        temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        temperature_flag flag = temperature_flag::NORMAL;
         if( e_heater ) {
-            flag = temperature_flag::TEMP_HEATER;
+            flag = temperature_flag::HEATER;
         }
         base.process( nullptr, pos, false, 1, flag );
     }

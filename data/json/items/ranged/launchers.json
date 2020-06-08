@@ -120,6 +120,6 @@
     "clip_size": 100,
     "reload": 0,
     "valid_mod_locations": [ [ "sling", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 }, "watertight": true } ]
   }
 ]
