@@ -63,3 +63,9 @@ struct E {
     int text_x_end;
     int y;
 };
+
+struct F {
+    // CHECK-MESSAGES: warning: 'F' defines fields 'x' and 'y'.  Consider combining into a single point field. [cata-xy]
+    const volatile int x;
+    const volatile int y;
+};

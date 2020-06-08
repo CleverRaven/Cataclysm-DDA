@@ -39,10 +39,7 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
         callExpr(
             forEachArgumentWithParam(
                 expr().bind( "xarg" ),
-                parmVarDecl(
-                    anyOf( hasType( asString( "int" ) ), hasType( asString( "const int" ) ) ),
-                    isXParam()
-                ).bind( "xparam" )
+                parmVarDecl( hasType( isInteger() ), isXParam() ).bind( "xparam" )
             ),
             callee( functionDecl().bind( "callee" ) )
         ).bind( "call" ),
