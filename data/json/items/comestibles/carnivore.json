@@ -291,7 +291,7 @@
     "id": "offal_pickled",
     "copy-from": "offal",
     "type": "COMESTIBLE",
-    "name": { "str_pl": "pickled offal" },
+    "name": { "str_sp": "pickled offal" },
     "description": "This is a mass of entrails and organ meat, preserved in brine.  Packed with essential vitamins, and although it looks like a lab specimen, it actually tastes pretty palatable.",
     "volume": "500 ml",
     "price_postapoc": 300,
