@@ -203,7 +203,7 @@
     "name": { "str": "minor wand of knock", "str_pl": "minor wands of knock" },
     "copy-from": "spell_wand",
     "price": 5000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts knock.",
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts knock.",
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
@@ -212,7 +212,7 @@
     "name": { "str": "lesser wand of knock", "str_pl": "lesser wands of knock" },
     "copy-from": "spell_wand",
     "price": 10000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts knock.",
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts knock.",
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
@@ -221,7 +221,7 @@
     "name": { "str": "greater wand of knock", "str_pl": "greater wands of knock" },
     "copy-from": "spell_wand",
     "price": 15000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts knock.",
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts knock.",
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
@@ -230,7 +230,7 @@
     "name": { "str": "minor wand of improved knock", "str_pl": "minor wands of improved knock" },
     "copy-from": "spell_wand",
     "price": 10000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts improved knock.",
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts improved knock.",
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
@@ -239,7 +239,7 @@
     "name": { "str": "lesser wand of improved knock", "str_pl": "lesser wands of improved knock" },
     "copy-from": "spell_wand",
     "price": 15000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts improved knock.",
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts improved knock.",
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
@@ -248,7 +248,7 @@
     "name": { "str": "greater wand of improved knock", "str_pl": "greater wands of improved knock" },
     "copy-from": "spell_wand",
     "price": 20000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated. This wand casts improved knock.",
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts improved knock.",
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
@@ -413,7 +413,7 @@
     "name": { "str": "disposable minor wand of knock", "str_pl": "disposable minor wands of knock" },
     "copy-from": "disp_wand",
     "price": 5000,
-    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated. This wand casts knock.",
+    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts knock.",
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
@@ -422,7 +422,7 @@
     "name": { "str": "disposable lesser wand of knock", "str_pl": "disposable lesser wands of knock" },
     "copy-from": "disp_wand",
     "price": 10000,
-    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated. This wand casts knock.",
+    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts knock.",
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
@@ -431,7 +431,7 @@
     "name": { "str": "disposable greater wand of knock", "str_pl": "disposable greater wands of knock" },
     "copy-from": "disp_wand",
     "price": 15000,
-    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated. This wand casts knock.",
+    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts knock.",
     "use_action": { "type": "cast_spell", "spell_id": "knock", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
@@ -440,7 +440,7 @@
     "name": { "str": "disposable minor wand of improved knock", "str_pl": "disposable minor wands of improved knock" },
     "copy-from": "disp_wand",
     "price": 10000,
-    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated. This wand casts improved knock.",
+    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts improved knock.",
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
@@ -449,7 +449,7 @@
     "name": { "str": "disposable lesser wand of improved knock", "str_pl": "disposable lesser wands of improved knock" },
     "copy-from": "disp_wand",
     "price": 20000,
-    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated. This wand casts improved knock.",
+    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts improved knock.",
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
@@ -458,7 +458,7 @@
     "name": { "str": "disposable greater wand of improved knock", "str_pl": "disposable greater wands of improved knock" },
     "copy-from": "disp_wand",
     "price": 30000,
-    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated. This wand casts improved knock.",
+    "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts improved knock.",
     "use_action": { "type": "cast_spell", "spell_id": "improved_knock", "no_fail": true, "level": 15, "need_wielding": true }
   }
 ]
