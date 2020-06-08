@@ -38,6 +38,8 @@ struct point {
     constexpr point() = default;
     constexpr point( int X, int Y ) : x( X ), y( Y ) {}
 
+    static point from_string( const std::string & );
+
     constexpr point operator+( const point &rhs ) const {
         return point( x + rhs.x, y + rhs.y );
     }
@@ -101,25 +103,25 @@ struct point {
     }
 
     std::string to_string() const;
-};
 
-std::ostream &operator<<( std::ostream &, const point & );
+    friend inline constexpr bool operator<( const point &a, const point &b ) {
+        return a.x < b.x || ( a.x == b.x && a.y < b.y );
+    }
+    friend inline constexpr bool operator==( const point &a, const point &b ) {
+        return a.x == b.x && a.y == b.y;
+    }
+    friend inline constexpr bool operator!=( const point &a, const point &b ) {
+        return !( a == b );
+    }
+
+#ifndef CATA_NO_STL
+    friend std::ostream &operator<<( std::ostream &, const point & );
+    friend std::istream &operator>>( std::istream &, point & );
+#endif
+};
 
 void serialize( const point &p, JsonOut &jsout );
 void deserialize( point &p, JsonIn &jsin );
-
-inline constexpr bool operator<( const point &a, const point &b )
-{
-    return a.x < b.x || ( a.x == b.x && a.y < b.y );
-}
-inline constexpr bool operator==( const point &a, const point &b )
-{
-    return a.x == b.x && a.y == b.y;
-}
-inline constexpr bool operator!=( const point &a, const point &b )
-{
-    return !( a == b );
-}
 
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
@@ -129,6 +131,8 @@ struct tripoint {
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
     constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+
+    static tripoint from_string( const std::string & );
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -198,31 +202,31 @@ struct tripoint {
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+
+#ifndef CATA_NO_STL
+    friend std::ostream &operator<<( std::ostream &, const tripoint & );
+    friend std::istream &operator>>( std::istream &, tripoint & );
+#endif
+
+    friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
+        return a.x == b.x && a.y == b.y && a.z == b.z;
+    }
+    friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
+        return !( a == b );
+    }
+    friend inline bool operator<( const tripoint &a, const tripoint &b ) {
+        if( a.x != b.x ) {
+            return a.x < b.x;
+        }
+        if( a.y != b.y ) {
+            return a.y < b.y;
+        }
+        if( a.z != b.z ) {
+            return a.z < b.z;
+        }
+        return false;
+    }
 };
-
-std::ostream &operator<<( std::ostream &, const tripoint & );
-
-inline constexpr bool operator==( const tripoint &a, const tripoint &b )
-{
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
-{
-    return !( a == b );
-}
-inline bool operator<( const tripoint &a, const tripoint &b )
-{
-    if( a.x != b.x ) {
-        return a.x < b.x;
-    }
-    if( a.y != b.y ) {
-        return a.y < b.y;
-    }
-    if( a.z != b.z ) {
-        return a.z < b.z;
-    }
-    return false;
-}
 
 struct rectangle {
     point p_min;

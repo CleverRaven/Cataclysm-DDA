@@ -50,7 +50,9 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 
     // Create a gun to fire a projectile from
     item gun( itype_id( "m1a" ) );
-    gun.ammo_set( "308", 5 );
+    item mag( gun.magazine_default() );
+    mag.ammo_set( itype_id( "308" ), 5 );
+    gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
 
     // Check that a bullet with the correct amount of speed can through obstacles
     CHECK( projectile_end_point( range, gun, 1000, 3 ) == range[2] );

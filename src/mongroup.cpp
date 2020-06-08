@@ -101,7 +101,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     auto &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
     //Our spawn details specify, by default, a single instance of the default monster
-    MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1 );
+    MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1, spawn_data() );
 
     bool monster_found = false;
     // Loop invariant values
@@ -174,9 +174,9 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
             if( it->frequency >= spawn_chance ) {
                 if( it->pack_maximum > 1 ) {
-                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ) );
+                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ), it->data );
                 } else {
-                    spawn_details = MonsterGroupResult( it->name, 1 );
+                    spawn_details = MonsterGroupResult( it->name, 1, it->data );
                 }
                 //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier
@@ -368,8 +368,18 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             if( mon.has_member( "ends" ) ) {
                 ends = tdfactor * mon.get_int( "ends" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
             }
-            MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, starts,
-                                              ends );
+            spawn_data data;
+            if( mon.has_object( "spawn_data" ) ) {
+                const JsonObject &sd = mon.get_object( "spawn_data" );
+                if( sd.has_array( "ammo" ) ) {
+                    const JsonArray &ammos = sd.get_array( "ammo" );
+                    for( const JsonObject &adata : ammos ) {
+                        data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
+                    }
+                }
+            }
+            MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, data,
+                                              starts, ends );
             if( mon.has_member( "conditions" ) ) {
                 for( const std::string line : mon.get_array( "conditions" ) ) {
                     new_mon_group.conditions.push_back( line );

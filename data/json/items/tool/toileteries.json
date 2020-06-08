@@ -49,7 +49,15 @@
     "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": "HAIRKIT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "mop",
@@ -65,7 +73,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "use_action": "MOP"
   },
   {
@@ -78,7 +86,7 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
     "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],

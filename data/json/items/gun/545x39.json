@@ -37,7 +37,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ak74mag", "rpk74mag" ]
+      }
+    ]
   }
 ]

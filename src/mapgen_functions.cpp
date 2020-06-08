@@ -36,16 +36,16 @@
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_jackhammer( "jackhammer" );
+static const itype_id itype_mask_dust( "mask_dust" );
+
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_bat( "mon_bat" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_rat_king( "mon_rat_king" );
-static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-static const mongroup_id GROUP_CAVE( "GROUP_CAVE" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class npc_template;
@@ -565,7 +565,7 @@ void mapgen_road( mapgendata &dat )
     int neighbor_sidewalks = 0;
     // N E S W NE SE SW NW
     for( int dir = 0; dir < 8; dir++ ) {
-        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( oter_flags::has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -828,7 +828,7 @@ void mapgen_road( mapgendata &dat )
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
-            circle( m, t_pavement, double( SEEX ) - 0.5, double( SEEY ) - 0.5, 11.0 );
+            circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
         }
 
         // overwrite part of intersection with rotary/plaza
@@ -913,7 +913,7 @@ void mapgen_subway( mapgendata &dat )
 
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
-        if( dat.t_nesw[dir]->has_flag( subway_connection ) && !subway_nesw[dir] ) {
+        if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !subway_nesw[dir] ) {
             num_dirs++;
             subway_nesw[dir] = true;
         }
@@ -928,7 +928,7 @@ void mapgen_subway( mapgendata &dat )
         }
 
         if( dat.t_nesw[dir]->get_type_id().str() != "subway" &&
-            !dat.t_nesw[dir]->has_flag( subway_connection ) ) {
+            !dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) ) {
             continue;
         }
         // n_* contain details about the neighbor being considered
@@ -936,7 +936,7 @@ void mapgen_subway( mapgendata &dat )
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
         for( int dir = 0; dir < 4; dir++ ) {
-            if( dat.t_nesw[dir]->has_flag( subway_connection ) && !n_subway_nesw[dir] ) {
+            if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !n_subway_nesw[dir] ) {
                 n_num_dirs++;
                 n_subway_nesw[dir] = true;
             }
@@ -1973,13 +1973,13 @@ void mapgen_cavern( mapgendata &dat )
             y = rng( 0, SEEY * 2 - 1 );
         } while( m->impassable( point( x, y ) ) );
         if( !one_in( 3 ) ) {
-            m->spawn_item( point( x, y ), "jackhammer" );
+            m->spawn_item( point( x, y ), itype_jackhammer );
         }
         if( one_in( 3 ) ) {
-            m->spawn_item( point( x, y ), "mask_dust" );
+            m->spawn_item( point( x, y ), itype_mask_dust );
         }
         if( one_in( 2 ) ) {
-            m->spawn_item( point( x, y ), "hat_hard" );
+            m->spawn_item( point( x, y ), itype_hat_hard );
         }
         while( !one_in( 3 ) ) {
             for( int i = 0; i < 3; ++i ) {

@@ -214,6 +214,12 @@ In game, that appears like this:
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
 
+### That which cannot be modded
+
+Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
+
+The Names folder and contents (EN etcetera) confirmed 5/23/20
+
 ## Addendum
 <!-- I really don't know if this should be here or not. Please let me know. -->
 ### No Zombie Revival

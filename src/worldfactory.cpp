@@ -157,7 +157,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
             draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
-            wrefresh( wf_win );
+            wnoutrefresh( wf_win );
         } );
 
         const size_t numtabs = tabs.size();
@@ -261,17 +261,17 @@ void worldfactory::init()
 {
     load_last_world_info();
 
-    std::vector<std::string> qualifiers;
-    qualifiers.push_back( PATH_INFO::worldoptions() );
-    qualifiers.push_back( PATH_INFO::legacy_worldoptions() );
-    qualifiers.push_back( SAVE_MASTER );
-
     all_worlds.clear();
 
-    // get the master files. These determine the validity of a world
-    // worlds exist by having an option file
-    // create worlds
-    for( const auto &world_dir : get_directories_with( qualifiers, PATH_INFO::savedir(), true ) ) {
+    // The validity of a world is determined by the existance of any
+    // option files or the master save file.
+    static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
+        return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
+               file_exist( maybe_save_dir + "/" + PATH_INFO::legacy_worldoptions() ) ||
+               file_exist( maybe_save_dir + "/" + SAVE_MASTER );
+    };
+
+    const auto add_existing_world = [&]( const std::string & world_dir ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -280,6 +280,7 @@ void worldfactory::init()
             world_sav_file = world_sav_file.substr( world_dir.size() + 1,
                                                     save_index - ( world_dir.size() + 1 ) );
         }
+
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
@@ -301,11 +302,24 @@ void worldfactory::init()
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
             all_worlds[worldname]->save();
         }
+    };
+
+    // This returns files as well, but they are going to be discared later as
+    // we look for files *within* these dirs. If it's a file, there won't be
+    // be any of those inside it and is_save_dir will return false.
+    for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
+        if( !is_save_dir( dir ) ) {
+            continue;
+        }
+        add_existing_world( dir );
     }
 
-    // check to see if there exists a worldname "save" which denotes that a world exists in the save
-    // directory and not in a sub-world directory
-    if( has_world( "save" ) ) {
+    // In old versions, there was only one world, stored directly in the "save" directory.
+    // If that directory contains the expected files, it's an old save and must be converted.
+    if( is_save_dir( "save" ) ) {
+        // @TODO import directly into the new world instead of having this dummy "save" world.
+        add_existing_world( "save" );
+
         const WORLD &old_world = *all_worlds["save"];
 
         std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
@@ -435,7 +449,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         }
 
-        wrefresh( w_worlds_border );
+        wnoutrefresh( w_worlds_border );
 
         for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
             if( mapLines[i] ) {
@@ -445,7 +459,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         }
 
-        wrefresh( w_worlds_header );
+        wnoutrefresh( w_worlds_header );
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -493,12 +507,12 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         }
 
-        wrefresh( w_worlds_header );
+        wnoutrefresh( w_worlds_header );
 
         fold_and_print( w_worlds_tooltip, point_zero, 78, c_white, _( "Pick a world to enter game" ) );
-        wrefresh( w_worlds_tooltip );
+        wnoutrefresh( w_worlds_tooltip );
 
-        wrefresh( w_worlds );
+        wnoutrefresh( w_worlds );
     } );
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
@@ -730,8 +744,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), point_zero );
     }
 
-    wrefresh( w );
-    wrefresh( w_shift );
+    wnoutrefresh( w );
+    wnoutrefresh( w_shift );
 }
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
@@ -766,11 +780,11 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,
                        true, _( "--NO ACTIVE MODS--" ), catacurses::window() );
-        wrefresh( w_mods );
+        wnoutrefresh( w_mods );
     } );
 
     while( true ) {
@@ -910,7 +924,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 mvwputch( header_windows[i], point( header_x + utf8_width( headers[i] ) + 2, 0 ),
                           c_red, '>' );
             }
-            wrefresh( header_windows[i] );
+            wnoutrefresh( header_windows[i] );
         }
 
         // Redraw description
@@ -944,8 +958,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             wputch( win, BORDER_COLOR, LINE_OXOX );
         }
 
-        wrefresh( w_description );
-        wrefresh( win );
+        wnoutrefresh( w_description );
+        wnoutrefresh( win );
 
         // Redraw list
         draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0,
@@ -1160,8 +1174,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
             }
         }
 
-        wrefresh( win );
-        wrefresh( w_confirmation );
+        wnoutrefresh( win );
+        wnoutrefresh( w_confirmation );
     } );
 
     do {
@@ -1289,8 +1303,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
                     ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
                     ctxtp.get_desc( "HELP_KEYBINDINGS" )
                   );
-    wrefresh( win );
-    catacurses::refresh();
+    wnoutrefresh( win );
 }
 
 void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t current )
@@ -1374,10 +1387,9 @@ void WORLD::load_legacy_options( std::istream &fin )
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
             const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
-            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
-                                      sLine.length() ) );
-
             if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
+                const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
+                                          sLine.length() ) );
                 WORLD_OPTIONS[name].setValue( value );
             }
         }

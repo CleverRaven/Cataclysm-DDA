@@ -10,7 +10,7 @@
     "price_postapoc": 2000,
     "to_hit": -5,
     "bashing": 40,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
@@ -152,8 +152,14 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
     ]
   },
   {
@@ -229,7 +235,7 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 500,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]

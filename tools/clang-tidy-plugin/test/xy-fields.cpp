@@ -55,3 +55,11 @@ struct D {
     float x;
     float y;
 };
+
+struct E {
+    // Verify that there is not warning for this case, which was causing a
+    // false positive
+    int text_x_start;
+    int text_x_end;
+    int y;
+};

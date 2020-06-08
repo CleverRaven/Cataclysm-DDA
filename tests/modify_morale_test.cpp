@@ -132,7 +132,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
             }
 
-            for( std::string item_name : no_table_eating_bonus ) {
+            for( const std::string &item_name : no_table_eating_bonus ) {
                 item test_item( item_name );
 
                 THEN( "they get no morale penalty for using " + item_name + " at a table" ) {
@@ -159,7 +159,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 1 );
             }
 
-            for( std::string item_name : no_table_eating_bonus ) {
+            for( const std::string &item_name : no_table_eating_bonus ) {
                 item test_item( item_name );
 
                 THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
@@ -180,7 +180,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
             }
 
-            for( std::string item_name : no_table_eating_bonus ) {
+            for( const std::string &item_name : no_table_eating_bonus ) {
                 item test_item( item_name );
 
                 THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
@@ -225,12 +225,10 @@ TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
     }
 }
 
-
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
     std::pair<int, int> fun;
-
 
     const std::vector<std::string> drugs_to_test = {
         {
@@ -255,7 +253,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
         dummy.clear_morale();
         REQUIRE( dummy.has_morale( MORALE_FOOD_GOOD ) == 0 );
 
-        for( std::string drug_name : drugs_to_test ) {
+        for( const std::string &drug_name : drugs_to_test ) {
             item drug( drug_name );
             fun = dummy.fun_for( drug );
             REQUIRE( fun.first > 0 );

@@ -307,6 +307,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "chunk of chitin", "str_pl": "chunks of chitin" },
+    "snippet_category": "chitin_desc",
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "price_postapoc": 25,
@@ -316,6 +317,37 @@
     "volume": "250 ml",
     "bashing": 1,
     "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "endochitin",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "strand of endochitin", "str_pl": "strands of endochitin" },
+    "snippet_category": "endochitin_desc",
+    "description": "A piece of an insect's endoskeleton.",
+    "price": 0,
+    "material": "chitin",
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "89 g",
+    "volume": "300 ml",
+    "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "mutant_bug_hydrogen_sacs",
+    "category": "spare_parts",
+    "symbol": "o",
+    "color": "light_gray",
+    "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
+    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
+    "price": 0,
+    "material": "flesh",
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "50 g",
+    "volume": "250 ml",
+    "to_hit": -4
   },
   {
     "type": "GENERIC",
@@ -354,7 +386,7 @@
     "volume": "750 ml",
     "price": 0,
     "price_postapoc": 5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "white"
   },
@@ -476,6 +508,7 @@
     "material": "plastic",
     "weight": "18 g",
     "volume": "5 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
     "to_hit": -3
   },
   {
@@ -719,7 +752,7 @@
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "3000 g",
     "volume": "750 ml"
   },
@@ -781,7 +814,7 @@
     "description": "A heating element, like the ones used in hotplates or kettles.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -795,7 +828,7 @@
     "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -1645,7 +1678,7 @@
     "color": "red",
     "name": { "str": "blood soaked rag" },
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "material": "cotton",
+    "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": "80 g",
     "volume": "250 ml"
@@ -1773,7 +1806,7 @@
     "category": "other",
     "price": 20000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "36287 g",
     "volume": "3 L",
@@ -2481,6 +2514,7 @@
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
     "max_charges": 200000000,
     "rand_charges": [
       0,
@@ -2535,6 +2569,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": "plastic",
+    "flags": [ "MISSION_ITEM" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -2643,20 +2678,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "80 g",
     "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
-    "id": "cerberus_laser",
-    "type": "GENERIC",
-    "symbol": "(",
-    "color": "magenta",
-    "name": { "str": "TX-5LR Laser Cannon" },
-    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
-    "price": 5000000,
-    "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
-    "weight": "5000 g",
-    "volume": "750 ml",
     "category": "spare_parts"
   },
   {
@@ -2931,15 +2952,6 @@
     "color": "green",
     "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_laserturret",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken laser turret" },
-    "weight": "110 kg",
     "copy-from": "broken_turret"
   },
   {

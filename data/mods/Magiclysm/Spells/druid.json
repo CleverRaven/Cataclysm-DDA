@@ -142,7 +142,7 @@
     "name": { "str": "Bag of Cats" },
     "description": "Are you the crazy cat lady?",
     "valid_targets": [ "ground" ],
-    "flags": [ "LOUD", "SOMATIC" ],
+    "flags": [ "LOUD", "SOMATIC", "SPAWN_GROUP" ],
     "min_damage": 1,
     "max_damage": 12,
     "damage_increment": 1.0,
@@ -161,7 +161,7 @@
     "difficulty": 1,
     "base_energy_cost": 265,
     "effect": "summon",
-    "effect_str": "mon_cat"
+    "effect_str": "GROUP_STRAY_CATS"
   },
   {
     "id": "summon_bear",

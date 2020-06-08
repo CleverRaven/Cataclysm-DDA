@@ -20,7 +20,7 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 250,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": "=",
     "color": "cyan",
     "count": 100,

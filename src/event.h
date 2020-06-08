@@ -17,33 +17,36 @@
 
 template <typename E> struct enum_traits;
 
-using itype_id = std::string;
-
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
 //
 // Each event is of a specific type, taken from the event_type enum.
 
-enum class event_type {
+enum class event_type : int {
     activates_artifact,
     activates_mininuke,
     administers_mutagen,
     angers_amigara_horrors,
+    avatar_enters_omt,
     avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone_mends,
     buries_corpse,
     causes_resonance_cascade,
+    character_forgets_spell,
     character_gains_effect,
     character_gets_headshot,
     character_heals_damage,
     character_kills_character,
     character_kills_monster,
+    character_learns_spell,
     character_loses_effect,
     character_takes_damage,
     character_triggers_trap,
     character_wakes_up,
+    character_wields_item,
+    character_wears_item,
     consumes_marloss_item,
     crosses_marloss_threshold,
     crosses_mutation_threshold,
@@ -77,6 +80,8 @@ enum class event_type {
     npc_becomes_hostile,
     opens_portal,
     opens_temple,
+    player_fails_conduct,
+    player_gets_achievement,
     player_levels_spell,
     releases_subspace_specimens,
     removes_cbm,
@@ -139,7 +144,15 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 62,
+struct event_spec_character_item {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "itype", cata_variant_type::itype_id },
+        }
+    };
+};
+
+static_assert( static_cast<int>( event_type::num_event_types ) == 69,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -168,11 +181,20 @@ template<>
 struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
 
 template<>
+struct event_spec<event_type::avatar_enters_omt> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "pos", cata_variant_type::tripoint },
+            { "oter_id", cata_variant_type::oter_id },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::avatar_moves> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
             { "mount", cata_variant_type::mtype_id },
             { "terrain", cata_variant_type::ter_id },
-            { "movement_mode", cata_variant_type::character_movemode },
+            { "movement_mode", cata_variant_type::move_mode_id },
             { "underwater", cata_variant_type::bool_ },
             { "z", cata_variant_type::int_ },
         }
@@ -206,6 +228,15 @@ struct event_spec<event_type::buries_corpse> {
 
 template<>
 struct event_spec<event_type::causes_resonance_cascade> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::character_forgets_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id }
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::character_gains_effect> {
@@ -248,6 +279,15 @@ struct event_spec<event_type::character_kills_character> {
 };
 
 template<>
+struct event_spec<event_type::character_learns_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "spell", cata_variant_type::spell_id }
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::character_loses_effect> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
@@ -283,13 +323,13 @@ struct event_spec<event_type::character_wakes_up> {
 };
 
 template<>
-struct event_spec<event_type::consumes_marloss_item> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
-            { "character", cata_variant_type::character_id },
-            { "itype", cata_variant_type::itype_id },
-        }
-    };
-};
+struct event_spec<event_type::character_wears_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::character_wields_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::consumes_marloss_item> : event_spec_character_item {};
 
 template<>
 struct event_spec<event_type::crosses_marloss_threshold> : event_spec_character {};
@@ -426,8 +466,13 @@ struct event_spec<event_type::game_over> {
 
 template<>
 struct event_spec<event_type::game_start> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
             { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "avatar_profession", cata_variant_type::profession_id },
+            { "avatar_custom_profession", cata_variant_type::string },
+            { "game_version", cata_variant_type::string },
         }
     };
 };
@@ -487,8 +532,27 @@ template<>
 struct event_spec<event_type::releases_subspace_specimens> : event_spec_empty {};
 
 template<>
-struct event_spec<event_type::player_levels_spell> {
+struct event_spec<event_type::player_fails_conduct> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "conduct", cata_variant_type::achievement_id },
+            { "achievements_enabled", cata_variant_type::bool_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::player_gets_achievement> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "achievement", cata_variant_type::achievement_id },
+            { "achievements_enabled", cata_variant_type::bool_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::player_levels_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
             { "new_level", cata_variant_type::int_ },
         }

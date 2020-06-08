@@ -133,7 +133,7 @@ class gun_actor : public mattack_actor
         itype_id gun_type;
 
         /** Specific ammo type to use or for gun default if unspecified */
-        itype_id ammo_type = "null";
+        itype_id ammo_type = itype_id::NULL_ID();
 
         /*@{*/
         /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
@@ -147,7 +147,7 @@ class gun_actor : public mattack_actor
         /** Specify weapon mode to use at different engagement distances */
         std::map<std::pair<int, int>, gun_mode_id> ranges;
 
-        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
+        int max_ammo = INT_MAX; /** limited also by monster starting ammo */
 
         /** Description of the attack being run */
         std::string description;
@@ -155,7 +155,7 @@ class gun_actor : public mattack_actor
         /** Message to display (if any) for failures to fire excluding lack of ammo */
         std::string failure_msg;
 
-        /** Sound (if any) when either starting_ammo depleted or max_ammo reached */
+        /** Sound (if any) when either ammo depleted or max_ammo reached */
         std::string no_ammo_sound;
 
         /** Number of moves required for each attack */

@@ -7,8 +7,15 @@
     "ammo": [ "ammo_pistol_tiny" ],
     "description": "With near non-existent recoil and inexpensive ammunition, rifles like this one are popular introductory firearms.  It has a built in magazine, capable of holding an impressive amount of its small cartridges.  You could take small game with this, but anything bigger might not even notice.",
     "clip_size": 19,
-    "magazines": [  ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol_tiny": 19 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [  ]
+      }
+    ]
   },
   {
     "id": "pistol_tiny_target",
@@ -17,7 +24,15 @@
     "name": "target pistol",
     "ammo": [ "ammo_pistol_tiny" ],
     "description": "This medium sized pistol fires cheap and plentiful plinking ammo, and is exceptionally popular for practice or target shooting.  This pistol is unsuited for taking on anything but small game, as it is meant to poke holes in paper.  Accepts box magazines.",
-    "magazines": [ [ "ammo_pistol_tiny", [ "pistol_tiny_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "pistol_tiny_mag" ]
+      }
+    ]
   },
   {
     "id": "pistol_tiny_zip",

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "cursesdef.h"
+#include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
 
@@ -39,17 +40,21 @@ ui_adaptor::~ui_adaptor()
 
 void ui_adaptor::position_from_window( const catacurses::window &win )
 {
-    const rectangle old_dimensions = dimensions;
-    // ensure position is updated before calling invalidate
+    if( !win ) {
+        position( point_zero, point_zero );
+    } else {
+        const rectangle old_dimensions = dimensions;
+        // ensure position is updated before calling invalidate
 #ifdef TILES
-    const window_dimensions dim = get_window_dimensions( win );
-    dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
+        const window_dimensions dim = get_window_dimensions( win );
+        dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
 #else
-    const point origin( getbegx( win ), getbegy( win ) );
-    dimensions = rectangle( origin, origin + point( getmaxx( win ), getmaxy( win ) ) );
+        const point origin( getbegx( win ), getbegy( win ) );
+        dimensions = rectangle( origin, origin + point( getmaxx( win ), getmaxy( win ) ) );
 #endif
-    invalidated = true;
-    ui_manager::invalidate( old_dimensions );
+        invalidated = true;
+        ui_manager::invalidate( old_dimensions );
+    }
 }
 
 void ui_adaptor::position( const point &topleft, const point &size )
@@ -174,6 +179,14 @@ void ui_adaptor::invalidate( const rectangle &rect )
 
 void ui_adaptor::redraw()
 {
+    if( !ui_stack.empty() ) {
+        ui_stack.back().get().invalidated = true;
+    }
+    redraw_invalidated();
+}
+
+void ui_adaptor::redraw_invalidated()
+{
     // apply deferred resizing
     auto first = ui_stack.rbegin();
     for( ; first != ui_stack.rend(); ++first ) {
@@ -191,11 +204,11 @@ void ui_adaptor::redraw()
             ui.deferred_resize = false;
         }
     }
+    reinitialize_framebuffer();
 
     // redraw invalidated uis
     // TODO refresh only when all stacked UIs are drawn
     if( !ui_stack.empty() ) {
-        ui_stack.back().get().invalidated = true;
         auto first = ui_stack.crbegin();
         for( ; first != ui_stack.crend(); ++first ) {
             if( first->get().disabling_uis_below ) {
@@ -231,7 +244,7 @@ background_pane::background_pane()
     ui.position_from_window( catacurses::stdscr );
     ui.on_redraw( []( const ui_adaptor & ) {
         catacurses::erase();
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 }
 
@@ -246,6 +259,11 @@ void invalidate( const rectangle &rect )
 void redraw()
 {
     ui_adaptor::redraw();
+}
+
+void redraw_invalidated()
+{
+    ui_adaptor::redraw_invalidated();
 }
 
 void screen_resized()

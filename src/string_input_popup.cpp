@@ -146,8 +146,6 @@ void string_input_popup::show_history( utf8_wrapper &ret )
                 finished = true;
             }
         } while( !finished );
-        werase( hmenu.window );
-        wrefresh( hmenu.window );
     }
 }
 
@@ -273,7 +271,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )
@@ -373,7 +371,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         const std::string action = ctxt->handle_input();
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        ch = ev.type == input_event_t::keyboard ? ev.get_first_input() : 0;
 
         if( callbacks[ch] ) {
             if( callbacks[ch]() ) {

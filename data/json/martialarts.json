@@ -114,7 +114,17 @@
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "autolearn": [ [ "melee", "1" ] ],
     "arm_block": 1,
-    "leg_block": 7,
+    "static_buffs": [
+      {
+        "id": "buff_brawling_block",
+        "name": "Enhanced Blocking",
+        "description": "Combat experience has led to you being able to block multiple attacks at a time.\n\n+1 Block attempts.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 7 } ],
+        "bonus_blocks": 1
+      }
+    ],
     "allow_melee": true,
     "techniques": [
       "tec_brawl_disarm_unarmed",

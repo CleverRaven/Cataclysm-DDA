@@ -89,7 +89,7 @@ void user_interface::show()
         mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         // Redraw the header
         int tmpx = 0;
@@ -138,7 +138,7 @@ void user_interface::show()
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
         shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
-        wrefresh( w_header );
+        wnoutrefresh( w_header );
 
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -152,7 +152,7 @@ void user_interface::show()
         }
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), point( 0, 5 ) );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         calcStartPos( iStartPos, iLine, iContentHeight, cur_rules.size() );
 
@@ -181,7 +181,7 @@ void user_interface::show()
             }
         }
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     bStuffChanged = false;
@@ -312,7 +312,7 @@ void user_interface::show()
                                   );
 
                     draw_border( w_help );
-                    wrefresh( w_help );
+                    wnoutrefresh( w_help );
                 } );
                 const std::string r = string_input_popup()
                                       .title( _( "Pickup Rule:" ) )
@@ -471,7 +471,7 @@ void rule::test_pattern() const
         draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
         center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
                       _( "Won't display content or suffix matches" ) );
-        wrefresh( w_test_rule_border );
+        wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -502,7 +502,7 @@ void rule::test_pattern() const
             }
         }
 
-        wrefresh( w_test_rule_content );
+        wnoutrefresh( w_test_rule_content );
     } );
 
     while( true ) {
