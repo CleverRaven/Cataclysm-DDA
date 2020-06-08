@@ -31,5 +31,16 @@
     "start_name": "Wizard's Retreat Vacation",
     "allowed_locs": [ "sloc_lake_retreat" ],
     "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "Exile",
+    "name": "Exile",
+    "points": 1,
+    "description": "You are an exile, whether because of people shunning you because of who you are or from a personal choice.  The dead aren't willing to leave you be.",
+    "allowed_locs": [ "Swamp Shack", "cabin", "lmoe", "lighthouse_ground", "cabin_lake" ],
+    "professions": [ "druid", "novice_necromancer" ],
+    "start_name": "Exiled",
+    "flags": [ "LONE_START" ]
   }
 ]
