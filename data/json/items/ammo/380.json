@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "casing": "380_casing",
     "range": 13,
     "//": " .355in, 95gr, Sierra FMJ FN TM 8105, 4.0gr Alliant UNIQUE",

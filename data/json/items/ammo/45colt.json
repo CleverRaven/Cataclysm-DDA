@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": "45colt",
+    "ammo_type": [ "45colt" ],
     "casing": "45colt_casing",
     "range": 16,
     "//": ".452in, 225gr, 5.6 grains Lovex D013.  It's hard to find non-expanding .45 LC loaded at +P pressures, so this is just an abstract for the +P JHP loadings.",

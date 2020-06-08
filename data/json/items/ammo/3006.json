@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": "3006",
+    "ammo_type": [ "3006" ],
     "casing": "3006_casing",
     "range": 61,
     "//": ".308in, 150gr, Berger FBHP 30407, 49.0gr IMR 4895",

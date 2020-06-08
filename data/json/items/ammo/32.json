@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 80,
     "stack_size": 80,
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "casing": "32_casing",
     "range": 12,
     "//": ".311in 71gr PrviPartizan JHP-RN B-075, 3.1gr Nitrochemie P2636 Ws",

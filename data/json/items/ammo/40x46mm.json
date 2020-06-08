@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 6,
     "stack_size": 1,
-    "ammo_type": "40x46mm",
+    "ammo_type": [ "40x46mm" ],
     "range": 60,
     "dispersion": 30,
     "recoil": 1400,
