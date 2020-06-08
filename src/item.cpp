@@ -7514,8 +7514,6 @@ void item::gun_cycle_mode()
         }
     }
     gun_set_mode( modes.begin()->first );
-
-    return;
 }
 
 const use_function *item::get_use( const std::string &use_name ) const

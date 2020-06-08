@@ -1063,7 +1063,6 @@ void iexamine::rubble( player &p, const tripoint &examp )
     }
     p.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
     p.activity.placement = examp;
-    return;
 }
 
 /**
@@ -3510,7 +3509,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
     p.activity.placement = g->m.getabs( examp );
     p.activity.auto_resume = true;
-    return;
 }
 
 void iexamine::recycle_compactor( player &, const tripoint &examp )

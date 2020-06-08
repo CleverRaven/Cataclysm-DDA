@@ -616,7 +616,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_id( "num_bp" ), 0.0f, &dp );
     }
-    return;
 }
 
 void player::reach_attack( const tripoint &p )
