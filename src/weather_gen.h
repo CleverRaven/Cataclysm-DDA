@@ -58,7 +58,7 @@ class weather_generator
         int base_wind_season_variation = 0;
         static int current_winddir;
         //what monsters to spawn for the weather
-        std::map<int, weather_spawn_info> weather_spawn_info;
+        std::map<int, weather_spawn_info> weather_spawn_info_map;
         //Regional settings can disable mist in a region
         bool mist_active = true;
         //increase mist difficulty

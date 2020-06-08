@@ -360,7 +360,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
 
     for( const JsonObject info : jo.get_array( "weather_spawn" ) ) {
         int index = info.get_int( "index" );
-        ret.weather_spawn_info[index] = {
+        ret.weather_spawn_info_map[index] = {
             info.get_bool( "hallucinations", false ),
             info.get_string_array( "spawns" ),
             time_duration::from_seconds( info.get_int( "time_between_spawns", 60 ) ),

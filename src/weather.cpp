@@ -454,9 +454,9 @@ void handle_weather_summoning( weather_type const w )
     Character &target_character = g->u;//todo npcs, also
     bool creature_spawned = false;
     std::map<int, weather_spawn_info>::const_iterator current_weather_spawn_info =
-        weather_gen.weather_spawn_info.find( w );
+        weather_gen.weather_spawn_info_map.find( w );
     //first make sure we have spawn info for this weather
-    if( current_weather_spawn_info != weather_gen.weather_spawn_info.end() ) {
+    if( current_weather_spawn_info != weather_gen.weather_spawn_info_map.end() ) {
         //only spawn based on the specified time gap and while the target is in the weather
         if( calendar::once_every( current_weather_spawn_info->second.time_between_spawns ) &&
             is_creature_outside( target_character ) ) {
