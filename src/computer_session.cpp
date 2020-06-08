@@ -1500,7 +1500,7 @@ void computer_session::refresh()
         print_colored_text( win, point( left + lines[i].first, top + static_cast<int>( i ) ),
                             dummy, dummy, lines[i].second );
     }
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 template<typename ...Args>

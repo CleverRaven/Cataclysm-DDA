@@ -764,7 +764,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         }
 
         draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
-        wrefresh( w );
+        wnoutrefresh( w );
 
         // Item info
         auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
@@ -782,7 +782,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
         mvwprintw( w_item_info, point_east, "<%s>", name );
-        wrefresh( w_item_info );
+        wnoutrefresh( w_item_info );
     } );
 
     for( ;; ) {

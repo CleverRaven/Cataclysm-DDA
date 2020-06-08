@@ -1659,7 +1659,7 @@ void inventory_selector::refresh_window() const
     draw_columns( w_inv );
     draw_footer( w_inv );
 
-    wrefresh( w_inv );
+    wnoutrefresh( w_inv );
 }
 
 void inventory_selector::set_filter()

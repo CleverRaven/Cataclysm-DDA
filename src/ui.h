@@ -106,7 +106,7 @@ struct uilist_entry {
  *   void refresh( uilist *menu ) {
  *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
  *           mvwprintz( menu->window, 0, 0, c_red, "( %s )",game_z[menu->selected]->name() );
- *           wrefresh( menu->window );
+ *           wnoutrefresh( menu->window );
  *       }
  *   }
  * }

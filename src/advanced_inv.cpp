@@ -688,7 +688,7 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 // be explicit with the values
@@ -1084,7 +1084,7 @@ void advanced_inventory::redraw_sidebar()
             const std::string time = to_string_time_of_day( calendar::turn );
             mvwprintz( head, point( 2, 0 ), c_white, time );
         }
-        wrefresh( head );
+        wnoutrefresh( head );
         refresh_minimap();
     }
 }
@@ -1633,7 +1633,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
         wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -1844,8 +1844,8 @@ void advanced_inventory::refresh_minimap()
         mvwprintz( mm_border, point( 1, 0 ), c_light_gray, utf8_truncate( _( "All" ), minimap_width ) );
     }
     // refresh border, then minimap
-    wrefresh( mm_border );
-    wrefresh( minimap );
+    wnoutrefresh( mm_border );
+    wnoutrefresh( minimap );
 }
 
 void advanced_inventory::draw_minimap()

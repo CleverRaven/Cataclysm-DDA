@@ -739,8 +739,8 @@ tab_direction set_points( avatar &, points_left &points )
         fold_and_print( w_description, point_zero, getmaxx( w_description ),
                         COL_SKILL_USED, std::get<2>( cur_opt ) );
 
-        wrefresh( w );
-        wrefresh( w_description );
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
     } );
 
     do {
@@ -918,8 +918,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                 break;
         }
 
-        wrefresh( w );
-        wrefresh( w_description );
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
     } );
 
     do {
@@ -1208,8 +1208,8 @@ tab_direction set_traits( avatar &u, points_left &points )
                             point( page_width * iCurrentPage, 5 ) );
         }
 
-        wrefresh( w );
-        wrefresh( w_description );
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
     } );
 
     do {
@@ -1593,11 +1593,11 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
 
-        wrefresh( w );
-        wrefresh( w_description );
-        wrefresh( w_items );
-        wrefresh( w_genderswap );
-        wrefresh( w_sorting );
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
+        wnoutrefresh( w_items );
+        wnoutrefresh( w_genderswap );
+        wnoutrefresh( w_sorting );
     } );
 
     do {
@@ -1873,8 +1873,8 @@ tab_direction set_skills( avatar &u, points_left &points )
 
         draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
 
-        wrefresh( w );
-        wrefresh( w_description );
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
     } );
 
     do {
@@ -2189,13 +2189,13 @@ tab_direction set_scenario( avatar &u, points_left &points,
         }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
-        wrefresh( w );
-        wrefresh( w_description );
-        wrefresh( w_sorting );
-        wrefresh( w_profession );
-        wrefresh( w_location );
-        wrefresh( w_vehicle );
-        wrefresh( w_flags );
+        wnoutrefresh( w );
+        wnoutrefresh( w_description );
+        wnoutrefresh( w_sorting );
+        wnoutrefresh( w_profession );
+        wnoutrefresh( w_location );
+        wnoutrefresh( w_vehicle );
+        wnoutrefresh( w_flags );
     } );
 
     do {
@@ -2303,7 +2303,7 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
     unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
     mvwprintz( w_height, point( height_pos, 0 ), c_white, string_format( "%d cm",
                you.base_height() ) );
-    wrefresh( w_height );
+    wnoutrefresh( w_height );
 }
 
 static void draw_age( const catacurses::window &w_age, const avatar &you, const bool highlight )
@@ -2312,7 +2312,7 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
     mvwprintz( w_age, point_zero, highlight ? h_light_gray : c_light_gray, _( "Age:" ) );
     unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
     mvwprintz( w_age, point( age_pos, 0 ), c_white, string_format( "%d", you.base_age() ) );
-    wrefresh( w_age );
+    wnoutrefresh( w_age );
 }
 
 static void draw_blood( const catacurses::window &w_blood, const avatar &you, const bool highlight )
@@ -2322,7 +2322,7 @@ static void draw_blood( const catacurses::window &w_blood, const avatar &you, co
     unsigned blood_pos = 1 + utf8_width( _( "Blood type:" ) );
     mvwprintz( w_blood, point( blood_pos, 0 ), c_white,
                io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
-    wrefresh( w_blood );
+    wnoutrefresh( w_blood );
 }
 } // namespace char_creation
 
@@ -2438,7 +2438,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 wputch( w, BORDER_COLOR, LINE_OXOX );
             }
         }
-        wrefresh( w );
+        wnoutrefresh( w );
 
         wclear( w_stats );
         wclear( w_traits );
@@ -2461,7 +2461,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_stats, point( pos + 1, 2 ), c_light_gray, "%2d", you.dex_max );
         mvwprintz( w_stats, point( pos + 1, 3 ), c_light_gray, "%2d", you.int_max );
         mvwprintz( w_stats, point( pos + 1, 4 ), c_light_gray, "%2d", you.per_max );
-        wrefresh( w_stats );
+        wnoutrefresh( w_stats );
 
         mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
         std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
@@ -2476,7 +2476,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                 current_trait->get_display_color(), current_trait->name() );
             }
         }
-        wrefresh( w_traits );
+        wnoutrefresh( w_traits );
 
         mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
 
@@ -2515,7 +2515,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         if( !has_skills ) {
             mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
         }
-        wrefresh( w_skills );
+        wnoutrefresh( w_skills );
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
@@ -2549,7 +2549,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                             _( "Press <color_light_green>%s</color> to save a template of this character." ),
                             ctxt.get_desc( "SAVE_TEMPLATE" ) );
         }
-        wrefresh( w_guide );
+        wnoutrefresh( w_guide );
 
         //We draw this stuff every loop because this is user-editable
         mvwprintz( w_name, point_zero,
@@ -2568,7 +2568,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                             _( "Press <color_light_green>%s</color> to edit.\nPress <color_light_green>%s</color> to randomize description." ),
                             ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
         }
-        wrefresh( w_name );
+        wnoutrefresh( w_name );
 
         mvwprintz( w_gender, point_zero, c_light_gray, _( "Gender:" ) );
         mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_cyan : c_light_gray ),
@@ -2579,7 +2579,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         fold_and_print( w_gender, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> to switch gender" ),
                         ctxt.get_desc( "CHANGE_GENDER" ) );
-        wrefresh( w_gender );
+        wnoutrefresh( w_gender );
 
         char_creation::draw_age( w_age, you, current_selector == char_creation::AGE );
         char_creation::draw_height( w_height, you, current_selector == char_creation::HEIGHT );
@@ -2600,7 +2600,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                    string_format( ngettext( "%s (%d variant)", "%s (%d variants)",
                                             you.start_location.obj().targets_count() ),
                                   you.start_location.obj().name(), you.start_location.obj().targets_count() ) );
-        wrefresh( w_location );
+        wnoutrefresh( w_location );
 
         werase( w_vehicle );
         mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting Vehicle: " ) );
@@ -2611,17 +2611,17 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         } else if( prof_veh ) {
             wprintz( w_vehicle, c_light_green, prof_veh->name );
         }
-        wrefresh( w_vehicle );
+        wnoutrefresh( w_vehicle );
 
         werase( w_scenario );
         mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
         wprintz( w_scenario, c_light_gray, g->scen->gender_appropriate_name( you.male ) );
-        wrefresh( w_scenario );
+        wnoutrefresh( w_scenario );
 
         werase( w_profession );
         mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
-        wrefresh( w_profession );
+        wnoutrefresh( w_profession );
     } );
 
     // do not switch IME mode now, but restore previous mode on return
