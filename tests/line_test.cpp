@@ -136,33 +136,33 @@ TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" 
 {
 
     // Test the unit cube, which are the only values this function is valid for.
-    REQUIRE( make_xyz_unit( -1, -1, 1 ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz_unit( -1, -1, 0 ) == direction::NORTHWEST );
-    REQUIRE( make_xyz_unit( -1, -1, -1 ) == direction::BELOWNORTHWEST );
-    REQUIRE( make_xyz_unit( 0, -1, 1 ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz_unit( 0, -1, 0 ) == direction::NORTH );
-    REQUIRE( make_xyz_unit( 0, -1, -2 ) == direction::BELOWNORTH );
-    REQUIRE( make_xyz_unit( 1, -1, 1 ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz_unit( 1, -1, 0 ) == direction::NORTHEAST );
-    REQUIRE( make_xyz_unit( 1, -1, -1 ) == direction::BELOWNORTHEAST );
-    REQUIRE( make_xyz_unit( -1, 0, 1 ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz_unit( -1, 0, 0 ) == direction::WEST );
-    REQUIRE( make_xyz_unit( -1, 0, -1 ) == direction::BELOWWEST );
-    REQUIRE( make_xyz_unit( 0, 0, 1 ) == direction::ABOVECENTER );
-    REQUIRE( make_xyz_unit( 0, 0, 0 ) == direction::CENTER );
-    REQUIRE( make_xyz_unit( 0, 0, -1 ) == direction::BELOWCENTER );
-    REQUIRE( make_xyz_unit( 1, 0, 1 ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz_unit( 1, 0, 0 ) == direction::EAST );
-    REQUIRE( make_xyz_unit( 1, 0, -1 ) == direction::BELOWEAST );
-    REQUIRE( make_xyz_unit( -1, 1, 1 ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz_unit( -1, 1, 0 ) == direction::SOUTHWEST );
-    REQUIRE( make_xyz_unit( -1, 1, -1 ) == direction::BELOWSOUTHWEST );
-    REQUIRE( make_xyz_unit( 0, 1, 1 ) == direction::ABOVESOUTH );
-    REQUIRE( make_xyz_unit( 0, 1, 0 ) == direction::SOUTH );
-    REQUIRE( make_xyz_unit( 0, 1, -1 ) == direction::BELOWSOUTH );
-    REQUIRE( make_xyz_unit( 1, 1, 1 ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz_unit( 1, 1, 0 ) == direction::SOUTHEAST );
-    REQUIRE( make_xyz_unit( 1, 1, -1 ) == direction::BELOWSOUTHEAST );
+    REQUIRE( make_xyz_unit( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );
+    REQUIRE( make_xyz_unit( tripoint_north_west ) == direction::NORTHWEST );
+    REQUIRE( make_xyz_unit( tripoint( -1, -1, -1 ) ) == direction::BELOWNORTHWEST );
+    REQUIRE( make_xyz_unit( tripoint( 0, -1, 1 ) ) == direction::ABOVENORTH );
+    REQUIRE( make_xyz_unit( tripoint_north ) == direction::NORTH );
+    REQUIRE( make_xyz_unit( tripoint( 0, -1, -2 ) ) == direction::BELOWNORTH );
+    REQUIRE( make_xyz_unit( tripoint( 1, -1, 1 ) ) == direction::ABOVENORTHEAST );
+    REQUIRE( make_xyz_unit( tripoint_north_east ) == direction::NORTHEAST );
+    REQUIRE( make_xyz_unit( tripoint( 1, -1, -1 ) ) == direction::BELOWNORTHEAST );
+    REQUIRE( make_xyz_unit( tripoint( -1, 0, 1 ) ) == direction::ABOVEWEST );
+    REQUIRE( make_xyz_unit( tripoint_west ) == direction::WEST );
+    REQUIRE( make_xyz_unit( tripoint( -1, 0, -1 ) ) == direction::BELOWWEST );
+    REQUIRE( make_xyz_unit( tripoint_above ) == direction::ABOVECENTER );
+    REQUIRE( make_xyz_unit( tripoint_zero ) == direction::CENTER );
+    REQUIRE( make_xyz_unit( tripoint_below ) == direction::BELOWCENTER );
+    REQUIRE( make_xyz_unit( tripoint( 1, 0, 1 ) ) == direction::ABOVEEAST );
+    REQUIRE( make_xyz_unit( tripoint_east ) == direction::EAST );
+    REQUIRE( make_xyz_unit( tripoint( 1, 0, -1 ) ) == direction::BELOWEAST );
+    REQUIRE( make_xyz_unit( tripoint( -1, 1, 1 ) ) == direction::ABOVESOUTHWEST );
+    REQUIRE( make_xyz_unit( tripoint_south_west ) == direction::SOUTHWEST );
+    REQUIRE( make_xyz_unit( tripoint( -1, 1, -1 ) ) == direction::BELOWSOUTHWEST );
+    REQUIRE( make_xyz_unit( tripoint( 0, 1, 1 ) ) == direction::ABOVESOUTH );
+    REQUIRE( make_xyz_unit( tripoint_south ) == direction::SOUTH );
+    REQUIRE( make_xyz_unit( tripoint( 0, 1, -1 ) ) == direction::BELOWSOUTH );
+    REQUIRE( make_xyz_unit( tripoint( 1, 1, 1 ) ) == direction::ABOVESOUTHEAST );
+    REQUIRE( make_xyz_unit( tripoint_south_east ) == direction::SOUTHEAST );
+    REQUIRE( make_xyz_unit( tripoint( 1, 1, -1 ) ) == direction::BELOWSOUTHEAST );
 
     // Test the unit square values at distance 1 and 2.
     // Test the multiples of 30deg at 60 squares.
