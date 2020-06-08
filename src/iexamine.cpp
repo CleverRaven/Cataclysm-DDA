@@ -214,6 +214,9 @@ static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
+// @TODO maybe make this a property of the item (depend on volume/type)
+static const auto milling_time = 6_hours;
+
 /**
  * Nothing player can interact with here.
  */
@@ -4837,7 +4840,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, next_mill_type );
     item result( "fake_milling_item", calendar::turn );
-    result.item_counter = to_turns<int>( 6_hours );
+    result.item_counter = to_turns<int>( milling_time );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
@@ -4970,8 +4973,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( item &it : items ) {
         if( it.has_flag( flag_MILLABLE ) && it.get_comestible() ) {
-            it.calc_rot_while_processing( 6_hours );
-            item result( "flour", start_time + 6_hours, it.charges * 15 );
+            it.calc_rot_while_processing( milling_time );
+            item result( "flour", start_time + milling_time, it.charges * 15 );
             // Set flag to tell set_relative_rot() to calc from bday not now
             result.set_flag( flag_PROCESSING_RESULT );
             result.set_relative_rot( it.get_relative_rot() );
