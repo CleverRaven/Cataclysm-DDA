@@ -4808,8 +4808,7 @@ static void mill_activate( player &p, const tripoint &examp )
             food_present = true;
             food_volume += it.volume();
             continue;
-        }
-        if( !it.has_flag( flag_MILLABLE ) ) {
+        } else {
             add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1,
                      false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
