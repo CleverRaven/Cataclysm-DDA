@@ -1413,11 +1413,9 @@ void debug()
             uilist smenu;
             smenu.addentry( 0, true, 'i', "%s: %d", _( "Intensity" ), g->weather.mist_intensity );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Mist Instances" ), g->weather.mist_instances );
-            smenu.addentry( 4, true, 't', "%s: %d", _( "Intensity Increase Time" ),
+            smenu.addentry( 2, true, 't', "%s: %d", _( "Intensity Increase Time" ),
                             to_seconds<int>( g->weather.mist_intensity_increase_time ) );
-            smenu.addentry( 5, true, 'w', "%s: %d", _( "Spawn Time" ),
-                            to_seconds<int>( g->weather.mist_spawn_time ) );
-            smenu.addentry( 6, true, 'w', "%s: %s", _( "Next Instance" ),
+            smenu.addentry( 3, true, 'w', "%s: %s", _( "Next Instance" ),
                             to_string( g->weather.mist_next_instance ) );
 
             smenu.query();
@@ -1434,19 +1432,13 @@ void debug()
                         g->weather.mist_instances = value;
                     }
                     break;
-                case 4:
+                case 2:
                     if( query_int( value, _( "Set intensity increase time to how many seconds?  Currently: %d" ),
                                    to_string( g->weather.mist_intensity_increase_time ) ) ) {
                         g->weather.mist_intensity_increase_time = time_duration::from_seconds( value );
                     }
                     break;
-                case 5:
-                    if( query_int( value, _( "Set spawn time to how many seconds?  Currently: %d" ),
-                                   to_string( g->weather.mist_spawn_time ) ) ) {
-                        g->weather.mist_spawn_time = time_duration::from_seconds( value );
-                    }
-                    break;
-                case 6:
+                case 3:
                     if( query_int( value, _( "Set next instance to minutes in future?  Currently: %s" ),
                                    to_string( g->weather.mist_next_instance - calendar::turn ) ) ) {
                         g->weather.mist_next_instance = calendar::turn + time_duration::from_minutes( value );

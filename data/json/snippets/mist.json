@@ -1,25 +1,6 @@
 [
   {
     "type": "snippet",
-    "category": "mist_summon_wraith",
-    "text": [ "You feel the mist react to you and a vague shape appears.", "The mist reacts to you and a hazy figure condenses." ]
-  },
-  {
-    "type": "snippet",
-    "category": "mist_summon_spectre",
-    "text": [ "A nightmarish shape appears in the mist.", "A shape forms in the mist reminding you of your lastest nightmare." ]
-  },
-  {
-    "type": "snippet",
-    "category": "mist_summon_phantom",
-    "text": [
-      "A shape forms in the mist reminiscent of your childhood bully.",
-      "A shape forms in the mist reminiscent you of a teacher that hated you.",
-      "A shape forms in the mist reminiscent you of a friend that betrayed you."
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "mist_increase_intensity",
     "text": [ "The mist thickens.", "The mist feels slightly stronger and more alive." ]
   },
@@ -62,7 +43,7 @@
     "category": "nightmares",
     "text": [
       "You awaken from a nightmare about being eaten alive while your friends applaud.",
-      "You awaken from a nightmare about being naked in a the artic tundra and freezing to death.",
+      "You awaken from a nightmare about being naked in a the arctic tundra and freezing to death.",
       "You awaken from a nightmare about an unseen predator slowly killing you.",
       "You awaken from a nightmare about killing those you love with your bare hands.",
       "You awaken from a nightmare about being finally judged for your ill deeds.",

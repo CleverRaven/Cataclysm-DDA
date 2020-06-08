@@ -1563,6 +1563,7 @@ bool game::do_turn()
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
         do_rain( weather.weather );
+        handle_weather_summoning( weather.weather );
         weather::effect( weather.weather )();
     }
 

@@ -2160,35 +2160,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "MIST_ACTIVE", "world_default", translate_marker( "Mist active." ),
-         translate_marker( "Mist is active and will challenge player." ),
-         false
-       );
-
-    add( "MIST_SCALING", "world_default", translate_marker( "Mist scaling." ),
-         translate_marker( "Determines how fast the mist increases strength." ),
-         0.0, 10.0, 1.0, 0.1
-       );
-
-    add( "MIST_INSTANCE_TIME", "world_default", translate_marker( "Mist time between apperances." ),
-         translate_marker( "Average number of days between mist apperances." ),
-         1, 50, 7
-       );
-
-    add( "MIST_SPAWN_TIME", "world_default", translate_marker( "Mist time between spawns." ),
-         translate_marker( "Average number of seconds between mist spawns." ),
-         1, 3600, 60
-       );
-
-    add( "MIST_LENGTH", "world_default", translate_marker( "Length mist appears for." ),
-         translate_marker( "Average number of hours mist lasts." ),
-         1, 50, 5
-       );
-
-    get_option( "MIST_SCALING" ).setPrerequisite( "MIST_ACTIVE" );
-    get_option( "MIST_INSTANCE_TIME" ).setPrerequisite( "MIST_ACTIVE" );
-    get_option( "MIST_LENGTH" ).setPrerequisite( "MIST_ACTIVE" );
-    get_option( "MIST_SPAWN_TIME" ).setPrerequisite( "MIST_ACTIVE" );
 }
 
 void options_manager::add_options_debug()

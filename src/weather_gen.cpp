@@ -183,14 +183,14 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    if( get_option<bool>( "MIST_ACTIVE" ) ) {
+    if( mist_active ) {
         if( g->weather.mist_intensity > 0 &&
-            g->weather.mist_intensity <= g->weather.mist_thick_threshold ) {
+            g->weather.mist_intensity <= mist_thick_threshold ) {
             return WEATHER_MIST;
-        } else if( g->weather.mist_intensity > g->weather.mist_thick_threshold &&
-                   g->weather.mist_intensity <= g->weather.mist_stifling_threshold ) {
+        } else if( g->weather.mist_intensity > mist_thick_threshold &&
+                   g->weather.mist_intensity <= mist_stifling_threshold ) {
             return WEATHER_THICK_MIST;
-        } else if( g->weather.mist_intensity > g->weather.mist_stifling_threshold ) {
+        } else if( g->weather.mist_intensity > mist_stifling_threshold ) {
             return WEATHER_STIFLING_MIST;
         }
     }
@@ -348,5 +348,29 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
     ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
+
+    const JsonObject mist = jo.get_object( "mist" );
+    ret.mist_active = mist.get_bool( "mist_active", false );
+    ret.mist_scaling = mist.get_float( "mist_scaling", 1.0 );
+    ret.mist_frequency = mist.get_int( "mist_frequency", 7 );
+    ret.mist_increases_per = mist.get_int( "mist_increases_per", 10 );
+    ret.mist_thick_threshold = mist.get_int( "mist_thick_threshold", 10 );
+    ret.mist_stifling_threshold = mist.get_int( "mist_stifling_threshold", 20 );
+    ret.mist_length = mist.get_int( "mist_length", 8 );
+
+    for( const JsonObject info : jo.get_array( "weather_spawn" ) ) {
+        int index = info.get_int( "index" );
+        ret.weather_spawn_info[index] = {
+            info.get_bool( "hallucinations", false ),
+            info.get_string_array( "spawns" ),
+            time_duration::from_seconds( info.get_int( "time_between_spawns", 60 ) ),
+            info.get_int( "chance_to_spawn", 100 ),
+            info.get_int( "max_spawns", 1 ),
+            info.get_int( "max_radius", 10 ),
+            info.get_int( "min_radius", 1 ),
+            _( info.get_string( "message", "" ) )
+        };
+    }
+
     return ret;
 }

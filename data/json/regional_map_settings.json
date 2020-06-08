@@ -916,7 +916,51 @@
       "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "mist": {
+        "mist_active": true,
+        "mist_scaling": 1.0,
+        "mist_frequency": 7,
+        "mist_length": 8,
+        "mist_increases_per": 10,
+        "mist_thick_threshold": 10,
+        "mist_stifling_threshold": 20
+      },
+      "weather_spawn": [
+        {
+          "index": 14,
+          "hallucinations": true,
+		  "spawns": [ "mon_mist_wraith" ],
+          "time_between_spawns": 60,
+          "chance_to_spawn": 75,
+          "max_spawns": 2,
+          "max_radius": 8,
+          "min_radius": 5,
+          "message": "You feel the mist react to you and shapes form."
+        },
+        {
+          "index": 15,
+          "hallucinations": true,
+		  "spawns": [ "mon_mist_wraith", "mon_mist_spectre" ],
+          "time_between_spawns": 50,
+          "chance_to_spawn": 75,
+          "max_spawns": 2,
+          "max_radius": 6,
+          "min_radius": 4,
+          "message": "The mist reacts to you and nightmarish shapes form."		  
+        },
+        {
+          "index": 16,
+          "hallucinations": true,
+		  "spawns": [ "mon_mist_wraith", "mon_mist_spectre", "mon_mist_phantom" ],
+          "time_between_spawns": 40,
+          "chance_to_spawn": 75,
+          "max_spawns": 3,
+          "max_radius": 4,
+          "min_radius": 3,
+          "message": "The mist reflects your darkest thoughts and shapes form."
+        }
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

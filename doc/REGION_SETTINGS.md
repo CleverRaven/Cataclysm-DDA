@@ -494,7 +494,8 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
-
+| `mist`   						 | Section defining mist, if this is missing mist is disabled
+| `weather_spawn`   			 | Section defining if monsters will spawn in weather  |
 ### Example
 
 ```json
@@ -509,6 +510,76 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_wind_season_variation": 64,
 		"base_acid": 0.0
 	}
+}
+```
+
+## Mist
+
+The **mist** section defines the base mist attributes used for the region.
+
+### Fields
+
+|     Identifier                 |                              Description                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `mist_active`             	 | bool defining if the mist is enabled                   |
+| `mist_scaling`                 | float that affects how fast the mist grows more powerful with each appearance, at 0 the mist will not grow stronger each time |
+| `mist_frequency`               | the average number of days between mist appearances, the actual value is random between .5 and 1.5 this value minus scaling effects |
+| `mist_length`                  | the average number of hours the mist will last, the actual value is random between .7 and 1.3 this plus mist scaling effects |
+| `mist_increases_per`           | the number of times the mist will increase its intensity per instance |
+| `mist_thick_threshold`         | the intensity at which the mist will become thick instead of regular |
+
+### Example
+
+```json
+{
+	"mist": {
+        "mist_active": true,
+        "mist_scaling": 1.5,
+        "mist_frequency": 3,
+        "mist_length": 12,
+        "mist_increases_per": 10,
+        "mist_thick_threshold": 10,
+        "mist_stifling_threshold": 20
+      },
+}
+```
+
+
+## Weather Spawn
+
+The **weather_spawn** section defines creatures that will spawn in weather.
+
+### Fields
+
+|     Identifier                 |                              Description                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `index`             	 		 | the index of the weather in the enum weather_type found in weather.h                    |
+| `hallucinations`               | bool determining whether the weather should spawn hallucinations for nearby creatures, if true this will be treated as another spawn |
+| `spawns`               		 | an array of the monster_ids of every monster you want to spawn, one will be chosen at random every spawn |
+| `time_between_spawns`          | the number of seconds between monster spawns |
+| `chance_to_spawn`           	 | the percent chance a monster will spawn for each spawn attempt in max_spawns |
+| `max_spawns`         			 | the maximum number of monsters/hallucinations that will spawn |
+| `max_radius`         			 | the maximum distance monsters/hallucinations will spawn from the target |
+| `min_radius`         			 | the closest distance monsters/hallucinations will spawn to the target |
+| `message`         			 | Message to be displayed if at least one non hallucination spawns |
+
+### Example
+
+```json
+{
+	"weather_spawn": [
+        {
+          "index": 14,
+          "hallucinations": true,
+          "spawns": [ "mon_mist_wraith" ],
+          "seconds_between_spawns": 60,
+          "chance_to_spawn": 75,
+          "max_spawns": 2,
+          "max_radius": 8,
+          "min_radius": 4,
+          "message": "You feel the mist react to you and shapes form."
+        }
+	]
 }
 ```
 

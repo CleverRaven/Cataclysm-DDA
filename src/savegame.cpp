@@ -1657,12 +1657,9 @@ void game::unserialize_master( std::istream &fin )
                 JsonObject w = jsin.get_object();
                 w.read( "lightning", weather.lightning_active );
                 w.read( "mist_intensity", weather.mist_intensity );
-                w.read( "mist_intensity_increase_per_instance", weather.mist_intensity_increase_per_instance );
                 w.read( "mist_instances", weather.mist_instances );
                 w.read( "mist_next_instance", weather.mist_next_instance );
                 w.read( "mist_intensity_increase_time", weather.mist_intensity_increase_time );
-                w.read( "mist_thick_threshold", weather.mist_thick_threshold );
-                w.read( "mist_stifling_threshold", weather.mist_stifling_threshold );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1702,12 +1699,9 @@ void game::serialize_master( std::ostream &fout )
         json.start_object();
         json.member( "lightning", weather.lightning_active );
         json.member( "mist_intensity", weather.mist_intensity );
-        json.member( "mist_intensity_increase_per_instance", weather.mist_intensity_increase_per_instance );
         json.member( "mist_instances", weather.mist_instances );
         json.member( "mist_next_instance", weather.mist_next_instance );
         json.member( "mist_intensity_increase_time", weather.mist_intensity_increase_time );
-        json.member( "mist_thick_threshold", weather.mist_thick_threshold );
-        json.member( "mist_stifling_threshold", weather.mist_stifling_threshold );
         json.end_object();
 
         json.end_object();

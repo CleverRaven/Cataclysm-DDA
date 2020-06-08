@@ -56,9 +56,9 @@ enum weather_type : int {
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< snow glare effects
     WEATHER_SNOWSTORM,    //!< sight penalties
-    WEATHER_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_MIST,         //!< spawns mist monsters, sight penalties
     WEATHER_THICK_MIST,   //!< spawns mist monsters, sight penalties
-    WEATHER_STIFLING_MIST,   //!< spawns mist monsters, sight penalties
+    WEATHER_STIFLING_MIST,//!< spawns mist monsters, sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -71,6 +71,7 @@ enum precip_class : int {
 
 double precip_mm_per_hour( precip_class p );
 void do_rain( weather_type w );
+void handle_weather_summoning( weather_type w );
 
 /**
  * Weather animation class.
@@ -257,20 +258,12 @@ class weather_manager
 
         //current power of mist
         int mist_intensity = 0;
-        //amount mist intensity increases before ending
-        int mist_intensity_increase_per_instance = 10;
         //number of times the mist has happened, scales mist difficulty
         int mist_instances = 0;
         //next time mist will appear
         time_point mist_next_instance = calendar::turn;//next time mist will appear
         //time between mist intensity increases, changes every instance
         time_duration mist_intensity_increase_time = 10_minutes;
-        //time between monster spawns, changes every instance
-        time_duration mist_spawn_time = 5_minutes;
-        //the intensity at which mist switches to thick
-        int mist_thick_threshold = 10;
-        //the intensity at which mist switches to stifling
-        int mist_stifling_threshold = 20;
 
         // Cached weather data
         pimpl<w_point> weather_precise;
@@ -287,7 +280,6 @@ class weather_manager
         int get_temperature( const tripoint &location );
         void clear_temp_cache();
         void set_next_mist_time();
-        void set_mist_spawn_time();
         void set_mist_length();
         //increases mist intensity or begins it at min intensity if not started
         void increase_mist_intensity();
