@@ -1420,7 +1420,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
 // This is the former valid_to_cut_up with all the messages and queries
 bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 {
-    int pos = p.get_item_position( &it );
+    bool isWearing = p.is_worn( it );
 
     if( it.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -1452,10 +1452,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
-    } else if( pos == INT_MIN ) {
-        // Not in inventory
-        return true;
-    } else if( pos < -1 ) {
+    } else if( isWearing ) {
         if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
             return false;
         }
