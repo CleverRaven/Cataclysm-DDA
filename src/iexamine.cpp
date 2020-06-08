@@ -1414,7 +1414,7 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't include worn items such as hairpins
         if( !p.is_worn( it ) ) {
-            return it.type->get_use( "picklock" ) != nullptr;
+            return it.type->get_use( "PICK_LOCK" ) != nullptr;
         }
         return false;
     } );
