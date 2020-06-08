@@ -5305,8 +5305,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     }
 
     time_duration time_left = 0_turns;
-    int hours_left = 0;
-    int minutes_left = 0;
     units::volume f_volume = 0_ml;
     bool f_check = false;
 
@@ -5317,8 +5315,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         }
         if( active && it.typeId() == itype_fake_milling_item ) {
             time_left = time_duration::from_turns( it.item_counter );
-            hours_left = to_hours<int>( time_left );
-            minutes_left = to_minutes<int>( time_left ) + 1;
         }
     }
 
@@ -5336,7 +5332,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         smenu.addentry_desc( 1, !empty, 'r',
                              empty ?  _( "Remove brake and start milling… insert some products for milling first" ) :
                              _( "Remove brake and start milling" ),
-                             _( "Remove brake and start milling, milling will take about 6 hours." ) );
+                             string_format( _( "Remove brake and start milling, milling will take about %s." ),
+                                            to_string( milling_time ) ) );
 
         smenu.addentry_desc( 2, !full, 'p',
                              full ? _( "Insert products for milling… mill is full" ) :
@@ -5362,15 +5359,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             if( active ) {
                 pop = colorize( _( "There's a mill here.  It is turning and milling." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
-                    if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish milling in about %d hour.",
-                                                        "It will finish milling in about %d hours.",
-                                                        hours_left ), hours_left ) + "\n\n";
-                    } else if( minutes_left > 30 ) {
-                        pop += _( "It will finish milling in less than an hour." );
-                    } else {
-                        pop += string_format( _( "It should take about %d minutes to finish milling." ), minutes_left );
-                    }
+                    pop += string_format( _( "It should take about %s to finish milling." ),
+                                          to_string_clipped( time_left ) );
                 }
             } else {
                 pop += colorize( _( "There's a mill here." ), c_green ) + "\n";
