@@ -20,7 +20,7 @@
     "cost": 1,
     "time": 810000,
     "hunger": true,
-    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "encumbrance_covered": [ [ "head", 5 ] ],
     "changes_to": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "triggers": [
@@ -39,7 +39,7 @@
         }
       ]
     ],
-    "lumination": [ [ "HEAD", 8 ] ]
+    "lumination": [ [ "head", 8 ] ]
   },
   {
     "type": "mutation",
