@@ -240,7 +240,7 @@
     "ident": "vengpreacher",
     "name": "Vengeful Preacher",
     "description": "You lost your faith when your spouse died of illness.  You've been drinking yourself to death ever since.  God is punishing everyone with this apocalypse, you are going to show them your brand of mercy.",
-    "points": 4,
+    "points": 2,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "bashing" }, { "level": 1, "name": "gun" } ],
     "items": {
       "both": {
@@ -264,4 +264,3 @@
     "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   }
 ]
-
