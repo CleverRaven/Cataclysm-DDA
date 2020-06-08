@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": "10mm",
+    "ammo_type": [ "10mm" ],
     "casing": "10mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 31, "armor_penetration": 4 },

@@ -14,7 +14,7 @@
     "color": "green",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": "4570",
+    "ammo_type": [ "4570" ],
     "casing": "4570_casing",
     "range": 48,
     "damage": { "damage_type": "bullet", "amount": 57, "armor_penetration": 3 },

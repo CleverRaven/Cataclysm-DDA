@@ -13,7 +13,7 @@
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
-    "use_action": "MEDITATE"
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "bead_ear",
@@ -43,7 +43,7 @@
     "flags": [ "FANCY" ],
     "symbol": "u",
     "color": "brown",
-    "use_action": "MEDITATE"
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "bracelet_friendship",
@@ -237,7 +237,7 @@
     "color": "light_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
@@ -959,7 +959,7 @@
     "material": [ "bone", "silver" ],
     "symbol": "[",
     "color": "white",
-    "use_action": "MEDITATE",
+    "use_action": [ "MEDITATE" ],
     "flags": [ "FANCY" ]
   },
   {
@@ -989,7 +989,7 @@
     "material": [ "wood", "cotton" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": "MEDITATE"
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "jade_brooch",

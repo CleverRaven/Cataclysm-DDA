@@ -14,7 +14,7 @@
     "color": "light_gray",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": "357mag",
+    "ammo_type": [ "357mag" ],
     "casing": "357mag_casing",
     "range": 16,
     "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },

@@ -13,7 +13,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": "GRANADE"
+    "use_action": [ "GRANADE" ]
   },
   {
     "id": "granade_act",

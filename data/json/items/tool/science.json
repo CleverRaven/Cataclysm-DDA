@@ -13,7 +13,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "BAROMETER" ]
   },
   {
@@ -33,7 +33,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": "CAN_GOO"
+    "use_action": [ "CAN_GOO" ]
   },
   {
     "id": "chemistry_set",
@@ -53,7 +53,7 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
+    "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -116,7 +116,7 @@
     "price": 100000,
     "to_hit": -10,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "color": "dark_gray",
@@ -141,7 +141,7 @@
     "price": 100000,
     "to_hit": -10,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "symbol": "E",
@@ -180,7 +180,7 @@
     "power_draw": 120000,
     "revert_to": "vac_oven_small_full",
     "charges_per_use": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "use_action": {
@@ -216,7 +216,7 @@
     "bashing": 10,
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
@@ -243,7 +243,7 @@
     "price": 500000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "power_draw": 1500000,
@@ -294,7 +294,7 @@
     "price": 500000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": [ "battery" ],
     "power_draw": 1500000,
@@ -343,7 +343,7 @@
     "price": 2000000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
@@ -393,7 +393,7 @@
     "price": 2000000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
@@ -446,7 +446,7 @@
     "price": 20000,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
@@ -462,7 +462,7 @@
     "price": 100,
     "to_hit": 10,
     "cutting": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "qualities": [ [ "FILTER", 2 ] ]
   },
   {
@@ -478,7 +478,7 @@
     "price": 100,
     "to_hit": 10,
     "cutting": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "qualities": [ [ "FILTER", 1 ] ]
   },
   {
@@ -494,7 +494,7 @@
     "price": 300000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
@@ -543,7 +543,7 @@
     "price": 200000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "ammo": [ "battery" ],
     "power_draw": 600000,
     "charges_per_use": 1,
@@ -594,7 +594,7 @@
     "price": 280000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "butane_tank",
@@ -655,7 +655,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "HYGROMETER" ]
   },
   {
@@ -694,7 +694,7 @@
     "initial_charges": 300,
     "max_charges": 300,
     "charges_per_use": 10,
-    "use_action": "OXYGEN_BOTTLE"
+    "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
     "id": "platinum_grille",
@@ -730,7 +730,7 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 5,
-    "use_action": "PORTAL"
+    "use_action": [ "PORTAL" ]
   },
   {
     "id": "telepad",
@@ -766,7 +766,7 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "use_action": "TELEPORT"
+    "use_action": [ "TELEPORT" ]
   },
   {
     "id": "weather_reader",
@@ -785,7 +785,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
     "pocket_data": [
       {

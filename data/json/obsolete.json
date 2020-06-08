@@ -941,7 +941,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "use_action": "WASH_HARD_ITEMS"
+    "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
     "id": "fault_gun_clogged",
@@ -987,7 +987,7 @@
     "price": 1500,
     "to_hit": 1,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "*",
     "color": "light_gray",
     "use_action": {
@@ -1012,7 +1012,7 @@
     "price": 0,
     "to_hit": 1,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "*",
     "color": "light_gray",
     "initial_charges": 6,

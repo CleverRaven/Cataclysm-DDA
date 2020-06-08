@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 80,
     "stack_size": 80,
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "casing": "32_casing",
     "range": 12,
     "damage": { "damage_type": "bullet", "amount": 16 },

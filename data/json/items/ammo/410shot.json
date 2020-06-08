@@ -14,7 +14,7 @@
     "color": "red",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": "410shot",
+    "ammo_type": [ "410shot" ],
     "casing": "410shot_hull",
     "range": 12,
     "damage": { "damage_type": "bullet", "amount": 30 },

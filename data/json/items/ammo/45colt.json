@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": "45colt",
+    "ammo_type": [ "45colt" ],
     "casing": "45colt_casing",
     "range": 16,
     "damage": { "damage_type": "bullet", "amount": 25, "armor_penetration": 2 },

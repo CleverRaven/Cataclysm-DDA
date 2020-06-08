@@ -12,7 +12,7 @@
     "symbol": "=",
     "color": "white",
     "count": 25,
-    "ammo_type": "44paper",
+    "ammo_type": [ "44paper" ],
     "range": 18,
     "damage": { "damage_type": "bullet", "amount": 27 },
     "dispersion": 70,

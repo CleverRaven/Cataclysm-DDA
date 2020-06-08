@@ -12,7 +12,7 @@
     "color": "yellow",
     "count": 10,
     "stack_size": 1,
-    "ammo_type": "40x53mm",
+    "ammo_type": [ "40x53mm" ],
     "range": 60,
     "damage": { "damage_type": "bullet", "amount": 80 },
     "dispersion": 30,

@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": "270win",
+    "ammo_type": [ "270win" ],
     "casing": "270win_casing",
     "range": 65,
     "damage": { "damage_type": "bullet", "amount": 64, "armor_penetration": 4 },

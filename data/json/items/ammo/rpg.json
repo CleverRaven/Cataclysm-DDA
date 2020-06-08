@@ -55,7 +55,7 @@
     "price_postapoc": 4000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "4500 g",
-    "ammo_type": "RPG-7",
+    "ammo_type": [ "RPG-7" ],
     "damage": { "damage_type": "stab", "amount": 150, "armor_penetration": 10 },
     "range": 60,
     "dispersion": 50,

@@ -15,7 +15,7 @@
     "material": [ "orichalcum_metal" ],
     "symbol": ",",
     "color": "light_green",
-    "ammo_type": "components",
+    "ammo_type": [ "components" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -58,7 +58,7 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str_sp": "liquid mercury" },
-    "ammo_type": "mercury",
+    "ammo_type": [ "mercury" ],
     "description": "Elemental liquid mercury.  Known for its use in thermometers.",
     "volume": "1 ml",
     "phase": "liquid",

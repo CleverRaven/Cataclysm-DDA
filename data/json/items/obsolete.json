@@ -1275,7 +1275,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -2303,7 +2303,7 @@
     "weight": "60 g",
     "volume": "250 ml",
     "price": 1920,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "nail" ],
@@ -2339,7 +2339,7 @@
     "symbol": "*",
     "color": "green",
     "description": "A heavily modified handheld nuclear device on a rocket.  Intended to be fired from a specialized launcher, it has been rigged to explode on impact instead of on a timer.  It can fly further than the explosion will reach, probably.",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "volume": "97 L",
     "weight": "34500 g",
     "bashing": 8,
@@ -2659,7 +2659,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 2,
-    "use_action": "ROBOTCONTROL",
+    "use_action": [ "ROBOTCONTROL" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

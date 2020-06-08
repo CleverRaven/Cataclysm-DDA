@@ -278,7 +278,7 @@
     "name": { "str": "sausage casing" },
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "charges": 60
   },
   {
