@@ -598,6 +598,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": "bone",
+    "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ] ]
   },
