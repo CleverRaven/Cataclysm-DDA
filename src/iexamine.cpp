@@ -5360,7 +5360,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                 pop = colorize( _( "There's a mill here.  It is turning and milling." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     pop += string_format( _( "It should take about %s to finish milling." ),
-                                          to_string_clipped( time_left ) );
+                                          to_string_clipped( time_left ) ) + "\n";
                 }
             } else {
                 pop += colorize( _( "There's a mill here." ), c_green ) + "\n";
