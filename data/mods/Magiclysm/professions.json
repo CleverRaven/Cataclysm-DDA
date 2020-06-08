@@ -250,12 +250,13 @@
         ],
         "entries": [
         { "item": "primitive_knife", "container-item": "sheath" }
-        ]
+        ],
       "male": [ "chestwrap_fur", "loincloth_fur" ],
       "female": [ "bikini_top_fur", "hot_pants_fur" ]
     },
     "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
     "traits": [ "MAGUS" ]
+  },
   },
   {
     "type": "profession",
