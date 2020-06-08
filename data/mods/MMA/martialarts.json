@@ -360,5 +360,46 @@
       }
     ],
     "techniques": [ "mma_tec_pokken_kick", "mma_tec_pokken_lariat", "mma_tec_pokken_strike", "mma_tec_pokken_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_setting_sun",
+    "name": { "str": "Setting Sun" },
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
+    "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
+    "arm_block": 0,
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_setting_sun_ongethit",
+        "name": "Feigned Opening",
+        "description": "By intentionally openning your guard, you force your opponent to overextend and are able to take full advantage of your next attack!\n\n+20 Speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 20.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_setting_sun_onpause",
+        "name": "Baffling Defense",
+        "description": "You intentionally move and position yourself awkwardly to confuse and throw off your opponents.\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
+      }
+    ],
+    "techniques": [
+      "mma_tec_setting_sun_counter",
+      "mma_tec_setting_sun_stun",
+      "mma_tec_setting_sun_throw",
+      "mma_tec_setting_sun_throw_crit"
+    ],
+    "weapons": [ "i_staff", "shock_staff", "sword_crude", "sword_nail", "sword_wood", "q_staff" ]
   }
 ]

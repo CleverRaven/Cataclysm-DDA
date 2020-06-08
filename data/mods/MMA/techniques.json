@@ -271,5 +271,61 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_counter",
+    "name": "Fool's Strike",
+    "messages": [ "You completely fool %s and strike back", "<npcname> completely fools %s and strike back" ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.0 },
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_stun",
+    "name": "Hydra Slaying Strike",
+    "messages": [ "You interrupt %s with a perfectly aimed strike", "<npcname> interrupt %s with a perfectly aimed strike" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_throw",
+    "name": "Mighty Throw",
+    "messages": [ "You toss %s aside with a Mighty Throw", "<npcname> tosses %s with a Mighty Throw" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "down_dur": 2,
+    "knockback_dist": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_throw_crit",
+    "name": "Ballista Throw",
+    "messages": [ "You spin and hurl %s away with a Ballista Throw", "<npcname> spins and hurls %s away with a Ballista Throw" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "crit_tec": true,
+    "down_dur": 2,
+    "knockback_dist": 4,
+    "powerful_knockback": true,
+    "weighting": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   }
 ]
