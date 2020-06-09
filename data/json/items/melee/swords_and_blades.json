@@ -774,7 +774,7 @@
     "id": "dao",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str_sp": "dao" },
+    "name": { "str": "dao", "str_sp": "dao" },
     "description": "An ancient Chinese sword consisting of a curved blade and a guard with a cupped design.  Existing since the Shang dynasty, this one is made of bronze.  One of the four major weapons in folklore, alongside the jian sword, qiang spear, and gun staff.",
     "weight": "850 g",
     "volume": "1750 ml",
