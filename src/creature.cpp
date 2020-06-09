@@ -1434,6 +1434,18 @@ void Creature::set_anatomy( const anatomy_id &anat )
     creature_anatomy = anat;
 }
 
+void Creature::set_body()
+{
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        body.push_back( bodypart( bp.id() ) );
+    }
+}
+
+std::vector<bodypart> Creature::get_body() const
+{
+    return body;
+}
+
 bodypart_id Creature::get_random_body_part( bool main ) const
 {
     // TODO: Refuse broken limbs, adjust for mutations

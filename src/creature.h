@@ -583,9 +583,16 @@ class Creature
             return false;
         }
 
+    private:
+        /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        /**this is the actual body of the creature*/
+        std::vector<bodypart> body;
+    public:
         anatomy_id get_anatomy() const;
         void set_anatomy( const anatomy_id &anat );
+        void set_body();
+        std::vector<bodypart> get_body() const;
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**

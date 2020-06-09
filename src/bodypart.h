@@ -14,6 +14,9 @@
 #include "translations.h"
 
 class JsonObject;
+class JsonIn;
+class JsonOut;
+
 template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
@@ -106,10 +109,10 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0;
         float cold_morale_mod = 0;
-
         float stylish_bonus = 0;
-
         int squeamish_penalty = 0;
+
+        int max_hp = 0;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -129,6 +132,38 @@ struct body_part_type {
         }
     private:
         int bionic_slots_ = 0;
+};
+
+class bodypart
+{
+    private:
+        bodypart_str_id id;
+
+        int hp_cur = 0;
+        int hp_max = 0;
+        int damage_bandaged = 0;
+        int damage_disinfected = 0;
+
+    public:
+        bodypart( bodypart_str_id id ): id( id ), hp_max( id->max_hp ), hp_cur( id->max_hp ) {}
+
+        int get_hp_cur() const;
+        int get_hp_max() const;
+        int get_damage_bandaged() const;
+        int get_damage_disinfected() const;
+
+        void set_hp_cur( int set ) ;
+        void set_hp_max( int set ) ;
+        void set_damage_bandaged( int set ) ;
+        void set_damage_disinfected( int set ) ;
+
+        void mod_hp_cur( int mod ) ;
+        void mod_hp_max( int mod ) ;
+        void mod_damage_bandaged( int mod ) ;
+        void mod_damage_disinfected( int mod ) ;
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 class body_part_set

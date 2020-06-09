@@ -216,6 +216,8 @@ monster::monster()
     biosig_timer = -1;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    set_anatomy( anatomy_id( "default_anatomy" ) );
+    set_body();
 }
 
 monster::monster( const mtype_id &id ) : monster()

@@ -217,6 +217,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
+    mandatory( jo, was_loaded, "max_hp", max_hp );
+
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
@@ -380,4 +382,85 @@ void body_part_set::fill( const std::vector<bodypart_id> &bps )
     for( const bodypart_id &bp : bps ) {
         parts.insert( bp.id() );
     }
+}
+
+int bodypart::get_hp_cur() const
+{
+    return hp_cur;
+}
+
+int bodypart::get_hp_max() const
+{
+    return hp_max;
+}
+
+int bodypart::get_damage_bandaged() const
+{
+    return damage_bandaged;
+}
+
+int bodypart::get_damage_disinfected() const
+{
+    return damage_disinfected;
+}
+
+void bodypart::set_hp_cur( int set )
+{
+    hp_cur = set;
+}
+
+void bodypart::set_hp_max( int set )
+{
+    hp_max = set;
+}
+
+void bodypart::set_damage_bandaged( int set )
+{
+    damage_bandaged = set;
+}
+
+void bodypart::set_damage_disinfected( int set )
+{
+    damage_disinfected = set;
+}
+
+void bodypart::mod_hp_cur( int mod )
+{
+    hp_cur += mod;
+}
+
+void bodypart::mod_hp_max( int mod )
+{
+    hp_max += mod;
+}
+
+void bodypart::mod_damage_bandaged( int mod )
+{
+    damage_bandaged += mod;
+}
+
+void bodypart::mod_damage_disinfected( int mod )
+{
+    damage_disinfected += mod;
+}
+
+void bodypart::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "id", id );
+    json.member( "hp_cur", hp_cur );
+    json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
+    json.end_object();
+}
+
+void bodypart::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "id", id, true );
+    jo.read( "hp_cur", hp_cur, true );
+    jo.read( "hp_max", hp_max, true );
+    jo.read( "damage_bandaged", damage_bandaged, true );
+    jo.read( "damage_disinfected", damage_disinfected, true );
 }
