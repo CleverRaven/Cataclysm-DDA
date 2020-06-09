@@ -254,7 +254,7 @@
 		  "cloak",
 		  "gloves_wraps"
 		],
-        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ],
+        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ]
 		      },
         "male": [ "chestwrap_fur", "loincloth_fur" ],
         "female": [ "bikini_top_fur", "hot_pants_fur" ]
@@ -290,5 +290,4 @@
     },
     "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   }
-  ]
-  
+]
