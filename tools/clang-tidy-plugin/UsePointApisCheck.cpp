@@ -122,10 +122,11 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         return Call ? Call->getArg( Arg ) : ConstructorCall->getArg( Arg );
     };
 
-    // For operator() calls there is an extra 'this' argument that doesn't
+    // For operator() and operator= calls there is an extra 'this' argument that doesn't
     // correspond to any parameter, so we need to skip over it.
     unsigned int SkipArgs = 0;
-    if( Callee->getOverloadedOperator() == OO_Call ) {
+    if( Callee->getOverloadedOperator() == OO_Call ||
+        Callee->getOverloadedOperator() == OO_Equal ) {
         SkipArgs = 1;
     }
 
