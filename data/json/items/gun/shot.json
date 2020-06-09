@@ -778,19 +778,15 @@
     "price": 8500,
     "price_postapoc": 1000,
     "bashing": 8,
-    "material": [ "steel"],
+    "material": [ "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 960,
     "durability": 3,
     "clip_size": 1,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "sling", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   }
 ]
+
