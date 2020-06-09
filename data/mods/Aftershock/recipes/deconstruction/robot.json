@@ -13,7 +13,7 @@
       [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "laser_cannon_x-ray", 1 ] ],
+      [ [ "laser_cannon_xray", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "xray_laser_barrel", 3 ] ],
       [ [ "power_supply", 1 ] ],

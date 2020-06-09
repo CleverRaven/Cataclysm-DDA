@@ -252,7 +252,7 @@
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   },
   {
-    "id": "laser_cannon_x-ray",
+    "id": "laser_cannon_xray",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
