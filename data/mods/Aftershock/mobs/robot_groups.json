@@ -19,6 +19,12 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_TURRET",
+    "default": "mon_turret_rifle",
+    "monsters": [ { "monster": "mon_laserturret_xray", "freq": 50, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_LAB",
     "auto_total": true,
     "default": "mon_zombie_scientist",
