@@ -216,7 +216,7 @@
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.6,
-    "wheel_type": "standard",
+    "wheel_type": "off-road",
     "contact_area": 480,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
