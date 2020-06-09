@@ -145,11 +145,25 @@
     "name": "What are they hiding?",
     "requirements": [
       {
-        "event_statistic": "num_avatar_enter_lab_finale",
-        "is": ">=",
-        "target": 1,
+        "event_statistic": "last_oter_type_avatar_entered",
+        "is": "==",
+        "target": [ "oter_type_str_id", "lab_finale" ],
         "visible": "when_achievement_completed",
         "description": "Enter a lab finale room"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_refugee_center",
+    "type": "achievement",
+    "name": "The Last Homely House",
+    "requirements": [
+      {
+        "event_statistic": "last_oter_type_avatar_entered",
+        "is": "==",
+        "target": [ "oter_type_str_id", "evac_center_18" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a refugee center"
       }
     ]
   },

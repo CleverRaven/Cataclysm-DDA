@@ -38,7 +38,10 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                     except Exception as err:
                         errors.append("Problem reading file %s, reason: %s" % (json_file, err))
                     if type(candidates) != list:
-                        errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
+                        if type(candidates) == OrderedDict:
+                            data.append(candidates)
+                        else:
+                            errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
                     else:
                         data += candidates
     return (data, errors)
@@ -162,14 +165,12 @@ def key_counter(data, where_fn_list):
     Returns a tuple of data.
     """
     stats = Counter()
-    # Which blobs had our search key?
-    blobs_matched = 0
-    for item in data:
-        if matches_all_wheres(item, where_fn_list):
-            # We assume we are working with JSON data and that all keys are
-            # strings
-            stats.update(item.keys())
-    return stats, blobs_matched
+    matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
+    for item in matching_data:
+        # We assume we are working with JSON data and that all keys are strings
+        stats.update(item.keys())
+
+    return stats, len(matching_data)
 
 
 
@@ -181,21 +182,23 @@ def value_counter(data, search_key, where_fn_list):
     Returns a tuple of data.
     """
     stats = Counter()
-    # Which blobs had our search key?
-    blobs_matched = 0
-    for item in data:
-        if search_key in item and matches_all_wheres(item, where_fn_list):
-            v = item[search_key]
-            blobs_matched += 1
-            if type(v) == list:
-                stats.update(v)
-            elif type(v) == int or type(v) == float:
-                # Cast to string.
-                stats[str(v)] += 1
-            else:
-                # assume string
-                stats[v] += 1
-    return stats, blobs_matched
+    matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
+    for item in matching_data:
+        if search_key not in item:
+            stats['MISSING'] += 1
+            continue
+
+        v = item[search_key]
+        if type(v) == list:
+            stats.update(v)
+        elif type(v) == int or type(v) == float:
+            # Cast to string.
+            stats[str(v)] += 1
+        else:
+            # assume string
+            stats[v] += 1
+
+    return stats, len(matching_data)
 
 
 

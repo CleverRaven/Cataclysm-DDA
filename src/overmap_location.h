@@ -6,15 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "int_id.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
-struct oter_t;
-struct oter_type_t;
-
-using oter_type_id = int_id<oter_type_t>;
-using oter_type_str_id = string_id<oter_type_t>;
 
 struct overmap_location {
     public:
