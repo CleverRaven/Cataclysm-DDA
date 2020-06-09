@@ -276,11 +276,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**

@@ -2739,7 +2739,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         result = false;
         sees_player = false;
         is_player = false;
-        attitude = Creature::A_ANY;
+        attitude = Creature::Attitude::ANY;
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
             const auto ent_category = C_MONSTER;

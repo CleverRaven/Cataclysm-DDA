@@ -4019,7 +4019,7 @@ Creature *game::is_hostile_very_close()
 Creature *game::is_hostile_within( int distance )
 {
     for( auto &critter : u.get_visible_creatures( distance ) ) {
-        if( u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+        if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             return critter;
         }
     }
@@ -7974,9 +7974,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
         const auto attitude = monster_list[i]->attitude_to( u );
-        if( attitude != last_attitude ) {
+        if( static_cast<int>( attitude ) != last_attitude ) {
             mSortCategory[i + mSortCategory.size()] = attitude;
-            last_attitude = attitude;
+            last_attitude = static_cast<int>( attitude );
         }
     }
 
@@ -8065,7 +8065,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
 
                         std::string sSafemode;
-                        if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
+                        if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
                             sSafemode = _( "<R>emove from safemode Blacklist" );
                         } else {
                             sSafemode = _( "<A>dd to safemode Blacklist" );
@@ -8178,15 +8178,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             const auto m = dynamic_cast<monster *>( cCurMon );
             const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
-            if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
-                get_safemode().remove_rule( monName, Creature::A_ANY );
+            if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
+                get_safemode().remove_rule( monName, Creature::Attitude::ANY );
             }
         } else if( action == "SAFEMODE_BLACKLIST_ADD" ) {
             if( !get_safemode().empty() ) {
                 const auto m = dynamic_cast<monster *>( cCurMon );
                 const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
-                get_safemode().add_rule( monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
+                get_safemode().add_rule( monName, Creature::Attitude::ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
                                          rule_state::BLACKLISTED );
             }
         } else if( action == "look" ) {

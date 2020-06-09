@@ -37,7 +37,7 @@ class safemode
                 int proximity;
                 Categories category;
 
-                rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
+                rules_class() : active( false ), whitelist( false ), attitude( Creature::Attitude::HOSTILE ),
                     proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
                              Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),

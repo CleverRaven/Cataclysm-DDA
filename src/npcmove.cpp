@@ -431,7 +431,7 @@ void npc::assess_danger()
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
+        } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -445,11 +445,11 @@ void npc::assess_danger()
 
     for( const monster &critter : g->all_monsters() ) {
         auto att = critter.attitude_to( *this );
-        if( att == A_FRIENDLY ) {
+        if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
         }
-        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+        if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
             continue;
         }
         if( !sees( critter ) ) {
@@ -2247,7 +2247,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             return;
         }
         const auto att = attitude_to( *critter );
-        if( att == A_HOSTILE ) {
+        if( att == Attitude::HOSTILE ) {
             if( !no_bashing ) {
                 warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );

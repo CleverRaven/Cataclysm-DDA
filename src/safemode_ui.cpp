@@ -283,14 +283,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE,
+            current_tab.push_back( rules_class( "*", true, false, Creature::Attitude::HOSTILE,
                                                 get_option<int>( "SAFEMODEPROXIMITY" )
                                                 , HOSTILE_SPOTTED ) );
-            current_tab.push_back( rules_class( "*", true, true, Creature::A_HOSTILE, 5, SOUND ) );
+            current_tab.push_back( rules_class( "*", true, true, Creature::Attitude::HOSTILE, 5, SOUND ) );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "", true, false, Creature::A_HOSTILE,
+            current_tab.push_back( rules_class( "", true, false, Creature::Attitude::HOSTILE,
                                                 get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED ) );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
@@ -389,17 +389,17 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
                 switch( attitude ) {
-                    case Creature::A_HOSTILE:
-                        attitude = Creature::A_NEUTRAL;
+                    case Creature::Attitude::HOSTILE:
+                        attitude = Creature::Attitude::NEUTRAL;
                         break;
-                    case Creature::A_NEUTRAL:
-                        attitude = Creature::A_FRIENDLY;
+                    case Creature::Attitude::NEUTRAL:
+                        attitude = Creature::Attitude::FRIENDLY;
                         break;
-                    case Creature::A_FRIENDLY:
-                        attitude = Creature::A_ANY;
+                    case Creature::Attitude::FRIENDLY:
+                        attitude = Creature::Attitude::ANY;
                         break;
-                    case Creature::A_ANY:
-                        attitude = Creature::A_HOSTILE;
+                    case Creature::Attitude::ANY:
+                        attitude = Creature::Attitude::HOSTILE;
                 }
             } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == SOUND ||
                        !current_tab[line].whitelist ) ) {
@@ -679,18 +679,18 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
 
 void safemode::set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in )
 {
-    static std::vector<Creature::Attitude> attitude_any = { {Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY} };
+    static std::vector<Creature::Attitude> attitude_any = { {Creature::Attitude::HOSTILE, Creature::Attitude::NEUTRAL, Creature::Attitude::FRIENDLY} };
     switch( rule_in.category ) {
         case HOSTILE_SPOTTED:
             if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
-                if( rule_in.attitude == Creature::A_ANY ) {
+                if( rule_in.attitude == Creature::Attitude::ANY ) {
                     for( auto &att : attitude_any ) {
-                        safemode_rules_hostile[name_in][att] = rule_state_class( rs_in, rule_in.proximity,
-                                                               HOSTILE_SPOTTED );
+                        safemode_rules_hostile[name_in][static_cast<int>( att )] = rule_state_class( rs_in,
+                                rule_in.proximity, HOSTILE_SPOTTED );
                     }
                 } else {
-                    safemode_rules_hostile[name_in][rule_in.attitude] = rule_state_class( rs_in, rule_in.proximity,
-                            HOSTILE_SPOTTED );
+                    safemode_rules_hostile[name_in][static_cast<int> ( rule_in.attitude )] = rule_state_class( rs_in,
+                            rule_in.proximity, HOSTILE_SPOTTED );
                 }
             }
             break;
