@@ -2806,6 +2806,6 @@
         [ "large_repairkit", 30 ]
       ]
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 2 ] ] ]
-  },
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
+  }3
 ]
