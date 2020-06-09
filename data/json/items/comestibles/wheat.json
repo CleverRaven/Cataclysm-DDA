@@ -14,8 +14,9 @@
     "price": 120,
     "price_postapoc": 100,
     "material": "wheat",
+    "milling": { "into": "flour", "conversion_rate": 15 },
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "MILLABLE", "RAW" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "fun": -10
   },
@@ -180,7 +181,8 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "MILLABLE", "RAW" ],
+    "milling": { "into": "flour", "conversion_rate": 3.75 },
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "fun": -10
   },
