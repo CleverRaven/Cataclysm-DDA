@@ -900,20 +900,28 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( is_comestible() && typeId() == rhs.typeId() ) {
+    if( has_temperature() && typeId() == rhs.typeId() ) {
+        if( goes_bad() ) {
+            //use maximum rot between the two
+            set_relative_rot( std::max( get_relative_rot(),
+                                        rhs.get_relative_rot() ) );
+        }
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
-        if( rhs_energy < 0 ) {
-            debugmsg( "Combining items with no defined temperature." );
-            // This item was probably created without defining its temperature. Find that place and fix it.
+        if( rhs_energy < 0 || lhs_energy < 0 ) {
+            if( !g->new_game ) {
+                debugmsg( "Combining items with no defined temperature." );
+                // This item was probably created without defining its temperature. 
+                // Trying to handle its temperature would just result in nonsense.
+                // Find the place where this item is created and fix it.
+                // This is not a problem during world gen (and is expected to happen)
+            }
         } else {
             const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                     weight() ) + to_gram( rhs.weight() ) );
             set_item_specific_energy( combined_specific_energy );
         }
-        //use maximum rot between the two
-        set_relative_rot( std::max( get_relative_rot(),
-                                    rhs.get_relative_rot() ) );
+
     } else if( !stacks_with( rhs, true ) ) {
         return false;
     }
