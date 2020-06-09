@@ -22,7 +22,7 @@ class safemode
             MAX_TAB
         };
 
-        enum Categories : int {
+        enum class Categories : int {
             HOSTILE_SPOTTED,
             SOUND
         };

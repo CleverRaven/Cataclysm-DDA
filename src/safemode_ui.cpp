@@ -285,13 +285,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             changes_made = true;
             current_tab.push_back( rules_class( "*", true, false, Creature::Attitude::HOSTILE,
                                                 get_option<int>( "SAFEMODEPROXIMITY" )
-                                                , HOSTILE_SPOTTED ) );
-            current_tab.push_back( rules_class( "*", true, true, Creature::Attitude::HOSTILE, 5, SOUND ) );
+                                                , Categories::HOSTILE_SPOTTED ) );
+            current_tab.push_back( rules_class( "*", true, true, Creature::Attitude::HOSTILE, 5,
+                                                Categories::SOUND ) );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
             current_tab.push_back( rules_class( "", true, false, Creature::Attitude::HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED ) );
+                                                get_option<int>( "SAFEMODEPROXIMITY" ), Categories::HOSTILE_SPOTTED ) );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
@@ -381,10 +382,10 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             } else if( column == COLUMN_WHITE_BLACKLIST ) {
                 current_tab[line].whitelist = !current_tab[line].whitelist;
             } else if( column == COLUMN_CATEGORY ) {
-                if( current_tab[line].category == HOSTILE_SPOTTED ) {
-                    current_tab[line].category = SOUND;
-                } else if( current_tab[line].category == SOUND ) {
-                    current_tab[line].category = HOSTILE_SPOTTED;
+                if( current_tab[line].category == Categories::HOSTILE_SPOTTED ) {
+                    current_tab[line].category = Categories::SOUND;
+                } else if( current_tab[line].category == Categories::SOUND ) {
+                    current_tab[line].category = Categories::HOSTILE_SPOTTED;
                 }
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
@@ -401,7 +402,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     case Creature::Attitude::ANY:
                         attitude = Creature::Attitude::HOSTILE;
                 }
-            } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == SOUND ||
+            } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == Categories::SOUND ||
                        !current_tab[line].whitelist ) ) {
                 const auto text = string_input_popup()
                                   .title( _( "Proximity Distance (0=max view distance)" ) )
@@ -599,7 +600,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const rule_state state_in )
 {
     character_rules.push_back( rules_class( rule_in, true, ( state_in == rule_state::WHITELISTED ),
-                                            attitude_in, proximity_in, HOSTILE_SPOTTED ) );
+                                            attitude_in, proximity_in, Categories::HOSTILE_SPOTTED ) );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -655,7 +656,7 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
     //may have some performance issues since exclusion needs to check all monsters also
     for( auto &rule : rules_in ) {
         switch( rule.category ) {
-            case HOSTILE_SPOTTED:
+            case Categories::HOSTILE_SPOTTED:
                 if( !rule.whitelist ) {
                     //Check include patterns against all monster mtypes
                     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
@@ -668,7 +669,7 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
                     }
                 }
                 break;
-            case SOUND:
+            case Categories::SOUND:
                 set_rule( rule, rule.rule, rule.whitelist ? rule_state::WHITELISTED : rule_state::BLACKLISTED );
                 break;
             default:
@@ -681,20 +682,20 @@ void safemode::set_rule( const rules_class &rule_in, const std::string &name_in,
 {
     static std::vector<Creature::Attitude> attitude_any = { {Creature::Attitude::HOSTILE, Creature::Attitude::NEUTRAL, Creature::Attitude::FRIENDLY} };
     switch( rule_in.category ) {
-        case HOSTILE_SPOTTED:
+        case Categories::HOSTILE_SPOTTED:
             if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
                 if( rule_in.attitude == Creature::Attitude::ANY ) {
                     for( auto &att : attitude_any ) {
                         safemode_rules_hostile[name_in][static_cast<int>( att )] = rule_state_class( rs_in,
-                                rule_in.proximity, HOSTILE_SPOTTED );
+                                rule_in.proximity, Categories::HOSTILE_SPOTTED );
                     }
                 } else {
                     safemode_rules_hostile[name_in][static_cast<int> ( rule_in.attitude )] = rule_state_class( rs_in,
-                            rule_in.proximity, HOSTILE_SPOTTED );
+                            rule_in.proximity, Categories::HOSTILE_SPOTTED );
                 }
             }
             break;
-        case SOUND:
+        case Categories::SOUND:
             safemode_rules_sound.push_back( rule_in );
             break;
         default:
@@ -847,7 +848,7 @@ void safemode::deserialize( JsonIn &jsin )
         const Creature::Attitude attitude = static_cast<Creature::Attitude>( jo.get_int( "attitude" ) );
         const int proximity = jo.get_int( "proximity" );
         const Categories cat = jo.has_member( "category" ) ? static_cast<Categories>
-                               ( jo.get_int( "category" ) ) : HOSTILE_SPOTTED;
+                               ( jo.get_int( "category" ) ) : Categories::HOSTILE_SPOTTED;
 
         temp_rules.push_back(
             rules_class( rule, active, whitelist, attitude, proximity, cat )
