@@ -13,7 +13,7 @@ namespace behavior
 
 status_t return_running( const oracle_t *, const std::string & )
 {
-    return running;
+    return status_t::running;
 }
 
 // Just a little helper to make populating predicate_map slightly less gross.

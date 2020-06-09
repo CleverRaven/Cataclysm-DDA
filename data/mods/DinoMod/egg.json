@@ -93,6 +93,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_apatosaurus",
+    "name": "apatosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_apatosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ceratosaurus",
+    "name": "ceratosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_ceratosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_allosaurus",
     "name": "allosaurus egg",
     "copy-from": "egg_dino",

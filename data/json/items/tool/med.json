@@ -98,7 +98,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "techniques": "PRECISE",
+    "techniques": [ "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
     "flags": [ "SPEAR" ]
   },

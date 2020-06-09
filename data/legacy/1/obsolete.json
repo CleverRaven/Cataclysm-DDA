@@ -85,7 +85,7 @@
     "weight": 46,
     "color": "red",
     "container": "jug_plastic",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "symbol": "~",
     "calories": 17,
     "quench": 6,

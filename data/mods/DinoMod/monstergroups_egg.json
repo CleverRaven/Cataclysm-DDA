@@ -14,6 +14,8 @@
       { "monster": "mon_triceratops_hatchling", "freq": 3, "cost_multiplier": 1 },
       { "monster": "mon_stegosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_ankylosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_apatosaurus_hatchling", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_allosaurus_hatchling", "freq": 8, "cost_multiplier": 1 },
       { "monster": "mon_eoraptor_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_velociraptor_hatchling", "freq": 15, "cost_multiplier": 1 },
@@ -83,6 +85,18 @@
     "type": "monstergroup",
     "default": "mon_ankylosaurus_hatchling",
     "monsters": [ { "monster": "mon_ankylosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_apatosaurus",
+    "type": "monstergroup",
+    "default": "mon_apatosaurus_hatchling",
+    "monsters": [ { "monster": "mon_apatosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_ceratosaurus",
+    "type": "monstergroup",
+    "default": "mon_ceratosaurus_hatchling",
+    "monsters": [ { "monster": "mon_ceratosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_allosaurus",

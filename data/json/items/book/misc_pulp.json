@@ -1,0 +1,86 @@
+[
+  {
+    "id": "novel_pulp",
+    "type": "BOOK",
+    "name": { "str": "pulp novel" },
+    "description": "A hardboiled detective tale filled with hard hitting action and intrigue.",
+    "time": "18 m",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_venus",
+    "type": "BOOK",
+    "name": { "str": "Black Valkyries From Venus", "str_pl": "copies of Black Valkyries" },
+    "description": "You hold in your hands a weather-beaten novel written by someone named \"Lee Racket.\"",
+    "//isbn13": 9781949313062,
+    "weight": "191 g",
+    "volume": "243 ml",
+    "longest_side": "23 cm",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_wtmrw",
+    "type": "BOOK",
+    "name": { "str": "The Wrong Tomorrow", "str_pl": "copies of Wrong Tomorrow" },
+    "description": "You hold in your hands a cheap drugstore paperback written by someone named \"Lee Racket.\"",
+    "//isbn13": 9780575131569,
+    "weight": "225 g",
+    "volume": "408 ml",
+    "longest_side": "20 cm",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_nogod",
+    "type": "BOOK",
+    "name": { "str": "No God From a Corpse", "str_pl": "copies of No God" },
+    "description": "This is a weatherworn paperback written by some skirt named \"Lee Racket.\"  It tells how rage and jealousy can turn a man, or a woman, into a monster.  This story is hard-boiled enough to break a spoon.",
+    "//translator": "'Hard-boiled enough to break a spoon' means melodramatic, exaggerated, emotional but simple, and possessing a general lack of literary pretense. Weatherworn means damaged by age.  Skirt means woman.",
+    "//isbn13": 9781627551144,
+    "weight": "225 g",
+    "volume": "408 ml",
+    "longest_side": "20 cm",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_ddive",
+    "type": "BOOK",
+    "name": { "str": "The Deep Dive", "str_pl": "copies of Deep Dive" },
+    "description": "This dimestore short story about space travel is written by a broad named \"Lee Racket.\"",
+    "//translator": "Broad is a dismissive and outdated term that simply means \"woman.\"  The term is used because it evokes the (decidedly misogynistic) era in which the pulp genre gained popularity within the United States.",
+    "//isbn13": 9781612420530,
+    "//genre": "this is also scifi",
+    "weight": "154 g",
+    "volume": "206 ml",
+    "longest_side": "19 cm",
+    "copy-from": "book_fict_soft_pulp_tpl",
+    "relative": { "chapters": -2 }
+  },
+  {
+    "id": "book_fict_soft_pulp_squids",
+    "type": "BOOK",
+    "name": "Planet of the Murderous Squids that Time Forgot!",
+    "description": "In this psychedelic adventure novel of cosmic exploration, an elderly assassin discovers a planet too good to be true.  Only once it is too late does she discover the harrowing truth at the center of \"The Planet of the Murderous Squids that Time Forgot!\"",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_gcapes",
+    "type": "BOOK",
+    "name": "The Great Capes of Metropolis",
+    "description": "In this classic pulp paperback of superheroic exploits, a group of masked vigilantes with diverse superpowers learn to work together to defeat the ultimate villain.",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_yesmurd",
+    "type": "BOOK",
+    "name": "Yesterday's Murdered",
+    "description": "In this fast paced pulp noir, a hard-drinking detective with nerves of steel has one last shot at vengeance.",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  },
+  {
+    "id": "book_fict_soft_pulp_flashcc",
+    "type": "BOOK",
+    "name": "Flashgun Condor and the Crimson Criminal",
+    "description": "A hot-blooded photographer who fights crime with film, footage, and fists, Condor is more than a mere shutterbug on the crime beat.  But will she be able to unravel a devious deception and bring the \"Crimson Criminal\" to justice?",
+    "copy-from": "book_fict_soft_pulp_tpl"
+  }
+]

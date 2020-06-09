@@ -29,7 +29,6 @@ void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
 void load_tileset();
 void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
-void resize_term( int cell_w, int cell_h );
 void toggle_fullscreen_window();
 
 struct window_dimensions {

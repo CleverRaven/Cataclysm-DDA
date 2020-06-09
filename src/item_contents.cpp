@@ -419,12 +419,11 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
 item *item_contents::magazine_current()
 {
     for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            continue;
-        }
-        item *mag = pocket.magazine_current();
-        if( mag != nullptr ) {
-            return mag;
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            item *mag = pocket.magazine_current();
+            if( mag != nullptr ) {
+                return mag;
+            }
         }
     }
     return nullptr;

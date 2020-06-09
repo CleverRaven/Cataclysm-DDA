@@ -1280,7 +1280,6 @@ void Character::dismount()
         mounted_creature = nullptr;
         critter->mounted_player = nullptr;
         setpos( *pnt );
-        g->refresh_all();
         mod_moves( -100 );
         set_movement_mode( move_mode_id( "walk" ) );
     }
@@ -2305,8 +2304,8 @@ item *Character::try_add( item it, const item *avoid )
             }
         }
     } else {
-        pocket->add( it );
-        ret = &pocket->back();
+        // this will set ret to either it, or to stack where it was placed
+        pocket->add( it, &ret );
     }
 
     if( keep_invlet ) {
@@ -3598,19 +3597,6 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
         encumbrance_cache_dirty = false;
     }
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
-}
-
-hint_rating Character::rate_action_change_side( const item &it ) const
-{
-    if( !is_worn( it ) ) {
-        return hint_rating::iffy;
-    }
-
-    if( !it.is_sided() ) {
-        return hint_rating::cant;
-    }
-
-    return hint_rating::good;
 }
 
 bool Character::change_side( item &it, bool interactive )
@@ -6732,6 +6718,80 @@ int Character::ammo_count_for( const item &gun )
     }
 
     return ret;
+}
+
+bool Character::can_reload( const item &it, const itype_id &ammo ) const
+{
+    if( !it.is_reloadable_with( ammo ) ) {
+        return false;
+    }
+
+    if( it.is_ammo_belt() ) {
+        const cata::optional<itype_id> &linkage = it.type->magazine->linkage;
+        if( linkage && !has_charges( *linkage, 1 ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+hint_rating Character::rate_action_reload( const item &it ) const
+{
+    hint_rating res = hint_rating::cant;
+
+    // Guns may contain additional reloadable mods so check these first
+    for( const item *mod : it.gunmods() ) {
+        switch( rate_action_reload( *mod ) ) {
+            case hint_rating::good:
+                return hint_rating::good;
+
+            case hint_rating::cant:
+                continue;
+
+            case hint_rating::iffy:
+                res = hint_rating::iffy;
+        }
+    }
+
+    if( !it.is_reloadable() ) {
+        return res;
+    }
+
+    return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
+}
+
+hint_rating Character::rate_action_unload( const item &it ) const
+{
+    if( it.is_container() && !it.contents.empty() &&
+        it.can_unload_liquid() ) {
+        return hint_rating::good;
+    }
+
+    if( it.has_flag( "NO_UNLOAD" ) ) {
+        return hint_rating::cant;
+    }
+
+    if( it.magazine_current() ) {
+        return hint_rating::good;
+    }
+
+    for( const item *e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+            return hint_rating::good;
+        }
+    }
+
+    if( it.ammo_types().empty() ) {
+        return hint_rating::cant;
+    }
+
+    if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
+        return hint_rating::good;
+    }
+
+    return hint_rating::iffy;
 }
 
 float Character::rest_quality() const

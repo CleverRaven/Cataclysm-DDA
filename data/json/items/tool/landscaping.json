@@ -50,7 +50,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "use_action": "MAKEMOUND"
   },
   {

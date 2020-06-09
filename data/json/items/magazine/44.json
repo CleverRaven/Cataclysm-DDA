@@ -32,7 +32,6 @@
     "color": "light_gray",
     "ammo_type": [ "44" ],
     "capacity": 8,
-    "reliability": 8,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 8 } } ]
   }

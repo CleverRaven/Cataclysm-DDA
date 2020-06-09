@@ -1,7 +1,9 @@
 #include <memory>
+#include <sstream>
 
 #include "achievement.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_variant.h"
 #include "catch/catch.hpp"
 #include "character_id.h"
@@ -9,6 +11,7 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "game.h"
+#include "optional.h"
 #include "stats_tracker.h"
 #include "string_id.h"
 #include "stringmaker.h"
@@ -128,6 +131,28 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
     b.send<am>( no_monster, t_null, move_mode_walk, true, 5 );
     CHECK( s.get_events( am ).maximum( "z" ) == 5 );
+}
+
+TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
+{
+    stats_tracker s;
+    event_bus b;
+    b.subscribe( &s );
+
+    const character_id u_id = g->u.getID();
+    constexpr event_type ctd = event_type::character_takes_damage;
+
+    const time_point start = calendar::turn;
+
+    CHECK( !s.get_events( ctd ).first() );
+    CHECK( !s.get_events( ctd ).last() );
+    b.send<ctd>( u_id, 10 );
+    CHECK( s.get_events( ctd ).first()->second.first == start );
+    CHECK( s.get_events( ctd ).last()->second.last == calendar::turn );
+    calendar::turn += 1_minutes;
+    b.send<ctd>( u_id, 10 );
+    CHECK( s.get_events( ctd ).first()->second.first == start );
+    CHECK( s.get_events( ctd ).last()->second.last == calendar::turn );
 }
 
 static void send_game_start( event_bus &b, const character_id &u_id )
@@ -285,6 +310,35 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( damage_taken->value( s ).get<int>() == 0 );
         b.send( avatar_2_damage );
         CHECK( damage_taken->value( s ).get<int>() == 2 );
+    }
+
+    SECTION( "first_last_events" ) {
+        const character_id u_id = g->u.getID();
+        const oter_id field( "field" );
+        const itype_id crowbar( "crowbar" );
+        const itype_id pipe( "pipe" );
+        const string_id<event_statistic> first_omt( "first_omt" );
+        const string_id<event_statistic> last_wielded( "avatar_last_item_wielded" );
+
+        send_game_start( b, u_id );
+        CHECK( first_omt->value( s ) == cata_variant() );
+        CHECK( last_wielded->value( s ) == cata_variant() );
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::character_wields_item>( u_id, crowbar );
+        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+        b.send<event_type::character_wields_item>( u_id, pipe );
+        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( last_wielded->value( s ) == cata_variant( pipe ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        b.send<event_type::character_wields_item>( u_id, crowbar );
+        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
     }
 }
 
@@ -480,9 +534,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     } );
     b.subscribe( &a );
 
+    const character_id u_id = g->u.getID();
+
     SECTION( "time" ) {
         calendar::turn = calendar::start_of_game;
-        const character_id u_id = g->u.getID();
 
         const cata::event avatar_wakes_up =
             cata::event::make<event_type::character_wakes_up>( u_id );
@@ -500,8 +555,51 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         b.send( avatar_wakes_up );
         CHECK( achievements_completed.count( a_survive_one_day ) );
     }
+
+    SECTION( "first_and_last" ) {
+        calendar::turn = calendar::start_of_game;
+        oter_id field( "field" );
+
+        auto send_enter_omt_zero = [&]() {
+            b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        };
+
+        auto send_enter_omt_other = [&]() {
+            b.send<event_type::avatar_enters_omt>( tripoint_below, field );
+        };
+
+        achievement_id a_return_to_first_omt( "achievement_return_to_first_omt" );
+
+        send_game_start( b, u_id );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+
+        calendar::turn += 30_days;
+        send_enter_omt_other();
+        CHECK( !achievements_completed.count( a_return_to_first_omt ) );
+        send_enter_omt_zero();
+        CHECK( achievements_completed.count( a_return_to_first_omt ) );
+    }
+
     SECTION( "hidden_kills" ) {
-        const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
@@ -531,7 +629,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         CAPTURE( time_since_game_start );
         calendar::turn = calendar::start_of_game + time_since_game_start;
 
-        const character_id u_id = g->u.getID();
         const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
@@ -665,7 +762,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_marathon( "achievement_marathon" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -684,7 +780,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_traverse_sharp_terrain( "achievement_traverse_sharp_terrain" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -703,7 +798,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_swim_merit_badge( "achievement_swim_merit_badge" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -726,7 +820,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_reach_max_z_level( "achievement_reach_max_z_level" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -743,7 +836,6 @@ TEST_CASE( "achievments_tracker", "[stats]" )
             achievement_id a_reach_min_z_level( "achievement_reach_min_z_level" );
 
             GIVEN( "a new game" ) {
-                const character_id u_id = g->u.getID();
                 send_game_start( b, u_id );
                 CHECK( achievements_completed.empty() );
 
@@ -814,4 +906,35 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
         REQUIRE( e != sub.events.end() );
         CHECK( e->get<bool>( "achievements_enabled" ) == true );
     }
+}
+
+TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
+{
+    std::string json_string = R"({
+        "data": {
+            "character_triggers_trap": {
+                "event_counts": [
+                    [
+                        {
+                            "character": [ "character_id", "20" ],
+                            "trap": [ "trap_str_id", "tr_goo" ]
+                        },
+                        2
+                    ]
+                ]
+            },
+            "character_kills_monster": {
+                "event_counts": []
+            }
+        },
+        "initial_scores": [
+            "score_distance_walked"
+        ]
+    })";
+    std::istringstream is( json_string );
+    JsonIn jsin( is );
+    stats_tracker s;
+    s.deserialize( jsin );
+    CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );
+    CHECK( s.get_events( event_type::character_kills_monster ).count() == 0 );
 }

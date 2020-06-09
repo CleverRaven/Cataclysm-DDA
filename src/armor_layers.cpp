@@ -424,7 +424,7 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     mvwputch( w, point( left_pane_w + mid_pane_w + 2, 2 ), BORDER_COLOR, LINE_OXXX );
     mvwputch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), BORDER_COLOR, LINE_XXOX );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void player::sort_armor()
@@ -700,11 +700,11 @@ void player::sort_armor()
                        _( "<more>" ) );
         }
         // F5
-        wrefresh( w_sort_cat );
-        wrefresh( w_sort_left );
-        wrefresh( w_sort_middle );
-        wrefresh( w_sort_right );
-        wrefresh( w_encumb );
+        wnoutrefresh( w_sort_cat );
+        wnoutrefresh( w_sort_left );
+        wnoutrefresh( w_sort_middle );
+        wnoutrefresh( w_sort_right );
+        wnoutrefresh( w_encumb );
     } );
 
     bool exit = false;

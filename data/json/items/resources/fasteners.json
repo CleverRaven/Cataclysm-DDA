@@ -66,7 +66,7 @@
     "volume": "2 ml",
     "price": 100,
     "price_postapoc": 0,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

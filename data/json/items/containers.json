@@ -115,7 +115,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -131,7 +131,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -1017,7 +1017,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [

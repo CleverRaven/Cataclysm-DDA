@@ -157,7 +157,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
             draw_worldgen_tabs( wf_win, static_cast<size_t>( curtab ) );
-            wrefresh( wf_win );
+            wnoutrefresh( wf_win );
         } );
 
         const size_t numtabs = tabs.size();
@@ -449,7 +449,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         }
 
-        wrefresh( w_worlds_border );
+        wnoutrefresh( w_worlds_border );
 
         for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
             if( mapLines[i] ) {
@@ -459,7 +459,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         }
 
-        wrefresh( w_worlds_header );
+        wnoutrefresh( w_worlds_header );
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -507,12 +507,12 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         }
 
-        wrefresh( w_worlds_header );
+        wnoutrefresh( w_worlds_header );
 
         fold_and_print( w_worlds_tooltip, point_zero, 78, c_white, _( "Pick a world to enter game" ) );
-        wrefresh( w_worlds_tooltip );
+        wnoutrefresh( w_worlds_tooltip );
 
-        wrefresh( w_worlds );
+        wnoutrefresh( w_worlds );
     } );
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
@@ -744,8 +744,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), point_zero );
     }
 
-    wrefresh( w );
-    wrefresh( w_shift );
+    wnoutrefresh( w );
+    wnoutrefresh( w_shift );
 }
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
@@ -780,11 +780,11 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,
                        true, _( "--NO ACTIVE MODS--" ), catacurses::window() );
-        wrefresh( w_mods );
+        wnoutrefresh( w_mods );
     } );
 
     while( true ) {
@@ -924,7 +924,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 mvwputch( header_windows[i], point( header_x + utf8_width( headers[i] ) + 2, 0 ),
                           c_red, '>' );
             }
-            wrefresh( header_windows[i] );
+            wnoutrefresh( header_windows[i] );
         }
 
         // Redraw description
@@ -958,8 +958,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             wputch( win, BORDER_COLOR, LINE_OXOX );
         }
 
-        wrefresh( w_description );
-        wrefresh( win );
+        wnoutrefresh( w_description );
+        wnoutrefresh( win );
 
         // Redraw list
         draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0,
@@ -1174,8 +1174,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
             }
         }
 
-        wrefresh( win );
-        wrefresh( w_confirmation );
+        wnoutrefresh( win );
+        wnoutrefresh( w_confirmation );
     } );
 
     do {
@@ -1303,8 +1303,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
                     ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
                     ctxtp.get_desc( "HELP_KEYBINDINGS" )
                   );
-    wrefresh( win );
-    catacurses::refresh();
+    wnoutrefresh( win );
 }
 
 void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t current )

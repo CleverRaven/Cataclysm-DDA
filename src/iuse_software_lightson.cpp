@@ -73,7 +73,7 @@ void lightson_game::draw_level()
             mvwputch( w, current + point_south_east, selected ? hilite( c_white ) : fg, symbol );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void lightson_game::generate_change_coords( int changes )
@@ -176,7 +176,7 @@ int lightson_game::start_game()
                         _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ),
                         _( "Toggle lights switches selected light and 4 its neighbors." ) );
 
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         draw_level();
     } );

@@ -53,6 +53,9 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
         return;
     }
     const NameConvention NameMatcher( XVar->getName() );
+    if( !NameMatcher ) {
+        return;
+    }
     if( NameMatcher.Match( YVar->getName() ) != NameConvention::YName ) {
         return;
     }

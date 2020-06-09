@@ -547,7 +547,6 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
-        void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( player &p );
@@ -580,7 +579,9 @@ class game
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
                                   const std::string &area_name, int column,
-                                  int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
+                                  int &line, int last_line, const visibility_variables &cache );
+
+        void draw_look_around_cursor( const tripoint &lp, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
         void extended_description( const tripoint &p );
@@ -845,7 +846,6 @@ class game
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                     visibility_type visibility );
-        void print_visibility_indicator( visibility_type visibility );
         void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -1049,8 +1049,8 @@ class game
         bool npcs_dirty = false;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false;
-        /** Was the player sleeping during this turn. */
-        bool player_was_sleeping = false;
+        /** Is this the first redraw since waiting (sleeping or activity) started */
+        bool first_redraw_since_waiting_started = true;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zones_manager_open = false;
 

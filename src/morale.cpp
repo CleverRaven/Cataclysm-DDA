@@ -764,7 +764,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
         draw_scrollbar( w, offset, rows_visible, rows_total,
                         point( 0, top_lines.size() ), c_white, true );
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     input_context ctxt( "MORALE" );

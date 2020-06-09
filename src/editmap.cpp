@@ -823,7 +823,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         nc_color dummy = c_light_gray;
         print_colored_text( w_info, point( 1, line ), dummy, c_light_gray, *it );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static ter_id get_alt_ter( bool isvert, ter_id sel_ter )

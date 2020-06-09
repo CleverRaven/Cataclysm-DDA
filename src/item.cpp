@@ -3410,6 +3410,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) ) );
         }
+        // Chance of critical hit
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
@@ -3418,29 +3419,37 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               static_cast<int>( g->u.crit_chance( 100, 0, *this ) *
                                                       100 ) ) ) );
         }
+        // Bash damage
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> bashing (<neutral>%d</neutral> on a critical hit)" ),
-                                              static_cast<int>( non_crit.type_damage( DT_BASH ) ),
-                                              static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
+            // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+            // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+            info.push_back( iteminfo( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
+                                      non_crit.type_damage( DT_BASH ) ) );
+            info.push_back( iteminfo( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
+                                      crit.type_damage( DT_BASH ) ) );
         }
+        // Cut damage
         if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> cutting (<neutral>%d</neutral> on a critical hit)" ),
-                                              static_cast<int>( non_crit.type_damage( DT_CUT ) ),
-                                              static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
+
+            info.push_back( iteminfo( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
+                                      non_crit.type_damage( DT_CUT ) ) );
+            info.push_back( iteminfo( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
+                                      crit.type_damage( DT_CUT ) ) );
         }
+        // Pierce/stab damage
         if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> piercing (<neutral>%d</neutral> on a critical hit)" ),
-                                              static_cast<int>( non_crit.type_damage( DT_STAB ) ),
-                                              static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
+
+            info.push_back( iteminfo( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
+                                      non_crit.type_damage( DT_STAB ) ) );
+            info.push_back( iteminfo( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
+                                      crit.type_damage( DT_STAB ) ) );
         }
+        // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> moves per attack" ), attack_cost ) ) );
+            info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "<num>",
+                                      iteminfo::lower_is_better, attack_cost ) );
         }
         insert_separation_line( info );
     }
@@ -6550,6 +6559,11 @@ bool item::is_salvageable() const
     return !has_flag( flag_NO_SALVAGE );
 }
 
+bool item::is_disassemblable() const
+{
+    return recipe_dictionary::get_uncraft( typeId() ) && !has_flag( flag_ETHEREAL_ITEM );
+}
+
 bool item::is_craft() const
 {
     return craft_data_ != nullptr;
@@ -7500,8 +7514,6 @@ void item::gun_cycle_mode()
         }
     }
     gun_set_mode( modes.begin()->first );
-
-    return;
 }
 
 const use_function *item::get_use( const std::string &use_name ) const

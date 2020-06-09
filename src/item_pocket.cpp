@@ -157,6 +157,36 @@ void item_pocket::restack()
     }
 }
 
+item *item_pocket::restack( /*const*/ item *it )
+{
+    item *ret = it;
+    if( contents.size() <= 1 ) {
+        return ret;
+    }
+    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+        if( !outer_iter->count_by_charges() ) {
+            continue;
+        }
+        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                ++inner_iter;
+                continue;
+            }
+            if( outer_iter->combine( *inner_iter ) ) {
+                // inner was placed in outer, check if inner was the item that we track
+                if( &( *inner_iter ) == ret ) {
+                    ret = &( *outer_iter );
+                }
+                inner_iter = contents.erase( inner_iter );
+                outer_iter = contents.begin();
+            } else {
+                ++inner_iter;
+            }
+        }
+    }
+    return ret;
+}
+
 bool item_pocket::has_item_stacks_with( const item &it ) const
 {
     for( const item &inside : contents ) {
@@ -1176,10 +1206,14 @@ bool item_pocket::airtight() const
     return data->airtight;
 }
 
-void item_pocket::add( const item &it )
+void item_pocket::add( const item &it, item **ret )
 {
     contents.push_back( it );
-    restack();
+    if( ret == nullptr ) {
+        restack();
+    } else {
+        *ret = restack( &contents.back() );
+    }
 }
 
 void item_pocket::fill_with( item contained )
