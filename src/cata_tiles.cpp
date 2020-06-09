@@ -1038,9 +1038,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     const auto &ch = g->m.access_cache( center.z );
 
     //set up a default tile for the edges outside the render area
-    visibility_type offscreen_type = VIS_DARK;
+    visibility_type offscreen_type = visibility_type::DARK;
     if( cache.u_is_boomered ) {
-        offscreen_type = VIS_BOOMER_DARK;
+        offscreen_type = visibility_type::BOOMER_DARK;
     }
 
     //retrieve night vision goggle status once per draw
@@ -2066,7 +2066,7 @@ bool cata_tiles::draw_tile_at(
 
 bool cata_tiles::would_apply_vision_effects( const visibility_type visibility ) const
 {
-    return visibility != VIS_CLEAR;
+    return visibility != visibility_type::CLEAR;
 }
 
 bool cata_tiles::apply_vision_effects( const tripoint &pos,
@@ -2077,22 +2077,22 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     }
     std::string light_name;
     switch( visibility ) {
-        case VIS_HIDDEN:
+        case visibility_type::HIDDEN:
             light_name = "lighting_hidden";
             break;
-        case VIS_LIT:
+        case visibility_type::LIT:
             light_name = "lighting_lowlight_light";
             break;
-        case VIS_BOOMER:
+        case visibility_type::BOOMER:
             light_name = "lighting_boomered_light";
             break;
-        case VIS_BOOMER_DARK:
+        case visibility_type::BOOMER_DARK:
             light_name = "lighting_boomered_dark";
             break;
-        case VIS_DARK:
+        case visibility_type::DARK:
             light_name = "lighting_lowlight_dark";
             break;
-        case VIS_CLEAR:
+        case visibility_type::CLEAR:
             // should never happen
             break;
     }

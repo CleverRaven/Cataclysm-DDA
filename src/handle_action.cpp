@@ -282,7 +282,7 @@ input_context game::get_player_input( std::string &action )
 
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
 
-                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
+                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
                         !critter_at( mapp, true ) ) {
                         // Suppress if a critter is there
                         wPrint.vdrops.emplace_back( std::make_pair( iRandX, iRandY ) );

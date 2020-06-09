@@ -5995,12 +5995,12 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
         }
 #endif
         const tripoint view_center = u.pos() + u.view_offset;
-        visibility_type visibility = VIS_HIDDEN;
+        visibility_type visibility = visibility_type::HIDDEN;
         const bool inbounds = m.inbounds( lp );
         if( inbounds ) {
             visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
         }
-        if( visibility == VIS_CLEAR ) {
+        if( visibility == visibility_type::CLEAR ) {
             const Creature *const creature = critter_at( lp, true );
             if( creature != nullptr && u.sees( *creature ) ) {
                 creature->draw( w_terrain, view_center, true );
@@ -6011,23 +6011,23 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
             std::string visibility_indicator;
             nc_color visibility_indicator_color = c_white;
             switch( visibility ) {
-                case VIS_CLEAR:
+                case visibility_type::CLEAR:
                     // Already handled by the outer if statement
                     break;
-                case VIS_BOOMER:
-                case VIS_BOOMER_DARK:
+                case visibility_type::BOOMER:
+                case visibility_type::BOOMER_DARK:
                     visibility_indicator = '#';
                     visibility_indicator_color = c_pink;
                     break;
-                case VIS_DARK:
+                case visibility_type::DARK:
                     visibility_indicator = '#';
                     visibility_indicator_color = c_dark_gray;
                     break;
-                case VIS_LIT:
+                case visibility_type::LIT:
                     visibility_indicator = '#';
                     visibility_indicator_color = c_light_gray;
                     break;
-                case VIS_HIDDEN:
+                case visibility_type::HIDDEN:
                     visibility_indicator = 'x';
                     visibility_indicator_color = c_white;
                     break;
@@ -6045,14 +6045,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line,
                                 const visibility_variables &cache )
 {
-    visibility_type visibility = VIS_HIDDEN;
+    visibility_type visibility = visibility_type::HIDDEN;
     const bool inbounds = m.inbounds( lp );
     if( inbounds ) {
         visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     }
     const Creature *creature = critter_at( lp, true );
     switch( visibility ) {
-        case VIS_CLEAR: {
+        case visibility_type::CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
             print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
@@ -6064,11 +6064,11 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_graffiti_info( lp, w_look, column, line, last_line );
         }
         break;
-        case VIS_BOOMER:
-        case VIS_BOOMER_DARK:
-        case VIS_DARK:
-        case VIS_LIT:
-        case VIS_HIDDEN:
+        case visibility_type::BOOMER:
+        case visibility_type::BOOMER_DARK:
+        case visibility_type::DARK:
+        case visibility_type::LIT:
+        case visibility_type::HIDDEN:
             print_visibility_info( w_look, column, line, visibility );
 
             if( creature != nullptr ) {
@@ -6128,22 +6128,22 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 {
     const char *visibility_message = nullptr;
     switch( visibility ) {
-        case VIS_CLEAR:
+        case visibility_type::CLEAR:
             visibility_message = _( "Clearly visible." );
             break;
-        case VIS_BOOMER:
+        case visibility_type::BOOMER:
             visibility_message = _( "A bright pink blur." );
             break;
-        case VIS_BOOMER_DARK:
+        case visibility_type::BOOMER_DARK:
             visibility_message = _( "A pink blur." );
             break;
-        case VIS_DARK:
+        case visibility_type::DARK:
             visibility_message = _( "Darkness." );
             break;
-        case VIS_LIT:
+        case visibility_type::LIT:
             visibility_message = _( "Bright light." );
             break;
-        case VIS_HIDDEN:
+        case visibility_type::HIDDEN:
             visibility_message = _( "Unseen." );
             break;
     }

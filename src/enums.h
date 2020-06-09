@@ -41,13 +41,13 @@ enum class rule_state : int {
     BLACKLISTED
 };
 
-enum visibility_type {
-    VIS_HIDDEN,
-    VIS_CLEAR,
-    VIS_LIT,
-    VIS_BOOMER,
-    VIS_DARK,
-    VIS_BOOMER_DARK
+enum class visibility_type : int {
+    HIDDEN,
+    CLEAR,
+    LIT,
+    BOOMER,
+    DARK,
+    BOOMER_DARK
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
