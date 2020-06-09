@@ -96,7 +96,7 @@
         }
       ]
     ],
-    "transform": { "target": "MRHYDE", "msg_transform": "The anger overtakes you!", "active": false, "moves": 10 }
+    "transform": { "target": "HYDE", "msg_transform": "The anger overtakes you!", "active": false, "moves": 10 }
   },
   {
     "type": "mutation",
