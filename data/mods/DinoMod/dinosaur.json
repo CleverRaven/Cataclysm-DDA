@@ -465,6 +465,42 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_apatosaurus",
+    "name": { "str_sp": "Apatosaurus" },
+    "species": "DINOSAUR",
+    "default_faction": "herbivore_dino",
+    "symbol": "D",
+    "color": "brown_magenta",
+    "volume": "1000 L",
+    "weight": "20000 kg",
+    "material": "flesh",
+    "aggression": -50,
+    "morale": 100,
+    "speed": 80,
+    "melee_skill": 7,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "armor_bash": 3,
+    "armor_cut": 1,
+    "armor_bullet": 1,
+    "hp": 400,
+    "death_function": [ "NORMAL" ],
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "description": "Massive, long-necked, four-legged dinosaur with a long, whip-like tail.  The head is upright and the neck looks like it would make a good strong club.",
+    "reproduction": { "baby_egg": "egg_apatosaurus", "baby_count": 3, "baby_timer": 24 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM" ],
+    "harvest": "mammal_large_leather",
+    "anger_triggers": [ "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_ceratosaurus",
     "name": { "str_sp": "Ceratosaurus" },
     "species": "DINOSAUR",
@@ -927,6 +963,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_apatosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_apatosaurus" }
   },
   {
     "id": "mon_ceratosaurus_hatchling",
