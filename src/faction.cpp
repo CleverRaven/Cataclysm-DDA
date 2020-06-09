@@ -217,6 +217,7 @@ std::string fac_ranking_text( int val )
 std::string fac_respect_text( int val )
 {
     // Respected, feared, etc.
+    //~ Faction respect - Legendary
     if( val >= 100 ) {
         return _( "Legendary" );
     }
@@ -240,15 +241,18 @@ std::string fac_respect_text( int val )
     if( val <= -100 ) {
         return _( "Worthless Scum" );
     }
+    //~ Faction respect - Vermin
     if( val <= -80 ) {
         return _( "Vermin" );
     }
     if( val <= -60 ) {
         return _( "Despicable" );
     }
+    //~ Faction respect - Parasite
     if( val <= -40 ) {
         return _( "Parasite" );
     }
+    //~ Faction respect - Leech
     if( val <= -20 ) {
         return _( "Leech" );
     }
@@ -256,6 +260,7 @@ std::string fac_respect_text( int val )
         return _( "Laughingstock" );
     }
 
+    //~ Faction respect - Neutral
     return _( "Neutral" );
 }
 
@@ -275,6 +280,7 @@ std::string fac_wealth_text( int val, int size )
     if( val >= 250000 ) {
         return _( "Well-Off" );
     }
+    //~ Faction wealth - Comfortable
     if( val >= 100000 ) {
         return _( "Comfortable" );
     }
@@ -303,9 +309,11 @@ std::string faction::food_supply_text()
     if( val >= 6 ) {
         return _( "Scrapping By" );
     }
+    //~ Faction food supply - Malnourished
     if( val >= 3 ) {
         return _( "Malnourished" );
     }
+    //~ Faction food supply - Starving
     return _( "Starving" );
 }
 
@@ -340,15 +348,19 @@ std::string fac_combat_ability_text( int val )
     if( val >= 150 ) {
         return _( "Legendary" );
     }
+    //~ Faction combat lvl - Expert
     if( val >= 130 ) {
         return _( "Expert" );
     }
+    //~ Faction combat lvl - Veteran
     if( val >= 115 ) {
         return _( "Veteran" );
     }
+    //~ Faction combat lvl - Skilled
     if( val >= 105 ) {
         return _( "Skilled" );
     }
+    //~ Faction combat lvl - Competent
     if( val >= 95 ) {
         return _( "Competent" );
     }
@@ -361,6 +373,7 @@ std::string fac_combat_ability_text( int val )
     if( val >= 50 ) {
         return _( "Feeble" );
     }
+    //~ Faction combat lvl - Worthless
     return _( "Worthless" );
 }
 
