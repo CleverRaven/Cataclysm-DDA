@@ -55,7 +55,7 @@
 class player;
 struct tripoint;
 
-static std::set<itype_id> item_blacklist;
+static item_blacklist_t item_blacklist;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -77,7 +77,7 @@ static void npc_implied_flags( itype &item_template );
 
 bool item_is_blacklisted( const itype_id &id )
 {
-    return item_blacklist.count( id );
+    return item_blacklist.blacklist.count( id );
 }
 
 static void assign( const JsonObject &jo, const std::string &name,
@@ -571,9 +571,48 @@ void Item_factory::finalize()
     }
 }
 
+void item_blacklist_t::clear()
+{
+    blacklist.clear();
+    sub_blacklist.clear();
+}
+
 void Item_factory::finalize_item_blacklist()
 {
-    for( const itype_id &blackout : item_blacklist ) {
+    // Populate a whitelist, and a blacklist with items on whitelists and items on blacklists
+    std::set<itype_id> whitelist;
+    for( const std::pair<bool, std::set<itype_id>> &blacklist : item_blacklist.sub_blacklist ) {
+        // True == whitelist, false == blacklist
+        if( blacklist.first ) {
+            whitelist.insert( blacklist.second.begin(), blacklist.second.end() );
+        } else {
+            item_blacklist.blacklist.insert( blacklist.second.begin(), blacklist.second.end() );
+        }
+    }
+
+    bool whitelist_exists = !whitelist.empty();
+    // Remove all blacklisted items on the whitelist
+    std::set<itype_id> &blacklist = item_blacklist.blacklist;
+    for( const itype_id &it : whitelist ) {
+        if( blacklist.count( it ) ) {
+            whitelist.erase( it );
+        }
+    }
+
+    // Now, populate the blacklist with all the items that aren't whitelists, but only if a whitelist exists.
+    if( whitelist_exists ) {
+        blacklist.clear();
+        for( const std::pair<const itype_id, itype> &item : m_templates ) {
+            if( !whitelist.count( item.first ) ) {
+                blacklist.insert( item.first );
+            }
+        }
+    }
+
+    // And clear the blacklists we made in-between
+    item_blacklist.sub_blacklist.clear();
+
+    for( const itype_id &blackout : item_blacklist.blacklist ) {
         std::unordered_map<itype_id, itype>::iterator candidate = m_templates.find( blackout );
         if( candidate == m_templates.end() ) {
             debugmsg( "item on blacklist %s does not exist", blackout.c_str() );
@@ -668,7 +707,10 @@ void Item_factory::finalize_item_blacklist()
 
 void Item_factory::load_item_blacklist( const JsonObject &json )
 {
-    json.read( "items", item_blacklist, true );
+    bool whitelist = json.get_bool( "whitelist" );
+    std::set<itype_id> tmp_blacklist;
+    json.read( "items", tmp_blacklist, true );
+    item_blacklist.sub_blacklist.emplace_back( std::make_pair( whitelist, tmp_blacklist ) );
 }
 
 Item_factory::~Item_factory() = default;
