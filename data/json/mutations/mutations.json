@@ -100,7 +100,7 @@
   },
   {
     "type": "mutation",
-    "id": "MRHYDE",
+    "id": "HYDE",
     "valid": false,
     "name": { "str": "Violent Monster" },
     "points": -1,
