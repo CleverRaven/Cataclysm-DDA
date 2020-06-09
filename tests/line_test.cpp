@@ -13,12 +13,11 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
-static std::vector <point> canonical_line_to(
-    const int x1, const int y1, const int x2, const int y2, int t )
+static std::vector <point> canonical_line_to( const point &p1, const point &p2, int t )
 {
     std::vector<point> ret;
-    const int dx = x2 - x1;
-    const int dy = y2 - y1;
+    const int dx = p2.x - p1.x;
+    const int dy = p2.y - p1.y;
     const int ax = std::abs( dx ) << 1;
     const int ay = std::abs( dy ) << 1;
     int sx = SGN( dx );
@@ -30,13 +29,13 @@ static std::vector <point> canonical_line_to(
         sx = 0;
     }
     point cur;
-    cur.x = x1;
-    cur.y = y1;
+    cur.x = p1.x;
+    cur.y = p1.y;
 
-    int xmin = ( x1 < x2 ? x1 : x2 );
-    int ymin = ( y1 < y2 ? y1 : y2 );
-    int xmax = ( x1 > x2 ? x1 : x2 );
-    int ymax = ( y1 > y2 ? y1 : y2 );
+    int xmin = std::min( p1.x, p2.x );
+    int ymin = std::min( p1.y, p2.y );
+    int xmax = std::max( p1.x, p2.x );
+    int ymax = std::max( p1.y, p2.y );
 
     xmin -= std::abs( dx );
     ymin -= std::abs( dy );
@@ -48,7 +47,7 @@ static std::vector <point> canonical_line_to(
             cur.y += sy;
             cur.x += sx;
             ret.push_back( cur );
-        } while( ( cur.x != x2 || cur.y != y2 ) &&
+        } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
     } else if( ax > ay ) {
         do {
@@ -59,7 +58,7 @@ static std::vector <point> canonical_line_to(
             cur.x += sx;
             t += ay;
             ret.push_back( cur );
-        } while( ( cur.x != x2 || cur.y != y2 ) &&
+        } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
     } else {
         do {
@@ -70,7 +69,7 @@ static std::vector <point> canonical_line_to(
             cur.y += sy;
             t += ax;
             ret.push_back( cur );
-        } while( ( cur.x != x2 || cur.y != y2 ) &&
+        } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
     }
     return ret;
@@ -370,7 +369,8 @@ static void line_to_comparison( const int iterations )
         const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
         int t1 = 0;
         int t2 = 0;
-        REQUIRE( line_to( point( x1, y1 ), point( x2, y2 ), t1 ) == canonical_line_to( x1, y1, x2, y2,
+        REQUIRE( line_to( point( x1, y1 ), point( x2, y2 ), t1 ) == canonical_line_to( point( x1, y1 ),
+                 point( x2, y2 ),
                  t2 ) );
     }
 
@@ -391,7 +391,7 @@ static void line_to_comparison( const int iterations )
         int count2 = 0;
         const auto start2 = std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
-            canonical_line_to( x1, y1, x2, y2, t2 );
+            canonical_line_to( point( x1, y1 ), point( x2, y2 ), t2 );
             count2++;
         }
         const auto end2 = std::chrono::high_resolution_clock::now();

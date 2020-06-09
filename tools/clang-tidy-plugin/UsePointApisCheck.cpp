@@ -126,6 +126,7 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
     // correspond to any parameter, so we need to skip over it.
     unsigned int SkipArgs = 0;
     if( Callee->getOverloadedOperator() == OO_Call ||
+        Callee->getOverloadedOperator() == OO_Subscript ||
         Callee->getOverloadedOperator() == OO_Equal ) {
         SkipArgs = 1;
     }
