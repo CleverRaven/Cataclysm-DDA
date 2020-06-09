@@ -1530,6 +1530,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
             path_type ptype;
+            ptype.only_known_by_player = true;
             ptype.avoid_danger = true;
             bool in_vehicle = g->u.in_vehicle && g->u.controlling_vehicle;
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );

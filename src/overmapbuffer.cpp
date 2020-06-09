@@ -710,10 +710,13 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         return ter( base + p );
     };
     const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+        const tripoint convert_result = base + tripoint( cur.pos, 0 );
+        if( ptype.only_known_by_player && !seen( convert_result ) ) {
+            return pf::rejected;
+        }
         int res = 0;
         const oter_id oter = get_ter_at( cur.pos );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        tripoint convert_result = base + tripoint( cur.pos, 0 );
         if( ptype.avoid_danger && is_marked_dangerous( convert_result ) ) {
             return pf::rejected;
         }
