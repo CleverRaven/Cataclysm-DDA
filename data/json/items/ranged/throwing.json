@@ -113,8 +113,10 @@
     "material": "steel",
     "volume": "100 ml",
     "weight": "460 g",
+    "to_hit": -2,
     "bashing": 1,
     "cutting": 10,
+    "flags": [ "STAB" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
   },
   {
