@@ -141,26 +141,33 @@ class bodypart
 
         int hp_cur = 0;
         int hp_max = 0;
+        int healed_total = 0;
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
     public:
+        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
         bodypart( bodypart_str_id id ): id( id ), hp_max( id->max_hp ), hp_cur( id->max_hp ) {}
+
+        bodypart_id get_id() const;
 
         int get_hp_cur() const;
         int get_hp_max() const;
+        int get_healed_total() const;
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
 
-        void set_hp_cur( int set ) ;
-        void set_hp_max( int set ) ;
-        void set_damage_bandaged( int set ) ;
-        void set_damage_disinfected( int set ) ;
+        void set_hp_cur( int set );
+        void set_hp_max( int set );
+        void set_healed_total( int set );
+        void set_damage_bandaged( int set );
+        void set_damage_disinfected( int set );
 
-        void mod_hp_cur( int mod ) ;
-        void mod_hp_max( int mod ) ;
-        void mod_damage_bandaged( int mod ) ;
-        void mod_damage_disinfected( int mod ) ;
+        void mod_hp_cur( int mod );
+        void mod_hp_max( int mod );
+        void mod_healed_total( int mod );
+        void mod_damage_bandaged( int mod );
+        void mod_damage_disinfected( int mod );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

@@ -1311,10 +1311,10 @@ int Character::get_working_arm_count() const
     }
 
     int limb_count = 0;
-    if( !is_limb_disabled( hp_arm_l ) ) {
+    if( !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
         limb_count++;
     }
-    if( !is_limb_disabled( hp_arm_r ) ) {
+    if( !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
         limb_count++;
     }
     if( has_bionic( bio_blaster ) && limb_count > 0 ) {
@@ -1328,25 +1328,26 @@ int Character::get_working_arm_count() const
 int Character::get_working_leg_count() const
 {
     int limb_count = 0;
-    if( !is_limb_broken( hp_leg_l ) ) {
+    if( !is_limb_broken( bodypart_id( "leg_l" ) ) ) {
         limb_count++;
     }
-    if( !is_limb_broken( hp_leg_r ) ) {
+    if( !is_limb_broken( bodypart_id( "leg_r" ) ) ) {
         limb_count++;
     }
     return limb_count;
 }
 
-bool Character::is_limb_disabled( hp_part limb ) const
+bool Character::is_limb_disabled( const bodypart_id &limb ) const
 {
-    return hp_cur[limb] <= hp_max[limb] * .125;
+    const bodypart &part = get_part( limb );
+    return part.get_hp_cur() <= part.get_hp_max() * .125;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
 // if a limb is broken should point here to make any future changes to breaking easier
-bool Character::is_limb_broken( hp_part limb ) const
+bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return hp_cur[limb] == 0;
+    return get_part( limb ).get_hp_cur() == 0;
 }
 
 bool Character::can_run() const
@@ -3064,7 +3065,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !it.covers( bp ) ) {
                 continue;
             }
-            if( is_limb_broken( bp_to_hp( bp->token ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) ) {
                 need_splint = true;
                 break;
             }
@@ -4593,7 +4594,7 @@ void Character::regen( int rate_multiplier )
 
         int healing_apply = roll_remainder( healing );
         healed_bp( i, healing_apply );
-        heal( bp->token, healing_apply );
+        heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
             if( damage_bandaged[i] <= 0 ) {
@@ -4631,11 +4632,12 @@ void Character::regen( int rate_multiplier )
 
 void Character::enforce_minimum_healing()
 {
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( healed_total[i] <= 0 ) {
-            heal( static_cast<hp_part>( i ), 1 );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        bodypart &part = get_part( bp );
+        if( part.get_healed_total() <= 0 ) {
+            heal( bp, 1 );
         }
-        healed_total[i] = 0;
+        part.set_healed_total( 0 );
     }
 }
 
@@ -6134,7 +6136,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
-        const bool limb_is_broken = is_limb_broken( hp );
+        const bool limb_is_broken = is_limb_broken( bp );
         const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
 
         if( show_all ) {
@@ -8920,72 +8922,24 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
 
 void Character::heal_bp( bodypart_id bp, int dam )
 {
-    heal( bp->token, dam );
+    heal( bp, dam );
 }
 
-void Character::heal( body_part healed, int dam )
+void Character::heal( const bodypart_id &healed, int dam )
 {
-    hp_part healpart;
-    switch( healed ) {
-        case bp_eyes:
-        // Fall through to head damage
-        case bp_mouth:
-        // Fall through to head damage
-        case bp_head:
-            healpart = hp_head;
-            break;
-        case bp_torso:
-            healpart = hp_torso;
-            break;
-        case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_l:
-            healpart = hp_arm_l;
-            break;
-        case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_r:
-            healpart = hp_arm_r;
-            break;
-        case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_l:
-            healpart = hp_leg_l;
-            break;
-        case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_r:
-            healpart = hp_leg_r;
-            break;
-        default:
-            debugmsg( "Wacky body part healed!" );
-            healpart = hp_torso;
-    }
-    heal( healpart, dam );
-}
-
-void Character::heal( hp_part healed, int dam )
-{
+    bodypart part_toheal = get_part( healed );
     if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
-        hp_cur[healed] += effective_heal;
+        int effective_heal = std::min( dam, part_toheal.get_hp_max() - part_toheal.get_hp_cur() );
+        part_toheal.mod_hp_cur( effective_heal );
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
 }
 
 void Character::healall( int dam )
 {
-    for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
-        heal( static_cast<hp_part>( healed_part ), dam );
-        healed_bp( healed_part, dam );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        heal( bp, dam );
+        get_part( bp ).mod_healed_total( dam );
     }
 }
 

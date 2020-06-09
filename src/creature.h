@@ -587,12 +587,10 @@ class Creature
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
-        std::vector<bodypart> body;
+        std::map<bodypart_id, bodypart> body;
     public:
         anatomy_id get_anatomy() const;
         void set_anatomy( const anatomy_id &anat );
-        void set_body();
-        std::vector<bodypart> get_body() const;
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
@@ -600,6 +598,10 @@ class Creature
          * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+
+        void set_body();
+        bodypart get_part( const bodypart_id &id );
+        bodypart get_part( const bodypart_id &id ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

@@ -1437,14 +1437,27 @@ void Creature::set_anatomy( const anatomy_id &anat )
 void Creature::set_body()
 {
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        body.push_back( bodypart( bp.id() ) );
+        body.emplace( bp, bodypart( bp.id() ) );
     }
 }
 
-std::vector<bodypart> Creature::get_body() const
+
+bodypart Creature::get_part( const bodypart_id &id )
 {
-    return body;
+    return body[id];
 }
+
+bodypart Creature::get_part( const bodypart_id &id ) const
+{
+    for( const std::pair<bodypart_id, bodypart> elem : body ) {
+        if( elem.first == id ) {
+            return elem.second;
+        }
+    }
+    debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+    return bodypart();
+}
+
 
 bodypart_id Creature::get_random_body_part( bool main ) const
 {

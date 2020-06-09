@@ -870,9 +870,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
-        bool is_limb_disabled( hp_part limb ) const;
+        bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
-        bool is_limb_broken( hp_part limb ) const;
+        bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
         bool can_run() const;
         /** Hurts all body parts for dam, no armor reduction */
@@ -883,9 +883,8 @@ class Character : public Creature, public visitable<Character>
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
         void heal_bp( bodypart_id bp, int dam ) override;
-        void heal( body_part healed, int dam );
         /** Heals an hp_part for dam */
-        void heal( hp_part healed, int dam );
+        void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
 

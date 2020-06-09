@@ -384,6 +384,11 @@ void body_part_set::fill( const std::vector<bodypart_id> &bps )
     }
 }
 
+bodypart_id bodypart::get_id() const
+{
+    return id;
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;
@@ -392,6 +397,11 @@ int bodypart::get_hp_cur() const
 int bodypart::get_hp_max() const
 {
     return hp_max;
+}
+
+int bodypart::get_healed_total() const
+{
+    return healed_total;
 }
 
 int bodypart::get_damage_bandaged() const
@@ -414,6 +424,11 @@ void bodypart::set_hp_max( int set )
     hp_max = set;
 }
 
+void bodypart::set_healed_total( int set )
+{
+    healed_total = set;
+}
+
 void bodypart::set_damage_bandaged( int set )
 {
     damage_bandaged = set;
@@ -432,6 +447,11 @@ void bodypart::mod_hp_cur( int mod )
 void bodypart::mod_hp_max( int mod )
 {
     hp_max += mod;
+}
+
+void bodypart::mod_healed_total( int mod )
+{
+    healed_total += mod;
 }
 
 void bodypart::mod_damage_bandaged( int mod )

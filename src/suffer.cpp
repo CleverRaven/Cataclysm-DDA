@@ -189,7 +189,7 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
         } else if( dmg < 0 && hp_cur[bp_to_hp( bp->token )] != hp_max[bp_to_hp( bp->token )] ) {
-            heal( bp->token, std::abs( dmg ) );
+            heal( bp, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
                                    body_part_name( bp ) );
@@ -1560,8 +1560,8 @@ void Character::mend( int rate_multiplier )
 {
     // Wearing splints can slowly mend a broken limb back to 1 hp.
     bool any_broken = false;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( is_limb_broken( bp ) ) {
             any_broken = true;
             break;
         }
@@ -1628,33 +1628,32 @@ void Character::mend( int rate_multiplier )
         return;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bool broken = is_limb_broken( static_cast<hp_part>( i ) );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        const bool broken = is_limb_broken( bp );
         if( !broken ) {
             continue;
         }
 
-        const bodypart_id &part = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
-        if( needs_splint && !worn_with_flag( "SPLINT",  part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
             continue;
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, part->token );
+        auto &eff = get_effect( effect_mending, bp->token );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, part->token, true );
+            add_effect( effect_mending, dur_inc, bp->token, true );
             continue;
         }
 
         eff.set_duration( eff.get_duration() + dur_inc );
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
-            hp_cur[i] = 1;
-            remove_effect( effect_mending, part->token );
-            g->events().send<event_type::broken_bone_mends>( getID(), part->token );
+            get_part( bp ).set_hp_cur( 1 );
+            remove_effect( effect_mending, bp->token );
+            g->events().send<event_type::broken_bone_mends>( getID(), bp->token );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
-                               body_part_name( part ) );
+                               body_part_name( bp ) );
         }
     }
 }

@@ -3206,7 +3206,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     const int dam = get_heal_value( healer, healed );
 
     if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
-        patient.heal( healed, dam );
+        patient.heal( convert_bp( Character::hp_to_bp( healed ) ), dam );
     } else if( ( patient.hp_cur[healed] >= 1 ) && ( dam < 0 ) ) {
         const bodypart_id bp = convert_bp( player::hp_to_bp( healed ) ).id();
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
@@ -3345,7 +3345,7 @@ static hp_part pick_part_to_heal(
             return healed_part;
         }
 
-        if( patient.is_limb_broken( healed_part ) ) {
+        if( patient.is_limb_broken( convert_bp( bp ) ) ) {
             if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
             } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
