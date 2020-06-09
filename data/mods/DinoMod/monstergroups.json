@@ -7,6 +7,7 @@
       { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
       { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
       { "monster": "mon_albertosaurus", "freq": 4, "cost_multiplier": 35 },
@@ -115,7 +116,7 @@
       },
       {
         "monster": "mon_stegosaurus",
-        "freq": 10,
+        "freq": 15,
         "cost_multiplier": 20,
         "pack_size": [ 2, 4 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -169,6 +170,13 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_stegosaurus",
+        "freq": 20,
+        "cost_multiplier": 20,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_parasaurolophus",
         "freq": 30,
         "cost_multiplier": 10,
@@ -192,6 +200,10 @@
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 168 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 672 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 2160 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 168 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 672 },
@@ -211,6 +223,13 @@
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
+      {
+        "monster": "mon_stegosaurus",
+        "freq": 20,
+        "cost_multiplier": 20,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_parasaurolophus", "freq": 30, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
@@ -222,6 +241,10 @@
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 168 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 672 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 2160 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 168 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 672 },
@@ -319,6 +342,7 @@
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 },
       { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 }
     ]
   },
