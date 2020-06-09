@@ -214,7 +214,7 @@ static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
-static const auto milling_time = 6_hours;
+static const time_duration milling_time = 6_hours;
 
 /**
  * Nothing player can interact with here.
@@ -4966,7 +4966,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
     for( item &it : items ) {
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
-            const auto &mdata = *it.type->milling_data;
+            const islot_milling &mdata = *it.type->milling_data;
             item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
