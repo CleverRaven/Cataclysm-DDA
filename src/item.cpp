@@ -903,9 +903,14 @@ bool item::combine( const item &rhs )
     if( is_comestible() && typeId() == rhs.typeId() ) {
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
-        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                weight() ) + to_gram( rhs.weight() ) );
-        set_item_specific_energy( combined_specific_energy );
+        if( rhs_energy < 0 ) {
+            debugmsg( "Combining items with no defined temperature." );
+            // This item was probably created without defining its temperature. Find that place and fix it.
+        } else {
+            const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
+                    weight() ) + to_gram( rhs.weight() ) );
+            set_item_specific_energy( combined_specific_energy );
+        }
         //use maximum rot between the two
         set_relative_rot( std::max( get_relative_rot(),
                                     rhs.get_relative_rot() ) );
