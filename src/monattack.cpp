@@ -205,7 +205,7 @@ static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
-const morale_type MORALE_TRAUMATIC_MEMORY( "morale_traumatic_memory" );
+const morale_type morale_traumatic_memory( "morale_traumatic_memory" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
@@ -5878,7 +5878,7 @@ bool mattack::dissipate_force_scream( monster *z )
 
     time_duration effect_length = 1_hours + time_duration::from_minutes(
                                       g->weather.get_cur_weather_gen().mist_scaling * g->weather.mist_instances );
-    foe->add_morale( MORALE_TRAUMATIC_MEMORY, -10, -15, effect_length );
+    foe->add_morale( morale_traumatic_memory, -10, -15, effect_length );
     foe->add_msg_if_player( m_bad,
                             _( "The %s surfaces an intense memory, that feels like your own." ),
                             z->name() );

@@ -517,7 +517,7 @@ void handle_weather_summoning( weather_type const w )
                 }
             }
             if( creature_spawned ) {
-                g->u.add_msg_if_player( m_bad, "%s", current_weather_spawn_info->second.message );
+                g->u.add_msg_if_player( m_bad, _( current_weather_spawn_info->second.message ) );
             }
         }
     }
@@ -1167,7 +1167,7 @@ void weather_manager::clear_temp_cache()
 void weather_manager::set_next_mist_time()
 {
     const weather_generator &weather_gen = get_cur_weather_gen();
-    int days = weather_gen.mist_frequency - ( weather_gen.mist_scaling * ( mist_instances / 30 ) );
+    float days = weather_gen.mist_frequency - ( weather_gen.mist_scaling * ( mist_instances / 30.0 ) );
     mist_next_instance = calendar::turn + time_duration::from_days( rng( .5 * days, 1.5 * days ) )
                          + time_duration::from_seconds( rng( 0, to_seconds<int>( 24_hours ) ) );
 }
@@ -1176,7 +1176,7 @@ void weather_manager::set_next_mist_time()
 void weather_manager::set_mist_length()
 {
     const weather_generator &weather_gen = get_cur_weather_gen();
-    int hours = weather_gen.mist_length + ( weather_gen.mist_scaling * ( mist_instances / 5 ) );
+    float hours = weather_gen.mist_length + ( weather_gen.mist_scaling * ( mist_instances / 5.0 ) );
     mist_intensity_increase_time = ( time_duration::from_hours( rng( .7 * hours, 1.3 * hours ) )
                                      + time_duration::from_seconds( rng( 0, to_seconds<int>( 1_hours ) ) ) )
                                    / weather_gen.mist_increases_per;

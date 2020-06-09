@@ -368,7 +368,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
             info.get_int( "max_spawns", 1 ),
             info.get_int( "max_radius", 10 ),
             info.get_int( "min_radius", 1 ),
-            _( info.get_string( "message", "" ) )
+            info.get_string( "message", "" )
         };
     }
 

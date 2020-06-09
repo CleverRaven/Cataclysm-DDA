@@ -368,7 +368,7 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const morale_type MORALE_NIGHTMARE( "morale_nightmare" );
+const morale_type morale_nightmare( "morale_nightmare" );
 
 namespace io
 {
@@ -7889,7 +7889,7 @@ void Character::wake_up()
     if( has_effect( effect_nightmares ) ) {
         add_msg_if_player( m_bad, "%s",
                            SNIPPET.random_from_category( "nightmares" ).value_or( translation() ) );
-        add_morale( MORALE_NIGHTMARE, -5, -15, 30_minutes );
+        add_morale( morale_nightmare, -5, -15, 30_minutes );
     }
 }
 
