@@ -463,7 +463,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_apatosaurus",
     "name": { "str_sp": "Apatosaurus" },
@@ -964,7 +964,7 @@
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus" }
   },
-    {
+  {
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
