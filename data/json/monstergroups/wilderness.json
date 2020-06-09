@@ -725,6 +725,7 @@
       { "monster": "mon_zolf", "freq": 2, "cost_multiplier": 2, "starts": 168, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zolf", "freq": 2, "cost_multiplier": 2, "starts": 672, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zolf", "freq": 2, "cost_multiplier": 2, "starts": 2160, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_horse", "freq": 2, "cost_multiplier": 15, "ends": 2000, "conditions": [ "DAWN", "SPRING", "SUMMER", "AUTUMN" ],"pack_size": [ 1, 4 ] },
       {
         "monster": "mon_groundhog",
         "freq": 30,
