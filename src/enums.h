@@ -2,12 +2,51 @@
 #ifndef CATA_SRC_ENUMS_H
 #define CATA_SRC_ENUMS_H
 
+#include <type_traits>
+
 template<typename T> struct enum_traits;
 
 template<typename T>
 constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
+}
+
+enum class aim_exit : int {
+    none = 0,
+    okay,
+    re_entry
+};
+
+// be explicit with the values
+enum class aim_entry : int {
+    START     = 0,
+    VEHICLE   = 1,
+    MAP       = 2,
+    RESET     = 3
+};
+
+using I = std::underlying_type_t<aim_entry>;
+static constexpr aim_entry &operator++( aim_entry &lhs )
+{
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
+    return lhs;
+}
+
+static constexpr aim_entry &operator--( aim_entry &lhs )
+{
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
+    return lhs;
+}
+
+static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
+}
+
+static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
 enum class holiday : int {
