@@ -5985,37 +5985,57 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::draw_terrain_indicator( const tripoint &lp, const visibility_variables &cache ) const
+void game::draw_look_around_cursor( const tripoint &lp, const visibility_variables &cache )
 {
-    visibility_type visibility = VIS_HIDDEN;
-    const bool inbounds = m.inbounds( lp );
-    if( inbounds ) {
-        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
-    }
-    const Creature *creature = critter_at( lp, true );
-    switch( visibility ) {
-        case VIS_CLEAR:
+    if( !liveview.is_enabled() ) {
 #if defined( TILES )
-            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
+        if( is_draw_tiles_mode() ) {
+            draw_cursor( lp );
+            return;
+        }
 #endif
-            {
-                if( creature != nullptr && u.sees( *creature ) ) {
-                    creature->draw( w_terrain, lp, true );
-                } else {
-                    m.drawsq( w_terrain, u, lp, true, true, lp );
-                }
+        const tripoint view_center = u.pos() + u.view_offset;
+        visibility_type visibility = VIS_HIDDEN;
+        const bool inbounds = m.inbounds( lp );
+        if( inbounds ) {
+            visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+        }
+        if( visibility == VIS_CLEAR ) {
+            const Creature *const creature = critter_at( lp, true );
+            if( creature != nullptr && u.sees( *creature ) ) {
+                creature->draw( w_terrain, view_center, true );
+            } else {
+                m.drawsq( w_terrain, u, lp, true, true, view_center );
             }
-            break;
-        case VIS_HIDDEN:
-#if defined( TILES )
-            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
-#endif
-            {
-                print_visibility_indicator( visibility );
+        } else {
+            std::string visibility_indicator;
+            nc_color visibility_indicator_color = c_white;
+            switch( visibility ) {
+                case VIS_CLEAR:
+                    // Already handled by the outer if statement
+                    break;
+                case VIS_BOOMER:
+                case VIS_BOOMER_DARK:
+                    visibility_indicator = '#';
+                    visibility_indicator_color = c_pink;
+                    break;
+                case VIS_DARK:
+                    visibility_indicator = '#';
+                    visibility_indicator_color = c_dark_gray;
+                    break;
+                case VIS_LIT:
+                    visibility_indicator = '#';
+                    visibility_indicator_color = c_light_gray;
+                    break;
+                case VIS_HIDDEN:
+                    visibility_indicator = 'x';
+                    visibility_indicator_color = c_white;
+                    break;
             }
-            break;
-        default:
-            break;
+
+            const tripoint screen_pos = point( POSX, POSY ) + lp - view_center;
+            mvwputch( w_terrain, screen_pos.xy(), visibility_indicator_color, visibility_indicator );
+        }
     }
 }
 
@@ -6265,36 +6285,6 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
         // Then the list of parts on that tile.
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
-}
-
-void game::print_visibility_indicator( visibility_type visibility ) const
-{
-    std::string visibility_indicator;
-    nc_color visibility_indicator_color = c_white;
-    switch( visibility ) {
-        case VIS_CLEAR:
-            // Nothing printed when visibility is clear
-            return;
-        case VIS_BOOMER:
-        case VIS_BOOMER_DARK:
-            visibility_indicator = '#';
-            visibility_indicator_color = c_pink;
-            break;
-        case VIS_DARK:
-            visibility_indicator = '#';
-            visibility_indicator_color = c_dark_gray;
-            break;
-        case VIS_LIT:
-            visibility_indicator = '#';
-            visibility_indicator_color = c_light_gray;
-            break;
-        case VIS_HIDDEN:
-            visibility_indicator = 'x';
-            visibility_indicator_color = c_white;
-            break;
-    }
-
-    mvwputch( w_terrain, point( POSX, POSY ), visibility_indicator_color, visibility_indicator );
 }
 
 void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
@@ -6997,7 +6987,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             wnoutrefresh( w_info );
         } );
         ter_indicator_cb = make_shared_fast<draw_callback_t>( [&]() {
-            draw_terrain_indicator( lp, cache );
+            draw_look_around_cursor( lp, cache );
         } );
         add_draw_callback( ter_indicator_cb );
     }
