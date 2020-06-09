@@ -15,7 +15,6 @@
     "symbol": "|",
     "color": "white",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 18,
@@ -45,7 +44,6 @@
     "symbol": "-",
     "color": "white",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 12,
@@ -77,7 +75,6 @@
     "symbol": "|",
     "color": "light_gray",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 14,
@@ -107,7 +104,6 @@
     "symbol": "-",
     "color": "light_gray",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 12,
@@ -138,7 +134,6 @@
     "symbol": "-",
     "color": "yellow",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 21,
@@ -169,7 +164,6 @@
     "symbol": "(",
     "color": "brown",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 16,
@@ -200,7 +194,6 @@
     "symbol": "}",
     "color": "brown",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 18,
@@ -231,7 +224,6 @@
     "symbol": "}",
     "color": "yellow",
     "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "volume": 25,

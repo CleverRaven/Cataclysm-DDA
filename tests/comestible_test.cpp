@@ -27,9 +27,9 @@ struct all_stats {
 static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
-    for( item_comp it : components ) {
+    for( const item_comp &it : components ) {
         const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
-        if( temp && temp->cooks_like.empty() ) {
+        if( temp && temp->cooks_like.is_empty() ) {
             calories += temp->default_nutrition.kcal * it.count;
         } else if( temp ) {
             const itype *cooks_like = item::find_type( temp->cooks_like );

@@ -42,7 +42,7 @@ branches:
 # - SANITIZE=address
 # - LOCALIZE=0
 # - A clang-tidy run (now switched to GitHub workflow)
-# - Tests with important mods enabled (Magiclysm, RL_Classes)
+# - Tests with important mods enabled (Magiclysm)
 # We try to minimize the number of builds subject to those constraints.
 
 # To see what toolchains are available, consult the following:
@@ -54,8 +54,8 @@ jobs:
     # Initial test stage, if this fails everything else is canceled.
     - stage: Test
       # Clang is consistently the fastest to build, so use it for the initial test.
-      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
-      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
+      env: CLANG=clang++-3.8 TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
+      name: "Clang 3.8 Make build with curses and style check"
       compiler: clang
       addons: &clang38
         apt:
@@ -81,13 +81,17 @@ jobs:
           packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
-      name: "Clang 8 Make build with sanitizers enabled, but long-running tests disabled"
+    - env: CLANG=clang++-10 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
+      name: "Clang 10 Make build with sanitizers enabled, but long-running tests disabled"
       compiler: clang
-      addons: &clang8
+      dist: bionic
+      addons: &clang10
         apt:
-          packages: ["clang-8"]
-          sources: [*apt_sources, llvm-toolchain-xenial-8]
+          packages:
+            - clang-10
+          sources:
+            - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main"
+              key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
 
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
@@ -197,6 +201,28 @@ jobs:
         apt:
           packages: ["clang-7"]
           sources: [*apt_sources, llvm-toolchain-xenial-7]
+
+    - env: CLANG=clang++-8
+      name: "Clang 8 Make build with Curses"
+      if: type != pull_request
+      compiler: clang
+      addons: &clang8
+        apt:
+          packages: ["clang-8"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
+
+    - env: CLANG=clang++-9
+      name: "Clang 9 Make build with Curses"
+      if: type != pull_request
+      compiler: clang
+      dist: bionic
+      addons: &clang9
+        apt:
+          packages:
+            - clang-9
+          sources:
+            - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
+              key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi

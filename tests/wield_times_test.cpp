@@ -31,7 +31,7 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
 
     guy.set_moves( 1000 );
     const int old_moves = guy.moves;
-    REQUIRE( guy.wield( *item_loc ) );
+    REQUIRE( guy.wield( item_loc ) );
     CAPTURE( guy.weapon.typeId() );
     int move_cost = old_moves - guy.moves;
 
@@ -79,25 +79,20 @@ TEST_CASE( "Wield time test", "[wield]" )
         item_location knife_loc( sheath_loc, &sheath_loc->contents.only_item() );
 
         const int knife_obtain_cost = knife_loc.obtain_cost( guy );
-        const int total_obtain_cost = sheath_loc->contents.obtain_cost( *knife_loc ) +
-                                      cargo_pants_loc->contents.obtain_cost( *sheath_loc ) +
-                                      plastic_bag_loc->contents.obtain_cost( *cargo_pants_loc ) +
-                                      backpack_loc->contents.obtain_cost( *plastic_bag_loc ) +
-                                      backpack_loc.obtain_cost( guy );
-        REQUIRE( knife_obtain_cost == total_obtain_cost );
+        REQUIRE( knife_obtain_cost == 1257 );
     }
 
     SECTION( "Wielding without hand encumbrance" ) {
         avatar guy;
         clear_character( guy );
 
-        wield_check_from_inv( guy, "halberd", 287 );
+        wield_check_from_inv( guy, itype_id( "halberd" ), 612 );
         clear_character( guy );
-        wield_check_from_inv( guy, "aspirin", 100 );
+        wield_check_from_inv( guy, itype_id( "aspirin" ), 375 );
         clear_character( guy );
-        wield_check_from_inv( guy, "knife_combat", 125 );
+        wield_check_from_inv( guy, itype_id( "knife_combat" ), 412 );
         clear_character( guy );
-        wield_check_from_ground( guy, "metal_tank", 300 );
+        wield_check_from_ground( guy, itype_id( "metal_tank" ), 300 );
         clear_character( guy );
     }
 }

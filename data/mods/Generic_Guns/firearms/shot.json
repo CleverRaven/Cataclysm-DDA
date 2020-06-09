@@ -22,7 +22,8 @@
     "name": "sporting shotgun",
     "ammo": [ "ammo_shot" ],
     "description": "A simple, popular design, sporting shotguns are used by law enforcement, civilians and occasionally militaries.  Its internal magazine is small by modern standards, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
-    "clip_size": 6
+    "clip_size": 6,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 6 } } ]
   },
   {
     "id": "shot_tactical",
@@ -31,7 +32,15 @@
     "name": "tactical shotgun",
     "ammo": [ "ammo_shot" ],
     "description": "A detachable magazine fed shotgun, mostly oriented towards overly enthusiastic civilians.  Featuring rails and a menacing black appearance, this sort of shotgun doesn't really look like it has a sporting use.  The magazines reduce lengthy reloading times associated with shotguns.  Though known for being somewhat finicky, these can be tuned to run with some reliability.",
-    "magazines": [ [ "ammo_shot", [ "shot_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "shot_mag" ]
+      }
+    ]
   },
   {
     "id": "bio_shotgun_gun",

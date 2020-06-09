@@ -29,7 +29,8 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "66mm": 1 } } ]
   },
   {
     "id": "RPG",
@@ -63,7 +64,8 @@
       [ "sling", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "RPG-7": 1 } } ]
   },
   {
     "id": "surv_rocket_launcher",
@@ -89,7 +91,8 @@
     "clip_size": 1,
     "reload": 800,
     "loudness": 200,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "homebrew_rocket": 1 } } ]
   },
   {
     "id": "watercannon",
@@ -116,6 +119,7 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "clip_size": 100,
     "reload": 0,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 }, "watertight": true } ]
   }
 ]

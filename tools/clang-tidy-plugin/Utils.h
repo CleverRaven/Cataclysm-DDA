@@ -107,6 +107,32 @@ inline auto testWhetherConstructingTemporary()
            );
 }
 
+inline auto testWhetherParentIsVarDecl()
+{
+    using namespace clang::ast_matchers;
+    return expr(
+               anyOf(
+                   hasParent( varDecl().bind( "parentVarDecl" ) ),
+                   anything()
+               )
+           );
+}
+
+inline auto testWhetherGrandparentIsTranslationUnitDecl()
+{
+    using namespace clang::ast_matchers;
+    return expr(
+               anyOf(
+                   hasParent(
+                       varDecl(
+                           hasParent( translationUnitDecl().bind( "grandparentTranslationUnit" ) )
+                       )
+                   ),
+                   anything()
+               )
+           );
+}
+
 inline auto isXParam()
 {
     using namespace clang::ast_matchers;

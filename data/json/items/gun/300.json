@@ -19,8 +19,16 @@
     "durability": 8,
     "min_cycle_recoil": 4770,
     "barrel_length": "500 ml",
-    "magazines": [ [ "300", [ "m2010mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m2010mag" ]
+      }
+    ]
   },
   {
     "id": "weatherby_5",
@@ -44,7 +52,8 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
   },
   {
     "id": "win70",
@@ -67,6 +76,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
   }
 ]

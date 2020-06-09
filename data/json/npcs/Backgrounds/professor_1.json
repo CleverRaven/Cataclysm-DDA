@@ -17,7 +17,7 @@
     "type": "talk_topic",
     "dynamic_line": "Hard to say.  I'm not really an organic chemist, I did geological chemistry.  I'm at a loss to how that relates, but if you come across something where my knowledge would help I'll gladly offer it.",
     "//": "TK, down the road: if it becomes interesting to give stone or soil samples to this guy he might produce interesting data.",
-    "//": "TKTK, waaay down the road building a survivor lab in the basecamp may be an option.  This survivor might be able to study strange rocks and metals, eg.  from a fungal spire, or (if they're ever in game) from other dimensions.",
+    "//2": "TKTK, waaay down the road building a survivor lab in the basecamp may be an option.  This survivor might be able to study strange rocks and metals, eg.  from a fungal spire, or (if they're ever in game) from other dimensions.",
     "responses": [
       { "text": "Cool.  What did you say before that?", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

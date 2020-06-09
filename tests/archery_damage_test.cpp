@@ -51,8 +51,8 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
     }
 }
 
-static void test_projectile_attack( std::string target_type, bool killable,
-                                    dealt_projectile_attack &attack, std::string weapon_type )
+static void test_projectile_attack( const std::string &target_type, bool killable,
+                                    dealt_projectile_attack &attack, const std::string &weapon_type )
 {
     for( int i = 0; i < 10; ++i ) {
         monster target{ mtype_id( target_type ), tripoint_zero };
@@ -66,12 +66,12 @@ static void test_projectile_attack( std::string target_type, bool killable,
     }
 }
 
-static void test_archery_balance( std::string weapon_type, std::string ammo_type,
-                                  std::string killable, std::string unkillable )
+static void test_archery_balance( const std::string &weapon_type, const std::string &ammo_type,
+                                  const std::string &killable, const std::string &unkillable )
 {
     item weapon( weapon_type );
     // The standard modern hunting arrow, make this a parameter if we extend to crossbows.
-    weapon.ammo_set( ammo_type, 1 );
+    weapon.ammo_set( itype_id( ammo_type ), 1 );
 
     projectile test_projectile;
     test_projectile.speed = 1000;

@@ -17,7 +17,7 @@ struct point;
 struct tripoint;
 struct mission_entry;
 
-enum class farm_ops {
+enum class farm_ops : int {
     plow = 1,
     plant = 2,
     harvest = 4

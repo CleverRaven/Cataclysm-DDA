@@ -9,6 +9,7 @@
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
+#include "StaticStringIdConstantsCheck.h"
 #include "TestFilenameCheck.h"
 #include "TextStyleCheck.h"
 #include "TranslatorCommentsCheck.h"
@@ -37,6 +38,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
+            CheckFactories.registerCheck<StaticStringIdConstantsCheck>(
+                "cata-static-string_id-constants" );
             CheckFactories.registerCheck<TestFilenameCheck>( "cata-test-filename" );
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );

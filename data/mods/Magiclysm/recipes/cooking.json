@@ -10,7 +10,7 @@
     "book_learn": [ [ "cooking_poison", 2 ] ],
     "time": "15 m",
     "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_meat", 3 ] ] ]
   },
@@ -26,7 +26,7 @@
     "time": "15 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "meat_tainted", 4 ] ] ]
   },

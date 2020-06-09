@@ -127,7 +127,7 @@
     "to_hit": -4,
     "bashing": 1,
     "cutting": 8,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {

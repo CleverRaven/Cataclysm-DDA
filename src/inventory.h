@@ -98,7 +98,7 @@ class inventory : public visitable<inventory>
         std::map<char, itype_id> assigned_invlet;
 
         inventory();
-        inventory( inventory && ) = default;
+        inventory( inventory && ) noexcept = default;
         inventory( const inventory & ) = default;
         inventory &operator=( inventory && ) = default;
         inventory &operator=( const inventory & ) = default;
@@ -170,7 +170,7 @@ class inventory : public visitable<inventory>
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        std::list<item> use_amount( itype_id it, int quantity,
+        std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
@@ -234,7 +234,7 @@ class inventory : public visitable<inventory>
 
     private:
         invlet_favorites invlet_cache;
-        char find_usable_cached_invlet( const std::string &item_type );
+        char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
 

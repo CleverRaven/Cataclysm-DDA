@@ -161,8 +161,8 @@
     "id": "spellbook_loot_0",
     "type": "item_group",
     "//": "the difference between tiers and loot are that loot should be easy to",
-    "//": "drop into an itemgroup or mapgen without having multiple entries for higher tier spellbooks.",
-    "//": "and loot tiers will not always have the lower tier spellbook tiers.",
+    "//2": "drop into an itemgroup or mapgen without having multiple entries for higher tier spellbooks.",
+    "//3": "and loot tiers will not always have the lower tier spellbook tiers.",
     "items": [
       { "group": "spellbook_tier_0", "prob": 60 },
       { "group": "spellbook_tier_1", "prob": 30 },

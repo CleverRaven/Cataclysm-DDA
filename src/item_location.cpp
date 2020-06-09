@@ -92,6 +92,7 @@ class item_location::impl
             ensure_unpacked();
             return !!what;
         }
+
     private:
         void ensure_unpacked() const {
             if( needs_unpacking ) {
@@ -341,31 +342,18 @@ class item_location::impl::item_on_person : public item_location::impl
                 obj = *target();
             }
 
-            if( who->is_armed() && &who->weapon == target() ) {
-                // no penalties because we already have this item in our hands
-                mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, 0 );
+            item &target_ref = *target();
+            if( who->is_wielding( target_ref ) ) {
+                mv = who->item_handling_cost( obj, false, 0 );
             } else {
-                auto parents = who->parents( *target() );
-                if( !parents.empty() && who->is_worn( *parents.back() ) ) {
-                    // if outermost parent item is worn status effects (e.g. GRABBED) are not applied
-                    // holsters may also adjust the volume cost factor
-
-                    if( parents.back()->can_holster( obj, true ) ) {
-                        mv += who->as_player()->item_handling_cost( obj, false,
-                                parents.back()->contents.obtain_cost( obj ) );
-
-                    } else {
-                        // it is more expensive to obtain items from the inventory
-                        // TODO: calculate cost for searching in inventory proportional to item volume
-                        mv += dynamic_cast<player *>( who )->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
-                    }
-                }
-
-                if( &ch != who ) {
-                    // TODO: implement movement cost for transferring item between characters
-                }
-
+                // then we are wearing it
+                mv = who->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY / 2 );
             }
+
+            if( &ch != who ) {
+                // TODO: implement movement cost for transferring item between characters
+            }
+
             return mv;
         }
 
@@ -551,8 +539,16 @@ class item_location::impl::item_in_container : public item_location::impl
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
+            } else if( container.held_by( ch ) ) {
+                // we don't need to move it in this case, it's in a pocket
+                // we just charge the obtain cost and leave it in place. otherwise
+                // it's liable to end up back in the same pocket, where shenanigans ensue
+                return item_location( container, target() );
             } else {
                 item *inv = &ch.i_add( *target(), should_stack );
+                if( inv->is_null() ) {
+                    debugmsg( "failed to add item to character inventory while obtaining from container" );
+                }
                 remove_item();
                 return item_location( ch, inv );
             }
@@ -574,7 +570,16 @@ class item_location::impl::item_in_container : public item_location::impl
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
             }
-            return container_mv + container.obtain_cost( ch, qty );
+            int parent_obtain_cost = container.obtain_cost( ch, qty );
+            if( container.where() != item_location::type::container ) {
+                // a little bonus for grabbing something from what you're wearing
+                // TODO: Differentiate holsters from backpacks
+                parent_obtain_cost /= 2;
+            }
+            return ch.mutation_value( "obtain_cost_multiplier" ) *
+                   ch.item_handling_cost( *target(), true, container_mv ) +
+                   // we aren't "obtaining" the parent item, just digging through it
+                   parent_obtain_cost;
         }
 };
 
@@ -685,6 +690,14 @@ item_location item_location::parent_item() const
     return item_location::nowhere;
 }
 
+bool item_location::has_parent() const
+{
+    if( where() == type::container ) {
+        return !!ptr->parent_item();
+    }
+    return false;
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();
@@ -737,4 +750,14 @@ const item *item_location::get_item() const
 void item_location::set_should_stack( bool should_stack ) const
 {
     ptr->should_stack = should_stack;
+}
+
+bool item_location::held_by( Character &who ) const
+{
+    if( where() == type::character && g->critter_at<Character>( position() ) == &who ) {
+        return true;
+    } else if( has_parent() ) {
+        return parent_item().held_by( who );
+    }
+    return false;
 }

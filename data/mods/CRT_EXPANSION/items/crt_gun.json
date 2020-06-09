@@ -14,7 +14,7 @@
     "color": "red",
     "skill": "pistol",
     "range": 20,
-    "ranged_damage": { "damage_type": "heat", "amount": 6, "armor_penetration": 10 },
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 10 },
     "dispersion": 150,
     "durability": 9,
     "loudness": 14,
@@ -49,7 +49,7 @@
     "color": "cyan",
     "skill": "launcher",
     "range": 30,
-    "ranged_damage": { "damage_type": "heat", "amount": 9, "armor_penetration": 8 },
+    "ranged_damage": { "damage_type": "heat", "amount": 18, "armor_penetration": 8 },
     "dispersion": 45,
     "durability": 9,
     "loudness": 28,
@@ -110,7 +110,7 @@
     "color": "magenta",
     "skill": "rifle",
     "range": 35,
-    "ranged_damage": { "damage_type": "heat", "amount": 25 },
+    "ranged_damage": { "damage_type": "heat", "amount": 20 },
     "pierce": 13,
     "dispersion": 20,
     "durability": 8,
@@ -135,7 +135,7 @@
     "id": "crt_cqb_si",
     "type": "GUN",
     "name": "CRIT CQB Standard Issue",
-    "description": "A simple combination gun.  This military-grade semi-auto carbine couples the mid-range versatility of the 9mm with the power of the 12 gauge shotgun.  To further compliment the CQB aspect, the stock is built to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads.  An integrated magazine makes it a pain to reload, but keeps your clip from ejecting accidently.",
+    "description": "A simple combination gun.  This military-grade semi-auto carbine couples the mid-range versatility of the 9mm with the power of the 12 gauge shotgun.  To further compliment the CQB aspect, the stock is built to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads.",
     "weight": "1650 g",
     "volume": "750 ml",
     "price": 1000000,
@@ -151,11 +151,12 @@
     "durability": 10,
     "loudness": 30,
     "ammo": [ "9mm" ],
-    "clip_size": 18,
+    "clip_size": 30,
     "reload": 150,
     "built_in_mods": [ "crt_cqb_si_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "NEVER_JAMS", "FIRE_TWOHAND", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS", "FIRE_TWOHAND" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 18 } } ]
   },
   {
     "id": "crt_fire_glove",
@@ -218,7 +219,8 @@
     "clip_size": 1,
     "reload": 300,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pellets": 1 } } ]
   },
   {
     "id": "ds_plasma_cutter",
@@ -246,13 +248,14 @@
     "reload": 170,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "PLASMA", "INCENDIARY", "DRAW_LASER_BEAM" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 12 } } ]
   },
   {
     "id": "ds_rivet_gun",
     "type": "GUN",
     "name": "Rivet Driver",
-    "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards.",
+    "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards inside the target.",
     "weight": "1650 g",
     "volume": "750 ml",
     "price": 1000000,
@@ -262,8 +265,8 @@
     "symbol": "(",
     "color": "light_gray",
     "skill": "pistol",
-    "range": 4,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "range": 10,
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "pierce": 12,
     "dispersion": 220,
     "durability": 10,
@@ -272,8 +275,8 @@
     "clip_size": 25,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
-    "ammo_effects": [ "FRAG" ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nail": 25 } } ]
   },
   {
     "id": "ds_line_gun",
@@ -302,7 +305,8 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "WIDE", "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD", "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 5 } } ]
   },
   {
     "id": "ds_pulse_rifle",
@@ -330,7 +334,8 @@
     "modes": [ [ "BURST", "3 rd.", 3 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "NOGIB", "BEANBAG", "NON-FOULING" ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pulsesb": 175 } } ]
   },
   {
     "id": "ds_ripper",
@@ -357,6 +362,7 @@
     "reload": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "REACH", "em field saw", 5, [ "MELEE", "REACH_ATTACK" ] ] ],
     "ammo_effects": [ "LIGHTNING", "MESSY" ],
-    "flags": [ "NEVER_JAMS", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pulsesb": 8 } } ]
   }
 ]

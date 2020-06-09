@@ -34,7 +34,7 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
 
-enum class mutation_menu_mode {
+enum class mutation_menu_mode : int {
     activating,
     examining,
     reassigning,
@@ -65,7 +65,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
-    wrefresh( window );
+    wnoutrefresh( window );
 }
 
 void player::power_mutations()
@@ -260,13 +260,13 @@ void player::power_mutations()
 
         draw_scrollbar( wBio, scroll_position, list_height, mutations_count,
                         point( 0, list_start_y ), c_white, true );
-        wrefresh( wBio );
+        wnoutrefresh( wBio );
         show_mutations_titlebar( w_title, menu_mode, ctxt );
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
             fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, examine_id.value()->desc() );
-            wrefresh( w_description );
+            wnoutrefresh( w_description );
         }
     } );
 
@@ -277,7 +277,7 @@ void player::power_mutations()
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
+        if( evt.type == input_event_t::keyboard && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             const trait_id mut_id = trait_by_invlet( ch );
             if( !mut_id.is_null() ) {
@@ -295,7 +295,7 @@ void player::power_mutations()
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == input_event_t::keyboard && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const trait_id other_mut_id = trait_by_invlet( newch );
@@ -312,7 +312,7 @@ void player::power_mutations()
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                           ret.evt.type == input_event_t::keyboard ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }

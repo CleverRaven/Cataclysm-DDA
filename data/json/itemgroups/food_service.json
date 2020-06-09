@@ -90,6 +90,58 @@
     ]
   },
   {
+    "id": "prepared_teas",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "tea", "prob": 60 },
+      { "item": "bee_balm_tea", "prob": 20 },
+      { "item": "dandelionburdock_tea", "prob": 20, "charges-max": 2, "container-item": "bottle_plastic" },
+      { "item": "dandelion_tea", "prob": 10, "charges-max": 2, "container-item": "bottle_plastic" },
+      { "item": "pine_tea", "prob": 10, "charges-max": 2, "container-item": "bottle_plastic" },
+      { "item": "herbal_tea", "prob": 50 },
+      { "item": "chamomile_tea", "prob": 40 },
+      { "item": "lotus_tea", "prob": 30 },
+      { "item": "spurge_tea", "prob": 20 },
+      { "item": "milk_tea", "prob": 20 },
+      { "item": "chai_tea", "prob": 30 }
+    ]
+  },
+  {
+    "id": "teashop_bulk_teas",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "honey_bottled", "prob": 20 },
+      { "item": "honey_glassed", "prob": 20 },
+      { "item": "con_milk", "prob": 10 },
+      { "item": "tanbark", "prob": 3, "charges-min": 1, "charges-max": 2, "container-item": "jar_3l_glass" },
+      { "item": "bee_balm", "prob": 20, "charges-min": 1, "charges-max": 12, "container-item": "jar_3l_glass" },
+      { "item": "spurge", "prob": 20, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
+      { "item": "lotus", "prob": 20, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
+      { "item": "raw_burdock", "prob": 10, "charges-min": 1, "charges-max": 48, "container-item": "jar_3l_glass" },
+      { "item": "chamomile", "prob": 30, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
+      { "item": "tea_raw", "prob": 60, "charges-min": 10, "charges-max": 40, "container-item": "jar_glass_sealed" },
+      {
+        "item": "wild_herbs",
+        "prob": 50,
+        "charges-min": 20,
+        "charges-max": 200,
+        "container-item": "jar_glass_sealed"
+      },
+      {
+        "item": "raw_dandelion",
+        "prob": 10,
+        "charges-min": 1,
+        "charges-max": 8,
+        "container-item": "jar_glass_sealed"
+      },
+      { "item": "milk_powder", "prob": 30, "charges-min": 1, "charges-max": 8, "container-item": "jar_glass_sealed" },
+      { "item": "cinnamon", "prob": 20, "charges-min": 1, "charges-max": 200, "container-item": "jar_glass_sealed" },
+      { "item": "sugar", "prob": 40, "charges-min": 10, "charges-max": 142, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
     "id": "teashop_fridge",
     "type": "item_group",
     "items": [ [ "milk", 70 ] ]
@@ -350,6 +402,7 @@
       { "item": "milk_powder", "prob": 65 },
       { "item": "salt", "prob": 15 },
       { "item": "sugar", "prob": 70 },
+      { "item": "artificial_sweetener", "prob": 15 },
       { "item": "tea_raw", "prob": 15 },
       { "item": "wrapper", "prob": 75 },
       { "group": "teabag_box", "prob": 10 }
@@ -495,6 +548,7 @@
       { "item": "seasoning_italian", "prob": 50 },
       { "item": "can_chicken", "prob": 30 },
       { "item": "sugar", "prob": 40 },
+      { "item": "artificial_sweetener", "prob": 10 },
       { "item": "soysauce", "prob": 10 },
       { "item": "flour", "prob": 40 },
       { "item": "curry_powder", "prob": 40 },
@@ -647,6 +701,7 @@
       { "item": "salt", "prob": 50 },
       { "item": "soysauce", "prob": 25 },
       { "item": "sugar", "prob": 60 },
+      { "item": "artificial_sweetener", "prob": 15 },
       { "item": "dry_rice", "prob": 65 }
     ]
   },
@@ -739,7 +794,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "count-min": 6, "count-max": 12 },
       { "item": "milk", "prob": 80 },
       { "item": "milk_raw", "prob": 5 },
       { "item": "milk_raw", "prob": 5 },
@@ -903,6 +958,8 @@
       [ "foon", 5 ],
       { "group": "wines_worthy", "prob": 66 },
       [ "fruit_wine", 20 ],
+      [ "gloves_cut_resistant", 5 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
       [ "pants_checkered", 28 ]

@@ -8,7 +8,8 @@
     "capacity": 500,
     "count": 100,
     "default_ammo": "762_51",
-    "linkage": "ammolink308"
+    "linkage": "ammolink308",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 500 } } ]
   },
   {
     "id": "falbigmag",
@@ -25,8 +26,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 30,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 30 } } ]
   },
   {
     "id": "falmag",
@@ -43,8 +44,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "fal_makeshiftmag",
@@ -61,9 +62,9 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 1,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "g3bigmag",
@@ -80,9 +81,9 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
   },
   {
     "id": "g3mag",
@@ -99,8 +100,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "g3_makeshiftmag",
@@ -124,8 +125,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "m14smallmag",
@@ -142,9 +143,9 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "m14_makeshiftmag",
@@ -169,9 +170,9 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
   },
   {
     "id": "scarhmag_30rd",
@@ -196,8 +197,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "scarh_makeshiftmag",
@@ -222,8 +223,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "hk417mag_10rd",
@@ -240,8 +241,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 10,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 10 } } ]
   },
   {
     "id": "hk417_makeshiftmag",
@@ -266,8 +267,8 @@
     "color": "light_gray",
     "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "ar10_makeshiftmag",

@@ -1,5 +1,35 @@
 [
   {
+    "type": "vehicle_part",
+    "id": "afs_hauling_space",
+    "copy-from": "cargo_space",
+    "name": { "str": "hauling space" },
+    "looks_like": "cargo_space",
+    "item": "afs_hauling_space",
+    "location": "center",
+    "durability": 400,
+    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
+    "size": 6000,
+    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_hauling_space",
+    "name": { "str": "hauling space" },
+    "description": "A huge metal space used in conjunction with extension of a vehicle's roof to create a very large amount of space for transporting goods.",
+    "weight": "120 kg",
+    "to_hit": -6,
+    "color": "cyan",
+    "symbol": "]",
+    "looks_like": "cargo_aisle",
+    "material": [ "steel" ],
+    "volume": "100 L",
+    "bashing": 2,
+    "category": "veh_parts",
+    "price": 50000
+  },
+  {
     "id": "afs_dough",
     "type": "COMESTIBLE",
     "name": "dough",
@@ -32,7 +62,8 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "material_thickness": 2,
-    "encumbrance": 9,
+    "encumbrance": 4,
+    "max_encumbrance": 9,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -83,10 +114,13 @@
     },
     "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
     "looks_like": "depowered_helmet",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -95,7 +129,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -211,7 +245,8 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 85,
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }

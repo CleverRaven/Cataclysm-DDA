@@ -56,31 +56,6 @@
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "steel_chunk", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
-    "result": "rifle_pipe_rifle",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 4,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "rifle_ball", -1 ],
-        [ "rifle_AP", -1 ],
-        [ "bp_rifle_ball", -1 ],
-        [ "bp_rifle_AP", -1 ],
-        [ "reloaded_rifle_ball", -1 ],
-        [ "reloaded_rifle_AP", -1 ],
-        [ "rifle_casing", -1 ]
-      ]
-    ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
-  },
-  {
     "result": "shot_pipe_double",
     "type": "recipe",
     "category": "CC_WEAPON",

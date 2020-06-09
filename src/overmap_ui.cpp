@@ -28,6 +28,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_ui.h"
 #include "ime.h"
 #include "input.h"
 #include "int_id.h"
@@ -168,7 +169,7 @@ static void update_note_preview( const std::string &note,
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( *w_preview, point( 1, 1 ), c_white, _( "Note preview" ) );
-    wrefresh( *w_preview );
+    wnoutrefresh( *w_preview );
 
     werase( *w_preview_title );
     nc_color default_color = c_unset;
@@ -179,7 +180,7 @@ static void update_note_preview( const std::string &note,
         mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
     }
     mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
-    wrefresh( *w_preview_title );
+    wnoutrefresh( *w_preview_title );
 
     const int npm_offset_x = 1;
     const int npm_offset_y = 1;
@@ -193,7 +194,7 @@ static void update_note_preview( const std::string &note,
     }
     mvwputch( *w_preview_map, point( npm_width / 2 + npm_offset_x, npm_height / 2 + npm_offset_y ),
               note_color, symbol );
-    wrefresh( *w_preview_map );
+    wnoutrefresh( *w_preview_map );
 }
 
 static weather_type get_weather_at_point( const tripoint &pos )
@@ -1059,9 +1060,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
     }
     // Done with all drawing!
-    wrefresh( wbar );
+    wnoutrefresh( wbar );
     wmove( w, point( om_half_width, om_half_height ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void create_note( const tripoint &curs )
@@ -1234,7 +1235,7 @@ static bool search( const ui_adaptor &om_ui, tripoint &curs, const tripoint &ori
         mvwprintz( w_search, point( 1, 10 ), c_white, _( "Enter/Spacebar to select." ) );
         mvwprintz( w_search, point( 1, 11 ), c_white, _( "q or ESC to return." ) );
         draw_border( w_search );
-        wrefresh( w_search );
+        wnoutrefresh( w_search );
     } );
 
     std::string action;
@@ -1360,7 +1361,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint &curs,
             mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Apply" ),
                        ctxt.get_desc( "CONFIRM" ) );
             mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
-            wrefresh( w_editor );
+            wnoutrefresh( w_editor );
         } );
 
         std::string action;
@@ -1403,8 +1404,18 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint &curs,
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
+    background_pane bg_pane;
+
     ui_adaptor ui;
     ui.on_screen_resize( []( ui_adaptor & ui ) {
+        /**
+         * Handle possibly different overmap font size
+         */
+        OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
+        OVERMAP_WINDOW_HEIGHT = TERMY;
+        OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+        to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
+
         /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
         /* because overmap legend will be absent */
         g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
@@ -1463,8 +1474,6 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        catacurses::erase();
-        catacurses::refresh();
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data );
     } );

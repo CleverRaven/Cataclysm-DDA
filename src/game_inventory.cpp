@@ -57,13 +57,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const efftype_id effect_assisted( "assisted" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_firstaid( "firstaid" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
@@ -78,7 +72,6 @@ static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
@@ -235,14 +228,11 @@ void game_menus::inv::common( avatar &you )
             }
         }
 
-        g->refresh_all();
         res = g->inventory_item_menu( location );
-        g->refresh_all();
-
     } while( loop_options.count( res ) != 0 );
 }
 
-void game_menus::inv::common( item_location loc, avatar &you )
+void game_menus::inv::common( item_location &loc, avatar &you )
 {
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
@@ -271,21 +261,18 @@ void game_menus::inv::common( item_location loc, avatar &you )
             }
         }
 
-        g->refresh_all();
         res = g->inventory_item_menu( location );
-        g->refresh_all();
-
     } while( loop_options.count( res ) != 0 );
 }
 
-item_location game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
+item_location game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
         const std::string &title, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
                          title, -1, none_message );
 }
 
-item_location game_menus::inv::titled_filter_menu( item_location_filter filter, avatar &you,
+item_location game_menus::inv::titled_filter_menu( const item_location_filter &filter, avatar &you,
         const std::string &title, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( filter ),
@@ -407,7 +394,7 @@ item_location game_menus::inv::take_off( avatar &you )
                          _( "You don't wear anything." ) );
 }
 
-item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
+item_location game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
                                     const std::string &none_message )
 {
     return inv_internal( u, inventory_filter_preset( convert_filter( filter ) ),
@@ -443,7 +430,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
-                if( loc->made_of_from_type( LIQUID ) ) {
+                if( loc->made_of_from_type( phase_id::LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
@@ -561,6 +548,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
+            append_cell( []( const item_location & loc ) {
+                time_duration time = g->u.get_consume_time( *loc );
+                return string_format( _( "%s" ), to_string( time ) );
+            }, _( "CONSUME TIME" ) );
+
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
@@ -623,7 +615,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             const item &med = *loc;
 
-            if( loc->made_of_from_type( LIQUID ) && loc.where() != item_location::type::container ) {
+            if( loc->made_of_from_type( phase_id::LIQUID ) && loc.where() != item_location::type::container ) {
                 return _( "Can't drink spilt liquids" );
             }
 
@@ -1218,6 +1210,10 @@ class weapon_inventory_preset: public inventory_selector_preset
                 }
                 return std::string();
             }, _( "MOVES" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return string_format( "<color_yellow>%d</color>", loc.obtain_cost( this->p ) );
+            }, _( "WIELD COST" ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1265,7 +1261,7 @@ class holster_inventory_preset: public weapon_inventory_preset
         const item &holster;
 };
 
-item_location game_menus::inv::holster( player &p, item_location holster )
+drop_locations game_menus::inv::holster( player &p, const item_location &holster )
 {
     const std::string holster_name = holster->tname( 1, false );
     const use_function *use = holster->type->get_use( "holster" );
@@ -1278,15 +1274,49 @@ item_location game_menus::inv::holster( player &p, item_location holster )
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
-    item_location_filter holster_filter = [&holster]( const item_location it ) {
-        if( it.where() == item_location::type::container && it.parent_item() == holster ) {
-            return false;
+    inventory_holster_preset holster_preset( holster );
+
+    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ) );
+    insert_menu.add_character_items( p );
+    insert_menu.add_map_items( p.pos() );
+    insert_menu.add_vehicle_items( p.pos() );
+    insert_menu.set_display_stats( false );
+
+    insert_menu.set_title( string_format( _( "Insert items into %s" ), holster->tname() ) );
+
+    return insert_menu.execute();
+}
+
+void game_menus::inv::insert_items( avatar &you, item_location &holster )
+{
+    drop_locations holstered_list = game_menus::inv::holster( you, holster );
+    for( drop_location holstered_item : holstered_list ) {
+        if( !holstered_item.first ) {
+            continue;
         }
-        return it != holster && holster->can_contain( *it );
-    };
-    return game_menus::inv::titled_filter_menu( holster_filter, *p.as_avatar(), title,
-            string_format( _( "You have no items you could put into your %s." ),
-                           holster_name ) );
+        item &it = *holstered_item.first;
+        bool success = false;
+        if( !it.count_by_charges() || it.count() == holstered_item.second ) {
+            if( holster->can_contain( it ) ) {
+                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                holstered_item.first.remove_item();
+                success = true;
+            }
+        } else {
+            item item_copy( it );
+            item_copy.charges = holstered_item.second;
+            if( holster->can_contain( item_copy ) ) {
+                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                it.charges -= holstered_item.second;
+                success = true;
+            }
+        }
+
+        if( !success ) {
+            you.add_msg_if_player( string_format(
+                                       _( "Could not put %s into %s, aborting." ), it.tname(), holster->tname() ) );
+        }
+    }
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset
@@ -1566,7 +1596,6 @@ void game_menus::inv::swap_letters( player &p )
         }
 
         reassign_letter( p, *loc );
-        g->refresh_all();
     }
 }
 
@@ -1679,11 +1708,11 @@ class bionic_install_preset: public inventory_selector_preset
                                     std::bind( &player::has_bionic, &pa,
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
-            } else if( pa.is_npc() && !bid->npc_usable ) {
+            } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
                 return _( "CBM not compatible with patient" );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
-            } else if( !p.has_enough_anesth( itemtype, pa ) ) {
+            } else if( !p.has_enough_anesth( *itemtype, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -1713,15 +1742,10 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       -1 );
-
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1782,7 +1806,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                     std::bind( &player::has_bionic, &pa,
                                                std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->npc_usable ) {
+            } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
                 return _( "CBM is not compatible with patient." );
             }
 
@@ -1808,16 +1832,10 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            // Override player's skills with surgeon skill
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       20 );
-
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = 100 - bionic_success_chance( true, 20, difficulty, installer );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1864,7 +1882,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             const itype *itemtype = loc.get_item()->type;
 
-            if( !p.has_enough_anesth( itemtype, pa ) ) {
+            if( !p.has_enough_anesth( *itemtype, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -1895,15 +1913,10 @@ class bionic_uninstall_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       -1 );
-
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );

@@ -155,7 +155,7 @@
     "armor_cut": 30,
     "armor_bullet": 24,
     "dodge": 3,
-    "//": "Large means powerful, but it does not mean fast.",
+    "//2": "Large means powerful, but it does not mean fast.",
     "speed": 100,
     "delete": { "flags": [ "PATH_AVOID_DANGER_2" ] },
     "emit_fields": [ { "emit_id": "emit_dragon_adult_fright", "delay": "1 s" } ],

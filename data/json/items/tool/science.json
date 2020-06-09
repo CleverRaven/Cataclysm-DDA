@@ -54,11 +54,14 @@
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -90,11 +93,14 @@
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
     "ammo": [ "battery" ],
-    "magazines": [
-      [
-        "battery",
-        [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "200 kg",
+        "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
+      }
     ]
   },
   {
@@ -106,7 +112,6 @@
     "weight": "40860 g",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
     "volume": "27 L",
     "price": 100000,
     "to_hit": -10,
@@ -114,7 +119,16 @@
     "material": "steel",
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [ "large_storage_battery", "storage_battery" ]
+      }
+    ]
   },
   {
     "id": "vac_oven_small_full",
@@ -130,7 +144,6 @@
     "material": "steel",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
     "symbol": "E",
     "color": "dark_gray",
     "use_action": {
@@ -141,7 +154,16 @@
       "need_charges_msg": "The vacuum oven's batteries need more charge.",
       "type": "transform"
     },
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [ "large_storage_battery", "storage_battery" ]
+      }
+    ]
   },
   {
     "id": "vac_oven_small_on",
@@ -158,7 +180,6 @@
     "power_draw": 120000,
     "revert_to": "vac_oven_small_full",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
     "material": "steel",
     "symbol": "E",
     "color": "dark_gray",
@@ -171,7 +192,16 @@
       "transform_age": 259200,
       "not_ready_msg": "The vacuum oven is still purging."
     },
-    "flags": [ "TRADER_AVOID", "NO_UNLOAD", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "NO_UNLOAD", "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [ "large_storage_battery", "storage_battery" ]
+      }
+    ]
   },
   {
     "id": "vac_oven_small_done",
@@ -186,11 +216,19 @@
     "bashing": 10,
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
     "material": "steel",
     "symbol": "E",
     "color": "dark_gray",
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [ "large_storage_battery", "storage_battery" ]
+      }
+    ]
   },
   {
     "id": "closed_loop_extractor_small",
@@ -219,10 +257,14 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "qualities": [ [ "EXTRACT", 2 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -236,9 +278,8 @@
           "large_storage_battery",
           "storage_battery"
         ]
-      ]
-    ],
-    "qualities": [ [ "EXTRACT", 2 ] ]
+      }
+    ]
   },
   {
     "id": "closed_loop_extractor_small_on",
@@ -267,10 +308,14 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "qualities": [ [ "EXTRACT", 2 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -284,9 +329,8 @@
           "large_storage_battery",
           "storage_battery"
         ]
-      ]
-    ],
-    "qualities": [ [ "EXTRACT", 2 ] ]
+      }
+    ]
   },
   {
     "id": "closed_loop_extractor_large",
@@ -305,10 +349,23 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": {
+      "target": "closed_loop_extractor_large_on",
+      "msg": "You turn on the large closed loop extractor.",
+      "menu_text": "turn on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
+      "type": "transform"
+    },
+    "qualities": [ [ "EXTRACT", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -322,18 +379,8 @@
           "large_storage_battery",
           "storage_battery"
         ]
-      ]
-    ],
-    "use_action": {
-      "target": "closed_loop_extractor_large_on",
-      "msg": "You turn on the large closed loop extractor.",
-      "menu_text": "turn on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
-      "type": "transform"
-    },
-    "qualities": [ [ "EXTRACT", 1 ] ]
+      }
+    ]
   },
   {
     "id": "closed_loop_extractor_large_on",
@@ -354,10 +401,22 @@
     "power_draw": 1500000,
     "revert_to": "closed_loop_extractor_large",
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": {
+      "target": "closed_loop_extractor_large",
+      "msg": "You turn off the large closed loop extractor.",
+      "menu_text": "turn off",
+      "need_charges": 0,
+      "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
+      "type": "transform"
+    },
+    "qualities": [ [ "EXTRACT", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -371,17 +430,8 @@
           "large_storage_battery",
           "storage_battery"
         ]
-      ]
-    ],
-    "use_action": {
-      "target": "closed_loop_extractor_large",
-      "msg": "You turn off the large closed loop extractor.",
-      "menu_text": "turn off",
-      "need_charges": 0,
-      "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
-      "type": "transform"
-    },
-    "qualities": [ [ "EXTRACT", 1 ] ]
+      }
+    ]
   },
   {
     "id": "oil_extractor_crude",
@@ -444,7 +494,7 @@
     "price": 300000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
@@ -457,10 +507,13 @@
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -474,7 +527,7 @@
           "large_storage_battery",
           "storage_battery"
         ]
-      ]
+      }
     ]
   },
   {
@@ -490,7 +543,7 @@
     "price": 200000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "ammo": [ "battery" ],
     "power_draw": 600000,
     "charges_per_use": 1,
@@ -505,10 +558,13 @@
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
+        "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -522,7 +578,7 @@
           "large_storage_battery",
           "storage_battery"
         ]
-      ]
+      }
     ]
   },
   {
@@ -731,10 +787,13 @@
     "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_disposable_cell",
@@ -743,7 +802,7 @@
           "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -763,11 +822,14 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -802,11 +864,14 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -841,10 +906,13 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -853,7 +921,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -872,10 +940,13 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -884,7 +955,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -903,10 +974,13 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -915,7 +989,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -1121,10 +1195,13 @@
     "color": "white",
     "ammo": [ "battery" ],
     "qualities": [ [ "CONCENTRATE", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -1133,7 +1210,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
