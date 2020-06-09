@@ -578,7 +578,6 @@ class atm_menu
                 return balance_one > balance_two;
             } );
 
-
             for( item * const &cc : cash_cards_on_hand ) {
                 if( inserted == amount ) {
                     break;

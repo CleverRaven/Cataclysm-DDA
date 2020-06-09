@@ -1436,7 +1436,6 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
     return nullptr;
 }
 
-
 // FIXME: if columns are merged due to low screen width, they will not be splitted
 // once screen width becomes enough for the columns.
 void inventory_selector::rearrange_columns( size_t client_width )
