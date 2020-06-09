@@ -76,11 +76,11 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
-enum special_game_id : int {
-    SGAME_NULL = 0,
-    SGAME_TUTORIAL,
-    SGAME_DEFENSE,
-    NUM_SPECIAL_GAMES
+enum class special_game_type : int {
+    NONE = 0,
+    TUTORIAL,
+    DEFENSE,
+    NUM_SPECIAL_GAME_TYPES
 };
 
 enum art_effect_passive : int {

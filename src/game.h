@@ -608,7 +608,7 @@ class game
                                       const std::string &none_message = "" );
 
         bool has_gametype() const;
-        special_game_id gametype() const;
+        special_game_type gametype() const;
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();

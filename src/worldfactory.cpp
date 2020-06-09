@@ -175,14 +175,14 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( special_game_id special_type )
+WORLDPTR worldfactory::make_new_world( special_game_type special_type )
 {
     std::string worldname;
     switch( special_type ) {
-        case SGAME_TUTORIAL:
+        case special_game_type::TUTORIAL:
             worldname = "TUTORIAL";
             break;
-        case SGAME_DEFENSE:
+        case special_game_type::DEFENSE:
             worldname = "DEFENSE";
             break;
         default:

@@ -624,12 +624,12 @@ void game::setup()
 
 bool game::has_gametype() const
 {
-    return gamemode && gamemode->id() != SGAME_NULL;
+    return gamemode && gamemode->id() != special_game_type::NONE;
 }
 
-special_game_id game::gametype() const
+special_game_type game::gametype() const
 {
-    return gamemode ? gamemode->id() : SGAME_NULL;
+    return gamemode ? gamemode->id() : special_game_type::NONE;
 }
 
 void game::load_map( const tripoint &pos_sm )
