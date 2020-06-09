@@ -765,7 +765,7 @@
     "default_mods": [ "sword_bayonet" ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
-  }
+  },
   {
     "id": "makeshift_shotgun",
     "copy-from": "shotgun_base",
