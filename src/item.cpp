@@ -908,15 +908,7 @@ bool item::combine( const item &rhs )
         }
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
-        if( rhs_energy < 0 || lhs_energy < 0 ) {
-            if( !g->new_game ) {
-                debugmsg( "Combining items with no defined temperature." );
-                // This item was probably created without defining its temperature. 
-                // Trying to handle its temperature would just result in nonsense.
-                // Find the place where this item is created and fix it.
-                // This is not a problem during world gen (and is expected to happen)
-            }
-        } else {
+        if( rhs_energy > 0 || lhs_energy > 0 ) {
             const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                     weight() ) + to_gram( rhs.weight() ) );
             set_item_specific_energy( combined_specific_energy );
