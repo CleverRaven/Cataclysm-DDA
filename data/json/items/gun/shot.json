@@ -774,7 +774,7 @@
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail. The lack of sights make this weapon only useful at point-blank range.",
     "weight": "3629 g",
     "volume": "2264 ml",
-    "looks_like": "remington_870",
+    "looks_like": "pipe",
     "price": 8500,
     "price_postapoc": 1000,
     "bashing": 8,
