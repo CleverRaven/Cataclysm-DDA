@@ -205,7 +205,7 @@ static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
-const morale_type morale_traumatic_memory( "morale_traumatic_memory" );
+static const morale_type morale_traumatic_memory( "morale_traumatic_memory" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
