@@ -4325,7 +4325,7 @@ void game::mon_info_update( )
             }
         }
 
-        rule_state safemode_state = RULE_NONE;
+        rule_state safemode_state = rule_state::NONE;
         const bool safemode_empty = get_safemode().empty();
 
         if( m != nullptr ) {
@@ -4336,7 +4336,7 @@ void game::mon_info_update( )
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
             safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
 
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
                     ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
                 if( index < 8 && critter.sees( g->u ) ) {
                     dangerous[index] = true;
@@ -4373,7 +4373,7 @@ void game::mon_info_update( )
             safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
                              npc_dist );
 
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
                     p->get_attitude() == NPCATT_KILL ) ) {
                 if( !safemode_empty || npc_dist <= iProxyDist ) {
                     newseen++;
@@ -8187,7 +8187,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
                 get_safemode().add_rule( monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
-                                         RULE_BLACKLISTED );
+                                         rule_state::BLACKLISTED );
             }
         } else if( action == "look" ) {
             hide_ui = true;

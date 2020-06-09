@@ -598,7 +598,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_WHITELISTED ),
+    character_rules.push_back( rules_class( rule_in, true, ( state_in == rule_state::WHITELISTED ),
                                             attitude_in, proximity_in, HOSTILE_SPOTTED ) );
     create_rules();
 
@@ -659,17 +659,17 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
                 if( !rule.whitelist ) {
                     //Check include patterns against all monster mtypes
                     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-                        set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
+                        set_rule( rule, mtype.nname(), rule_state::BLACKLISTED );
                     }
                 } else {
                     //exclude monsters from the existing mapping
                     for( const auto &safemode_rule : safemode_rules_hostile ) {
-                        set_rule( rule, safemode_rule.first, RULE_WHITELISTED );
+                        set_rule( rule, safemode_rule.first, rule_state::WHITELISTED );
                     }
                 }
                 break;
             case SOUND:
-                set_rule( rule, rule.rule, rule.whitelist ? RULE_WHITELISTED : RULE_BLACKLISTED );
+                set_rule( rule, rule.rule, rule.whitelist ? rule_state::WHITELISTED : rule_state::BLACKLISTED );
                 break;
             default:
                 break;
@@ -709,17 +709,17 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
     const auto iter = safemode_rules_hostile.find( creature_name_in );
     if( iter != safemode_rules_hostile.end() ) {
         const auto &tmp = ( iter->second )[static_cast<int>( attitude_in )];
-        if( tmp.state == RULE_BLACKLISTED ) {
+        if( tmp.state == rule_state::BLACKLISTED ) {
             if( tmp.proximity == 0 || proximity_in <= tmp.proximity ) {
-                return RULE_BLACKLISTED;
+                return rule_state::BLACKLISTED;
             }
 
-        } else if( tmp.state == RULE_WHITELISTED ) {
-            return RULE_WHITELISTED;
+        } else if( tmp.state == rule_state::WHITELISTED ) {
+            return rule_state::WHITELISTED;
         }
     }
 
-    return RULE_NONE;
+    return rule_state::NONE;
 }
 
 bool safemode::is_sound_safe( const std::string &sound_name_in,

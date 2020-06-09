@@ -35,10 +35,10 @@ enum class temperature_flag : int {
 };
 
 //Used for autopickup and safemode rules
-enum rule_state : int {
-    RULE_NONE,
-    RULE_WHITELISTED,
-    RULE_BLACKLISTED
+enum class rule_state : int {
+    NONE,
+    WHITELISTED,
+    BLACKLISTED
 };
 
 enum visibility_type {

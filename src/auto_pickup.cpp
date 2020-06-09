@@ -611,7 +611,7 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
             continue;
         }
 
-        map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
 }
 
@@ -634,7 +634,7 @@ void rule_list::create_rule( cache &map_items, const item &it )
             continue;
         }
 
-        map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
 }
 
@@ -663,7 +663,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
                     continue;
                 }
 
-                map_items[ cur_item ] = RULE_WHITELISTED;
+                map_items[ cur_item ] = rule_state::WHITELISTED;
                 map_items.temp_items[ cur_item ] = e;
             }
         } else {
@@ -675,7 +675,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
                     continue;
                 }
 
-                map_items[ map_item.first ] = RULE_BLACKLISTED;
+                map_items[ map_item.first ] = rule_state::BLACKLISTED;
             }
         }
     }
@@ -692,7 +692,7 @@ rule_state base_settings::check_item( const std::string &sItemName ) const
         return iter->second;
     }
 
-    return RULE_NONE;
+    return rule_state::NONE;
 }
 
 void player_settings::clear_character_rules()
