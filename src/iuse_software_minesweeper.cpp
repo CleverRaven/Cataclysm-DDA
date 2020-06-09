@@ -264,10 +264,10 @@ int minesweeper_game::start_game()
             mLevelReveal[p.y][p.x] = seen;
 
             if( mLevel[p.y][p.x] == 0 ) {
-                for( const point &p : closest_points_first( p, 1 ) ) {
-                    if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
-                        if( mLevelReveal[p.y][p.x] != seen ) {
-                            rec_reveal( p );
+                for( const point &near_p : closest_points_first( p, 1 ) ) {
+                    if( near_p.x >= 0 && near_p.x < level.x && near_p.y >= 0 && near_p.y < level.y ) {
+                        if( mLevelReveal[near_p.y][near_p.x] != seen ) {
+                            rec_reveal( near_p );
                         }
                     }
                 }
