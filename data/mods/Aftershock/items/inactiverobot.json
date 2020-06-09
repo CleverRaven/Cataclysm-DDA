@@ -241,5 +241,97 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     }
+  },
+  {
+    "id": "bot_utilibot_beehive",
+    "type": "TOOL",
+    "copy-from": "bot_utilibot_base",
+    "name": "inactive bee-bot",
+    "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  It protects the insect colony with a mechanical crossbow mounted to its chassis.  Activate this item, with wooden bolts in your inventory, to load and deploy the robot.",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_utilibot_beehive",
+      "difficulty": 1,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "abstract": "bot_medibot_base",
+    "type": "TOOL",
+    "looks_like": "mon_tripod",
+    "name": "inactive medibot",
+    "material": [ "steel", "plastic" ],
+    "weight": "70 kg",
+    "volume": "50 L",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 6,
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_medibot",
+      "difficulty": 1,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    },
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "abstract": "bot_utilibot_base",
+    "type": "TOOL",
+    "name": "inactive utilibot",
+    "looks_like": "mon_cleanerbot",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "aluminum" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bot_light_hack",
+    "type": "TOOL",
+    "copy-from": "bot_hack_base",
+    "name": "inactive floating lantern",
+    "description": "An inactive floating lantern, a fist-sized robots that flies through the air and illuminates its surroundings with bright LEDs.  The lantern is non aggressive and has no means of attack.  Activate this item to deploy the salvaged robot.",
+    "color": "yellow",
+    "looks_like": "bot_manhack",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_light_hack",
+      "friendly_msg": "The floating lantern flies from your hand and lights up the area!",
+      "hostile_msg": "You misprogram the lantern.",
+      "difficulty": 1,
+      "moves": 60,
+      "place_randomly": true,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_eyebot_heater",
+    "type": "TOOL",
+    "copy-from": "bot_eyebot_base",
+    "name": "inactive floating heater",
+    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
+    "color": "pink",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_eyebot_heater",
+      "difficulty": 1,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
   }
 ]

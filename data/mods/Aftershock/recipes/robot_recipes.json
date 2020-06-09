@@ -31,5 +31,41 @@
       [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
-  }
+  },
+  {
+    "result": "bot_utilibot_beehive",
+    "type": "recipe",
+    "id_suffix": "from_parts",
+    "copy-from": "bot_utilibot_base",
+    "components": [
+      [ [ "broken_utilibot", 1 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "metal_tank_little", 4 ] ],
+      [ [ "gun_module", 8 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "crossbow", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "afs_circuitry_2", 2 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_circuitry_1", 4 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_material_1", 2 ] ]
+    ]
+  },
+  {
+    "result": "bot_utilibot_beehive",
+    "type": "recipe",
+    "id_suffix": "repair",
+    "copy-from": "bot_utilibot_base",
+    "components": [
+      [ [ "broken_utilibot_beehive", 1 ] ],
+      [ [ "afs_circuitry_1", 4 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  },
 ]
