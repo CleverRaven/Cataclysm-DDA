@@ -936,7 +936,7 @@ static int num_parents( const item_location &loc )
     return 2 + num_parents( loc.parent_item() );
 }
 
-void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
+void inventory_column::draw( const catacurses::window &win, const point &p )
 {
     if( !visible() ) {
         return;
@@ -965,14 +965,14 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             contained_offset = num_parents( entry.locations.front() );
         }
 
-        int x1 = x + get_entry_indent( entry ) + contained_offset;
-        int x2 = x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
-        int yy = y + line;
+        int x1 = p.x + get_entry_indent( entry ) + contained_offset;
+        int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
+        int yy = p.y + line;
 
         const bool selected = active && is_selected( entry );
 
         entry.drawn_info.text_x_start = x1;
-        const int hx_max = x + get_width() + contained_offset;
+        const int hx_max = p.x + get_width() + contained_offset;
         entry.drawn_info.text_x_end = hx_max;
         entry.drawn_info.y = yy;
 
@@ -990,7 +990,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
-            trim_and_print( win, point( x + get_width() - denial_width + contained_offset, yy ), denial_width,
+            trim_and_print( win, point( p.x + get_width() - denial_width + contained_offset, yy ), denial_width,
                             c_red, denial );
         }
 
@@ -1038,9 +1038,9 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         }
 
         if( entry.is_item() ) {
-            int xx = x;
+            int xx = p.x;
             if( entry.get_invlet() != '\0' ) {
-                mvwputch( win, point( x, yy ), entry.get_invlet_color(), entry.get_invlet() );
+                mvwputch( win, point( p.x, yy ), entry.get_invlet_color(), entry.get_invlet() );
             }
             xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
@@ -1061,7 +1061,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
     }
 
     if( pages_count() > 1 ) {
-        mvwprintw( win, point( x, y + height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
+        mvwprintw( win, p + point( 0, height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
     }
 }
 

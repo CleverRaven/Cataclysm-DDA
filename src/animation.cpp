@@ -101,14 +101,9 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 }
 
 //! Get (x, y) relative to u's current position and view
-tripoint relative_view_pos( const player &u, const int x, const int y, const int z ) noexcept
-{
-    return -u.view_offset + tripoint( POSX + x - u.posx(), POSY + y - u.posy(), z - u.posz() );
-}
-
 tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
 {
-    return relative_view_pos( u, p.x, p.y, p.z );
+    return -u.view_offset + p + tripoint( POSX - u.posx(), POSY - u.posy(), -u.posz() );
 }
 
 // Convert p to screen position relative to the current terrain view

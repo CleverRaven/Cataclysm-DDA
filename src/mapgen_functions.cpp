@@ -220,12 +220,12 @@ void mapgen_crater( mapgendata &dat )
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-static void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
+static void ter_or_furn_set( map *m, const point &p, const ter_furn_id &tfid )
 {
     if( tfid.ter != t_null ) {
-        m->ter_set( point( x, y ), tfid.ter );
+        m->ter_set( p, tfid.ter );
     } else if( tfid.furn != f_null ) {
-        m->furn_set( point( x, y ), tfid.furn );
+        m->furn_set( p, tfid.furn );
     }
 }
 
@@ -254,10 +254,10 @@ void mapgen_field( mapgendata &dat )
             if( mpercent_bush > rng( 0, 1000000 ) ) {
                 if( boosted_vegetation && dat.region.field_coverage.boosted_other_mpercent > rng( 0, 1000000 ) ) {
                     // already chose the lucky terrain/furniture/plant/rock/etc
-                    ter_or_furn_set( m, i, j, altbush );
+                    ter_or_furn_set( m, point( i, j ), altbush );
                 } else {
                     // pick from weighted list
-                    ter_or_furn_set( m, i, j, dat.region.field_coverage.pick( false ) );
+                    ter_or_furn_set( m, point( i, j ), dat.region.field_coverage.pick( false ) );
                 }
             }
         }
@@ -2717,8 +2717,8 @@ void mapgen_forest( mapgendata &dat )
     }
 
     // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
-    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id & tid,
-    const int x, const int y ) {
+    const auto set_terrain_dependent_furniture =
+    [&current_biome_def, &m]( const ter_id & tid, const point & p ) {
         const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
                     tid );
         if( terrain_dependent_furniture_it == current_biome_def.terrain_dependent_furniture.end() ) {
@@ -2735,7 +2735,7 @@ void mapgen_forest( mapgendata &dat )
         if( one_in( tdf.chance ) ) {
             // Pick a furniture and set it on the map right now.
             const auto fid = tdf.furniture.pick();
-            m->furn_set( point( x, y ), *fid );
+            m->furn_set( p, *fid );
         }
     };
 
@@ -2744,8 +2744,8 @@ void mapgen_forest( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             const ter_furn_id feature = get_blended_feature( point( x, y ) );
-            ter_or_furn_set( m, x, y, feature );
-            set_terrain_dependent_furniture( feature.ter, x, y );
+            ter_or_furn_set( m, point( x, y ), feature );
+            set_terrain_dependent_furniture( feature.ter, point( x, y ) );
         }
     }
 

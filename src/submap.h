@@ -273,8 +273,6 @@ struct maptile {
             return pos_;
         }
 
-        maptile( submap *sub, const size_t nx, const size_t ny ) :
-            sm( sub ), pos_( nx, ny ) { }
         maptile( submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
     public:

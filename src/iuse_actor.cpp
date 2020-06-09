@@ -3525,10 +3525,10 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
     return std::make_unique<place_trap_actor>( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
-    const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
-    const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
+    const tripoint a = pos + tripoint( offset, 0 );
+    const tripoint b = pos - tripoint( offset, 0 );
     return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
 }
 
@@ -3554,8 +3554,8 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         return false;
     }
     if( needs_solid_neighbor ) {
-        if( !is_solid_neighbor( pos, 1, 0 ) && !is_solid_neighbor( pos, 0, 1 ) &&
-            !is_solid_neighbor( pos, 1, 1 ) && !is_solid_neighbor( pos, 1, -1 ) ) {
+        if( !is_solid_neighbor( pos, point_east ) && !is_solid_neighbor( pos, point_south ) &&
+            !is_solid_neighbor( pos, point_south_east ) && !is_solid_neighbor( pos, point_north_east ) ) {
             p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name );
             return false;
         }

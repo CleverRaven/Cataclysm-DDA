@@ -34,51 +34,47 @@ struct real_coords {
 
     real_coords() = default;
 
-    real_coords( point ap ) {
-        fromabs( ap.x, ap.y );
+    real_coords( const point &ap ) {
+        fromabs( ap );
     }
 
-    void fromabs( const int absx, const int absy ) {
-        const int normx = std::abs( absx );
-        const int normy = std::abs( absy );
-        abs_pos = point( absx, absy );
+    void fromabs( const point &abs ) {
+        const int normx = std::abs( abs.x );
+        const int normy = std::abs( abs.y );
+        abs_pos = abs;
 
-        if( absx < 0 ) {
-            abs_sub.x = ( absx - SEEX + 1 ) / SEEX;
+        if( abs.x < 0 ) {
+            abs_sub.x = ( abs.x - SEEX + 1 ) / SEEX;
             sub_pos.x = SEEX - 1 - ( ( normx - 1 ) % SEEX );
             abs_om.x = ( abs_sub.x - subs_in_om_n ) / subs_in_om;
             om_sub.x = subs_in_om_n - ( ( ( normx - 1 ) / SEEX ) % subs_in_om );
         } else {
             abs_sub.x = normx / SEEX;
-            sub_pos.x = absx % SEEX;
+            sub_pos.x = abs.x % SEEX;
             abs_om.x = abs_sub.x / subs_in_om;
             om_sub.x = abs_sub.x % subs_in_om;
         }
         om_pos.x = om_sub.x / 2;
 
-        if( absy < 0 ) {
-            abs_sub.y = ( absy - SEEY + 1 ) / SEEY;
+        if( abs.y < 0 ) {
+            abs_sub.y = ( abs.y - SEEY + 1 ) / SEEY;
             sub_pos.y = SEEY - 1 - ( ( normy - 1 ) % SEEY );
             abs_om.y = ( abs_sub.y - subs_in_om_n ) / subs_in_om;
             om_sub.y = subs_in_om_n - ( ( ( normy - 1 ) / SEEY ) % subs_in_om );
         } else {
             abs_sub.y = normy / SEEY;
-            sub_pos.y = absy % SEEY;
+            sub_pos.y = abs.y % SEEY;
             abs_om.y = abs_sub.y / subs_in_om;
             om_sub.y = abs_sub.y % subs_in_om;
         }
         om_pos.y = om_sub.y / 2;
     }
 
-    void fromabs( point absolute ) {
-        fromabs( absolute.x, absolute.y );
-    }
-
     // specifically for the subjective position returned by overmap::draw
     void fromomap( const point &rel_om, const point &rel_om_pos ) {
         const int ax = rel_om.x * OMAPX + rel_om_pos.x;
         const int ay = rel_om.y * OMAPY + rel_om_pos.y;
-        fromabs( ax * SEEX * 2, ay * SEEY * 2 );
+        fromabs( point( ax * SEEX * 2, ay * SEEY * 2 ) );
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start

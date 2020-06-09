@@ -1965,7 +1965,7 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
                         m.ter_set( location, t_water_dp );
                         break;
                     case 3:
-                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
+                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, point( i, j ) );
                         if( neighbors == 8 ) {
                             m.ter_set( location, t_water_dp );
                         } else {
