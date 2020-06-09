@@ -2750,9 +2750,9 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
             const int subtile = corner;
             // depending on the toggle flip sprite left or right
             int rot_facing = -1;
-            if( m->facing == FD_RIGHT ) {
+            if( m->facing == FacingDirection::RIGHT ) {
                 rot_facing = 0;
-            } else if( m->facing == FD_LEFT ) {
+            } else if( m->facing == FacingDirection::LEFT ) {
                 rot_facing = 4;
             }
             if( rot_facing >= 0 ) {
@@ -2870,9 +2870,9 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
     int prev_height_3d = height_3d;
 
     // depending on the toggle flip sprite left or right
-    if( ch.facing == FD_RIGHT ) {
+    if( ch.facing == FacingDirection::RIGHT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
-    } else if( ch.facing == FD_LEFT ) {
+    } else if( ch.facing == FacingDirection::LEFT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
     }
 
@@ -2882,9 +2882,9 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
         std::string draw_id = overlay;
         if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
-            if( ch.facing == FD_RIGHT ) {
+            if( ch.facing == FacingDirection::RIGHT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d );
-            } else if( ch.facing == FD_LEFT ) {
+            } else if( ch.facing == FacingDirection::LEFT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts

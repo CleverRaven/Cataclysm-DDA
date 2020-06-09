@@ -2375,9 +2375,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const tripoint old_pos = pos();
         setpos( p );
         if( old_pos.x - p.x < 0 ) {
-            facing = FD_RIGHT;
+            facing = FacingDirection::RIGHT;
         } else {
-            facing = FD_LEFT;
+            facing = FacingDirection::LEFT;
         }
         if( is_mounted() ) {
             if( mounted_creature->pos() != pos() ) {
