@@ -266,6 +266,8 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     wnoutrefresh( win );
 }
 
+void draw_connectors( const catacurses::window &win, const point &start,
+                      int last_x, const bionic_id &bio_id );
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
                              const int last_x, const bionic_id &bio_id )
 {
@@ -567,7 +569,7 @@ void player::power_bionics()
                                 desc );
                 if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                     const bionic_id bio_id = ( *current_bionic_list )[i]->id;
-                    draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
+                    draw_connectors( wBio, point( utf8_width( desc ) + 3, list_start_y + i - scroll_position ),
                                      pos_x - 2, bio_id );
 
                     // redraw highlighted (occupied) body parts

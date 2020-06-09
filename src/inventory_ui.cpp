@@ -1761,7 +1761,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
         }
 
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, x, y );
+            elem->draw( w, point( x, y ) );
         } else {
             active_x = x;
         }
@@ -1769,7 +1769,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, active_x, y );
+    get_active_column().draw( w, point( active_x, y ) );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }
