@@ -365,7 +365,7 @@
     "type": "martial_art",
     "id": "style_mma_setting_sun",
     "name": { "str": "Setting Sun" },
-    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them.  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
     "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
     "arm_block": 0,
     "learn_difficulty": 10,
