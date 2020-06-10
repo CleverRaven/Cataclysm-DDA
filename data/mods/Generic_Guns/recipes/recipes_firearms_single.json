@@ -125,7 +125,7 @@
   },
   {
     "type": "recipe",
-    "result": "pipe_shotgun",
+    "result": "slam_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
