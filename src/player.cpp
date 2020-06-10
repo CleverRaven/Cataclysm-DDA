@@ -88,6 +88,7 @@
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
@@ -191,6 +192,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const std::string flag_SPLINT( "SPLINT" );
 
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
@@ -807,7 +809,23 @@ void player::pause()
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
     }
-
+    // put pressure on bleeding wound, prioritizing most severe bleeding
+    if( has_effect( effect_bleed ) ) {
+        int most = 0;
+        bodypart_id bp_id;
+        for( const body_part bp : all_body_parts ) {
+            if( most <= get_effect_int( effect_bleed, bp ) ) {
+                most = get_effect_int( effect_bleed, bp );
+                bp_id = convert_bp( bp );
+            }
+        }
+        effect &e = get_effect( effect_bleed, bp_id->token );
+        e.mod_duration( -5_turns - 10 * time_duration::from_turns( get_skill_level( skill_firstaid ) ) );
+        add_msg_player_or_npc( m_warning,
+                               _( "You attempt to put pressure on the bleeding wound!" ),
+                               _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
+        practice( skill_firstaid, 1 );
+    }
     // on-pause effects for martial arts
     martial_arts_data.ma_onpause_effects( *this );
 
