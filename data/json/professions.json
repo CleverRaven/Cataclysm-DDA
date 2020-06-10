@@ -4211,7 +4211,7 @@
   },
   {
     "type": "profession",
-    "ident": "mili_medic"
+    "ident": "mili_medic",
     "name": "Combat Medic",
     "description": "You were on the front-lines when everything happened. Patching up the wounded and providing support, but they wouldn't stop coming. Now you're on your own.",
     "points": 5,
