@@ -4169,7 +4169,9 @@
     "vehicle": "ambulance",
     "items": {
       "both": [ "technician_shirt_gray", "pants", "socks", "gloves_medical", "multitool", "wristwatch", "boots" ],
-      "entries": [ { "group": "charged_cell_phone" } ]
+      "entries": [ 
+        { "group": "charged_cell_phone" } 
+      ]
     },
     "male": [ "boxer_shorts" ],
     "female": [ "bra", "panties" ]
@@ -4197,7 +4199,9 @@
         "syringe",
         "morphine"
       ],
-      "entries": [ { "group": "charged_cell_phone" } ]
+      "entries": [ 
+        { "group": "charged_cell_phone" } 
+      ]
     },
     "male": [ "boxer_shorts" ],
     "female": [ "bra", "panties" ]
