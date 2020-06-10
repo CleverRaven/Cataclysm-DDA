@@ -75,5 +75,29 @@
     "rate": "4 h",
     "flags": [ "NO_DISPLAY" ],
     "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
+  },
+  {
+    "id": "blood",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Blood" },
+    "deficiency": "hypovolemia",
+    "min": -5000,
+    "max": 0,
+    "rate": "-1 m",
+    "flags": [ "NO_DISPLAY" ],
+    "disease": [ [ -500, -750 ], [ -751, -1500 ], [ -1501, -2000 ], [ -2001, -5000 ] ]
+  },
+  {
+    "id": "redcells",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Red Blood Cells" },
+    "deficiency": "redcells_anemia",
+    "min": -5000,
+    "max": 0,
+    "rate": "-2 m",
+    "flags": [ "NO_DISPLAY" ],
+    "disease": [ [ -751, -2000 ], [ -2001, -3500 ], [ -3501, -5000 ] ]
   }
 ]
