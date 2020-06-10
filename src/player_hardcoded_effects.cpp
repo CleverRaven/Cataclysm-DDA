@@ -46,6 +46,7 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_anemia( "anemia" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
@@ -67,6 +68,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
@@ -78,6 +80,7 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_redcells_anemia( "redcells_anemia" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
@@ -92,8 +95,10 @@ static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+static const efftype_id effect_winded( "winded" );
 
-static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -113,6 +118,8 @@ static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
 static void eff_fun_onfire( player &u, effect &it )
 {
@@ -239,14 +246,20 @@ static void eff_fun_bleed( player &u, effect &it )
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
-    if( one_in( 36 / intense ) && u.activity.id() != ACT_FIRSTAID ) {
+    // tourniquet reduces effective bleeding by 1/3 but doesn't modify the effect's intensity
+    int tourniquet = u.worn_with_flag( flag_TOURNIQUET, convert_bp( it.get_bp() ) ) ? 3 : 1;
+    if( one_in( 150 / intense * tourniquet ) && u.activity.id() != ACT_FIRSTAID ) {
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                  _( "<npcname> loses some blood." ) );
         // Prolonged hemorrhage is a significant risk for developing anemia
-        u.vitamin_mod( vitamin_iron, rng( -1, -4 ) );
-        u.mod_pain( 1 );
-        u.apply_damage( nullptr, convert_bp( it.get_bp() ).id(), 1 );
-        u.bleed();
+        u.vitamin_mod( vitamin_redcells, rng( -1, -intense ) );
+        u.vitamin_mod( vitamin_blood, rng( -1, -intense ) );
+        if( one_in( 100 / intense ) ) {
+            u.mod_pain( 1 );
+        }
+        if( one_in( 40 / intense ) ) {
+            u.bleed();
+        }
     }
 }
 static void eff_fun_hallu( player &u, effect &it )
@@ -884,6 +897,270 @@ void player::hardcoded_effects( effect &it )
             }
             g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
             hp_cur[hp_torso] = 0;
+        }
+    } else if( id == effect_hypovolemia ) {
+        // bleed out lambda
+        auto bleed_out = [ this ] {
+            if( has_effect( effect_bleed ) )
+            {
+                add_msg_player_or_npc( m_bad,
+                                       _( "You bleed to death!" ),
+                                       _( "<npcname> bleeds to death!" ) );
+                g->events().send<event_type::dies_from_bleeding>( getID() );
+            } else
+            {
+                add_msg_player_or_npc( m_bad,
+                                       _( "Your heart can't keep up the pace and fails!" ),
+                                       _( "<npcname> has a sudden heart attack!" ) );
+                g->events().send<event_type::dies_from_hypovolemia>( getID() );
+            }
+            hp_cur[hp_torso] = 0;
+        };
+        // this goes first because beyond minimum threshold you just die without delay,
+        // while stage 4 is on a timer check with an rng grace period
+        if( vitamin_get( vitamin_blood ) == -5000 ) {
+            bleed_out();
+        }
+        if( one_in( 900 / intense ) && !in_sleep_state() ) {
+            // Hypovolemic shock
+            // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
+            if( intense == 1 ) {
+                switch( dice( 1, 6 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your skin looks pale." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You suddenly feel anxcious for a moment." ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You suddenly feel thirsty." ) );
+                        mod_thirst( -5 );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You feel dizzy and lightheaded." ) );
+                        add_effect( effect_stunned, rng( 15_seconds, 2_minutes ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You have a headache." ) );
+                        mod_pain( 5 );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You feel tired and weak." ) );
+                        mod_fatigue( 3 );
+                        break;
+                }
+            }
+            // stage 2 - person may begin sweating and feeling more anxious and restless.
+            else if( intense == 2 ) {
+                switch( dice( 1, 6 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your skin is abnormaly pale." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You are sweating, but it's not from the temperature." ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You feel anxcious.  You are not well." ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You feel the beating of your hart.  It's fast." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You breathe heavily." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You feel restless.  Maybe you lost too much blood." ) );
+                        break;
+                }
+            }
+            // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
+            // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
+            else if( intense == 3 ) {
+                switch( dice( 1, 6 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your heart is racing like a train." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You huff and puff.  Your breath is rapid and shallow." ) );
+                        mod_stamina( -500 );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You are frightened and cannot collect your thoughts." ) );
+                        focus_pool -= rng( 1, focus_pool / 2 );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad,
+                                           _( "Your skin is unsettlingly white, and your fingertips became blueish." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You are sweating profusely, but you feel cold." ) );
+                        temp_conv[bp_hand_l] -= 1000;
+                        temp_conv[bp_hand_r] -= 1000;
+                        temp_conv[bp_foot_l] -= 1000;
+                        temp_conv[bp_foot_r] -= 1000;
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad,
+                                           _( "You are agitated.  You feel an urge do something, but what exactly?" ) );
+                        break;
+                }
+            }
+            // stage 4 is a life threatening condition; extremely rapid heart rate, breathing very fast and difficult
+            // drifting in and out of consciousness, sweating heavily, feeling cool to the touch, looking extremely pale
+            else if( intense == 4 ) {
+                switch( dice( 1, 6 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your heart is racing like crazy, but you feel sluggish." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You are pale as a ghost, and your limbs are cold as ice." ) );
+                        temp_conv[bp_hand_l] -= 2000;
+                        temp_conv[bp_hand_r] -= 2000;
+                        temp_conv[bp_foot_l] -= 2000;
+                        temp_conv[bp_foot_r] -= 2000;
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You gasp for air!" ) );
+                        set_stamina( 0 );
+                        add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You are dripping wet from the sweat." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Your mind slips away." ) );
+                        fall_asleep( rng( 2_minutes, 5_minutes ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You drop to the ground, fighting to keep yourself conscious." ) );
+                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                        break;
+                }
+            }
+        }
+        // this goes last because we don't want in_sleep_state to prevent you from dying
+        if( intense == 4 && one_in( 900 / intense ) &&
+            rng( 1, 3000 ) > ( 5000 + vitamin_get( vitamin_blood ) ) ) {
+            bleed_out();
+        }
+    } else if( id == effect_anemia || id == effect_redcells_anemia ) {
+        // Lack of iron impairs production of hemoglobin and therefore ability to carry
+        // oxygen by red blood cells. Alternatively hemorrage causes physical loss of red blood cells.
+        // This triggers veriety of symptoms, focusing on weakness,
+        // fatigue, cold limbs, later in dizzyness, soreness, breathlessness,
+        // and severe maiaise and lethargy.
+        // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health
+        // are placed in effect JSON
+
+        // you can only lose as much red blood cells before your body fails to function
+        if( vitamin_get( vitamin_redcells ) <= -4995 ) {
+            add_msg_player_or_npc( m_bad,
+                                   _( "You cannot breathe and your body gives out!" ),
+                                   _( "<npcname> gasps for air and dies!" ) );
+            g->events().send<event_type::dies_from_redcells_loss>( getID() );
+            hp_cur[hp_torso] = 0;
+        }
+        if( one_in( 900 / intense ) && !in_sleep_state() ) {
+            // level 1 symptoms are cold limbs, pale skin, and weakness
+            switch( dice( 1, 9 ) ) {
+                case 1:
+                    add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
+                    temp_conv[bp_hand_l] -= 2000;
+                    temp_conv[bp_hand_r] -= 2000;
+                    break;
+                case 2:
+                    add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
+                    temp_conv[bp_foot_l] -= 2000;
+                    temp_conv[bp_foot_r] -= 2000;
+                    break;
+                case 3:
+                    add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
+                    break;
+                case 4:
+                    add_msg_if_player( m_bad, _( "You feel weak.  Where has your strength gone?" ) );
+                    break;
+                case 5:
+                    add_msg_if_player( m_bad, _( "You feel feeble.  A gust of wind could make you stumble." ) );
+                    break;
+                case 6:
+                    add_msg_if_player( m_bad, _( "There is an overwhelming aura of tiredness inside of you." ) );
+                    mod_fatigue( intense * 3 );
+                    break;
+                case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+            }
+            // level 2 anemia introduces dizzynes, shakes, headaches, cravings for non-comestibles,
+            // mouth and tongue soreness
+            if( intense > 1 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Rest is what you want.  Rest is what you need." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You feel dizzy and can't coordinate movement of your feet." ) );
+                        add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "Your muscles are quivering." ) );
+                        add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "You crave for ice.  Dirt under your feet looks tasty too." ) );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migrene follows." ) );
+                        mod_pain( intense * 9 );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
+            // level 3 anemia introduces restless legs, severe tiredness, breathlessness
+            if( intense > 2 ) {
+                switch( dice( 1, 9 ) ) {
+                    case 1:
+                        add_msg_if_player( m_bad, _( "Your legs are restless.  Urge to move them is so strong." ) );
+                        break;
+                    case 2:
+                        add_msg_if_player( m_bad, _( "You feel like you'd sleep on a rock." ) );
+                        mod_fatigue( intense * 3 );
+                        break;
+                    case 3:
+                        add_msg_if_player( m_bad, _( "You gasp for air!" ) );
+                        set_stamina( 0 );
+                        add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
+                        break;
+                    case 4:
+                        add_msg_if_player( m_bad, _( "Can't breathe.  Must rest." ) );
+                        set_stamina( 0 );
+                        break;
+                    case 5:
+                        add_msg_if_player( m_bad, _( "You can't take it any more.  Rest first, everything else later." ) );
+                        add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
+                        break;
+                    case 6:
+                        add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
+                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                        break;
+                    case 7: // 7-9 empty for variability, as messages stack on higher intensity
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                }
+            }
         }
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
