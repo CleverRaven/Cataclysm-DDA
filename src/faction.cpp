@@ -217,51 +217,46 @@ std::string fac_ranking_text( int val )
 std::string fac_respect_text( int val )
 {
     // Respected, feared, etc.
-    //~ Faction respect - Legendary
     if( val >= 100 ) {
-        return _( "Legendary" );
+        return pgettext( "Faction respect", "Legendary" );
     }
     if( val >= 80 ) {
-        return _( "Unchallenged" );
+        return pgettext( "Faction respect", "Unchallenged" );
     }
     if( val >= 60 ) {
-        return _( "Mighty" );
+        return pgettext( "Faction respect", "Mighty" );
     }
     if( val >= 40 ) {
-        return _( "Famous" );
+        return pgettext( "Faction respect", "Famous" );
     }
     if( val >= 20 ) {
-        return _( "Well-Known" );
+        return pgettext( "Faction respect", "Well-Known" );
     }
     if( val >= 10 ) {
-        return _( "Spoken Of" );
+        return pgettext( "Faction respect", "Spoken Of" );
     }
 
     // Disrespected, laughed at, etc.
     if( val <= -100 ) {
-        return _( "Worthless Scum" );
+        return pgettext( "Faction respect", "Worthless Scum" );
     }
-    //~ Faction respect - Vermin
     if( val <= -80 ) {
-        return _( "Vermin" );
+        return pgettext( "Faction respect", "Vermin" );
     }
     if( val <= -60 ) {
-        return _( "Despicable" );
+        return pgettext( "Faction respect", "Despicable" );
     }
-    //~ Faction respect - Parasite
     if( val <= -40 ) {
-        return _( "Parasite" );
+        return pgettext( "Faction respect", "Parasite" );
     }
-    //~ Faction respect - Leech
     if( val <= -20 ) {
-        return _( "Leech" );
+        return pgettext( "Faction respect", "Leech" );
     }
     if( val <= -10 ) {
-        return _( "Laughingstock" );
+        return pgettext( "Faction respect", "Laughingstock" );
     }
 
-    //~ Faction respect - Neutral
-    return _( "Neutral" );
+    return pgettext( "Faction respect", "Neutral" );
 }
 
 std::string fac_wealth_text( int val, int size )
@@ -269,31 +264,30 @@ std::string fac_wealth_text( int val, int size )
     //Wealth per person
     val = val / size;
     if( val >= 1000000 ) {
-        return _( "Filthy rich" );
+        return pgettext( "Faction wealth", "Filthy rich" );
     }
     if( val >= 750000 ) {
-        return _( "Affluent" );
+        return pgettext( "Faction wealth", "Affluent" );
     }
     if( val >= 500000 ) {
-        return _( "Prosperous" );
+        return pgettext( "Faction wealth", "Prosperous" );
     }
     if( val >= 250000 ) {
-        return _( "Well-Off" );
+        return pgettext( "Faction wealth", "Well-Off" );
     }
-    //~ Faction wealth - Comfortable
     if( val >= 100000 ) {
-        return _( "Comfortable" );
+        return pgettext( "Faction wealth", "Comfortable" );
     }
     if( val >= 85000 ) {
-        return _( "Wanting" );
+        return pgettext( "Faction wealth", "Wanting" );
     }
     if( val >= 70000 ) {
-        return _( "Failing" );
+        return pgettext( "Faction wealth", "Failing" );
     }
     if( val >= 50000 ) {
-        return _( "Impoverished" );
+        return pgettext( "Faction wealth", "Impoverished" );
     }
-    return _( "Destitute" );
+    return pgettext( "Faction wealth", "Destitute" );
 }
 
 std::string faction::food_supply_text()
@@ -301,20 +295,18 @@ std::string faction::food_supply_text()
     //Convert to how many days you can support the population
     int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
-        return _( "Overflowing" );
+        return pgettext( "Faction food", "Overflowing" );
     }
     if( val >= 14 ) {
-        return _( "Well-Stocked" );
+        return pgettext( "Faction food", "Well-Stocked" );
     }
     if( val >= 6 ) {
-        return _( "Scrapping By" );
+        return pgettext( "Faction food", "Scrapping By" );
     }
-    //~ Faction food supply - Malnourished
     if( val >= 3 ) {
-        return _( "Malnourished" );
+        return pgettext( "Faction food", "Malnourished" );
     }
-    //~ Faction food supply - Starving
-    return _( "Starving" );
+    return pgettext( "Faction food", "Starving" );
 }
 
 nc_color faction::food_supply_color()
@@ -346,35 +338,30 @@ bool faction::has_relationship( const faction_id &guy_id, npc_factions::relation
 std::string fac_combat_ability_text( int val )
 {
     if( val >= 150 ) {
-        return _( "Legendary" );
+        return pgettext( "Faction combat lvl", "Legendary" );
     }
-    //~ Faction combat lvl - Expert
     if( val >= 130 ) {
-        return _( "Expert" );
+        return pgettext( "Faction combat lvl", "Expert" );
     }
-    //~ Faction combat lvl - Veteran
     if( val >= 115 ) {
-        return _( "Veteran" );
+        return pgettext( "Faction combat lvl", "Veteran" );
     }
-    //~ Faction combat lvl - Skilled
     if( val >= 105 ) {
-        return _( "Skilled" );
+        return pgettext( "Faction combat lvl", "Skilled" );
     }
-    //~ Faction combat lvl - Competent
     if( val >= 95 ) {
-        return _( "Competent" );
+        return pgettext( "Faction combat lvl", "Competent" );
     }
     if( val >= 85 ) {
-        return _( "Untrained" );
+        return pgettext( "Faction combat lvl", "Untrained" );
     }
     if( val >= 75 ) {
-        return _( "Crippled" );
+        return pgettext( "Faction combat lvl", "Crippled" );
     }
     if( val >= 50 ) {
-        return _( "Feeble" );
+        return pgettext( "Faction combat lvl", "Feeble" );
     }
-    //~ Faction combat lvl - Worthless
-    return _( "Worthless" );
+    return pgettext( "Faction combat lvl", "Worthless" );
 }
 
 void npc_factions::finalize()
