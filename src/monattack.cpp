@@ -2119,15 +2119,6 @@ bool mattack::impale( monster *z )
                                        z->name() );
 
         target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
-        if( one_in( 60 / ( dam + 20 ) ) ) {
-            if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bodypart_id( "torso" ), rng( 75_turns, 125_turns ), true );
-            } else {
-                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
-            }
-
-        }
-
         if( rng( 0, 200 + dam ) > 100 ) {
             target->add_effect( effect_downed, 3_turns );
         }
@@ -4478,9 +4469,9 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bodypart_id( "head" ), 10_minutes );
+            target->as_character()->make_bleed( bodypart_id( "head" ), 15_minutes );
         } else {
-            target->add_effect( effect_bleed, 10_minutes, bp_head );
+            target->add_effect( effect_bleed, 15_minutes, bp_head );
         }
 
     } else {
@@ -4628,7 +4619,8 @@ bool mattack::slimespring( monster *z )
             }
             if( g->u.has_effect( effect_bleed ) ) {
                 if( one_in( 2 ) ) {
-                    g->u.remove_effect( effect_bleed );
+                    effect e = g->u.get_effect( effect_bleed );
+                    e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
                     add_msg( m_good, _( "The slime seals up your leaks!" ) );
                 } else {
                     add_msg( _( "The slime flows over you, but your fluids are still leaking." ) );
@@ -5300,7 +5292,7 @@ bool mattack::bio_op_impale( monster *z )
         // Handle mons earlier - less to check for
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, dam ) );
         if( do_bleed ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            target->add_effect( effect_bleed, rng( 3_minutes, 10_minutes ), bp_torso, true );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
