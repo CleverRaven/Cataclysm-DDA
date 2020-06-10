@@ -19,7 +19,7 @@
     "spoils_in": "2 days",
     "phase": "liquid",
     "container": "bottle_plastic",
-    "material": "water",
+    "material": [ "water" ],
     "calories": 100,
     "quench": 40,
     "healthy": 2,
@@ -85,7 +85,7 @@
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "calories": 150,
     "healthy": 4,
     "fun": 4,

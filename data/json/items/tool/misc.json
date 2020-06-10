@@ -488,7 +488,7 @@
     "price": 4000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": "*",
     "color": "red",
     "initial_charges": 3,
