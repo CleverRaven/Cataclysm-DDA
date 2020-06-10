@@ -9226,7 +9226,7 @@ units::volume Character::volume_carried() const
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.contents.total_contained_volume();
     for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        ret_val<std::vector<item_pocket>> pockets = it->contents.get_all_pockets();
+        ret_val<std::vector<item_pocket>> pockets = it->contents.get_all_contained_pockets();
 
         if( pockets.success() ) {
             for( const item_pocket &pocket : pockets.value() ) {
@@ -9239,7 +9239,7 @@ units::volume Character::volume_carried() const
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_contained_volume();
         for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            ret_val<std::vector<item_pocket>> pockets = it->contents.get_all_pockets();
+            ret_val<std::vector<item_pocket>> pockets = it->contents.get_all_contained_pockets();
 
             if( pockets.success() ) {
                 for( const item_pocket &pocket : pockets.value() ) {

@@ -825,7 +825,7 @@ units::mass item_contents::total_container_weight_capacity() const
     return total_weight;
 }
 
-ret_val<std::vector<item_pocket>> item_contents::get_all_pockets() const
+ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() const
 {
     std::vector<item_pocket> pockets;
     bool found = false;
