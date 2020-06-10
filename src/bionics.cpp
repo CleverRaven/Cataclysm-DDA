@@ -1656,18 +1656,26 @@ void Character::process_bionic( int b )
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
-            std::forward_list<int> bleeding_bp_parts;
+            std::vector<body_part> bleeding_bp_parts;
             for( const body_part bp : all_body_parts ) {
                 if( has_effect( effect_bleed, bp ) ) {
-                    bleeding_bp_parts.push_front( static_cast<int>( bp ) );
+                    bleeding_bp_parts.push_back( bp );
                 }
             }
             std::vector<int> damaged_hp_parts;
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
                     damaged_hp_parts.push_back( i );
-                    // only healed and non-hp parts will have a chance of bleeding removal
-                    bleeding_bp_parts.remove( static_cast<int>( hp_to_bp( static_cast<hp_part>( i ) ) ) );
+                }
+            }
+            for( body_part i : bleeding_bp_parts ) {
+                // effectivly reduces by 1 intensity level
+                if( get_stored_kcal() >= 15 ) {
+                    get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
+                    mod_stored_kcal( -15 );
+                } else {
+                    bleeding_bp_parts.clear();
+                    break;
                 }
             }
             if( calendar::once_every( 60_turns ) ) {
@@ -1677,19 +1685,7 @@ void Character::process_bionic( int b )
                                                       damaged_hp_parts.size() - 1 ) ] );
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
-                    const body_part bp_healed = hp_to_bp( part_to_heal );
-                    int hp_percent = static_cast<float>( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
-                    if( has_effect( effect_bleed, bp_healed ) && rng( 0, 100 ) < hp_percent ) {
-                        remove_effect( effect_bleed, bp_healed );
-                        try_to_heal_bleeding = false;
-                    }
                 }
-
-                // if no bleed was removed, try to remove it on some other part
-                if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
-                    remove_effect( effect_bleed, static_cast<body_part>( bleeding_bp_parts.front() ) );
-                }
-
             }
             if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
                 mod_power_level( -40_J );
