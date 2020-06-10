@@ -4213,7 +4213,7 @@
     "type": "profession",
     "ident": "mili_medic"
     "name": "Combat Medic",
-    "description": "You were on the front lines when everything happened. Patching up the wounded and providing support, but they wouldn't stop coming. Now you're on your own.",
+    "description": "You were on the front-lines when everything happened. Patching up the wounded and providing support, but they wouldn't stop coming. Now you're on your own.",
     "points": 5,
     "skills": [ { "level": 2, "name:" "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 1, "name": "dodge" }, { "level": 4, "name": "firstaid" } ],
     "items": {
@@ -4256,7 +4256,7 @@
     "type": "profession",
     "ident": "heroin_addict",
     "name": "Heroin Addict",
-    "description": "The last thing you remember was meeting God behind the local Foodperson. Then people started eating each other. This doesn't feel like a fever dream.",
+    "description": "The last thing you remember was meeting God behind the local Foodplace. Then people started eating each other. This doesn't feel like a fever dream.",
     "points": -3,
     "items":
       "both": [
