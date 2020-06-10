@@ -36,9 +36,11 @@
     "repeat_responses": {
       "for_item": [
         "1st_aid",
+        "ifak",
         "antibiotics",
         "aspirin",
         "bandages",
+        "adhesive_bandages",
         "bfipowder",
         "chem_hydrogen_peroxide",
         "codeine",

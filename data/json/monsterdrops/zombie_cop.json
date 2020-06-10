@@ -30,7 +30,8 @@
       [ "1st_aid", 30 ],
       [ "armor_riot", 20 ],
       [ "airhorn", 5 ],
-      [ "bandages", 20 ],
+      [ "bandages", 10 ],
+      [ "adhesive_bandages", 10 ],
       [ "tacvest", 5 ],
       [ "heavy_flashlight", 35 ],
       [ "holster", 25 ],
@@ -113,7 +114,7 @@
     "id": "swat_zombie_gear",
     "subtype": "collection",
     "entries": [
-      { "collection": [ { "item": "bandages", "prob": 60 }, { "item": "1st_aid", "prob": 20 } ], "prob": 25 },
+      { "collection": [ { "item": "adhesive_bandages", "prob": 30 }, { "item": "bandages", "prob": 30 }, { "item": "1st_aid", "prob": 20 } ], "prob": 25 },
       {
         "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
         "prob": 75

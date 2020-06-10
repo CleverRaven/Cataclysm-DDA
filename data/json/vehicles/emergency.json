@@ -151,6 +151,7 @@
       { "x": -2, "y": 0, "chance": 25, "item_groups": [ "ambulance_equipment" ] },
       { "x": -3, "y": 0, "chance": 15, "items": [ "bandages" ] },
       { "x": -3, "y": 0, "chance": 15, "items": [ "1st_aid" ] },
+      { "x": -3, "y": 0, "chance": 15, "items": [ "ifak" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "adrenaline_injector" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "oxycodone" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "tramadol" ] },

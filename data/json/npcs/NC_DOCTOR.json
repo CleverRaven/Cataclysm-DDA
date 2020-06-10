@@ -81,7 +81,8 @@
     "id": "NC_DOCTOR_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "bandages", "prob": 50 },
+      { "item": "bandages", "prob": 30 },
+      { "item": "adhesive_bandages", "prob": 30 },
       { "item": "cotton_ball", "prob": 50 },
       { "item": "1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25 },
