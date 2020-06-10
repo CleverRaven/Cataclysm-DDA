@@ -4153,5 +4153,118 @@
       "female": [ "sports_bra", "boy_shorts" ]
     },
     "flags": [ "SCEN_ONLY" ]
-  }
+  },
+  {
+    "type": "profession",
+    "ident": "emt",
+    "name": "EMT",
+    "description": "You were responding to a call with your partner before you got seperated. Now all you have is your trusty ambulance. Transporting patients just got a lot tougher.",
+    "points": 5,
+    "skills": [ 
+      { "level": 3, "name": "driving" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 1, "name": "electronics" },
+      { "level": 3, "name": "firstaid" }
+      ],
+    "vehicle": "ambulance",
+    "items": {
+      "both": [
+        "work_t-shirt",
+        "pants",
+        "socks",
+        "gloves_medical",
+        "wristwatch",
+        "boots"
+        ],
+      "entries": [ { "group": "charged_cell_phone" } ]
+    },
+    "male": [ "boxer_shorts" ],
+    "female": [ "bra", "panties" ]
+  },
+  {
+    "type": "profession",
+    "ident": "paramedic"
+    "name": "Paramedic",
+    "description": "You were seperated from your partner while out on a call. You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
+    "items": {
+      "both": [
+        "work_t-shirt",
+        "pants",
+        "socks",
+        "gloves_medical",
+        "wristwatch",
+        "boots",
+        "mask_dust",
+        "mbag",
+        "bandages",
+        "stethoscope",
+        "scissors",
+        "syringe",
+        "morphine"
+        ],
+      "entries": [ { "group": "charged_cell_phone" } ]
+    },
+    "male": [ "boxer_shorts" ],
+    "female": [ "bra", "panties" ]
+  },
+  {
+    "type": "profession",
+    "ident": "mili_medic"
+    "name": "Combat Medic",
+    "description": "You were on the frontlines when everything happened. Patching up the wounded and providing support, but they wouldn't stop coming. Now you're on your own.",
+    "points": 5,
+    "skills": [ { "level": 2, "name:" "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 1, "name": "dodge" }, { "level": 4, "name": "firstaid" } ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "undershirt",
+          "jacket_army",
+          "ballistic_vest_esapi",
+          "helmet_army",
+          "gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "boots_combat",
+          "wristwatch",
+          "thermometer",
+          "bandages",
+          "scalpel",
+          "syringe",
+          "morphine",
+          "antibiotics",
+          "molle_pack"
+         ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "gloves_medical", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "mask_dust", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "heroin_addict",
+    "name": "Heroin Addict",
+    "description": "The last thing you remember was meeting God behind the local Foodperson. Then people started eating each other. This doesn't feel like a fever dream.",
+    "points": -3,
+    "items":
+      "both": [
+        "shorts",
+        "syringe"
+      ],
+    "male": [ "briefs" ],
+    "female": [ "bra", "panties" ] },
+    "addictions": [ { "intensity": 30, "type": "opiate" } ]
+  },
 ]
