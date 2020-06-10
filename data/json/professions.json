@@ -4215,7 +4215,7 @@
     "name": "Combat Medic",
     "description": "You were on the front-lines when everything happened. Patching up the wounded and providing support, but they wouldn't stop coming. Now you're on your own.",
     "points": 5,
-    "skills": [ { "level": 2, "name:" "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 1, "name": "dodge" }, { "level": 4, "name": "firstaid" } ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 1, "name": "dodge" }, { "level": 4, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [
