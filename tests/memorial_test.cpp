@@ -7,6 +7,7 @@
 #include "bodypart.h"
 #include "catch/catch.hpp"
 #include "character_id.h"
+#include "debug_menu.h"
 #include "event.h"
 #include "game.h"
 #include "memorial_logger.h"
@@ -257,4 +258,7 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::triggers_alarm>(
         m, b, "Set off an alarm.", ch );
+
+    check_memorial<event_type::uses_debug_menu>(
+        m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
 }

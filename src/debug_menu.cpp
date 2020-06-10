@@ -1169,6 +1169,8 @@ void debug()
         return;
     }
 
+    g->events().send<event_type::uses_debug_menu>( *action );
+
     avatar &u = g->u;
     map &m = g->m;
     switch( *action ) {

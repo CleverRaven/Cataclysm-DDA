@@ -71,7 +71,9 @@ enum class event_type : int {
     gains_addiction,
     gains_mutation,
     gains_skill_level,
+    game_load,
     game_over,
+    game_save,
     game_start,
     installs_cbm,
     installs_faulty_cbm,
@@ -92,6 +94,7 @@ enum class event_type : int {
     terminates_subspace_specimens,
     throws_up,
     triggers_alarm,
+    uses_debug_menu,
     num_event_types // last
 };
 
@@ -152,7 +155,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 69,
+static_assert( static_cast<int>( event_type::num_event_types ) == 72,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -456,10 +459,27 @@ struct event_spec<event_type::gains_skill_level> {
 };
 
 template<>
+struct event_spec<event_type::game_load> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "cdda_version", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::game_over> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "is_suicide", cata_variant_type::bool_ },
             { "last_words", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::game_save> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "time_since_load", cata_variant_type::chrono_seconds },
+            { "total_time_played", cata_variant_type::chrono_seconds },
         }
     };
 };
@@ -600,6 +620,14 @@ struct event_spec<event_type::throws_up> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::triggers_alarm> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::uses_debug_menu> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "debug_menu_option", cata_variant_type::debug_menu_index },
+        }
+    };
+};
 
 template<event_type Type, typename IndexSequence>
 struct make_event_helper;
