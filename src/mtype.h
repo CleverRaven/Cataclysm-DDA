@@ -81,7 +81,6 @@ enum m_flag : int {
     MF_VENOM,               // Attack may poison the player
     MF_BADVENOM,            // Attack may SEVERELY poison the player
     MF_PARALYZE,            // Attack may paralyze the player with venom
-    MF_BLEED,               // Causes player to bleed
     MF_WEBWALK,             // Doesn't destroy webs
     MF_DIGS,                // Digs through the ground
     MF_CAN_DIG,             // Can dig and walk

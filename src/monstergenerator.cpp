@@ -83,7 +83,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_VENOM: return "VENOM";
         case MF_BADVENOM: return "BADVENOM";
         case MF_PARALYZE: return "PARALYZEVENOM";
-        case MF_BLEED: return "BLEED";
         case MF_WEBWALK: return "WEBWALK";
         case MF_DIGS: return "DIGS";
         case MF_CAN_DIG: return "CAN_DIG";

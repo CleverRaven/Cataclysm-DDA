@@ -782,8 +782,7 @@ std::string monster::extended_description() const
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
         {m_flag::MF_GRABS, pgettext( "Grab as an action", "grab" )},
         {m_flag::MF_VENOM, pgettext( "Poison as an action", "poison" )},
-        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )},
-        {m_flag::MF_BLEED, _( "cause bleed" )}
+        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )}
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
