@@ -51,7 +51,7 @@
   },
   {
     "id": "makeshift_shotgun",
-    "copy-from": "shotgun_base",
+    "copy-from": "makeshift_shotgun",
     "type": "GUN",
     "name": { "str": "makeshift shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail. The lack of sights make this weapon only useful at point-blank range.",
