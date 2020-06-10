@@ -25,7 +25,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "banana saplings" },
     "description": "Some banana saplings.",
-    "seed_data": { "plant_name": "banana", "fruit": "bananas", "byproducts": [ "withered" ], "grow": "120 days" }
+    "seed_data": { "plant_name": "banana", "fruit": "banana", "byproducts": [ "withered" ], "grow": "120 days" }
   },
   {
     "id": "seed_orange",
@@ -44,11 +44,11 @@
     "seed_data": { "plant_name": "lemon", "fruit": "lemon", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
-    "id": "seed_cocunut",
+    "id": "seed_coconut",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "subterraenean cocunut" },
+    "name": { "str_sp": "subterraenean coconut" },
     "description": "Proof that man went too far before the Cataclysm.",
-    "seed_data": { "plant_name": "cocunut", "fruit": "cocunut", "byproducts": [ "withered" ], "grow": "120 days" }
+    "seed_data": { "plant_name": "coconut", "fruit": "coconut", "byproducts": [ "withered" ], "grow": "120 days" }
   }
 ]

@@ -90,7 +90,7 @@
           { "item": "ammo_common", "chance": 5 },
           { "item": "trash", "chance": 1 },
           { "item": "bed", "chance": 1 },
-          { "item": "afs_scrapgroup", "chance": 2 }
+          { "item": "afs_scrapgroup", "chance": 3 }
         ],
         "$": { "item": "a_television", "chance": 100 }
       }
@@ -133,7 +133,7 @@
       },
       "furniture": { "!": "f_fridge", "$": "f_rack_wood", "0": "f_crispr", "u": "f_cryo_pod" },
       "items": {
-        "!": { "item": "afs_biomaterial_1", "chance": 80, "repeat": [ 2, 8 ] },
+        "!": { "item": "tools_medical", "chance": 80, "repeat": [ 2, 8 ] },
         "$": { "item": "a_television", "chance": 100 }
       }
     }

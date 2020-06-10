@@ -100,7 +100,7 @@
       [ "bionic_maintenance_toolkit", 20 ],
       [ "afs_biomaterial_2", 20 ],
       [ "afs_biomaterial_3", 10 ],
-      [ "afs_biomaterial_2", 20 ],
+      [ "afs_biomaterial_1", 20 ],
       [ "afs_neural_io_2", 15 ]
     ]
   },
@@ -280,14 +280,13 @@
   {
     "type": "item_group",
     "id": "exoticplants",
-    "subtype": "collection",
-    "entries": [
-      { "item": "seed_pineapple" },
-      { "item": "seed_melon" },
-      { "item": "seed_bananas" },
-      { "item": "seed_orange" },
-      { "item": "seed_lemon" },
-      { "item": "seed_cocunut" }
+    "items": [
+      [ "seed_pineapple", 20 ],
+      [ "seed_melon", 20 ],
+      [ "seed_bananas", 20 ],
+      [ "seed_orange", 20 ],
+      [ "seed_lemon", 20 ],
+      [ "seed_coconut", 20 ]
     ]
   }
 ]
