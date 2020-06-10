@@ -266,8 +266,8 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     wnoutrefresh( win );
 }
 
-static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
-                             const int last_x, const bionic_id &bio_id )
+static void draw_connectors( const catacurses::window &win, const point &start,
+                             int last_x, const bionic_id &bio_id )
 {
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
@@ -280,12 +280,13 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     }
 
     // draw horizontal line from selected bionic
-    const int turn_x = start_x + ( last_x - start_x ) * 2 / 3;
-    mvwputch( win, point( start_x, start_y ), BORDER_COLOR, '>' );
-    mvwhline( win, point( start_x + 1, start_y ), LINE_OXOX, turn_x - start_x - 1 );
+    const int turn_x = start.x + ( last_x - start.x ) * 2 / 3;
+    mvwputch( win, start, BORDER_COLOR, '>' );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( win, start + point( 1, 0 ), LINE_OXOX, turn_x - start.x - 1 );
 
-    int min_y = start_y;
-    int max_y = start_y;
+    int min_y = start.y;
+    int max_y = start.y;
     for( const auto &elem : pos_and_num ) {
         min_y = std::min( min_y, elem.first );
         max_y = std::max( max_y, elem.first );
@@ -299,20 +300,20 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     bool move_down = false;
     for( const auto &elem : pos_and_num ) {
         const int y = elem.first;
-        if( !move_up && y < start_y ) {
+        if( !move_up && y < start.y ) {
             move_up = true;
         }
-        if( !move_same && y == start_y ) {
+        if( !move_same && y == start.y ) {
             move_same = true;
         }
-        if( !move_down && y > start_y ) {
+        if( !move_down && y > start.y ) {
             move_down = true;
         }
 
         // symbol is defined incorrectly for case ( y == start_y ) but
         // that's okay because it's overlapped by bionic_chr anyway
-        int bp_chr = ( y > start_y ) ? LINE_XXOO : LINE_OXXO;
-        if( ( max_y > y && y > start_y ) || ( min_y < y && y < start_y ) ) {
+        int bp_chr = ( y > start.y ) ? LINE_XXOO : LINE_OXXO;
+        if( ( max_y > y && y > start.y ) || ( min_y < y && y < start.y ) ) {
             bp_chr = LINE_XXXO;
         }
 
@@ -357,7 +358,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
         // '^|^'
         bionic_chr = LINE_OXXX;
     }
-    mvwputch( win, point( turn_x, start_y ), BORDER_COLOR, bionic_chr );
+    mvwputch( win, point( turn_x, start.y ), BORDER_COLOR, bionic_chr );
 }
 
 //get a text color depending on the power/powering state of the bionic
@@ -567,7 +568,7 @@ void player::power_bionics()
                                 desc );
                 if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                     const bionic_id bio_id = ( *current_bionic_list )[i]->id;
-                    draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
+                    draw_connectors( wBio, point( utf8_width( desc ) + 3, list_start_y + i - scroll_position ),
                                      pos_x - 2, bio_id );
 
                     // redraw highlighted (occupied) body parts

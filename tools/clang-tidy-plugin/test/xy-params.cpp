@@ -35,3 +35,6 @@ struct A6 {
     void f( int ax, int ay );
     // CHECK-MESSAGES: warning: 'f' has parameters 'ax' and 'ay'.  Consider combining into a single point parameter. [cata-xy]
 };
+
+void f6( const volatile int x1, const volatile int y1 );
+// CHECK-MESSAGES: warning: 'f6' has parameters 'x1' and 'y1'.  Consider combining into a single point parameter. [cata-xy]
