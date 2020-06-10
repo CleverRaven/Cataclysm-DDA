@@ -88,7 +88,7 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": "RADIO_MOD"

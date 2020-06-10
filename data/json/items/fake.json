@@ -109,7 +109,7 @@
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "REACH_ATTACK" ],
     "skill": "archery",
     "ammo": [ "arrow" ],

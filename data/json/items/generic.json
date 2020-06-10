@@ -456,7 +456,7 @@
     "color": "light_gray",
     "name": { "str": "empty canister" },
     "description": "An empty canister, which may have once held tear gas or other substances.",
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "158 g",
     "volume": "250 ml",
     "bashing": 2,
@@ -552,7 +552,7 @@
     "category": "spare_parts",
     "price": 28000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "553 g",
     "volume": "750 ml",
     "bashing": 6,
@@ -570,7 +570,7 @@
     "category": "spare_parts",
     "price": 28000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "1000 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -588,7 +588,7 @@
     "category": "spare_parts",
     "price": 20000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
     "cutting": 14,
@@ -605,7 +605,7 @@
     "category": "tools",
     "price": 5,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "11 g",
     "volume": "50 ml"
   },
@@ -619,7 +619,7 @@
     "category": "spare_parts",
     "price": 20000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "151 g",
     "volume": "500 ml",
     "to_hit": -2
@@ -633,7 +633,7 @@
     "description": "A length of stiff wire, covered in sharp barbs.",
     "price": 20000,
     "price_postapoc": 200,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
     "to_hit": -2
@@ -651,7 +651,7 @@
     "price": 700,
     "price_postapoc": 100,
     "bashing": 2,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "type": "GENERIC",
@@ -663,7 +663,7 @@
     "category": "spare_parts",
     "price": 7500,
     "price_postapoc": 25,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "908 g",
     "volume": "1500 ml",
     "bashing": 12,
@@ -1722,7 +1722,7 @@
     "description": "A small assortment of gears and other clockwork gubbins.",
     "price": 200,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "50 g",
     "volume": "250 ml"
   },
@@ -2766,7 +2766,7 @@
     "volume": "2 L",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "black"
   },
@@ -2780,7 +2780,7 @@
     "volume": "2 L",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "black"
   },
@@ -2795,7 +2795,7 @@
     "price_postapoc": 50,
     "to_hit": -4,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan"
   },
@@ -2824,7 +2824,7 @@
     "description": "A steel armor plate, specifically engineered for use in a bullet resistant vest.",
     "price": 9000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "1000 g",
     "volume": "500 ml",
     "bashing": 5
@@ -2839,7 +2839,7 @@
     "description": "A small lock, with a set of keys still inserted.",
     "price": 500,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "5 g",
     "volume": "250 ml",
     "bashing": 1
@@ -2868,7 +2868,7 @@
     "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
     "price": 3500,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "5000 g",
     "volume": "5 L",
     "bashing": 8
@@ -2877,7 +2877,7 @@
     "type": "GENERIC",
     "id": "welding_components",
     "category": "spare_parts",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "name": { "str": "welding component kit" },

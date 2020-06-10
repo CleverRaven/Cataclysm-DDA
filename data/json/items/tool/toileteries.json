@@ -12,7 +12,7 @@
     "price_postapoc": 50,
     "to_hit": -2,
     "bashing": 6,
-    "material": "steel",
+    "material": [ "steel" ],
     "use_action": { "type": "weigh_self", "max_weight": 150000 },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -101,7 +101,7 @@
     "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "10 g",
     "cutting": 1
   },

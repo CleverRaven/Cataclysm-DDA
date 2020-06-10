@@ -32,7 +32,7 @@
     "price": 1000,
     "to_hit": -1,
     "bashing": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
