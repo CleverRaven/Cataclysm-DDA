@@ -4159,7 +4159,7 @@
     "ident": "emt",
     "name": "EMT",
     "description": "You were responding to a call with your partner before you got separated. Now all you have is your trusty ambulance. Transporting patients just got a lot tougher.",
-    "points": 5,
+    "points": 4,
     "skills": [ 
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "mechanics" },
