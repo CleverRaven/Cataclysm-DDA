@@ -442,7 +442,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         }
 
         // Treat all gloves as unarmed weapons.
-        if( found_glove && !cur_weapon->has_flag( flag_UNARMED_WEAPON ) ) {
+        if( found_glove ) {
             cur_weapon->set_flag( flag_UNARMED_WEAPON );
             unarmed_flag_set = true;
         }
