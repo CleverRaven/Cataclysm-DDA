@@ -4183,7 +4183,7 @@
   },
   {
     "type": "profession",
-    "ident": "paramedic"
+    "ident": "paramedic",
     "name": "Paramedic",
     "description": "You were separated from your partner while out on a call. You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
