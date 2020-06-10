@@ -1500,16 +1500,6 @@ void monster::melee_attack( Creature &target, float accuracy )
         target.add_msg_if_player( m_bad, _( "You feel venom enter your body!" ) );
         target.add_effect( effect_paralyzepoison, 10_minutes );
     }
-
-    if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
-        // Maybe should only be if DT_CUT > 6... Balance question
-        if( target.is_player() || target.is_npc() ) {
-            target.as_character()->make_bleed( dealt_dam.bp_hit, 6_minutes );
-        } else {
-            target.add_effect( effect_bleed, 6_minutes, dealt_dam.bp_hit->token );
-        }
-
-    }
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
