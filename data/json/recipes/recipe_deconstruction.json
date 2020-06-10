@@ -3347,9 +3347,28 @@
       [ [ "aspirin", 10 ] ],
       [ [ "disinfectant", 10 ] ],
       [ [ "saline", 5 ] ],
-      [ [ "bandages", 6 ] ],
+      [ [ "adhesive_bandages", 6 ] ],
+      [ [ "bandages", 3 ] ],
       [ [ "medical_gauze", 6 ] ],
       [ [ "booklet_firstaid", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
+  },
+  {
+    "result": "ifak",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [
+      [ [ "medical_tape", 20 ] ],
+      [ [ "tourniquet_upper", 1 ] ],
+      [ [ "disinfectant", 5 ] ],
+      [ [ "quikclot", 5 ] ],
+      [ [ "bandages", 9 ] ],
+      [ [ "medical_gauze", 3 ] ],
+      [ [ "adhesive_bandages", 3 ] ],
+      [ [ "pur_tablets", 3 ] ],
+      [ [ "gloves_medical", 1 ] ],
+      [ [ "scissors", 1 ] ]
     ],
     "flags": [ "BLIND_EASY", "UNCRAFT_LIQUIDS_CONTAINED" ]
   },

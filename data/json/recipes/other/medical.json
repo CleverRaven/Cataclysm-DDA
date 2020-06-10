@@ -52,6 +52,37 @@
     "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
   },
   {
+    "result": "adhesive_bandages",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 1,
+    "time": "5 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "medical_gauze", 5 ] ],
+      [ [ "duct_tape", 20 ], [ "medical_tape", 10 ] ]
+    ]
+  },
+  {
+    "result": "tourniquet_upper",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "hose", 1], [ "rope_6", 1 ], [ "cordage_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "towel", 1 ], [ "blanket", 1 ], [ "bandana", 1 ], [ "cable", 1 ], [ "wire", 1 ], [ "tie_skinny", 1 ] ],
+      [ [ "stick", 1 ], [ "cu_pipe", 1 ] ]
+    ]
+  },
+  {
     "result": "disinfectant",
     "type": "recipe",
     "category": "CC_OTHER",

@@ -4,7 +4,23 @@
     "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "first aid kit" },
-    "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
+    "description": "A typical universal first aid kit, one you'd see in a car or in a household. It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
+    "weight": "1750 g",
+    "volume": "1250 ml",
+    "price": 3000,
+    "price_postapoc": 3000,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "red",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "ifak",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "IFAK" },
+    "description": "An IFAK, or individual first aid kit, is a specialized set of wound dressings and accessories, and being of military origin focuses on combat trauma and preventing blood loss.  Disassemble to get its content.",
     "weight": "1750 g",
     "volume": "1250 ml",
     "price": 3000,
@@ -55,6 +71,23 @@
     "addiction_type": "amphetamine",
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take some adderall." }
+  },
+  {
+    "id": "adhesive_bandages",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "adhesive bandage" },
+    "description": "A set of small medical dressings, each made of a piece of sterile cloth and a sticky tape, used for small injuries not serious enough to require a full-size bandage.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "price": 600,
+    "price_postapoc": 200,
+    "material": "cotton",
+    "symbol": "!",
+    "color": "white",
+    "charges": 10,
+    "flags": [ "NO_INGEST" ],
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 200 }
   },
   {
     "id": "adrenaline_injector",
@@ -153,7 +186,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "bandage" },
-    "description": "Simple cloth bandages.  Used for healing small amounts of damage.",
+    "description": "Simple cloth bandages.  Used for stopping bloodloss and protecting wounds from external factors.",
     "weight": "70 g",
     "volume": "250 ml",
     "price": 600,
@@ -164,7 +197,7 @@
     "charges": 3,
     "stack_size": 9,
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 0.9, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 300 }
   },
   {
     "id": "bandages_makeshift",
@@ -174,7 +207,7 @@
     "description": "Simple cloth bandages.  Better than nothing.",
     "price_postapoc": 100,
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 300 }
   },
   {
     "id": "bandages_makeshift_bleached",
@@ -184,7 +217,7 @@
     "description": "Simple cloth bandages.  It is white, as real bandages should be.",
     "price_postapoc": 150,
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
   },
   {
     "id": "bandages_makeshift_boiled",
@@ -194,7 +227,7 @@
     "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
     "price_postapoc": 150,
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 300 }
   },
   {
     "id": "bfipowder",
@@ -470,7 +503,7 @@
     "color": "white",
     "container": "bag_plastic",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 300 }
   },
   {
     "id": "crack",
@@ -1155,7 +1188,7 @@
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 0.5, "move_cost": 200 }
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 200 }
   },
   {
     "id": "meth",
@@ -1444,7 +1477,7 @@
     "color": "light_gray",
     "container": "bag_plastic",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": { "type": "heal", "bleed": 0.9, "move_cost": 100 }
+    "use_action": { "type": "heal", "bleed": 20, "move_cost": 100 }
   },
   {
     "id": "saline",

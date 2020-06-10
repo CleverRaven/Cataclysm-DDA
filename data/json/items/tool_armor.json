@@ -34,6 +34,80 @@
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
+    "id": "tourniquet_upper",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm)", "str_pl": "tourniquets (arm)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "material": [ "wood", "leather" ],
+    "symbol": "{",
+    "looks_like": "armguard_hard",
+    "color": "red",
+    "covers": [ "ARM_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 70,
+    "warmth": 0,
+    "material_thickness": 1,
+    "use_action": {
+      "target": "tourniquet_upper_XL",
+      "msg": "You adjust the tourniquet.",
+      "menu_text": "Adjust",
+      "type": "transform"
+    },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
+  },
+  {
+    "id": "tourniquet_upper_XL",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm XL)", "str_pl": "tourniquets (arm XL)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "ARM_EITHER" ],
+    "use_action": {
+      "target": "tourniquet_lower",
+      "msg": "You adjust the tourniquet.",
+      "menu_text": "Adjust",
+      "type": "transform"
+    },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
+    "id": "tourniquet_lower",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "LEG_EITHER" ],
+    "use_action": {
+      "target": "tourniquet_lower_XL",
+      "msg": "You adjust the tourniquet.",
+      "menu_text": "Adjust",
+      "type": "transform"
+    },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
+  },
+    {
+    "id": "tourniquet_lower_XL",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "LEG_EITHER" ],
+    "use_action": {
+      "target": "tourniquet_upper",
+      "msg": "You adjust the tourniquet.",
+      "menu_text": "Adjust",
+      "type": "transform"
+    },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
     "id": "blindfold",
     "type": "ARMOR",
     "name": { "str": "blindfold" },
