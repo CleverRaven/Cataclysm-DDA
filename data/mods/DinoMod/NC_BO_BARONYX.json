@@ -156,7 +156,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" } ] },
     "dialogue": {
-      "describe": "The eaters are hungry. They need meat",
+      "describe": "The eaters are hungry.  They need meat",
       "offer": "If you wish to feed the eaters, your work will be rewarded.  Go out, butcher a pure animal.  Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
       "accepted": "Excellent.  The eaters must feed.",
       "rejected": "Understood.  The great eaters will feed either way.",
