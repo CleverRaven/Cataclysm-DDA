@@ -1419,3 +1419,22 @@ std::string texitify_healing_power( const int power )
     }
     return "";
 }
+std::string texitify_bandage_power( const int power )
+{
+    if( power < 5 ) {
+        return colorize( _( "miniscule" ), c_red );
+    } else if( power < 10 ) {
+        return colorize( _( "small" ), c_light_red );
+    } else if( power < 15 ) {
+        return colorize( _( "moderate" ), c_yellow );
+    } else if( power < 20 ) {
+        return colorize( _( "good" ), c_light_green );
+    } else if( power < 30 ) {
+        return colorize( _( "excellent" ), c_light_green );
+    } else if( power < 51 ) {
+        return colorize( _( "outstanding" ), c_green );
+    } else {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return "";
+}

@@ -166,6 +166,7 @@ static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -1421,6 +1422,18 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
     }
 }
 
+void Character::suffer_from_tourniquet()
+{
+    for( const bodypart_id  &bp : get_all_body_parts( true ) ) {
+        if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
+            mod_pain( 1 );
+            apply_damage( nullptr, bp, 1, true );
+            add_msg_player_or_npc( m_bad, _( "Your tourniquet hurts you." ),
+                                   _( "<npcname> is hurting from the tourniquet." ) );
+        }
+    }
+}
+
 void Character::suffer_from_pain()
 {
 }
@@ -1482,6 +1495,7 @@ void Character::suffer()
     }
 
     suffer_without_sleep( sleep_deprivation );
+    suffer_from_tourniquet();
     suffer_from_pain();
 }
 

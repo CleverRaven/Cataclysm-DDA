@@ -1727,7 +1727,7 @@ static heal_actor prepare_dummy()
     dummy.limb_power = -2;
     dummy.head_power = -2;
     dummy.torso_power = -2;
-    dummy.bleed = 1.0f;
+    dummy.bleed = 25;
     dummy.bite = 0.5f;
     dummy.move_cost = 100;
     return dummy;
@@ -1747,6 +1747,9 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
         const body_part bp = player::hp_to_bp( hpart );
+        if( p.has_effect( effect_bleed, bp ) ) {
+            p.add_msg_if_player( m_bad, _( "Bleeding has not stopped completely!" ) );
+        }
         if( p.has_effect( effect_bite, bp ) ) {
             p.add_effect( effect_bite, 260_minutes, bp, true );
         }
@@ -3059,7 +3062,7 @@ void heal_actor::load( const JsonObject &obj )
     head_scaling = obj.get_float( "head_scaling", scaling_ratio * head_power );
     torso_scaling = obj.get_float( "torso_scaling", scaling_ratio * torso_power );
 
-    bleed = obj.get_float( "bleed", 0.0f );
+    bleed = obj.get_int( "bleed", 0 );
     bite = obj.get_float( "bite", 0.0f );
     infect = obj.get_float( "infect", 0.0f );
 
@@ -3190,6 +3193,16 @@ int heal_actor::get_disinfected_level( const player &healer ) const
     return disinfectant_power;
 }
 
+int heal_actor::get_stopbleed_level( const player &healer ) const
+{
+    if( bleed > 0 ) {
+        /** @EFFECT_FIRSTAID increases healing item effects */
+        return bleed + healer.get_skill_level( skill_firstaid );
+    }
+
+    return bleed;
+}
+
 int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
     float practice_amount = limb_power * 3.0f;
@@ -3223,14 +3236,26 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     };
 
     if( patient.has_effect( effect_bleed, bp_healed ) ) {
-        if( x_in_y( bleed, 1.0f ) ) {
-            patient.remove_effect( effect_bleed, bp_healed );
-            heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
+        // small band-aids won't stop big arterial bleeding, but with tourniquet they just might
+        int pwr = 3 * get_stopbleed_level( healer );
+        pwr = patient.worn_with_flag( "TOURNIQUET", convert_bp( bp_healed ) ) ? pwr * 2 : pwr;
+        if( pwr > patient.get_effect_int( effect_bleed, bp_healed ) ) {
+            effect &wound = patient.get_effect( effect_bleed, bp_healed );
+            time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *
+                                wound.get_int_dur_factor() );
+            wound.set_duration( dur < 1_turns ? 0_turns : dur );
+            if( wound.get_duration() == 0_turns ) {
+                heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
+            } else {
+                heal_msg( m_good, _( "You reduce the bleeding, but it's not stopped yet." ),
+                          _( "The bleeding is reduced, but not stopped." ) );
+            }
         } else {
-            heal_msg( m_warning, _( "You fail to stop the bleeding." ), _( "The wound still bleeds." ) );
+            heal_msg( m_warning,
+                      _( "Your dressing is too ineffective for a bleeding of this extent, and you fail to stop it." ),
+                      _( "The wound still bleeds." ) );
         }
-
-        practice_amount += bleed * 3.0f;
+        practice_amount += bleed / 3.0f;
     }
     if( patient.has_effect( effect_bite, bp_healed ) ) {
         if( x_in_y( bite, 1.0f ) ) {
@@ -3308,10 +3333,10 @@ static hp_part pick_part_to_heal(
     const player &healer, const player &patient,
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
-    float bleed_chance, float bite_chance, float infect_chance,
+    int bleed_stop, float bite_chance, float infect_chance,
     bool force, float bandage_power, float disinfectant_power )
 {
-    const bool bleed = bleed_chance > 0.0f;
+    const bool bleed = bleed_stop > 0;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
     const bool precise = &healer == &patient ?
@@ -3323,7 +3348,7 @@ static hp_part pick_part_to_heal(
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
                               limb_power, head_bonus, torso_bonus,
-                              bleed_chance, bite_chance, infect_chance, bandage_power, disinfectant_power );
+                              bleed_stop, bite_chance, infect_chance, bandage_power, disinfectant_power );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
@@ -3368,8 +3393,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     }
 
     if( healer.is_npc() ) {
-        // NPCs heal whatever has sustained the most damaged that they can heal but never
-        // rebandage parts
+        // NPCs heal whatever has sustained the most damaged that they can heal but don't
+        // rebandage parts unless they are bleeding significantly
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
             int damage = 0;
@@ -3377,9 +3402,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( ( !patient.has_effect( effect_bandaged, i_bp ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, i_bp ) && disinfectant_power > 0 ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
-                damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
                 damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
+            }
+            if( patient.get_effect_int( effect_bleed, i_bp ) > 5 && bleed > 0 ) {
+                damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
@@ -3392,7 +3419,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force,
+                                        get_stopbleed_level( healer ),
+                                        bite, infect, force,
                                         get_bandaged_level( healer ),
                                         get_disinfected_level( healer ) );
             if( healed == num_hp_parts ) {
@@ -3417,7 +3445,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                                         patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force,
+                                    get_stopbleed_level( healer ),
+                                    bite, infect, force,
                                     get_bandaged_level( healer ),
                                     get_disinfected_level( healer ) );
     }
@@ -3432,7 +3461,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( head_power > 0 || torso_power > 0 || limb_power > 0 || bandages_power > 0 ||
-        disinfectant_power > 0 || bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
+        disinfectant_power > 0 || bleed > 0 || bite > 0.0f || infect > 0.0f ) {
         dump.emplace_back( "HEAL", _( "<bold>Healing effects</bold> " ) );
     }
 
@@ -3468,13 +3497,15 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
                                texitify_healing_power( get_disinfected_level( g->u ) ) );
         }
     }
-
-    if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
-        dump.emplace_back( "HEAL", _( "Chance to heal (percent): " ) );
-        if( bleed > 0.0f ) {
-            dump.emplace_back( "HEAL", _( "* Bleeding: " ),
-                               static_cast<int>( bleed * 100 ) );
+    if( bleed > 0 ) {
+        dump.emplace_back( "HEAL", _( "Effect on bleeding: " ), texitify_bandage_power( bleed ) );
+        if( g != nullptr ) {
+            dump.emplace_back( "HEAL", _( "Actual effect on bleeding: " ),
+                               texitify_healing_power( get_stopbleed_level( g->u ) ) );
         }
+    }
+    if( bite > 0.0f || infect > 0.0f ) {
+        dump.emplace_back( "HEAL", _( "Chance to heal (percent): " ) );
         if( bite > 0.0f ) {
             dump.emplace_back( "HEAL", _( "* Bite: " ),
                                static_cast<int>( bite * 100 ) );
@@ -3484,7 +3515,6 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
                                static_cast<int>( infect * 100 ) );
         }
     }
-
     dump.emplace_back( "HEAL", _( "Moves to use: " ), move_cost );
 }
 

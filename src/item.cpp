@@ -107,6 +107,7 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
@@ -249,6 +250,7 @@ static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_TOBACCO( "TOBACCO" );
 static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
@@ -4088,6 +4090,14 @@ void item::on_wear( Character &p )
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
                 ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
+                set_side( side::RIGHT );
+            }
+        } else if( has_flag( flag_TOURNIQUET ) ) {
+            set_side( side::LEFT );
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.has_effect( effect_bleed, bp_leg_r ) &&
+                  !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bp_arm_r ) &&
+                  !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else {
