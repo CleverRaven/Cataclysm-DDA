@@ -468,9 +468,10 @@ struct event_spec<event_type::game_load> {
 
 template<>
 struct event_spec<event_type::game_over> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "is_suicide", cata_variant_type::bool_ },
             { "last_words", cata_variant_type::string },
+            { "total_time_played", cata_variant_type::chrono_seconds },
         }
     };
 };
