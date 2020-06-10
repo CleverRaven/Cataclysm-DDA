@@ -825,6 +825,30 @@ units::mass item_contents::total_container_weight_capacity() const
     return total_weight;
 }
 
+ret_val<std::vector<item_pocket>> item_contents::get_all_pockets() const
+{
+    std::vector<item_pocket> pockets;
+    bool found = false;
+
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                for( const item_pocket &pocket : it->contents.contents ) {
+                    if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+                        found = true;
+                        pockets.push_back( pocket );
+                    }
+                }
+            }
+        }
+    }
+    if( found ) {
+        return ret_val<std::vector<item_pocket>>::make_success( pockets );
+    } else {
+        return ret_val<std::vector<item_pocket>>::make_failure( pockets );
+    }
+}
+
 units::volume item_contents::total_container_capacity() const
 {
     units::volume total_vol = 0_ml;
