@@ -48,6 +48,7 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -897,6 +898,16 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             // Acid damage and acid burns are more painful
             div = 3.0f;
             break;
+
+        case DT_CUT:
+        case DT_STAB:
+        case DT_BULLET:
+            // these are bleed inducing damage types
+            if( is_player() || is_npc() ) {
+                as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
+            } else {
+                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp->token );
+            }
 
         default:
             break;
