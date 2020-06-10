@@ -38,7 +38,7 @@ This is some toxic chemical or component. This currently has no effect.
 This is a drug. This currently has no effect.
 
 #### `counter`
-This is a counter for something, that is neither a toxin, vitamin, or drug. This currently has no effect.
+This is a counter for something, that is neither a toxin, vitamin, or drug.
 
 ### `name`
 What the vitamin shows up as where vitamins are displayed, such as the vitamins display in the item menu.
