@@ -981,6 +981,12 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
+    if( data.debug_editor ) {
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), ccur_ter.id().str() );
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   _( "oter_type: %s" ), ccur_ter->get_type_id().str() );
+    }
+
     if( has_target ) {
         const int distance = rl_dist( center, target );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to active mission:" ) );
@@ -1530,6 +1536,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
             path_type ptype;
+            ptype.only_known_by_player = true;
             ptype.avoid_danger = true;
             bool in_vehicle = g->u.in_vehicle && g->u.controlling_vehicle;
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );

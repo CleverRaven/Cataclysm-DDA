@@ -948,7 +948,7 @@
     "longest_side": "14 cm",
     "color": "dark_gray",
     "symbol": "/",
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "test_rod_15cm",
@@ -961,7 +961,7 @@
     "longest_side": "15 cm",
     "color": "dark_gray",
     "symbol": "/",
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "test_crafted_suppressor",

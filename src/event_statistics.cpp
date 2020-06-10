@@ -179,15 +179,6 @@ struct value_constraint {
 
     void deserialize( JsonIn &jsin ) {
         JsonObject jo = jsin.get_object();
-        int equals_int;
-        if( jo.read( "equals", equals_int, false ) ) {
-            equals_ = cata_variant::make<cata_variant_type::int_>( equals_int );
-        }
-
-        bool equals_bool;
-        if( jo.read( "equals", equals_bool, false ) ) {
-            equals_ = cata_variant::make<cata_variant_type::bool_>( equals_bool );
-        }
 
         cata_variant equals_variant;
         if( jo.read( "equals", equals_variant, false ) ) {

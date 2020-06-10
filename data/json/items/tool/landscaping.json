@@ -29,7 +29,7 @@
     "to_hit": 1,
     "bashing": 3,
     "cutting": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 1 ] ]
