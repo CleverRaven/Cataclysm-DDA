@@ -212,5 +212,79 @@
         { "item": "afs_material_2", "count": [ 1, 4 ], "prob": 50 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_neuralnet_inserter",
+    "name": "neural net inserter",
+    "looks_like": "f_drill_press",
+    "description": "This device looks like a cross between some kind of nightmare dentistry equipment and socketing tool mounted on a slide that lets it drop precisely down.  Useful for those project that require putting delicate items into hard to reach spaces.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 0, 4 ] },
+        { "item": "afs_material_1", "count": [ 8, 12 ] },
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_magnet_1", "count": [ 4, 10 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 4, 8 ] },
+        { "item": "afs_material_2", "count": [ 4, 6 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 12, 16 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] },
+        { "item": "spike", "count": 1 },
+        { "item": "afs_magnet_1", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_monomolecularsaw",
+    "name": "monomolecular saw",
+    "looks_like": "f_bandsaw",
+    "description": "A wire the size of a cheescutter runs in a single direction in this tool, allowing atomically precise cuts at almost any angle.  Even unpowered it gives off a visual distortion for several inches around it to prevent you from losing a hand.  It is impossible to deconstruct this device without the wire self destructing.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -2,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 0, 4 ] },
+        { "item": "afs_material_1", "count": [ 8, 12 ] },
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_magnet_1", "count": [ 4, 10 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_1", "charges": [ 4, 8 ] },
+        { "item": "afs_material_2", "count": [ 4, 6 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 12, 16 ] },
+        { "item": "afs_material_3", "count": [ 2, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 2 ] },
+        { "item": "afs_magnet_1", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
   }
 ]
