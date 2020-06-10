@@ -1265,7 +1265,7 @@
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 6 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
     "difficulty": 7,
-    "time": "30 m",
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
