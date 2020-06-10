@@ -41,20 +41,20 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "no": "You look hungry friend. So much hunger in this world. This is the time of the eaters.",
+      "no": "You look hungry friend.  So much hunger in this world. This is the time of the eaters.",
       "yes": {
         "u_has_var": "asked_about_eating",
         "type": "dialogue",
         "context": "eating",
         "value": "yes",
-        "no": "Welcome. Are you hungry friend?",
+        "no": "Welcome.  Are you hungry friend?",
         "yes": "The eaters will be fed."
       }
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_to_swamper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
       {
-        "text": "Hello. Who are the eaters?",
+        "text": "Hello.  Who are the eaters?",
         "topic": "TALK_SWAMPER_EATING",
         "condition": { "not": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" } },
         "effect": { "u_add_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
@@ -114,19 +114,19 @@
     "dynamic_line": "The Swampers knew these times would return and we prepared for them.  When others wasted their time and meat, we fed and grew strong, and we filled our stores with meat for this day.",
     "responses": [
       { "text": "Yes, very good.", "topic": "TALK_NONE" },
-      { "text": "You keep talking about meat. Why is meat so important?", "topic": "TALK_SWAMPER_MEAT" }
+      { "text": "You keep talking about meat.  Why is meat so important?", "topic": "TALK_SWAMPER_MEAT" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_MEAT",
     "dynamic_line": "The meat makes the great eaters strong.  We gather the meat and feed them, and in the end we too will serve the eaters in death as we do in life.  This was always our purpose and we lucky few have lived to see it.",
-    "responses": [ { "text": "Our purpose? How do you know?", "topic": "TALK_SWAMPER_END" } ]
+    "responses": [ { "text": "Our purpose?  How do you know?", "topic": "TALK_SWAMPER_END" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_END",
-    "dynamic_line": "The return of the great eaters was fortold by a prophet. We faithful have been waiting and preparing since the revelation.",
+    "dynamic_line": "The return of the great eaters was fortold by a prophet.  We faithful have been waiting and preparing since the revelation.",
     "responses": [
       { "text": "I guess it must be nice to be proven right.", "topic": "TALK_SWAMPER_JOIN" },
       { "text": "This is crazy.", "topic": "TALK_SWAMPER_INSULT" }
@@ -135,19 +135,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_JOIN",
-    "dynamic_line": "You understand our purpose. I welcome you to this work, all are needed to feed the eaters.",
+    "dynamic_line": "You understand our purpose.  I welcome you to this work, all are needed to feed the eaters.",
     "responses": [ { "text": "Thank you.", "topic": "TALK_SWAMPER" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_INSULT",
-    "dynamic_line": "You deny what you see right in front of you. This world is what was fortold.",
+    "dynamic_line": "You deny what you see right in front of you.  This world is what was fortold.",
     "responses": [ { "text": "Yeah, alright.", "topic": "TALK_SWAMPER" } ]
   },
   {
     "id": "MISSION_SWAMPER_GATHER_MEAT",
     "type": "mission_definition",
-    "name": { "str": "Gather meat for Bo Baronuyx.  About 8 should do it." },
+    "name": { "str": "Gather meat for Bo Baronyx.  About 8 should do it." },
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",
@@ -157,14 +157,14 @@
     "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" } ] },
     "dialogue": {
       "describe": "The eaters are hungry. They need meat",
-      "offer": "If you wish to feed the eaters, your work will be rewarded. Go out, butcher a pure animal. Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
+      "offer": "If you wish to feed the eaters, your work will be rewarded.  Go out, butcher a pure animal.  Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
       "accepted": "Excellent.  The eaters must feed.",
-      "rejected": "Understood. The great eaters will feed either way.",
+      "rejected": "Understood.  The great eaters will feed either way.",
       "advice": "Some of the animals have become touched by the pretenders in recent days, larger and more dangerous, producing tainted mutant meat.  This will not work for the great eaters, it must be the true meat.",
       "inquire": "Have you brought meat?",
       "success": "The eaters will feed.",
-      "success_lie": "So you say, but the song sings otherwise.",
-      "failure": "Then you shall try again, until you hear."
+      "success_lie": "The eaters will feed I am sure.",
+      "failure": "I see no meat.  There is meat in the forests and swamps waiting for the eaters."
     }
   },
   {
@@ -172,15 +172,15 @@
     "type": "talk_topic",
     "dynamic_line": {
       "has_no_available_mission": {
-        "has_no_assigned_mission": "The eaters have fed. They will be hungry again in time",
+        "has_no_assigned_mission": "The eaters have fed.  They will be hungry again in time",
         "no": { "has_many_assigned_missions": "You know what to do.", "no": "That is all for now." }
       },
       "no": {
         "has_many_available_missions": {
-          "has_no_assigned_mission": "The great eaters must be fed. Are you ready?",
+          "has_no_assigned_mission": "The great eaters must be fed.  Are you ready?",
           "no": {
-            "has_many_assigned_missions": "There is still more work to do. Are you ready?",
-            "no": "There is meat ready for the feeding. Are you ready to gather it?"
+            "has_many_assigned_missions": "There is still more work to do.  Are you ready?",
+            "no": "There is meat ready for the feeding.  Are you ready to gather it?"
           }
         },
         "no": {
