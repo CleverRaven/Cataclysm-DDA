@@ -503,7 +503,7 @@
     "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "TORSO", "HEAD", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "TORSO", "HEAD", "ARMS", "HANDS", "LEGS", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
     "encumbrance": 30,
     "material_thickness": 4,
