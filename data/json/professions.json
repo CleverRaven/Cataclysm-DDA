@@ -4160,23 +4160,15 @@
     "name": "EMT",
     "description": "You were responding to a call with your partner before you got separated. Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 4,
-    "skills": [ 
+    "skills": [
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "mechanics" },
       { "level": 1, "name": "electronics" },
       { "level": 3, "name": "firstaid" }
-      ],
+    ],
     "vehicle": "ambulance",
     "items": {
-      "both": [
-        "technician_shirt_gray",
-        "pants",
-        "socks",
-        "gloves_medical",
-        "multitool",
-        "wristwatch",
-        "boots"
-        ],
+      "both": [ "technician_shirt_gray", "pants", "socks", "gloves_medical", "multitool", "wristwatch", "boots" ],
       "entries": [ { "group": "charged_cell_phone" } ]
     },
     "male": [ "boxer_shorts" ],
@@ -4204,7 +4196,7 @@
         "scissors",
         "syringe",
         "morphine"
-        ],
+      ],
       "entries": [ { "group": "charged_cell_phone" } ]
     },
     "male": [ "boxer_shorts" ],
@@ -4216,7 +4208,14 @@
     "name": "Combat Medic",
     "description": "You were on the front-lines when everything happened, patching up the wounded and providing support. But they wouldn't stop coming. Now you're on your own.",
     "points": 5,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 1, "name": "dodge" }, { "level": 4, "name": "firstaid" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 1, "name": "dodge" },
+      { "level": 4, "name": "firstaid" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -4236,7 +4235,7 @@
           "syringe",
           "morphine",
           "molle_pack"
-         ],
+        ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -4258,14 +4257,7 @@
     "name": "Heroin Addict",
     "description": "The last thing you remember was meeting God behind the local Foodplace. Then people started eating each other. This doesn't feel like a fever dream.",
     "points": -3,
-    "items": {
-      "both": [
-        "shorts",
-        "heroin",
-        "syringe"
-      ],
-    "male": [ "briefs" ],
-    "female": [ "bra", "panties" ] },
+    "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
   }
-]    
+]
