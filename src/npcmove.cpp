@@ -108,6 +108,7 @@ static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -4420,6 +4421,7 @@ bool npc::complain()
     static const std::string fatigue_string = "fatigue";
     static const std::string bite_string = "bite";
     static const std::string bleed_string = "bleed";
+    static const std::string hypovolemia_string = "hypovolemia";
     static const std::string radiation_string = "radiation";
     static const std::string hunger_string = "hunger";
     static const std::string thirst_string = "thirst";
@@ -4489,8 +4491,23 @@ bool npc::complain()
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
-        std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
-        if( complain_about( bleed_string, 5_minutes, speech ) ) {
+        std::string speech;
+        time_duration often;
+        if( get_effect( effect_bleed, bp->token ).get_intensity() < 10 ) {
+            speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
+            often = 5_minutes;
+        } else {
+            speech = string_format( _( "My %s is bleeding awfully!" ), body_part_name( bp ) );
+            often = 1_minutes;
+        }
+        if( complain_about( bleed_string, often, speech ) ) {
+            return true;
+        }
+    }
+
+    if( has_effect( effect_hypovolemia ) ) {
+        std::string speech = _( "I've lost lot of blood." );
+        if( complain_about( hypovolemia_string, 10_minutes, speech ) ) {
             return true;
         }
     }
