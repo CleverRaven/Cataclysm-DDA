@@ -4168,10 +4168,9 @@
     ],
     "vehicle": "ambulance",
     "items": {
-      "both": [ "technician_shirt_gray", "pants", "socks", "gloves_medical", "multitool", "wristwatch", "boots" ],
-      "entries": [ 
-        { "group": "charged_cell_phone" } 
-      ]
+      "both": {
+        "items": [ "technician_shirt_gray", "pants", "socks", "gloves_medical", "multitool", "wristwatch", "boots" ],
+      "entries": [ { "group": "charged_cell_phone" } ]
     },
     "male": [ "boxer_shorts" ],
     "female": [ "bra", "panties" ]
@@ -4184,7 +4183,8 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
     "items": {
-      "both": [
+      "both": {
+        "items": [
         "technician_shirt_gray",
         "pants",
         "socks",
@@ -4199,9 +4199,7 @@
         "syringe",
         "morphine"
       ],
-      "entries": [ 
-        { "group": "charged_cell_phone" } 
-      ]
+      "entries": [ { "group": "charged_cell_phone" } ]
     },
     "male": [ "boxer_shorts" ],
     "female": [ "bra", "panties" ]
