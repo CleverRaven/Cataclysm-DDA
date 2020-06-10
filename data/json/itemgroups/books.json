@@ -286,7 +286,15 @@
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
       { "item": "dnd_handbook", "prob": 2 },
-      { "item": "scots_tailor", "prob": 8 }
+      { "item": "scots_tailor", "prob": 8 },
+      { "item": "vinegar_maker", "prob": 4 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "winemaking_beginner", "prob": 60 },
+      { "item": "manual_canning", "prob": 30 },
+      { "item": "manual_sealing", "prob": 40 },
+      { "item": "baking_book", "prob": 80 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 3 }
     ]
   },
   {
@@ -314,7 +322,14 @@
       { "item": "recipe_bullets", "prob": 2 },
       { "item": "howto_traps", "prob": 10 },
       { "item": "preserving_juice", "prob": 10 },
-      { "item": "manual_traps", "prob": 12 }
+      { "item": "manual_traps", "prob": 12 },
+      { "item": "vinegar_maker", "prob": 4 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "winemaking_beginner", "prob": 14 },
+      { "item": "manual_canning", "prob": 18 },
+      { "item": "manual_sealing", "prob": 9 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 8 }
     ]
   },
   {
@@ -350,7 +365,12 @@
       { "item": "reference_firstaid1", "prob": 1 },
       { "item": "reference_firstaid2", "prob": 1 },
       { "item": "basic_chemistry", "prob": 10 },
-      { "item": "survnote", "prob": 3 }
+      { "item": "survnote", "prob": 3 },
+      { "item": "winemaking_beginner", "prob": 10 },
+      { "item": "manual_canning", "prob": 8 },
+      { "item": "manual_sealing", "prob": 9 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 8 }
     ]
   },
   {
@@ -419,7 +439,9 @@
       { "item": "textbook_armeast", "prob": 3 },
       { "item": "survnote", "prob": 2 },
       { "item": "book_lockpick", "prob": 2 },
-      { "item": "basic_chemistry", "prob": 5 }
+      { "item": "basic_chemistry", "prob": 5 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 8 }
     ]
   },
   {
@@ -476,7 +498,13 @@
       { "item": "jewelry_book", "prob": 5 },
       { "item": "book_nonf_soft_speech_naillaw", "prob": 5 },
       { "item": "book_lockpick", "prob": 2 },
-      { "group": "religious_books", "prob": 40 }
+      { "group": "religious_books", "prob": 40 },
+      { "item": "vinegar_maker", "prob": 20 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "winemaking_beginner", "prob": 60 },
+      { "item": "manual_canning", "prob": 80 },
+      { "item": "manual_sealing", "prob": 190 },
+      { "item": "baking_book", "prob": 190 }
     ]
   },
   {

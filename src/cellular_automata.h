@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "point.h"
 #include "rng.h"
 
 namespace CellularAutomata
@@ -14,19 +15,17 @@ namespace CellularAutomata
 * values.
 * @param width The width of the cells. Specified up front to avoid checked it each time.
 * @param width The height of the cells. Specified up front to avoid checked it each time.
-* @param x
-* @param y
+* @param p
 * @returns The number of neighbors that are alive, a value between 0 and 8.
 */
 inline int neighbor_count( const std::vector<std::vector<int>> &cells, const int width,
-                           const int height,
-                           const int x, const int y )
+                           const int height, const point &p )
 {
     int neighbors = 0;
     for( int ni = -1; ni <= 1; ni++ ) {
         for( int nj = -1; nj <= 1; nj++ ) {
-            const int nx = x + ni;
-            const int ny = y + nj;
+            const int nx = p.x + ni;
+            const int ny = p.y + nj;
 
             // These neighbors are outside the bounds, so they can't contribute.
             if( nx < 0 || nx >= width || ny < 0 || ny >= height ) {
@@ -37,7 +36,7 @@ inline int neighbor_count( const std::vector<std::vector<int>> &cells, const int
         }
     }
     // Because we included ourself in the loop above, subtract ourselves back out.
-    neighbors -= cells[x][y];
+    neighbors -= cells[p.x][p.y];
 
     return neighbors;
 }
@@ -82,7 +81,7 @@ inline std::vector<std::vector<int>> generate_cellular_automaton( const int widt
                 }
 
                 // Count our neighors.
-                const int neighbors = neighbor_count( current, width, height, i, j );
+                const int neighbors = neighbor_count( current, width, height, point( i, j ) );
 
                 // Dead and > birth_limit neighbors, so become alive.
                 if( ( current[i][j] == 0 ) && ( neighbors > birth_limit ) ) {
