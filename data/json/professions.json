@@ -4267,5 +4267,5 @@
     "male": [ "briefs" ],
     "female": [ "bra", "panties" ] },
     "addictions": [ { "intensity": 30, "type": "opiate" } ]
-    {
+  }
 ]    
