@@ -13,16 +13,24 @@
     "price_postapoc": 12000,
     "to_hit": -1,
     "bashing": 12,
-    "material": "steel",
-    "ammo": "50",
+    "material": [ "steel" ],
+    "ammo": [ "50" ],
     "range": 100,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 130,
     "durability": 8,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazines": [ [ "50", [ "m107a1mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m107a1mag" ]
+      }
+    ]
   },
   {
     "id": "m2browning",
@@ -37,8 +45,8 @@
     "price_postapoc": 10000,
     "to_hit": -1,
     "bashing": 12,
-    "material": "steel",
-    "ammo": "50",
+    "material": [ "steel" ],
+    "ammo": [ "50" ],
     "skill": "rifle",
     "range": 110,
     "dispersion": 250,
@@ -58,8 +66,16 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "50", [ "belt50" ] ] ],
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt50" ]
+      }
+    ]
   },
   {
     "id": "m2browning_sawn",
@@ -84,7 +100,6 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [  ],
     "relative": {
       "weight": -21500,
       "volume": -6,
@@ -93,7 +108,8 @@
       "dispersion": 60,
       "barrel_length": -1
     },
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "50": 1 } } ]
   },
   {
     "id": "as50",
@@ -108,8 +124,8 @@
     "price_postapoc": 12000,
     "to_hit": -1,
     "bashing": 13,
-    "material": "steel",
-    "ammo": "50",
+    "material": [ "steel" ],
+    "ammo": [ "50" ],
     "range": 115,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 80,
@@ -117,8 +133,16 @@
     "reload": 400,
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazines": [ [ "50", [ "as50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "as50mag" ]
+      }
+    ]
   },
   {
     "id": "tac50",
@@ -133,8 +157,8 @@
     "price_postapoc": 12000,
     "to_hit": -1,
     "bashing": 12,
-    "material": "steel",
-    "ammo": "50",
+    "material": [ "steel" ],
+    "ammo": [ "50" ],
     "range": 45,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 50,
@@ -142,8 +166,16 @@
     "reload": 450,
     "barrel_length": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
-    "magazines": [ [ "50", [ "tac50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tac50mag" ]
+      }
+    ]
   },
   {
     "id": "bfg50",
@@ -158,8 +190,8 @@
     "price_postapoc": 9000,
     "to_hit": -1,
     "bashing": 12,
-    "material": "steel",
-    "ammo": "50",
+    "material": [ "steel" ],
+    "ammo": [ "50" ],
     "range": 45,
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 110,
@@ -167,6 +199,7 @@
     "barrel_length": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "clip_size": 1,
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "50": 1 } } ]
   }
 ]

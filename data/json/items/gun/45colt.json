@@ -8,6 +8,7 @@
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
     "weight": "595 g",
     "volume": "132 ml",
+    "longest_side": "158 mm",
     "price": 41500,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -32,7 +33,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
   },
   {
     "id": "colt_lightning",
@@ -43,20 +45,22 @@
     "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
     "weight": "2722 g",
     "volume": "1601 ml",
+    "longest_side": "1106 mm",
     "price": 132000,
     "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "45colt",
+    "ammo": [ "45colt" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 180,
     "durability": 7,
     "clip_size": 14,
     "blackpowder_tolerance": 56,
     "reload_noise": "chik chik.",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 14 } } ]
   },
   {
     "id": "colt_saa",
@@ -67,15 +71,17 @@
     "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, it is still in demand for Cowboy Action Shooting, reenactors and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
     "weight": "1048 g",
     "volume": "324 ml",
+    "longest_side": "208 mm",
     "price": 47900,
     "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "ammo": "45colt",
+    "ammo": [ "45colt" ],
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "proportional": { "reload": 1.5 }
+    "proportional": { "reload": 1.5 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 6 } } ]
   }
 ]

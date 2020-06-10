@@ -15,7 +15,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 90,
@@ -37,7 +37,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazines": [ [ "3006", [ "blrmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "blrmag" ]
+      }
+    ]
   },
   {
     "id": "garand",
@@ -55,7 +63,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
@@ -75,7 +83,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "3006", [ "garandclip" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "garandclip" ]
+      }
+    ]
   },
   {
     "id": "m1903",
@@ -92,7 +108,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "dispersion": 120,
     "durability": 8,
     "blackpowder_tolerance": 60,
@@ -112,8 +128,16 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "3006_clip" ]
+      }
+    ]
   },
   {
     "id": "m1918",
@@ -131,7 +155,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
@@ -153,7 +177,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1918mag", "m1918bigmag" ]
+      }
+    ]
   },
   {
     "id": "remington_700",
@@ -170,52 +202,13 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "dispersion": 90,
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
-  },
-  {
-    "id": "rifle_3006",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "pipe rifle: .30-06", "str_pl": "pipe rifles: .30-06" },
-    "//": "It's the same size as the others, but it's still a scrap weapon.",
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": "4080 g",
-    "volume": "3 L",
-    "price": 110000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "3006",
-    "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": "1000 ml",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
   }
 ]

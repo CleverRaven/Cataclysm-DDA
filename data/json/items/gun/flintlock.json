@@ -18,8 +18,10 @@
     ],
     "volume": "2250 ml",
     "weight": "3600 g",
+    "longest_side": "1202 mm",
     "relative": { "range": -2, "ranged_damage": { "damage_type": "bullet", "amount": -4 } },
-    "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 }
+    "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flintlock": 1 } } ]
   },
   {
     "id": "carbine_flintlock_double",
@@ -31,7 +33,8 @@
     "price_postapoc": 2750,
     "proportional": { "dispersion": 1.3, "weight": 1.25, "volume": 1.25 },
     "relative": { "weight": 400, "range": -1, "ranged_damage": { "damage_type": "bullet", "amount": -2 } },
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flintlock": 2 } } ]
   },
   {
     "id": "pistol_flintlock",
@@ -42,6 +45,7 @@
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't make you feel a pirate, nothing will.",
     "weight": "1 kg",
     "volume": "390 ml",
+    "longest_side": "345 mm",
     "price": 35000,
     "price_postapoc": 1750,
     "to_hit": -1,
@@ -49,7 +53,7 @@
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "flintlock",
+    "ammo": [ "flintlock" ],
     "skill": "pistol",
     "range": 2,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
@@ -66,7 +70,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flintlock": 1 } } ]
   },
   {
     "id": "rifle_flintlock",
@@ -77,6 +82,7 @@
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
     "weight": "4900 g",
     "volume": "2500 ml",
+    "longest_side": "1466 mm",
     "price": 41000,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -84,7 +90,7 @@
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "flintlock",
+    "ammo": [ "flintlock" ],
     "skill": "rifle",
     "range": 6,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
@@ -102,7 +108,8 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flintlock": 1 } } ]
   },
   {
     "id": "longrifle_flintlock",
@@ -112,6 +119,7 @@
     "description": "Also called a Pennsylvania rifle, this long barreled rifled flintlock gun has signficantly increased accuracy at the cost of taking even longer to reload.",
     "weight": "3700 g",
     "volume": "1700 ml",
+    "longest_side": "1278 mm",
     "relative": { "range": 2 },
     "proportional": { "dispersion": 0.5, "reload": 2.0 }
   }

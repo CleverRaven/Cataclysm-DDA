@@ -59,7 +59,7 @@
     "initial_charges": 30,
     "max_charges": 30,
     "charges_per_use": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "EXPLOSIVE", "EXPLODES" ],
     "explosion": {
       "power": 4503,
@@ -98,13 +98,7 @@
     "price": 2500,
     "price_postapoc": 100,
     "material": "plastic",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
@@ -114,7 +108,16 @@
       "need_charges": 1,
       "need_charges_msg": "The dab pen's batteries need more charge.",
       "type": "transform"
-    }
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      }
+    ]
   },
   {
     "type": "TOOL",
@@ -129,15 +132,9 @@
     "price": 2500,
     "price_postapoc": 100,
     "material": "plastic",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "power_draw": 9000,
     "revert_to": "dab_pen",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
@@ -147,7 +144,16 @@
       "need_charges": 0,
       "need_charges_msg": "The dab pen's batteries need more charge.",
       "type": "transform"
-    }
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "e_tool",
@@ -160,7 +166,7 @@
     "price_postapoc": 500,
     "bashing": 10,
     "cutting": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
@@ -336,21 +342,6 @@
     "color": "light_gray"
   },
   {
-    "id": "kevlar_plate",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Kevlar plate" },
-    "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "300 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 25,
-    "material": "kevlar",
-    "symbol": ",",
-    "color": "green",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "large_space_heater",
     "type": "TOOL",
     "name": { "str": "large space heater" },
@@ -361,10 +352,10 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 12,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "large_space_heater_on",
@@ -375,8 +366,14 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
     ]
   },
   {
@@ -417,7 +414,7 @@
     "type": "GENERIC",
     "name": { "str": "makeshift glaive" },
     "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a long stick.  It could do a considerable amount of damage.",
+    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
     "weight": "1800 g",
     "volume": "3 L",
     "price": 5000,
@@ -428,7 +425,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
@@ -549,7 +546,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -581,10 +578,10 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "small_space_heater_on",
@@ -595,11 +592,14 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -753,7 +753,7 @@
     "to_hit": 100,
     "bashing": 1,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_3", "WIDE" ],
@@ -809,6 +809,28 @@
     "max_charges": 1,
     "charges_per_use": 1,
     "use_action": "VORTEX"
+  },
+  {
+    "id": "sandbox_kit",
+    "type": "TOOL",
+    "name": { "str": "sandbox kit" },
+    "description": "A plastic bucket holding a small spade and rake, perfect to build sand castles!",
+    "weight": "250 g",
+    "volume": "1 L",
+    "price": 300,
+    "price_postapoc": 3,
+    "material": "plastic",
+    "symbol": "u",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg"
+      }
+    ]
   },
   {
     "id": "whistle_multitool",

@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 900,
     "durability": 6,
@@ -31,7 +31,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bigun",
@@ -53,8 +54,52 @@
     "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "shotbelt_20" ]
+      }
+    ]
+  },
+  {
+    "id": "lever_shotgun",
+    "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "handmade lever shotgun" },
+    "description": "A short homemade lever-action shotgun with a small internal tube magazine.  While still a primitive pipe and 2x4 design, it is a formiddable shotgun in it's own right with room for improvement.",
+    "weight": "2311 g",
+    "volume": "2 L",
+    "price": 10000,
+    "price_postapoc": 2250,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "steel", "wood" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 550,
+    "durability": 6,
+    "barrel_length": "500 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
+      [ "stock", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "clip_size": 6,
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "browning_a5",
@@ -74,7 +119,8 @@
     "dispersion": 425,
     "durability": 6,
     "clip_size": 5,
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "ksg",
@@ -108,7 +154,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "ksg-25",
@@ -141,7 +188,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "m1014",
@@ -172,7 +220,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ]
+    "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "mossberg_500",
@@ -192,7 +241,8 @@
     "dispersion": 325,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "durability": 9,
-    "clip_size": 6
+    "clip_size": 6,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "mossberg_500_security",
@@ -222,7 +272,8 @@
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
     "barrel_length": "0 ml",
-    "clip_size": 9
+    "clip_size": 9,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 9 } } ]
   },
   {
     "id": "mossberg_930",
@@ -255,7 +306,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "pipe_double_shotgun",
@@ -278,7 +330,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "pipe_shotgun",
@@ -311,7 +364,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "remington_870",
@@ -331,7 +385,8 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "durability": 8,
     "clip_size": 5,
-    "barrel_length": "229 ml"
+    "barrel_length": "229 ml",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "remington_870_breacher",
@@ -365,7 +420,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
   },
   {
     "id": "remington_870_express",
@@ -380,7 +436,8 @@
     "dispersion": 345,
     "clip_size": 7,
     "barrel_length": "20 ml",
-    "price": 33800
+    "price": 33800,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "remington_1100",
@@ -415,7 +472,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 10 } } ]
   },
   {
     "id": "revolver_shotgun",
@@ -446,7 +504,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "saiga_12",
@@ -477,7 +536,15 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "saiga10mag", "saiga30mag" ]
+      }
+    ]
   },
   {
     "id": "shotgun_d",
@@ -504,7 +571,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": [ "RELOAD_ONE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "shotgun_s",
@@ -537,7 +605,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "streetsweeper",
@@ -574,7 +643,8 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "SPAS_12",
@@ -608,7 +678,8 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 9 } } ]
   },
   {
     "id": "tavor_12",
@@ -642,7 +713,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "USAS_12",
@@ -674,7 +746,15 @@
       [ "underbarrel mount", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "magazines": [ [ "shot", [ "USAS10mag", "USAS20mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "USAS10mag", "USAS20mag" ]
+      }
+    ]
   },
   {
     "id": "winchester_1887",
@@ -708,7 +788,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "winchester_1897",
@@ -742,6 +823,7 @@
       [ "underbarrel", 1 ]
     ],
     "default_mods": [ "sword_bayonet" ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   }
 ]

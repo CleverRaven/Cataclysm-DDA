@@ -42,8 +42,8 @@
     "price": 25000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 19,
-    "cutting": 39,
+    "bashing": 18,
+    "cutting": 37,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -67,14 +67,17 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 100,
     "use_action": "TAZER",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   }
 ]

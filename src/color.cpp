@@ -654,7 +654,7 @@ std::string colorize( const translation &text, const nc_color &color )
 
 std::string get_note_string_from_color( const nc_color &color )
 {
-    for( auto i : color_by_string_map ) {
+    for( const std::pair<const std::string, note_color> &i : color_by_string_map ) {
         if( i.second.color == color ) {
             return i.first;
         }
@@ -713,7 +713,7 @@ static void draw_header( const catacurses::window &w )
     mvwprintz( w, point( 21, 3 ), c_white, _( "Normal" ) );
     mvwprintz( w, point( 52, 3 ), c_white, _( "Invert" ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void color_manager::show_gui()
@@ -734,12 +734,16 @@ void color_manager::show_gui()
     catacurses::window w_colors_header;
     catacurses::window w_colors;
 
+    const auto calc_offset_y = []() -> int {
+        return TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    };
+
     ui_adaptor ui;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
         iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        iOffsetY = calc_offset_y();
 
         w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                               point( iOffsetX, iOffsetY ) );
@@ -785,7 +789,7 @@ void color_manager::show_gui()
                 mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
             }
         }
-        wrefresh( w_colors_border );
+        wnoutrefresh( w_colors_border );
 
         draw_header( w_colors_header );
 
@@ -805,7 +809,7 @@ void color_manager::show_gui()
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
 
         draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, point( 0, 5 ) );
-        wrefresh( w_colors_border );
+        wnoutrefresh( w_colors_border );
 
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
@@ -838,7 +842,7 @@ void color_manager::show_gui()
             }
         }
 
-        wrefresh( w_colors );
+        wnoutrefresh( w_colors );
     } );
 
     while( true ) {
@@ -888,8 +892,10 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y = iHeaderHeight + 1 + iOffsetY;
-                ui_templates.w_height = 18;
+                ui_templates.w_y_setup = [&]( int ) -> int {
+                    return iHeaderHeight + 1 + calc_offset_y();
+                };
+                ui_templates.w_height_setup = 18;
 
                 ui_templates.text = _( "Color templates:" );
 
@@ -918,8 +924,10 @@ void color_manager::show_gui()
 
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
-            ui_colors.w_y = iHeaderHeight + 1 + iOffsetY;
-            ui_colors.w_height = 18;
+            ui_colors.w_y_setup = [&]( int ) -> int {
+                return iHeaderHeight + 1 + calc_offset_y();
+            };
+            ui_colors.w_height_setup = 18;
 
             const auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 

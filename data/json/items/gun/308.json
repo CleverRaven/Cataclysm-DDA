@@ -15,14 +15,22 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "500 ml",
-    "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "hk_g3",
@@ -40,13 +48,21 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 150,
     "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m134",
@@ -64,7 +80,7 @@
     "material": "hardsteel",
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 200,
@@ -75,8 +91,16 @@
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazines": [ [ "308", [ "belt308" ] ] ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt308" ]
+      }
+    ]
   },
   {
     "id": "m14ebr",
@@ -120,7 +144,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 110,
     "durability": 8,
@@ -140,7 +164,15 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m14mag", "m14smallmag", "m14_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m240",
@@ -158,7 +190,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "dispersion": 200,
     "durability": 9,
     "min_cycle_recoil": 2700,
@@ -178,7 +210,15 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "308", [ "belt308" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt308" ]
+      }
+    ]
   },
   {
     "id": "m60",
@@ -196,7 +236,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 180,
     "durability": 7,
@@ -217,47 +257,23 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "308", [ "belt308" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt308" ]
+      }
+    ]
   },
   {
-    "id": "rifle_308",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "id": "m60_semi",
     "type": "GUN",
-    "name": { "str": "handmade heavy carbine" },
-    "//": "It's amongst the smallest of the .308 firearms, and a scrap weapon as well. This means a short handmade barrel, and considerable loss of energy.",
-    "description": "A homemade lever-action magazine-fed smoothbore rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as being able to accept G3 compatible magazines, and chambering the more powerful .308 rounds.",
-    "weight": "2311 g",
-    "volume": "2 L",
-    "price": 10000,
-    "price_postapoc": 2250,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "308",
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "reload": 200,
-    "barrel_length": "500 ml",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "stock", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "magazines": [ [ "308", [ "g3_makeshiftmag", "g3mag", "g3bigmag" ] ] ]
+    "copy-from": "m60",
+    "name": { "str": "M60 Semi Auto" },
+    "description": "This is a semi-automatic civilian variant of the M60 machine gun, retaining the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
     "id": "savage_111f",
@@ -275,13 +291,14 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "dispersion": 90,
     "durability": 9,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 3 } } ]
   },
   {
     "id": "scar_h",
@@ -291,10 +308,18 @@
     "name": { "str_sp": "FN SCAR-H" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "weight": "3640 g",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "min_cycle_recoil": 2700,
-    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "M24",
@@ -305,6 +330,7 @@
     "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
     "weight": "4990 g",
     "volume": "4084 ml",
+    "longest_side": "992 mm",
     "price": 350000,
     "price_postapoc": 4500,
     "to_hit": -1,
@@ -312,7 +338,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "dispersion": 85,
     "durability": 9,
     "min_cycle_recoil": 2700,
@@ -333,7 +359,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "hk417_13",
@@ -351,14 +378,22 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m110a1",
@@ -376,13 +411,21 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 120,
     "durability": 8,
     "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "ar10",
@@ -400,11 +443,19 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "308",
+    "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "magazines": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ]
+      }
+    ]
   }
 ]

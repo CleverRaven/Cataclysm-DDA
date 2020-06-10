@@ -13,9 +13,17 @@
     "symbol": "|",
     "color": "brown",
     "charges_per_use": 1,
-    "ammo": "crystallized_mana",
+    "ammo": [ "crystallized_mana" ],
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true },
-    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "small_mana_crystal" ]
+      }
+    ]
   },
   {
     "id": "wand_magic_missile",
@@ -31,8 +39,16 @@
     "symbol": "|",
     "color": "brown",
     "charges_per_use": 1,
-    "ammo": "crystallized_mana",
+    "ammo": [ "crystallized_mana" ],
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true },
-    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "small_mana_crystal" ]
+      }
+    ]
   }
 ]

@@ -13,8 +13,8 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "ammo": "plutonium",
-    "max_charges": 2500,
+    "ammo": [ "plutonium" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
     "flags": [ "IS_UPS" ]
   },
   {
@@ -30,13 +30,16 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": "CAMERA",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_battery_cell",
@@ -45,7 +48,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -61,14 +64,17 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_battery_cell",
@@ -77,7 +83,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -92,7 +98,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
@@ -103,10 +109,13 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "ALARMCLOCK" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_minus_disposable_cell",
@@ -115,7 +124,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -127,28 +136,6 @@
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
-  },
-  {
-    "id": "control_laptop",
-    "type": "TOOL",
-    "name": { "str": "control laptop" },
-    "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
-    "weight": "2721 g",
-    "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 8000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 2,
-    "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
   },
   {
     "id": "directional_antenna",
@@ -197,14 +184,17 @@
     "material": "plastic",
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_battery_cell",
           "light_minus_battery_cell",
@@ -213,7 +203,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -231,11 +221,14 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "green",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -244,7 +237,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -260,13 +253,16 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "GEIGER",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -275,7 +271,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -302,12 +298,15 @@
     "material": "plastic",
     "symbol": ":",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "HAND_CRANK",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -316,7 +315,7 @@
           "heavy_battery_cell",
           "heavy_plus_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -333,7 +332,7 @@
     "price": 75000,
     "price_postapoc": 250,
     "bashing": 6,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
@@ -348,11 +347,14 @@
       }
     ],
     "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -377,13 +379,16 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "MP3",
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -392,7 +397,7 @@
           "light_disposable_cell",
           "light_minus_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -420,14 +425,17 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -436,7 +444,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -462,12 +470,15 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": "PORTABLE_GAME",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -476,7 +487,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -492,7 +503,7 @@
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "initial_charges": 110,
     "max_charges": 120,
     "charges_per_use": 1,
@@ -550,11 +561,17 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "flags": [ "IS_UPS" ]
+    "ammo": [ "battery" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "vibrator",
@@ -568,13 +585,16 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": "VIBE",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -583,7 +603,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   }
 ]

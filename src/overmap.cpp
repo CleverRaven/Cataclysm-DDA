@@ -50,9 +50,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-static const efftype_id effect_pet( "pet" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
@@ -66,11 +64,11 @@ class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-#define BUILDINGCHANCE 4
-#define MIN_ANT_SIZE 8
-#define MAX_ANT_SIZE 20
-#define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 2
+static constexpr int BUILDINGCHANCE = 4;
+static constexpr int MIN_ANT_SIZE = 8;
+static constexpr int MAX_ANT_SIZE = 20;
+static constexpr int MIN_GOO_SIZE = 1;
+static constexpr int MAX_GOO_SIZE = 2;
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -217,7 +215,7 @@ bool overmap_special_id::is_valid() const
 city::city( const point &P, int const S )
     : pos( P )
     , size( S )
-    , name( Name::get( nameIsTownName ) )
+    , name( Name::get( nameFlags::IsTownName ) )
 {
 }
 
@@ -226,7 +224,7 @@ int city::get_distance_from( const tripoint &p ) const
     return std::max( static_cast<int>( trig_dist( p, { pos, 0 } ) ) - size, 0 );
 }
 
-std::map<enum radio_type, std::string> radio_type_names =
+std::map<radio_type, std::string> radio_type_names =
 {{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
 
 /** @relates string_id */
@@ -569,8 +567,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
-    if( has_flag( line_drawing ) ) {
-        if( has_flag( no_rotate ) ) {
+    if( has_flag( oter_flags::line_drawing ) ) {
+        if( has_flag( oter_flags::no_rotate ) ) {
             jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
         }
 
@@ -603,7 +601,7 @@ void oter_type_t::finalize()
         for( om_direction::type dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
-    } else if( has_flag( line_drawing ) ) {
+    } else if( has_flag( oter_flags::line_drawing ) ) {
         for( size_t i = 0; i < om_lines::size; ++i ) {
             register_terrain( oter_t( *this, i ), i, om_lines::size );
         }
@@ -647,7 +645,7 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
 
 oter_id oter_type_t::get_linear( size_t n ) const
 {
-    if( !has_flag( line_drawing ) ) {
+    if( !has_flag( oter_flags::line_drawing ) ) {
         debugmsg( "Overmap terrain \"%s \" isn't drawn with lines.", id.c_str() );
         return ot_null;
     }
@@ -685,14 +683,14 @@ oter_t::oter_t( const oter_type_t &type, size_t line ) :
 
 std::string oter_t::get_mapgen_id() const
 {
-    return type->has_flag( line_drawing )
+    return type->has_flag( oter_flags::line_drawing )
            ? type->id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen]
            : type->id.str();
 }
 
 oter_id oter_t::get_rotated( om_direction::type dir ) const
 {
-    return type->has_flag( line_drawing )
+    return type->has_flag( oter_flags::line_drawing )
            ? type->get_linear( om_lines::rotate( this->line, dir ) )
            : type->get_rotated( om_direction::add( this->dir, dir ) );
 }
@@ -1007,7 +1005,7 @@ void overmap_special::check() const
         if( !elem.terrain ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] doesn't have a terrain.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z );
-        } else if( !elem.existing && !elem.terrain->has_flag( line_drawing ) ) {
+        } else if( !elem.existing && !elem.terrain->has_flag( oter_flags::line_drawing ) ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
         } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
@@ -1218,7 +1216,7 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
     } ) != matching_range.second;
 }
 
-void overmap::insert_npc( shared_ptr_fast<npc> who )
+void overmap::insert_npc( const shared_ptr_fast<npc> &who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
@@ -1969,10 +1967,9 @@ void overmap::move_hordes()
             // Check if the monster is a zombie.
             auto &type = *( this_monster.type );
             if(
-                !type.species.count( ZOMBIE ) || // Only add zombies to hordes.
+                !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
-                this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
                 this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
             ) {
@@ -2747,24 +2744,24 @@ void overmap::place_river( point pa, point pb )
                 }
             }
         }
-        if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
+        if( pb.x > x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
+                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > pb.x - x &&
+                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x++;
         }
-        if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
+        if( pb.x < x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
+                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > x - pb.x &&
+                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x--;
         }
-        if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
+        if( pb.y > y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
+                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > pb.y - y &&
+                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y++;
         }
-        if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
+        if( pb.y < y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
+                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > y - pb.y &&
+                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y--;
         }
         x += rng( -1, 1 );
@@ -3372,7 +3369,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         return existency_mult * dist + subtype->basic_cost;
     };
 
-    return pf::find_path( source, dest, OMAPX, OMAPY, estimate );
+    return pf::find_path( source, dest, point( OMAPX, OMAPY ), estimate );
 }
 
 pf::path overmap::lay_out_street( const overmap_connection &connection, const point &source,
@@ -4466,12 +4463,12 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case exact: return "EXACT";
-        case type: return "TYPE";
-        case prefix: return "PREFIX";
-        case contains: return "CONTAINS";
+        case ot_match_type::exact: return "EXACT";
+        case ot_match_type::type: return "TYPE";
+        case ot_match_type::prefix: return "PREFIX";
+        case ot_match_type::contains: return "CONTAINS";
         // *INDENT-ON*
-        case num_ot_match_type:
+        case ot_match_type::num_ot_match_type:
             break;
     }
     debugmsg( "Invalid ot_match_type" );

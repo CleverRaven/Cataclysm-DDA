@@ -20,6 +20,24 @@
     "use_action": "HEAT_FOOD"
   },
   {
+    "id": "cauldron_orichalcum",
+    "type": "GENERIC",
+    "name": { "str": "orichalcum cauldron" },
+    "description": "This is an alchemical cauldron made of orichalcum.  The metal is especially resistant to the unique types of corrosion caused by alchemy.",
+    "weight": "15 kg",
+    "volume": "20 L",
+    "price": "750 USD",
+    "to_hit": -4,
+    "looks_like": "canning_pot",
+    "bashing": 6,
+    "material": "orichalcum_metal",
+    "symbol": "U",
+    "color": "yellow",
+    "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 1 ] ],
+    "use_action": "HEAT_FOOD"
+  },
+  {
     "id": "demon_forge",
     "type": "TOOL",
     "name": { "str": "demon forge" },
@@ -32,7 +50,7 @@
     "material": "demon_chitin",
     "symbol": ";",
     "color": "red",
-    "ammo": "alumentum",
+    "ammo": [ "alumentum" ],
     "sub": "forge",
     "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]

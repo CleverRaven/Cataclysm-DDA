@@ -9,6 +9,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -16,6 +17,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
@@ -285,7 +287,7 @@ player_morale::player_morale() :
     mutations[trait_CENOBITE]      = mutation_data( update_masochist );
 }
 
-void player_morale::add( morale_type type, int bonus, int max_bonus,
+void player_morale::add( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
@@ -412,6 +414,11 @@ int player_morale::get_total_negative_value() const
     return std::sqrt( sum );
 }
 
+int player_morale::get_percieved_pain() const
+{
+    return perceived_pain;
+}
+
 int player_morale::get_total_positive_value() const
 {
     const morale_mult mult = get_temper_mult();
@@ -485,13 +492,13 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     class morale_line
     {
         public:
-            enum class number_format {
+            enum class number_format : int {
                 normal,
                 signed_or_dash,
                 percent,
             };
 
-            enum class line_color {
+            enum class line_color : int {
                 normal,
                 green_gray_red,
                 red_gray_green,
@@ -757,7 +764,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
         draw_scrollbar( w, offset, rows_visible, rows_total,
                         point( 0, top_lines.size() ), c_white, true );
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     input_context ctxt( "MORALE" );
@@ -896,10 +903,9 @@ void player_morale::on_worn_item_washed( const item &it )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const body_part bp : all_body_parts ) {
-            if( covered.test( bp ) ) {
-                const bodypart_id bp_id = convert_bp( bp ).id();
-                update_body_part( body_parts[bp_id] );
+        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {
@@ -943,10 +949,9 @@ void player_morale::set_worn( const item &it, bool worn )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const body_part bp : all_body_parts ) {
-            if( covered.test( bp ) ) {
-                const bodypart_id bp_id = convert_bp( bp ).id();
-                update_body_part( body_parts[bp_id] );
+        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {
@@ -1029,12 +1034,12 @@ void player_morale::update_masochist_bonus()
     int bonus = 0;
 
     if( any_masochist ) {
-        bonus = perceived_pain / 2.5;
+        bonus = perceived_pain;
         if( amateur_masochist ) {
-            bonus = std::min( bonus, 25 );
+            bonus = std::min( bonus, 20 );
         }
         if( took_prozac ) {
-            bonus = bonus / 3;
+            bonus = bonus / 2;
         }
     }
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
@@ -1083,10 +1088,6 @@ void player_morale::update_constrained_penalty()
 
 void player_morale::update_squeamish_penalty()
 {
-    if( !get_option<bool>( "FILTHY_MORALE" ) ) {
-        set_permanent( MORALE_PERM_FILTHY, 0 );
-        return;
-    }
     int penalty = 0;
     for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
         if( bpt.second.filthy > 0 ) {

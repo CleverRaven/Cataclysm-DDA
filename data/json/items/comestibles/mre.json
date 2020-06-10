@@ -70,7 +70,7 @@
     "type": "GENERIC",
     "copy-from": "mre_box",
     "name": { "str": "MRE - Chili & Beans", "str_pl": "MREs - Chili & Beans" },
-    "description": "A 'Meal Ready to Eat' with a chili & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+    "description": "A 'Meal Ready to Eat' with a chili & beans entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
   },
   {
     "id": "mre_bbqbeef_box",
@@ -150,6 +150,22 @@
     "copy-from": "mre_box",
     "name": { "str": "MRE - Macaroni Marinara", "str_pl": "MREs - Macaroni Marinara" },
     "description": "A 'Meal Ready to Eat' with a macaroni marinara entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_sfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spinach Fettuccine", "str_pl": "MREs - Spinach Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a creamy spinach fettuccine entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_ratatouille_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ratatouille", "str_pl": "MREs - Ratatouille" },
+    "description": "A 'Meal Ready to Eat' with a ratatouille entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
   {
@@ -352,6 +368,24 @@
     "name": "macaroni & marinara entree",
     "description": "The macaroni & marinara entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_sfettuccine",
+    "copy-from": "mre_entree",
+    "name": "spinach fettuccine entree",
+    "description": "The creamy spinach fettuccine entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "material": [ "veggy", "milk" ],
+    "fun": -2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_ratatouille",
+    "copy-from": "mre_entree",
+    "name": "ratatouille entree",
+    "description": "The ratatouille entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "material": [ "veggy", "tomato", "wheat" ],
     "fun": 0
   },
   {

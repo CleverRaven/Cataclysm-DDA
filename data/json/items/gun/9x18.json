@@ -9,13 +9,14 @@
     "description": "The Pistolet Makarova was developed by the Soviet Union to replace the WWII-era TT-33 pistol.  It uses the 9x18mm cartridge, which remains in use among various former Soviet countries.",
     "weight": "730 g",
     "volume": "346 ml",
+    "longest_side": "196 mm",
     "price": 25000,
     "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "9x18",
+    "ammo": [ "9x18" ],
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 270,
@@ -32,7 +33,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "9x18", [ "makarovmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "makarovmag" ]
+      }
+    ]
   },
   {
     "id": "skorpion_82",
@@ -43,9 +52,17 @@
     "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",
     "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
     "weight": "1440 g",
-    "ammo": "9x18",
+    "ammo": [ "9x18" ],
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "magazines": [ [ "9x18", [ "skorpion82mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "skorpion82mag" ]
+      }
+    ]
   }
 ]

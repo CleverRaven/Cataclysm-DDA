@@ -8,13 +8,22 @@
     "description": "A lesser known variant of the MAC-10, this machine pistol is chambered in .380 ACP for a smaller overall size while remaining inherently subsonic.  Smaller in almost every dimension, this inexpensive automatic weapon was declared 'fit only for combat in a phone booth' due to its low weight and absurd fire rate ranging from 1200 to 1400 rounds per minute.",
     "weight": "1590 g",
     "volume": "754 ml",
+    "longest_side": "253 mm",
     "price": 160000,
     "price_postapoc": 2500,
     "bashing": 5,
-    "ammo": "380",
+    "ammo": [ "380" ],
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
-    "magazines": [ [ "380", [ "mac11mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mac11mag" ]
+      }
+    ]
   },
   {
     "id": "kp3at",
@@ -26,9 +35,17 @@
     "volume": "151ml",
     "price": 25000,
     "price_postapoc": 1750,
-    "ammo": "380",
+    "ammo": [ "380" ],
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "kp3atmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "kp3atmag" ]
+      }
+    ]
   },
   {
     "id": "fn1910",
@@ -45,11 +62,19 @@
     "bashing": 1,
     "material": [ "steel" ],
     "color": "dark_gray",
-    "ammo": "380",
+    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "fn1910mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "fn1910mag" ]
+      }
+    ]
   },
   {
     "id": "rugerlcp",
@@ -60,17 +85,26 @@
     "description": "One of the best-selling modern day 'pocket pistol's, the LCP is an affordable, polymer framed pistol chambered in .380 ACP.  Despite the round's relatively low power, the pistol's low weight and short sight radius make for a moderately poor handling pistol.",
     "weight": "267 g",
     "volume": "160 ml",
+    "longest_side": "145 mm",
     "price": 21000,
     "price_postapoc": 1250,
     "to_hit": -3,
     "bashing": 1,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "380",
+    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rugerlcpmag" ]
+      }
+    ]
   },
   {
     "id": "hptcf380",
@@ -87,10 +121,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
-    "ammo": "380",
+    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
-    "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
+      }
+    ]
   },
   {
     "id": "taurus_spectrum",
@@ -108,10 +150,18 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "380",
+    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 225,
-    "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "taurus_spectrum_mag" ]
+      }
+    ]
   }
 ]

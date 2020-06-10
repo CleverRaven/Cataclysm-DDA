@@ -85,7 +85,13 @@
     "type": "item_group",
     "//": "For sale display appropriate packaging",
     "subtype": "distribution",
-    "items": [ [ "jar_3l_glass", 100 ], { "item": "weed", "charges": [ 10, 420 ], "prob": 100, "container-item": "jar_3l_glass" } ]
+    "items": [
+      [ "jar_3l_glass", 100 ],
+      { "item": "weed", "charges": [ 10, 420 ], "prob": 100, "container-item": "jar_3l_glass" },
+      [ "jar_glass", 100 ],
+      { "item": "hi_q_shatter", "charges": [ 5, 140 ], "prob": 100, "container-item": "jar_glass" },
+      { "item": "hi_q_wax", "charges": [ 5, 140 ], "prob": 100, "container-item": "jar_glass" }
+    ]
   },
   {
     "type": "item_group",

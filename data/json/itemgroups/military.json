@@ -226,7 +226,6 @@
       { "item": "rm614_lmg", "prob": 1 },
       { "item": "rm2000_smg", "prob": 1 },
       { "item": "8mm_caseless", "prob": 2 },
-      { "item": "rm99_pistol", "prob": 1 },
       { "item": "8mm_jhp", "prob": 2 },
       { "item": "8mm_fmj", "prob": 2 },
       { "item": "laser_rifle", "prob": 1 },
@@ -259,7 +258,6 @@
       { "item": "match_trigger", "prob": 2 },
       { "item": "grapnel", "prob": 1 },
       { "item": "bucket", "prob": 4 },
-      { "item": "bot_laserturret", "prob": 1 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
       { "item": "toolbox", "prob": 1 },
@@ -404,6 +402,25 @@
   },
   {
     "type": "item_group",
+    "id": "mil_bulk",
+    "//": "A bulk of uniform goods all of the same type likely found in a shipping crate",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mil_mess_kit", "prob": 10, "count": 32 },
+      { "item": "voltmeter", "prob": 10, "count": 32 },
+      { "item": "drivebelt", "prob": 10, "count": 64 },
+      { "item": "grapnel", "prob": 10, "count": 32 },
+      { "item": "string_floss", "prob": 5, "count": 128 },
+      { "item": "toothbrush_plain", "prob": 5, "count": 128 },
+      { "item": "sm_extinguisher", "prob": 5, "count": 16 },
+      { "item": "fire_ax", "prob": 5, "count": 16 },
+      { "item": "manual_stabbing", "prob": 5, "count": 64 },
+      { "item": "manual_rifle", "prob": 5, "count": 64 },
+      { "item": "m17", "prob": 3, "count": 32 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mil_food",
     "subtype": "distribution",
     "entries": [
@@ -486,7 +503,7 @@
       { "item": "jumpsuit", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
       { "item": "ballistic_vest_esapi", "prob": 40 },
-      { "item": "kevlar_plate", "prob": 10 },
+      { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10 },
       { "item": "helmet_army", "prob": 40 },
       { "item": "helmet_liner", "prob": 10 },

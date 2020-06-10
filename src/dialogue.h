@@ -75,7 +75,7 @@ struct talk_topic {
 
     std::string id;
     /** If we're talking about an item, this should be its type. */
-    itype_id item_type = "null";
+    itype_id item_type = itype_id::NULL_ID();
     /** Reason for denying a request. */
     std::string reason;
 };
@@ -83,13 +83,13 @@ struct talk_topic {
 struct talk_effect_fun_t {
     private:
         std::function<void( const dialogue &d )> function;
-        std::vector<std::pair<int, std::string>> likely_rewards;
+        std::vector<std::pair<int, itype_id>> likely_rewards;
 
     public:
         talk_effect_fun_t() = default;
-        talk_effect_fun_t( talkfunction_ptr );
-        talk_effect_fun_t( std::function<void( npc & )> );
-        talk_effect_fun_t( std::function<void( const dialogue &d )> );
+        talk_effect_fun_t( const talkfunction_ptr & );
+        talk_effect_fun_t( const std::function<void( npc & )> & );
+        talk_effect_fun_t( const std::function<void( const dialogue &d )> & );
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -98,10 +98,10 @@ struct talk_effect_fun_t {
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_u_buy_item( const std::string &item_name, int cost, int count,
+        void set_u_buy_item( const itype_id &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
-        void set_u_sell_item( const std::string &item_name, int cost, int count );
+        void set_u_sell_item( const itype_id &item_name, int cost, int count );
         void set_consume_item( const JsonObject &jo, const std::string &member, int count,
                                bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -120,7 +120,7 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const std::string &mission_id );
-        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
@@ -165,7 +165,7 @@ struct talk_effect_t {
           * Sets an effect to a function object and consequence to explicitly given one.
           */
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
-        void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
+        void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
         void load_effect( const JsonObject &jo );
         void parse_sub_effect( const JsonObject &jo );
@@ -237,7 +237,7 @@ struct dialogue {
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
+        talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
 
         dialogue() = default;
 
@@ -278,14 +278,14 @@ struct dialogue {
          * action. The response always succeeds. Consequence is based on function used.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     dialogue_fun_ptr effect_success, bool first = false );
+                                     const dialogue_fun_ptr &effect_success, bool first = false );
 
         /**
          * Add a simple response that switches the topic to the new one and executes the given
          * action. The response always succeeds. Consequence must be explicitly specified.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     std::function<void( npc & )> effect_success,
+                                     const std::function<void( npc & )> &effect_success,
                                      dialogue_consequence consequence, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
@@ -334,7 +334,7 @@ struct dynamic_line_t {
         dynamic_line_t() = default;
         dynamic_line_t( const std::string &line );
         dynamic_line_t( const JsonObject &jo );
-        dynamic_line_t( JsonArray ja );
+        dynamic_line_t( const JsonArray &ja );
         static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
 
         std::string operator()( const dialogue &d ) const {
@@ -381,7 +381,7 @@ class json_talk_repeat_response
         json_talk_repeat_response( const JsonObject &jo );
         bool is_npc = false;
         bool include_containers = false;
-        std::vector<std::string> for_item;
+        std::vector<itype_id> for_item;
         std::vector<item_category_id> for_category;
         json_talk_response response;
 };

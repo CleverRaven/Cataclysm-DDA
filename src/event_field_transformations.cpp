@@ -4,6 +4,7 @@
 
 #include "mapdata.h"
 #include "mtype.h"
+#include "omdata.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -13,7 +14,7 @@ static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
     for( const std::string &s : flags ) {
-        result.push_back( cata_variant( s ) );
+        result.push_back( cata_variant::make<cata_variant_type::string>( s ) );
     }
     return result;
 }
@@ -31,6 +32,13 @@ static std::vector<cata_variant> is_swimming_terrain( const cata_variant &v )
     const bool swimming = ter->has_flag( ter_bitflags::TFLAG_DEEP_WATER ) &&
                           ter->has_flag( ter_bitflags::TFLAG_SWIMMABLE );
     std::vector<cata_variant> result = { cata_variant( swimming ) };
+    return result;
+}
+
+static std::vector<cata_variant> oter_type_of_oter( const cata_variant &v )
+{
+    const oter_id oter = v.get<oter_id>();
+    std::vector<cata_variant> result = { cata_variant( oter->get_type_id() ) };
     return result;
 }
 
@@ -57,6 +65,10 @@ const std::unordered_map<std::string, event_field_transformation> event_field_tr
     {
         "is_swimming_terrain",
         {is_swimming_terrain, cata_variant_type::bool_, { cata_variant_type::ter_id } }
+    },
+    {
+        "oter_type_of_oter",
+        { oter_type_of_oter, cata_variant_type::oter_type_str_id, { cata_variant_type::oter_id } }
     },
     {
         "species_of_monster",

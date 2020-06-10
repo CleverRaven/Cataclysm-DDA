@@ -36,16 +36,16 @@
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_jackhammer( "jackhammer" );
+static const itype_id itype_mask_dust( "mask_dust" );
+
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_bat( "mon_bat" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_rat_king( "mon_rat_king" );
-static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-static const mongroup_id GROUP_CAVE( "GROUP_CAVE" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class npc_template;
@@ -220,12 +220,12 @@ void mapgen_crater( mapgendata &dat )
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-static void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
+static void ter_or_furn_set( map *m, const point &p, const ter_furn_id &tfid )
 {
     if( tfid.ter != t_null ) {
-        m->ter_set( point( x, y ), tfid.ter );
+        m->ter_set( p, tfid.ter );
     } else if( tfid.furn != f_null ) {
-        m->furn_set( point( x, y ), tfid.furn );
+        m->furn_set( p, tfid.furn );
     }
 }
 
@@ -254,10 +254,10 @@ void mapgen_field( mapgendata &dat )
             if( mpercent_bush > rng( 0, 1000000 ) ) {
                 if( boosted_vegetation && dat.region.field_coverage.boosted_other_mpercent > rng( 0, 1000000 ) ) {
                     // already chose the lucky terrain/furniture/plant/rock/etc
-                    ter_or_furn_set( m, i, j, altbush );
+                    ter_or_furn_set( m, point( i, j ), altbush );
                 } else {
                     // pick from weighted list
-                    ter_or_furn_set( m, i, j, dat.region.field_coverage.pick( false ) );
+                    ter_or_furn_set( m, point( i, j ), dat.region.field_coverage.pick( false ) );
                 }
             }
         }
@@ -565,7 +565,7 @@ void mapgen_road( mapgendata &dat )
     int neighbor_sidewalks = 0;
     // N E S W NE SE SW NW
     for( int dir = 0; dir < 8; dir++ ) {
-        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( oter_flags::has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -828,7 +828,7 @@ void mapgen_road( mapgendata &dat )
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
-            circle( m, t_pavement, double( SEEX ) - 0.5, double( SEEY ) - 0.5, 11.0 );
+            circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
         }
 
         // overwrite part of intersection with rotary/plaza
@@ -913,7 +913,7 @@ void mapgen_subway( mapgendata &dat )
 
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
-        if( dat.t_nesw[dir]->has_flag( subway_connection ) && !subway_nesw[dir] ) {
+        if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !subway_nesw[dir] ) {
             num_dirs++;
             subway_nesw[dir] = true;
         }
@@ -928,7 +928,7 @@ void mapgen_subway( mapgendata &dat )
         }
 
         if( dat.t_nesw[dir]->get_type_id().str() != "subway" &&
-            !dat.t_nesw[dir]->has_flag( subway_connection ) ) {
+            !dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) ) {
             continue;
         }
         // n_* contain details about the neighbor being considered
@@ -936,7 +936,7 @@ void mapgen_subway( mapgendata &dat )
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
         for( int dir = 0; dir < 4; dir++ ) {
-            if( dat.t_nesw[dir]->has_flag( subway_connection ) && !n_subway_nesw[dir] ) {
+            if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !n_subway_nesw[dir] ) {
                 n_num_dirs++;
                 n_subway_nesw[dir] = true;
             }
@@ -1973,13 +1973,13 @@ void mapgen_cavern( mapgendata &dat )
             y = rng( 0, SEEY * 2 - 1 );
         } while( m->impassable( point( x, y ) ) );
         if( !one_in( 3 ) ) {
-            m->spawn_item( point( x, y ), "jackhammer" );
+            m->spawn_item( point( x, y ), itype_jackhammer );
         }
         if( one_in( 3 ) ) {
-            m->spawn_item( point( x, y ), "mask_dust" );
+            m->spawn_item( point( x, y ), itype_mask_dust );
         }
         if( one_in( 2 ) ) {
-            m->spawn_item( point( x, y ), "hat_hard" );
+            m->spawn_item( point( x, y ), itype_hat_hard );
         }
         while( !one_in( 3 ) ) {
             for( int i = 0; i < 3; ++i ) {
@@ -2717,8 +2717,8 @@ void mapgen_forest( mapgendata &dat )
     }
 
     // There is a chance of placing terrain dependent furniture, e.g. f_cattails on t_water_sh.
-    const auto set_terrain_dependent_furniture = [&current_biome_def, &m]( const ter_id & tid,
-    const int x, const int y ) {
+    const auto set_terrain_dependent_furniture =
+    [&current_biome_def, &m]( const ter_id & tid, const point & p ) {
         const auto terrain_dependent_furniture_it = current_biome_def.terrain_dependent_furniture.find(
                     tid );
         if( terrain_dependent_furniture_it == current_biome_def.terrain_dependent_furniture.end() ) {
@@ -2735,7 +2735,7 @@ void mapgen_forest( mapgendata &dat )
         if( one_in( tdf.chance ) ) {
             // Pick a furniture and set it on the map right now.
             const auto fid = tdf.furniture.pick();
-            m->furn_set( point( x, y ), *fid );
+            m->furn_set( p, *fid );
         }
     };
 
@@ -2744,8 +2744,8 @@ void mapgen_forest( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             const ter_furn_id feature = get_blended_feature( point( x, y ) );
-            ter_or_furn_set( m, x, y, feature );
-            set_terrain_dependent_furniture( feature.ter, x, y );
+            ter_or_furn_set( m, point( x, y ), feature );
+            set_terrain_dependent_furniture( feature.ter, point( x, y ) );
         }
     }
 

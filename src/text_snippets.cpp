@@ -158,9 +158,12 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
         return cata::nullopt;
     }
     const size_t count = it->second.ids.size() + it->second.no_id.size();
-    // This engine is deterministcally seeded, so acceptable.
+    // uniform_int_distribution always returns zero when the random engine is
+    // cata_default_random_engine aka std::minstd_rand0 and the seed is small,
+    // so std::mt19937 is used instead. This engine is deterministcally seeded,
+    // so acceptable.
     // NOLINTNEXTLINE(cata-determinism)
-    cata_default_random_engine generator( seed );
+    std::mt19937 generator( seed );
     std::uniform_int_distribution<size_t> dis( 0, count - 1 );
     const size_t index = dis( generator );
     if( index < it->second.ids.size() ) {

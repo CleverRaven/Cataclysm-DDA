@@ -3,6 +3,8 @@
     "abstract": "40x46mm_grenade",
     "type": "AMMO",
     "name": { "str": "40x46mm grenade" },
+    "volume": "129 ml",
+    "longest_side": "99 mm",
     "price": 10000,
     "price_postapoc": 6000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

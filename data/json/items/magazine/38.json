@@ -9,12 +9,13 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "357mag", "38" ],
     "capacity": 7,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 7, "38": 7 } } ]
   },
   {
     "id": "38_speedloader5",
@@ -26,12 +27,13 @@
     "volume": "250 ml",
     "price": 800,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "357mag", "38" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 5, "38": 5 } } ]
   },
   {
     "id": "38_speedloader6",
@@ -43,11 +45,12 @@
     "volume": "250 ml",
     "price": 900,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "357mag", "38" ],
     "capacity": 6,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 6, "38": 6 } } ]
   }
 ]

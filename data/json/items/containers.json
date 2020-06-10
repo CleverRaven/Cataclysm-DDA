@@ -64,7 +64,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
     "pocket_data": [
@@ -90,7 +90,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
     "pocket_data": [
@@ -115,7 +115,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -131,7 +131,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -389,6 +389,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "2 L",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
       }
@@ -442,7 +443,7 @@
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
     "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
     "material": "cardboard",
@@ -463,7 +464,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "2990 ml",
         "max_contains_weight": "20 kg",
         "magazine_well": "2 L"
@@ -490,7 +491,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "4990 ml",
         "max_contains_weight": "50 kg",
         "magazine_well": "3 L"
@@ -508,7 +509,7 @@
     "volume": "5 L",
     "price": 300,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -656,7 +657,7 @@
     "volume": "253 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
     "pocket_data": [
@@ -748,7 +749,7 @@
     "price": 1595,
     "price_postapoc": 100,
     "volume": "1250 ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "I",
     "color": "green",
     "pocket_data": [
@@ -1016,7 +1017,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -1156,7 +1157,7 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -1239,8 +1240,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "100 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1257,7 +1258,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1265,8 +1266,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "120 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1326,7 +1327,7 @@
     "price_postapoc": 50,
     "to_hit": -4,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
     "pocket_data": [
@@ -1476,6 +1477,15 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "wrapper_pr",
+    "type": "GENERIC",
+    "name": { "str": "wrapper" },
+    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
+    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "copy-from": "wrapper",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
+  },
+  {
     "id": "styrofoam_cup",
     "type": "GENERIC",
     "category": "container",
@@ -1558,7 +1568,7 @@
     "volume": "3003 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
     "pocket_data": [

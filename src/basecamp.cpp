@@ -39,7 +39,7 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -303,7 +303,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
         expansion_data &e_data = e->second;
         for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
             const recipe &recp = *recp_p;
-            const std::string &bldg = recp.result();
+            const std::string &bldg = recp.result().str();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
@@ -611,8 +611,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    if( mgr.has_near( zone_type_camp_storage, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_camp_storage, dump_spot, 60 );
+    if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -625,7 +625,6 @@ void basecamp::form_crafting_inventory( map &target_map )
     fuels.clear();
     for( const itype_id &fuel_id : fuel_types ) {
         basecamp_fuel bcp_f;
-        bcp_f.available = 0;
         bcp_f.ammo_id = fuel_id;
         fuels.emplace_back( bcp_f );
     }
@@ -647,7 +646,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, 0 );
         camp_item.item_tags.insert( "PSEUDO" );
-        if( bcp_r.ammo_id != "NULL" ) {
+        if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
@@ -725,7 +724,7 @@ bool basecamp_action_components::choose_components()
         comp_selection<item_comp> is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
-        if( is.use_from == cancel ) {
+        if( is.use_from == usage_from::cancel ) {
             return false;
         }
         item_selections_.push_back( is );
@@ -735,7 +734,7 @@ bool basecamp_action_components::choose_components()
         comp_selection<tool_comp> ts =
             g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
                                         !base_.by_radio );
-        if( ts.use_from == cancel ) {
+        if( ts.use_from == usage_from::cancel ) {
             return false;
         }
         tool_selections_.push_back( ts );

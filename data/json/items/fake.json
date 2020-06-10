@@ -18,7 +18,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "use_action": [ "BURROW" ],
     "qualities": [ [ "DIG", 3 ] ]
   },
@@ -61,7 +61,7 @@
     "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
     "to_hit": 2,
     "cutting": 8,
-    "techniques": "PRECISE",
+    "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
@@ -109,10 +109,10 @@
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "REACH_ATTACK" ],
     "skill": "archery",
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -122,7 +122,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 60,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "boulder_anvil",

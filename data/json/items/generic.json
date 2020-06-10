@@ -307,15 +307,48 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "chunk of chitin", "str_pl": "chunks of chitin" },
+    "snippet_category": "chitin_desc",
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "price_postapoc": 25,
     "material": "chitin",
     "flags": [ "NO_SALVAGE" ],
+    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
     "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "endochitin",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "strand of endochitin", "str_pl": "strands of endochitin" },
+    "snippet_category": "endochitin_desc",
+    "description": "A piece of an insect's endoskeleton.",
+    "price": 0,
+    "material": "chitin",
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "89 g",
+    "volume": "300 ml",
+    "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "mutant_bug_hydrogen_sacs",
+    "category": "spare_parts",
+    "symbol": "o",
+    "color": "light_gray",
+    "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
+    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
+    "price": 0,
+    "material": "flesh",
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "50 g",
+    "volume": "250 ml",
+    "to_hit": -4
   },
   {
     "type": "GENERIC",
@@ -354,7 +387,7 @@
     "volume": "750 ml",
     "price": 0,
     "price_postapoc": 5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "white"
   },
@@ -423,7 +456,7 @@
     "color": "light_gray",
     "name": { "str": "empty canister" },
     "description": "An empty canister, which may have once held tear gas or other substances.",
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "158 g",
     "volume": "250 ml",
     "bashing": 2,
@@ -476,6 +509,7 @@
     "material": "plastic",
     "weight": "18 g",
     "volume": "5 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
     "to_hit": -3
   },
   {
@@ -518,7 +552,7 @@
     "category": "spare_parts",
     "price": 28000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "553 g",
     "volume": "750 ml",
     "bashing": 6,
@@ -536,7 +570,7 @@
     "category": "spare_parts",
     "price": 28000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "1000 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -554,7 +588,7 @@
     "category": "spare_parts",
     "price": 20000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
     "cutting": 14,
@@ -571,7 +605,7 @@
     "category": "tools",
     "price": 5,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "11 g",
     "volume": "50 ml"
   },
@@ -585,7 +619,7 @@
     "category": "spare_parts",
     "price": 20000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "151 g",
     "volume": "500 ml",
     "to_hit": -2
@@ -599,7 +633,7 @@
     "description": "A length of stiff wire, covered in sharp barbs.",
     "price": 20000,
     "price_postapoc": 200,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
     "to_hit": -2
@@ -617,7 +651,7 @@
     "price": 700,
     "price_postapoc": 100,
     "bashing": 2,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "type": "GENERIC",
@@ -629,7 +663,7 @@
     "category": "spare_parts",
     "price": 7500,
     "price_postapoc": 25,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "908 g",
     "volume": "1500 ml",
     "bashing": 12,
@@ -719,7 +753,7 @@
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "3000 g",
     "volume": "750 ml"
   },
@@ -781,7 +815,7 @@
     "description": "A heating element, like the ones used in hotplates or kettles.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -795,7 +829,7 @@
     "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -1295,6 +1329,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_speaker",
+    "symbol": ",",
+    "color": "yellow",
+    "name": { "str": "broken loudspeaker" },
+    "category": "other",
+    "description": "A broken loudspeaker.  It's so unusually quiet now…  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "100 kg",
+    "volume": "50500 ml",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
@@ -1629,7 +1679,7 @@
     "color": "red",
     "name": { "str": "blood soaked rag" },
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "material": "cotton",
+    "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": "80 g",
     "volume": "250 ml"
@@ -1672,7 +1722,7 @@
     "description": "A small assortment of gears and other clockwork gubbins.",
     "price": 200,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "50 g",
     "volume": "250 ml"
   },
@@ -1757,7 +1807,7 @@
     "category": "other",
     "price": 20000,
     "price_postapoc": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "36287 g",
     "volume": "3 L",
@@ -2465,6 +2515,7 @@
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
     "max_charges": 200000000,
     "rand_charges": [
       0,
@@ -2506,7 +2557,7 @@
       50000,
       100000
     ],
-    "ammo": "money"
+    "ammo": [ "money" ]
   },
   {
     "id": "robofac_test_data",
@@ -2519,6 +2570,7 @@
     "price": 500,
     "price_postapoc": 0,
     "material": "plastic",
+    "flags": [ "MISSION_ITEM" ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -2630,20 +2682,6 @@
     "category": "spare_parts"
   },
   {
-    "id": "cerberus_laser",
-    "type": "GENERIC",
-    "symbol": "(",
-    "color": "magenta",
-    "name": { "str": "TX-5LR Laser Cannon" },
-    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
-    "price": 5000000,
-    "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
-    "weight": "5000 g",
-    "volume": "750 ml",
-    "category": "spare_parts"
-  },
-  {
     "id": "light_bulb",
     "type": "GENERIC",
     "name": { "str": "light bulb" },
@@ -2728,7 +2766,7 @@
     "volume": "2 L",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "black"
   },
@@ -2742,7 +2780,7 @@
     "volume": "2 L",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "black"
   },
@@ -2757,7 +2795,7 @@
     "price_postapoc": 50,
     "to_hit": -4,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan"
   },
@@ -2786,7 +2824,7 @@
     "description": "A steel armor plate, specifically engineered for use in a bullet resistant vest.",
     "price": 9000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "1000 g",
     "volume": "500 ml",
     "bashing": 5
@@ -2801,7 +2839,7 @@
     "description": "A small lock, with a set of keys still inserted.",
     "price": 500,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "5 g",
     "volume": "250 ml",
     "bashing": 1
@@ -2830,7 +2868,7 @@
     "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
     "price": 3500,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "5000 g",
     "volume": "5 L",
     "bashing": 8
@@ -2839,7 +2877,7 @@
     "type": "GENERIC",
     "id": "welding_components",
     "category": "spare_parts",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "name": { "str": "welding component kit" },
@@ -2915,15 +2953,6 @@
     "color": "green",
     "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
-    "copy-from": "broken_turret"
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_laserturret",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken laser turret" },
-    "weight": "110 kg",
     "copy-from": "broken_turret"
   },
   {

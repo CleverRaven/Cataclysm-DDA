@@ -4,11 +4,12 @@
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": { "str": "7.62x51mm ammo belt" },
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 500,
     "count": 100,
     "default_ammo": "762_51",
-    "linkage": "ammolink308"
+    "linkage": "ammolink308",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 500 } } ]
   },
   {
     "id": "falbigmag",
@@ -20,13 +21,13 @@
     "volume": "750 ml",
     "price": 2100,
     "price_postapoc": 500,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 30,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 30 } } ]
   },
   {
     "id": "falmag",
@@ -38,13 +39,13 @@
     "volume": "500 ml",
     "price": 1200,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "fal_makeshiftmag",
@@ -56,14 +57,14 @@
     "volume": "250 ml",
     "price": 1200,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 1,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "g3bigmag",
@@ -75,14 +76,14 @@
     "volume": "1 L",
     "price": 7900,
     "price_postapoc": 500,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
   },
   {
     "id": "g3mag",
@@ -97,10 +98,10 @@
     "material": "aluminum",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "g3_makeshiftmag",
@@ -119,13 +120,13 @@
     "volume": "500 ml",
     "price": 1700,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "m14smallmag",
@@ -137,14 +138,14 @@
     "volume": "250 ml",
     "price": 2900,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "m14_makeshiftmag",
@@ -164,14 +165,14 @@
     "volume": "1 L",
     "price": 8900,
     "price_postapoc": 750,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
   },
   {
     "id": "scarhmag_30rd",
@@ -191,13 +192,13 @@
     "volume": "500 ml",
     "price": 5600,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "scarh_makeshiftmag",
@@ -217,13 +218,13 @@
     "volume": "500 ml",
     "price": 5600,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "hk417mag_10rd",
@@ -235,13 +236,13 @@
     "volume": "250 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 10,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 10 } } ]
   },
   {
     "id": "hk417_makeshiftmag",
@@ -261,13 +262,13 @@
     "volume": "500 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "ar10_makeshiftmag",

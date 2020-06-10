@@ -186,7 +186,7 @@
     "id": "mon_zombie_oliphant",
     "type": "MONSTER",
     "name": { "str": "Ghoulodon" },
-    "description": "An undead Uplifted Elephant of ginormous size.  It still wears it's assault grade armor.",
+    "description": "An undead Uplifted Elephant of ginormous size.  It still wears its assault grade armor.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "UPLIFT" ],

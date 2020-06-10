@@ -13,7 +13,7 @@
     "material": [ "steel", "wood" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "rifle",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "weight": "4200 g",
     "volume": "3 L",
     "bashing": 12,
@@ -37,44 +37,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
-    ]
-  },
-  {
-    "id": "pipe_combination_gun",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "brown",
-    "name": { "str": "pipe combination gun" },
-    "description": "A home-made triple-barreled firearm, one barrel chambered in .30-06 and two other for shotgun shells.  It is made from pipes and parts cannibalized from a double barrel shotgun.",
-    "price": 40000,
-    "//": "Attached mod will now have weight.",
-    "material": [ "steel", "wood" ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "skill": "shotgun",
-    "ammo": "3006",
-    "weight": "2267 g",
-    "volume": "2 L",
-    "price_postapoc": 1250,
-    "bashing": 12,
-    "to_hit": -1,
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "clip_size": 1,
-    "loudness": 25,
-    "barrel_length": "500 ml",
-    "built_in_mods": [ "combination_gun_shotgun_pipe" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
   }
 ]

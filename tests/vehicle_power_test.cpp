@@ -37,7 +37,6 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
         vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        g->refresh_all();
 
         REQUIRE( !veh_ptr->reactors.empty() );
         vehicle_part &reactor = veh_ptr->parts[ veh_ptr->reactors.front() ];
@@ -66,7 +65,6 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
         const tripoint solar_origin = tripoint( 5, 5, 0 );
         vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        g->refresh_all();
 
         GIVEN( "it is 3 hours after sunrise, with sunny weather" ) {
             calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
@@ -131,7 +129,6 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
         const tripoint origin = tripoint( 10, 0, 0 );
         vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_test" ), origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        g->refresh_all();
         veh_ptr->charge_battery( 500 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
 
@@ -157,7 +154,6 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
         const tripoint origin = tripoint( 15, 0, 0 );
         vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        g->refresh_all();
         veh_ptr->charge_battery( 5000 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 5000 );
 

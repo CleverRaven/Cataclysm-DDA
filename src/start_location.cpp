@@ -73,8 +73,8 @@ void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     std::string ter;
-    ot_match_type ter_match_type = ot_match_type::type;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        ot_match_type ter_match_type = ot_match_type::type;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
@@ -246,12 +246,12 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
-        if( checked[x][y] >= attempt ) {
+    const auto maybe_add = [&]( const point & add_p, const tripoint & from ) {
+        if( checked[add_p.x][add_p.y] >= attempt ) {
             return;
         }
 
-        const tripoint pt( x, y, p.z );
+        const tripoint pt( add_p, p.z );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
@@ -272,14 +272,14 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
             return INT_MAX;
         }
 
-        maybe_add( cur.x - 1, cur.y, cur );
-        maybe_add( cur.x, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y, cur );
-        maybe_add( cur.x, cur.y + 1, cur );
-        maybe_add( cur.x - 1, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y - 1, cur );
-        maybe_add( cur.x - 1, cur.y + 1, cur );
-        maybe_add( cur.x + 1, cur.y + 1, cur );
+        maybe_add( cur.xy() + point_west, cur );
+        maybe_add( cur.xy() + point_north, cur );
+        maybe_add( cur.xy() + point_east, cur );
+        maybe_add( cur.xy() + point_south, cur );
+        maybe_add( cur.xy() + point_north_west, cur );
+        maybe_add( cur.xy() + point_north_east, cur );
+        maybe_add( cur.xy() + point_south_west, cur );
+        maybe_add( cur.xy() + point_south_east, cur );
     }
 
     return area;
@@ -396,7 +396,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp_part, 6_minutes );
+                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
             /* fallthrough */
             case 3:
             case 4:

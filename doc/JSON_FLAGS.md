@@ -310,7 +310,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
-- ```BREAK_STICK``` Breaks long stick into two.
+- ```BREAK_STICK``` Breaks long branch into two.
 - ```C4``` Arm the C4.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAN_GOO``` Release a little blob buddy.
@@ -364,6 +364,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NONE``` Do nothing.
 - ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
 - ```PHEROMONE``` Makes zombies ignore you.
+- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK' item quality and 'PERFECT_LOCKPICK' item flag
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 - ```PORTABLE_GAME``` Play games.
@@ -528,7 +529,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```DECONSTRUCT``` Can be deconstructed.
-- ```DEEP_WATER```
+- ```DEEP_WATER``` This is water that can submerge the player
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
 - ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
@@ -581,6 +582,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
+- ```SHALLOW_WATER``` This is water that is not deep enough to submerge the player.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
@@ -652,6 +654,14 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
+- ```BIONIC_TOGGLED``` ... This bionic only has a function when activated, instead of causing its effect every turn.
+- ```BIONIC_POWER_SOURCE``` ... This bionic is a source of bionic power.
+- ```BIONIC_SHOCKPROOF``` ... This bionic can't be incapacitated by electrical attacks.
+- ```BIONIC_FAULTY``` ... This bionic is a "faulty" bionic.
+- ```BIONIC_WEAPON``` ... This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands. Prevents all other activation effects.
+- ```BIONIC_ARMOR_INTERFACE``` ... This bionic can provide power to powered armor.
+- ```BIONIC_SLEEP_FRIENDLY``` ... This bionic won't provide a warning if the player tries to sleep while it's active.
+- ```BIONIC_GUN``` ... This bionic is a gun bionic and activating it will fire it. Prevents all other activation effects.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
 - ```DETERGENT``` ... This item can be used as a detergent in a washing machine.
@@ -674,6 +684,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by "NPC_ACTIVATE" and "NPC_THROWN".
 - ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.
 - ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies "TRADER_AVOID" and "NPC_THROWN".
+- ```PERFECT_LOCKPICK``` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have "LOCKPICK" quality of at least 1.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
@@ -1140,10 +1151,14 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BEE``` Location is related to bees. Used to classify location.
 - ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
 - ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```FARM```
 - ```FUNGAL``` Location is related to fungi. Used to classify location.
-- ```TRIFFID``` Location is related to triffids. Used to classify location.
 - ```LAKE``` Location is is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
+- ```MI-GO``` Location is related to mi-go.
+- ```TRIFFID``` Location is related to triffids. Used to classify location.
 - ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- ```URBAN```
+- ```WILDERNESS```
 
 ### Overmap terrains
 
@@ -1220,6 +1235,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FIRE_START``` Player starts the game with fire nearby.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
 - ```INFECTED``` Player starts the game infected.
+- ```FUNGAL_INFECTION``` Player starts the game with fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 - ```SUR_START``` Surrounded start, zombies outside the starting location.
@@ -1384,6 +1400,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.
+- ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
+- ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
+- ```NO_UNINSTALL``` Cannot be unintalled
+- ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
@@ -1409,6 +1429,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
+- ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
+- ```SMASH_REMOVE``` When you remove this part, instead of getting the item back, you will get the bash results.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.

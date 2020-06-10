@@ -176,17 +176,16 @@ class teleporter_callback : public uilist_callback
                                           rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
                                           index_pairs[entnum].x, index_pairs[entnum].y ) );
             }
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 
 cata::optional<tripoint> teleporter_list::choose_teleport_location()
 {
     cata::optional<tripoint> ret = cata::nullopt;
-    g->refresh_all();
 
     uilist teleport_selector;
-    teleport_selector.w_height = 24;
+    teleport_selector.w_height_setup = 24;
 
     int index = 0;
     int column_width = 25;
@@ -199,10 +198,8 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.w_width = 38 + column_width;
-    teleport_selector.pad_right = 33;
-    teleport_selector.w_x = ( TERMX - teleport_selector.w_width ) / 2;
-    teleport_selector.w_y = ( TERMY - teleport_selector.w_height ) / 2;
+    teleport_selector.w_width_setup = 38 + column_width;
+    teleport_selector.pad_right_setup = 33;
     teleport_selector.title = _( "Choose Translocator Gate" );
 
     teleport_selector.query();

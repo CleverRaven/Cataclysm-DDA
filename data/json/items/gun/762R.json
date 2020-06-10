@@ -56,7 +56,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "762R",
+    "ammo": [ "762R" ],
     "range": 3,
     "dispersion": 90,
     "durability": 10,
@@ -71,8 +71,16 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "magazines": [ [ "762R", [ "762R_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "762R_clip" ]
+      }
+    ]
   },
   {
     "id": "mosin91_30_ebr",

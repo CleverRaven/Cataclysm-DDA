@@ -36,6 +36,7 @@
 #include "gun_mode.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -69,6 +70,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
@@ -87,7 +89,7 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_lightning( "bio_chain_lightning" );
+static const bionic_id bio_chain_lightning( "bio_chain_lightning" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -111,10 +113,21 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
-static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_chem_ethanol( "chem_ethanol" );
+static const itype_id itype_chem_methanol( "chem_methanol" );
+static const itype_id itype_denat_alcohol( "denat_alcohol" );
+static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_lsd( "lsd" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+static const itype_id itype_thorazine( "thorazine" );
+static const itype_id itype_oxygen_tank( "oxygen_tank" );
+static const itype_id itype_UPS( "UPS" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -168,7 +181,7 @@ const std::vector<bionic_id> health_cbms = { {
 
 // lightning, laser, blade, claws in order of use priority
 const std::vector<bionic_id> weapon_cbms = { {
-        bio_lightning,
+        bio_chain_lightning,
         bio_laser,
         bio_blade,
         bio_claws
@@ -444,10 +457,11 @@ void npc::assess_danger()
         }
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
+        int dist = rl_dist( pos(), critter.pos() );
         if( ( is_enemy() || !critter.friendly ) ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                warn_about( "monster", 10_minutes, critter.type->nname() );
+                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
         }
         // ignore targets behind glass even if we can see them
@@ -455,7 +469,6 @@ void npc::assess_danger()
             continue;
         }
 
-        int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
@@ -500,11 +513,11 @@ void npc::assess_danger()
     }
     const auto handle_hostile = [&]( const player & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
+        int dist = rl_dist( pos(), foe.pos() );
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-            warn_about( "monster", 10_minutes, bogey );
+            warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
 
-        int dist = rl_dist( pos(), foe.pos() );
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         // ignore targets behind glass even if we can see them
@@ -656,7 +669,7 @@ void npc::regen_ai_cache()
                 const mission_goal &mgoal = miss->get_type().goal;
                 if( ( mgoal == MGOAL_FIND_ITEM || mgoal == MGOAL_FIND_ANY_ITEM ||
                       mgoal == MGOAL_FIND_ITEM_GROUP ) &&
-                    has_effect( effect_npc_player_looking ) ) {
+                    has_effect( effect_npc_player_still_looking ) ) {
                     continue;
                 }
                 if( global_omt_location() != g->u.global_omt_location() ) {
@@ -682,7 +695,7 @@ void npc::move()
     regen_ai_cache();
     adjust_power_cbms();
     // NPCs under operation should just stay still
-    if( activity.id() == "ACT_OPERATION" ) {
+    if( activity.id() == ACT_OPERATION ) {
         execute_action( npc_player_activity );
         return;
     }
@@ -743,9 +756,9 @@ void npc::move()
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
-    } else if( has_effect( effect_asthma ) && ( has_charges( "inhaler", 1 ) ||
-               has_charges( "oxygen_tank", 1 ) ||
-               has_charges( "smoxygen_tank", 1 ) ) ) {
+    } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
+               has_charges( itype_oxygen_tank, 1 ) ||
+               has_charges( itype_smoxygen_tank, 1 ) ) ) {
         action = npc_heal;
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
@@ -1298,7 +1311,7 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    int ups_charges = charges_of( "UPS" );
+    int ups_charges = charges_of( itype_UPS );
 
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
@@ -1428,7 +1441,16 @@ static bool wants_to_reload( const npc &who, const item &it )
     }
 
     const int remaining = it.ammo_remaining();
-    return remaining < required || remaining < it.ammo_capacity();
+    // return early just in case there is no ammo
+    if( remaining < required ) {
+        return true;
+    }
+
+    if( !it.ammo_data() || !it.ammo_data()->ammo ) {
+        return false;
+    }
+
+    return remaining < it.ammo_capacity( it.ammo_data()->ammo->type );
 }
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
@@ -1614,9 +1636,11 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
     if( filtered_items.empty() ) {
         return false;
     }
-    int old_moves = moves;
+
     item_location loc = item_location( *this, filtered_items.front() );
-    return consume( loc ) && old_moves != moves;
+    const time_duration &consume_time = get_consume_time( *loc );
+    moves -= to_moves<int>( consume_time );
+    return consume( loc );
 }
 
 bool npc::recharge_cbm()
@@ -1648,12 +1672,15 @@ bool npc::recharge_cbm()
                 return true;
             } else {
                 const std::vector<itype_id> fuel_op = bid->fuel_opts;
-                const bool need_alcohol = std::find( fuel_op.begin(), fuel_op.end(),
-                                                     "chem_ethanol" ) != fuel_op.end() ||
-                                          std::find( fuel_op.begin(), fuel_op.end(), "chem_methanol" ) != fuel_op.end() ||
-                                          std::find( fuel_op.begin(), fuel_op.end(), "denat_alcohol" ) != fuel_op.end();
+                const bool need_alcohol =
+                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_ethanol ) !=
+                    fuel_op.end() ||
+                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_methanol ) !=
+                    fuel_op.end() ||
+                    std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
+                    fuel_op.end();
 
-                if( std::find( fuel_op.begin(), fuel_op.end(), "battery" ) != fuel_op.end() ) {
+                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
                 } else if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
@@ -1845,10 +1872,10 @@ npc_action npc::address_needs( float danger )
 
     const auto could_sleep = [&]() {
         if( danger <= 0.01 ) {
-            if( get_fatigue() >= TIRED ) {
+            if( get_fatigue() >= fatigue_levels::TIRED ) {
                 return true;
             } else if( is_walking_with() && g->u.in_sleep_state() &&
-                       get_fatigue() > ( TIRED / 2 ) ) {
+                       get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1862,7 +1889,7 @@ npc_action npc::address_needs( float danger )
             return npc_undecided;
         }
 
-        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > MASSIVE_FATIGUE ) {
+        if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
@@ -2070,7 +2097,8 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
-                                   gun.ammo_capacity() );
+                                   gun.ammo_capacity(
+                                       item_controller->find_template( gun.ammo_default() )->ammo->type ) );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
@@ -2716,8 +2744,8 @@ void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 void npc::find_item()
 {
     if( is_hallucination() ) {
-        see_item_say_smth( "thorazine", "<no_to_thorazine>" );
-        see_item_say_smth( "lsd", "<yes_to_lsd>" );
+        see_item_say_smth( itype_thorazine, "<no_to_thorazine>" );
+        see_item_say_smth( itype_lsd, "<yes_to_lsd>" );
         return;
     }
 
@@ -2749,7 +2777,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             // Don't even consider liquids.
             return;
         }
@@ -3001,7 +3029,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of_from_type( phase_id::LIQUID ) ) {
             iter++;
             continue;
         }
@@ -3058,7 +3086,8 @@ struct ratio_index {
 };
 
 /* As of October 2019, this is buggy, do not use!! */
-void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
+void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
+                      int min_val )
 {
     /* Remove this when someone debugs it back to functionality */
     return;
@@ -3326,7 +3355,7 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const int ups_charges = charges_of( "UPS" );
+    const int ups_charges = charges_of( itype_UPS );
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -3374,12 +3403,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id(),
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
                  best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_value );
 
     wield( *best );
     return true;
@@ -3619,13 +3648,13 @@ void npc::heal_self()
     if( has_effect( effect_asthma ) ) {
         item &treatment = null_item_reference();
         std::string iusage = "OXYGEN_BOTTLE";
-        if( has_charges( "inhaler", 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( "inhaler" ) );
+        if( has_charges( itype_inhaler, 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( itype_inhaler ) );
             iusage = "INHALER";
-        } else if( has_charges( "oxygen_tank", 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( "oxygen_tank" ) );
-        } else if( has_charges( "smoxygen_tank", 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( "smoxygen_tank" ) );
+        } else if( has_charges( itype_oxygen_tank, 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( itype_oxygen_tank ) );
+        } else if( has_charges( itype_smoxygen_tank, 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( itype_smoxygen_tank ) );
         }
         if( !treatment.is_null() ) {
             treatment.type->invoke( *this, treatment, pos(), iusage );
@@ -3664,8 +3693,9 @@ void npc::use_painkiller()
             add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         }
         item_location loc = item_location( *this, it );
+        const time_duration &consume_time = get_consume_time( *loc );
+        moves -= to_moves<int>( consume_time );
         consume( loc );
-        moves = 0;
     }
 }
 
@@ -3775,6 +3805,7 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
+        complain_about( "camp_water_thanks", 1_hours, "<camp_water_thanks>", false );
         set_thirst( 0 );
         return true;
     }
@@ -3782,11 +3813,13 @@ bool npc::consume_food_from_camp()
     int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
                                          stomach.get_calories() ), yours->food_supply );
     if( camp_kcals > 0 ) {
+        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
         mod_hunger( -camp_kcals );
         mod_stored_kcal( camp_kcals );
         yours->food_supply -= camp_kcals;
         return true;
     }
+    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty", false );
     return false;
 }
 
@@ -3820,9 +3853,10 @@ bool npc::consume_food()
 
     // consume doesn't return a meaningful answer, we need to compare moves
     // TODO: Make player::consume return false if it fails to consume
-    int old_moves = moves;
     item_location loc = item_location( *this, &i_at( index ) );
-    bool consumed = consume( loc ) && old_moves != moves;
+    const time_duration &consume_time = get_consume_time( *loc );
+    moves -= to_moves<int>( consume_time );
+    bool consumed = consume( loc );
     if( !consumed ) {
         debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
@@ -3913,7 +3947,6 @@ void npc::look_for_player( const player &sought )
     complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
     move_to_next();
-    return;
     // The part below is not implemented properly
     /*
     if( sees( sought ) ) {
@@ -4069,9 +4102,6 @@ void npc::set_omt_destination()
             temp_types.push_back( temp_pair );
         }
         find_params.search_range = 75;
-        find_params.min_distance = 0;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
@@ -4287,7 +4317,21 @@ static body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
+static std::string distance_string( int range )
+{
+    if( range < 6 ) {
+        return "<danger_close_distance>";
+    } else if( range < 11 ) {
+        return "<close_distance>";
+    } else if( range < 26 ) {
+        return "<medium_distance>";
+    } else {
+        return "<far_distance>";
+    }
+}
+
+void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name,
+                      int range, const tripoint &danger_pos )
 {
     std::string snip;
     sounds::sound_t spriority = sounds::sound_t::alert;
@@ -4327,9 +4371,16 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name.empty() ? snip :
-                               string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), spriority );
+    if( name.empty() ) {
+        complain_about( warning_name, d, snip, is_enemy(), spriority );
+    } else {
+        const std::string range_str = range < 1 ? "<punc>" :
+                                      string_format( _( " %s, %s" ),
+                                              direction_name( direction_from( pos(), danger_pos ) ),
+                                              distance_string( range ) );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        complain_about( warning_name, d, speech, is_enemy(), spriority );
+    }
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
@@ -4380,8 +4431,8 @@ bool npc::complain()
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        body_part bp = bp_affected( *this, effect_infected );
-        const auto &eff = get_effect( effect_infected, bp );
+        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_infected ) ).id();
+        const auto &eff = get_effect( effect_infected, bp->token );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
@@ -4394,7 +4445,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        body_part bp = bp_affected( *this, effect_bite );
+        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bite ) );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4404,8 +4455,9 @@ bool npc::complain()
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( get_fatigue() > TIRED && complain_about( fatigue_string, 30_minutes, _( "<yawn>" ),
-            get_fatigue() > MASSIVE_FATIGUE - 100 ) )  {
+    if( get_fatigue() > fatigue_levels::TIRED &&
+        complain_about( fatigue_string, 30_minutes, _( "<yawn>" ),
+                        get_fatigue() > fatigue_levels::MASSIVE_FATIGUE - 100 ) )  {
         return true;
     }
 
@@ -4436,7 +4488,7 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        body_part bp = bp_affected( *this, effect_bleed );
+        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
         std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
         if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
@@ -4461,7 +4513,7 @@ void npc::do_reload( const item &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it.ammo_capacity() - it.ammo_remaining() ) );
+                                     it.ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
@@ -4476,7 +4528,7 @@ void npc::do_reload( const item &it )
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
-        sfx::play_variant_sound( "reload", it.typeId(), sfx::get_heard_volume( pos() ),
+        sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }
 
@@ -4500,7 +4552,7 @@ bool npc::adjust_worn()
     const auto covers_broken = [this]( const item & it, side s ) {
         const auto covered = it.get_covered_body_parts( s );
         for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
+            if( hp_cur[ i ] <= 0 && covered.test( convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ) ) ) {
                 return true;
             }
         }
@@ -4524,7 +4576,7 @@ bool npc::adjust_worn()
     return false;
 }
 
-void npc::set_movement_mode( character_movemode new_mode )
+void npc::set_movement_mode( const move_mode_id &new_mode )
 {
     move_mode = new_mode;
 }

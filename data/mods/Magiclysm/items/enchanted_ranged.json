@@ -55,7 +55,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "9x18": 6, "380": 6, "357mag": 6, "38": 6 } } ]
   },
   {
     "id": "gunblade",
@@ -81,12 +82,13 @@
     "clip_size": 3,
     "range": -4,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "reload": 200,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "reload_noise": "chuk chuk.",
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
   }
 ]

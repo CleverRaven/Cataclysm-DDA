@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "achievement.h"
 #include "action.h"
 #include "artifact.h"
 #include "avatar.h"
@@ -74,6 +75,7 @@
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
+#include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "sounds.h"
@@ -85,6 +87,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -147,6 +150,7 @@ enum debug_menu_index {
     DEBUG_BENCHMARK,
     DEBUG_OM_TELEPORT,
     DEBUG_TRAIT_GROUP,
+    DEBUG_ENABLE_ACHIEVEMENTS,
     DEBUG_SHOW_MSG,
     DEBUG_CRASH_GAME,
     DEBUG_MAP_EXTRA,
@@ -245,6 +249,17 @@ static int info_uilist( bool display_all_entries = true )
     return uilist( _( "Info…" ), uilist_initializer );
 }
 
+static int game_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( DEBUG_ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
+        { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
+        { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
+    };
+
+    return uilist( _( "Game…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -304,6 +319,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
             { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+            { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
@@ -344,6 +360,9 @@ static int debug_menu_uilist( bool display_all_entries = true )
                 break;
             case 5:
                 action = map_uilist();
+                break;
+            case 6:
+                action = game_uilist();
                 break;
 
             default:
@@ -424,7 +443,6 @@ void spawn_nested_mapgen()
         target_map.save();
         g->load_npcs();
         g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
 }
 
@@ -442,7 +460,7 @@ void character_edit_menu()
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
-    charmenu.w_y = 0;
+    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
         return;
@@ -459,7 +477,8 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
+             << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -572,7 +591,7 @@ void character_edit_menu()
             }
             p.worn.clear();
             p.inv.clear();
-            p.weapon = item();
+            p.remove_weapon();
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
@@ -585,6 +604,7 @@ void character_edit_menu()
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
                 p.weapon = to_wear;
+                g->events().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
             }
         }
         break;
@@ -887,7 +907,6 @@ void character_edit_menu()
             p.add_effect( effect_flu, 1000_minutes );
             break;
         }
-        break;
         case D_ASTHMA: {
             p.set_mutation( trait_ASTHMA );
             p.add_effect( effect_asthma, 10_minutes );
@@ -1077,13 +1096,19 @@ void draw_benchmark( const int max_difference )
     auto end_tick = std::chrono::steady_clock::now();
     int64_t difference = 0;
     int draw_counter = 0;
+
+    static_popup popup;
+    popup.on_top( true ).message( "%s", _( "Benchmark in progress…" ) );
+
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
         difference = std::chrono::duration_cast<std::chrono::milliseconds>( end_tick - start_tick ).count();
         if( difference >= max_difference ) {
             break;
         }
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
+        refresh_display();
         draw_counter++;
     }
 
@@ -1108,7 +1133,25 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
-    g->refresh_all();
+
+    // For the "cheaty" options, disable achievements when used
+    achievements_tracker &achievements = g->achievements();
+    static const std::unordered_set<int> non_cheaty_options = {
+        DEBUG_SAVE_SCREENSHOT,
+        DEBUG_GAME_REPORT,
+        DEBUG_ENABLE_ACHIEVEMENTS,
+        DEBUG_BENCHMARK,
+        DEBUG_SHOW_MSG,
+    };
+    bool should_disable_achievements = action >= 0 && !non_cheaty_options.count( action );
+    if( should_disable_achievements && achievements.is_enabled() ) {
+        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+            achievements.set_enabled( false );
+        } else {
+            action = -1;
+        }
+    }
+
     avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
@@ -1210,6 +1253,7 @@ void debug()
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
             }
+            g->invalidate_main_ui_adaptor();
             g->disp_NPCs();
             break;
         }
@@ -1432,19 +1476,22 @@ void debug()
 
         case DEBUG_SHOW_SOUND: {
 #if defined(TILES)
-            const point offset {
-                u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
-            };
-            g->draw_ter();
-            auto sounds_to_draw = sounds::get_monster_sounds();
-            for( const auto &sound : sounds_to_draw.first ) {
-                mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
-            }
-            for( const auto &sound : sounds_to_draw.second ) {
-                mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
-            }
-            wrefresh( g->w_terrain );
-            g->draw_panels();
+            const auto &sounds_to_draw = sounds::get_monster_sounds();
+
+            shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+                const point offset {
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
+                };
+                for( const auto &sound : sounds_to_draw.first ) {
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
+                }
+                for( const auto &sound : sounds_to_draw.second ) {
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
+                }
+            } );
+            g->add_draw_callback( sound_cb );
+
+            ui_manager::redraw();
             inp_mngr.wait_for_any_key();
 #else
             popup( _( "This binary was not compiled with tiles support." ) );
@@ -1583,6 +1630,14 @@ void debug()
         case DEBUG_TRAIT_GROUP:
             trait_group::debug_spawn();
             break;
+        case DEBUG_ENABLE_ACHIEVEMENTS:
+            if( achievements.is_enabled() ) {
+                popup( _( "Achievements are already enabled" ) );
+            } else {
+                achievements.set_enabled( true );
+                popup( _( "Achievements enabled" ) );
+            }
+            break;
         case DEBUG_SHOW_MSG:
             debugmsg( "Test debugmsg" );
             break;
@@ -1608,7 +1663,6 @@ void debug()
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     g->m.invalidate_map_cache( g->get_levz() );
-                    g->refresh_all();
                 }
             }
             break;
@@ -1768,9 +1822,7 @@ void debug()
             MapExtras::debug_spawn_test();
             break;
     }
-    catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );
-    g->refresh_all();
 }
 
 } // namespace debug_menu

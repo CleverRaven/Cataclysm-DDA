@@ -306,7 +306,7 @@
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
     "//": "NPCs can't run yet and we want this one to be fast, so road runner.",
-    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "//2": "This is a unique NPC who doesn't get randomly selected background traits",
     "traits": [
       [ "THRESH_INSECT", 100 ],
       [ "BEE", 100 ],

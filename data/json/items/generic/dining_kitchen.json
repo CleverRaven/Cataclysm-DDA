@@ -10,7 +10,7 @@
     "price_postapoc": 0,
     "weight": "48 g",
     "volume": "25 ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "bashing": 2,
     "cutting": 1,
     "to_hit": -1
@@ -26,7 +26,7 @@
     "price_postapoc": 0,
     "weight": "158 g",
     "volume": "75 ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "bashing": 3,
     "cutting": 2,
     "to_hit": -1
@@ -138,6 +138,7 @@
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
+    "volume": "500 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -283,6 +284,7 @@
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
+    "volume": "600 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -322,6 +324,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
+    "volume": "500 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -393,7 +396,7 @@
     "copy-from": "base_plastic_dish",
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "120 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -425,7 +428,7 @@
     "proportional": { "weight": 0.4, "volume": 0.5 },
     "description": "A plastic cup with a spill-proof lid, designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "pocket_data": [ { "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "120 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },
@@ -697,7 +700,7 @@
     "name": { "str": "pot" },
     "description": "Useful for boiling water when cooking spaghetti and more.",
     "copy-from": "base_cookpot",
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "light_gray",
     "weight": "550 g",
     "volume": "2 L",
@@ -719,7 +722,7 @@
     "name": { "str": "cast-iron pot" },
     "description": "This hefty black pot is made from cast iron and coated in a sturdy enamel.",
     "copy-from": "base_cookpot",
-    "material": "iron",
+    "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "3000 g",
     "volume": "2 L",
@@ -786,11 +789,10 @@
     "name": { "str": "stock pot" },
     "description": "A large pot for making soup stocks.  You could fit a whole turkey in there, with a bit of shoving.",
     "copy-from": "base_cookpot",
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "light_gray",
     "weight": "2490 g",
-    "volume": "9 L",
-    "//": "Volume assumes you can stick some stuff in the pot inside your bag",
+    "volume": "12800 ml",
     "bashing": 8,
     "pocket_data": [
       {
@@ -813,7 +815,7 @@
     "price": 20000,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -836,7 +838,7 @@
     "name": { "str": "cast-iron frying pan" },
     "description": "A cast-iron pan.  Makes a decent melee weapon, and is used for cooking.",
     "copy-from": "base_cookpot",
-    "material": "iron",
+    "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "2628 g",
     "volume": "1 L",
@@ -861,7 +863,7 @@
     "name": { "str": "steel frying pan" },
     "description": "A steel frying pan.  Makes a decent melee weapon, and is used for cooking.",
     "copy-from": "base_cookpot",
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "light_gray",
     "looks_like": "pan",
     "weight": "528 g",
@@ -870,7 +872,7 @@
     "to_hit": -2,
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "800 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -918,7 +920,7 @@
     "price_postapoc": 5,
     "to_hit": 1,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -967,7 +969,7 @@
     "name": { "str": "kettle" },
     "description": "A stovetop kettle for boiling water.",
     "copy-from": "base_cookpot",
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "light_gray",
     "weight": "728 g",
     "volume": "1500 ml",
@@ -1025,7 +1027,7 @@
     "color": "light_gray",
     "price": 10,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "300 g",
     "volume": "250 ml",
     "bashing": 2,

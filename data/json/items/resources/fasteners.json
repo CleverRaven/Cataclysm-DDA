@@ -9,7 +9,7 @@
     "volume": "5 ml",
     "price": 100,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"
@@ -39,7 +39,7 @@
     "weight": "8 g",
     "price": 300,
     "price_postapoc": 0,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "button_wood",
@@ -66,7 +66,7 @@
     "volume": "2 ml",
     "price": 100,
     "price_postapoc": 0,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

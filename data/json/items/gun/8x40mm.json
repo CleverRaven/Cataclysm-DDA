@@ -16,7 +16,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "pistol",
     "dispersion": 175,
     "durability": 9,
@@ -31,8 +31,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_10_mag", "8x40_25_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ]
+      }
+    ]
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -50,7 +58,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "range": 20,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
@@ -69,8 +77,16 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_10_mag", "8x40_25_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ]
+      }
+    ]
   },
   {
     "id": "rm2000_smg",
@@ -88,7 +104,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "smg",
     "dispersion": 120,
     "durability": 9,
@@ -104,8 +120,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_25_mag", "8x40_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_25_mag", "8x40_10_mag" ]
+      }
+    ]
   },
   {
     "id": "rm298",
@@ -122,7 +146,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "range": -6,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
@@ -132,8 +156,16 @@
     "reload": 400,
     "barrel_length": "1500 ml",
     "valid_mod_locations": [ [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "magazines": [ [ "8x40mm", [ "8x40_500_mag", "8x40_250_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ]
+      }
+    ]
   },
   {
     "id": "rm51_assault_rifle",
@@ -150,7 +182,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 50,
@@ -167,8 +199,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_50_mag", "8x40_100_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ]
+      }
+    ]
   },
   {
     "id": "rm614_lmg",
@@ -185,7 +225,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 70,
@@ -204,8 +244,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_250_mag", "8x40_500_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ]
+      }
+    ]
   },
   {
     "id": "rm88_battle_rifle",
@@ -221,7 +269,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "8x40mm",
+    "ammo": [ "8x40mm" ],
     "skill": "rifle",
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 30,
@@ -239,41 +287,15 @@
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
-  },
-  {
-    "id": "rm99_pistol",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "RM99 revolver" },
-    "//": "Bear in mind that most revolvers don't reach $1K.  Expensive.",
-    "description": "Considered overkill by some, the Rivtech M99 remains an exceedingly powerful addition to the arsenal of any gunslinger.",
-    "weight": "1204 g",
-    "volume": "750 ml",
-    "price": 210000,
-    "price_postapoc": 8000,
-    "to_hit": -2,
-    "bashing": 12,
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "8x40mm",
-    "skill": "pistol",
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
-    "dispersion": 175,
-    "durability": 9,
-    "clip_size": 5,
-    "magazines": [ [ "8x40mm", [ "8x40_speedloader5" ] ] ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ]
+      }
+    ]
   }
 ]

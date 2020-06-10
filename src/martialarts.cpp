@@ -58,7 +58,7 @@ matype_id martial_art_learned_from( const itype &type )
 
     if( !type.book || type.book->martial_art.is_null() ) {
         debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
-                  type.get_id() );
+                  type.get_id().str() );
         return {};
     }
 
@@ -654,6 +654,10 @@ int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
+int ma_buff::block_effectiveness_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::BLOCK_EFFECTIVENESS );
+}
 int ma_buff::speed_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::SPEED );
@@ -1093,6 +1097,14 @@ int Character::mabuff_block_bonus() const
     } );
     return ret;
 }
+int Character::mabuff_block_effectiveness_bonus( ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.block_effectiveness_bonus( *this );
+        } );
+    return ret;
+}
 int Character::mabuff_speed_bonus() const
 {
     int ret = 0;
@@ -1463,7 +1475,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( !ma.weapons.empty() ) {
             std::vector<std::string> weapons;
             std::transform( ma.weapons.begin(), ma.weapons.end(),
-                            std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
+                            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string { return item::nname( wid ); } );
             // Sorting alphabetically makes it easier to find a specific weapon
             std::sort( weapons.begin(), weapons.end(), localized_compare );
             // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
@@ -1516,7 +1528,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
             draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
-            wrefresh( w );
+            wnoutrefresh( w );
         } );
 
         do {

@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <forward_list>
 #include <functional>
 #include <iterator>
 #include <locale>
@@ -123,7 +124,6 @@ inline std::string string_from_int( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ch;
             break;
     }
     char buffer[2] = { static_cast<char>( charcode ), '\0' };
@@ -323,8 +323,9 @@ void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
 int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text );
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
@@ -363,10 +364,51 @@ void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
     catacurses::chtype tr = 1, catacurses::chtype bl = 1, catacurses::chtype br = 1,
-    nc_color FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
+    const nc_color &FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
+
+class border_helper
+{
+    public:
+        class border_info
+        {
+            public:
+                void set( const point &pos, const point &size );
+
+                // Prevent accidentally copying the return value from border_helper::add_border
+                border_info( const border_info & ) = delete;
+                border_info( border_info && ) = default;
+                border_info &operator=( const border_info & ) = delete;
+                border_info &operator=( border_info && ) = default;
+
+                friend class border_helper;
+            private:
+                border_info( border_helper &helper );
+
+                point pos;
+                point size;
+                std::reference_wrapper<border_helper> helper;
+        };
+
+        border_info &add_border();
+        void draw_border( const catacurses::window &win );
+
+        friend class border_info;
+    private:
+        struct border_connection {
+            bool top = false;
+            bool right = false;
+            bool bottom = false;
+            bool left = false;
+
+            int as_curses_line() const;
+        };
+        cata::optional<std::map<point, border_connection>> border_connection_map;
+
+        std::forward_list<border_info> border_info_list;
+};
 
 std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
@@ -460,8 +502,7 @@ struct item_info_data {
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
             : sItemName( sItemName ), sTypeName( sTypeName ),
-              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( 0 ), ptr_selected( &selected ) {}
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ) {}
 
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
@@ -487,6 +528,7 @@ struct item_info_data {
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;
+        bool any_input = true;
         bool scrollbar_left = true;
         bool use_full_win = false;
         unsigned int padding = 1;
@@ -544,10 +586,6 @@ size_t shortcut_print( const catacurses::window &w, const point &p, nc_color tex
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
 std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
-
-// short visual animation (player, monster, ...) (hit, dodge, ...)
-// cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile );
 
 /**
  * @return Pair of a string containing the bar, and its color
@@ -615,7 +653,7 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     return result;
 }
 
-enum class enumeration_conjunction {
+enum class enumeration_conjunction : int {
     none,
     and_,
     or_
@@ -802,7 +840,7 @@ class scrollbar
 // Update the text with set_text (it will be wrapped for you).
 // scroll_up and scroll_down are expected to be called from handlers for the
 // keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wrefresh for its
+// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
 // window internally.
 class scrolling_text_view
 {

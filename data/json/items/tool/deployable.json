@@ -270,7 +270,7 @@
     "price_postapoc": 1500,
     "to_hit": -5,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]

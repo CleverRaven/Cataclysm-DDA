@@ -435,7 +435,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             const auto &req = current[line]->simple_requirements();
 
             draw_can_craft_indicator( w_head, *current[line] );
-            wrefresh( w_head );
+            wnoutrefresh( w_head );
 
             int ypos = 0;
 
@@ -457,7 +457,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
                 std::string enumerated_books =
                     enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-                []( itype_id type_id ) {
+                []( const itype_id & type_id ) {
                     return colorize( item::nname( type_id ), c_cyan );
                 } );
                 const std::string text = string_format( _( "Written in: %s" ), enumerated_books );
@@ -561,7 +561,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
-        wrefresh( w_data );
+        wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
             item_info_data data = item_info_data_from_recipe( current[line], count, item_info_scroll );
@@ -575,7 +575,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( cursor_pos ) {
             // place the cursor at the selected item name as expected by screen readers
             wmove( w_data, cursor_pos.value() );
-            wrefresh( w_data );
+            wnoutrefresh( w_data );
         }
     } );
 
@@ -928,6 +928,12 @@ const recipe *select_crafting_recipe( int &batch_size )
 
 std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
 {
+    auto compare_second =
+        []( const std::pair<itype_id, std::string> &a,
+    const std::pair<itype_id, std::string> &b ) {
+        return localized_compare( a.second, b.second );
+    };
+
     // current recipe components
     std::vector<std::pair<itype_id, std::string>> related_components;
     const requirement_data &req = current->simple_requirements();
@@ -936,6 +942,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
             related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
         }
     }
+    std::sort( related_components.begin(), related_components.end(), compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
     item tmp = current->create_result();
@@ -947,10 +954,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
             related_results.push_back( { b->result(), b->result_name() } );
         }
     }
-    std::stable_sort( related_results.begin(), related_results.end(),
-    []( const std::pair<std::string, std::string> &a, const std::pair<std::string, std::string> &b ) {
-        return a.second < b.second;
-    } );
+    std::stable_sort( related_results.begin(), related_results.end(), compare_second );
 
     uilist rel_menu;
     int np_last = -1;
@@ -1094,7 +1098,7 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
             break;
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
@@ -1141,7 +1145,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             break;
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 template<typename T>

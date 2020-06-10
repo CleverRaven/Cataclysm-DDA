@@ -22,8 +22,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -49,8 +48,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -76,8 +74,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -103,8 +100,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -130,31 +126,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
-    }
-  },
-  {
-    "id": "bot_laserturret",
-    "type": "TOOL",
-    "name": { "str": "inactive laser turret" },
-    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 600000,
-    "price_postapoc": 12000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "white",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_laserturret",
-      "difficulty": 6,
-      "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -176,8 +148,7 @@
       "monster_id": "mon_turret_bmg",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -203,8 +174,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -230,8 +200,7 @@
       "difficulty": 5,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -253,8 +222,7 @@
       "monster_id": "mon_turret_rifle",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -276,8 +244,7 @@
       "monster_id": "mon_crows_m240",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -299,8 +266,7 @@
       "monster_id": "mon_turret_riot",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -322,8 +288,7 @@
       "monster_id": "mon_turret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -347,8 +312,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -372,8 +336,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -397,8 +360,7 @@
       "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -422,8 +384,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -447,8 +408,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -474,8 +434,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -501,8 +460,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -528,8 +486,7 @@
       "//": "Wheeled and must be easy-to-use for police deployment",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -555,8 +512,7 @@
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -581,8 +537,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -608,8 +563,7 @@
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -635,8 +589,7 @@
       "//": "Pretty easy but you want to be careful with the gas",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -662,8 +615,7 @@
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -689,8 +641,7 @@
       "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -715,8 +666,7 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -740,8 +690,7 @@
       "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -765,8 +714,31 @@
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "id": "bot_turret_speaker",
+    "type": "TOOL",
+    "name": { "str": "inactive loudspeaker" },
+    "description": "This is an inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully the loudspeaker will continuously shout pre-recorded messages.",
+    "weight": "100 kg",
+    "volume": "50500 ml",
+    "price": 500000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_turret_speaker",
+      "friendly_msg": "The loudspeaker activates and begins his non-stopping shouts.",
+      "hostile_msg": "The loudspeaker activates and begins his non-stopping shouts.",
+      "difficulty": 2,
+      "moves": 150,
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

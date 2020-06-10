@@ -9,13 +9,13 @@
     "volume": "44 ml",
     "price": 1900,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 6,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
   },
   {
     "id": "fn1910mag",
@@ -27,13 +27,13 @@
     "volume": "60ml",
     "price": 3500,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 6,
-    "reliability": 6,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
   },
   {
     "id": "rugerlcpmag",
@@ -45,13 +45,13 @@
     "volume": "60ml",
     "price": 2200,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 6,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
   },
   {
     "id": "mac11mag",
@@ -63,13 +63,13 @@
     "volume": "737ml",
     "price": 4500,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 32,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 32 } } ]
   },
   {
     "id": "hptcf380mag_8rd",
@@ -81,13 +81,13 @@
     "volume": "236 ml",
     "price": 2500,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 8,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 8 } } ]
   },
   {
     "id": "hptcf380mag_10rd",
@@ -99,13 +99,13 @@
     "volume": "236 ml",
     "price": 2500,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 10,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 10 } } ]
   },
   {
     "id": "taurus_spectrum_mag",
@@ -117,12 +117,12 @@
     "volume": "74 ml",
     "price": 3400,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "380",
+    "ammo_type": [ "380" ],
     "capacity": 6,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "380": 6 } } ]
   }
 ]

@@ -378,6 +378,12 @@
     "info": "This item can be used to communicate with radio waves."
   },
   {
+    "id": "PERFECT_LOCKPICK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item can be used to <info>pick locks</info> with <good>zero effort</good>."
+  },
+  {
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

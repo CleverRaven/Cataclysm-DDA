@@ -14,7 +14,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
-    "ammo": "500",
+    "ammo": [ "500" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 8,
@@ -33,7 +33,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "500": 7 } } ]
   },
   {
     "id": "sw_500",
@@ -51,12 +52,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "500",
+    "ammo": [ "500" ],
     "dispersion": 280,
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "500", [ "500_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],
@@ -65,6 +65,7 @@
       [ "sights", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "500": 5 } } ]
   }
 ]

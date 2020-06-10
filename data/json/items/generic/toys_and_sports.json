@@ -12,14 +12,17 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_disposable_cell",
           "light_disposable_cell",
           "light_minus_battery_cell",
@@ -28,7 +31,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -44,14 +47,17 @@
     "material": "plastic",
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_disposable_cell",
           "light_disposable_cell",
           "light_minus_battery_cell",
@@ -60,7 +66,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
