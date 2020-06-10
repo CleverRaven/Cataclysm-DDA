@@ -949,6 +949,25 @@
   },
   {
     "type": "terrain",
+    "id": "t_guardrail_hw_air",
+    "name": "guard rail",
+    "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_guardrail_bg_dp",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement_hw_air",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_guardrail_bg_dp",
     "name": "guard rail",
     "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
