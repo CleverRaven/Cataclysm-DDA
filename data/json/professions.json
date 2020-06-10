@@ -4174,6 +4174,7 @@
     },
     "male": [ "boxer_shorts" ],
     "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
