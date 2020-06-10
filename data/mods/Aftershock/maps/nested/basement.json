@@ -132,10 +132,7 @@
         "X": "t_linoleum_white"
       },
       "furniture": { "!": "f_fridge", "$": "f_rack_wood", "0": "f_crispr", "u": "f_cryo_pod" },
-      "items": {
-        "!": { "item": "tools_medical", "chance": 80, "repeat": [ 2, 8 ] },
-        "$": { "item": "a_television", "chance": 100 }
-      }
+      "items": { "!": { "item": "tools_medical", "chance": 80, "repeat": [ 2, 8 ] }, "$": { "item": "a_television", "chance": 100 } }
     }
   },
   {
