@@ -50,10 +50,10 @@
     "ammo": [ "ammo_shot" ]
   },
   {
-    "id": "makeshift_shotgun",
+    "id": "slam_shotgun",
     "copy-from": "makeshift_shotgun",
     "type": "GUN",
-    "name": { "str": "makeshift shotgun" },
+    "name": { "str": "slam-fire shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail. The lack of sights make this weapon only useful at point-blank range.",
     "weight": "3629 g",
     "volume": "2264 ml",
