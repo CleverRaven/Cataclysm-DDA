@@ -138,6 +138,15 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::dies_from_drug_overdose>(
         m, b, "Died of a drug overdose.", ch, eff );
 
+    check_memorial<event_type::dies_from_bleeding>(
+        m, b, "Bled to death.", ch );
+
+    check_memorial<event_type::dies_from_hypovolemia>(
+        m, b, "Died of hypovolemic shock.", ch );
+
+    check_memorial<event_type::dies_from_redcells_loss>(
+        m, b, "Died of hypovolemic shock.", ch );
+
     check_memorial<event_type::dies_of_infection>(
         m, b, "Succumbed to the infection.", ch );
 

@@ -722,6 +722,30 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::dies_from_bleeding: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                add( pgettext( "memorial_male", "Bled to death." ),
+                     pgettext( "memorial_female", "Bled to death." ) );
+            }
+            break;
+        }
+        case event_type::dies_from_hypovolemia: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                add( pgettext( "memorial_male", "Died of hypovolemic shock." ),
+                     pgettext( "memorial_female", "Died of hypovolemic shock." ) );
+            }
+            break;
+        }
+        case event_type::dies_from_redcells_loss: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                add( pgettext( "memorial_male", "Died from loss of red blood cells." ),
+                     pgettext( "memorial_female", "Died from loss of red blood cells." ) );
+            }
+            break;
+        }
         case event_type::dies_of_infection: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
