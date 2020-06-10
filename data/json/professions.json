@@ -4169,7 +4169,7 @@
     "vehicle": "ambulance",
     "items": {
       "both": [
-        "work_t-shirt",
+        "technician_shirt_gray",
         "pants",
         "socks",
         "gloves_medical",
@@ -4190,7 +4190,7 @@
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
     "items": {
       "both": [
-        "work_t-shirt",
+        "technician_shirt_gray",
         "pants",
         "socks",
         "gloves_medical",
