@@ -42,7 +42,7 @@
     "vision_night": 3,
     "death_drops": "skeltal_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
     "harvest": "mr_bones",
     "special_attacks": [ [ "DOOT", 50 ] ]
   },
@@ -111,7 +111,6 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "BLEED",
       "BASHES",
       "ATTACKMON",
       "FIREPROOF",

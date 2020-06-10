@@ -35,7 +35,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -78,7 +77,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -117,7 +115,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_leaper",
@@ -203,7 +201,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "BLEED", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_pack",
@@ -238,7 +236,6 @@
       "HEARS",
       "SMELLS",
       "WARM",
-      "BLEED",
       "BASHES",
       "POISON",
       "NO_BREATHE",
@@ -292,7 +289,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "BLEED",
       "FILTHY"
     ]
   }

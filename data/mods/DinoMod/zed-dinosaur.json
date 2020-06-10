@@ -75,7 +75,6 @@
       "STUMBLES",
       "BASHES",
       "DESTROYS",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "FILTHY",
@@ -139,7 +138,7 @@
       { "type": "bite", "cooldown": 5 }
     ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.",
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "BLEED", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "zed_dino_feather_leather",

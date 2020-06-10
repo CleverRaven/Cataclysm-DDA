@@ -910,7 +910,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIRDFOOD``` Becomes friendly / tamed with bird food.
-- ```BLEED``` Causes the player to bleed.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.

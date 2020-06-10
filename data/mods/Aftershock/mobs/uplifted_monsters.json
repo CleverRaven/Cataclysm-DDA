@@ -53,7 +53,7 @@
     "harvest": "demihuman_large_fur",
     "reproduction": { "baby_monster": "mon_uplifted_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "BASHES", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON" ]
   },
   {
     "id": "mon_uplifted_bear_cub",

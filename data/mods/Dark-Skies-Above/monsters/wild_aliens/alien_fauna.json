@@ -122,7 +122,6 @@
       "KEENNOSE",
       "PATH_AVOID_DANGER_1",
       "ANIMAL",
-      "BLEED",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
       "CATTLEFODDER"
@@ -170,7 +169,6 @@
       "PATH_AVOID_DANGER_1",
       "GROUP_MORALE",
       "ANIMAL",
-      "BLEED",
       "ATTACKMON",
       "SWIMS"
     ]

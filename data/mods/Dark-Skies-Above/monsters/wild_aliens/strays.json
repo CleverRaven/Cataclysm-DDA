@@ -30,7 +30,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into_group": "DKS_GROUP_STRAY_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "BLEED", "FILTHY", "BASHES", "GROUP_BASH", "PUSH_MON", "REVIVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "FILTHY", "BASHES", "GROUP_BASH", "PUSH_MON", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_cop",
@@ -77,7 +77,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "PUSH_MON",
       "FILTHY",
       "REVIVES"
@@ -121,7 +120,7 @@
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "PUSH_MON", "FILTHY", "REVIVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "PUSH_MON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_fireman",
@@ -166,7 +165,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -217,7 +215,6 @@
       "STUMBLES",
       "WARM",
       "POISON",
-      "BLEED",
       "FILTHY",
       "REVIVES"
     ]
@@ -466,7 +463,6 @@
       "PUSH_MON",
       "PATH_AVOID_FIRE",
       "FILTHY",
-      "BLEED",
       "REVIVES"
     ]
   },
@@ -521,7 +517,6 @@
       "PATH_AVOID_FALL",
       "PATH_AVOID_FIRE",
       "FILTHY",
-      "BLEED",
       "REVIVES"
     ]
   },
@@ -577,7 +572,6 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY",
-      "BLEED",
       "REVIVES"
     ]
   },
@@ -780,7 +774,6 @@
       "GROUP_BASH",
       "STUMBLES",
       "WARM",
-      "BLEED",
       "GUILT",
       "POISON",
       "FILTHY",
@@ -823,7 +816,6 @@
       "SMELLS",
       "KEENNOSE",
       "BASHES",
-      "BLEED",
       "WARM",
       "POISON",
       "HIT_AND_RUN",
@@ -876,7 +868,6 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "BLEED",
       "WARM",
       "POISON",
       "CLIMBS",
@@ -927,7 +918,6 @@
       "SMELLS",
       "KEENNOSE",
       "ELECTRIC",
-      "BLEED",
       "WARM",
       "POISON",
       "CLIMBS",
@@ -973,7 +963,6 @@
       "SMELLS",
       "KEENNOSE",
       "ELECTRIC",
-      "BLEED",
       "HARDTOSHOOT",
       "WARM",
       "POISON",
@@ -1064,7 +1053,6 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "BLEED",
       "ELECTRIC",
       "WARM",
       "POISON",
@@ -1278,7 +1266,7 @@
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "BOOMER_GLOW", "DISINTEGRATE" ],
-    "flags": [ "SEES", "IMMOBILE", "NOGIB", "ELECTRIC", "BLEED", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SEES", "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "dks_mon_crystal_mite",
