@@ -4184,7 +4184,7 @@
   {
     "type": "profession",
    "ident": "paramedic"
-    "name": "Paramedic",
+   "name": "Paramedic",
     "description": "You were separated from your partner while out on a call. You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
