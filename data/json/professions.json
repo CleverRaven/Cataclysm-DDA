@@ -4158,7 +4158,7 @@
     "type": "profession",
     "ident": "emt",
     "name": "EMT",
-    "description": "You were responding to a call with your partner before you got separated. Now all you have is your trusty ambulance. Transporting patients just got a lot tougher.",
+    "description": "You were responding to a call with your partner before you got separated. Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 4,
     "skills": [ 
       { "level": 3, "name": "driving" },
@@ -4173,6 +4173,7 @@
         "pants",
         "socks",
         "gloves_medical",
+        "multitool",
         "wristwatch",
         "boots"
         ],
@@ -4213,7 +4214,7 @@
     "type": "profession",
     "ident": "mili_medic",
     "name": "Combat Medic",
-    "description": "You were on the front-lines when everything happened. Patching up the wounded and providing support, but they wouldn't stop coming. Now you're on your own.",
+    "description": "You were on the front-lines when everything happened, patching up the wounded and providing support. But they wouldn't stop coming. Now you're on your own.",
     "points": 5,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 1, "name": "dodge" }, { "level": 4, "name": "firstaid" } ],
     "items": {
@@ -4234,7 +4235,6 @@
           "scalpel",
           "syringe",
           "morphine",
-          "antibiotics",
           "molle_pack"
          ],
         "entries": [
@@ -4266,6 +4266,6 @@
       ],
     "male": [ "briefs" ],
     "female": [ "bra", "panties" ] },
-    "addictions": [ { "intensity": 30, "type": "opiate" } ]
+    "addictions": [ { "intensity": 40, "type": "opiate" } ]
   }
 ]    
