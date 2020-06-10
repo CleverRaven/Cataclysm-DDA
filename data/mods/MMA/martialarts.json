@@ -401,5 +401,74 @@
       "mma_tec_setting_sun_throw_crit"
     ],
     "weapons": [ "i_staff", "shock_staff", "sword_crude", "sword_nail", "sword_wood", "q_staff" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_shii_cho",
+    "name": { "str": "Shii-Cho" },
+    "description": "Shii-Cho, \"The way of the Sarlacc\" was the first form lightsaber combat developed by the Jedi during their transition from metal weaponry to lightsabers.  Shii-Cho is regarded as a training form that all Jedi learn to understand the basics of armed combat.  Shii-Cho exceels at fighting against groups but lacks the offensive power of the other lightsaber forms.",
+    "initiate": [
+      "You place one foot back and hold your weapon vertically on your dominant side.",
+      "%s places one foot back and hold their weapon vertically."
+    ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_shii_cho_static1",
+        "name": "Determination",
+        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and pretecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 Accuracy.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static2",
+        "name": "Apprentice Training",
+        "description": "Your training Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static3",
+        "name": "Knight Training",
+        "description": "Further training in Shii-Cho improves your ability to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static4",
+        "name": "Master Training",
+        "description": "As a master of Shii-Cho, your ability to fight against groups is second to none.\n\n+1 block attempts, +1 block effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_shii_cho_counter", "mma_tec_shii_cho_disarm", "mma_tec_shii_cho_wide" ],
+    "weapons": [
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "sword_wood",
+      "tanto",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
   }
 ]

@@ -327,5 +327,38 @@
     "powerful_knockback": true,
     "weighting": 2,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_shii_cho_counter",
+    "name": "Flowing Water",
+    "messages": [
+      "You deflect %s's attack and counter in one fluid motion",
+      "<npcname> deflects %s's attack and counters in one fluid motion"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "block_counter": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_shii_cho_disarm",
+    "name": "Disarming Slash",
+    "messages": [ "You disarm %s with quick flick of your weapon", "<npcname> disarms %s with quick flick of their weapon" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_shii_cho_wide",
+    "name": "Sarlacc Sweep",
+    "messages": [ "You quickly sweep through %s and those nearby", "<npcname> quickly sweep through %s and those nearby" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "aoe": "wide"
   }
 ]
