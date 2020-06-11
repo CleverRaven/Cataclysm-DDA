@@ -409,9 +409,11 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     bool empty = true;
     for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
         const vpart_info &info = part_info( p );
-        if( ( info.location != part_location_structure && info.rotor_diameter() == 0 ) ||
-            parts[ p ].removed ) {
-            continue;
+        if( !fake_part( p ) ) {
+            if( ( info.location != part_location_structure && info.rotor_diameter() == 0 ) ||
+                parts[p].removed ) {
+                continue;
+            }
         }
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
@@ -564,9 +566,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     }
 
+    if( fake_part( ret.part ) ) {
+        ret.part = fake_mounts[parts[ret.part].mount].structural_part;
+    }
     // Damage armor before damaging any other parts
     // Actually target, not just damage - spiked plating will "hit back", for example
-    const int armor_part = part_with_feature( ret.part, VPFLAG_ARMOR, true );
+    int armor_part = part_with_feature( ret.part, VPFLAG_ARMOR, true );
     if( armor_part >= 0 ) {
         ret.part = armor_part;
     }
@@ -619,6 +624,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( ret.type == veh_coll_nothing || just_detect ) {
         // Hit nothing or we aren't actually hitting
         return ret;
+    }
+    if( fake_part( part ) ) {
+        add_msg( m_debug, "Collision check on a fake part %i, collision moved to %i", part, ret.part );
     }
     stop_autodriving();
     // Calculate mass AFTER checking for collision
@@ -1654,7 +1662,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
-        const int wheel_area = veh.parts[ p ].wheel_area();
+        const int wheel_area = veh.cpart( p ).wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -1712,7 +1720,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
                       part_pos.x, part_pos.y, part_pos.z );
-            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
+            veh.part( ps ).remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 
