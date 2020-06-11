@@ -31,8 +31,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
-    for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
-        monster *mon = grabbed_vehicle->get_pet( part_index );
+    for( const vpart_reference &vpr : grabbed_vehicle->get_all_parts() ) {
+        monster *mon = grabbed_vehicle->get_pet( vpr.part_index() );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
                      mon->get_name() );
@@ -95,7 +95,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
-            const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
+            const tripoint wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
             mc += str_req / wheel_indices.size() * mapcost;
         }
@@ -150,7 +150,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         // Grabbed part has to stay at distance 1 to the player
         // and in roughly the same direction.
         const tripoint new_part_pos = grabbed_vehicle->global_pos3() +
-                                      grabbed_vehicle->parts[ grabbed_part ].precalc[ 1 ];
+                                      grabbed_vehicle->part( grabbed_part ).precalc[ 1 ];
         const tripoint expected_pos = u.pos() + dp + from;
         const tripoint actual_dir = expected_pos - new_part_pos;
 

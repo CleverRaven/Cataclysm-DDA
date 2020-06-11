@@ -5936,15 +5936,15 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
 
-            for( auto &part : veh->parts ) {
-                const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
+            for( const vpart_reference &vpr : veh->get_all_parts() ) {
+                const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), part );
+                wreckage->install_part( part_pos.xy(), vpr.part() );
             }
 
-            for( auto &part : other_veh->parts ) {
-                const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( part_pos.xy(), part );
+            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
+                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
+                wreckage->install_part( part_pos.xy(), vpr.part() );
 
             }
 

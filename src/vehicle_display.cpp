@@ -56,7 +56,7 @@ vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
         return vpart_id::NULL_ID();
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = part_displayed_at( parts[p].mount, true );
     const vpart_id idinfo = parts[displayed_part].id;
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {

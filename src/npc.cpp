@@ -73,6 +73,7 @@
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -1392,7 +1393,11 @@ float npc::vehicle_danger( int radius ) const
             /* This will almost certainly give the wrong size/location on customized
              * vehicles. This should just count frames instead. Or actually find the
              * size. */
-            vehicle_part last_part = wrapped_veh.v->parts.back();
+            vehicle_part last_part;
+            for( const vpart_reference &vpr : wrapped_veh.v->get_all_parts() ) {
+                last_part = vpr.part();
+            }
+
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
             double normal = std::sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) *
