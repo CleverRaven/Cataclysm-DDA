@@ -61,3 +61,16 @@ void g4()
     // CHECK-MESSAGES: note: Update 'fall_y' to 'fall.y'.
     // CHECK-FIXES: f0( point( fall.x, fall.y ) );
 }
+
+void g5()
+{
+    int x_ = 7;
+    // CHECK-MESSAGES: warning: Variables 'x_' and 'y_' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: point p( 7, 14 );
+    int y_ = 14;
+    /*INDENT-OFF*/
+    auto f = [&]() { x_ = 1; };
+    /*INDENT-ON*/
+    // CHECK-MESSAGES: note: Update 'x_' to 'p.x'.
+    // CHECK-FIXES: auto f = [&]() { p.x = 1; };
+}

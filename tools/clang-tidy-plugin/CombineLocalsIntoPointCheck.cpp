@@ -158,6 +158,10 @@ static void CheckDeclRef( CombineLocalsIntoPointCheck &Check,
         return;
     }
 
+    if( getText( Result, DeclRef ) != Decl->getName() ) {
+        return;
+    }
+
     Check.diag( DeclRef->getBeginLoc(), "Update %0 to '%1'.", DiagnosticIDs::Note )
             << Decl << Replacement->second
             << FixItHint::CreateReplacement( DeclRef->getSourceRange(), Replacement->second );
