@@ -451,7 +451,7 @@
       "terrain": { "x": "t_rock_wall_half", ".": "t_rock_floor_no_roof" }
     }
   },
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "NC_BO_BARONYX_spawn",
