@@ -197,8 +197,14 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     }
     Replacement += " )";
 
-    if( XDecl->getType().isConstQualified() ) {
+    if( XDecl->isConstexpr() ) {
+        Replacement = "constexpr " + Replacement;
+    } else if( XDecl->getType().isConstQualified() ) {
         Replacement = "const " + Replacement;
+    }
+
+    if( XDecl->isStaticLocal() ) {
+        Replacement = "static " + Replacement;
     }
 
     SourceLocation EndLoc = ZDecl ? ZDecl->getEndLoc() : YDecl->getEndLoc();

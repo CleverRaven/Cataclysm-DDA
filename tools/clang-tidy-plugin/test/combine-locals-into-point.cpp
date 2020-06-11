@@ -140,3 +140,13 @@ void g10()
     int x1 = x;
     int y1 = y;
 }
+
+void g11()
+{
+    // When multiple changes to be done in one function, only perform one (to
+    // avoid overlapping replacements)
+    static constexpr int x = 0;
+    // CHECK-MESSAGES: warning: Variables 'x' and 'y' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: static constexpr point p( 0, 1 );
+    static constexpr int y = 1;
+}
