@@ -4170,10 +4170,10 @@
     "items": {
       "both": {
         "items": [ "technician_shirt_gray", "pants", "socks", "gloves_medical", "multitool", "wristwatch", "boots" ],
-      "entries": [ { "group": "charged_cell_phone" } ]
-    },
-    "male": [ "boxer_shorts" ],
-    "female": [ "bra", "panties" ]
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -4186,24 +4186,25 @@
     "items": {
       "both": {
         "items": [
-        "technician_shirt_gray",
-        "pants",
-        "socks",
-        "gloves_medical",
-        "wristwatch",
-        "boots",
-        "mask_dust",
-        "mbag",
-        "bandages",
-        "stethoscope",
-        "scissors",
-        "syringe",
-        "morphine"
-      ],
-      "entries": [ { "group": "charged_cell_phone" } ]
-    },
-    "male": [ "boxer_shorts" ],
-    "female": [ "bra", "panties" ]
+          "technician_shirt_gray",
+          "pants",
+          "socks",
+          "gloves_medical",
+          "wristwatch",
+          "boots",
+          "mask_dust",
+          "mbag",
+          "bandages",
+          "stethoscope",
+          "scissors",
+          "syringe",
+          "morphine"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
