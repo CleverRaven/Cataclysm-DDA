@@ -1424,7 +1424,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
 
 void Character::suffer_from_tourniquet()
 {
-    for( const bodypart_id  &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
             mod_pain( 1 );
             apply_damage( nullptr, bp, 1, true );

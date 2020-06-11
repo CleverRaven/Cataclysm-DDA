@@ -2999,7 +2999,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.has_flag( flag_TOURNIQUET ) ) {
         bool need_tourniquet = false;
-        for( bodypart_id &bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -3009,9 +3009,13 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( !need_tourniquet ) {
-            return ret_val<bool>::make_failure( is_player() ?
-                                                _( "You don't need a tourniquet to stop the bleeding." )
-                                                : _( "%s doesn't need a tourniquet to stop the bleeding." ), name );
+            std::string msg;
+            if( is_player() ) {
+                msg = _( "You don't need a tourniquet to stop the bleeding." );
+            } else {
+                msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), name );
+            }
+            return ret_val<bool>::make_failure( msg );
         }
     }
 
@@ -6147,7 +6151,7 @@ hp_part Character::body_window( const std::string &menu_header,
                                              get_effect( effect_bleed, bp_token ).disp_short_desc() ), c_red ) + "\n";
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp_token ) );
-                percent = percent > 100 ? 100 : percent;
+                percent = std::min( percent, 100 );
                 desc += colorize( string_format( _( "Expected reduction of bleeding by: %d %%" ), percent ),
                                   c_light_green ) + "\n";
             } else {
@@ -9082,7 +9086,7 @@ void Character::blossoms()
 
 void Character::update_vitamins( const vitamin_id &vit )
 {
-    if( is_npc() && vit.obj().type() != vitamin_type::COUNTER ) {
+    if( is_npc() && vit->type() != vitamin_type::COUNTER ) {
         return; // NPCs cannot develop vitamin diseases, bypass for special
     }
 

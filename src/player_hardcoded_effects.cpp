@@ -900,15 +900,14 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_hypovolemia ) {
         // bleed out lambda
-        auto bleed_out = [ this ] {
+        auto bleed_out = [&] {
             if( has_effect( effect_bleed ) )
             {
                 add_msg_player_or_npc( m_bad,
                                        _( "You bleed to death!" ),
                                        _( "<npcname> bleeds to death!" ) );
                 g->events().send<event_type::dies_from_bleeding>( getID() );
-            } else
-            {
+            } else {
                 add_msg_player_or_npc( m_bad,
                                        _( "Your heart can't keep up the pace and fails!" ),
                                        _( "<npcname> has a sudden heart attack!" ) );
@@ -930,7 +929,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "Your skin looks pale." ) );
                         break;
                     case 2:
-                        add_msg_if_player( m_bad, _( "You suddenly feel anxcious for a moment." ) );
+                        add_msg_if_player( m_bad, _( "You suddenly feel anxious for a moment." ) );
                         break;
                     case 3:
                         add_msg_if_player( m_bad, _( "You suddenly feel thirsty." ) );
@@ -941,7 +940,7 @@ void player::hardcoded_effects( effect &it )
                         add_effect( effect_stunned, rng( 15_seconds, 2_minutes ) );
                         break;
                     case 5:
-                        add_msg_if_player( m_bad, _( "You have a headache." ) );
+                        add_msg_if_player( m_bad, _( "Your head aches." ) );
                         mod_pain( 5 );
                         break;
                     case 6:
@@ -960,7 +959,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "You are sweating, but it's not from the temperature." ) );
                         break;
                     case 3:
-                        add_msg_if_player( m_bad, _( "You feel anxcious.  You are not well." ) );
+                        add_msg_if_player( m_bad, _( "You feel anxious.  You are not well." ) );
                         break;
                     case 4:
                         add_msg_if_player( m_bad, _( "You feel the beating of your hart.  It's fast." ) );
@@ -969,7 +968,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "You breathe heavily." ) );
                         break;
                     case 6:
-                        add_msg_if_player( m_bad, _( "You feel restless.  Maybe you lost too much blood." ) );
+                        add_msg_if_player( m_bad, _( "You feel restless.  Maybe you lost too much blood?" ) );
                         break;
                 }
             }
@@ -1115,7 +1114,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
                         break;
                     case 6:
-                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migrene follows." ) );
+                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migrane follows." ) );
                         mod_pain( intense * 9 );
                         break;
                     case 7: // 7-9 empty for variability, as messages stack on higher intensity

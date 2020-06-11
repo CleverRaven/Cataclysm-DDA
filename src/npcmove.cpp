@@ -4497,7 +4497,7 @@ bool npc::complain()
             speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
             often = 5_minutes;
         } else {
-            speech = string_format( _( "My %s is bleeding awfully!" ), body_part_name( bp ) );
+            speech = string_format( _( "My %s is bleeding badly!" ), body_part_name( bp ) );
             often = 1_minutes;
         }
         if( complain_about( bleed_string, often, speech ) ) {

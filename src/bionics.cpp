@@ -1656,8 +1656,8 @@ void Character::process_bionic( int b )
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
-            std::vector<body_part> bleeding_bp_parts;
-            for( const body_part bp : all_body_parts ) {
+            std::vector<bodypart_id> bleeding_bp_parts;
+            for( const bodypart_id &bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp ) ) {
                     bleeding_bp_parts.push_back( bp );
                 }
@@ -1668,8 +1668,8 @@ void Character::process_bionic( int b )
                     damaged_hp_parts.push_back( i );
                 }
             }
-            for( body_part i : bleeding_bp_parts ) {
-                // effectivly reduces by 1 intensity level
+            for( const bodypart_id &i : bleeding_bp_parts ) {
+                // effectively reduces by 1 intensity level
                 if( get_stored_kcal() >= 15 ) {
                     get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
                     mod_stored_kcal( -15 );

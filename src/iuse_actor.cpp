@@ -3238,12 +3238,14 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     if( patient.has_effect( effect_bleed, bp_healed ) ) {
         // small band-aids won't stop big arterial bleeding, but with tourniquet they just might
         int pwr = 3 * get_stopbleed_level( healer );
-        pwr = patient.worn_with_flag( "TOURNIQUET", convert_bp( bp_healed ) ) ? pwr * 2 : pwr;
+        if( patient.worn_with_flag( "TOURNIQUET", convert_bp( bp_healed ) ) ) {
+            pwr *= 2;
+         }
         if( pwr > patient.get_effect_int( effect_bleed, bp_healed ) ) {
             effect &wound = patient.get_effect( effect_bleed, bp_healed );
             time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *
                                 wound.get_int_dur_factor() );
-            wound.set_duration( dur < 1_turns ? 0_turns : dur );
+            wound.set_duration( std::min( 0_turns, dur ) );
             if( wound.get_duration() == 0_turns ) {
                 heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
             } else {
@@ -3393,7 +3395,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     }
 
     if( healer.is_npc() ) {
-        // NPCs heal whatever has sustained the most damaged that they can heal but don't
+        // NPCs heal whatever has sustained the most damage that they can heal but don't
         // rebandage parts unless they are bleeding significantly
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
