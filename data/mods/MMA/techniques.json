@@ -345,7 +345,7 @@
     "type": "technique",
     "id": "mma_tec_shii_cho_disarm",
     "name": "Disarming Slash",
-    "messages": [ "You disarm %s with quick flick of your weapon", "<npcname> disarms %s with quick flick of their weapon" ],
+    "messages": [ "You disarm %s with a quick flick of your weapon", "<npcname> disarms %s with a quick flick of their weapon" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "crit_ok": true,
