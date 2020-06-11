@@ -4364,8 +4364,8 @@ bool vehicle::balanced_wheel_config() const
 
     // Check center of mass inside support of wheels (roughly)
     const point &com = local_center_of_mass();
-    const rectangle support( min, max );
-    return support.contains_inclusive( com );
+    const inclusive_rectangle support( min, max );
+    return support.contains( com );
 }
 
 bool vehicle::valid_wheel_config() const

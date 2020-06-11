@@ -1307,7 +1307,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
         for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
-            rectangle already_drawn( point( min_col, min_row ), point( max_col, max_row ) );
+            half_open_rectangle already_drawn( point( min_col, min_row ),
+                                               point( max_col, max_row ) );
             if( iso_mode ) {
                 // calculate the screen position according to the drawing code above (division rounded down):
 
@@ -1318,7 +1319,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // \/
                 const int col = mem_y + mem_x + sx / 2 - o.y - o.x;
                 const int row = mem_y - mem_x + sy / 2 - o.y + o.x;
-                if( already_drawn.contains_half_open( point( col, row ) ) ) {
+                if( already_drawn.contains( point( col, row ) ) ) {
                     continue;
                 }
             } else {
@@ -1330,7 +1331,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // \/
                 // col = mem_x - o.x
                 // row = mem_y - o.y
-                if( already_drawn.contains_half_open( point( mem_x, mem_y ) - o ) ) {
+                if( already_drawn.contains( point( mem_x, mem_y ) - o ) ) {
                     continue;
                 }
             }
@@ -1598,9 +1599,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
+    half_open_rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
-        !screen_bounds.contains_half_open( pos.xy() ) ) {
+        !screen_bounds.contains( pos.xy() ) ) {
         return false;
     }
 

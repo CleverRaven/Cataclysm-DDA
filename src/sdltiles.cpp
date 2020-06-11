@@ -3797,8 +3797,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
-    const rectangle win_bounds( win_min, win_max );
-    if( !win_bounds.contains_inclusive( coordinate ) ) {
+    const inclusive_rectangle win_bounds( win_min, win_max );
+    if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
 

@@ -233,25 +233,33 @@ struct rectangle {
     point p_max;
     constexpr rectangle() = default;
     constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+};
 
-    constexpr bool contains_half_open( const point &p ) const {
+struct half_open_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x < p_max.x &&
                p.y >= p_min.y && p.y < p_max.y;
     }
+};
 
-    constexpr bool contains_inclusive( const point &p ) const {
+struct inclusive_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x <= p_max.x &&
                p.y >= p_min.y && p.y <= p_max.y;
     }
 };
 
-// Clamp p to the half-open rectangle r.
+// Clamp p to the rectangle r.
 // This independently clamps each coordinate of p to the bounds of the
 // rectangle.
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
-point clamp_half_open( const point &p, const rectangle &r );
-point clamp_inclusive( const point &p, const rectangle &r );
+point clamp( const point &p, const half_open_rectangle &r );
+point clamp( const point &p, const inclusive_rectangle &r );
 
 struct box {
     tripoint p_min;
@@ -261,21 +269,29 @@ struct box {
     explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
         p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
 
-    constexpr bool contains_half_open( const tripoint &p ) const {
+    void shrink( const tripoint &amount ) {
+        p_min += amount;
+        p_max -= amount;
+    }
+};
+
+struct half_open_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
         return p.x >= p_min.x && p.x < p_max.x &&
                p.y >= p_min.y && p.y < p_max.y &&
                p.z >= p_min.z && p.z < p_max.z;
     }
+};
 
-    constexpr bool contains_inclusive( const tripoint &p ) const {
+struct inclusive_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
         return p.x >= p_min.x && p.x <= p_max.x &&
                p.y >= p_min.y && p.y <= p_max.y &&
                p.z >= p_min.z && p.z <= p_max.z;
-    }
-
-    void shrink( const tripoint &amount ) {
-        p_min += amount;
-        p_max -= amount;
     }
 };
 

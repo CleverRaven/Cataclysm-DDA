@@ -4041,7 +4041,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
     const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
 
-    const box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
+    const inclusive_box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
 
     const auto get_fishable_terrain = [&]( tripoint starting_point,
     std::unordered_set<tripoint> &fishable_terrain ) {
@@ -4057,7 +4057,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             }
 
             // This point is out of bounds, so bail.
-            if( !fishing_boundaries.contains_inclusive( current_point ) ) {
+            if( !fishing_boundaries.contains( current_point ) ) {
                 continue;
             }
 
@@ -11094,10 +11094,10 @@ point game::update_map( int &x, int &y )
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    rectangle size_1( point( -1, -1 ), point( 1, 1 ) );
+    inclusive_rectangle size_1( point( -1, -1 ), point( 1, 1 ) );
     point remaining_shift = shift;
     while( remaining_shift != point_zero ) {
-        point this_shift = clamp_inclusive( remaining_shift, size_1 );
+        point this_shift = clamp( remaining_shift, size_1 );
         m.shift( this_shift );
         remaining_shift -= this_shift;
     }
