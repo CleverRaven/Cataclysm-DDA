@@ -150,6 +150,15 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
         NewVarName = "p";
     }
 
+    if( !isalpha( NewVarName.front() ) ) {
+        NewVarName = "p" + NewVarName;
+    }
+
+    // Ensure we don't use a keyword
+    if( isKeyword( NewVarName ) ) {
+        NewVarName += "_";
+    }
+
     // Ensure we don't collide with an existing name
     const DeclContext *Context = XDecl->getDeclContext();
     if( nameExistsInContext( Context, NewVarName ) ) {
@@ -160,11 +169,6 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
                 break;
             }
         }
-    }
-
-    // Ensure we don't use a keyword
-    if( isKeyword( NewVarName ) ) {
-        NewVarName += "_";
     }
 
     Check.usageReplacements.emplace( XDecl, NewVarName + ".x" );

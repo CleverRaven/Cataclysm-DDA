@@ -108,3 +108,14 @@ void g7()
     // CHECK-MESSAGES: note: Update 'x' to 'p.x'.
     // CHECK-FIXES: p.x = 1;
 }
+
+void g8( const tripoint &p1 )
+{
+    int x1 = p1.x;
+    // CHECK-MESSAGES: warning: Variables 'x1' and 'y1' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: point p12( p1.x, p1.y );
+    int y1 = p1.y;
+    x1 = 1;
+    // CHECK-MESSAGES: note: Update 'x1' to 'p12.x'.
+    // CHECK-FIXES: p12.x = 1;
+}
