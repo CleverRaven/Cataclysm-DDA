@@ -120,7 +120,7 @@ class item_contents
          * between 0 and 1 indicating the position between minimum and maximum
          * contribution it's currently making.  Otherwise, return 0 */
         float relative_encumbrance() const;
-        /** True if every pocket is rigid */
+        /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
         // True if every pocket is rigid. False if not or we have no pockets
