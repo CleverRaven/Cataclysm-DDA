@@ -71,6 +71,31 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
         ZDecl = nullptr;
     }
 
+    auto GetGrandparent = [&]( const Decl * D ) -> const Stmt* {
+        const Stmt *ParentStmt = getParent<Stmt>( Result, D );
+        if( !ParentStmt )
+        {
+            return nullptr;
+        }
+        return getParent<Stmt>( Result, ParentStmt );
+    };
+
+    // Verify that all the decls are in the same place
+    const Stmt *XGrandparentStmt = GetGrandparent( XDecl );
+    const Stmt *YGrandparentStmt = GetGrandparent( YDecl );
+
+    if( XGrandparentStmt != YGrandparentStmt ) {
+        return;
+    }
+
+    if( ZDecl ) {
+        const Stmt *ZGrandparentStmt = GetGrandparent( ZDecl );
+
+        if( XGrandparentStmt != ZGrandparentStmt ) {
+            ZDecl = nullptr;
+        }
+    }
+
     const Expr *XInit = XDecl->getAnyInitializer();
     const Expr *YInit = YDecl->getInit();
     const Expr *ZInit = ZDecl ? ZDecl->getInit() : nullptr;

@@ -40,3 +40,12 @@ void g2()
     // CHECK-MESSAGES: note: Update 'y' to 'p.y'.
     // CHECK-FIXES: f0( point( p.x, p.y ) );
 }
+
+void g3()
+{
+    // Don't mess with variables when the second is in a for loop
+    int x = 7;
+    for( int y = 0; y < 10; ++y ) {
+        f0( point( x, y ) );
+    }
+}
