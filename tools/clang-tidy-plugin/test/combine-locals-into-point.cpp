@@ -19,13 +19,13 @@ void g0()
 
 void g1()
 {
-    const int xfall = 7;
-    // CHECK-MESSAGES: warning: Variables 'xfall' and 'yfall' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    const int x_fall = 7;
+    // CHECK-MESSAGES: warning: Variables 'x_fall' and 'y_fall' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
     // CHECK-FIXES: const point fall( 7, 14 );
-    const int yfall = 14;
-    f0( point( xfall, yfall ) );
-    // CHECK-MESSAGES: note: Update 'xfall' to 'fall.x'.
-    // CHECK-MESSAGES: note: Update 'yfall' to 'fall.y'.
+    const int y_fall = 14;
+    f0( point( x_fall, y_fall ) );
+    // CHECK-MESSAGES: note: Update 'x_fall' to 'fall.x'.
+    // CHECK-MESSAGES: note: Update 'y_fall' to 'fall.y'.
     // CHECK-FIXES: f0( point( fall.x, fall.y ) );
 }
 
@@ -48,4 +48,16 @@ void g3()
     for( int y = 0; y < 10; ++y ) {
         f0( point( x, y ) );
     }
+}
+
+void g4()
+{
+    const int fall_x = 7;
+    // CHECK-MESSAGES: warning: Variables 'fall_x' and 'fall_y' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: const point fall( 7, 14 );
+    const int fall_y = 14;
+    f0( point( fall_x, fall_y ) );
+    // CHECK-MESSAGES: note: Update 'fall_x' to 'fall.x'.
+    // CHECK-MESSAGES: note: Update 'fall_y' to 'fall.y'.
+    // CHECK-FIXES: f0( point( fall.x, fall.y ) );
 }

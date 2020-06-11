@@ -105,6 +105,15 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     }
 
     std::string NewVarName = NameMatcher.getRoot();
+
+    if( !NewVarName.empty() && NewVarName.front() == '_' ) {
+        NewVarName.erase( NewVarName.begin() );
+    }
+
+    if( !NewVarName.empty() && NewVarName.back() == '_' ) {
+        NewVarName.pop_back();
+    }
+
     if( NewVarName.empty() ) {
         NewVarName = "p";
     }
