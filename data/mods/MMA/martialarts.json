@@ -418,7 +418,7 @@
       {
         "id": "mma_buff_shii_cho_static1",
         "name": "Determination",
-        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and pretecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 Accuracy.",
+        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and protecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 Accuracy.",
         "melee_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 1.0 } ]
       },
