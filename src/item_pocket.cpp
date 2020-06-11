@@ -201,7 +201,7 @@ bool item_pocket::has_item_stacks_with( const item &it ) const
 bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 {
     if( !this->settings.is_null() || !rhs.settings.is_null() ) {
-    // if this has higher player-set priority then it is automatically better
+        // if this has higher player-set priority then it is automatically better
         return rhs.settings.is_better_favorite( it, this->settings );
     }
 
@@ -1381,8 +1381,8 @@ void item_pocket::favorite_settings::set_priority( const int priority )
 
 bool item_pocket::favorite_settings::is_null() const
 {
-    return item_whitelist.empty() && item_blacklist.empty() && 
-        category_whitelist.empty() && category_blacklist.empty();
+    return item_whitelist.empty() && item_blacklist.empty() &&
+           category_whitelist.empty() && category_blacklist.empty();
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )

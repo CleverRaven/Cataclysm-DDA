@@ -100,7 +100,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         return true;
     } else if( input == 'p' ) {
         string_input_popup popup;
-        popup.title( string_format( _( "Enter Priority (current priority %d)" ), selected_pocket->settings.priority() ) );
+        popup.title( string_format( _( "Enter Priority (current priority %d)" ),
+                                    selected_pocket->settings.priority() ) );
         selected_pocket->settings.set_priority( popup.query_int() );
     }
 
@@ -119,7 +120,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
     if( item_id ) {
         std::vector<const itype *> all_itypes = item_controller->all();
-        
+
         for( const itype *it : all_itypes ) {
             selector_menu.addentry( it->nname( 1 ) );
         }
@@ -129,8 +130,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             const itype_id id( all_itypes.at( selector_menu.ret )->get_id() );
             if( whitelist ) {
                 selected_pocket->settings.whitelist_item( id );
-            }
-            else {
+            } else {
                 selected_pocket->settings.blacklist_item( id );
             }
         }
@@ -147,8 +147,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             const item_category_id id( all_cat.at( selector_menu.ret ).id );
             if( whitelist ) {
                 selected_pocket->settings.whitelist_category( id );
-            }
-            else {
+            } else {
                 selected_pocket->settings.blacklist_category( id );
             }
         }
