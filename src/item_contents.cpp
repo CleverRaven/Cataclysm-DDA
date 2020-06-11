@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 
+#include "avatar.h"
 #include "character.h"
 #include "enums.h"
 #include "item.h"
@@ -54,21 +55,44 @@ void pocket_favorite_callback::refresh( uilist *menu )
 
     if( selected_pocket != nullptr ) {
         std::vector<iteminfo> info;
-        int starty = 3;
+        int starty = 5;
         const int startx = menu->w_width - menu->pad_right;
+        const int width = menu->pad_right - 1;
 
         selected_pocket->general_info( info, menu->selected + 1, true );
         selected_pocket->contents_info( info, menu->selected + 1, true );
-        starty += fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1,
+        starty += fold_and_print( menu->window, point( startx, starty ), width,
                                   c_light_gray, format_item_info( info, {} ) ) + 2;
 
         info.clear();
         selected_pocket->favorite_info( info );
-        starty += fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1,
+        starty += fold_and_print( menu->window, point( startx, starty ), width,
                                   c_light_gray, format_item_info( info, {} ) );
     }
 
     wrefresh( menu->window );
+}
+
+static std::string keys_text()
+{
+    return
+        colorize( "p", c_light_green ) + "riority, " +
+        colorize( "i", c_light_green ) + "tem, " +
+        colorize( "c", c_light_green ) + "ategory, " +
+        colorize( "w", c_light_green ) + "hitelist, " +
+        colorize( "b", c_light_green ) + "lacklist";
+}
+
+static std::string whitelist_text()
+{
+    return keys_text() + "\n" +
+           _( "Press a key to add to whitelist" );
+}
+
+static std::string blacklist_text()
+{
+    return keys_text() + "\n" +
+           _( "Press a key to add to blacklist" );
 }
 
 bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
@@ -94,9 +118,11 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     const char input = event.get_first_input();
     if( input == 'w' ) {
         whitelist = true;
+        menu->title = whitelist_text();
         return true;
     } else if( input == 'b' ) {
         whitelist = false;
+        menu->title = blacklist_text();
         return true;
     } else if( input == 'p' ) {
         string_input_popup popup;
@@ -119,15 +145,24 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     uilist selector_menu;
 
     if( item_id ) {
-        std::vector<const itype *> all_itypes = item_controller->all();
+        std::map<std::string, const itype *> nearby_itypes;
+        for( const std::list<item> *it_list : g->u.crafting_inventory().const_slice() ) {
+            nearby_itypes.emplace( it_list->front().typeId()->nname( 1 ), it_list->front().type );
+        }
 
-        for( const itype *it : all_itypes ) {
-            selector_menu.addentry( it->nname( 1 ) );
+        std::vector<std::string> itype_initializer;
+        for( const std::pair<std::string, const itype *> &name : nearby_itypes ) {
+            itype_initializer.emplace_back( name.first );
+        }
+        std::sort( itype_initializer.begin(), itype_initializer.end(), localized_compare );
+
+        for( const std::pair<std::string, const itype *> it : nearby_itypes ) {
+            selector_menu.addentry( it.first );
         }
         selector_menu.query();
 
         if( selector_menu.ret >= 0 ) {
-            const itype_id id( all_itypes.at( selector_menu.ret )->get_id() );
+            const itype_id id( nearby_itypes[itype_initializer.at( selector_menu.ret )]->get_id() );
             if( whitelist ) {
                 selected_pocket->settings.whitelist_item( id );
             } else {
@@ -1238,6 +1273,7 @@ void item_contents::favorite_settings_menu()
         }
     }
     uilist pocket_selector;
+    pocket_selector.text = whitelist_text();
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {
