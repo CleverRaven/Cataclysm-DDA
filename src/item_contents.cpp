@@ -703,14 +703,14 @@ std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type p
     return all_items_internal;
 }
 
-std::list<const item*> item_contents::all_standard_items_top() const
+std::list<const item *> item_contents::all_standard_items_top() const
 {
-    std::list<const item*> all_items_internal;
-    for (const item_pocket& pocket : contents) {
-        if (pocket.is_standard_type()) {
-            std::list<const item*> contained_items = pocket.all_items_top();
-            all_items_internal.insert(all_items_internal.end(), contained_items.begin(),
-                contained_items.end());
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_standard_type() ) {
+            std::list<const item *> contained_items = pocket.all_items_top();
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
         }
     }
     return all_items_internal;
@@ -844,9 +844,9 @@ ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() con
     bool found = false;
 
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type(item_pocket::pocket_type::CONTAINER) ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             found = true;
-            pockets.push_back(pocket);
+            pockets.push_back( pocket );
         }
     }
     if( found ) {
@@ -870,8 +870,8 @@ units::volume item_contents::total_container_capacity() const
 units::volume item_contents::total_standard_capacity() const
 {
     units::volume total_vol = 0_ml;
-    for (const item_pocket& pocket : contents) {
-        if (pocket.is_standard_type()) {
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_standard_type() ) {
             total_vol += pocket.volume_capacity();
         }
     }
@@ -981,6 +981,19 @@ bool item_contents::all_pockets_rigid() const
         }
     }
     return true;
+}
+
+bool item_contents::are_we_rigid() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return false;
 }
 
 units::volume item_contents::item_size_modifier() const
