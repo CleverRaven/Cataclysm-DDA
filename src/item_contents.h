@@ -149,7 +149,7 @@ class item_contents
         size_t num_item_stacks() const;
 
         /**
-         * Open a menu for the avatar to set pocket favorite settings for the pockets in this item_contents
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
         void favorite_settings_menu();
 
