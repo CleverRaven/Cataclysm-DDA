@@ -175,6 +175,10 @@ class NameConvention
         bool operator!() const {
             return !valid;
         }
+
+        const std::string &getRoot() const {
+            return root;
+        }
     private:
         std::string root;
         bool capital;
