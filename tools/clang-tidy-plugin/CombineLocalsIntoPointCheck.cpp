@@ -186,11 +186,18 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
         Replacement = "const " + Replacement;
     }
 
-    SourceRange RangeToReplace( XDecl->getBeginLoc(), YDecl->getEndLoc() );
+    SourceLocation EndLoc = ZDecl ? ZDecl->getEndLoc() : YDecl->getEndLoc();
+    SourceRange RangeToReplace( XDecl->getBeginLoc(), EndLoc );
+    std::string Message = ZDecl ?
+                          "Variables %0, %1, and %2 could be combined into a single 'tripoint' variable." :
+                          "Variables %0 and %1 could be combined into a single 'point' variable.";
+    Check.diag( XDecl->getBeginLoc(), Message )
+            << XDecl << YDecl << ZDecl
+            << FixItHint::CreateReplacement( RangeToReplace, Replacement );
     Check.diag( YDecl->getLocation(), "%0 variable", DiagnosticIDs::Note ) << YDecl;
-    Check.diag( XDecl->getBeginLoc(),
-                "Variables %0 and %1 could be combined into a single 'point' variable." )
-            << XDecl << YDecl << FixItHint::CreateReplacement( RangeToReplace, Replacement );
+    if( ZDecl ) {
+        Check.diag( ZDecl->getLocation(), "%0 variable", DiagnosticIDs::Note ) << ZDecl;
+    }
 }
 
 static void CheckDeclRef( CombineLocalsIntoPointCheck &Check,

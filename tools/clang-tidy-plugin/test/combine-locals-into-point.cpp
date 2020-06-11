@@ -96,3 +96,15 @@ void g6()
     // CHECK-MESSAGES: note: Update 'new_x' to 'new_.x'.
     // CHECK-FIXES: new_.x = 1;
 }
+
+void g7()
+{
+    int x = 0;
+    // CHECK-MESSAGES: warning: Variables 'x', 'y', and 'z' could be combined into a single 'tripoint' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: tripoint p( 0, 1, 2 );
+    int y = 1;
+    int z = 2;
+    x = 1;
+    // CHECK-MESSAGES: note: Update 'x' to 'p.x'.
+    // CHECK-FIXES: p.x = 1;
+}
