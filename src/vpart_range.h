@@ -101,14 +101,16 @@ class generic_vehicle_part_range
 {
     private:
         std::reference_wrapper<::vehicle> vehicle_;
+        bool include_fake_;
 
     public:
-        generic_vehicle_part_range( ::vehicle &v ) : vehicle_( v ) { }
+        generic_vehicle_part_range( ::vehicle &v, bool incl_fake = false ) : vehicle_( v ),
+            include_fake_( incl_fake ) { }
 
         // Templated because see top of file.
         template<typename T = ::vehicle>
         size_t part_count() const {
-            return static_cast<const T &>( vehicle_.get() ).parts.size();
+            return static_cast<const T &>( vehicle_.get() ).num_parts_incl_fake();
         }
 
         using iterator = vehicle_part_iterator<range_type>;
@@ -144,9 +146,18 @@ class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
     public:
         vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
 
-        bool matches( const size_t /*part*/ ) const {
-            return true;
-        }
+        bool matches( const size_t part ) const;
+};
+
+class vehicle_part_incl_fake_range : public generic_vehicle_part_range<vehicle_part_incl_fake_range>
+{
+    private:
+        bool include_inactive_fakes_;
+    public:
+        vehicle_part_incl_fake_range( ::vehicle &v, bool incl_inactive ) : generic_vehicle_part_range( v,
+                    true ), include_inactive_fakes_( incl_inactive ) { }
+
+        bool matches( size_t part ) const;
 };
 
 /** A range that contains parts that have a given feature and (optionally) are not broken. */
