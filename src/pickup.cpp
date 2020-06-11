@@ -655,7 +655,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 draw_item_info( w_item_info, dummy );
             } else {
                 werase( w_item_info );
-                wrefresh( w_item_info );
+                wnoutrefresh( w_item_info );
             }
             draw_custom_border( w_item_info, 0 );
 
@@ -664,7 +664,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             trim_and_print( w_item_info, point( 4, 0 ), pickupW - 8, selected_item.color_in_inventory(),
                             selected_item.display_name() );
             wprintw( w_item_info, " >" );
-            wrefresh( w_item_info );
+            wnoutrefresh( w_item_info );
 
             const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
 
@@ -777,7 +777,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                            fmted_weight_predict, fmted_weight_capacity,
                                            fmted_volume_predict, fmted_volume_capacity ) );
 
-            wrefresh( w_pickup );
+            wnoutrefresh( w_pickup );
         } );
 
         // Now print the two lists; those on the ground and about to be added to inv

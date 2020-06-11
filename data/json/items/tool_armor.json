@@ -1903,7 +1903,7 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "use_action": "PICK_LOCK",
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -1918,7 +1918,7 @@
     "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
-    "use_action": { "type": "picklock", "pick_quality": 1 },
+    "use_action": "PICK_LOCK",
     "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]
   },

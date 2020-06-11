@@ -246,12 +246,12 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
-        if( checked[x][y] >= attempt ) {
+    const auto maybe_add = [&]( const point & add_p, const tripoint & from ) {
+        if( checked[add_p.x][add_p.y] >= attempt ) {
             return;
         }
 
-        const tripoint pt( x, y, p.z );
+        const tripoint pt( add_p, p.z );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
@@ -272,14 +272,14 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
             return INT_MAX;
         }
 
-        maybe_add( cur.x - 1, cur.y, cur );
-        maybe_add( cur.x, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y, cur );
-        maybe_add( cur.x, cur.y + 1, cur );
-        maybe_add( cur.x - 1, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y - 1, cur );
-        maybe_add( cur.x - 1, cur.y + 1, cur );
-        maybe_add( cur.x + 1, cur.y + 1, cur );
+        maybe_add( cur.xy() + point_west, cur );
+        maybe_add( cur.xy() + point_north, cur );
+        maybe_add( cur.xy() + point_east, cur );
+        maybe_add( cur.xy() + point_south, cur );
+        maybe_add( cur.xy() + point_north_west, cur );
+        maybe_add( cur.xy() + point_north_east, cur );
+        maybe_add( cur.xy() + point_south_west, cur );
+        maybe_add( cur.xy() + point_south_east, cur );
     }
 
     return area;

@@ -351,7 +351,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             werase( w_parts );
             veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part,
                                   true );
-            wrefresh( w_parts );
+            wnoutrefresh( w_parts );
 
             werase( w_msg );
             if( !msg.has_value() ) {
@@ -360,7 +360,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red, msg.value() );
             }
-            wrefresh( w_msg );
+            wnoutrefresh( w_msg );
 
             if( install_info ) {
                 display_list( install_info->pos, install_info->tab_vparts, 2 );
@@ -1599,7 +1599,7 @@ void veh_interact::display_overview()
         }
     }
 
-    wrefresh( w_list );
+    wnoutrefresh( w_list );
 }
 
 void veh_interact::overview( const overview_enable_t &enable,
@@ -2166,7 +2166,7 @@ void veh_interact::display_grid()
                                getmaxy( w_mode ) + 2 + page_size ),
               BORDER_COLOR, LINE_XXOX );
 
-    wrefresh( w_border );
+    wnoutrefresh( w_border );
 }
 
 /**
@@ -2250,7 +2250,7 @@ void veh_interact::display_veh()
     int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
-    wrefresh( w_disp );
+    wnoutrefresh( w_disp );
 }
 
 static std::string wheel_state_description( const vehicle &veh )
@@ -2508,7 +2508,7 @@ void veh_interact::display_stats() const
         }
     }
 
-    wrefresh( w_stats );
+    wnoutrefresh( w_stats );
 }
 
 void veh_interact::display_name()
@@ -2520,7 +2520,7 @@ void veh_interact::display_name()
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
                !veh->is_owned_by( g->u, true ) ? c_light_red : c_light_green,
                string_format( _( "%s (%s)" ), veh->name, veh->get_owner_name() ) );
-    wrefresh( w_name );
+    wnoutrefresh( w_name );
 }
 
 /**
@@ -2580,7 +2580,7 @@ void veh_interact::display_mode()
                             actions[i] );
         }
     }
-    wrefresh( w_mode );
+    wnoutrefresh( w_mode );
 }
 
 size_t veh_interact::display_esc( const catacurses::window &win )
@@ -2628,7 +2628,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
                        i ) ); // one space padding and add a space after selected tab
         }
     }
-    wrefresh( w_list );
+    wnoutrefresh( w_list );
 }
 
 /**
@@ -2645,7 +2645,7 @@ void veh_interact::display_details( const vpart_info *part )
              LINE_XOOX );
 
     if( part == nullptr ) {
-        wrefresh( w_details );
+        wnoutrefresh( w_details );
         return;
     }
     // displays data in two columns
@@ -2779,7 +2779,7 @@ void veh_interact::display_details( const vpart_info *part )
         }
     }
 
-    wrefresh( w_details );
+    wnoutrefresh( w_details );
 }
 
 void veh_interact::count_durability()

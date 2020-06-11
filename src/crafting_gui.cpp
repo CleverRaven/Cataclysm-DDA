@@ -435,7 +435,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             const auto &req = current[line]->simple_requirements();
 
             draw_can_craft_indicator( w_head, *current[line] );
-            wrefresh( w_head );
+            wnoutrefresh( w_head );
 
             int ypos = 0;
 
@@ -561,7 +561,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
-        wrefresh( w_data );
+        wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
             item_info_data data = item_info_data_from_recipe( current[line], count, item_info_scroll );
@@ -575,7 +575,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( cursor_pos ) {
             // place the cursor at the selected item name as expected by screen readers
             wmove( w_data, cursor_pos.value() );
-            wrefresh( w_data );
+            wnoutrefresh( w_data );
         }
     } );
 
@@ -1098,7 +1098,7 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
             break;
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
@@ -1145,7 +1145,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             break;
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 template<typename T>

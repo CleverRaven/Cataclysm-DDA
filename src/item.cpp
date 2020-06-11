@@ -900,15 +900,20 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( is_comestible() && typeId() == rhs.typeId() ) {
+    if( has_temperature() && typeId() == rhs.typeId() ) {
+        if( goes_bad() ) {
+            //use maximum rot between the two
+            set_relative_rot( std::max( get_relative_rot(),
+                                        rhs.get_relative_rot() ) );
+        }
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
-        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                weight() ) + to_gram( rhs.weight() ) );
-        set_item_specific_energy( combined_specific_energy );
-        //use maximum rot between the two
-        set_relative_rot( std::max( get_relative_rot(),
-                                    rhs.get_relative_rot() ) );
+        if( rhs_energy > 0 && lhs_energy > 0 ) {
+            const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
+                    weight() ) + to_gram( rhs.weight() ) );
+            set_item_specific_energy( combined_specific_energy );
+        }
+
     } else if( !stacks_with( rhs, true ) ) {
         return false;
     }
@@ -7514,8 +7519,6 @@ void item::gun_cycle_mode()
         }
     }
     gun_set_mode( modes.begin()->first );
-
-    return;
 }
 
 const use_function *item::get_use( const std::string &use_name ) const

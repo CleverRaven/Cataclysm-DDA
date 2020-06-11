@@ -1582,6 +1582,9 @@ bool game::do_turn()
     } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
+        if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
+            wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
+        }
         wait_refresh_rate = 5_minutes;
     }
     if( wait_redraw ) {
@@ -3316,7 +3319,7 @@ void game::disp_NPCs()
                        m.posx(), m.posy(), m.posz() );
             ++i;
         }
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     input_context ctxt( "DISP_NPCS" );
@@ -3538,7 +3541,7 @@ void game::draw()
             it = draw_callbacks.erase( it );
         }
     }
-    wrefresh( w_terrain );
+    wnoutrefresh( w_terrain );
 
     draw_panels( true );
 }
@@ -3579,7 +3582,7 @@ void game::draw_panels( bool force_draw )
                                                      TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
                     werase( label );
                     mvwprintz( label, point_zero, c_light_red, panel_name );
-                    wrefresh( label );
+                    wnoutrefresh( label );
                     label = catacurses::newwin( h, 1,
                                                 point( sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width(), y ) );
                     werase( label );
@@ -3592,7 +3595,7 @@ void game::draw_panels( bool force_draw )
                         }
                         mvwputch( label, point( 0, h - 1 ), c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
                     }
-                    wrefresh( label );
+                    wnoutrefresh( label );
                 }
                 y += h;
             }
@@ -3918,7 +3921,7 @@ void game::draw_minimap()
         }
     }
 
-    wrefresh( w_minimap );
+    wnoutrefresh( w_minimap );
 }
 
 float game::natural_light_level( const int zlev ) const
@@ -4069,7 +4072,6 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
                 to_check.push( current_point + point_west );
             }
         }
-        return;
     };
 
     // Starting at the provided location, get our fishable terrain
@@ -4619,7 +4621,6 @@ void game::overmap_npc_move()
             reload_npcs();
         }
     }
-    return;
 }
 
 /* Knockback target at t by force number of tiles in direction from s to t
@@ -5984,37 +5985,57 @@ cata::optional<tripoint> game::look_debug()
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void game::draw_terrain_indicator( const tripoint &lp, const visibility_variables &cache ) const
+void game::draw_look_around_cursor( const tripoint &lp, const visibility_variables &cache )
 {
-    visibility_type visibility = VIS_HIDDEN;
-    const bool inbounds = m.inbounds( lp );
-    if( inbounds ) {
-        visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
-    }
-    const Creature *creature = critter_at( lp, true );
-    switch( visibility ) {
-        case VIS_CLEAR:
+    if( !liveview.is_enabled() ) {
 #if defined( TILES )
-            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
+        if( is_draw_tiles_mode() ) {
+            draw_cursor( lp );
+            return;
+        }
 #endif
-            {
-                if( creature != nullptr && u.sees( *creature ) ) {
-                    creature->draw( w_terrain, lp, true );
-                } else {
-                    m.drawsq( w_terrain, u, lp, true, true, lp );
-                }
+        const tripoint view_center = u.pos() + u.view_offset;
+        visibility_type visibility = VIS_HIDDEN;
+        const bool inbounds = m.inbounds( lp );
+        if( inbounds ) {
+            visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
+        }
+        if( visibility == VIS_CLEAR ) {
+            const Creature *const creature = critter_at( lp, true );
+            if( creature != nullptr && u.sees( *creature ) ) {
+                creature->draw( w_terrain, view_center, true );
+            } else {
+                m.drawsq( w_terrain, u, lp, true, true, view_center );
             }
-            break;
-        case VIS_HIDDEN:
-#if defined( TILES )
-            if( !is_draw_tiles_mode() && !liveview.is_enabled() )
-#endif
-            {
-                print_visibility_indicator( visibility );
+        } else {
+            std::string visibility_indicator;
+            nc_color visibility_indicator_color = c_white;
+            switch( visibility ) {
+                case VIS_CLEAR:
+                    // Already handled by the outer if statement
+                    break;
+                case VIS_BOOMER:
+                case VIS_BOOMER_DARK:
+                    visibility_indicator = '#';
+                    visibility_indicator_color = c_pink;
+                    break;
+                case VIS_DARK:
+                    visibility_indicator = '#';
+                    visibility_indicator_color = c_dark_gray;
+                    break;
+                case VIS_LIT:
+                    visibility_indicator = '#';
+                    visibility_indicator_color = c_light_gray;
+                    break;
+                case VIS_HIDDEN:
+                    visibility_indicator = 'x';
+                    visibility_indicator_color = c_white;
+                    break;
             }
-            break;
-        default:
-            break;
+
+            const tripoint screen_pos = point( POSX, POSY ) + lp - view_center;
+            mvwputch( w_terrain, screen_pos.xy(), visibility_indicator_color, visibility_indicator );
+        }
     }
 }
 
@@ -6266,36 +6287,6 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_visibility_indicator( visibility_type visibility ) const
-{
-    std::string visibility_indicator;
-    nc_color visibility_indicator_color = c_white;
-    switch( visibility ) {
-        case VIS_CLEAR:
-            // Nothing printed when visibility is clear
-            return;
-        case VIS_BOOMER:
-        case VIS_BOOMER_DARK:
-            visibility_indicator = '#';
-            visibility_indicator_color = c_pink;
-            break;
-        case VIS_DARK:
-            visibility_indicator = '#';
-            visibility_indicator_color = c_dark_gray;
-            break;
-        case VIS_LIT:
-            visibility_indicator = '#';
-            visibility_indicator_color = c_light_gray;
-            break;
-        case VIS_HIDDEN:
-            visibility_indicator = 'x';
-            visibility_indicator_color = c_white;
-            break;
-    }
-
-    mvwputch( w_terrain, point( POSX, POSY ), visibility_indicator_color, visibility_indicator );
-}
-
 void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                              int &line,
                              const int last_line )
@@ -6385,7 +6376,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
                             _( "<S>how all / hide distant" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) );
 
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static void zones_manager_draw_borders( const catacurses::window &w_border,
@@ -6414,7 +6405,7 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
               LINE_XOXX ); // -|
 
     mvwprintz( w_border, point( 2, 0 ), c_white, _( "Zones manager" ) );
-    wrefresh( w_border );
+    wnoutrefresh( w_border );
 
     for( int j = 0; j < iInfoHeight - 1; ++j ) {
         mvwputch( w_info_border, point( 0, j ), c_light_gray, LINE_XOXO );
@@ -6427,7 +6418,7 @@ static void zones_manager_draw_borders( const catacurses::window &w_border,
 
     mvwputch( w_info_border, point( 0, iInfoHeight - 1 ), c_light_gray, LINE_XXOO );
     mvwputch( w_info_border, point( width - 1, iInfoHeight - 1 ), c_light_gray, LINE_XOOX );
-    wrefresh( w_info_border );
+    wnoutrefresh( w_info_border );
 }
 
 void game::zones_manager()
@@ -6542,7 +6533,7 @@ void game::zones_manager()
             }
         }
 
-        wrefresh( w_zones_options );
+        wnoutrefresh( w_zones_options );
     };
 
     cata::optional<tripoint> zone_start;
@@ -6616,7 +6607,7 @@ void game::zones_manager()
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
 
             draw_scrollbar( w_zones_border, active_index, max_rows, zone_cnt, point_south );
-            wrefresh( w_zones_border );
+            wnoutrefresh( w_zones_border );
 
             int iNum = 0;
 
@@ -6662,7 +6653,7 @@ void game::zones_manager()
             zones_manager_options();
         }
 
-        wrefresh( w_zones );
+        wnoutrefresh( w_zones );
     } );
 
     zones_manager_open = true;
@@ -6993,10 +6984,10 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             const int last_line = getmaxy( w_info ) - 2;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
-            wrefresh( w_info );
+            wnoutrefresh( w_info );
         } );
         ter_indicator_cb = make_shared_fast<draw_callback_t>( [&]() {
-            draw_terrain_indicator( lp, cache );
+            draw_look_around_cursor( lp, cache );
         } );
         add_draw_callback( ter_indicator_cb );
     }
@@ -7577,7 +7568,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
 
         if( ground_items.empty() ) {
-            wrefresh( w_items_border );
+            wnoutrefresh( w_items_border );
             mvwprintz( w_items, point( 2, 10 ), c_white, _( "You don't see any items around you!" ) );
         } else {
             int iStartPos = 0;
@@ -7672,7 +7663,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 draw_item_info( w_item_info, dummy );
             }
             draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, point_south );
-            wrefresh( w_items_border );
+            wnoutrefresh( w_items_border );
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty() || !activeItem || filter_type;
@@ -7686,8 +7677,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             wprintw( w_item_info, " >" );
         }
 
-        wrefresh( w_items );
-        wrefresh( w_item_info );
+        wnoutrefresh( w_items );
+        wnoutrefresh( w_item_info );
 
         if( filter_type ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, filter_type.value() );
@@ -8151,10 +8142,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                 point_south );
             }
 
-            wrefresh( w_monsters_border );
-            wrefresh( w_monster_info_border );
-            wrefresh( w_monsters );
-            wrefresh( w_monster_info );
+            wnoutrefresh( w_monsters_border );
+            wnoutrefresh( w_monster_info_border );
+            wnoutrefresh( w_monsters );
+            wnoutrefresh( w_monster_info );
         }
     } );
 

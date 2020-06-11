@@ -139,7 +139,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 }
 
 // Make assertions about loaded behaviors.
-TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
+TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
     clear_map();
     behavior::tree npc_needs;
@@ -169,7 +169,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
         item_location loc = item_location( test_npc, &food );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( loc );
+        loc.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
@@ -178,7 +178,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
         item_location loc = item_location( test_npc, &water );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( loc );
+        loc.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }

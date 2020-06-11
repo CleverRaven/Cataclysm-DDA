@@ -1678,6 +1678,10 @@ See also VEHICLE_JSON.md
     [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
+"milling": {                                 // Optional. If given, the item can be milled in a water/wind mill.
+  "into": "flour",                           // The item id of the result of the milling.
+  "conversion_rate": 1.0                     // Conversion of number of items that are milled (e.g. with a rate of 2, 10 input items will yield 20 milled items).
+},
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
@@ -2395,10 +2399,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
-},
-"use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.

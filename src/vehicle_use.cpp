@@ -2174,5 +2174,4 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
     }
-    return;
 }

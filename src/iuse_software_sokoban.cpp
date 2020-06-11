@@ -266,7 +266,7 @@ int sokoban_game::start_game()
         print_score( w_sokoban, iScore, iMoves );
 
         draw_level( w_sokoban );
-        wrefresh( w_sokoban );
+        wnoutrefresh( w_sokoban );
     } );
 
     int iPlayerY = 0;
@@ -376,7 +376,7 @@ int sokoban_game::start_game()
                         bMovePlayer = true;
                         mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2] = sMovePackTo == "." ? "*" : "$";
 
-                        vUndo.push_back( cUndo( iDirY, iDirX, sMoveTo ) );
+                        vUndo.push_back( cUndo( point( iDirX, iDirY ), sMoveTo ) );
 
                         iMoves--;
                     }
@@ -386,7 +386,7 @@ int sokoban_game::start_game()
 
                 if( bMovePlayer ) {
                     //move player
-                    vUndo.push_back( cUndo( iPlayerY, iPlayerX, mLevel[iPlayerY][iPlayerX] ) );
+                    vUndo.push_back( cUndo( point( iPlayerX, iPlayerY ), mLevel[iPlayerY][iPlayerX] ) );
 
                     mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
                     mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = sMoveTo == "." || sMoveTo == "*" ? "+" : "@";

@@ -6017,7 +6017,7 @@ void map::rotate( int turns, const bool setpos_safe )
 
     real_coords rc;
     const tripoint &abs_sub = get_abs_sub();
-    rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
+    rc.fromabs( point( abs_sub.x * SEEX, abs_sub.y * SEEY ) );
 
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
@@ -6028,7 +6028,7 @@ void map::rotate( int turns, const bool setpos_safe )
         npc &np = *i;
         const tripoint sq = np.global_square_location();
         real_coords np_rc;
-        np_rc.fromabs( sq.x, sq.y );
+        np_rc.fromabs( sq.xy() );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
         if( np_rc.om_pos != rc.om_pos || sq.z != abs_sub.z ) {
             continue;

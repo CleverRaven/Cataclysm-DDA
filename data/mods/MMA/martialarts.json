@@ -305,5 +305,101 @@
     ],
     "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
     "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_pokken",
+    "name": { "str": "Pokken" },
+    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokemon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various pokemon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
+    "initiate": [ "You get ready to battle.", "%s is about to challenge someone to a battle." ],
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_pokken_oncrit",
+        "name": "Sniper",
+        "description": "Powers up your techniques after you score a critical hit.\n\n+50% damage.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.5 },
+          { "stat": "damage", "type": "cut", "scale": 1.5 },
+          { "stat": "damage", "type": "stab", "scale": 1.5 }
+        ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_pokken_ongethit",
+        "name": "Stamina",
+        "description": "Boosts your defense after you get hit.\n\nGain bash, cut, stab armor equal to 50% of Strength.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
+        ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "mma_buff_pokken_onkill",
+        "name": "Moxie",
+        "description": "Boosts your damage after defeating an opponent.\n\n+50% damage.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.5 },
+          { "stat": "damage", "type": "cut", "scale": 1.5 },
+          { "stat": "damage", "type": "stab", "scale": 1.5 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_pokken_kick", "mma_tec_pokken_lariat", "mma_tec_pokken_strike", "mma_tec_pokken_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_setting_sun",
+    "name": { "str": "Setting Sun" },
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
+    "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
+    "arm_block": 0,
+    "learn_difficulty": 10,
+    "primary_skill": "bashing",
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_setting_sun_ongethit",
+        "name": "Feigned Opening",
+        "description": "By intentionally openning your guard, you force your opponent to overextend and are able to take full advantage of your next attack!\n\n+20 Speed.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "speed", "scale": 20.0 } ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "mma_buff_setting_sun_onpause",
+        "name": "Baffling Defense",
+        "description": "You intentionally move and position yourself awkwardly to confuse and throw off your opponents.\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]
+      }
+    ],
+    "techniques": [
+      "mma_tec_setting_sun_counter",
+      "mma_tec_setting_sun_stun",
+      "mma_tec_setting_sun_throw",
+      "mma_tec_setting_sun_throw_crit"
+    ],
+    "weapons": [ "i_staff", "shock_staff", "sword_crude", "sword_nail", "sword_wood", "q_staff" ]
   }
 ]

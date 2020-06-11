@@ -840,7 +840,7 @@ class scrollbar
 // Update the text with set_text (it will be wrapped for you).
 // scroll_up and scroll_down are expected to be called from handlers for the
 // keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wrefresh for its
+// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
 // window internally.
 class scrolling_text_view
 {

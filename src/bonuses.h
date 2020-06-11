@@ -26,6 +26,7 @@ enum class affected_stat : int {
     HIT,
     DODGE,
     BLOCK,
+    BLOCK_EFFECTIVENESS,
     SPEED,
     MOVE_COST,
     DAMAGE,

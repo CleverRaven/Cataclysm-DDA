@@ -203,7 +203,7 @@ int minesweeper_game::start_game()
 
         mvwputch( w_minesweeper_border, point( 2, 0 ), hilite( c_white ), _( "Minesweeper" ) );
 
-        wrefresh( w_minesweeper_border );
+        wnoutrefresh( w_minesweeper_border );
 
         if( !started ) {
             return;
@@ -256,18 +256,18 @@ int minesweeper_game::start_game()
                 mvwputch( w_minesweeper, offset + point( x, y ), col, ch );
             }
         }
-        wrefresh( w_minesweeper );
+        wnoutrefresh( w_minesweeper );
     } );
 
-    std::function<void ( int, int )> rec_reveal = [&]( const int y, const int x ) {
-        if( mLevelReveal[y][x] == unknown || mLevelReveal[y][x] == flag ) {
-            mLevelReveal[y][x] = seen;
+    std::function<void ( const point & )> rec_reveal = [&]( const point & p ) {
+        if( mLevelReveal[p.y][p.x] == unknown || mLevelReveal[p.y][p.x] == flag ) {
+            mLevelReveal[p.y][p.x] = seen;
 
-            if( mLevel[y][x] == 0 ) {
-                for( const point &p : closest_points_first( {x, y}, 1 ) ) {
-                    if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
-                        if( mLevelReveal[p.y][p.x] != seen ) {
-                            rec_reveal( p.y, p.x );
+            if( mLevel[p.y][p.x] == 0 ) {
+                for( const point &near_p : closest_points_first( p, 1 ) ) {
+                    if( near_p.x >= 0 && near_p.x < level.x && near_p.y >= 0 && near_p.y < level.y ) {
+                        if( mLevelReveal[near_p.y][near_p.x] != seen ) {
+                            rec_reveal( near_p );
                         }
                     }
                 }
@@ -333,7 +333,7 @@ int minesweeper_game::start_game()
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
-                    rec_reveal( iPlayerY, iPlayerX );
+                    rec_reveal( point( iPlayerY, iPlayerX ) );
                 }
             }
         }

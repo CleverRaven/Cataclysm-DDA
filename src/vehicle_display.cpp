@@ -296,7 +296,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     // -2 for left & right padding
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg );
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 /**

@@ -244,7 +244,7 @@ background_pane::background_pane()
     ui.position_from_window( catacurses::stdscr );
     ui.on_redraw( []( const ui_adaptor & ) {
         catacurses::erase();
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 }
 

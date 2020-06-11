@@ -15,7 +15,8 @@
     "price_postapoc": 250,
     "material": [ "veggy" ],
     "volume": "1 L",
-    "flags": [ "EDIBLE_FROZEN", "MILLABLE", "RAW" ],
+    "milling": { "into": "flour", "conversion_rate": 15 },
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15
@@ -73,7 +74,8 @@
     "price_postapoc": 400,
     "material": [ "veggy" ],
     "volume": "500 ml",
-    "flags": [ "EDIBLE_FROZEN", "MILLABLE", "RAW" ],
+    "milling": { "into": "flour", "conversion_rate": 15 },
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "charges": 2,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
     "fun": -10

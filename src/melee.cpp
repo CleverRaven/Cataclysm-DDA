@@ -616,7 +616,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_id( "num_bp" ), 0.0f, &dp );
     }
-    return;
 }
 
 void player::reach_attack( const tripoint &p )
@@ -1633,6 +1632,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         // Can't block with limbs or items (do not block)
         return false;
     }
+
+    // add martial arts block effectiveness bonus
+    block_score += mabuff_block_effectiveness_bonus();
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
