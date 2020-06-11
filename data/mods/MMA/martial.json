@@ -68,7 +68,7 @@
     "looks_like": "manual_karate",
     "type": "GENERIC",
     "name": { "str_sp": "Jedi Holocrons: Form I" },
-    "description": "This device contains the teaching of the first form of Jedi lightsaber combat: Shii-Cho.",
+    "description": "This device contains the teachings of the first form of Jedi lightsaber combat: Shii-Cho.",
     "book_data": { "martial_art": "style_mma_shii_cho" }
   }
 ]
