@@ -120,7 +120,7 @@
     "description": "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
     "price": 115,
     "price_postapoc": 25,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "1 L",
     "charges": 4,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],

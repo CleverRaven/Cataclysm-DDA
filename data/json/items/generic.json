@@ -281,7 +281,7 @@
     "color": "green",
     "name": { "str": "fertilizer" },
     "description": "A token, representing fertilization of a plant.",
-    "material": "veggy"
+    "material": [ "veggy" ]
   },
   {
     "type": "GENERIC",
@@ -344,7 +344,7 @@
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
     "price": 0,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
@@ -444,7 +444,7 @@
     "description": "An unopened biollante flower, brilliant purple in color.  It may still have its sap-producing organ intact.",
     "price": 0,
     "price_postapoc": 0,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "60 g",
     "volume": "250 ml",
     "to_hit": -3
@@ -2482,7 +2482,7 @@
     "description": "A psychoactive plant indigenous to Central Asia and the Indian subcontinent traditionally cultivated for its fiber, oil, for medicinal purposes, and for use as a recreational drug.  It requires further processing to be useful.",
     "price": 2000,
     "price_postapoc": 50,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "420 g",
     "volume": "1 L"
   },
@@ -2496,7 +2496,7 @@
     "looks_like": "wild_herbs",
     "price": 300,
     "price_postapoc": 50,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "100 g",
     "volume": "250 ml"
   },

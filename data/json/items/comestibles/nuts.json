@@ -36,7 +36,7 @@
     "description": "Junipers, for making gin and earthy flavors.  Spicy, tastes similar to rosemary.",
     "price": 400,
     "price_postapoc": 25,
-    "material": "fruit",
+    "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
     "vitamins": [ [ "vitA", 12 ], [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]

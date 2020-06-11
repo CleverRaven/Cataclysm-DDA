@@ -13,7 +13,7 @@
     "category": "chems",
     "phase": "liquid",
     "container": "bottle_glass",
-    "material": "alcohol",
+    "material": [ "alcohol" ],
     "symbol": "~",
     "color": "white",
     "ammo_type": "conc_alcohol",

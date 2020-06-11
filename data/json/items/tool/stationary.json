@@ -23,7 +23,7 @@
     "volume": "80 ml",
     "price": 400,
     "price_postapoc": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -37,7 +37,7 @@
     "volume": "10 ml",
     "price": 25,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray"
   },
