@@ -47,6 +47,18 @@ void CombineLocalsIntoPointCheck::registerMatchers( MatchFinder *Finder )
     );
 }
 
+static bool nameExistsInContext( const DeclContext *Context, const std::string &Name )
+{
+    for( const Decl *D : Context->decls() ) {
+        if( const NamedDecl *ND = dyn_cast<NamedDecl>( D ) ) {
+            if( ND->getName() == Name ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::MatchResult &Result )
 {
     const VarDecl *XDecl = Result.Nodes.getNodeAs<VarDecl>( "xdecl" );
@@ -116,6 +128,19 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
 
     if( NewVarName.empty() ) {
         NewVarName = "p";
+    }
+
+
+    // Ensure we don't collide with an existing name
+    const DeclContext *Context = XDecl->getDeclContext();
+    if( nameExistsInContext( Context, NewVarName ) ) {
+        for( int suffix = 2; ; ++suffix ) {
+            std::string Candidate = NewVarName + std::to_string( suffix );
+            if( !nameExistsInContext( Context, Candidate ) ) {
+                NewVarName = Candidate;
+                break;
+            }
+        }
     }
 
     Check.usageReplacements.emplace( XDecl, NewVarName + ".x" );

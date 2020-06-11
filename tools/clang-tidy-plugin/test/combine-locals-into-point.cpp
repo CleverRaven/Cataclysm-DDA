@@ -74,3 +74,14 @@ void g5()
     // CHECK-MESSAGES: note: Update 'x_' to 'p.x'.
     // CHECK-FIXES: auto f = [&]() { p.x = 1; };
 }
+
+void g5( const tripoint &p )
+{
+    int x = p.x;
+    // CHECK-MESSAGES: warning: Variables 'x' and 'y' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: point p2( p.x, p.y );
+    int y = p.y;
+    x = 1;
+    // CHECK-MESSAGES: note: Update 'x' to 'p2.x'.
+    // CHECK-FIXES: p2.x = 1;
+}
