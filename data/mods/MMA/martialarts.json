@@ -406,7 +406,7 @@
     "type": "martial_art",
     "id": "style_mma_shii_cho",
     "name": { "str": "Shii-Cho" },
-    "description": "Shii-Cho, \"The way of the Sarlacc\" was the first form lightsaber combat developed by the Jedi during their transition from metal weaponry to lightsabers.  Shii-Cho is regarded as a training form that all Jedi learn to understand the basics of armed combat.  Shii-Cho exceels at fighting against groups but lacks the offensive power of the other lightsaber forms.",
+    "description": "Shii-Cho, \"The way of the Sarlacc\" was the first form lightsaber combat developed by the Jedi during their transition from metal weaponry to lightsabers.  Shii-Cho is regarded as a training form that all Jedi learn to understand the basics of armed combat.  Shii-Cho excels at fighting against groups but lacks the offensive power of the other lightsaber forms.",
     "initiate": [
       "You place one foot back and hold your weapon vertically on your dominant side.",
       "%s places one foot back and hold their weapon vertically."
