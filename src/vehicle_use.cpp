@@ -708,7 +708,7 @@ void vehicle::use_controls( const tripoint &pos )
                           keybind( "TOGGLE_TRACKING" ) );
     actions.push_back( [&] { toggle_tracking(); } );
 
-    if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
+    if( is_foldable() && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
         actions.push_back( [&] { fold_up(); } );
     }
@@ -772,8 +772,7 @@ void vehicle::use_controls( const tripoint &pos )
 bool vehicle::fold_up()
 {
     const bool can_be_folded = is_foldable();
-    const bool is_convertible = ( tags.count( "convertible" ) > 0 );
-    if( !( can_be_folded || is_convertible ) ) {
+    if( !can_be_folded ) {
         debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
         return false;
     }
@@ -1887,7 +1886,6 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const int cargo_part = part_with_feature( interact_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
     const bool can_be_folded = is_foldable();
-    const bool is_convertible = tags.count( "convertible" ) > 0;
     const bool remotely_controlled = g->remoteveh() == this;
     const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
     const bool has_autoclave = autoclave_part >= 0;
@@ -1950,7 +1948,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_items_on_ground && !items_are_sealed ) {
         selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
     }
-    if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
+    if( can_be_folded && !remotely_controlled ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
     if( turret.can_unload() ) {
