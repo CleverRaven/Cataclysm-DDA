@@ -3245,7 +3245,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
             effect &wound = patient.get_effect( effect_bleed, bp_healed );
             time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *
                                 wound.get_int_dur_factor() );
-            wound.set_duration( std::min( 0_turns, dur ) );
+            wound.set_duration( std::max( 0_turns, dur ) );
             if( wound.get_duration() == 0_turns ) {
                 heal_msg( m_good, _( "You stop the bleeding." ), _( "The bleeding is stopped." ) );
             } else {
