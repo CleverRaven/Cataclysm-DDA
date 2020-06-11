@@ -61,7 +61,7 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
-        // returns a list of points to all top level items that are is_standard_type
+        // returns a list of pointers to all top level items that pass is_standard_type
         std::list<const item *> all_standard_items_top() const;
 
         /** returns a list of pointers to all top-level items that are not mods */
@@ -120,11 +120,11 @@ class item_contents
          * between 0 and 1 indicating the position between minimum and maximum
          * contribution it's currently making.  Otherwise, return 0 */
         float relative_encumbrance() const;
-        /** True iff every pocket is rigid */
+        /** True if every pocket is rigid */
         bool all_pockets_rigid() const;
 
-        // true if every pocket is rigid or we have no pockets
-        bool are_we_rigid() const;
+        // True if every pocket is rigid. False if not or we have no pockets
+        bool contents_are_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;

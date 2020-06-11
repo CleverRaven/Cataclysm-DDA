@@ -983,7 +983,7 @@ bool item_contents::all_pockets_rigid() const
     return true;
 }
 
-bool item_contents::are_we_rigid() const
+bool item_contents::contents_are_rigid() const
 {
     for( const item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
