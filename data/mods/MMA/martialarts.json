@@ -425,7 +425,7 @@
       {
         "id": "mma_buff_shii_cho_static2",
         "name": "Apprentice Training",
-        "description": "Your training Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "description": "Your training in Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "bonus_blocks": 1,
