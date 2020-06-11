@@ -104,6 +104,10 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
         return;
     }
 
+    if( XDecl->getType().getTypePtr()->isUnsignedIntegerType() ) {
+        return;
+    }
+
     NameConvention NameMatcher( XDecl->getName() );
 
     if( !NameMatcher || NameMatcher.Match( YDecl->getName() ) != NameConvention::YName ) {

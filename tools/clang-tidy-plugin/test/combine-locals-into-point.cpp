@@ -150,3 +150,12 @@ void g11()
     // CHECK-FIXES: static constexpr point p( 0, 1 );
     static constexpr int y = 1;
 }
+
+void g12()
+{
+    // Don't mess with unsigned things
+    unsigned x = false;
+    unsigned y = true;
+    const unsigned x1 = false;
+    const unsigned y1 = true;
+}
