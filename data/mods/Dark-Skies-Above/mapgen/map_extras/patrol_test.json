@@ -1,0 +1,56 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_dsa_patrol_test",
+    "object": {
+      "place_monster": [
+        {
+          "monster": "mon_dks_glowdrone",
+          "x": 12,
+          "y": 12,
+          "repeat": [ 2, 3 ],
+          "chance": 100,
+          "spawn_data": { "patrol": [ { "x": -5, "y": -5 }, { "x": 5, "y": -5 }, { "x": 5, "y": 5 }, { "x": -5, "y": 5 } ] }
+        }
+      ]
+    }
+  },
+  {
+    "id": "mx_dsa_patrol_test",
+    "type": "map_extra",
+    "name": { "str": "Patrol Test" },
+    "description": "Test of the patrol logic.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dsa_patrol_test" },
+    "sym": "!",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_dsa_stray_patrol_test",
+    "object": {
+      "place_monster": [
+        {
+          "monster": "dks_mon_stray",
+          "x": [ 6, 18 ],
+          "y": [ 6, 18 ],
+          "repeat": [ 2, 3 ],
+          "chance": 100,
+          "spawn_data": { "patrol": [ { "x": -5, "y": -5 }, { "x": 29, "y": -5 }, { "x": 29, "y": 29 }, { "x": -5, "y": 29 } ] }
+        }
+      ]
+    }
+  },
+  {
+    "id": "mx_dsa_stray_patrol_test",
+    "type": "map_extra",
+    "name": { "str": "Stray Patrol Test" },
+    "description": "Test of the patrol logic.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dsa_stray_patrol_test" },
+    "sym": "!",
+    "color": "red",
+    "autonote": true
+  }
+]

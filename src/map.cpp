@@ -262,7 +262,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
     }
 
     // Get parts
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+    for( const vpart_reference &vpr : veh->get_all_parts_with_fakes() ) {
         if( vpr.part().removed ) {
             continue;
         }
@@ -575,19 +575,17 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( coll.part > veh.part_count() ||
-                veh.part( coll.part ).removed ) {
-                continue;
-            }
+            int part_num = veh.get_non_fake_part( coll.part );
 
             const point &collision_point = veh.part( coll.part ).mount;
             const int coll_dmg = coll.imp;
+
             // Shock damage, if the target part is a rotor treat as an aimed hit.
-            if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
-                veh.damage( coll.part, coll_dmg, damage_type::BASH, true );
+            if( veh.part_info( part_num ).rotor_diameter() > 0 ) {
+                veh.damage( part_num, coll_dmg, damage_type::BASH, true );
             } else {
                 impulse += coll_dmg;
-                veh.damage( coll.part, coll_dmg, damage_type::BASH );
+                veh.damage( part_num, coll_dmg, damage_type::BASH );
                 veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
             }
         }
@@ -877,21 +875,23 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         if( &veh2 != static_cast<vehicle *>( veh_veh_coll.target ) ) {
             continue;
         }
+        int coll_part = veh.get_non_fake_part( veh_veh_coll.part );
+        int target_part = veh.get_non_fake_part( veh_veh_coll.target_part );
 
-        int parm1 = veh.part_with_feature( veh_veh_coll.part, VPFLAG_ARMOR, true );
-        if( parm1 < 0 ) {
-            parm1 = veh_veh_coll.part;
+        int coll_parm = veh.part_with_feature( coll_part, VPFLAG_ARMOR, true );
+        if( coll_parm < 0 ) {
+            coll_parm = coll_part;
         }
-        int parm2 = veh2.part_with_feature( veh_veh_coll.target_part, VPFLAG_ARMOR, true );
-        if( parm2 < 0 ) {
-            parm2 = veh_veh_coll.target_part;
+        int target_parm = veh2.part_with_feature( target_part, VPFLAG_ARMOR, true );
+        if( target_parm < 0 ) {
+            target_parm = target_part;
         }
 
-        epicenter1 += veh.part( parm1 ).mount;
-        veh.damage( parm1, dmg1_part, damage_type::BASH );
+        epicenter1 += veh.part( coll_parm ).mount;
+        veh.damage( coll_parm, dmg1_part, damage_type::BASH );
 
-        epicenter2 += veh2.part( parm2 ).mount;
-        veh2.damage( parm2, dmg2_part, damage_type::BASH );
+        epicenter2 += veh2.part( target_parm ).mount;
+        veh2.damage( target_parm, dmg2_part, damage_type::BASH );
     }
 
     epicenter2.x /= coll_parts_cnt;
@@ -1260,6 +1260,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
 
     veh.shed_loose_parts();
     smzs = veh.advance_precalc_mounts( dst_offset, src, dp, ramp_offset, adjust_pos, parts_to_move );
+    veh.update_active_fakes();
+
     if( src_submap != dst_submap ) {
         veh.set_submap_moved( tripoint( dst.x / SEEX, dst.y / SEEY, dst.z ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
@@ -5754,7 +5756,7 @@ void map::add_splatter( const field_type_id &type, const tripoint &where, int in
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             // Might be -1 if all the vehicle's parts at where are marked for removal
-            const int part = veh->part_displayed_at( vp->mount() );
+            const int part = veh->part_displayed_at( vp->mount(), true );
             if( part != -1 ) {
                 veh->part( part ).blood += 200 * std::min( intensity, 3 ) / 3;
                 return;

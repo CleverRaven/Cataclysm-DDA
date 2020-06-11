@@ -36,6 +36,7 @@
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
+#include "vpart_range.h"
 
 class Character;
 class Creature;
@@ -137,6 +138,26 @@ struct veh_collision {
     std::string target_name;
 
     veh_collision() = default;
+};
+
+struct vpart_edge_info {
+    int forward;
+    int back;
+    int left;
+    int right;
+    bool left_edge = false;
+    bool right_edge = false;
+    vpart_edge_info() : forward( -1 ), back( -1 ), left( -1 ), right( -1 ) {}
+    vpart_edge_info( int forward, int back, int left, int right, bool left_edge, bool right_edge ) :
+        forward( forward ), back( back ), left( left ), right( right ), left_edge( left_edge ),
+        right_edge( right_edge ) {}
+
+    bool is_edge_mount() {
+        return left_edge || right_edge || left == -1 || right == -1;
+    }
+    bool is_left_edge() {
+        return left_edge || left == -1;
+    }
 };
 
 class vehicle_stack : public item_stack
@@ -501,6 +522,15 @@ struct vehicle_part {
          * this part.
          */
         item_group::ItemList pieces_for_broken_part() const;
+
+        /* probably should be private, but I'm too lazy to write setters and getters */
+        bool is_fake = false;
+        bool is_active_fake = false;
+        int fake_part_to = -1;
+        int fake_protrusion_on = -1;
+        bool has_fake = false;
+        int fake_part_at = -1;
+
 };
 
 class turret_data
@@ -730,9 +760,6 @@ class vehicle
         // convert vhp to watts.
         static int vhp_to_watts( int power );
 
-        //Refresh all caches and re-locate all parts
-        void refresh();
-
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects();
 
@@ -799,6 +826,8 @@ class vehicle
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
+        //Refresh all caches and re-locate all parts
+        void refresh( bool remove_fakes = true );
 
         /**
          * Set stat for part constrained by range [0,durability]
@@ -955,6 +984,9 @@ class vehicle
         bool remove_part( int p, RemovePartHandler &handler );
         bool remove_part( int p );
         void part_removal_cleanup();
+        // inner look for part_removal_cleanup.  returns true if a part is removed
+        // also called by remove_fake_parts
+        bool __part_removal_actual();
 
         // remove the carried flag from a vehicle after it has been removed from a rack
         void remove_carried_flag();
@@ -994,6 +1026,8 @@ class vehicle
         // TODO: maybe not include broken ones? Have a separate function for that?
         // TODO: rename to just `parts()` and rename the data member to `parts_`.
         vehicle_part_range get_all_parts() const;
+        // Yields a range containing all parts including fake ones that only map cares about
+        vehicle_part_with_fakes_range get_all_parts_with_fakes( bool with_inactive = false ) const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
          * and are available: not broken, removed, or part of a carried vehicle.
@@ -1032,7 +1066,8 @@ class vehicle
         /**@}*/
 
         // returns the list of indices of parts at certain position (not accounting frame direction)
-        std::vector<int> parts_at_relative( const point &dp, bool use_cache ) const;
+        std::vector<int> parts_at_relative( const point &dp, bool use_cache,
+                                            bool include_fake = false ) const;
 
         // returns index of part, inner to given, with certain flag, or -1
         int part_with_feature( int p, const std::string &f, bool unbroken ) const;
@@ -1125,7 +1160,7 @@ class vehicle
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
-        int part_displayed_at( const point &dp ) const;
+        int part_displayed_at( const point &dp, bool include_fake = false ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle
@@ -1156,8 +1191,10 @@ class vehicle
          */
         void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 );
 
-        // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
+        // Pre-calculate mount points for (idir=0) - current direction or
+        // (idir=1) - next turn direction
+        // return the set of all z-levels that the vehicle is on
+	std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1861,13 +1898,25 @@ class vehicle
         mutable std::set<tripoint> occupied_points; // NOLINT(cata-serialize)
 
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-        /**
-        * checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
-        * this eliminates edge cases caused by overlapping bike_rack lanes
-        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries across the vector<vector>s rows removed
-        */
-        void validate_carried_vehicles( std::vector<std::vector<int>>
-                                        &carried_vehicles );
+        // Used in savegame.cpp to only save real parts to json
+        std::vector<vehicle_part> real_parts() const;
+        // Map of edge parts and their adjacency information
+        std::map<point, vpart_edge_info> edges;
+        // For a given mount point, returns it's adjacency info
+        vpart_edge_info get_edge_info( const point &mount ) const;
+
+        // Removes fake parts from the parts vector
+        void remove_fake_parts( bool cleanup = true );
+        tripoint get_abs_diff( const tripoint &one, const tripoint &two ) const;
+        bool should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
+                                 const tripoint &neighbor_precalc ) const;
+	/**
+	*  checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
+	* this eliminates edge cases caused by overlapping bike_rack lanes
+	* @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
+	*/
+	void validate_carried_vehicles( std::vector<std::vector<int>> &carried_vehicles );
+
     public:
         // Number of parts contained in this vehicle
         int part_count() const;
@@ -1876,8 +1925,25 @@ class vehicle
         const vehicle_part &part( int part_num ) const;
         // Determines whether the given part_num is valid for this vehicle
         bool valid_part( int part_num ) const;
+        // Same as vehicle::part() except with const binding
+        const vehicle_part &cpart( int part_num ) const;
         // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp
         void force_erase_part( int part_num );
+        // get the parent part of a fake part or return part_num otherwise
+        int get_non_fake_part( int part_num );
+        // Updates active state on all fake_mounts based on whether they can fill a gap
+        // map.cpp calls this in displace_vehicle
+        void update_active_fakes();
+        // Determines if the given part_num is real or active fake part
+        bool real_or_active_fake_part( int part_num ) const;
+        // Determines if this vehicle has any parts
+        bool has_any_parts() const;
+        // Number of parts in this vehicle
+        int num_parts() const;
+        int num_true_parts() const;
+        int num_fake_parts() const;
+        int num_active_fake_parts() const;
+
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
         std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
@@ -1886,11 +1952,14 @@ class vehicle
         // make sure the vehicle is supported across z-levels or on the same z-level
         bool level_vehicle();
 
+
+        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
+
         std::vector<int> alternators;      // List of alternator indices NOLINT(cata-serialize)
         std::vector<int> engines;          // List of engine indices NOLINT(cata-serialize)
         std::vector<int> reactors;         // List of reactor indices NOLINT(cata-serialize)
         std::vector<int> solar_panels;     // List of solar panel indices NOLINT(cata-serialize)
-        std::vector<int> wind_turbines;    // List of wind turbine indices NOLINT(cata-serialize)
+        std::vector<int> wind_turbines;     // List of wind turbine indices NOLINT(cata-serialize)
         std::vector<int> water_wheels;     // List of water wheel indices NOLINT(cata-serialize)
         std::vector<int> sails;            // List of sail indices NOLINT(cata-serialize)
         std::vector<int> funnels;          // List of funnel indices NOLINT(cata-serialize)
@@ -1902,13 +1971,14 @@ class vehicle
         std::vector<int> steering;         // List of STEERABLE parts NOLINT(cata-serialize)
         // List of parts that will not be on a vehicle very often, or which only one will be present
         std::vector<int> speciality;       // NOLINT(cata-serialize)
-        std::vector<int> floating;         // List of parts with buoyancy NOLINT(cata-serialize)
+        std::vector<int> floating;         // List of parts that provide buoyancy to boats NOLINT(cata-serialize)
         std::vector<int> batteries;        // List of batteries NOLINT(cata-serialize)
-        std::vector<int> fuel_containers;  // Parts with non-null ammo_type NOLINT(cata-serialize)
+        std::vector<int> fuel_containers;  // List parts with non-null ammo_type NOLINT(cata-serialize)
         std::vector<int> turret_locations; // List of turret parts NOLINT(cata-serialize)
         std::vector<int> mufflers; // List of muffler parts NOLINT(cata-serialize)
         std::vector<int> planters; // List of planter parts NOLINT(cata-serialize)
-        std::vector<int> accessories; // List of power consuming parts NOLINT(cata-serialize)
+        std::vector<int> accessories; // List of accessory (power consuming) parts NOLINT(cata-serialize)
+        std::vector<int> fake_parts;       // List of parts that are fakes to fill gaps NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name

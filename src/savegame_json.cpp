@@ -3471,7 +3471,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "owner", owner );
     json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
-    json.member( "parts", parts );
+    json.member( "parts", real_parts() );
     json.member( "tags", tags );
     json.member( "fuel_remainder", fuel_remainder );
     json.member( "fuel_used_last_turn", fuel_used_last_turn );

@@ -6580,6 +6580,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         veh_to_add->smash( *this );
     }
 
+    veh_to_add->refresh();
     return veh_to_add;
 }
 

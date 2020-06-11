@@ -1664,8 +1664,17 @@ void vehicle::open_all_at( int p )
  */
 void vehicle::open_or_close( const int part_index, const bool opening )
 {
+    const auto part_open_or_close = [&]( const int parti, const bool opening ) {
+        vehicle_part &prt = parts.at( parti );
+        prt.open = opening;
+        if( prt.is_fake ) {
+            parts.at( prt.fake_part_to ).open = opening;
+        } else if( prt.has_fake ) {
+            parts.at( prt.fake_part_at ).open = opening;
+        }
+    };
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
-    parts[part_index].open = opening;
+    part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
@@ -1676,9 +1685,9 @@ void vehicle::open_or_close( const int part_index, const bool opening )
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
     }
-    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
-        for( auto const &partID : vec ) {
-            parts[partID].open = opening;
+    for( const std::vector<int> &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
+        for( const int &partID : vec ) {
+            part_open_or_close( partID, opening );
         }
     }
 
