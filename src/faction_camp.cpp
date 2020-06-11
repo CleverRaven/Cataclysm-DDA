@@ -3882,9 +3882,6 @@ bool basecamp::distribute_food()
     const tripoint &abspos = get_dumping_spot();
     const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
-    // @FIXME: magic location for litter. should depend on terrain or so.
-    tripoint p_litter = g->m.getlocal( omt_to_sm_copy( omt_pos ) + point( -7, 0 ) );
-
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
     int total = 0;
@@ -3952,17 +3949,7 @@ bool basecamp::distribute_food()
                 it.remove_item( *food );
             }
             it.on_contents_changed();
-            if( it.is_food_container() ) {
-                // something left in it, some food content has not been consumed
-                return false;
-            }
-            //NPCs are lazy bastards who leave empties all around the camp fire
-            tripoint litter_spread = p_litter;
-            // @FIXME this will teleport through walls. And into fire.
-            litter_spread.x += rng( -3, 3 );
-            litter_spread.y += rng( -3, 3 );
-            // Only remove the empty container if it was placed successfully.
-            return !g->m.add_item_or_charges( litter_spread, it, false ).is_null();
+            return false;
         }
         return consume_non_recursive( it, container );
     };
