@@ -903,7 +903,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_STAB:
         case DT_BULLET:
             // these are bleed inducing damage types
-            if( is_player() || is_npc() ) {
+            if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
             } else {
                 add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp->token );
