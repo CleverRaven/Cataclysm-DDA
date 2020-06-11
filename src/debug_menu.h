@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_DEBUG_MENU_H
 #define CATA_SRC_DEBUG_MENU_H
 
+#include <functional>
+
 #include "enum_traits.h"
 
 struct tripoint;
@@ -99,5 +101,15 @@ template<>
 struct enum_traits<debug_menu::debug_menu_index> {
     static constexpr debug_menu::debug_menu_index last = debug_menu::debug_menu_index::last;
 };
+
+namespace std
+{
+template<>
+struct hash<debug_menu::debug_menu_index> {
+    std::size_t operator()( const debug_menu::debug_menu_index v ) const noexcept {
+        return hash<int>()( static_cast<int>( v ) );
+    }
+};
+} // namespace std
 
 #endif // CATA_SRC_DEBUG_MENU_H
