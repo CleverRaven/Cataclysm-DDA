@@ -154,7 +154,7 @@
     "volume": "250 ml",
     "price": 5900,
     "price_postapoc": 100,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],

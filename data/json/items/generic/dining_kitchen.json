@@ -42,7 +42,7 @@
     "price_postapoc": 0,
     "weight": "28 g",
     "volume": "25 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 1,
     "cutting": 1,
     "to_hit": -2
@@ -101,7 +101,7 @@
     "color": "light_cyan",
     "price": 400,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "weight": "130 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -605,7 +605,7 @@
     "price_postapoc": 0,
     "weight": "28 g",
     "volume": "15 ml",
-    "material": "wood",
+    "material": [ "wood" ],
     "bashing": 1,
     "cutting": 1,
     "to_hit": -1
@@ -674,7 +674,7 @@
     "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
     "looks_like": "spoon",
     "proportional": { "weight": 3.0, "volume": 2.0 },
-    "material": "rubber",
+    "material": [ "rubber" ],
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -744,7 +744,7 @@
     "name": { "str": "copper pot" },
     "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
     "copy-from": "base_cookpot",
-    "material": "copper",
+    "material": [ "copper" ],
     "color": "light_red",
     "weight": "750 g",
     "volume": "2 L",
@@ -889,7 +889,7 @@
     "name": { "str": "copper frying pan" },
     "description": "A copper frying pan, coated in a thin layer of tin.  Makes a decent melee weapon, and is used for cooking.",
     "copy-from": "base_cookpot",
-    "material": "copper",
+    "material": [ "copper" ],
     "color": "light_red",
     "looks_like": "pan",
     "weight": "628 g",
@@ -947,7 +947,7 @@
     "price_postapoc": 5,
     "to_hit": 1,
     "bashing": 10,
-    "material": "copper",
+    "material": [ "copper" ],
     "symbol": ")",
     "color": "light_red",
     "pocket_data": [

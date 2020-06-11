@@ -1043,7 +1043,7 @@
     "description": "A root from a hickory tree.  It has an earthy smell.",
     "price": 0,
     "price_postapoc": 0,
-    "material": "wood",
+    "material": [ "wood" ],
     "weight": "500 g",
     "volume": "500 ml",
     "to_hit": -2
@@ -1460,7 +1460,7 @@
     "volume": "250 ml",
     "price": 1,
     "price_postapoc": 10,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ".",
     "color": "brown",
     "ammo_type": "components",
@@ -1508,7 +1508,7 @@
     "count": 10,
     "price": 0,
     "price_postapoc": 10,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "components"

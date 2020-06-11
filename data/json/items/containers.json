@@ -11,7 +11,7 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -38,7 +38,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "0",
     "color": "light_blue",
     "pocket_data": [
@@ -156,7 +156,7 @@
         "moves": 400
       }
     ],
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "TRADER_AVOID" ]
@@ -172,7 +172,7 @@
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -198,7 +198,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
       {
@@ -224,7 +224,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -287,7 +287,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan"
@@ -315,7 +315,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -341,7 +341,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -366,7 +366,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white"
   },
@@ -380,7 +380,7 @@
     "volume": "2003 ml",
     "price": 25,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "cyan",
     "pocket_data": [
@@ -406,7 +406,7 @@
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -563,7 +563,7 @@
     "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 2,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
     "pocket_data": [
@@ -593,7 +593,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "paper carton" },
-    "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  It has a threaded cap for easy resealing.",
+    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap for easy resealing.",
     "weight": "28 g",
     "volume": "2003 ml",
     "price": 0,
@@ -633,7 +633,7 @@
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "%",
     "color": "red",
     "pocket_data": [
@@ -724,7 +724,7 @@
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -774,7 +774,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": "*",
     "color": "brown",
     "pocket_data": [
@@ -800,7 +800,7 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -825,7 +825,7 @@
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -850,7 +850,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -991,7 +991,7 @@
     "price": 10,
     "price_postapoc": 5,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "v",
     "color": "light_cyan",
     "pocket_data": [
@@ -1132,7 +1132,7 @@
     "price": 1250,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -1182,7 +1182,7 @@
     "price": 100,
     "price_postapoc": 10,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -1207,7 +1207,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1232,7 +1232,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1352,7 +1352,7 @@
     "price": 800,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -1495,7 +1495,7 @@
     "volume": "501 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -1518,7 +1518,7 @@
     "volume": "4500 ml",
     "price": 10,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -1543,7 +1543,7 @@
     "price": 0,
     "price_postapoc": 25,
     "to_hit": -5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
@@ -1602,7 +1602,7 @@
     "volume": "1002 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": "!",
     "color": "light_cyan",
     "pocket_data": [

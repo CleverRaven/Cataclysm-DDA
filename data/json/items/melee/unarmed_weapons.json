@@ -68,7 +68,7 @@
     "color": "brown",
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
     "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "weight": "430 g",
     "bashing": 2,
