@@ -355,7 +355,7 @@
     "type": "technique",
     "id": "mma_tec_shii_cho_wide",
     "name": "Sarlacc Sweep",
-    "messages": [ "You quickly sweep through %s and those nearby", "<npcname> quickly sweep through %s and those nearby" ],
+    "messages": [ "You quickly sweep through %s and those nearby", "<npcname> quickly sweeps through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "crit_ok": true,
