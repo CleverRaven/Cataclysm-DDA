@@ -51,10 +51,10 @@
   },
   {
     "id": "slam_shotgun",
-    "copy-from": "makeshift_shotgun",
+    "copy-from": "slam_shotgun",
     "type": "GUN",
     "name": { "str": "slam-fire shotgun" },
-    "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail. The lack of sights make this weapon only useful at point-blank range.",
+    "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "weight": "3629 g",
     "volume": "2264 ml",
     "looks_like": "pipe",
