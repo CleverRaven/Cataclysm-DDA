@@ -827,7 +827,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
   },
   {
-    "id": "makeshift_shotgun",
+    "id": "slam_shotgun",
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "makeshift shotgun" },
