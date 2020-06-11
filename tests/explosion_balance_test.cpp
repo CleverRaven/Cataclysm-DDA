@@ -96,9 +96,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
 static std::vector<int> get_part_hp( vehicle *veh )
 {
     std::vector<int> part_hp;
-    part_hp.reserve( veh->parts.size() );
-    for( vehicle_part &part : veh->parts ) {
-        part_hp.push_back( part.hp() );
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        part_hp.push_back( vpr.part().hp() );
     }
     return part_hp;
 }
@@ -129,12 +128,12 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     REQUIRE( before_hp.size() == after_hp.size() );
     for( size_t i = 0; i < before_hp.size(); ++i ) {
         CAPTURE( i );
-        INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == vpart_battery_car ||
-            target_vehicle->parts[ i ].info().get_id() == vpart_headlight ||
-            target_vehicle->parts[ i ].info().get_id() == vpart_windshield ) {
+        INFO( target_vehicle->part( i ).name() );
+        if( target_vehicle->part( i ).info().get_id() == vpart_battery_car ||
+            target_vehicle->part( i ).info().get_id() == vpart_headlight ||
+            target_vehicle->part( i ).info().get_id() == vpart_windshield ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->parts[ i ].info().get_id() == vpart_vehicle_clock ) ) {
+        } else if( !( target_vehicle->part( i ).info().get_id() == vpart_vehicle_clock ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }
