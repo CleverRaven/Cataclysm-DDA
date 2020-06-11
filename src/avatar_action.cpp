@@ -330,7 +330,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     bool outside_vehicle = ( veh0 == nullptr || veh0 != veh1 );
     if( veh1 != nullptr ) {
         dpart = veh1->next_part_to_open( vp1->part_index(), outside_vehicle );
-        veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
+        veh_closed_door = dpart >= 0 && !veh1->part( dpart ).open;
     }
 
     if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {

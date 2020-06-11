@@ -2517,7 +2517,7 @@ struct weldrig_hack {
 
         part = act.values[1];
         veh = veh_pointer_or_null( g->m.veh_at( act.coords[0] ) );
-        if( veh == nullptr || veh->parts.size() <= static_cast<size_t>( part ) ) {
+        if( veh == nullptr || !veh->valid_part( part ) ) {
             part = -1;
             return false;
         }

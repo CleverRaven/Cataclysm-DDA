@@ -5292,7 +5292,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
             vehicle *const veh = &vp->vehicle();
             std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
             for( int elem : parts_here ) {
-                if( veh->parts[elem].blood > 0 ) {
+                if( veh->part( elem ).blood > 0 ) {
                     return true;
                 }
                 vehicle_stack items = veh->get_items( elem );

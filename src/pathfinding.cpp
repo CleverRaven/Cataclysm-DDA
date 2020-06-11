@@ -351,7 +351,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door
                             // TODO: Account for armor
-                            int hp = veh->parts[part].hp();
+                            int hp = veh->cpart( part ).hp();
                             if( hp / 20 > bash ) {
                                 // Threshold damage thing means we just can't bash this down
                                 layer.state[index] = ASL_CLOSED;

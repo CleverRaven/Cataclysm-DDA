@@ -33,9 +33,9 @@ std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
 
-    for( auto &e : parts ) {
-        if( !e.is_broken() && e.base.is_gun() ) {
-            res.push_back( &e );
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        if( !vpr.part().is_broken() && vpr.part().base.is_gun() ) {
+            res.push_back( &vpr.part() );
         }
     }
     return res;
@@ -429,10 +429,10 @@ void vehicle::turrets_set_targeting()
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto &p : parts ) {
-        if( p.is_turret() ) {
-            turrets.push_back( &p );
-            locations.push_back( global_part_pos3( p ) );
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        if( vpr.part().is_turret() ) {
+            turrets.push_back( &vpr.part() );
+            locations.push_back( global_part_pos3( vpr.part() ) );
         }
     }
 
@@ -485,10 +485,10 @@ void vehicle::turrets_set_mode()
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto &p : parts ) {
-        if( p.base.is_gun() ) {
-            turrets.push_back( &p );
-            locations.push_back( global_part_pos3( p ) );
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        if( vpr.part().base.is_gun() ) {
+            turrets.push_back( &vpr.part() );
+            locations.push_back( global_part_pos3( vpr.part() ) );
         }
     }
 

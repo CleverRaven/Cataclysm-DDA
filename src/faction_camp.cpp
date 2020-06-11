@@ -2456,27 +2456,26 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
     }
     // FIXME: use ranges, do this sensibly
     //Chopping up the car!
-    std::vector<vehicle_part> p_all = car->parts;
     int prt = 0;
     int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( !p_all.empty() ) {
+    while( car->num_parts() > 0 ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             comp->companion_mission_inv.add_item( *iter );
             iter = contents.erase( iter );
         }
-        bool broken = p_all[ prt ].is_broken();
+        bool broken = car->part( prt ).is_broken();
         bool skill_break = false;
         bool skill_destroy = false;
 
         int dice = rng( 1, 20 );
-        dice += skillLevel - p_all[ prt].info().difficulty;
+        dice += skillLevel - car->part( prt ).info().difficulty;
 
         if( dice >= 20 ) {
             skill_break = false;
             skill_destroy = false;
             talk_function::companion_skill_trainer( *comp, skill_mechanics, 1_hours,
-                                                    p_all[ prt].info().difficulty );
+                                                    car->part( prt ).info().difficulty );
         } else if( dice > 15 ) {
             skill_break = false;
         } else if( dice > 9 ) {
@@ -2489,17 +2488,17 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
 
         if( !broken && !skill_break ) {
             //Higher level garages will salvage liquids from tanks
-            if( !p_all[prt].is_battery() ) {
-                p_all[prt].ammo_consume( p_all[prt].ammo_remaining(),
-                                         car->global_part_pos3( p_all[prt] ) );
+            if( !car->part( prt ).is_battery() ) {
+                car->part( prt ).ammo_consume( car->part( prt ).ammo_remaining(),
+                                               car->global_part_pos3( car->part( prt ) ) );
             }
-            comp->companion_mission_inv.add_item( p_all[prt].properties_to_item() );
+            comp->companion_mission_inv.add_item( car->part( prt ).properties_to_item() );
         } else if( !skill_destroy ) {
-            for( const item &itm : p_all[prt].pieces_for_broken_part() ) {
+            for( const item &itm : car->part( prt ).pieces_for_broken_part() ) {
                 comp->companion_mission_inv.add_item( itm );
             }
         }
-        p_all.erase( p_all.begin() + 0 );
+        car->force_remove_part( prt );
     }
     talk_function::companion_skill_trainer( *comp, skill_mechanics, 5_days, 2 );
     edit.mapgen_veh_destroy( omt_tgt, car );
@@ -3827,12 +3826,12 @@ std::string camp_car_description( vehicle *car )
         entry += string_format( ">%s:%s\n", item( fuel.first ).tname(),
                                 right_justify( fuel_entry, 33 - utf8_width( item( fuel.first ).tname() ) ) );
     }
-    for( auto &pt : car->parts ) {
-        if( pt.is_battery() ) {
-            const vpart_info &vp = pt.info();
+    for( const vpart_reference &vpr : car->get_all_parts() ) {
+        if( vpr.part().is_battery() ) {
+            const vpart_info &vp = vpr.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
-                                    static_cast<int>( 100.0 * pt.ammo_remaining() /
-                                            pt.ammo_capacity( ammotype( "battery" ) ) ) );
+                                    static_cast<int>( 100.0 * vpr.part().ammo_remaining() /
+                                            vpr.part().ammo_capacity( ammotype( "battery" ) ) ) );
         }
     }
     entry += "\n";
