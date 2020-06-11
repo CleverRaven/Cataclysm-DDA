@@ -128,3 +128,15 @@ void g9()
     const bool x1 = false;
     const bool y1 = true;
 }
+
+void g10()
+{
+    // When multiple changes to be done in one function, only perform one (to
+    // avoid overlapping replacements)
+    int x = 0;
+    // CHECK-MESSAGES: warning: Variables 'x' and 'y' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
+    // CHECK-FIXES: point p( 0, 1 );
+    int y = 1;
+    int x1 = x;
+    int y1 = y;
+}

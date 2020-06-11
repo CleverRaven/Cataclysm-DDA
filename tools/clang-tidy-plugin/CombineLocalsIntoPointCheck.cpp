@@ -85,6 +85,12 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     if( !XDecl ) {
         return;
     }
+
+    // Only one modification per function
+    if( !Check.alteredFunctions.insert( getContainingFunction( Result, XDecl ) ).second ) {
+        return;
+    }
+
     const Decl *NextDecl = XDecl->getNextDeclInContext();
     const VarDecl *YDecl = dyn_cast_or_null<VarDecl>( NextDecl );
     if( !YDecl ) {

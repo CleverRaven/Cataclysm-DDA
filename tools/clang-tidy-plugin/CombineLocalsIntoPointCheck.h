@@ -4,6 +4,7 @@
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "ClangTidy.h"
 
@@ -27,6 +28,7 @@ class CombineLocalsIntoPointCheck : public ClangTidyCheck
         using ClangTidyCheck::getLangOpts;
 
         std::unordered_map<const VarDecl *, std::string> usageReplacements;
+        std::unordered_set<const FunctionDecl *> alteredFunctions;
 };
 
 } // namespace cata
