@@ -93,6 +93,11 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     NextDecl = YDecl->getNextDeclInContext();
     const VarDecl *ZDecl = dyn_cast_or_null<VarDecl>( NextDecl );
 
+    // Avoid altering bool variables
+    if( StringRef( XDecl->getType().getAsString() ).endswith( "ool" ) ) {
+        return;
+    }
+
     NameConvention NameMatcher( XDecl->getName() );
 
     if( !NameMatcher || NameMatcher.Match( YDecl->getName() ) != NameConvention::YName ) {

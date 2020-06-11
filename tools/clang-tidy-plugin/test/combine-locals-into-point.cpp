@@ -119,3 +119,12 @@ void g8( const tripoint &p1 )
     // CHECK-MESSAGES: note: Update 'x1' to 'p12.x'.
     // CHECK-FIXES: p12.x = 1;
 }
+
+void g9()
+{
+    // Don't mess with bools
+    bool x = false;
+    bool y = true;
+    const bool x1 = false;
+    const bool y1 = true;
+}
