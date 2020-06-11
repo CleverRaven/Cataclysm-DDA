@@ -61,6 +61,9 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
+        // returns a list of points to all top level items that are is_standard_type
+        std::list<const item*> all_standard_items_top() const;
+
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
@@ -100,6 +103,10 @@ class item_contents
           * does not guarantee that an item of that size can be inserted.
           */
         units::volume total_container_capacity() const;
+
+        // Gets the total volume of every is_standard_type container
+        units::volume total_standard_capacity() const;
+
         units::volume remaining_container_capacity() const;
         units::volume total_contained_volume() const;
 

@@ -9192,15 +9192,17 @@ void Character::update_morale()
 units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.remaining_container_capacity();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity += it->contents.remaining_container_capacity();
+    volume_capacity += weapon.get_total_capacity();
+    for (const item* it : weapon.contents.all_items_top(item_pocket::pocket_type::CONTAINER)) {
+        volume_capacity -= it->volume();
     }
+    volume_capacity += weapon.check_for_free_space(&weapon);
     for( const item &w : worn ) {
-        volume_capacity += w.contents.remaining_container_capacity();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity += it->contents.remaining_container_capacity();
+        volume_capacity += w.get_total_capacity();
+        for (const item* it : w.contents.all_items_top(item_pocket::pocket_type::CONTAINER)) {
+            volume_capacity -= it->volume();
         }
+        volume_capacity += w.check_for_free_space(&w);
     }
     return volume_capacity;
 }
@@ -9209,48 +9211,15 @@ units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.contents.total_container_capacity();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity += it->contents.total_container_capacity();
-    }
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity += it->contents.total_container_capacity();
-        }
     }
-    return volume_capacity - volume_carried();
+    return volume_capacity;
 }
 
 units::volume Character::volume_carried() const
 {
-    units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.total_contained_volume();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        ret_val<std::vector<item_pocket>> pockets = it->contents.get_all_contained_pockets();
-
-        if( pockets.success() ) {
-            for( const item_pocket &pocket : pockets.value() ) {
-                if( !pocket.rigid() ) {
-                    volume_capacity += pocket.contains_volume();
-                }
-            }
-        }
-    }
-    for( const item &w : worn ) {
-        volume_capacity += w.contents.total_contained_volume();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            ret_val<std::vector<item_pocket>> pockets = it->contents.get_all_contained_pockets();
-
-            if( pockets.success() ) {
-                for( const item_pocket &pocket : pockets.value() ) {
-                    if( !pocket.rigid() ) {
-                        volume_capacity += pocket.contains_volume();
-                    }
-                }
-            }
-        }
-    }
-    return volume_capacity;
+    return volume_capacity() - free_space();
 }
 
 void Character::hoarder_morale_penalty()

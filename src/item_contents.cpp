@@ -703,6 +703,19 @@ std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type p
     return all_items_internal;
 }
 
+std::list<const item*> item_contents::all_standard_items_top() const
+{
+    std::list<const item*> all_items_internal;
+    for (const item_pocket& pocket : contents) {
+        if (pocket.is_standard_type()) {
+            std::list<const item*> contained_items = pocket.all_items_top();
+            all_items_internal.insert(all_items_internal.end(), contained_items.begin(),
+                contained_items.end());
+        }
+    }
+    return all_items_internal;
+}
+
 std::list<item *> item_contents::all_items_top()
 {
     std::list<item *> ret;
@@ -831,15 +844,9 @@ ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() con
     bool found = false;
 
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            for( const item *it : pocket.all_items_top() ) {
-                for( const item_pocket &pocket : it->contents.contents ) {
-                    if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-                        found = true;
-                        pockets.push_back( pocket );
-                    }
-                }
-            }
+        if( pocket.is_type(item_pocket::pocket_type::CONTAINER) ) {
+            found = true;
+            pockets.push_back(pocket);
         }
     }
     if( found ) {
@@ -854,6 +861,17 @@ units::volume item_contents::total_container_capacity() const
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            total_vol += pocket.volume_capacity();
+        }
+    }
+    return total_vol;
+}
+
+units::volume item_contents::total_standard_capacity() const
+{
+    units::volume total_vol = 0_ml;
+    for (const item_pocket& pocket : contents) {
+        if (pocket.is_standard_type()) {
             total_vol += pocket.volume_capacity();
         }
     }

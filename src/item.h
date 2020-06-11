@@ -716,6 +716,9 @@ class item : public visitable<item>
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+
+        // recusive function that checks pockets for remaining free space
+        units::volume item::check_for_free_space(const item* it) const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious
