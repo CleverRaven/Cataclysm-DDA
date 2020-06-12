@@ -134,30 +134,6 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
-    "tools": [
-      [
-        [ "oxy_torch", 6 ],
-        [ "welder", 30 ],
-        [ "welder_crude", 45 ],
-        [ "toolset", 45 ],
-        [ "small_repairkit", 150 ],
-        [ "large_repairkit", 30 ]
-      ]
-    ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "slam_shotgun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 1 ] ],
-    "difficulty": 1,
-    "time": "2 h",
-    "autolearn": true,
-    "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "GLARE", "level": 2 },
@@ -166,28 +142,30 @@
       { "id": "WELD", "level": 2 }
     ],
     "tools": [
-      [ "shot_buck", -1 ],
-      [ "shot_fowl", -1 ],
-      [ "shot_pyro", -1 ],
-      [ "shot_dart", -1 ],
-      [ "shot_foster", -1 ],
-      [ "shot_junk", -1 ],
-      [ "shot_bean", -1 ],
-      [ "reloaded_shot_buck", -1 ],
-      [ "reloaded_shot_fowl", -1 ],
-      [ "reloaded_shot_pyro", -1 ],
-      [ "reloaded_shot_dart", -1 ],
-      [ "reloaded_shot_foster", -1 ],
-      [ "reloaded_shot_junk", -1 ],
-      [ "reloaded_shot_bean", -1 ],
-      [ "bp_shot_buck", -1 ],
-      [ "bp_shot_fowl", -1 ],
-      [ "bp_shot_pyro", -1 ],
-      [ "bp_shot_dart", -1 ],
-      [ "bp_shot_foster", -1 ],
-      [ "bp_shot_junk", -1 ],
-      [ "bp_shot_bean", -1 ],
-      [ "shot_hull", -1 ]
+      [
+        [ "shot_buck", -1 ],
+        [ "shot_fowl", -1 ],
+        [ "shot_pyro", -1 ],
+        [ "shot_dart", -1 ],
+        [ "shot_foster", -1 ],
+        [ "shot_junk", -1 ],
+        [ "shot_bean", -1 ],
+        [ "reloaded_shot_buck", -1 ],
+        [ "reloaded_shot_fowl", -1 ],
+        [ "reloaded_shot_pyro", -1 ],
+        [ "reloaded_shot_dart", -1 ],
+        [ "reloaded_shot_foster", -1 ],
+        [ "reloaded_shot_junk", -1 ],
+        [ "reloaded_shot_bean", -1 ],
+        [ "bp_shot_buck", -1 ],
+        [ "bp_shot_fowl", -1 ],
+        [ "bp_shot_pyro", -1 ],
+        [ "bp_shot_dart", -1 ],
+        [ "bp_shot_foster", -1 ],
+        [ "bp_shot_junk", -1 ],
+        [ "bp_shot_bean", -1 ],
+        [ "shot_hull", -1 ]
+      ]
     ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
