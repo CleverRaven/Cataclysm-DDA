@@ -280,11 +280,11 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "A few days ago, I installed a radio transmitter in the nearby tower, but it stopped working recently. If you are willing to be my back up while I check it out, I'll owe you a favor.",
+      "offer": "A few days ago, I installed a radio transmitter in the nearby tower, but it stopped working recently.  If you are willing to be my back up while I check it out, I'll owe you a favor.",
       "accepted": "Alright, lets be off.  You don't mind taking point, right?",
       "rejected": "Well thanks for offering, I guess.",
       "advice": "I'm sure we'll figure it out once there.  In any case, make sure to shoot first.",
-      "inquire": "You think we' done?",
+      "inquire": "You think we killed the culprit?",
       "success": "Sure seems like it.  Lets go back to the hub.",
       "success_lie": "Sure, thanks for nothing.",
       "failure": "Simply useless…"
@@ -306,7 +306,7 @@
       "effect": [
         "stop_following",
         { "u_adjust_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "adjustment": 1 },
-        { "npc_lose_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        { "npc_lose_var": "temporal_follower", "type": "general", "context": "robofac_merc_1" },
         { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
       ]
     },
@@ -319,7 +319,7 @@
       "rejected": "Well…",
       "advice": "You keep a map around don't you?  I do, and you probably should too.",
       "inquire": "We there yet?",
-      "success": "Finally 'home'. As I said, I owe you one.",
+      "success": "Thanks for having my back.  As I said, I owe you one.",
       "success_lie": "Are you lost or something?",
       "failure": "Can't believe we got lost…"
     }
