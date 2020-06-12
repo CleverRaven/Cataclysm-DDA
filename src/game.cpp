@@ -817,6 +817,8 @@ bool game::start_game()
 
     g->events().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
+    time_played_at_last_load = std::chrono::seconds( 0 );
+    time_of_last_load = std::chrono::steady_clock::now();
     tripoint abs_omt = u.global_omt_location();
     const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
     g->events().send<event_type::avatar_enters_omt>( abs_omt, cur_ter );
@@ -1169,7 +1171,11 @@ bool game::cleanup_at_end()
                                  .query_string();
         death_screen();
         const bool is_suicide = uquit == QUIT_SUICIDE;
-        events().send<event_type::game_over>( is_suicide, sLastWords );
+        std::chrono::seconds time_since_load =
+            std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::steady_clock::now() - time_of_last_load );
+        std::chrono::seconds total_time_played = time_played_at_last_load + time_since_load;
+        events().send<event_type::game_over>( is_suicide, sLastWords, total_time_played );
         // Struck the save_player_data here to forestall Weirdness
         move_save_to_graveyard();
         write_memorial_file( sLastWords );
@@ -2941,6 +2947,19 @@ bool game::load( const save_t &name )
 
     u.reset();
 
+    events().send<event_type::game_load>( getVersionString() );
+    time_of_last_load = std::chrono::steady_clock::now();
+    time_played_at_last_load = std::chrono::seconds( 0 );
+    cata::optional<event_multiset::summaries_type::value_type> last_save =
+        stats().get_events( event_type::game_save ).last();
+    if( last_save ) {
+        auto time_played_it = last_save->first.find( "total_time_played" );
+        if( time_played_it != last_save->first.end() &&
+            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
+            time_played_at_last_load = time_played_it->second.get<std::chrono::seconds>();
+        }
+    }
+
     return true;
 }
 
@@ -3135,6 +3154,11 @@ spell_events &game::spell_events_subscriber()
 
 bool game::save()
 {
+    std::chrono::seconds time_since_load =
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::steady_clock::now() - time_of_last_load );
+    std::chrono::seconds total_time_played = time_played_at_last_load + time_since_load;
+    events().send<event_type::game_save>( time_since_load, total_time_played );
     try {
         if( !save_player_data() ||
             !save_factions_missions_npcs() ||

@@ -16,7 +16,9 @@
 #include "cata_variant.h"
 #include "character_id.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
@@ -1050,6 +1052,12 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Set off an alarm." ) );
             break;
         }
+        case event_type::uses_debug_menu: {
+            add( pgettext( "memorial_male", "Used the debug menu (%s)." ),
+                 pgettext( "memorial_female", "Used the debug menu (%s)." ),
+                 io::enum_to_string( e.get<debug_menu::debug_menu_index>( "debug_menu_option" ) ) );
+            break;
+        }
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
@@ -1059,6 +1067,8 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_wakes_up:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::game_load:
+        case event_type::game_save:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

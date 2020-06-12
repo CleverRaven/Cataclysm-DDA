@@ -1039,8 +1039,12 @@ class game
         std::list<shared_ptr_fast<npc>> active_npc;
         int next_mission_id = 0;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
+
+        std::chrono::seconds time_played_at_last_load;
+        std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0;
         time_t last_save_timestamp;
+
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
         time_point remoteveh_cache_time;
