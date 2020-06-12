@@ -57,7 +57,7 @@ class ret_val;
 namespace enchant_vals
 {
 enum class mod : int;
-} // enchantment
+} // enchant_vals
 
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
