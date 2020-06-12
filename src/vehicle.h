@@ -141,8 +141,9 @@ struct fake_vehicle_mount {
     fake_vehicle_mount() :
         mount( point_zero ), copy_of( point_zero ), visible_part( -1 ), structural_part( -1 ),
         active( false ) {}
-    fake_vehicle_mount( const point &mount, const point &copy_of, int visible_part, int structural_part,
-                        bool active ) :
+    fake_vehicle_mount( const point &mount, const point &copy_of, bool active,
+                        int visible_part,
+                        int structural_part ) :
         mount( mount ), copy_of( copy_of ), visible_part( visible_part ),
         structural_part( structural_part ), active( active ) {}
 };
