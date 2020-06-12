@@ -36,7 +36,10 @@ char vehicle::part_sym( const int p, const bool exact ) const
         return ' ';
     }
 
-    const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+    int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+    if( displayed_part == -1 ) {
+        displayed_part = p;
+    }
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
         // open door
