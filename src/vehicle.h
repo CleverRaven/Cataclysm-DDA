@@ -1789,7 +1789,7 @@ class vehicle
          */
         void refresh_fake_parts();
         // similar to precalc_mounts but for fake_mounts
-        void precalc_fake_mounts(int idir, int dir, const point &pivot);
+        void precalc_fake_mounts( int idir, int dir, const point &pivot );
         // Removes fake parts from the parts vector
         void remove_fake_parts();
         fake_vehicle_mount &find_fake( const int part_num );
