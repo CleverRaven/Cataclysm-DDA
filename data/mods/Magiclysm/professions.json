@@ -240,7 +240,7 @@
     "ident": "techno_prepper",
     "name": "Techno-Prepper",
     "description": "You've long suspected the world might suddenly turn over. With your training, spells, and revolver, your chances are far better than most.",
-    "spells": [ { "id": "create_atomic_lamp", "level": 3 } ],
+    "spells": [ { "id": "create_atomic_lamp", "level": 8 }, { "id": "invisibility", "level": 2 } ],
     "points": 5,
     "skills": [
       { "level": 2, "name": "survival" },
