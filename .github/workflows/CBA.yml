@@ -37,7 +37,7 @@ jobs:
         ClangBuildAnalyzer --stop . buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis
-    - name: Upload Traces
-      uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
+        name: ClangBuildAnalyzer-traces
         path: buildAnalysis
