@@ -235,7 +235,7 @@
     "description": "This is a flexible garden hose.  If you cut it in smaller pieces, it could be used for crafting, or siphoning fuel from a vehicle.",
     "weight": "1632 g",
     "volume": "1500 ml",
-    "longest_side": "100 cm",
+    "longest_side": "30 cm",
     "price": 600,
     "price_postapoc": 300,
     "to_hit": -1,
