@@ -278,6 +278,7 @@
         [ "toolset", 45 ],
         [ "small_repairkit", 150 ],
         [ "large_repairkit", 30 ]
+        [ "12ga_hull", -1 ],
       ]
     ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
