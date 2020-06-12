@@ -71,7 +71,11 @@
       [ "v_planter_item", 41 ],
       [ "v_reaper_item", 41 ],
       [ "v_reaper_item_advanced", 8 ],
-      [ "v_planter_item_advanced", 8 ]
+      [ "v_planter_item_advanced", 8 ],
+	  [ "rake", 40 ],
+	  [ "rake_plastic", 60 ],
+	  [ "shovel_snow", 40 ],
+	  [ "shovel_snow_plastic", 60 ]
     ]
   },
   {
