@@ -25,4 +25,5 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "hose", 3 ] ] ]
+  }
 ]
