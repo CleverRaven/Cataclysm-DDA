@@ -91,7 +91,7 @@ enum class mod : int {
     ITEM_WET_PROTECTION,
     NUM_MOD
 };
-} // enchant_vals
+} // namespace enchant_vals
 
 // an "enchantment" is what passive artifact effects used to be:
 // under certain conditions, the effect persists upon the appropriate Character
