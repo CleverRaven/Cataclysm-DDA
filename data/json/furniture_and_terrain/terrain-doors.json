@@ -1401,7 +1401,7 @@
       "BLOCK_WIND",
       "PICKABLE"
     ],
-    "examine_action": "locked_object",
+    "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -1440,7 +1440,7 @@
       "PICKABLE",
       "BLOCK_WIND"
     ],
-    "examine_action": "locked_object",
+    "examine_action": "locked_object_pickable",
     "open": "t_door_o",
     "bash": {
       "str_min": 8,
@@ -1520,7 +1520,7 @@
       "BLOCK_WIND",
       "PICKABLE"
     ],
-    "examine_action": "locked_object",
+    "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 8,
       "str_max": 80,
