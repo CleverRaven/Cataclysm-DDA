@@ -3,7 +3,7 @@
     "id": "tools_blacksmith",
     "type": "item_group",
     "//": "Tools commonly used by blacksmiths",
-    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ] ]
+    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ], [ "sandpaper", 90 ] ]
   },
   {
     "id": "tools_carpentry",
@@ -17,7 +17,8 @@
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
       [ "toolbox", 12 ],
-      [ "toolbox_workshop", 3 ]
+      [ "toolbox_workshop", 3 ],
+      [ "sandpaper", 100 ]
     ]
   },
   {
@@ -62,7 +63,8 @@
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 80 ]
     ]
   },
   {
@@ -85,7 +87,8 @@
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
-      [ "tourist_table", 1 ]
+      [ "tourist_table", 1 ],
+      [ "sandpaper", 50 ]
     ]
   },
   {
@@ -168,7 +171,8 @@
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 90 ]
     ]
   },
   {
