@@ -64,7 +64,7 @@
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "rake", 15 ],
-      [ "rake_plastic", 25]
+      [ "rake_plastic", 25 ]
     ]
   },
   {
@@ -88,8 +88,8 @@
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
-      [ "shovel_snow", 10],
-      [ "shovel_snow_plastic", 15],
+      [ "shovel_snow", 10 ],
+      [ "shovel_snow_plastic", 15 ],
       [ "garden_hose", 20 ]
     ]
   },
@@ -144,9 +144,9 @@
       [ "shovel", 120 ],
       [ "sickle", 40 ],
       [ "rake", 20 ],
-      [ "rake_plastic", 40],
-      [ "shovel_snow", 20],
-      [ "shovel_snow_plastic", 40]
+      [ "rake_plastic", 40 ],
+      [ "shovel_snow", 20 ],
+      [ "shovel_snow_plastic", 40 ]
     ]
   },
   {
