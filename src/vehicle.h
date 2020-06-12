@@ -1784,10 +1784,12 @@ class vehicle
         // For a given mount point, returns it's adjacency info
         vpart_edge_info get_edge_info( const point &mount ) const;
 
-        // Rebuilds edges cache
-        void refresh_edge_info();
-        // Re-installs fake parts used to pad the vehicle when askew
+        /* Re-finds all edge parts and re-creates the fake_mounts map
+         * This should only be called from refresh()
+         */
         void refresh_fake_parts();
+        // similar to precalc_mounts but for fake_mounts
+        void precalc_fake_mounts(int idir, int dir, const point &pivot);
         // Removes fake parts from the parts vector
         void remove_fake_parts();
         fake_vehicle_mount &find_fake( const int part_num );
