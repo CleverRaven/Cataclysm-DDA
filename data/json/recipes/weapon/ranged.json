@@ -270,17 +270,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
-    "tools": [
-      [
-        [ "oxy_torch", 6 ],
-        [ "welder", 30 ],
-        [ "welder_crude", 45 ],
-        [ "toolset", 45 ],
-        [ "small_repairkit", 150 ],
-        [ "large_repairkit", 30 ]
-        [ "12ga_hull", -1 ],
-      ]
-    ],
+    "tools": [ [ [ "welding_standard", 3 ], [ "shot_hull", -1 ] ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]
