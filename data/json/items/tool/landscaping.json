@@ -142,6 +142,7 @@
   },
   {
     "id": "shovel_snow",
+    "looks_like": "shovel",
     "type": "TOOL",
     "name": { "str": "snow shovel" },
     "description": "This is a sturdy tool used for shoving snow.",
@@ -162,6 +163,7 @@
   },
   {
     "id": "shovel_snow_plastic",
+    "looks_like": "shovel",
     "name": { "str": "plastic snow shovel" },
     "description": "A cheap plastic shovel used for shoving snow",
     "weight": "1500 g",

@@ -229,6 +229,7 @@
   },
   {
     "id": "hose_garden",
+    "looks_like": "hose",
     "type": "TOOL",
     "name": { "str": "garden hose" },
     "description": "This is a flexible garden hose.  If you cut it in smaller pieces, it could be used for crafting, or siphoning fuel from a vehicle.",

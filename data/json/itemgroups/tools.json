@@ -88,9 +88,9 @@
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
-      [ "shovel_snow", 15],
-      [ "shovel_snow_plastic", 25],
-      [ "garden_hose", 30 ]
+      [ "shovel_snow", 10],
+      [ "shovel_snow_plastic", 15],
+      [ "garden_hose", 20 ]
     ]
   },
   {

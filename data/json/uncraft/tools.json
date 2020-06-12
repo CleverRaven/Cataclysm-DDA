@@ -21,7 +21,7 @@
     "result": "hose_garden",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "difficulty": 0,
+    "difficulty": 1,
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "hose", 3 ] ] ]
