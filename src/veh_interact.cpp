@@ -242,8 +242,7 @@ veh_interact::~veh_interact() = default;
 void veh_interact::allocate_windows()
 {
     // grid window
-    const int grid_x = 1;
-    const int grid_y = 1;
+    const point grid( point_south_east );
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
 
@@ -252,7 +251,7 @@ void veh_interact::allocate_windows()
 
     page_size = grid_h - ( mode_h + stats_h + name_h ) - 2;
 
-    const int pane_y = grid_y + mode_h + 1;
+    const int pane_y = grid.y + mode_h + 1;
 
     const int pane_w = ( grid_w / 3 ) - 1;
 
@@ -264,7 +263,7 @@ void veh_interact::allocate_windows()
     const int name_y = pane_y + page_size + 1;
     const int stats_y = name_y + name_h;
 
-    const int list_x = grid_x + disp_w + 1;
+    const int list_x = grid.x + disp_w + 1;
     const int msg_x  = list_x + pane_w + 1;
 
     // covers right part of w_name and w_stats in vertical/hybrid
@@ -272,17 +271,17 @@ void veh_interact::allocate_windows()
     const int details_x = list_x;
 
     const int details_h = 7;
-    const int details_w = grid_x + grid_w - details_x;
+    const int details_w = grid.x + grid_w - details_x;
 
     // make the windows
     w_border = catacurses::newwin( TERMY, TERMX, point_zero );
-    w_mode  = catacurses::newwin( mode_h,    grid_w, point( grid_x, grid_y ) );
+    w_mode  = catacurses::newwin( mode_h,    grid_w, grid );
     w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
-    w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid_x, pane_y ) );
-    w_parts = catacurses::newwin( parts_h,   disp_w, point( grid_x, parts_y ) );
+    w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid.x, pane_y ) );
+    w_parts = catacurses::newwin( parts_h,   disp_w, point( grid.x, parts_y ) );
     w_list  = catacurses::newwin( page_size, pane_w, point( list_x, pane_y ) );
-    w_stats = catacurses::newwin( stats_h,   grid_w, point( grid_x, stats_y ) );
-    w_name  = catacurses::newwin( name_h,    grid_w, point( grid_x, name_y ) );
+    w_stats = catacurses::newwin( stats_h,   grid_w, point( grid.x, stats_y ) );
+    w_name  = catacurses::newwin( name_h,    grid_w, point( grid.x, name_y ) );
     w_details = catacurses::newwin( details_h, details_w, point( details_x, details_y ) );
 }
 
@@ -2934,8 +2933,7 @@ void veh_interact::complete_vehicle( player &p )
     }
     vehicle *const veh = &vp->vehicle();
 
-    int dx = p.activity.values[4];
-    int dy = p.activity.values[5];
+    point d( p.activity.values[4], p.activity.values[5] );
     int vehicle_part = p.activity.values[6];
     const vpart_id part_id( p.activity.str_values[0] );
 
@@ -2976,16 +2974,16 @@ void veh_interact::complete_vehicle( player &p )
 
             p.invalidate_crafting_inventory();
 
-            int partnum = !base.is_null() ? veh->install_part( point( dx, dy ), part_id,
+            int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ) ) : -1;
             if( partnum < 0 ) {
-                debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
+                debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", d.x, d.y, part_id.c_str() );
                 break;
             }
 
             // Need map-relative coordinates to compare to output of look_around.
             // Need to call coord_translate() directly since it's a new part.
-            const point q = veh->coord_translate( point( dx, dy ) );
+            const point q = veh->coord_translate( d );
 
             if( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||

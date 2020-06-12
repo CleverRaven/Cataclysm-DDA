@@ -147,20 +147,19 @@ void player::power_mutations()
         HEIGHT = std::min( TERMY, std::max( FULL_SCREEN_HEIGHT,
                                             TITLE_HEIGHT + mutations_count + DESCRIPTION_HEIGHT + 5 ) );
         WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
-        const int START_X = ( TERMX - WIDTH ) / 2;
-        const int START_Y = ( TERMY - HEIGHT ) / 2;
-        wBio = catacurses::newwin( HEIGHT, WIDTH, point( START_X, START_Y ) );
+        const point START( ( TERMX - WIDTH ) / 2, ( TERMY - HEIGHT ) / 2 );
+        wBio = catacurses::newwin( HEIGHT, WIDTH, START );
 
         // Description window @ the bottom of the bionic window
-        const int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
-        DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
+        const int DESCRIPTION_START_Y = START.y + HEIGHT - DESCRIPTION_HEIGHT - 1;
+        DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START.y - 1;
         w_description = catacurses::newwin( DESCRIPTION_HEIGHT, WIDTH - 2,
-                                            point( START_X + 1, DESCRIPTION_START_Y ) );
+                                            point( START.x + 1, DESCRIPTION_START_Y ) );
 
         // Title window
-        const int TITLE_START_Y = START_Y + 1;
+        const int TITLE_START_Y = START.y + 1;
         w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2,
-                                      point( START_X + 1, TITLE_START_Y ) );
+                                      point( START.x + 1, TITLE_START_Y ) );
 
         recalc_max_scroll_position();
 

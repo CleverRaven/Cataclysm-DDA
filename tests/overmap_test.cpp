@@ -57,7 +57,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
-    const point origin = point_zero;
+    const point origin;
 
     overmap_special mandatory;
     overmap_special optional;

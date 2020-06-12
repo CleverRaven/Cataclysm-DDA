@@ -459,8 +459,7 @@ void player::sort_armor()
 
     int win_h = 0;
     int win_w = 0;
-    int win_x = 0;
-    int win_y = 0;
+    point win;
 
     int cont_h   = 0;
     int left_w   = 0;
@@ -500,22 +499,22 @@ void player::sort_armor()
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         win_h = std::min( TERMY, std::max( { FULL_SCREEN_HEIGHT, req_right_h, req_mid_h } ) );
         win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) * 3 / 4;
-        win_x = TERMX / 2 - win_w / 2;
-        win_y = TERMY / 2 - win_h / 2;
+        win.x = TERMX / 2 - win_w / 2;
+        win.y = TERMY / 2 - win_h / 2;
         cont_h = win_h - 4;
         left_w = ( win_w - 4 ) / 3;
         right_w = left_w;
         middle_w = ( win_w - 4 ) - left_w - right_w;
         leftListLines = rightListLines = cont_h - 2;
-        w_sort_armor = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
-        w_sort_cat = catacurses::newwin( 1, win_w - 4, point( win_x + 2, win_y + 1 ) );
-        w_sort_left = catacurses::newwin( cont_h, left_w, point( win_x + 1, win_y + 3 ) );
+        w_sort_armor = catacurses::newwin( win_h, win_w, win );
+        w_sort_cat = catacurses::newwin( 1, win_w - 4, win + point( 2, 1 ) );
+        w_sort_left = catacurses::newwin( cont_h, left_w, win + point( 1, 3 ) );
         w_sort_middle = catacurses::newwin( cont_h - num_bp - 1, middle_w,
-                                            point( win_x + left_w + 2, win_y + 3 ) );
+                                            win + point( 2 + left_w, 3 ) );
         w_sort_right = catacurses::newwin( cont_h, right_w,
-                                           point( win_x + left_w + middle_w + 3, win_y + 3 ) );
+                                           win + point( 3 + left_w + middle_w, 3 ) );
         w_encumb = catacurses::newwin( num_bp + 1, middle_w,
-                                       point( win_x + left_w + 2, win_y + 3 + cont_h - num_bp - 1 ) );
+                                       win + point( 2 + left_w, -1 + 3 + cont_h - num_bp ) );
         ui.position_from_window( w_sort_armor );
     } );
     ui.mark_resize();
