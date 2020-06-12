@@ -1795,6 +1795,7 @@ class vehicle
         void remove_fake_parts();
         fake_vehicle_mount &find_fake( const int part_num );
         int obstacle_at_mount( const point &mount ) const;
+        point get_abs_diff( const point &one, const point &two ) const;
         bool should_enable_fake( const point &fake_precalc, const point &parent_precalc,
                                  const point &neighbor_precalc ) const;
     public:
@@ -1812,8 +1813,8 @@ class vehicle
         // Determines if this vehicle has any parts
         bool has_any_parts() const;
         // Number of parts in this vehicle
-        size_t num_parts() const;
-        size_t num_parts_incl_fake() const;
+        int num_parts() const;
+        int num_parts_incl_fake() const;
         // Exists solely to support faction_camp.cpp
         void force_remove_part( int part_num );
 
