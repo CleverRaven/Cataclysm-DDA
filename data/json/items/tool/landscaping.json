@@ -92,7 +92,7 @@
     "type": "TOOL",
     "name": { "str": "plastic rake" },
     "description": "A cheap plastic rake.  Will break quite fast if used for anything else than raking leaves.",
-    "weight": "1000 cm",
+    "weight": "1000 g",
     "volume": "3500 ml",
     "longest_side": "150 cm",
     "price": 750,
