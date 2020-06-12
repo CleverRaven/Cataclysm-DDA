@@ -645,7 +645,7 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": "LADDER"
+    "use_action": [ "LADDER" ]
   },
   {
     "id": "survival_marker",

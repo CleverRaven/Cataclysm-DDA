@@ -1382,7 +1382,7 @@
     "healthy": -1,
     "addiction_potential": 15,
     "addiction_type": "sleeping pill",
-    "use_action": "FLUSLEEP"
+    "use_action": [ "FLUSLEEP" ]
   },
   {
     "id": "prozac",

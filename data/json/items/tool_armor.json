@@ -1834,7 +1834,7 @@
     "to_hit": -1,
     "charges_per_use": 1,
     "ammo": "battery",
-    "use_action": "RADGLOVE",
+    "use_action": [ "RADGLOVE" ],
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "material_thickness": 1,

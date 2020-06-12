@@ -144,7 +144,7 @@
     "ammo": [ "gasoline" ],
     "max_charges": 600,
     "charges_per_use": 5,
-    "use_action": "TRIMMER_OFF",
+    "use_action": [ "TRIMMER_OFF" ],
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -157,7 +157,7 @@
     "power_draw": 500000,
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": "TRIMMER_ON",
+    "use_action": [ "TRIMMER_ON" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   }
