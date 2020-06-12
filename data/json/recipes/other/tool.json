@@ -983,6 +983,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "plank", 1 ], [ "stout_brach", 1 ] ] ]
   },
   {
@@ -1009,6 +1010,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "plank", 1 ], [ "stout_brach", 1 ] ] ]
   }
 ]
