@@ -1322,8 +1322,9 @@ bool Character::consume_effects( item &food )
 
     nutrients food_nutrients = compute_effective_nutrients( food );
     // TODO: Move quench values to mL and remove the magic number here
-    units::volume water_vol = food.type->comestible->quench * 5_ml;
-    units::volume food_vol = food.base_volume() - std::max( water_vol, 0_ml );
+    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
+                              5_ml : 0_ml;
+    units::volume food_vol = food.base_volume() - water_vol;
     units::mass food_weight = ( food.weight() / food.count() ) - units::from_gram( units::to_milliliter(
                                   water_vol ) ); //water is 1 gram per milliliter
     double ratio = 1.0f;
