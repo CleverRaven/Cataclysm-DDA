@@ -203,6 +203,7 @@ static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
+static const std::string flag_PICKABLE( "PICKABLE" );
 static const std::string flag_PROCESSING( "PROCESSING" );
 static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 static const std::string flag_SAFECRACK( "SAFECRACK" );
@@ -1387,8 +1388,12 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     if( prying_items.empty() ) {
-        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
-                 g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
+        if( g->m.has_flag( flag_PICKABLE, examp ) ) {
+            locked_object_pickable( p, examp );
+        } else {
+            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
+                     g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
+        }
         return;
     }
 
