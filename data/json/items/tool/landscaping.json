@@ -166,7 +166,7 @@
     "id": "shovel_snow_plastic",
     "looks_like": "shovel",
     "name": { "str": "plastic snow shovel" },
-    "description": "A cheap plastic shovel used for shoving snow",
+    "description": "A cheap plastic shovel used for shoving snow.",
     "weight": "1500 g",
     "volume": "3500 ml",
     "longest_side": "150 cm",
