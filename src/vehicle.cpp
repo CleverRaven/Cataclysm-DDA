@@ -1810,7 +1810,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
     // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
     // we can go ahead and merge
-    const point mount_zero;
+    const point mount_zero{};
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
         for( const mapping &carry_map : carry_data ) {

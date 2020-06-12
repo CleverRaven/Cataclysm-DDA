@@ -970,7 +970,7 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
 }
 
 struct tile_render_info {
-    const tripoint pos;
+    const tripoint pos{};
     // accumulator for 3d tallness of sprites rendered here so far;
     int height_3d = 0;
     lit_level ll;

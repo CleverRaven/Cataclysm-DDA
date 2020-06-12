@@ -3296,7 +3296,7 @@ void game::display_faction_epilogues()
 }
 
 struct npc_dist_to_player {
-    const tripoint ppos;
+    const tripoint ppos{};
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
@@ -10849,7 +10849,7 @@ void game::start_hauling( const tripoint &pos )
     // Whether the destination is inside a vehicle (not supported)
     const bool to_vehicle = false;
     // Destination relative to the player
-    const tripoint relative_destination;
+    const tripoint relative_destination{};
 
     u.assign_activity( player_activity( move_items_activity_actor(
                                             target_items,

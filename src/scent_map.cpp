@@ -138,7 +138,7 @@ bool scent_map::inbounds( const tripoint &p ) const
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
-    static constexpr point scent_map_boundary_min;
+    static constexpr point scent_map_boundary_min{};
     static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
     static constexpr half_open_rectangle scent_map_boundaries(

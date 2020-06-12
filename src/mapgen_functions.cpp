@@ -3074,7 +3074,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const int sector_length = SEEX * 2 / 3;
 
     // Define the corners of the map. These won't change.
-    static constexpr point nw_corner;
+    static constexpr point nw_corner{};
     static constexpr point ne_corner( SEEX * 2 - 1, 0 );
     static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
     static constexpr point sw_corner( 0, SEEY * 2 - 1 );

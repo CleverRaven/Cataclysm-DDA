@@ -295,8 +295,8 @@ struct inclusive_box : box {
     }
 };
 
-static constexpr tripoint tripoint_zero;
-static constexpr point point_zero{ tripoint_zero.xy() };
+static constexpr tripoint tripoint_zero{};
+static constexpr point point_zero{};
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };

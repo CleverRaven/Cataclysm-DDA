@@ -45,7 +45,7 @@ static const efftype_id effect_onfire( "onfire" );
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
 
-static constexpr point lightmap_boundary_min;
+static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
 const half_open_rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
