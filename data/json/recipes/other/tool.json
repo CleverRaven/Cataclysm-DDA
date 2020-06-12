@@ -971,7 +971,7 @@
     "using": [ [ "forging_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "plank", 1 ], [ "stout_brach", 1 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "result": "shovel_snow_plastic",
@@ -984,7 +984,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "plank", 1 ], [ "stout_brach", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "result": "rake",
@@ -998,7 +998,7 @@
     "using": [ [ "forging_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER_FINE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "plank", 1 ], [ "stout_brach", 1 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "result": "rake_plastic",
@@ -1011,6 +1011,6 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "plank", 1 ], [ "stout_brach", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   }
 ]
