@@ -7362,7 +7362,12 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
     const std::vector<const item *> &mods = is_gun() ? gunmods() : toolmods();
     for( const item *m : mods ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
-            for( const ammotype &atype : ammo_types( conversion ) ) {
+            // Use item's ammo_types, unless it is a tool with ammo_id set
+            std::set<ammotype> ammos = ammo_types( conversion );
+            if( is_tool() && !type->tool->ammo_id.empty() ) {
+                ammos = type->tool->ammo_id;
+            }
+            for( const ammotype &atype : ammos ) {
                 if( m->type->mod->magazine_adaptor.count( atype ) ) {
                     std::set<itype_id> magazines_for_atype = m->type->mod->magazine_adaptor.find( atype )->second;
                     mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
