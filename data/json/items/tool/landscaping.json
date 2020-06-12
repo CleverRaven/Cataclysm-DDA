@@ -71,6 +71,7 @@
   },
   {
     "id": "rake",
+    "type": "TOOL",
     "name": { "str": "metal rake" },
     "description": "A sturdy metal rake, a must-have during autumn.",
     "weight": "1500 g",
