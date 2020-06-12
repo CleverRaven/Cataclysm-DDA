@@ -1340,7 +1340,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         return false;
     }
 
-    const std::vector<int> parts_in_square = parts_at_relative( dp, false );
+    const std::vector<int> parts_in_square = parts_at_relative( dp, false, false );
 
     //First part in an empty square MUST be a structural part
     if( parts_in_square.empty() && part.location != part_location_structure ) {
@@ -1668,6 +1668,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     // refresh will add them back if needed
     remove_fake_parts();
     parts.push_back( new_part );
+    int new_part_index = parts.size() - 1;
     auto &pt = parts.back();
 
     pt.enabled = enable;
@@ -1676,7 +1677,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
 
     refresh();
     coeff_air_changed = true;
-    return parts.size() - 1;
+    return new_part_index;
 }
 
 bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
@@ -3106,9 +3107,7 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
             p.precalc[idir] = q->second;
         }
     }
-    for( auto &fm : fake_mounts ) {
-        coord_translate( tdir, pivot, fm.second.mount, fm.second.precalc[idir] );
-    }
+    precalc_fake_mounts( idir, dir, pivot );
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
 }
@@ -5467,6 +5466,7 @@ void vehicle::refresh()
     if( no_refresh ) {
         return;
     }
+    remove_fake_parts();
 
     alternators.clear();
     engines.clear();
@@ -5628,8 +5628,6 @@ void vehicle::refresh()
         rail_wheel_bounding_box.p1 = point_zero;
         rail_wheel_bounding_box.p2 = point_zero;
     }
-    // re-compute edge info
-    refresh_edge_info();
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     // re-install fake parts -after- we recalc all the precalc's
@@ -5678,8 +5676,21 @@ int vehicle::obstacle_at_mount( const point &mount ) const
     return obs;
 }
 
-void vehicle::refresh_edge_info()
+void vehicle::precalc_fake_mounts( int idir, int dir, const point &pivot )
 {
+    if( idir < 0 || idir > 1 ) {
+        idir = 0;
+    }
+    tileray tdir( dir );
+    for( auto &fm : fake_mounts ) {
+        coord_translate( tdir, pivot, fm.second.mount, fm.second.precalc[idir] );
+    }
+}
+
+// should only be called in vehicle::refresh()
+void vehicle::refresh_fake_parts()
+{
+    remove_fake_parts();
     edges.clear();
     fake_mounts.clear();
 
@@ -5690,9 +5701,11 @@ void vehicle::refresh_edge_info()
             // wo don't want to be mirroring bike baskets and spare tires
             continue;
         }
+        // find neighbor info for current mount
         vpart_edge_info edge_info = get_edge_info( rp.first );
         int disp = part_displayed_at( rp.first );
         int struc = -1;
+        // we need to know about the structural part at this mount, for collision
         for( int p : parts_at_relative( rp.first, true, false ) ) {
             const vpart_info &rel_info = part_info( p );
             if( rel_info.location == part_location_structure ) {
@@ -5700,32 +5713,30 @@ void vehicle::refresh_edge_info()
                 break;
             }
         }
-
+        // add fake mounts based on the edge info
         if( edge_info.is_edge_mount() ) {
-            if( edge_info.forward == -1 ) {
+            if( edge_info.forward == -1 && fake_mounts.find( rp.first + point( 1, 0 ) ) == fake_mounts.end() ) {
                 fake_vehicle_mount fake_forward( rp.first + point( 1, 0 ), rp.first, disp, struc, false );
                 fake_mounts.emplace( fake_forward.mount, fake_forward );
             }
-            if( edge_info.back == -1 ) {
+            if( edge_info.back == -1 && fake_mounts.find( rp.first + point( -1, 0 ) ) == fake_mounts.end() ) {
                 fake_vehicle_mount fake_back( rp.first + point( -1, 0 ), rp.first, disp, struc, false );
                 fake_mounts.emplace( fake_back.mount, fake_back );
             }
-            if( edge_info.left == -1 ) {
+            if( edge_info.left == -1 && fake_mounts.find( rp.first + point( 0, -1 ) ) == fake_mounts.end() ) {
                 fake_vehicle_mount fake_left( rp.first + point( 0, -1 ), rp.first, disp, struc, false );
                 fake_mounts.emplace( fake_left.mount, fake_left );
             }
-            if( edge_info.right == -1 ) {
+            if( edge_info.right == -1 && fake_mounts.find( rp.first + point( 0, 1 ) ) == fake_mounts.end() ) {
                 fake_vehicle_mount fake_right( rp.first + point( 0, 1 ), rp.first, disp, struc, false );
                 fake_mounts.emplace( fake_right.mount, fake_right );
             }
             edges.emplace( rp.first, edge_info );
         }
     }
-}
-
-void vehicle::refresh_fake_parts()
-{
-    remove_fake_parts();
+    // update the precalc info for the added fake mounts
+    precalc_fake_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
+    // install the fake parts into parts and add appropriate entires to relative_parts
     for( std::pair<const point, fake_vehicle_mount> &fm : fake_mounts ) {
         vehicle_part vp( parts[fm.second.visible_part] );
         vp.mount = fm.first;
