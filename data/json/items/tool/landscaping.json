@@ -100,6 +100,7 @@
     "to_hit": 2,
     "bashing": 2,
     "cutting": 7,
+    "material": [ "plastic", "wood" ],
     "symbol": "/",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
