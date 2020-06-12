@@ -63,8 +63,8 @@
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
-	  [ "rake", 15 ],
-	  [ "rake_plastic", 25]
+      [ "rake", 15 ],
+      [ "rake_plastic", 25]
     ]
   },
   {
@@ -88,9 +88,9 @@
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
-	  [ "shovel_snow", 15],
-	  [ "shovel_snow_plastic", 25],
-	  [ "garden_hose", 30 ]
+      [ "shovel_snow", 15],
+      [ "shovel_snow_plastic", 25],
+      [ "garden_hose", 30 ]
     ]
   },
   {
@@ -143,10 +143,10 @@
       [ "scythe", 40 ],
       [ "shovel", 120 ],
       [ "sickle", 40 ],
-	  [ "rake", 20 ],
-	  [ "rake_plastic", 40],
-	  [ "shovel_snow", 20],
-	  [ "shovel_snow_plastic", 40]
+      [ "rake", 20 ],
+      [ "rake_plastic", 40],
+      [ "shovel_snow", 20],
+      [ "shovel_snow_plastic", 40]
     ]
   },
   {
