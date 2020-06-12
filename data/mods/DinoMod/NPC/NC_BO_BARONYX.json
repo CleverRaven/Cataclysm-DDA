@@ -31,7 +31,7 @@
     "mission": 3,
     "chat": "TALK_SWAMPER",
     "faction": "swamper",
-    "mission_offered": "MISSION_SWAMPER_GET_MEAT"
+    "mission_offered": "MISSION_SWAMPER_GATHER_MEAT"
   },
   {
     "type": "talk_topic",
@@ -234,35 +234,6 @@
     "responses": [ { "text": "So, meat from a creature that isn't a zombie, or a giant monster.  Got it.", "topic": "TALK_NONE" } ]
   },
   {
-    "id": "TALK_SHARE_EQUIPMENT_SWAMPER",
-    "type": "talk_topic",
-    "dynamic_line": "The company needs me here.",
-    "responses": [ { "text": "I see.  Of course.", "topic": "TALK_NONE" } ]
-  },
-  {
-    "id": "TALK_SUGGEST_FOLLOW_SWAMPER",
-    "type": "talk_topic",
-    "dynamic_line": {
-      "u_has_trait": "seer_mark",
-      "no": "No, I must remain here to oversee the company.",
-      "yes": "This shouldn't work yet and you shouldn't see this."
-    },
-    "responses": [
-      { "text": "Of course CEO Baronyx.", "topic": "TALK_NONE", "condition": { "not": { "u_has_trait": "seer_mark" } } },
-      {
-        "text": "I shouldn't have heard that.",
-        "effect": "follow",
-        "condition": { "u_has_trait": "seer_mark" },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "No.  I shouldn't have heard that.",
-        "condition": { "u_has_trait": "seer_mark" },
-        "topic": "TALK_NONE"
-      }
-    ]
-  },
-  {
     "id": "TALK_MISSION_REJECTED_SWAMPER",
     "type": "talk_topic",
     "dynamic_line": "Of course, the company will be ready when you are and the great eaters will feed either way.",
@@ -279,5 +250,84 @@
       { "text": "Yes CEO Baronyx, very good CEO Baronyx.", "topic": "TALK_NONE" },
       { "text": "This makes no sense and I'm done talking about it.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "faction",
+    "id": "swamper",
+    "name": "Swampers Religious Community and Hotels and Casinos",
+    "likes_u": 30,
+    "respects_u": 20,
+    "known_by_u": false,
+    "size": 25,
+    "power": 20,
+    "currency": "icon",
+    "food_supply": 87500,
+    "wealth": 82500,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "isherwood_family": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A prosperous but secretive group of churchgoers and entertainment moguls with an affection for dinosaurs.  They welcome all untainted humans."
   }
 ]
