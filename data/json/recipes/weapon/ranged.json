@@ -273,17 +273,34 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "GLARE", "level": 2 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "FILE", "level": 1 }
+      { "id": "FILE", "level": 1 },
+      { "id": "WELD", "level": 2 }
     ],
     "tools": [
-      [
-        [ "oxy_torch", 6 ],
-        [ "welder", 30 ],
-        [ "welder_crude", 45 ],
-        [ "toolset", 45 ],
-        [ "small_repairkit", 150 ],
-        [ "large_repairkit", 150 ]
-      ],
+      [ "shot_00", -1 ],
+      [ "shot_bird", -1 ],
+      [ "shot_dragon", -1 ],
+      [ "shot_fletchette", -1 ]
+      [ "shot_slug", -1 ],
+      [ "shot_scrap", -1 ],
+      [ "shot_he", -1 ],
+      [ "shot_beanbag", -1 ],
+      [ "reloaded_shot_00", -1 ],
+      [ "reloaded_shot_bird", -1 ],
+      [ "reloaded_shot_dragon", -1 ],
+      [ "reloaded_shot_fletchette", -1 ],
+      [ "reloaded_shot_slug", -1 ],
+      [ "reloaded_shot_scrap", -1 ],
+      [ "reloaded_shot_he", -1 ],
+      [ "reloaded_shot_beanbag", -1 ],
+      [ "bp_shot_00", -1 ],
+      [ "bp_shot_bird", -1 ],
+      [ "bp_shot_dragon", -1 ],
+      [ "bp_shot_fletchette", -1 ],
+      [ "bp_shot_slug", -1 ],
+      [ "bp_shot_scrap", -1 ],
+      [ "bp_shot_he", -1 ],
+      [ "bp_shot_beanbag", -1 ],
       [ "shot_hull", -1 ]
     ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
