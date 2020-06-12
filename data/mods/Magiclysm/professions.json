@@ -384,5 +384,31 @@
       "female": [ "bra", "boy_shorts" ]
     },
     "traits": [ "PROF_POLICE", "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "earth_boxer",
+    "name": "Earthquake Brawler",
+    "description": "You've made a name for yourself in underground magic boxing rings as an unstoppable punching machine. Now that all your opponents are undead, there's no need to hold back.",
+    "points": 4,
+    "spells": [
+      { "id": "earthshaper_stoneskin", "level": 2 },
+      { "id": "stonefist", "level": 4 },
+      { "id": "seismic_stomp", "level": 4 },
+      { "id": "recover_stamina", "level": 2 }
+    ],
+    "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "spellcraft" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "under_armor_shorts", "under_armor", "shorts", "gloves_wraps", "headgear", "mouthpiece", "socks", "sneakers" ]
+      },
+      "female": [ "sports_bra" ]
+    }
   }
 ]

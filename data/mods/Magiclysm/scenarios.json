@@ -37,7 +37,14 @@
     "description": "You have been an apprentice to a wizard for some time now, you've saved for years for your dream vacation at a secluded wizard tower.  Your journey of self-discovery is interrupted by the Cataclysm.  Now you have to figure out how to survive on your own.",
     "start_name": "Wizard's Retreat Vacation",
     "allowed_locs": [ "sloc_lake_retreat" ],
-    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
+    "professions": [
+      "wizard_novice",
+      "novice_necromancer",
+      "novice_earthshaper",
+      "novice_technomancer",
+      "novice_stormshaper",
+      "academy_wizard"
+    ]
   },
   {
     "type": "scenario",
