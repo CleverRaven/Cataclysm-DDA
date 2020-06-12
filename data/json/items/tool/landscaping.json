@@ -89,6 +89,7 @@
   },
   {
     "id": "rake_plastic",
+	"type": "TOOL",
     "name": { "str": "plastic rake" },
     "description": "A cheap plastic rake.  Will break quite fast if used for anything else than raking leaves.",
     "weight": "1000",
