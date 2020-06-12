@@ -911,9 +911,6 @@ float item_contents::relative_encumbrance() const
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             continue;
         }
-        if( pocket.rigid() ) {
-            continue;
-        }
         nonrigid_volume += pocket.contains_volume();
         nonrigid_max_volume += pocket.max_contains_volume();
     }
