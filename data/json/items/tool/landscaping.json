@@ -90,7 +90,7 @@
   {
     "id": "rake_plastic",
     "name": { "str": "plastic rake" },
-    "description": "A cheap plastic rake, will break quite fast if used for anything else than raking leaves",
+    "description": "A cheap plastic rake.  Will break quite fast if used for anything else than raking leaves.",
     "weight": "1000",
     "volume": "3500",
     "longest_side": "150 cm",
