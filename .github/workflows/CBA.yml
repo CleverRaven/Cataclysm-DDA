@@ -1,0 +1,39 @@
+name: Clang Build Analyzer
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+    - name: install dependencies
+      run: sudo apt-get install libncursesw5-dev
+    - name: Prepare Build Analyzer
+      run: |
+        cd
+        git clone --recursive https://github.com/aras-p/ClangBuildAnalyzer.git buildAnalyzer
+        cd buildAnalyzer
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+        cmake --build . -- -j3
+        echo "::add-path::$PWD"
+    - name: make
+      run: |
+        ClangBuildAnalyzer --start .
+        CLANG=clang++-9 CXXFLAGS=-ftime-trace make 
+        ClangBuildAnalyzer --stop . buildAnalysis
+    - name: Analyze
+      run: ClangBuildAnalyzer --analyze buildAnalysis
