@@ -1420,9 +1420,11 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         return false;
     } );
 
+    // If no lockpicking tools are available, pring a message and try prying instead
     if( picklocks.empty() ) {
-        add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
+        add_msg( m_info, _( "The %s has a lock you could try to pick." ),
                  g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
+        locked_object( p, examp );
         return;
     }
 
