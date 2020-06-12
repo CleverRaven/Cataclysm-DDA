@@ -33,6 +33,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
