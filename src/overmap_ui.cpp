@@ -817,10 +817,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         draw_camp_labels( w, center );
     }
 
-    rectangle screen_bounds( corner.xy(), corner.xy() + point( om_map_width, om_map_height ) );
+    half_open_rectangle screen_bounds( corner.xy(),
+                                       corner.xy() + point( om_map_width, om_map_height ) );
 
-    if( has_target && blink && !screen_bounds.contains_half_open( target.xy() ) ) {
-        point marker = clamp_half_open( target.xy(), screen_bounds ) - corner.xy();
+    if( has_target && blink && !screen_bounds.contains( target.xy() ) ) {
+        point marker = clamp( target.xy(), screen_bounds ) - corner.xy();
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {

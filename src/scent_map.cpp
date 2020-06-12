@@ -142,10 +142,10 @@ bool scent_map::inbounds( const tripoint &p ) const
     static constexpr point scent_map_boundary_min( point_zero );
     static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
-    static constexpr rectangle scent_map_boundaries(
+    static constexpr half_open_rectangle scent_map_boundaries(
         scent_map_boundary_min, scent_map_boundary_max );
 
-    return scent_map_boundaries.contains_half_open( p.xy() );
+    return scent_map_boundaries.contains( p.xy() );
 }
 
 void scent_map::update( const tripoint &center, map &m )

@@ -58,7 +58,7 @@
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
-static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
+static constexpr half_open_box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
 
 static const ter_id undefined_ter_id( -1 );
 
@@ -1517,7 +1517,7 @@ void editmap::recalc_target( shapetype shape )
             int radius = rl_dist( origin, target );
             for( const tripoint &p : g->m.points_in_radius( origin, radius ) ) {
                 if( rl_dist( p, origin ) <= radius ) {
-                    if( editmap_boundaries.contains_half_open( p ) ) {
+                    if( editmap_boundaries.contains( p ) ) {
                         target_list.push_back( p );
                     }
                 }
@@ -1548,7 +1548,7 @@ void editmap::recalc_target( shapetype shape )
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
                         const tripoint p( x, y, z );
-                        if( editmap_boundaries.contains_half_open( p ) ) {
+                        if( editmap_boundaries.contains( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -2005,8 +2005,8 @@ void editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
-            if( editmap_boundaries.contains_half_open( ptarget ) &&
-                editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
+            if( editmap_boundaries.contains( ptarget ) &&
+                editmap_boundaries.contains( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

@@ -4461,8 +4461,8 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     }
     for( const tripoint &p : submaps_with_active_items ) {
         tripoint rel = p - abs_sub.xy();
-        rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
-        if( !map.contains_half_open( rel.xy() ) ) {
+        half_open_rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
+        if( !map.contains( rel.xy() ) ) {
             result.push_back( p );
         }
     }
@@ -7425,9 +7425,9 @@ bool map::inbounds( const tripoint &p ) const
     static constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
     static constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT + 1 );
 
-    static constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    static constexpr half_open_box map_boundaries( map_boundary_min, map_boundary_max );
 
-    return map_boundaries.contains_half_open( p );
+    return map_boundaries.contains( p );
 }
 
 bool tinymap::inbounds( const tripoint &p ) const
@@ -7435,9 +7435,9 @@ bool tinymap::inbounds( const tripoint &p ) const
     constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
     constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT + 1 );
 
-    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr half_open_box map_boundaries( map_boundary_min, map_boundary_max );
 
-    return map_boundaries.contains_half_open( p );
+    return map_boundaries.contains( p );
 }
 
 // set up a map just long enough scribble on it
@@ -7650,7 +7650,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         }
     }
     VehicleList vehs = get_vehicles( start, end );
-    const box bounds( start, end );
+    const inclusive_box bounds( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
@@ -7658,7 +7658,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
             if( p.z != start.z ) {
                 break;
             }
-            if( !bounds.contains_inclusive( p ) ) {
+            if( !bounds.contains( p ) ) {
                 continue;
             }
 
@@ -8112,7 +8112,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
 
     function_over( tripoint( min, abs_sub.z ), tripoint( max, abs_sub.z ), fill_values );
 
-    const rectangle local_bounds( min, max );
+    const inclusive_rectangle local_bounds( min, max );
 
     // Now vehicles
 
@@ -8121,7 +8121,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_any_parts( VPFLAG_OBSTACLE ) ) {
             const tripoint part_pos = vp.pos();
-            if( local_bounds.contains_inclusive( part_pos.xy() ) ) {
+            if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
@@ -8133,7 +8133,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
             }
 
             const tripoint part_pos = vp.pos();
-            if( local_bounds.contains_inclusive( part_pos.xy() ) ) {
+            if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
