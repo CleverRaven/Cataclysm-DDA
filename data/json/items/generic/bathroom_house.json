@@ -10,7 +10,7 @@
     "price_postapoc": 0,
     "weight": "100 g",
     "volume": "50 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 1,
     "to_hit": -1
   },
@@ -145,7 +145,7 @@
     "price_postapoc": 10,
     "weight": "680 g",
     "volume": "2400 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 2,
     "to_hit": -1
   },

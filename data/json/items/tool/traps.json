@@ -61,7 +61,7 @@
     "to_hit": -3,
     "bashing": 12,
     "cutting": 6,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -103,7 +103,7 @@
     "volume": "250 ml",
     "price": 50,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_cyan",
     "use_action": {
@@ -238,7 +238,7 @@
     "price": 300,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {

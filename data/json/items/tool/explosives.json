@@ -866,7 +866,7 @@
     "price": 200000,
     "price_postapoc": 4000,
     "bashing": 6,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "green",
     "use_action": {

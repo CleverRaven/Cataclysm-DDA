@@ -282,7 +282,7 @@
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": "1 g",
     "volume": "5ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "color": "light_green"
   },
   {
@@ -434,7 +434,7 @@
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
@@ -448,7 +448,7 @@
     "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "=",
     "looks_like": "shot_hull",
     "color": "red",

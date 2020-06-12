@@ -468,7 +468,7 @@
     "volume": "10ml",
     "price": 1200000,
     "price_postapoc": 3000,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "!",
     "color": "magenta",
     "healthy": -6,

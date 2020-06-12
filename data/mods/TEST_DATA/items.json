@@ -734,7 +734,7 @@
     "type": "GENERIC",
     "name": { "str": "test pointy stick" },
     "description": "A simple wood pole with one end sharpened.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "1250 ml",
     "weight": "900 g",
     "symbol": "/",

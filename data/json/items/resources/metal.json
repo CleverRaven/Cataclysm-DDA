@@ -301,7 +301,7 @@
     "description": "A small chunk of copper, usable for crafting or repairs.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "copper",
+    "material": [ "copper" ],
     "weight": "50 g",
     "volume": "62 ml",
     "bashing": 1,
