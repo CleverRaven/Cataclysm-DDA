@@ -7071,7 +7071,7 @@ bool vehicle::fake_part( int part_num ) const
 
 bool vehicle::valid_part( int part_num, bool include_fake ) const
 {
-    return part_num >= 0 && part_num < include_fake ? num_parts_incl_fake() :  num_parts();
+    return part_num >= 0 && part_num < ( include_fake ? num_parts_incl_fake() :  num_parts() );
 }
 
 bool vehicle::has_any_parts() const
@@ -7100,7 +7100,6 @@ fake_vehicle_mount &vehicle::find_fake( const int part_num )
             return fm.second;
         }
     }
-    return fake_vehicle_mount();
 }
 
 int vehicle::get_fake_parent( const int part_num )

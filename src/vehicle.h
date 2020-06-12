@@ -139,8 +139,8 @@ struct fake_vehicle_mount {
     std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
 
     fake_vehicle_mount() :
-        mount( point_zero ), copy_of( point_zero ), visible_part( -1 ), structural_part( -1 ),
-        active( false ) {}
+        mount( point_zero ), copy_of( point_zero ), active( false ), visible_part( -1 ),
+        structural_part( -1 ) {}
     fake_vehicle_mount( const point &mount, const point &copy_of, bool active,
                         int visible_part,
                         int structural_part ) :
