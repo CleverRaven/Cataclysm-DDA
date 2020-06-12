@@ -5778,7 +5778,7 @@ bool vehicle::real_or_active_fake_part( int part_num ) const
     return !fake_part( part_num );
 }
 
-point get_abs_diff( const point &one, const point &two )
+point vehicle::get_abs_diff( const point &one, const point &two ) const
 {
     return point( std::abs( one.x - two.x ), std::abs( one.y - two.y ) );
 }
@@ -6750,7 +6750,7 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 
 vehicle_part &vpart_reference::part() const
 {
-    assert( part_index() < vehicle().parts.size() );
+    assert( static_cast<int>( part_index() ) < vehicle().num_parts_incl_fake() );
     return vehicle().part( part_index() );
 }
 
@@ -7071,22 +7071,22 @@ bool vehicle::fake_part( int part_num ) const
 
 bool vehicle::valid_part( int part_num, bool include_fake ) const
 {
-    return part_num >= 0 && part_num < ( include_fake ? num_parts_incl_fake() :  num_parts() );
+    return part_num >= 0 && part_num < ( include_fake ?  num_parts_incl_fake() :  num_parts() );
 }
 
 bool vehicle::has_any_parts() const
 {
-    return parts.size() > 0;
+    return static_cast<int>( parts.size() ) > 0;
 }
 
-size_t vehicle::num_parts() const
+int vehicle::num_parts() const
 {
-    return parts.size() - fake_part_count;
+    return static_cast<int>( parts.size() ) - fake_part_count;
 }
 
-size_t vehicle::num_parts_incl_fake() const
+int vehicle::num_parts_incl_fake() const
 {
-    return parts.size();
+    return static_cast<int>( parts.size() );
 }
 const vehicle_part &vehicle::cpart( int part_num ) const
 {
