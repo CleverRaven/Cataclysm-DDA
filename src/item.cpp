@@ -7739,7 +7739,7 @@ bool item::reload( player &u, item_location ammo, int qty )
 
             // any excess is wasted rather than overfilling the item
             item plut( *ammo );
-            plut.charges = std::min(qty * PLUTONIUM_CHARGES, ammo_capacity(ammo_plutonium) );
+            plut.charges = std::min( qty * PLUTONIUM_CHARGES, ammo_capacity( ammo_plutonium ) );
             put_in( plut, item_pocket::pocket_type::MAGAZINE );
         } else {
             curammo = ammo->type;

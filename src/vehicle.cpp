@@ -508,7 +508,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         if( pt.is_reactor() ) {
-            const ammotype plut("plutonium");
+            const ammotype plut( "plutonium" );
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_plut_cell );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
