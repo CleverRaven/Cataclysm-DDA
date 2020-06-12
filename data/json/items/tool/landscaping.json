@@ -231,7 +231,7 @@
     "cutting": 40,
     "power_draw": 500000,
     "charges_per_use": 0,
-    "revert_to": "trimmer_off", 
+    "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
