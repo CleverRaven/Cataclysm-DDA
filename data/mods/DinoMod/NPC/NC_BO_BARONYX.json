@@ -234,6 +234,30 @@
     "responses": [ { "text": "So, meat from a creature that isn't a zombie, or a giant monster.  Got it.", "topic": "TALK_NONE" } ]
   },
   {
+    "id": "TALK_SHARE_EQUIPMENT_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": "Of course, you should find everything you need here.",
+    "responses": [ { "text": "That explains the knives then.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SUGGEST_FOLLOW_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "seer_mark",
+      "no": "No, I must remain here to oversee the company.",
+      "yes": "Oh, you know my friend Brigitte.  Well in that case, let's go!"
+    },
+    "responses": [
+      { "text": "Of course CEO Baronyx.", "topic": "TALK_NONE", "condition": { "not": { "u_has_trait": "seer_mark" } } },
+      { "text": "Sweet!", "effect": "follow", "condition": { "u_has_trait": "seer_mark" }, "topic": "TALK_DONE" },
+      {
+        "text": "Not just now.  You should remain here to oversee the company.",
+        "condition": { "u_has_trait": "seer_mark" },
+        "topic": "TALK_NONE"
+      }
+    ]
+  },
+  {
     "id": "TALK_MISSION_REJECTED_SWAMPER",
     "type": "talk_topic",
     "dynamic_line": "Of course, the company will be ready when you are and the great eaters will feed either way.",
