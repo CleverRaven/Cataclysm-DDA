@@ -462,7 +462,7 @@
     "price": 100,
     "to_hit": 10,
     "cutting": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "qualities": [ [ "FILTER", 2 ] ]
   },
   {
@@ -478,7 +478,7 @@
     "price": 100,
     "to_hit": 10,
     "cutting": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "qualities": [ [ "FILTER", 1 ] ]
   },
   {

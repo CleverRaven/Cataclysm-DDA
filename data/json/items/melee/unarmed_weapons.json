@@ -37,7 +37,7 @@
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
     "category": "weapons",
     "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
-    "material": "brass",
+    "material": [ "brass" ],
     "weight": "320 g",
     "volume": "250 ml",
     "bashing": 4,

@@ -427,7 +427,7 @@
     "description": "A potent cocktail of amphetamines, caffeine and corn syrup, this stuff puts a spring in your step, a fire in your eye, and a bad case of tachycardia tremors in your somersaulting heart.",
     "price": 9000,
     "price_postapoc": 300,
-    "material": "junk",
+    "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,

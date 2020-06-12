@@ -625,7 +625,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "%",
     "color": "white"
   },
@@ -640,7 +640,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "%",
     "looks_like": "jar_sauerkraut_pickled",
     "color": "white",
@@ -693,7 +693,7 @@
     "price_postapoc": 10,
     "to_hit": -4,
     "bashing": 3,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -847,7 +847,7 @@
     "price_postapoc": 0,
     "to_hit": -4,
     "bashing": 5,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray"
   },

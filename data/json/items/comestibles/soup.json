@@ -41,7 +41,7 @@
     "description": "A tasty and nutritious broth made from bones.",
     "price": 350,
     "price_postapoc": 25,
-    "material": "bone",
+    "material": [ "bone" ],
     "primary_material": "water",
     "volume": "500 ml",
     "charges": 2,
