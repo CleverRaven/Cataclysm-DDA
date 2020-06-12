@@ -5690,9 +5690,9 @@ void vehicle::precalc_fake_mounts( int idir, int dir, const point &pivot )
 // should only be called in vehicle::refresh()
 void vehicle::refresh_fake_parts()
 {
-    remove_fake_parts();
-    edges.clear();
-    fake_mounts.clear();
+    if( fake_part_count > 0 ) {
+        remove_fake_parts();
+    }
 
     for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
         int obstacle = obstacle_at_mount( rp.first );
@@ -5741,8 +5741,8 @@ void vehicle::refresh_fake_parts()
         vehicle_part vp( parts[fm.second.visible_part] );
         vp.mount = fm.first;
         vp.precalc = fm.second.precalc;
-        parts.push_back( vp );
 
+        parts.push_back( vp );
         fm.second.fake_part_index = parts.size() - 1;
 
         std::vector<int> relative;
@@ -5763,6 +5763,8 @@ void vehicle::remove_fake_parts()
             relative_parts.erase( fm.first );
         }
     }
+    edges.clear();
+    fake_mounts.clear();
     fake_part_count = 0;
 }
 
@@ -5807,8 +5809,9 @@ void vehicle::update_active_fakes()
             point &back = parts[parent.back].precalc[0];
             fm.second.active = should_enable_fake( fm.second.precalc[0], parent_precalc, back );
         }
-        // TODO: maybe use a generic part as door double?
-        if( fm.second.active && parts[fm.second.fake_part_index].has_flag( VPFLAG_OPENABLE ) ) {
+        // TODO: maybe use a generic part as door double? This looks kind of ridiculous
+        if( fm.second.active && parts[fm.second.fake_part_index].has_flag( VPFLAG_OPENABLE ) &&
+            is_open( fm.second.fake_part_index ) ) {
             close( fm.second.fake_part_index );
         }
     }
