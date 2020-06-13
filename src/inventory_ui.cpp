@@ -1958,7 +1958,7 @@ void inventory_selector::set_active_column( size_t index )
     }
 }
 
-size_t inventory_selector::get_columns_width( const std::vector<inventory_column *> &columns )const
+size_t inventory_selector::get_columns_width( const std::vector<inventory_column *> &columns ) const
 {
     return std::accumulate( columns.begin(), columns.end(), static_cast< size_t >( 0 ),
     []( const size_t &lhs, const inventory_column * column ) {
