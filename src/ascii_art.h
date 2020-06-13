@@ -5,7 +5,6 @@
 #include "type_id.h"
 #include "json.h"
 
-
 class ascii_art
 {
     public:

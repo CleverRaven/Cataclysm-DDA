@@ -4,7 +4,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "precision solderers" },
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
   },
   {
@@ -32,7 +32,7 @@
     "price": 1000,
     "to_hit": -1,
     "bashing": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -122,7 +122,7 @@
     "weight": "30 g",
     "volume": "250 ml",
     "price": 0,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": "*",
     "color": "light_green",
     "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]

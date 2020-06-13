@@ -27,6 +27,15 @@
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
   },
   {
+    "id": "apron_cut_resistant",
+    "type": "ARMOR",
+    "name": { "str": "cut-resistant apron" },
+    "description": "An apron made of kevlar fabric which provides excellent protection from cuts.",
+    "copy-from": "apron_leather",
+    "price": 3800,
+    "material": [ "kevlar" ]
+  },
+  {
     "id": "blazer",
     "type": "ARMOR",
     "name": { "str": "blazer" },

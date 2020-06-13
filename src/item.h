@@ -23,7 +23,6 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -43,6 +42,7 @@ class gunmod_location;
 class item;
 class iteminfo_query;
 class material_type;
+class monster;
 class nc_color;
 class player;
 class recipe;
@@ -54,6 +54,11 @@ struct tripoint;
 template<typename T>
 class ret_val;
 
+namespace enchant_vals
+{
+enum class mod : int;
+} // namespace enchant_vals
+
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
 class item_category;
@@ -61,13 +66,9 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : int;
-enum phase_id : int;
 enum body_part : int;
-enum m_size : int;
 enum class side : int;
 class body_part_set;
-
-using itype_id = std::string;
 class map;
 struct damage_instance;
 struct damage_unit;
@@ -155,9 +156,9 @@ struct iteminfo {
 };
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
-                      const units::volume &vol );
+                      const units::volume &vol, int decimal_places = 2 );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
-                         const units::mass &weight );
+                         const units::mass &weight, int decimal_places = 2 );
 
 inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 {
@@ -197,6 +198,13 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+
+        // Legacy constructor for constructing from string rather than itype_id
+        // TODO: remove this and migrate code using it.
+        template<typename... Args>
+        item( const std::string &itype, Args &&... args ) :
+            item( itype_id( itype ), std::forward<Args>( args )... )
+        {}
 
         ~item();
 
@@ -390,6 +398,8 @@ class item : public visitable<item>
                           int batch = 1 ) const;
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                        int batch, bool debug ) const;
@@ -725,8 +735,8 @@ class item : public visitable<item>
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
          */
-        item in_its_container() const;
-        item in_container( const itype_id &container_type ) const;
+        item in_its_container( int qty = INFINITE_CHARGES ) const;
+        item in_container( const itype_id &container_type, int qty = INFINITE_CHARGES ) const;
 
         bool item_has_uses_recursive() const;
 
@@ -791,7 +801,7 @@ class item : public visitable<item>
          * @return true if the item is fully rotten and is ready to be removed
          */
         bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
-                                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_modifier = 1.0f );
+                                      temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
         /** Set the item to HOT */
         void heat_up();
@@ -1099,7 +1109,7 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1149,6 +1159,7 @@ class item : public visitable<item>
         bool is_book() const;
         bool is_map() const;
         bool is_salvageable() const;
+        bool is_disassemblable() const;
         bool is_craft() const;
 
         bool is_deployable() const;
@@ -1492,7 +1503,7 @@ class item : public visitable<item>
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( body_part bp ) const;
+        bool covers( const bodypart_id &bp ) const;
         /**
          * Bitset of all covered body parts.
          *
@@ -1555,7 +1566,7 @@ class item : public visitable<item>
          */
         int get_coverage() const;
 
-        enum class encumber_flags {
+        enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
         };
@@ -1697,10 +1708,15 @@ class item : public visitable<item>
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
         int ammo_remaining() const;
-        /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
-        int ammo_capacity() const;
-        /** @param potential_capacity whether to try a default magazine if necessary */
-        int ammo_capacity( bool potential_capacity ) const;
+        /**
+         * ammo capacity for a specific ammo
+         */
+        int ammo_capacity( const ammotype &ammo ) const;
+        /**
+         * how much more ammo can fit into this item
+         * if this item is not loaded, gives remaining capacity of its default ammo
+         */
+        int remaining_ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
 
@@ -1733,15 +1749,16 @@ class item : public visitable<item>
         /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
+        std::set<ammotype> ammo_types( bool conversion = true ) const;
 
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
-        /** Get default ammo used by item or "NULL" if item does not have a default ammo type
+        /** Get default ammo used by item or a null id if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+         *  @return itype_id::NULL_ID() if item does not use a specific ammo type
+         *  (and is consequently not reloadable) */
         itype_id ammo_default( bool conversion = true ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
@@ -2077,10 +2094,10 @@ class item : public visitable<item>
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
         std::vector<enchantment> get_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchantment::mod value,
+        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
                                          bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify, enchantment::mod value,
+        double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
                                                bool round_value = false ) const;
 
     private:
@@ -2091,7 +2108,7 @@ class item : public visitable<item>
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_modifier = 1.0f );
+                               temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -2112,7 +2129,7 @@ class item : public visitable<item>
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
     public:
-        enum class sizing {
+        enum class sizing : int {
             human_sized_human_char = 0,
             big_sized_human_char,
             small_sized_human_char,
@@ -2258,18 +2275,16 @@ bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
 
 /**
- *  Hint value used in a hack to decide text color.
- *
- *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
- *  will eventually be rewritten to eliminate the need for this hack.
+ * Hint value used for item examination screen and filtering items by action.
+ * Represents whether an item permits given action (reload, wear, read, etc.).
  */
-enum class hint_rating : int {
-    /** Item should display as gray */
-    cant = 0,
-    /** Item should display as red */
-    iffy = 1,
-    /** Item should display as green */
-    good = -999
+enum class hint_rating {
+    /** Item permits this action */
+    good,
+    /** Item permits this action, but circumstances don't */
+    iffy,
+    /** Item does not permit this action */
+    cant
 };
 
 /**

@@ -25,9 +25,6 @@ class item;
 class nc_color;
 class player;
 
-// Denotes the id of an item type
-using itype_id = std::string;
-
 enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
@@ -54,7 +51,7 @@ struct quality {
 };
 
 struct component {
-    itype_id type = "null";
+    itype_id type = itype_id::NULL_ID();
     int count = 0;
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
@@ -93,7 +90,7 @@ struct tool_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -111,7 +108,7 @@ struct item_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -150,7 +147,7 @@ struct quality_requirement {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int = 0, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
@@ -160,7 +157,7 @@ struct quality_requirement {
     }
 };
 
-enum class requirement_display_flags {
+enum class requirement_display_flags : int {
     none = 0,
     no_unavailable = 1,
 };
@@ -320,7 +317,7 @@ struct requirement_data {
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-                int batch = 1, std::string hilite = "",
+                int batch = 1, const std::string &hilite = "",
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,

@@ -384,8 +384,7 @@ direction direction_from( const point &p1, const point &p2 ) noexcept
 
 direction direction_from( const tripoint &p, const tripoint &q )
 {
-    // Note: Z-coordinate has to be inverted either here or in direction definitions
-    return direction_from( tripoint( q.x - p.x, q.y - p.y, -( q.z - p.z ) ) );
+    return direction_from( q - p );
 }
 
 point direction_XY( const direction dir )

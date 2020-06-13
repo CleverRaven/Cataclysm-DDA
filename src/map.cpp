@@ -84,6 +84,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui_manager.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -91,6 +92,24 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weighted_list.h"
+
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_chemistry_set( "chemistry_set" );
+static const itype_id itype_dehydrator( "dehydrator" );
+static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
+static const itype_id itype_food_processor( "food_processor" );
+static const itype_id itype_forge( "forge" );
+static const itype_id itype_glass_shard( "glass_shard" );
+static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_kiln( "kiln" );
+static const itype_id itype_nail( "nail" );
+static const itype_id itype_press( "press" );
+static const itype_id itype_sheet( "sheet" );
+static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_string_36( "string_36" );
+static const itype_id itype_vac_sealer( "vac_sealer" );
+static const itype_id itype_welder( "welder" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -157,7 +176,7 @@ static submap null_submap;
 maptile map::maptile_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, 0, 0 );
+        return maptile( &null_submap, point_zero );
     }
 
     return maptile_at_internal( p );
@@ -166,7 +185,7 @@ maptile map::maptile_at( const tripoint &p ) const
 maptile map::maptile_at( const tripoint &p )
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, 0, 0 );
+        return maptile( &null_submap, point_zero );
     }
 
     return maptile_at_internal( p );
@@ -663,7 +682,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Redraw scene
     // But only if the vehicle was seen before or after the move
     if( seen || sees_veh( g->u, veh, true ) ) {
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
         refresh_display();
     }
     return new_vehicle;
@@ -1283,9 +1303,10 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     const furn_t &new_t = new_furniture.obj();
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
-    if( g->u.get_grab_type() == OBJECT_FURNITURE && g->u.grab_point == p && !new_t.is_movable() ) {
+    if( g->u.get_grab_type() == object_type::FURNITURE && g->u.grab_point == p &&
+        !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
-        g->u.grab( OBJECT_NONE );
+        g->u.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
     if( old_id == f_rubble && new_furniture == f_null ) {
@@ -2401,7 +2422,7 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
         for( int i = 0; i < splinter_count; i++ ) {
             add_item_or_charges( p, splinter );
         }
-        spawn_item( p, "nail", 1, rng( 20, 50 ) );
+        spawn_item( p, itype_nail, 1, rng( 20, 50 ) );
     }
 }
 
@@ -2655,7 +2676,7 @@ bool map::mop_spills( const tripoint &p )
     if( !has_flag( "LIQUIDCONT", p ) ) {
         auto items = i_at( p );
         auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
-            return it.made_of( LIQUID );
+            return it.made_of( phase_id::LIQUID );
         } );
         retval = new_end != items.end();
         while( new_end != items.end() ) {
@@ -2692,7 +2713,7 @@ bool map::mop_spills( const tripoint &p )
             //remove any liquids that somehow didn't fall through to the ground
             vehicle_stack here = veh->get_items( elem );
             auto new_end = std::remove_if( here.begin(), here.end(), []( const item & it ) {
-                return it.made_of( LIQUID );
+                return it.made_of( phase_id::LIQUID );
             } );
             retval |= ( new_end != here.end() );
             while( new_end != here.end() ) {
@@ -2811,7 +2832,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
-        if( i->made_of( LIQUID ) ) {
+        if( i->made_of( phase_id::LIQUID ) ) {
             i++;
             continue;
         }
@@ -3501,9 +3522,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             if( dam > 0 ) {
                 break_glass( p, 16 );
                 ter_set( p, t_window_frame );
-                spawn_item( p, "sheet", 1 );
-                spawn_item( p, "stick" );
-                spawn_item( p, "string_36" );
+                spawn_item( p, itype_sheet, 1 );
+                spawn_item( p, itype_stick );
+                spawn_item( p, itype_string_36 );
             }
         }
     } else if( terrain == t_window_taped ||
@@ -3531,7 +3552,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if( dam > 0 ) {
             break_glass( p, 16 );
             ter_set( p, t_window_bars );
-            spawn_item( p, "glass_shard", 5 );
+            spawn_item( p, itype_glass_shard, 5 );
         }
     } else if( terrain == t_window_boarded ) {
         dam -= rng( 10, 30 );
@@ -3618,7 +3639,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if( one_in( 3 ) ) {
             break_glass( p, 16 );
             ter_set( p, t_thconc_floor );
-            spawn_item( p, "glass_shard", rng( 8, 16 ) );
+            spawn_item( p, itype_glass_shard, rng( 8, 16 ) );
             dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
         }
     } else if( impassable( p ) && !is_transparent( p ) ) {
@@ -3952,7 +3973,7 @@ map_stack map::i_at( const tripoint &p )
     return map_stack{ &current_submap->get_items( l ), p, this };
 }
 
-map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it )
+map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterator &it )
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
@@ -4002,7 +4023,7 @@ item &map::spawn_an_item( const tripoint &p, item new_item,
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
-    if( ( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
+    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
         has_flag( "DESTROY_ITEM", p ) ) {
         return null_item_reference();
     }
@@ -4021,7 +4042,7 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
     const bool swimmable = has_flag( "SWIMMABLE", p );
     for( const item &new_item : new_items ) {
 
-        if( new_item.made_of( LIQUID ) && swimmable ) {
+        if( new_item.made_of( phase_id::LIQUID ) && swimmable ) {
             continue;
         }
         item &it = add_item_or_charges( p, new_item );
@@ -4043,11 +4064,11 @@ void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property p
     add_item_or_charges( p, item( new_natural_artifact( prop ), 0 ) );
 }
 
-void map::spawn_item( const tripoint &p, const std::string &type_id,
+void map::spawn_item( const tripoint &p, const itype_id &type_id,
                       const unsigned quantity, const int charges,
                       const time_point &birthday, const int damlevel )
 {
-    if( type_id == "null" ) {
+    if( type_id.is_null() ) {
         return;
     }
 
@@ -4099,7 +4120,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of_from_type( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+        if( obj.made_of_from_type( phase_id::LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 
@@ -4140,10 +4161,11 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         return null_item_reference();
     }
 
-    if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
+    if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) &&
+                                          obj.made_of( phase_id::LIQUID ) ) )
         && valid_limits( pos ) ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
-        if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+        if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
             if( obj.on_drop( pos, *this ) ) {
                 return null_item_reference();
             }
@@ -4168,7 +4190,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( route( pos, e, setting ).empty() ) {
                 continue;
             }
-            if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+            if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
                 if( obj.on_drop( e, *this ) ) {
                     return null_item_reference();
                 }
@@ -4204,7 +4226,7 @@ item &map::add_item( const tripoint &p, item new_item )
         new_item.process( nullptr, p, false );
     }
 
-    if( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
+    if( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
         return null_item_reference();
     }
 
@@ -4400,7 +4422,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 continue;
             }
             // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-            if( n.ammo_capacity() > n.ammo_remaining() ||
+            if( n.ammo_capacity( ammotype( "battery" ) ) > n.ammo_remaining() ||
                 ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                 int power = recharge_part.info().bonus;
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
@@ -4410,7 +4432,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         if( n.is_battery() ) {
                             n.set_energy( 1_kJ );
                         } else {
-                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
                         }
                     }
                     power -= 1000;
@@ -4439,8 +4461,8 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     }
     for( const tripoint &p : submaps_with_active_items ) {
         tripoint rel = p - abs_sub.xy();
-        rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
-        if( !map.contains_half_open( rel.xy() ) ) {
+        half_open_rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
+        if( !map.contains( rel.xy() ) ) {
             result.push_back( p );
         }
     }
@@ -4490,9 +4512,9 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
         // root cellars are special
-        temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        temperature_flag flag = temperature_flag::NORMAL;
         if( ter( map_location ) == t_rootcellar ) {
-            flag = temperature_flag::TEMP_ROOT_CELLAR;
+            flag = temperature_flag::ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
         process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
@@ -4553,21 +4575,21 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         const tripoint item_loc = it->pos();
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         float it_insulation = 1.0;
-        temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        temperature_flag flag = temperature_flag::NORMAL;
         if( target.has_temperature() || target.is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
-                flag = temperature_flag::TEMP_HEATER;
+                flag = temperature_flag::HEATER;
             }
             // some vehicle parts provide insulation, default is 1
             it_insulation = item::find_type( pti.item )->insulation_factor;
 
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_insulation = 1; // ignore fridge insulation if on
-                flag = temperature_flag::TEMP_FRIDGE;
+                flag = temperature_flag::FRIDGE;
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_insulation = 1; // ignore freezer insulation if on
-                flag = temperature_flag::TEMP_FREEZER;
+                flag = temperature_flag::FREEZER;
             }
         }
         if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag ) ) {
@@ -4702,7 +4724,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id &type, int &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
+        if( !a->made_of( phase_id::LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4719,7 +4741,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
             // looking for a liquid that matches
-            if( filter( *current_item ) && current_item->made_of( LIQUID ) && type == current_item->typeId() ) {
+            if( filter( *current_item ) && current_item->made_of( phase_id::LIQUID ) &&
+                type == current_item->typeId() ) {
                 ret.push_back( *current_item );
                 if( current_item->charges - quantity > 0 ) {
                     // Update the returned liquid amount to match the requested amount
@@ -4826,11 +4849,11 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
-            itype_id ftype = "null";
+            itype_id ftype = itype_id::NULL_ID();
 
             // Special case hotplates which draw battery power
-            if( type == "hotplate" ) {
-                ftype = "battery";
+            if( type == itype_hotplate ) {
+                ftype = itype_battery;
             } else {
                 ftype = type;
             }
@@ -4848,12 +4871,12 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( weldpart ) { // we have a weldrig, now to see what to drain
-            itype_id ftype = "null";
+            itype_id ftype = itype_id::NULL_ID();
 
-            if( type == "welder" ) {
-                ftype = "battery";
-            } else if( type == "soldering_iron" ) {
-                ftype = "battery";
+            if( type == itype_welder ) {
+                ftype = itype_battery;
+            } else if( type == itype_soldering_iron ) {
+                ftype = itype_battery;
             }
             // TODO: add a sane birthday arg
             item tmp( type, 0 );
@@ -4867,16 +4890,16 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( craftpart ) { // we have a craftrig, now to see what to drain
-            itype_id ftype = "null";
+            itype_id ftype = itype_id::NULL_ID();
 
-            if( type == "press" ) {
-                ftype = "battery";
-            } else if( type == "vac_sealer" ) {
-                ftype = "battery";
-            } else if( type == "dehydrator" ) {
-                ftype = "battery";
-            } else if( type == "food_processor" ) {
-                ftype = "battery";
+            if( type == itype_press ) {
+                ftype = itype_battery;
+            } else if( type == itype_vac_sealer ) {
+                ftype = itype_battery;
+            } else if( type == itype_dehydrator ) {
+                ftype = itype_battery;
+            } else if( type == itype_food_processor ) {
+                ftype = itype_battery;
             }
 
             // TODO: add a sane birthday arg
@@ -4891,10 +4914,10 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( forgepart ) { // we have a veh_forge, now to see what to drain
-            itype_id ftype = "null";
+            itype_id ftype = itype_id::NULL_ID();
 
-            if( type == "forge" ) {
-                ftype = "battery";
+            if( type == itype_forge ) {
+                ftype = itype_battery;
             }
 
             // TODO: add a sane birthday arg
@@ -4909,10 +4932,10 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( kilnpart ) { // we have a veh_kiln, now to see what to drain
-            itype_id ftype = "null";
+            itype_id ftype = itype_id::NULL_ID();
 
-            if( type == "kiln" ) {
-                ftype = "battery";
+            if( type == itype_kiln ) {
+                ftype = itype_battery;
             }
 
             // TODO: add a sane birthday arg
@@ -4927,14 +4950,14 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         }
 
         if( chempart ) { // we have a chem_lab, now to see what to drain
-            itype_id ftype = "null";
+            itype_id ftype = itype_id::NULL_ID();
 
-            if( type == "chemistry_set" ) {
-                ftype = "battery";
-            } else if( type == "hotplate" ) {
-                ftype = "battery";
-            } else if( type == "electrolysis_kit" ) {
-                ftype = "battery";
+            if( type == itype_chemistry_set ) {
+                ftype = itype_battery;
+            } else if( type == itype_hotplate ) {
+                ftype = itype_battery;
+            } else if( type == itype_electrolysis_kit ) {
+                ftype = itype_battery;
             }
 
             // TODO: add a sane birthday arg
@@ -5460,7 +5483,7 @@ void map::update_visibility_cache( const int zlev )
         for( y = 0; y < MAPSIZE_Y; y++ ) {
             lit_level ll = apparent_light_at( p, visibility_variables_cache );
             visibility_cache[x][y] = ll;
-            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == LL_BRIGHT || ll == LL_LIT );
+            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == lit_level::BRIGHT || ll == lit_level::LIT );
         }
     }
 
@@ -5484,14 +5507,14 @@ const visibility_variables &map::get_visibility_variables_cache() const
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
 {
     switch( ll ) {
-        case LL_DARK:
+        case lit_level::DARK:
             // can't see this square at all
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER_DARK;
             } else {
                 return VIS_DARK;
             }
-        case LL_BRIGHT_ONLY:
+        case lit_level::BRIGHT_ONLY:
             // can only tell that this square is bright
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER;
@@ -5499,15 +5522,15 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
                 return VIS_LIT;
             }
 
-        case LL_LOW:
+        case lit_level::LOW:
         // low light, square visible in monochrome
-        case LL_LIT:
+        case lit_level::LIT:
         // normal light
-        case LL_BRIGHT:
+        case lit_level::BRIGHT:
             // bright light
             return VIS_CLEAR;
-        case LL_BLANK:
-        case LL_MEMORIZED:
+        case lit_level::BLANK:
+        case lit_level::MEMORIZED:
             return VIS_HIDDEN;
     }
     return VIS_HIDDEN;
@@ -5538,8 +5561,6 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
         case VIS_DARK:
         // can't see this square at all
         case VIS_HIDDEN:
-            symbol = ' ';
-            color = c_black;
             break;
     }
     wputch( w, color, symbol );
@@ -5624,12 +5645,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                     const bool just_this_zlevel =
                         draw_maptile( w, g->u, p, curr_maptile,
                                       false, true, center,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                                      lighting == lit_level::LOW, lighting == lit_level::BRIGHT, true );
                     if( !just_this_zlevel ) {
                         p.z--;
                         const maptile tile_below = maptile( sm_below, l );
                         draw_from_above( w, g->u, p, tile_below, false, center,
-                                         lighting == LL_LOW, lighting == LL_BRIGHT, false );
+                                         lighting == lit_level::LOW, lighting == lit_level::BRIGHT, false );
                         p.z++;
                     }
                 } else if( do_map_memory && ( vis == VIS_HIDDEN || vis == VIS_DARK ) ) {
@@ -6573,7 +6594,6 @@ void map::vertical_shift( const int newz )
     set_abs_sub( tripoint( trp.xy(), newz ) );
 
     // TODO: Remove the function when it's safe
-    return;
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
@@ -6750,13 +6770,14 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     }
     const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
-    if( mgroup == "GROUP_NULL" ) {
+    if( mgroup.is_null() ) {
         return;
     }
-    const int chance = ( comest->rot_spawn_chance * get_option<int>( "CARRION_SPAWNRATE" ) ) / 100;
+    const int chance = static_cast<int>( comest->rot_spawn_chance *
+                                         get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt, false );
+        add_spawn( spawn_details, pnt );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -7315,6 +7336,13 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             if( i.friendly ) {
                 tmp.friendly = -1;
             }
+            if( !i.data.ammo.empty() ) {
+                for( std::pair<itype_id, jmapgen_int> ap : i.data.ammo ) {
+                    tmp.ammo.emplace( ap.first, ap.second.get() );
+                }
+            } else {
+                tmp.ammo = tmp.type->starting_ammo;
+            }
 
             const auto valid_location = [&]( const tripoint & p ) {
                 // Checking for creatures via g is only meaningful if this is the main game map.
@@ -7397,9 +7425,9 @@ bool map::inbounds( const tripoint &p ) const
     static constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
     static constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT + 1 );
 
-    static constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    static constexpr half_open_box map_boundaries( map_boundary_min, map_boundary_max );
 
-    return map_boundaries.contains_half_open( p );
+    return map_boundaries.contains( p );
 }
 
 bool tinymap::inbounds( const tripoint &p ) const
@@ -7407,9 +7435,9 @@ bool tinymap::inbounds( const tripoint &p ) const
     constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
     constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT + 1 );
 
-    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr half_open_box map_boundaries( map_boundary_min, map_boundary_max );
 
-    return map_boundaries.contains_half_open( p );
+    return map_boundaries.contains( p );
 }
 
 // set up a map just long enough scribble on it
@@ -7622,7 +7650,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         }
     }
     VehicleList vehs = get_vehicles( start, end );
-    const box bounds( start, end );
+    const inclusive_box bounds( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
@@ -7630,7 +7658,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
             if( p.z != start.z ) {
                 break;
             }
-            if( !bounds.contains_inclusive( p ) ) {
+            if( !bounds.contains( p ) ) {
                 continue;
             }
 
@@ -8084,7 +8112,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
 
     function_over( tripoint( min, abs_sub.z ), tripoint( max, abs_sub.z ), fill_values );
 
-    const rectangle local_bounds( min, max );
+    const inclusive_rectangle local_bounds( min, max );
 
     // Now vehicles
 
@@ -8093,7 +8121,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_any_parts( VPFLAG_OBSTACLE ) ) {
             const tripoint part_pos = vp.pos();
-            if( local_bounds.contains_inclusive( part_pos.xy() ) ) {
+            if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
@@ -8105,7 +8133,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
             }
 
             const tripoint part_pos = vp.pos();
-            if( local_bounds.contains_inclusive( part_pos.xy() ) ) {
+            if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
@@ -8257,7 +8285,7 @@ level_cache::level_cache()
     std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
+    std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
     max_populated_zlev = OVERMAP_HEIGHT;
@@ -8321,7 +8349,7 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     pf_special cur_value = PF_NORMAL;
 
-                    maptile tile( cur_submap, sx, sy );
+                    maptile tile( cur_submap, point( sx, sy ) );
 
                     const auto &terrain = tile.get_ter_t();
                     const auto &furniture = tile.get_furn_t();

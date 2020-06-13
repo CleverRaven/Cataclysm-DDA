@@ -94,14 +94,54 @@
       "place_fields": [ { "field": "fd_blood", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 12 ] } ],
       "toilets": { "&": {  } },
       "place_monster": [
-        { "monster": "mon_crows_m240", "x": 10, "y": 1 },
-        { "monster": "mon_turret_bmg", "x": 13, "y": 1 },
-        { "monster": "mon_crows_m240", "x": 1, "y": 10 },
-        { "monster": "mon_turret_bmg", "x": 1, "y": 13 },
-        { "monster": "mon_crows_m240", "x": 22, "y": 10 },
-        { "monster": "mon_turret_bmg", "x": 22, "y": 13 },
-        { "monster": "mon_crows_m240", "x": 10, "y": 22 },
-        { "monster": "mon_turret_bmg", "x": 13, "y": 22 },
+        {
+          "monster": "mon_crows_m240",
+          "x": 10,
+          "y": 1,
+          "spawn_data": { "ammo": [ { "ammo_id": "762_51", "qty": [ 1200, 1600 ] } ] }
+        },
+        {
+          "monster": "mon_turret_bmg",
+          "x": 13,
+          "y": 1,
+          "spawn_data": { "ammo": [ { "ammo_id": "50bmg", "qty": 400 } ] }
+        },
+        {
+          "monster": "mon_crows_m240",
+          "x": 1,
+          "y": 10,
+          "spawn_data": { "ammo": [ { "ammo_id": "762_51", "qty": [ 1200, 1600 ] } ] }
+        },
+        {
+          "monster": "mon_turret_bmg",
+          "x": 1,
+          "y": 13,
+          "spawn_data": { "ammo": [ { "ammo_id": "50bmg", "qty": 400 } ] }
+        },
+        {
+          "monster": "mon_crows_m240",
+          "x": 22,
+          "y": 10,
+          "spawn_data": { "ammo": [ { "ammo_id": "762_51", "qty": [ 1200, 1600 ] } ] }
+        },
+        {
+          "monster": "mon_turret_bmg",
+          "x": 22,
+          "y": 13,
+          "spawn_data": { "ammo": [ { "ammo_id": "50bmg", "qty": 400 } ] }
+        },
+        {
+          "monster": "mon_crows_m240",
+          "x": 10,
+          "y": 22,
+          "spawn_data": { "ammo": [ { "ammo_id": "762_51", "qty": [ 1200, 1600 ] } ] }
+        },
+        {
+          "monster": "mon_turret_bmg",
+          "x": 13,
+          "y": 22,
+          "spawn_data": { "ammo": [ { "ammo_id": "50bmg", "qty": 400 } ] }
+        },
         { "monster": "mon_turret_searchlight", "x": 1, "y": 1 },
         { "monster": "mon_turret_searchlight", "x": 22, "y": 22 },
         { "monster": "mon_turret_searchlight", "x": 1, "y": 22 },

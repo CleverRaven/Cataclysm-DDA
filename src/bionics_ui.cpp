@@ -84,17 +84,17 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                 fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel.str() ),
                            c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
-            if( !rem_fuel.empty() ) {
+            if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
                 if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
-                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
                                    c_green ) + " ";
                 }
                 found_fuel = true;
@@ -163,7 +163,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
-    wrefresh( window );
+    wnoutrefresh( window );
 }
 
 //builds the power usage string of a given bionic
@@ -242,7 +242,7 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     // -|
     mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 static void draw_description( const catacurses::window &win, const bionic &bio )
@@ -263,11 +263,11 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
         fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
                         _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
     }
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
-static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
-                             const int last_x, const bionic_id &bio_id )
+static void draw_connectors( const catacurses::window &win, const point &start,
+                             int last_x, const bionic_id &bio_id )
 {
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
@@ -280,12 +280,13 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     }
 
     // draw horizontal line from selected bionic
-    const int turn_x = start_x + ( last_x - start_x ) * 2 / 3;
-    mvwputch( win, point( start_x, start_y ), BORDER_COLOR, '>' );
-    mvwhline( win, point( start_x + 1, start_y ), LINE_OXOX, turn_x - start_x - 1 );
+    const int turn_x = start.x + ( last_x - start.x ) * 2 / 3;
+    mvwputch( win, start, BORDER_COLOR, '>' );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( win, start + point( 1, 0 ), LINE_OXOX, turn_x - start.x - 1 );
 
-    int min_y = start_y;
-    int max_y = start_y;
+    int min_y = start.y;
+    int max_y = start.y;
     for( const auto &elem : pos_and_num ) {
         min_y = std::min( min_y, elem.first );
         max_y = std::max( max_y, elem.first );
@@ -299,20 +300,20 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     bool move_down = false;
     for( const auto &elem : pos_and_num ) {
         const int y = elem.first;
-        if( !move_up && y < start_y ) {
+        if( !move_up && y < start.y ) {
             move_up = true;
         }
-        if( !move_same && y == start_y ) {
+        if( !move_same && y == start.y ) {
             move_same = true;
         }
-        if( !move_down && y > start_y ) {
+        if( !move_down && y > start.y ) {
             move_down = true;
         }
 
         // symbol is defined incorrectly for case ( y == start_y ) but
         // that's okay because it's overlapped by bionic_chr anyway
-        int bp_chr = ( y > start_y ) ? LINE_XXOO : LINE_OXXO;
-        if( ( max_y > y && y > start_y ) || ( min_y < y && y < start_y ) ) {
+        int bp_chr = ( y > start.y ) ? LINE_XXOO : LINE_OXXO;
+        if( ( max_y > y && y > start.y ) || ( min_y < y && y < start.y ) ) {
             bp_chr = LINE_XXXO;
         }
 
@@ -357,7 +358,7 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
         // '^|^'
         bionic_chr = LINE_OXXX;
     }
-    mvwputch( win, point( turn_x, start_y ), BORDER_COLOR, bionic_chr );
+    mvwputch( win, point( turn_x, start.y ), BORDER_COLOR, bionic_chr );
 }
 
 //get a text color depending on the power/powering state of the bionic
@@ -437,8 +438,13 @@ void player::power_bionics()
     catacurses::window w_title;
     catacurses::window w_tabs;
 
+    bool hide = false;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        if( hide ) {
+            ui.position( point_zero, point_zero );
+            return;
+        }
         // Main window
         /** Total required height is:
          * top frame line:                                         + 1
@@ -509,6 +515,10 @@ void player::power_bionics()
     ctxt.register_action( "TOGGLE_AUTO_START" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( hide ) {
+            return;
+        }
+
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
 
         werase( wBio );
@@ -520,7 +530,7 @@ void player::power_bionics()
         for( const bodypart_id &bp : get_all_body_parts() ) {
             const int total = get_total_bionics_slots( bp );
             const std::string s = string_format( "%s: %d/%d",
-                                                 body_part_name_as_heading( bp->token, 1 ),
+                                                 body_part_name_as_heading( bp, 1 ),
                                                  total - get_free_bionics_slots( bp ), total );
             bps.push_back( s );
             max_width = std::max( max_width, utf8_width( s ) );
@@ -558,7 +568,7 @@ void player::power_bionics()
                                 desc );
                 if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                     const bionic_id bio_id = ( *current_bionic_list )[i]->id;
-                    draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
+                    draw_connectors( wBio, point( utf8_width( desc ) + 3, list_start_y + i - scroll_position ),
                                      pos_x - 2, bio_id );
 
                     // redraw highlighted (occupied) body parts
@@ -573,7 +583,7 @@ void player::power_bionics()
 
         draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), point( 0, list_start_y ) );
 
-        wrefresh( wBio );
+        wnoutrefresh( wBio );
         draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
 
         draw_bionics_titlebar( w_title, this, menu_mode );
@@ -647,7 +657,6 @@ void player::power_bionics()
             }
             const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
-            wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;
             }
@@ -747,15 +756,20 @@ void player::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
+                    hide = true;
+                    ui.mark_resize();
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {
-                        activate_bionic( b );
-                        // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().has_flag( "BIONIC_GUN" ) || tmp->ammo_count > 0 ) {
+                        bool close_ui = false;
+                        activate_bionic( b, false, &close_ui );
+                        // Exit this ui if we are firing a complex bionic
+                        if( close_ui || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }
+                    hide = false;
+                    ui.mark_resize();
                     g->invalidate_main_ui_adaptor();
                     if( moves < 0 ) {
                         return;

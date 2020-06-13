@@ -98,7 +98,7 @@
     "price": 100,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "symbol": ",",
     "color": "white",
     "initial_charges": 100,
@@ -123,7 +123,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "symbol": ",",
     "color": "white",
     "initial_charges": 100,
@@ -161,10 +161,13 @@
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_battery_cell",
           "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell",
@@ -173,7 +176,7 @@
           "light_plus_battery_cell",
           "light_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -208,10 +211,14 @@
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -220,7 +227,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -283,7 +290,7 @@
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
     "initial_charges": 1400,
@@ -308,7 +315,7 @@
     "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 2,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "TRADER_AVOID" ]
@@ -321,7 +328,7 @@
     "weight": "29 g",
     "volume": "250 ml",
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
     "initial_charges": 1400,
@@ -343,7 +350,8 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 100,
-    "max_charges": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 } } ],
+    "ammo": "flare_nitrate",
     "initial_charges": 300,
     "use_action": {
       "menu_text": "Strike the striker",
@@ -389,10 +397,14 @@
       "need_charges": 1,
       "need_charges_msg": "The heavy duty flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_plus_battery_cell",
@@ -401,7 +413,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -460,10 +472,13 @@
       "need_charges": 1,
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -472,7 +487,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -537,7 +552,15 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "weldtank", "tinyweldtank" ]
+      }
+    ]
   },
   {
     "id": "oxylamp_on",
@@ -571,7 +594,15 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+      }
+    ]
   },
   {
     "id": "reading_light_on",
@@ -609,10 +640,13 @@
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -621,7 +655,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -646,7 +680,7 @@
     "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 8,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
@@ -673,7 +707,7 @@
     "price_postapoc": 0,
     "to_hit": 1,
     "bashing": 8,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "initial_charges": 75,

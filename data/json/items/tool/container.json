@@ -11,7 +11,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -36,7 +36,7 @@
     "price": 0,
     "price_postapoc": 25,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [

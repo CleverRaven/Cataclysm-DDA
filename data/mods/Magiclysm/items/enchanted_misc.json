@@ -8,7 +8,7 @@
     "description": "A smooth steel cube the size of your fist.  Several buttons on the sides activate the powers of the cube.",
     "price": 200000,
     "price_postapoc": 500000,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "500 g",
     "volume": "450 ml",
     "bashing": 8,
@@ -61,8 +61,9 @@
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "flags": [ "ARTC_TIME" ],
-    "use_action": { "type": "picklock", "pick_quality": 50 }
+    "qualities": [ [ "LOCKPICK", 50 ] ],
+    "flags": [ "ARTC_TIME", "PERFECT_LOCKPICK" ],
+    "use_action": "PICK_LOCK"
   },
   {
     "id": "mtorch_everburning",
@@ -74,7 +75,7 @@
     "price": 0,
     "to_hit": 1,
     "bashing": 8,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],

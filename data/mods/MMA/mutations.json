@@ -13,7 +13,7 @@
     "type": "mutation",
     "id": "MMA_MARTIAL_ARTS_PANZER",
     "name": { "str": "Künstler" },
-    "points": 3,
+    "points": 2,
     "description": "You have lingering memories of training to fight cyborgs and war machines in zero gravity using the obscure Panzer Kunst.",
     "starting_trait": true,
     "initial_ma_styles": [ "style_mma_panzer" ],
@@ -31,8 +31,57 @@
   },
   {
     "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_HYLIAN",
+    "name": { "str": "Hero's Spirit" },
+    "points": 3,
+    "description": "You have studied the deeds and legends of ancient heroes.  From your research, you have learned an ancient form of combat called Hylian Swordsmanship.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_hylian" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "name": { "str": "Ki Strike" },
+    "points": 2,
+    "description": "Who needs weapons?  You deal more melee damage while unarmed.  This damage improves as your unarmed skill increases.",
+    "starting_trait": true,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
     "extend": { "cancels": [ "DRUNKEN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_JEDI",
+    "name": { "str": "Jedi Training" },
+    "points": 2,
+    "description": "You are trained in the ways of the Jedi.  Your knowledge allows you to utilize a form of lightsaber combat.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_shii_cho" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_POKKEN",
+    "name": { "str": "Pokken Master" },
+    "points": 2,
+    "description": "You are well versed in the monsterous Pocket Fist martial art.  Train well, because it is your destiny to be a master.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_pokken" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_SUBLIME",
+    "name": { "str": "Martial Adept" },
+    "points": 2,
+    "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_desert_wind", "style_mma_diamond_mind", "style_mma_iron_heart", "style_mma_setting_sun" ],
+    "valid": false
   }
 ]

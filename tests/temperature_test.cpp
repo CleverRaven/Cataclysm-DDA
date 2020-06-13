@@ -273,19 +273,19 @@ TEST_CASE( "Temperature controlled location" )
         set_map_temperature( 0 ); // -17 C
 
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
-                                        temperature_flag::TEMP_HEATER );
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
-                                        temperature_flag::TEMP_HEATER );
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 2_hours + 3_minutes );
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
-                                        temperature_flag::TEMP_HEATER );
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
     }

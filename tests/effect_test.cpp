@@ -15,9 +15,9 @@
 // effect::get_start_time
 //
 // Create an `effect` object with given parameters, and check they were initialized correctly.
-static void check_effect_init( const std::string eff_name, const time_duration dur,
-                               const std::string bp_name, const bool permanent, const int intensity,
-                               const time_point start_time )
+static void check_effect_init( const std::string &eff_name, const time_duration &dur,
+                               const std::string &bp_name, const bool permanent, const int intensity,
+                               const time_point &start_time )
 {
     const efftype_id eff_id( eff_name );
     const effect_type &type = eff_id.obj();

@@ -13,10 +13,9 @@
     "symbol": "!",
     "color": "cyan",
     "ammo": [ "anesthetic" ],
-    "initial_charges": 3000,
-    "max_charges": 3000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "qualities": [ [ "ANESTHESIA", 1 ] ]
+    "qualities": [ [ "ANESTHESIA", 1 ] ],
+    "pocket_data": [ { "watertight": true, "rigid": true, "pocket_type": "MAGAZINE", "ammo_restriction": { "anesthetic": 3000 } } ]
   },
   {
     "id": "autoclave",
@@ -29,7 +28,7 @@
     "price_postapoc": 2000,
     "to_hit": -6,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "A",
     "color": "yellow",
     "use_action": "AUTOCLAVE",
@@ -37,8 +36,14 @@
     "power_draw": 1500000,
     "looks_like": "microwave",
     "ammo": [ "battery" ],
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
     ]
   },
   {
@@ -51,13 +56,14 @@
     "volume": "250 ml",
     "price": 5000,
     "price_postapoc": 750,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "!",
     "color": "light_blue",
-    "max_charges": 100,
     "initial_charges": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "albuterol": 100 } } ],
+    "max_charges": 100,
     "charges_per_use": 1,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": "INHALER"
   },
   {
@@ -89,10 +95,10 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "cutting": 7,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "techniques": "PRECISE",
+    "techniques": [ "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
     "flags": [ "SPEAR" ]
   },
@@ -124,7 +130,7 @@
     "volume": "10ml",
     "price": 2500,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ",",
     "color": "white"
   },
@@ -139,7 +145,7 @@
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -3,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "red",
     "use_action": "WEATHER_TOOL",
@@ -160,6 +166,7 @@
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "oxygen": 24 } } ],
     "max_charges": 24,
     "charges_per_use": 1,
     "use_action": "OXYGEN_BOTTLE"
@@ -176,7 +183,7 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "cutting": 6,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_cyan",
     "use_action": "BLOOD_DRAW",

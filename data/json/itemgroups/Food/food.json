@@ -83,6 +83,7 @@
     "entries": [
       { "item": "yeast", "prob": 50 },
       { "item": "sugar", "prob": 40 },
+      { "item": "artificial_sweetener", "prob": 10 },
       { "item": "sprinkles", "prob": 5 },
       { "item": "salt", "prob": 40 },
       { "item": "pepper", "prob": 30 },
@@ -213,6 +214,7 @@
       { "item": "toastem3", "prob": 35 },
       { "item": "toasterpastryfrozen", "prob": 20 },
       { "item": "sugar", "prob": 20 },
+      { "item": "artificial_sweetener", "prob": 5 },
       { "item": "lemonade_powder", "prob": 5 },
       { "item": "molasses", "prob": 10 },
       { "item": "can_cheese", "prob": 40 },

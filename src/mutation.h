@@ -28,8 +28,6 @@ class player;
 struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
-
-using itype_id = std::string;
 class JsonArray;
 
 extern std::vector<dream> dreams;
@@ -62,8 +60,8 @@ struct mut_attack {
     /** Need none of those to qualify for this attack */
     std::set<trait_id> blocker_mutations;
 
-    /** If not num_bp, this body part needs to be uncovered for the attack to proc */
-    body_part bp = num_bp;
+    /** If not empty, this body part needs to be uncovered for the attack to proc */
+    bodypart_str_id bp;
 
     /** Chance to proc is one_in( chance - dex - unarmed ) */
     int chance = 0;
@@ -177,7 +175,7 @@ struct mutation_branch {
         cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
-        std::map<body_part, float> lumination;
+        std::map<bodypart_str_id, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
@@ -202,6 +200,8 @@ struct mutation_branch {
         float fatigue_regen_modifier = 0.0f;
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;
+        // the modifier for obtaining an item from a container as a handling penalty
+        float obtain_cost_multiplier = 1.0f;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
         float overmap_sight = 0.0f;
@@ -284,16 +284,16 @@ struct mutation_branch {
         std::vector<trait_id> additions; // Mutations that add to this one
         std::vector<std::string> category; // Mutation Categories
         std::set<std::string> flags; // Mutation flags
-        std::map<body_part, tripoint> protection; // Mutation wet effects
-        std::map<body_part, int> encumbrance_always; // Mutation encumbrance that always applies
+        std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
+        std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
-        std::map<body_part, int> encumbrance_covered;
+        std::map<bodypart_str_id, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
-        std::set<body_part> restricts_gear;
+        std::set<bodypart_str_id> restricts_gear;
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
-        std::map<body_part, resistances> armor;
+        std::map<bodypart_str_id, resistances> armor;
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
@@ -314,7 +314,7 @@ struct mutation_branch {
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
-        const resistances &damage_resistance( body_part bp ) const;
+        const resistances &damage_resistance( const bodypart_id &bp ) const;
         /**
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode
@@ -512,7 +512,7 @@ struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
 
-enum class mutagen_rejection {
+enum class mutagen_rejection : int {
     accepted,
     rejected,
     destroyed

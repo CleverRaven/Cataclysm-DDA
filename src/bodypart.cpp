@@ -14,6 +14,8 @@
 #include "pldata.h"
 #include "type_id.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -227,8 +229,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
-
-
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 
     part_side = jo.get_enum_value<side>( "side" );
@@ -285,44 +285,41 @@ void body_part_type::check() const
     }
 }
 
-std::string body_part_name( body_part bp, int number )
+std::string body_part_name( const bodypart_id &bp, int number )
 {
-    const auto &bdy = get_bp( bp );
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
+    return number > 1 ? bp->name_multiple.translated() : bp->name.translated();
 }
 
-std::string body_part_name_accusative( body_part bp, int number )
+std::string body_part_name_accusative( const bodypart_id &bp, int number )
 {
-    const auto &bdy = get_bp( bp );
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.accusative_multiple.translated() : bdy.accusative.translated();
+    return number > 1 ? bp->accusative_multiple.translated() : bp->accusative.translated();
 }
 
-std::string body_part_name_as_heading( body_part bp, int number )
+std::string body_part_name_as_heading( const bodypart_id &bp, int number )
 {
-    const auto &bdy = get_bp( bp );
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
+    return number > 1 ? bp->name_as_heading_multiple.translated() : bp->name_as_heading.translated();
 }
 
-std::string body_part_hp_bar_ui_text( body_part bp )
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text );
+    return _( bp->hp_bar_ui_text );
 }
 
-std::string encumb_text( body_part bp )
+std::string encumb_text( const bodypart_id &bp )
 {
-    const std::string &txt = get_bp( bp ).encumb_text;
+    const std::string &txt = bp->encumb_text;
     return !txt.empty() ? _( txt ) : txt;
 }
 
 body_part random_body_part( bool main_parts_only )
 {
-    const auto &part = human_anatomy->random_body_part();
+    const auto &part = anatomy_human_anatomy->random_body_part();
     return main_parts_only ? part->main_part->token : part->token;
 }
 
@@ -339,4 +336,48 @@ body_part opposite_body_part( body_part bp )
 std::string get_body_part_id( body_part bp )
 {
     return get_bp( bp ).legacy_id;
+}
+
+body_part_set body_part_set::unify_set( const body_part_set &rhs )
+{
+    for( const  bodypart_str_id &i : rhs.parts ) {
+        if( parts.count( i ) == 0 ) {
+            parts.insert( i );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::intersect_set( const body_part_set &rhs )
+{
+    for( const  bodypart_str_id &j : parts ) {
+        if( rhs.parts.count( j ) == 0 ) {
+            parts.erase( j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::substract_set( const body_part_set &rhs )
+{
+    for( const  bodypart_str_id &j : rhs.parts ) {
+        if( parts.count( j ) > 0 ) {
+            parts.erase( j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::make_intersection( const body_part_set &rhs )
+{
+    body_part_set new_intersection;
+    new_intersection.parts = parts;
+    return new_intersection.intersect_set( rhs );
+}
+
+void body_part_set::fill( const std::vector<bodypart_id> &bps )
+{
+    for( const bodypart_id &bp : bps ) {
+        parts.insert( bp.id() );
+    }
 }

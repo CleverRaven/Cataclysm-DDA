@@ -38,7 +38,7 @@
 
 static const skill_id skill_throw( "throw" );
 
-static const species_id ROBOT( "ROBOT" );
+static const species_id species_ROBOT( "ROBOT" );
 
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 
@@ -49,6 +49,10 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
+
+static const itype_id itype_bullwhip( "bullwhip" );
+static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_rope_30( "rope_30" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -83,7 +87,7 @@ bool trapfunc::none( const tripoint &, Creature *, item * )
 bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
 {
     // tiny animals don't trigger bubble wrap
-    if( c != nullptr && c->get_size() == MS_TINY ) {
+    if( c != nullptr && c->get_size() == creature_size::tiny ) {
         return false;
     }
     if( c != nullptr ) {
@@ -102,7 +106,7 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
 {
     if( c != nullptr ) {
         // tiny animals and hallucinations don't trigger glass trap
-        if( c->get_size() == MS_TINY || c->is_hallucination() ) {
+        if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
             return false;
         }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
@@ -139,7 +143,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
 bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
 {
     // tiny animals don't trigger bear traps
-    if( c != nullptr && c->get_size() == MS_TINY ) {
+    if( c != nullptr && c->get_size() == creature_size::tiny ) {
         return false;
     }
     sounds::sound( p, 8, sounds::sound_t::combat, _( "SNAP!" ), false, "trap", "bear_trap" );
@@ -183,7 +187,7 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger spiked boards, they can squeeze between the nails
-    if( c->get_size() == MS_TINY ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a spiked board!" ),
@@ -219,7 +223,7 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger caltrops, they can squeeze between them
-    if( c->get_size() == MS_TINY ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a sharp metal caltrop!" ),
@@ -248,7 +252,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger caltrops, they can squeeze between them
-    if( c->get_size() == MS_TINY || c->is_hallucination() ) {
+    if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
@@ -278,7 +282,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger tripwires, they just squeeze under it
-    if( c->get_size() == MS_TINY ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You trip over a tripwire!" ),
@@ -375,7 +379,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                         break;
                 }
                 //~ %s is bodypart
-                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit->token ) );
+                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
                 c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 20, 30 ) ) );
                 add_bolt = !one_in( 10 );
             } else {
@@ -387,19 +391,19 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     chance = 50;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     chance = 8;
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     chance = 6;
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     chance = 4;
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     chance = 1;
                     break;
             }
@@ -475,7 +479,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                         break;
                 }
                 //~ %s is bodypart
-                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit->token ) );
+                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
                 c->deal_damage( nullptr, hit, damage_instance( DT_BULLET, rng( 40 * shots, 60 * shots ) ) );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
@@ -485,19 +489,19 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             bool seen = g->u.sees( *z );
             int chance = 0;
             switch( z->type->size ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     chance = 100;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     chance = 16;
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     chance = 12;
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     chance = 8;
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     chance = 2;
                     break;
             }
@@ -557,7 +561,7 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
     // Actual effects
     c->add_effect( effect_lightsnare, 1_turns, hit->token, true );
     monster *z = dynamic_cast<monster *>( c );
-    if( z != nullptr && z->type->size == MS_TINY ) {
+    if( z != nullptr && z->type->size == creature_size::tiny ) {
         z->deal_damage( nullptr, hit, damage_instance( DT_BASH, 10 ) );
     }
     c->check_dead_state();
@@ -578,7 +582,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     }
     //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),
-                              _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit->token ) );
+                              _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit ) );
 
     // Actual effects
     c->add_effect( effect_heavysnare, 1_turns, hit->token, true );
@@ -591,11 +595,11 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     } else if( z != nullptr ) {
         int damage;
         switch( z->type->size ) {
-            case MS_TINY:
-            case MS_SMALL:
+            case creature_size::tiny:
+            case creature_size::small:
                 damage = 20;
                 break;
-            case MS_MEDIUM:
+            case creature_size::medium:
                 damage = 10;
                 break;
             default:
@@ -610,7 +614,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
 bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
 {
     // tiny animals are too light to trigger land mines
-    if( c != nullptr && c->get_size() == MS_TINY ) {
+    if( c != nullptr && c->get_size() == creature_size::tiny ) {
         return false;
     }
     if( c != nullptr ) {
@@ -679,7 +683,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         if( z->type->id != mon_blob ) {
             z->set_speed_base( z->get_speed_base() - 15 );
             //All monsters that aren't blobs or robots transform into a blob
-            if( !z->type->in_species( ROBOT ) ) {
+            if( !z->type->in_species( species_ROBOT ) ) {
                 z->poly( mon_blob );
                 z->set_hp( z->get_speed() );
             }
@@ -700,7 +704,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     }
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
-        if( z->type->in_species( ROBOT ) ) {
+        if( z->type->in_species( species_ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
             //Dissector error sound.
             sounds::sound( p, 4, sounds::sound_t::electronic_speech,
@@ -756,7 +760,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals aren't hurt by falling into pits
-    if( c->get_size() == MS_TINY ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     const float eff = pit_effectiveness( p );
@@ -803,7 +807,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals aren't hurt by falling into spiked pits
-    if( c->get_size() == MS_TINY ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You fall in a spiked pit!" ),
@@ -848,7 +852,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
                     break;
             }
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
-                                  body_part_name_accusative( hit->token ) );
+                                  body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
@@ -886,7 +890,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals aren't hurt by falling into glass pits
-    if( c->get_size() == MS_TINY ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit filled with glass shards!" ),
@@ -935,7 +939,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
                     break;
             }
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
-                                  body_part_name_accusative( hit->token ) );
+                                  body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
@@ -993,7 +997,7 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of( material_id( "veggy" ) ) ) {
             dam = 80;
         }
-        if( z->made_of( LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
+        if( z->made_of( phase_id::LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
         if( z->made_of( material_id( "stone" ) ) ) {
@@ -1016,7 +1020,7 @@ bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
-static bool query_for_item( const player *pl, const std::string &itemname, const char *que )
+static bool query_for_item( const player *pl, const itype_id &itemname, const char *que )
 {
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
 }
@@ -1028,7 +1032,7 @@ static tripoint random_neighbor( tripoint center )
     return center;
 }
 
-static bool sinkhole_safety_roll( player *p, const std::string &itemname, const int diff )
+static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int diff )
 {
     ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
@@ -1070,7 +1074,7 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
 bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
 {
     // tiny creatures don't trigger the sinkhole to collapse
-    if( c == nullptr || c->get_size() == MS_TINY ) {
+    if( c == nullptr || c->get_size() == creature_size::tiny ) {
         return false;
     }
     monster *z = dynamic_cast<monster *>( c );
@@ -1082,15 +1086,15 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
         }
     } else if( pl != nullptr ) {
         bool success = false;
-        if( query_for_item( pl, "grapnel",
+        if( query_for_item( pl, itype_grapnel,
                             _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, "grapnel", 6 );
-        } else if( query_for_item( pl, "bullwhip",
+            success = sinkhole_safety_roll( pl, itype_grapnel, 6 );
+        } else if( query_for_item( pl, itype_bullwhip,
                                    _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, "bullwhip", 8 );
-        } else if( query_for_item( pl, "rope_30",
+            success = sinkhole_safety_roll( pl, itype_bullwhip, 8 );
+        } else if( query_for_item( pl, itype_rope_30,
                                    _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, "rope_30", 12 );
+            success = sinkhole_safety_roll( pl, itype_rope_30, 12 );
         }
 
         pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),

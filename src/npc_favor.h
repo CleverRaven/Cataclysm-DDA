@@ -6,7 +6,6 @@
 
 #include "type_id.h"
 
-using itype_id = std::string;
 class JsonIn;
 class JsonOut;
 
@@ -28,7 +27,7 @@ struct npc_favor {
     npc_favor() {
         type = FAVOR_NULL;
         value = 0;
-        item_id = "null";
+        item_id = itype_id::NULL_ID();
         skill = skill_id::NULL_ID();
     }
 

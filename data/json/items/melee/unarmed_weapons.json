@@ -39,7 +39,8 @@
     "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": "brass",
     "weight": "320 g",
-    "bashing": 3,
+    "volume": "250 ml",
+    "bashing": 4,
     "price_postapoc": 250,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
@@ -50,14 +51,14 @@
     "color": "dark_gray",
     "name": { "str": "razorbar katar" },
     "description": "Five pieces of rebar sharpened to cruel points and strapped to a brace fastened at wrist and forearm on both arms.  The next bub better watch out.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "500 ml",
     "weight": "1150 g",
     "bashing": 3,
     "cutting": 14,
     "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "UNARMED_WEAPON" ],
+    "flags": [ "UNARMED_WEAPON", "STAB" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -67,13 +68,13 @@
     "color": "brown",
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
     "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "weight": "430 g",
-    "bashing": 3,
-    "cutting": 4,
+    "bashing": 2,
+    "cutting": 3,
     "price_postapoc": 50,
-    "flags": [ "UNARMED_WEAPON" ]
+    "flags": [ "UNARMED_WEAPON", "STAB" ]
   },
   {
     "type": "GENERIC",
@@ -82,10 +83,10 @@
     "color": "dark_gray",
     "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
     "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearers knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "250 ml",
     "weight": "430 g",
-    "bashing": 3,
+    "bashing": 4,
     "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON" ]

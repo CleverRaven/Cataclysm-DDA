@@ -8,7 +8,7 @@
     "symbol": "=",
     "color": "red",
     "description": "A tube of small paintballs.  They deal virtually no damage.",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "paintball",

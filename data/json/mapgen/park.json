@@ -157,7 +157,7 @@
       ],
       "palettes": [ "park_asphalt_palette" ],
       "items": { "b": { "item": "shoes", "chance": 15, "repeat": [ 2, 5 ] } },
-      "place_item": [ { "item": "beach_volleyball", "x": 8, "y": 6 } ],
+      "place_item": [ { "item": "beach_volleyball", "x": 8, "y": 6 }, { "item": "sandbox_kit", "x": 8, "y": 6 } ],
       "monsters": { "$": { "monster": "GROUP_PARK_SCENIC", "chance": 50 }, " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 100 } }
     }
   },

@@ -54,7 +54,7 @@
     "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 12,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "angle_grinder",
@@ -76,11 +76,14 @@
     "charges_per_use": 1,
     "power_draw": 800000,
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -94,7 +97,7 @@
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 13,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
@@ -145,7 +148,7 @@
     "to_hit": -2,
     "bashing": 1,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "VISE", 1 ] ]
@@ -162,7 +165,7 @@
     "to_hit": 1,
     "bashing": 10,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
@@ -180,18 +183,21 @@
     "price_postapoc": 500,
     "to_hit": -6,
     "bashing": 15,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "$",
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -211,11 +217,14 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -247,7 +256,7 @@
     "to_hit": -8,
     "bashing": 14,
     "cutting": 6,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -269,7 +278,7 @@
     "to_hit": -1,
     "bashing": 1,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
@@ -324,14 +333,14 @@
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "use_action": "SIPHON"
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "jack",
     "type": "TOOL",
     "name": { "str": "bottle jack" },
     "description": "A portable hydraulic bottle jack used for lifting vehicles.",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "weight": "5000 g",
@@ -347,7 +356,7 @@
     "type": "TOOL",
     "name": { "str": "makeshift jack" },
     "description": "A poorly constructed improvised scissor jack used for lifting vehicles if you're brave enough to use it.",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "weight": "1800 g",
@@ -363,7 +372,7 @@
     "type": "TOOL",
     "name": { "str": "scissor jack" },
     "description": "A compact scissor jack used for lifting vehicles.",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "weight": "3000 g",
@@ -379,20 +388,22 @@
     "type": "TOOL",
     "name": { "str": "jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on gasoline.  Use it (if loaded) to blast a hole in adjacent solid terrain.",
-    "weight": "15875 g",
+    "weight": "27215 g",
     "volume": "5 L",
+    "longest_side": "92 cm",
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": -8,
     "bashing": 14,
     "cutting": 6,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
@@ -406,13 +417,19 @@
     "price_postapoc": 750,
     "to_hit": -3,
     "bashing": 12,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
     ]
   },
   {
@@ -444,13 +461,16 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "makeshift_hammer",
@@ -482,7 +502,7 @@
     "to_hit": -2,
     "bashing": 1,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "FILE", 2 ] ]
@@ -497,7 +517,7 @@
     "price": 1000,
     "price_postapoc": 50,
     "bashing": 4,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
     "qualities": [ [ "SMOOTH", 2 ] ]
@@ -544,7 +564,7 @@
     "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 3,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
     "qualities": [ [ "CONTAIN", 1 ] ]
@@ -562,7 +582,7 @@
     "to_hit": -4,
     "bashing": 1,
     "cutting": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
@@ -584,8 +604,16 @@
     "charges_per_use": 4,
     "use_action": "OXYTORCH",
     "qualities": [ [ "WELD", 2 ] ],
-    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "weldtank", "tinyweldtank" ]
+      }
+    ]
   },
   {
     "id": "paint_brush",
@@ -612,8 +640,8 @@
     "price": 16000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 20,
-    "cutting": 12,
+    "bashing": 30,
+    "cutting": 15,
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -633,7 +661,7 @@
     "to_hit": -2,
     "bashing": 1,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "REAM", 2 ] ]
@@ -648,7 +676,7 @@
     "price": 800,
     "price_postapoc": 100,
     "bashing": 3,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ] ],
@@ -671,10 +699,13 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -683,7 +714,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -770,13 +801,16 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "soldering_iron",
@@ -789,7 +823,7 @@
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -806,10 +840,13 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
@@ -818,7 +855,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -832,7 +869,7 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "qualities": [
@@ -864,7 +901,7 @@
     "price_postapoc": 3250,
     "to_hit": -2,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "qualities": [
@@ -882,7 +919,7 @@
       [ "SCREW_FINE", 1 ],
       [ "BUTCHER", 11 ],
       [ "FILE", 2 ],
-      [ "REAM", 1 ],
+      [ "REAM", 2 ],
       [ "VISE", 1 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR" ]
@@ -907,7 +944,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
+        "materials": [ "kevlar", "kevlar_layered", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
@@ -943,7 +980,7 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
@@ -961,11 +998,14 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -979,7 +1019,7 @@
     "price_postapoc": 250,
     "to_hit": -2,
     "bashing": 7,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_red",
     "ammo": [ "battery" ],
@@ -997,11 +1037,14 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -1015,7 +1058,7 @@
     "price_postapoc": 50,
     "to_hit": -3,
     "bashing": 12,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "SMOOTH", 1 ] ]
@@ -1050,7 +1093,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": "PRECISE",
+    "techniques": [ "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
     "flags": [ "SPEAR" ]
   },
@@ -1064,7 +1107,7 @@
     "price": 1200,
     "price_postapoc": 100,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
@@ -1082,7 +1125,7 @@
     "material": "leather",
     "symbol": ",",
     "color": "green",
-    "use_action": "SIPHON"
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "makeshift_hand_drill",

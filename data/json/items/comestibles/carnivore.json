@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "meat/fish" },
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": "%",
     "color": "red",
     "parasites": 32,
@@ -46,7 +46,7 @@
     "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "id": "hstomach_large",
@@ -62,7 +62,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "Freshly harvested from a human body.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -72,7 +72,7 @@
     "description": "A smooth white block of cleaned and rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "//": "*May* have been commercially traded.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -88,7 +88,7 @@
     "cooks_like": "human_cooked",
     "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "id": "human_cooked",
@@ -137,7 +137,8 @@
     "type": "COMESTIBLE",
     "copy-from": "meat",
     "name": { "str": "chunk of mutant meat", "str_pl": "chunks of mutant meat" },
-    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "snippet_category": "mutant_meat_desc",
+    "description": "Meat from a heavily mutated animal.",
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -149,7 +150,7 @@
     "type": "COMESTIBLE",
     "copy-from": "meat_scrap",
     "name": { "str": "scrap of mutant meat", "str_pl": "scraps of mutant meat" },
-    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and has bits of hair and bone mixed in that seem like they grew inside the muscle itself.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells unappealing, to say the least.",
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -163,7 +164,7 @@
     "cooks_like": "mutant_human_cooked",
     "name": "mutant humanoid meat",
     "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "id": "mutant_human_cooked",
@@ -230,7 +231,8 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
     "name": "cooked mutant meat",
-    "description": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you got all the bits of hair and bone out…",
+    "snippet_category": "cooked_mutant_meat_desc",
+    "description": "This is a cooked chunk of meat from a mutated animal.",
     "looks_like": "meat_cooked",
     "proportional": { "price": 1.5 },
     "parasites": 0,
@@ -243,6 +245,7 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat_scrap",
     "name": { "str": "cooked scrap of mutant meat", "str_pl": "cooked scraps of mutant meat" },
+    "description": "This is a tiny scrap of cooked mutant meat.  It is small enough that it's hard to tell how disgusting it is.",
     "looks_like": "meat_scrap_cooked",
     "parasites": 0,
     "calories": 25,
@@ -272,6 +275,17 @@
     "price_postapoc": 50,
     "fun": -5,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "mutant_bug_organs",
+    "type": "COMESTIBLE",
+    "copy-from": "offal",
+    "name": { "str_sp": "mutant organs" },
+    "snippet_category": "bug_organs_desc",
+    "description": "These organs came from a giant mutant bug.",
+    "looks_like": "offal",
+    "proportional": { "price": 0.1, "calories": 0.65 },
+    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
   },
   {
     "id": "offal_pickled",
@@ -433,6 +447,18 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
+    "id": "mutant_bug_lungs",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "name": { "str_sp": "mutant lungs" },
+    "snippet_category": "mutant_lung_desc",
+    "description": "You're pretty sure this is lung tissue.",
+    "looks_like": "lung",
+    "cooks_like": "lung_cooked",
+    "proportional": { "price": 0.1, "calories": 0.65 },
+    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
+  },
+  {
     "id": "liver",
     "type": "COMESTIBLE",
     "copy-from": "lung",
@@ -555,7 +581,7 @@
     "calories": 43,
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50
@@ -572,6 +598,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": "bone",
+    "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ] ]
   },
@@ -590,7 +617,7 @@
     "calories": 1923,
     "description": "Freshly butchered fat.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
     "price": 0,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "parasites": 32,
     "stack_size": 1,
@@ -612,7 +639,7 @@
     "price": 500,
     "price_postapoc": 800,
     "//": "*May* have been commercially traded.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
@@ -631,7 +658,7 @@
     "type": "COMESTIBLE",
     "copy-from": "fat",
     "name": { "str": "chunk of mutant fat", "str_pl": "chunks of mutant fat" },
-    "description": "Freshly butchered fat from a heavily mutated animal.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
+    "description": "Freshly butchered fat from a heavily mutated animal.  It smells, if anything, even more disgusting than the rest of the mutant.  There are little puddles of unidentified oils dripping from it.",
     "looks_like": "fat",
     "proportional": { "price": 0.2 },
     "vitamins": [ [ "mutant_toxin", 360 ] ]
@@ -659,7 +686,7 @@
     "copy-from": "mutant_fat",
     "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Freshly butchered fat from a heavily mutated humanoid.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -667,7 +694,7 @@
     "name": "mutant humanoid tallow",
     "copy-from": "mutant_tallow",
     "description": "A smooth white block of cleaned and rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -691,7 +718,7 @@
     "description": "Meat that's obviously unhealthy.  You could eat it, but it will poison you.",
     "price": 0,
     "price_postapoc": 10,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
@@ -751,7 +778,7 @@
     "price": 0,
     "price_postapoc": 25,
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "RAW" ]
@@ -773,7 +800,7 @@
     "price": 0,
     "price_postapoc": 50,
     "//": "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
@@ -794,7 +821,7 @@
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled large human stomach" },
     "description": "A boiled stomach from a large humanoid creature, nothing else.  It looks all but appetizing.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -809,7 +836,7 @@
     "description": "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": 375,
     "price_postapoc": 10,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -3
@@ -820,7 +847,7 @@
     "copy-from": "small_stomach_boiled",
     "name": { "str": "boiled human stomach" },
     "description": "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -839,8 +866,8 @@
     "description": "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": 330,
     "price_postapoc": 20,
-    "material": "flesh",
-    "flags": "TRADER_AVOID",
+    "material": [ "flesh" ],
+    "flags": [ "TRADER_AVOID" ],
     "stack_size": 1,
     "fun": -12
   },
@@ -861,7 +888,7 @@
     "copy-from": "raw_leather",
     "name": "raw human skin",
     "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -869,7 +896,7 @@
     "copy-from": "raw_leather",
     "name": "raw demihuman skin",
     "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
@@ -1022,7 +1049,7 @@
     "type": "COMESTIBLE",
     "name": "demihuman stomach",
     "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
@@ -1040,7 +1067,7 @@
     "type": "COMESTIBLE",
     "name": "chunk of demihuman fat",
     "description": "Freshly harvested from a human body.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
@@ -1051,7 +1078,7 @@
     "description": "A smooth white block of cleaned and rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "//": "*May* have been commercially traded.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
@@ -1069,7 +1096,7 @@
     "cooks_like": "demihuman_cooked",
     "name": "demihuman flesh",
     "description": "Freshly butchered from a demihuman body.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
@@ -1091,7 +1118,7 @@
     "name": "boiled demihuman stomach",
     "calories": 240,
     "description": "A boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
@@ -1100,7 +1127,7 @@
     "copy-from": "small_stomach_boiled",
     "name": { "str": "boiled demihuman stomach" },
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   }
 ]

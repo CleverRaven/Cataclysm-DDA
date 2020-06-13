@@ -278,8 +278,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     bool npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
 
     // Colors for hinting if the trade will be accepted or not.
-    const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
-    const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
+    const nc_color trade_color = npc_will_accept_trade( np ) ? c_green : c_red;
 
     input_context ctxt( "NPC_TRADE" );
 
@@ -316,6 +315,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                trade_color, cost_str );
 
     if( !deal.empty() ) {
+        const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
         mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                    trade_color_light, deal );
     }
@@ -386,9 +386,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
             mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
         }
     }
-    wrefresh( w_head );
-    wrefresh( w_them );
-    wrefresh( w_you );
+    wnoutrefresh( w_head );
+    wnoutrefresh( w_them );
+    wnoutrefresh( w_you );
 }
 
 void trading_window::show_item_data( size_t offset,
@@ -409,7 +409,7 @@ void trading_window::show_item_data( size_t offset,
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
         draw_border( w_tmp );
-        wrefresh( w_tmp );
+        wnoutrefresh( w_tmp );
     } );
 
     input_context ctxt( "NPC_TRADE" );
@@ -425,7 +425,7 @@ void trading_window::show_item_data( size_t offset,
             exit = true;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard || evt.sequence.empty() ) {
                 continue;
             }
             size_t help = evt.get_first_input();
@@ -560,7 +560,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             confirm = false;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard || evt.sequence.empty() ) {
                 continue;
             }
             size_t ch = evt.get_first_input();
@@ -699,7 +699,6 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
             g->u.practice( skill_barter, practice / 10000 );
         }
     }
-    g->refresh_all();
     return traded;
 }
 

@@ -39,8 +39,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const bionic_id bio_night( "bio_night" );
-
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
@@ -50,7 +48,7 @@ static const efftype_id effect_onfire( "onfire" );
 static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
+const half_open_rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
 {
@@ -59,8 +57,8 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
-void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
-                                item_stack::iterator end )
+void map::add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                const item_stack::iterator &end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0; // brightness
@@ -164,7 +162,7 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    bool is_crouching = g->u.is_crouching();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
@@ -324,6 +322,7 @@ void map::generate_lightmap( const int zlev )
         apply_character_light( guy );
     }
 
+    std::vector<std::pair<tripoint, float>> lm_override;
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -339,7 +338,7 @@ void map::generate_lightmap( const int zlev )
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
                             point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
-                            if( lightmap_boundaries.contains_half_open( neighbour )
+                            if( lightmap_boundaries.contains( neighbour )
                                 && outside_cache[neighbour.x][neighbour.y]
                               ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
@@ -375,6 +374,10 @@ void map::generate_lightmap( const int zlev )
                         const int light_emitted = cur->light_emitted();
                         if( light_emitted > 0 ) {
                             add_light_source( p, light_emitted );
+                        }
+                        const float light_override = cur->local_light_override();
+                        if( light_override >= 0.0f ) {
+                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
                         }
                     }
                 }
@@ -428,13 +431,13 @@ void map::generate_lightmap( const int zlev )
             }
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
-                if( veh_luminance > LL_LIT ) {
+                if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-                if( veh_luminance > LL_LIT ) {
+                if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
                 }
@@ -482,13 +485,8 @@ void map::generate_lightmap( const int zlev )
             apply_light_source( p, light_source_buffer[p.x][p.y] );
         }
     }
-
-    if( g->u.has_active_bionic( bio_night ) ) {
-        for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-            if( rl_dist( p, g->u.pos() ) < 2 ) {
-                lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );
-            }
-        }
+    for( const std::pair<tripoint, float> &elem : lm_override ) {
+        lm[elem.first.x][elem.first.y].fill( elem.second );
     }
 }
 
@@ -503,26 +501,26 @@ void map::add_light_source( const tripoint &p, float luminance )
 lit_level map::light_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return LL_DARK;    // Out of bounds
+        return lit_level::DARK;    // Out of bounds
     }
 
     const auto &map_cache = get_cache_ref( p.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
     if( sm[p.x][p.y] >= LIGHT_SOURCE_BRIGHT ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
 
     const float max_light = lm[p.x][p.y].max();
     if( max_light >= LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
+        return lit_level::LIT;
     }
 
     if( max_light >= LIGHT_AMBIENT_LOW ) {
-        return LL_LOW;
+        return lit_level::LOW;
     }
 
-    return LL_DARK;
+    return lit_level::DARK;
 }
 
 float map::ambient_light_at( const tripoint &p ) const
@@ -583,7 +581,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
             const point neighbour = p.xy() + oq.offset;
 
-            if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
+            if( !lightmap_boundaries.contains( neighbour ) ) {
                 continue;
             }
             if( is_opaque( neighbour ) ) {
@@ -613,11 +611,11 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Clairvoyance overrides everything.
     if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
     if( fd_clairvoyant.is_valid() && field_at( p ).find_field( fd_clairvoyant ) ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
@@ -626,9 +624,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     // but the player can still see light sources.
     if( dist > g->u.unimpaired_range() ) {
         if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return LL_BRIGHT_ONLY;
+            return lit_level::BRIGHT_ONLY;
         } else {
-            return LL_DARK;
+            return lit_level::DARK;
         }
     }
     if( a.obstructed ) {
@@ -636,26 +634,26 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
             if( a.apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
-                return LL_BRIGHT_ONLY;
+                return lit_level::BRIGHT_ONLY;
             } else {
                 // If it's not brighter than the surroundings, it just ends up shadowy.
-                return LL_LOW;
+                return lit_level::LOW;
             }
         } else {
-            return LL_BLANK;
+            return lit_level::BLANK;
         }
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
+        return lit_level::LIT;
     }
     if( a.apparent_light > cache.vision_threshold ) {
-        return LL_LOW;
+        return lit_level::LOW;
     } else {
-        return LL_BLANK;
+        return lit_level::BLANK;
     }
 }
 
@@ -1276,13 +1274,13 @@ void map::apply_light_source( const tripoint &p, float luminance )
     const int y = p.y;
 
     if( inbounds( p ) ) {
-        const float min_light = std::max( static_cast<float>( LL_LOW ), luminance );
+        const float min_light = std::max( static_cast<float>( lit_level::LOW ), luminance );
         lm[x][y] = elementwise_max( lm[x][y], min_light );
         sm[x][y] = std::max( sm[x][y], luminance );
     }
-    if( luminance <= LL_LOW ) {
+    if( luminance <= lit_level::LOW ) {
         return;
-    } else if( luminance <= LL_BRIGHT_ONLY ) {
+    } else if( luminance <= lit_level::BRIGHT_ONLY ) {
         luminance = 1.49f;
     }
 
@@ -1479,7 +1477,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             t += ay;
 
             // TODO: clamp coordinates to map bounds before this method is called.
-            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
+            if( lightmap_boundaries.contains( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
@@ -1511,7 +1509,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             y += dy;
             t += ax;
 
-            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
+            if( lightmap_boundaries.contains( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {

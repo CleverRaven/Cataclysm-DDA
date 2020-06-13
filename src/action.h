@@ -498,8 +498,9 @@ std::string press_x( action_id act, const std::string &act_desc );
 cata::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
-enum class iso_rotate {
-    no, yes
+enum class iso_rotate : int {
+    no,
+    yes
 };
 
 // Helper function to convert coordinate delta to a movement action
