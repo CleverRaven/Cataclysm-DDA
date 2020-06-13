@@ -3886,7 +3886,7 @@ bool basecamp::distribute_food()
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
     int total = 0;
 
-    const auto rot_multip = [&]( const item & it, item * const container ) {
+    const double rot_multip = [&]( const item & it, item * const container ) {
         if( !it.goes_bad() ) {
             return 1.;
         }
@@ -3910,7 +3910,7 @@ bool basecamp::distribute_food()
             return quick_rot;
         }
     };
-    const auto consume_non_recursive = [&]( item & it, item * const container ) {
+    const bool consume_non_recursive = [&]( item & it, item * const container ) {
         if( !it.is_comestible() ) {
             return false;
         }
@@ -3932,7 +3932,7 @@ bool basecamp::distribute_food()
     };
 
     // Returns whether the item should be removed from the map.
-    const auto consume = [&]( item & it, item * const container ) {
+    const bool consume = [&]( item & it, item * const container ) {
         if( it.is_food_container() ) {
             std::vector<item *> to_remove;
             it.visit_items( [&]( item * content, item * parent ) {
