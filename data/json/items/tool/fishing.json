@@ -40,7 +40,7 @@
     "price": 25,
     "price_postapoc": 25,
     "cutting": 3,
-    "material": "bone",
+    "material": [ "bone" ],
     "symbol": ",",
     "color": "white"
   },
