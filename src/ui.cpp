@@ -884,12 +884,6 @@ uilist_entry *uilist::find_entry_by_coordinate( point p )
             return &entry;
         }
     }
-    /*for( int i = 0; i < entries.size(); i++ ) {
-        uilist_entry *entry = &entries[i];
-        if( entry->drawn_info.include_point( p ) ) {
-            return entry;
-        }
-    }*/
     return nullptr;
 }
 
