@@ -655,7 +655,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
             std::vector<vehicle_part> parts;
             json.read( parts );
             // TODO: verify that this works if some of the parts don't exist (such as fake ones)
-            for( size_t i = 0; i < parts.size() && i < veh->num_parts(); i++ ) {
+            for( int i = 0; i < static_cast<int>( parts.size() ) && i < veh->num_parts(); i++ ) {
                 const vehicle_part &src = parts[i];
                 vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are

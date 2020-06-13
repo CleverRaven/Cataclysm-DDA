@@ -136,10 +136,10 @@ struct fake_vehicle_mount {
     int visible_part; // the part this is a copy of
     int structural_part; // the structural part (for collisions)
     int fake_part_index = -1; // index of the fake part
-    std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+    std::array<point, 2> precalc = { { point_zero, point_zero } };
 
     fake_vehicle_mount() :
-        mount( point_zero ), copy_of( point_zero ), active( false ), visible_part( -1 ),
+        active( false ), visible_part( -1 ),
         structural_part( -1 ) {}
     fake_vehicle_mount( const point &mount, const point &copy_of, bool active,
                         int visible_part,
@@ -1793,13 +1793,13 @@ class vehicle
         void precalc_fake_mounts( int idir, int dir, const point &pivot );
         // Removes fake parts from the parts vector
         void remove_fake_parts();
-        fake_vehicle_mount &find_fake( const int part_num );
+        fake_vehicle_mount &find_fake( int part_num );
         int obstacle_at_mount( const point &mount ) const;
         point get_abs_diff( const point &one, const point &two ) const;
         bool should_enable_fake( const point &fake_precalc, const point &parent_precalc,
                                  const point &neighbor_precalc ) const;
     public:
-        int get_fake_parent( const int part_num );
+        int get_fake_parent( int part_num );
         // Updates active state on all fake_mounts based on whether they can fill a gap
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();

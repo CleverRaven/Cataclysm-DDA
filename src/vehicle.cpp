@@ -5641,10 +5641,10 @@ void vehicle::refresh()
 
 vpart_edge_info vehicle::get_edge_info( const point &mount ) const
 {
-    point forward = mount + point( 1, 0 );
-    point back = mount + point( -1, 0 );
-    point left = mount + point( 0, -1 );
-    point right = mount + point( 0, 1 );
+    point forward = mount + point_east;
+    point back = mount + point_west;
+    point left = mount + point_north;
+    point right = mount + point_south;
     int f_index = -1;
     int b_index = -1;
     int l_index = -1;
@@ -5668,7 +5668,7 @@ int vehicle::obstacle_at_mount( const point &mount ) const
 {
     int obs = -1;
     std::vector<int> relative = parts_at_relative( mount, false );
-    if( relative.size() > 0 ) {
+    if( !relative.empty() ) {
         int i = relative[0];
         obs = part_with_feature( i, VPFLAG_OBSTACLE, true );
     }
@@ -5715,20 +5715,20 @@ void vehicle::refresh_fake_parts()
         }
         // add fake mounts based on the edge info
         if( edge_info.is_edge_mount() ) {
-            if( edge_info.forward == -1 && fake_mounts.find( rp.first + point( 1, 0 ) ) == fake_mounts.end() ) {
-                fake_vehicle_mount fake_forward( rp.first + point( 1, 0 ), rp.first, disp, struc, false );
+            if( edge_info.forward == -1 && fake_mounts.find( rp.first + point_east ) == fake_mounts.end() ) {
+                fake_vehicle_mount fake_forward( rp.first + point_east, rp.first, false, disp, struc );
                 fake_mounts.emplace( fake_forward.mount, fake_forward );
             }
-            if( edge_info.back == -1 && fake_mounts.find( rp.first + point( -1, 0 ) ) == fake_mounts.end() ) {
-                fake_vehicle_mount fake_back( rp.first + point( -1, 0 ), rp.first, disp, struc, false );
+            if( edge_info.back == -1 && fake_mounts.find( rp.first + point_west ) == fake_mounts.end() ) {
+                fake_vehicle_mount fake_back( rp.first + point_west, rp.first, false, disp, struc );
                 fake_mounts.emplace( fake_back.mount, fake_back );
             }
-            if( edge_info.left == -1 && fake_mounts.find( rp.first + point( 0, -1 ) ) == fake_mounts.end() ) {
-                fake_vehicle_mount fake_left( rp.first + point( 0, -1 ), rp.first, disp, struc, false );
+            if( edge_info.left == -1 && fake_mounts.find( rp.first + point_north ) == fake_mounts.end() ) {
+                fake_vehicle_mount fake_left( rp.first + point_north, rp.first, false, disp, struc );
                 fake_mounts.emplace( fake_left.mount, fake_left );
             }
-            if( edge_info.right == -1 && fake_mounts.find( rp.first + point( 0, 1 ) ) == fake_mounts.end() ) {
-                fake_vehicle_mount fake_right( rp.first + point( 0, 1 ), rp.first, disp, struc, false );
+            if( edge_info.right == -1 && fake_mounts.find( rp.first + point_south ) == fake_mounts.end() ) {
+                fake_vehicle_mount fake_right( rp.first + point_south, rp.first, false, disp, struc );
                 fake_mounts.emplace( fake_right.mount, fake_right );
             }
             edges.emplace( rp.first, edge_info );
