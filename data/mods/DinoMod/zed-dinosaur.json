@@ -24,6 +24,7 @@
     "death_function": [ "NORMAL" ],
     "description": "Enormous putrid dinosaur corpse with a ferocious crocodile-like head, oozing black eyes, and a tattered sail on its back.",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": { "half_life": 14, "into": "mon_zpinosaurus_shady" },
     "flags": [
       "SEES",
       "SMELLS",
@@ -41,6 +42,19 @@
     ],
     "harvest": "zed_dino_feather_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zpinosaurus_shady",
+    "name": { "str": "Spinosaurus shady zombie" },
+    "copy-from": "mon_zpinosaurus",
+    "looks_like": "mon_zombie_shady",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with a tattered sail.  The head is long and narrow with a V-shaped snout.",
+    "flags": [ "NIGHT_INVISIBILITY" ],
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
   },
   {
     "type": "MONSTER",
@@ -84,6 +98,19 @@
     "vision_night": 3,
     "harvest": "zed_dino_feather_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zyrannosaurus_shady",
+    "name": { "str": "Shady Z-Rex" },
+    "copy-from": "mon_zyrannosaurus",
+    "looks_like": "mon_zombie_shady",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with feathery edges.  The head looks big, lots of big teeth would fit in it.",
+    "flags": [ "NIGHT_INVISIBILITY" ],
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
   },
   {
     "type": "MONSTER",
@@ -154,20 +181,7 @@
     "looks_like": "mon_zombie_shady",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a medium-sized bipedal dinosaur with feathery edges.  Both feet brandish a large sickle-like claw.",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "KEENNOSE",
-      "BLEED",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "NIGHT_INVISIBILITY",
-      "FILTHY",
-      "WARM"
-    ],
+    "flags": [ "NIGHT_INVISIBILITY" ],
     "vision_day": 3,
     "vision_night": 40,
     "categories": [ "DINOSAUR" ]
