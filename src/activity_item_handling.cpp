@@ -2912,15 +2912,12 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
     return {};
 }
 
-bool find_auto_consume( player &p, const bool food )
+int get_auto_consume_moves( player &p, const bool food )
 {
-    // return false if there is no point searching again while the activity is still happening.
-    if( p.is_npc() ) {
-        return false;
+    if( p.is_npc() && p.has_effect( effect_nausea ) ) {
+        return 0;
     }
-    if( p.has_effect( effect_nausea ) ) {
-        return true;
-    }
+
     static const std::string flag_MELTS( "MELTS" );
     static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
@@ -2934,7 +2931,7 @@ bool find_auto_consume( player &p, const bool food )
     const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, g->m.getabs( pos ),
             ACTIVITY_SEARCH_DISTANCE );
     if( dest_set.empty() ) {
-        return false;
+        return 0;
     }
     for( const tripoint loc : dest_set ) {
         if( loc.z != p.pos().z ) {
@@ -2971,18 +2968,22 @@ bool find_auto_consume( player &p, const bool food )
                 // its frozen
                 continue;
             }
-            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
-                         g->m.getlocal( loc ) ), 1 ) );
+            int consume_moves = -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+                                g->m.getlocal( loc ) ), 1 );
+            consume_moves += to_moves<int>( p.get_consume_time( it ) );
             item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
-            avatar_action::eat( g->u, item_loc );
+
+            p.consume( item_loc );
+
             // eat() may have removed the item, so check its still there.
             if( item_loc.get_item() && item_loc->is_container() ) {
                 item_loc->on_contents_changed();
             }
-            return true;
+
+            return consume_moves;
         }
     }
-    return false;
+    return 0;
 }
 
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )

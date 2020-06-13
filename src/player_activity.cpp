@@ -193,12 +193,16 @@ void player_activity::do_turn( player &p )
     }
     if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
         if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
-            if( !find_auto_consume( p, true ) ) {
+            int consume_moves = get_auto_consume_moves( p, true );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
         if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            if( !find_auto_consume( p, false ) ) {
+            int consume_moves = get_auto_consume_moves( p, false );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }

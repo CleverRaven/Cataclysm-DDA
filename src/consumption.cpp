@@ -1799,10 +1799,12 @@ bool player::consume( item_location loc, bool force )
     bool wielding = is_wielding( target );
     bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
-
     if( consume( target, force ) ) {
-
-        i_rem( loc.get_item() );
+        if( loc.where() == item_location::type::character ) {
+            i_rem( loc.get_item() );
+        } else {
+            loc.remove_item();
+        }
 
     } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {

@@ -1155,18 +1155,14 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     act.interruptable = false;
 
     if( consume_location ) {
-        if( consume_location.where() == item_location::type::character ) {
-            g->u.consume( consume_location, force );
-        } else if( g->u.consume( *consume_location, force ) ) {
-            consume_location.remove_item();
-        }
-        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-        }
+        g->u.consume( consume_location, force );
     } else if( !consume_item.is_null() ) {
         g->u.consume( consume_item, force );
     } else {
         debugmsg( "Item location/name to be consumed should not be null." );
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
     act.set_to_null();
     if( open_consume_menu ) {
