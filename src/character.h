@@ -628,6 +628,18 @@ class Character : public Creature, public visitable<Character>
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
+
+        void wait_effects( bool attacking = false );
+
+        /** Series of checks to remove effects for waiting or moving */
+        bool try_remove_grab();
+        void try_remove_downed();
+        void try_remove_bear_trap();
+        void try_remove_lightsnare();
+        void try_remove_heavysnare();
+        void try_remove_crushed();
+        void try_remove_webs();
+
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
         move_mode_id current_movement_mode() const;
@@ -827,6 +839,9 @@ class Character : public Creature, public visitable<Character>
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
+
+        /**Trigger reflex activation if the mutation has one*/
+        void mutation_reflex_trigger( const trait_id &mut );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );

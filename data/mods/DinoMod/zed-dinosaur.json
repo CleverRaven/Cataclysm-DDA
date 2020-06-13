@@ -91,7 +91,7 @@
     "name": { "str": "S-Rex", "str_pl": "S-Rexes" },
     "copy-from": "mon_zyrannosaurus",
     "color": "white",
-    "material": "bone",
+    "material": [ "bone" ],
     "speed": 35,
     "melee_skill": 13,
     "melee_dice": 4,

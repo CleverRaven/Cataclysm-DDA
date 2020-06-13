@@ -624,12 +624,12 @@ void game::setup()
 
 bool game::has_gametype() const
 {
-    return gamemode && gamemode->id() != SGAME_NULL;
+    return gamemode && gamemode->id() != special_game_type::NONE;
 }
 
-special_game_id game::gametype() const
+special_game_type game::gametype() const
 {
-    return gamemode ? gamemode->id() : SGAME_NULL;
+    return gamemode ? gamemode->id() : special_game_type::NONE;
 }
 
 void game::load_map( const tripoint &pos_sm )
@@ -4040,7 +4040,7 @@ Creature *game::is_hostile_very_close()
 Creature *game::is_hostile_within( int distance )
 {
     for( auto &critter : u.get_visible_creatures( distance ) ) {
-        if( u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+        if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             return critter;
         }
     }
@@ -4346,7 +4346,7 @@ void game::mon_info_update( )
             }
         }
 
-        rule_state safemode_state = RULE_NONE;
+        rule_state safemode_state = rule_state::NONE;
         const bool safemode_empty = get_safemode().empty();
 
         if( m != nullptr ) {
@@ -4357,7 +4357,7 @@ void game::mon_info_update( )
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
             safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
 
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
                     ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
                 if( index < 8 && critter.sees( g->u ) ) {
                     dangerous[index] = true;
@@ -4394,7 +4394,7 @@ void game::mon_info_update( )
             safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
                              npc_dist );
 
-            if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
+            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
                     p->get_attitude() == NPCATT_KILL ) ) {
                 if( !safemode_empty || npc_dist <= iProxyDist ) {
                     newseen++;
@@ -6015,12 +6015,12 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
         }
 #endif
         const tripoint view_center = u.pos() + u.view_offset;
-        visibility_type visibility = VIS_HIDDEN;
+        visibility_type visibility = visibility_type::HIDDEN;
         const bool inbounds = m.inbounds( lp );
         if( inbounds ) {
             visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
         }
-        if( visibility == VIS_CLEAR ) {
+        if( visibility == visibility_type::CLEAR ) {
             const Creature *const creature = critter_at( lp, true );
             if( creature != nullptr && u.sees( *creature ) ) {
                 creature->draw( w_terrain, view_center, true );
@@ -6031,23 +6031,23 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
             std::string visibility_indicator;
             nc_color visibility_indicator_color = c_white;
             switch( visibility ) {
-                case VIS_CLEAR:
+                case visibility_type::CLEAR:
                     // Already handled by the outer if statement
                     break;
-                case VIS_BOOMER:
-                case VIS_BOOMER_DARK:
+                case visibility_type::BOOMER:
+                case visibility_type::BOOMER_DARK:
                     visibility_indicator = '#';
                     visibility_indicator_color = c_pink;
                     break;
-                case VIS_DARK:
+                case visibility_type::DARK:
                     visibility_indicator = '#';
                     visibility_indicator_color = c_dark_gray;
                     break;
-                case VIS_LIT:
+                case visibility_type::LIT:
                     visibility_indicator = '#';
                     visibility_indicator_color = c_light_gray;
                     break;
-                case VIS_HIDDEN:
+                case visibility_type::HIDDEN:
                     visibility_indicator = 'x';
                     visibility_indicator_color = c_white;
                     break;
@@ -6065,14 +6065,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                                 const int last_line,
                                 const visibility_variables &cache )
 {
-    visibility_type visibility = VIS_HIDDEN;
+    visibility_type visibility = visibility_type::HIDDEN;
     const bool inbounds = m.inbounds( lp );
     if( inbounds ) {
         visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     }
     const Creature *creature = critter_at( lp, true );
     switch( visibility ) {
-        case VIS_CLEAR: {
+        case visibility_type::CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
             print_terrain_info( lp, w_look, area_name, column, line );
             print_fields_info( lp, w_look, column, line );
@@ -6084,11 +6084,11 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_graffiti_info( lp, w_look, column, line, last_line );
         }
         break;
-        case VIS_BOOMER:
-        case VIS_BOOMER_DARK:
-        case VIS_DARK:
-        case VIS_LIT:
-        case VIS_HIDDEN:
+        case visibility_type::BOOMER:
+        case visibility_type::BOOMER_DARK:
+        case visibility_type::DARK:
+        case visibility_type::LIT:
+        case visibility_type::HIDDEN:
             print_visibility_info( w_look, column, line, visibility );
 
             if( creature != nullptr ) {
@@ -6148,22 +6148,22 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
 {
     const char *visibility_message = nullptr;
     switch( visibility ) {
-        case VIS_CLEAR:
+        case visibility_type::CLEAR:
             visibility_message = _( "Clearly visible." );
             break;
-        case VIS_BOOMER:
+        case visibility_type::BOOMER:
             visibility_message = _( "A bright pink blur." );
             break;
-        case VIS_BOOMER_DARK:
+        case visibility_type::BOOMER_DARK:
             visibility_message = _( "A pink blur." );
             break;
-        case VIS_DARK:
+        case visibility_type::DARK:
             visibility_message = _( "Darkness." );
             break;
-        case VIS_LIT:
+        case visibility_type::LIT:
             visibility_message = _( "Bright light." );
             break;
-        case VIS_HIDDEN:
+        case visibility_type::HIDDEN:
             visibility_message = _( "Unseen." );
             break;
     }
@@ -7992,9 +7992,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
         const auto attitude = monster_list[i]->attitude_to( u );
-        if( attitude != last_attitude ) {
+        if( static_cast<int>( attitude ) != last_attitude ) {
             mSortCategory[i + mSortCategory.size()] = attitude;
-            last_attitude = attitude;
+            last_attitude = static_cast<int>( attitude );
         }
     }
 
@@ -8083,7 +8083,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
 
                         std::string sSafemode;
-                        if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
+                        if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
                             sSafemode = _( "<R>emove from safemode Blacklist" );
                         } else {
                             sSafemode = _( "<A>dd to safemode Blacklist" );
@@ -8196,16 +8196,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             const auto m = dynamic_cast<monster *>( cCurMon );
             const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
-            if( get_safemode().has_rule( monName, Creature::A_ANY ) ) {
-                get_safemode().remove_rule( monName, Creature::A_ANY );
+            if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
+                get_safemode().remove_rule( monName, Creature::Attitude::ANY );
             }
         } else if( action == "SAFEMODE_BLACKLIST_ADD" ) {
             if( !get_safemode().empty() ) {
                 const auto m = dynamic_cast<monster *>( cCurMon );
                 const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
-                get_safemode().add_rule( monName, Creature::A_ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
-                                         RULE_BLACKLISTED );
+                get_safemode().add_rule( monName, Creature::Attitude::ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
+                                         rule_state::BLACKLISTED );
             }
         } else if( action == "look" ) {
             hide_ui = true;

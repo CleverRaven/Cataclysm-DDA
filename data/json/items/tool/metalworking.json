@@ -115,7 +115,7 @@
     "price_postapoc": 750,
     "to_hit": -2,
     "bashing": 10,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]

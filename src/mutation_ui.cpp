@@ -78,7 +78,7 @@ void player::power_mutations()
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.first->activated && ! mut.first->transform ) {
+        if( !mut.first->activated ) {
             passive.push_back( mut.first );
         } else {
             active.push_back( mut.first );
@@ -324,14 +324,9 @@ void player::power_mutations()
                         break;
                     }
                     case mutation_menu_mode::activating: {
-                        const cata::value_ptr<mut_transform> &trans = mut_data.transform;
-                        if( mut_data.activated || trans ) {
+                        if( mut_data.activated ) {
                             if( my_mutations[mut_id].powered ) {
-                                if( trans && !trans->msg_transform.empty() ) {
-                                    add_msg_if_player( m_neutral, trans->msg_transform );
-                                } else {
-                                    add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-                                }
+                                add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
 
                                 deactivate_mutation( mut_id );
                                 // Action done, leave screen
@@ -339,11 +334,7 @@ void player::power_mutations()
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
-                                if( trans && !trans->msg_transform.empty() ) {
-                                    add_msg_if_player( m_neutral, trans->msg_transform );
-                                } else {
-                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-                                }
+                                add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
 
                                 activate_mutation( mut_id );
                                 // Action done, leave screen

@@ -155,59 +155,59 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     if( !tile_iso ) {
         if( new_d.x > 0 ) {
-            you.facing = FD_RIGHT;
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_RIGHT;
+                you.mounted_creature->facing = FacingDirection::RIGHT;
             }
         } else if( new_d.x < 0 ) {
-            you.facing = FD_LEFT;
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_LEFT;
+                you.mounted_creature->facing = FacingDirection::LEFT;
             }
         }
     } else {
         //
         // iso:
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // left key             =>  -x +y       FD_LEFT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // left key             =>  -x +y       FacingDirection::LEFT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // left key             =>  -x +y       FD_LEFT
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
+        // left key             =>  -x +y       FacingDirection::LEFT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
         //
-        // right key            =>  +x +y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ +y       FD_RIGHT
+        // right key            =>  +x +y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ +y       FacingDirection::RIGHT
         // up key               =>  +x -y       ______
-        // left key             =>  -x -y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // y: left-up key       =>  __ -y       FD_LEFT
+        // left key             =>  -x -y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // y: left-up key       =>  __ -y       FacingDirection::LEFT
         // down key             =>  -x +y       ______
         //
         if( new_d.x >= 0 && new_d.y >= 0 ) {
-            you.facing = FD_RIGHT;
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_RIGHT;
+                mons->facing = FacingDirection::RIGHT;
             }
         }
         if( new_d.y <= 0 && new_d.x <= 0 ) {
-            you.facing = FD_LEFT;
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_LEFT;
+                mons->facing = FacingDirection::LEFT;
             }
         }
     }

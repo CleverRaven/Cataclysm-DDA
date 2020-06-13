@@ -23,7 +23,6 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -43,6 +42,7 @@ class gunmod_location;
 class item;
 class iteminfo_query;
 class material_type;
+class monster;
 class nc_color;
 class player;
 class recipe;
@@ -57,7 +57,7 @@ class ret_val;
 namespace enchant_vals
 {
 enum class mod : int;
-} // enchant_vals
+} // namespace enchant_vals
 
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
@@ -721,6 +721,9 @@ class item : public visitable<item>
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+
+        // recusive function that checks pockets for remaining free space
+        units::volume check_for_free_space( const item *it ) const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious

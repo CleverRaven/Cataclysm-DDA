@@ -1035,9 +1035,9 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
-                g->u.facing = FD_RIGHT;
+                g->u.facing = FacingDirection::RIGHT;
             } else if( vec->x < 0 ) {
-                g->u.facing = FD_LEFT;
+                g->u.facing = FacingDirection::LEFT;
             }
             return vec;
         } else if( action == "pause" ) {

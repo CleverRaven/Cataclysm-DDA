@@ -599,11 +599,11 @@ task_reason veh_interact::cant_do( char mode )
         case 'w':
             // assign crew
             if( g->allies().empty() ) {
-                return INVALID_TARGET;
+                return task_reason::INVALID_TARGET;
             }
             return std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part & e ) {
                 return e.is_seat();
-            } ) ? CAN_DO : INVALID_TARGET;
+            } ) ? task_reason::CAN_DO : task_reason::INVALID_TARGET;
 
         case 'a':
             // relabel
@@ -611,32 +611,32 @@ task_reason veh_interact::cant_do( char mode )
             has_tools = true;
             break;
         default:
-            return UNKNOWN_TASK;
+            return task_reason::UNKNOWN_TASK;
     }
 
     if( std::abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
-        return MOVING_VEHICLE;
+        return task_reason::MOVING_VEHICLE;
     }
     if( !valid_target ) {
-        return INVALID_TARGET;
+        return task_reason::INVALID_TARGET;
     }
     if( !enough_morale ) {
-        return LOW_MORALE;
+        return task_reason::LOW_MORALE;
     }
     if( !enough_light ) {
-        return LOW_LIGHT;
+        return task_reason::LOW_LIGHT;
     }
     if( !has_tools ) {
-        return LACK_TOOLS;
+        return task_reason::LACK_TOOLS;
     }
     if( !part_free ) {
-        return NOT_FREE;
+        return task_reason::NOT_FREE;
     }
     // TODO: that is always false!
     if( !has_skill ) {
-        return LACK_SKILL;
+        return task_reason::LACK_SKILL;
     }
-    return CAN_DO;
+    return task_reason::CAN_DO;
 }
 
 bool veh_interact::is_drive_conflict()
@@ -856,7 +856,7 @@ void veh_interact::do_install()
 {
     task_reason reason = cant_do( 'i' );
 
-    if( reason == INVALID_TARGET ) {
+    if( reason == task_reason::INVALID_TARGET ) {
         msg = _( "Cannot install any part here." );
         return;
     }
@@ -1012,13 +1012,13 @@ void veh_interact::do_install()
         if( action == "INSTALL" || action == "CONFIRM" ) {
             if( can_install ) {
                 switch( reason ) {
-                    case LOW_MORALE:
+                    case task_reason::LOW_MORALE:
                         msg = _( "Your morale is too low to construct…" );
                         return;
-                    case LOW_LIGHT:
+                    case task_reason::LOW_LIGHT:
                         msg = _( "It's too dark to see what you are doing…" );
                         return;
-                    case MOVING_VEHICLE:
+                    case task_reason::MOVING_VEHICLE:
                         msg = _( "You can't install parts while driving." );
                         return;
                     default:
@@ -1123,7 +1123,7 @@ void veh_interact::do_repair()
 {
     task_reason reason = cant_do( 'r' );
 
-    if( reason == INVALID_TARGET ) {
+    if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repariable_part();
         if( most_repairable ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
@@ -1133,16 +1133,16 @@ void veh_interact::do_repair()
 
     auto can_repair = [this, &reason]() {
         switch( reason ) {
-            case LOW_MORALE:
+            case task_reason::LOW_MORALE:
                 msg = _( "Your morale is too low to repair…" );
                 return false;
-            case LOW_LIGHT:
+            case task_reason::LOW_LIGHT:
                 msg = _( "It's too dark to see what you are doing…" );
                 return false;
-            case MOVING_VEHICLE:
+            case task_reason::MOVING_VEHICLE:
                 msg = _( "You can't repair stuff while driving." );
                 return false;
-            case INVALID_TARGET:
+            case task_reason::INVALID_TARGET:
                 msg = _( "There are no damaged parts on this vehicle." );
                 return false;
             default:
@@ -1236,16 +1236,16 @@ void veh_interact::do_repair()
 void veh_interact::do_mend()
 {
     switch( cant_do( 'm' ) ) {
-        case LOW_MORALE:
+        case task_reason::LOW_MORALE:
             msg = _( "Your morale is too low to mend…" );
             return;
-        case LOW_LIGHT:
+        case task_reason::LOW_LIGHT:
             msg = _( "It's too dark to see what you are doing…" );
             return;
-        case INVALID_TARGET:
+        case task_reason::INVALID_TARGET:
             msg = _( "No faulty parts require mending." );
             return;
-        case MOVING_VEHICLE:
+        case task_reason::MOVING_VEHICLE:
             msg = _( "You can't mend stuff while driving." );
             return;
         default:
@@ -1275,11 +1275,11 @@ void veh_interact::do_mend()
 void veh_interact::do_refill()
 {
     switch( cant_do( 'f' ) ) {
-        case MOVING_VEHICLE:
+        case task_reason::MOVING_VEHICLE:
             msg = _( "You can't refill a moving vehicle." );
             return;
 
-        case INVALID_TARGET:
+        case task_reason::INVALID_TARGET:
             msg = _( "No parts can currently be refilled." );
             return;
 
@@ -1815,7 +1815,7 @@ void veh_interact::do_remove()
 {
     task_reason reason = cant_do( 'o' );
 
-    if( reason == INVALID_TARGET ) {
+    if( reason == task_reason::INVALID_TARGET ) {
         msg = _( "No parts here." );
         return;
     }
@@ -1857,16 +1857,16 @@ void veh_interact::do_remove()
         msg.reset();
         if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
             switch( reason ) {
-                case LOW_MORALE:
+                case task_reason::LOW_MORALE:
                     msg = _( "Your morale is too low to construct…" );
                     return;
-                case LOW_LIGHT:
+                case task_reason::LOW_LIGHT:
                     msg = _( "It's too dark to see what you are doing…" );
                     return;
-                case NOT_FREE:
+                case task_reason::NOT_FREE:
                     msg = _( "You cannot remove that part while something is attached to it." );
                     return;
-                case MOVING_VEHICLE:
+                case task_reason::MOVING_VEHICLE:
                     msg = _( "Better not remove something while driving." );
                     return;
                 default:
@@ -1900,15 +1900,15 @@ void veh_interact::do_remove()
 void veh_interact::do_siphon()
 {
     switch( cant_do( 's' ) ) {
-        case INVALID_TARGET:
+        case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no liquid fuel left to siphon." );
             return;
 
-        case LACK_TOOLS:
+        case task_reason::LACK_TOOLS:
             msg = _( "You need a <color_red>hose</color> to siphon liquid fuel." );
             return;
 
-        case MOVING_VEHICLE:
+        case task_reason::MOVING_VEHICLE:
             msg = _( "You can't siphon from a moving vehicle." );
             return;
 
@@ -1940,11 +1940,11 @@ void veh_interact::do_siphon()
 bool veh_interact::do_unload()
 {
     switch( cant_do( 'd' ) ) {
-        case INVALID_TARGET:
+        case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no solid fuel left to remove." );
             return false;
 
-        case MOVING_VEHICLE:
+        case task_reason::MOVING_VEHICLE:
             msg = _( "You can't unload from a moving vehicle." );
             return false;
 
@@ -1958,7 +1958,7 @@ bool veh_interact::do_unload()
 
 void veh_interact::do_assign_crew()
 {
-    if( cant_do( 'w' ) != CAN_DO ) {
+    if( cant_do( 'w' ) != task_reason::CAN_DO ) {
         msg = _( "Need at least one seat and an ally to assign crew members." );
         return;
     }
@@ -2012,7 +2012,7 @@ void veh_interact::do_rename()
 
 void veh_interact::do_relabel()
 {
-    if( cant_do( 'a' ) == INVALID_TARGET ) {
+    if( cant_do( 'a' ) == task_reason::INVALID_TARGET ) {
         msg = _( "There are no parts here to label." );
         return;
     }
@@ -2552,16 +2552,16 @@ void veh_interact::display_mode()
         };
 
         const std::array<bool, std::tuple_size<decltype( actions )>::value> enabled = { {
-                !cant_do( 'i' ),
-                !cant_do( 'r' ),
-                !cant_do( 'm' ),
-                !cant_do( 'f' ),
-                !cant_do( 'o' ),
-                !cant_do( 's' ),
-                !cant_do( 'd' ),
-                !cant_do( 'w' ),
+                cant_do( 'i' ) == task_reason::CAN_DO,
+                cant_do( 'r' ) == task_reason::CAN_DO,
+                cant_do( 'm' ) == task_reason::CAN_DO,
+                cant_do( 'f' ) == task_reason::CAN_DO,
+                cant_do( 'o' ) == task_reason::CAN_DO,
+                cant_do( 's' ) == task_reason::CAN_DO,
+                cant_do( 'd' ) == task_reason::CAN_DO,
+                cant_do( 'w' ) == task_reason::CAN_DO,
                 true,          // 'rename' is always available
-                !cant_do( 'a' ),
+                cant_do( 'a' ) == task_reason::CAN_DO,
             }
         };
 

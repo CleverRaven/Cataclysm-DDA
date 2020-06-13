@@ -289,7 +289,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     float power = c.power_rating();
     monster *mon = dynamic_cast< monster * >( &c );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
-    if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
+    if( mon != nullptr && mon->attitude_to( *this ) == Attitude::HOSTILE ) {
         power += 2;
     }
 
@@ -545,12 +545,12 @@ void monster::plan()
 
         tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
-        if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
+        if( att_to_target == Attitude::HOSTILE && !fleeing ) {
             set_dest( dest );
         } else if( fleeing ) {
             set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
-        if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
+        if( angers_hostile_weak && att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
                 anger += 10 - static_cast<int>( hp_per / 10 );
@@ -842,16 +842,16 @@ void monster::move()
     // toggle facing direction for sdl flip
     if( !tile_iso ) {
         if( new_d.x < 0 ) {
-            facing = FD_LEFT;
+            facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {
-            facing = FD_RIGHT;
+            facing = FacingDirection::RIGHT;
         }
     } else {
         if( new_d.y <= 0 && new_d.x <= 0 ) {
-            facing = FD_LEFT;
+            facing = FacingDirection::LEFT;
         }
         if( new_d.x >= 0 && new_d.y >= 0 ) {
-            facing = FD_RIGHT;
+            facing = FacingDirection::RIGHT;
         }
     }
 
@@ -905,14 +905,14 @@ void monster::move()
 
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             if( target != nullptr ) {
-                const Creature::Attitude att = attitude_to( *target );
-                if( att == A_HOSTILE ) {
+                const Attitude att = attitude_to( *target );
+                if( att == Attitude::HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ||
-                                                  target->has_flag( MF_QUEEN ) ) ) {
+                } else if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
+                           target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
@@ -1297,7 +1297,7 @@ bool monster::bash_at( const tripoint &p )
 
     // Don't bash if a friendly monster is standing there
     monster *target = g->critter_at<monster>( p );
-    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+    if( target != nullptr && attitude_to( *target ) == Attitude::FRIENDLY ) {
         return false;
     }
 
@@ -1415,7 +1415,7 @@ bool monster::attack_at( const tripoint &p )
 
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
-        if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
+        if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
             melee_attack( mon );
             return true;
         }

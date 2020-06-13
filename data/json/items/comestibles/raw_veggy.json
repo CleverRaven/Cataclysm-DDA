@@ -396,7 +396,7 @@
     "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.  Can be disassembled to cloves.",
     "price": 300,
     "price_postapoc": 50,
-    "material": "garlic",
+    "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -18,
     "flags": [ "RAW" ],

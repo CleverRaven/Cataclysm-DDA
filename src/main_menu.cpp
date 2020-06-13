@@ -557,8 +557,8 @@ bool main_menu::opening_screen()
             if( sel1 == 4 ) { // Special game
                 std::vector<std::string> special_names;
                 int xlen = 0;
-                for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
+                for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
+                    std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
                     special_names.push_back( spec_name );
                     xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
                 }
@@ -688,11 +688,11 @@ bool main_menu::opening_screen()
                     if( sel2 > 0 ) {
                         sel2--;
                     } else {
-                        sel2 = NUM_SPECIAL_GAMES - 2;
+                        sel2 = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2;
                     }
                     on_move();
                 } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-                    if( sel2 < NUM_SPECIAL_GAMES - 2 ) {
+                    if( sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2 ) {
                         sel2++;
                     } else {
                         sel2 = 0;
@@ -702,15 +702,15 @@ bool main_menu::opening_screen()
                     layer = 1;
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
-                    if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
+                    if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
                         on_out_of_scope cleanup( []() {
                             g->gamemode.reset();
                             g->u = avatar();
                             world_generator->set_active_world( nullptr );
                         } );
-                        g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
+                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             continue;
                         }

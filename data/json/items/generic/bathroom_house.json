@@ -161,7 +161,7 @@
     "price_postapoc": 180,
     "volume": "250 ml",
     "weight": "227 g",
-    "material": "paper",
+    "material": [ "paper" ],
     "to_hit": -2,
     "snippet_category": [
       {
