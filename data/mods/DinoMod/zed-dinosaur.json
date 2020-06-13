@@ -80,7 +80,7 @@
     "death_function": [ "NORMAL" ],
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": { "half_life": 14, "into": "mon_syrannosaurus" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
     "flags": [
       "SEES",
       "SMELLS",
