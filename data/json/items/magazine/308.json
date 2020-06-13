@@ -95,7 +95,7 @@
     "volume": "500 ml",
     "price": 1200,
     "price_postapoc": 100,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "308" ],

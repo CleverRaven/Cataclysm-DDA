@@ -9,7 +9,7 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -54,7 +54,7 @@
     "volume": "2 L",
     "price": 0,
     "price_postapoc": 25,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_blue",
     "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
@@ -69,7 +69,7 @@
     "volume": "12500 ml",
     "price": 0,
     "price_postapoc": 25,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_blue"
   }

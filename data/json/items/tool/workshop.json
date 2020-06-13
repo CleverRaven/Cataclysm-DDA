@@ -564,7 +564,7 @@
     "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 3,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
     "qualities": [ [ "CONTAIN", 1 ] ]
@@ -1058,7 +1058,7 @@
     "price_postapoc": 50,
     "to_hit": -3,
     "bashing": 12,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "SMOOTH", 1 ] ]

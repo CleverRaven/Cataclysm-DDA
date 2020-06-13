@@ -456,7 +456,7 @@ void Character::load( const JsonObject &data )
     if( !data.read( "blood_type", my_blood_type ) ||
         !data.read( "blood_rh_factor", blood_rh_factor ) ) {
         randomize_blood();
-    };
+    }
 
     data.read( "custom_profession", custom_profession );
 

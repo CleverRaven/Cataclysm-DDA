@@ -11,7 +11,7 @@
     "price_postapoc": 0,
     "bashing": 8,
     "to_hit": -1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],

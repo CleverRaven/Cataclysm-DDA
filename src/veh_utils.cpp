@@ -62,7 +62,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
     player &who = static_cast<player &>( who_arg );
     const auto &inv = who.crafting_inventory();
 
-    enum repairable_status {
+    enum class repairable_status {
         not_repairable = 0,
         need_replacement,
         repairable

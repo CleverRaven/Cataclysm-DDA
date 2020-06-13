@@ -77,7 +77,7 @@
     "price_postapoc": 100,
     "to_hit": -10,
     "bashing": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]

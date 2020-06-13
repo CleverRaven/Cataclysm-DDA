@@ -11,7 +11,6 @@
 
 template <typename E> struct enum_traits;
 
-enum special_game_id : int;
 enum action_id : int;
 
 enum class tut_lesson : int {
@@ -57,8 +56,8 @@ struct hash<tut_lesson> {
 } // namespace std
 
 struct tutorial_game : public special_game {
-        special_game_id id() override {
-            return SGAME_TUTORIAL;
+        special_game_type id() override {
+            return special_game_type::TUTORIAL;
         }
         bool init() override;
         void per_turn() override;
