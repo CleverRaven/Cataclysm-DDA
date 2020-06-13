@@ -283,7 +283,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
-                tripoint loc( jsin.get_int(), jsin.get_int(), jsin.get_int() );
+                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
                 jsin.end_array();
                 submap_coordinates = loc;
             } else {
