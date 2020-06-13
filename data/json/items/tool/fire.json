@@ -132,7 +132,7 @@
     "volume": "10 ml",
     "price": 10,
     "price_postapoc": 50,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ",",
     "color": "blue",
     "initial_charges": 20,

@@ -24,7 +24,7 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "nylon",
+    "material": [ "nylon" ],
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -39,7 +39,7 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "lycra",
+    "material": [ "lycra" ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]

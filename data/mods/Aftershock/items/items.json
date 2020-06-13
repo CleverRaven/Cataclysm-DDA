@@ -85,7 +85,7 @@
     "category": "spare_parts",
     "description": "A piece of light titanium, usable for crafting or repairs.",
     "price": 1000,
-    "material": "titanium",
+    "material": [ "titanium" ],
     "looks_like": "scrap",
     "weight": "450 g",
     "volume": "100 ml",

@@ -707,7 +707,7 @@
     "price_postapoc": 100,
     "to_hit": 1,
     "bashing": 2,
-    "material": "platinum",
+    "material": [ "platinum" ],
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "link_sheet",

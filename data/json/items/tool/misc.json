@@ -215,7 +215,7 @@
     "price": 4000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "material": "fur",
+    "material": [ "fur" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -767,7 +767,7 @@
     "volume": 0,
     "price": 10000,
     "price_postapoc": 1000,
-    "material": "superalloy",
+    "material": [ "superalloy" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": "CALL_OF_TINDALOS"
