@@ -52,6 +52,14 @@ struct inventory_entry_drawn_info {
     int text_x_start;
     int text_x_end;
     int y;
+    bool include_point( point p )const {
+        if( text_x_start <= p.x &&
+            p.x <= text_x_end &&
+            y == p.y ) {
+            return true;
+        }
+        return false;
+    }
 };
 
 class inventory_entry

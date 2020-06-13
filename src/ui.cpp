@@ -613,7 +613,12 @@ void uilist::show()
                 // to be used.
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                                  entries[ ei ].txt );
-                trim_and_print( window, point( pad_left + 4, estart + si ),
+                int x = pad_left + 4;
+                int y = estart + si;
+                entries[ei].drawn_info.text_x_start = x;
+                entries[ei].drawn_info.text_x_end = x + max_entry_len;
+                entries[ei].drawn_info.y = y;
+                trim_and_print( window, point( x, y ),
                                 max_entry_len, co, "%s", entry.c_str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
@@ -790,6 +795,7 @@ void uilist::query( bool loop, int timeout )
     if( allow_cancel ) {
         ctxt.register_action( "QUIT" );
     }
+    ctxt.register_action( "SELECT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
@@ -831,6 +837,16 @@ void uilist::query( bool loop, int timeout )
             if( callback != nullptr ) {
                 callback->select( this );
             }
+        } else if( !fentries.empty() && ret_act == "SELECT" ) {
+            std::pair<point, bool> p = ctxt.get_coordinates_text( window );
+            if( p.second ) {
+                uilist_entry *entry = find_entry_by_coordinate( p.first );
+                if( entry != nullptr ) {
+                    if( entry->enabled ) {
+                        ret = entry->retval;
+                    }
+                }
+            }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
@@ -859,6 +875,22 @@ void uilist::query( bool loop, int timeout )
 
         ui_manager::redraw();
     } while( loop && ret == UILIST_WAIT_INPUT );
+}
+
+uilist_entry *uilist::find_entry_by_coordinate( point p )
+{
+    for( uilist_entry &entry : entries ) {
+        if( entry.drawn_info.include_point( p ) ) {
+            return &entry;
+        }
+    }
+    /*for( int i = 0; i < entries.size(); i++ ) {
+        uilist_entry *entry = &entries[i];
+        if( entry->drawn_info.include_point( p ) ) {
+            return entry;
+        }
+    }*/
+    return nullptr;
 }
 
 ///@}
@@ -958,4 +990,3 @@ void pointmenu_cb::select( uilist *const menu )
 {
     impl->select( menu );
 }
-

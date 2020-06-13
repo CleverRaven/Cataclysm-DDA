@@ -1426,14 +1426,12 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
     for( inventory_column *column : columns ) {
         std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
         for( inventory_entry *entry : entries ) {
-            if( entry->drawn_info.text_x_start <= coordinate.x &&
-                coordinate.x <= entry->drawn_info.text_x_end &&
-                entry->drawn_info.y == coordinate.y ) {
+            if( entry->drawn_info.include_point( coordinate ) ) {
                 return entry;
             }
         }
+        return nullptr;
     }
-    return nullptr;
 }
 
 
@@ -1957,7 +1955,8 @@ void inventory_selector::set_active_column( size_t index )
     }
 }
 
-size_t inventory_selector::get_columns_width( const std::vector<inventory_column *> &columns ) const
+size_t inventory_selector::get_columns_width( const std::vector<inventory_column *> &columns )
+const
 {
     return std::accumulate( columns.begin(), columns.end(), static_cast< size_t >( 0 ),
     []( const size_t &lhs, const inventory_column * column ) {

@@ -16,6 +16,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "input.h"
 
 class translation;
 
@@ -47,6 +48,20 @@ struct mvwzstr {
     nc_color color = c_unset;
     std::string txt;
     int sym = 0;
+};
+
+struct uilist_entry_drawn_info {
+    int text_x_start;
+    int text_x_end;
+    int y;
+    bool include_point( point p )const {
+        if( text_x_start <= p.x &&
+            p.x <= text_x_end &&
+            y == p.y ) {
+            return true;
+        }
+        return false;
+    }
 };
 
 /**
@@ -96,6 +111,8 @@ struct uilist_entry {
     uilist_entry( Enum e, Args && ... args ) :
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
+
+    uilist_entry_drawn_info drawn_info;
 };
 
 /**
@@ -338,6 +355,8 @@ class uilist // NOLINT(cata-xy)
 
         bool started = false;
 
+        uilist_entry *find_entry_by_coordinate( point p );
+
     public:
         // Results
         // TODO change to getters
@@ -346,6 +365,7 @@ class uilist // NOLINT(cata-xy)
         int keypress;
 
         int selected;
+
 };
 
 /**
