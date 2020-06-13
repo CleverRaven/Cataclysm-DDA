@@ -86,7 +86,18 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 }
+      { "monster": "mon_zyrannosaurus", "freq": 1, "cost_multiplier": 80, "starts": 72 },
+      { "monster": "mon_zpinosaurus", "freq": 1, "cost_multiplier": 90, "starts": 72 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zyrannosaurus_UPGRADE",
+    "default": "mon_syrannosaurus",
+    "//": "No dogs, humans, bionics, or profession-types",
+    "monsters": [
+      { "monster": "mon_syrannosaurus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zyrannosaurus_shady", "freq": 15, "cost_multiplier": 5 }
     ]
   },
   {
