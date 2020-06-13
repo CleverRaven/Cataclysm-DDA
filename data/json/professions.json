@@ -4158,7 +4158,7 @@
     "type": "profession",
     "ident": "emt",
     "name": "EMT",
-    "description": "You were responding to a call with your partner before you got separated. Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
+    "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 4,
     "skills": [
       { "level": 3, "name": "driving" },
@@ -4180,7 +4180,7 @@
     "type": "profession",
     "ident": "paramedic",
     "name": "Paramedic",
-    "description": "You were separated from your partner while out on a call. You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
+    "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "points": 3,
     "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" }, { "level": 5, "name": "firstaid" } ],
     "items": {
@@ -4210,7 +4210,7 @@
     "type": "profession",
     "ident": "mili_medic",
     "name": "Combat Medic",
-    "description": "You were on the front-lines when everything happened, patching up the wounded and providing support. But they wouldn't stop coming. Now you're on your own.",
+    "description": "You were on the front-lines when everything happened, patching up the wounded and providing support.  But they wouldn't stop coming.  Now you're on your own.",
     "points": 5,
     "skills": [
       { "level": 2, "name": "gun" },
@@ -4259,7 +4259,7 @@
     "type": "profession",
     "ident": "heroin_addict",
     "name": "Heroin Addict",
-    "description": "The last thing you remember was meeting God behind the local Foodplace. Then people started eating each other. This doesn't feel like a fever dream.",
+    "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
     "points": -3,
     "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
