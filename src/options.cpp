@@ -2501,9 +2501,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
-            if( ingame ) {
-                g->refresh_all();
-            }
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
@@ -2534,7 +2531,7 @@ static void draw_borders_external(
             mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
@@ -2548,7 +2545,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 std::string options_manager::show( bool ingame, const bool world_options_only,
@@ -2718,7 +2715,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
                         page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
-        wrefresh( w_options_border );
+        wnoutrefresh( w_options_border );
 
         //Draw Tabs
         if( !world_options_only ) {
@@ -2737,7 +2734,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-        wrefresh( w_options_header );
+        wnoutrefresh( w_options_header );
 
         const std::string &opt_name = *page_items[iCurrentLine];
         cOpt &current_opt = cOPTIONS[opt_name];
@@ -2786,9 +2783,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }
-        wrefresh( w_options_tooltip );
+        wnoutrefresh( w_options_tooltip );
 
-        wrefresh( w_options );
+        wnoutrefresh( w_options );
     } );
 
     while( true ) {

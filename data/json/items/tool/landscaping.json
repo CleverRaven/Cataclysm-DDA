@@ -11,7 +11,7 @@
     "price_postapoc": 0,
     "bashing": 8,
     "to_hit": -1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
@@ -29,7 +29,7 @@
     "to_hit": 1,
     "bashing": 3,
     "cutting": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 1 ] ]
@@ -50,7 +50,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 1 ] ],
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "use_action": "MAKEMOUND"
   },
   {

@@ -1885,6 +1885,9 @@ target_handler::trajectory target_ui::run()
         draw_turret_lines = vturrets->size() == 1;
     }
 
+    on_out_of_scope cleanup( []() {
+        g->m.invalidate_map_cache( g->u.pos().z + g->u.view_offset.z );
+    } );
     restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
@@ -2285,20 +2288,20 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     }
 
     // Make player's sprite flip to face the current target
-    int dx = dst.x - src.x;
-    int dy = dst.y - src.y;
+    point d( dst.xy() - src.xy() );
     if( !tile_iso ) {
-        if( dx > 0 ) {
-            you->facing = FD_RIGHT;
-        } else if( dx < 0 ) {
-            you->facing = FD_LEFT;
+
+        if( d.x > 0 ) {
+            you->facing = FacingDirection::RIGHT;
+        } else if( d.x < 0 ) {
+            you->facing = FacingDirection::LEFT;
         }
     } else {
-        if( dx >= 0 && dy >= 0 ) {
-            you->facing = FD_RIGHT;
+        if( d.x >= 0 && d.y >= 0 ) {
+            you->facing = FacingDirection::RIGHT;
         }
-        if( dy <= 0 && dx <= 0 ) {
-            you->facing = FD_LEFT;
+        if( d.y <= 0 && d.x <= 0 ) {
+            you->facing = FacingDirection::LEFT;
         }
     }
 
@@ -2509,18 +2512,15 @@ void target_ui::cycle_targets( int direction )
 
 void target_ui::set_view_offset( const tripoint &new_offset )
 {
-    int new_x = new_offset.x;
-    int new_y = new_offset.y;
-    int new_z = clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range );
-    new_z = clamp( new_z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+    tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
-    bool changed_z = you->view_offset.z != new_z;
-    you->view_offset = tripoint( new_x, new_y, new_z );
+    bool changed_z = you->view_offset.z != new_.z;
+    you->view_offset = new_;
     if( changed_z ) {
         // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
-        g->m.invalidate_map_cache( new_z );
-        g->refresh_all();
+        g->m.invalidate_map_cache( new_.z );
     }
 }
 
@@ -2788,7 +2788,7 @@ void target_ui::draw_ui_window()
         draw_controls_list( text_y );
     }
 
-    wrefresh( w_target );
+    wnoutrefresh( w_target );
 }
 
 std::string target_ui::uitext_title()

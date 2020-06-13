@@ -5,7 +5,10 @@
 #include <map>
 #include <utility>
 
+#include "calendar.h"
 #include "event_statistics.h"
+#include "json.h"
+#include "optional.h"
 
 static bool event_data_matches( const cata::event::data_type &data,
                                 const cata::event::data_type &criteria )
@@ -19,6 +22,58 @@ static bool event_data_matches( const cata::event::data_type &data,
     return true;
 }
 
+event_summary::event_summary() :
+    count( 0 ),
+    first( calendar::before_time_starts ),
+    last( calendar::before_time_starts )
+{
+}
+
+event_summary::event_summary( int c, time_point f, time_point l ) :
+    count( c ),
+    first( f ),
+    last( l )
+{
+}
+
+void event_summary::add( const cata::event &e )
+{
+    if( count == 0 ) {
+        first = last = e.time();
+    } else {
+        last = std::max( last, e.time() );
+    }
+    ++count;
+}
+
+void event_summary::add( const event_summary &s )
+{
+    if( count == 0 ) {
+        *this = s;
+    } else {
+        count += s.count;
+        first = std::min( first, s.first );
+        last = std::max( last, s.last );
+    }
+}
+
+void event_summary::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "count", count );
+    jsout.member( "first", first );
+    jsout.member( "last", last );
+    jsout.end_object();
+}
+
+void event_summary::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "count", count, true );
+    jo.read( "first", first, true );
+    jo.read( "last", last, true );
+}
+
 void event_multiset::set_type( event_type type )
 {
     // Used during stats_tracker deserialization to set the type
@@ -29,8 +84,8 @@ void event_multiset::set_type( event_type type )
 int event_multiset::count() const
 {
     int total = 0;
-    for( const auto &pair : counts_ ) {
-        total += pair.second;
+    for( const auto &pair : summaries_ ) {
+        total += pair.second.count;
     }
     return total;
 }
@@ -38,9 +93,9 @@ int event_multiset::count() const
 int event_multiset::count( const cata::event::data_type &criteria ) const
 {
     int total = 0;
-    for( const auto &pair : counts_ ) {
+    for( const auto &pair : summaries_ ) {
         if( event_data_matches( pair.first, criteria ) ) {
-            total += pair.second;
+            total += pair.second.count;
         }
     }
     return total;
@@ -54,13 +109,13 @@ int event_multiset::total( const std::string &field ) const
 int event_multiset::total( const std::string &field, const cata::event::data_type &criteria ) const
 {
     int total = 0;
-    for( const auto &pair : counts_ ) {
+    for( const auto &pair : summaries_ ) {
         auto it = pair.first.find( field );
         if( it == pair.first.end() ) {
             continue;
         }
         if( event_data_matches( pair.first, criteria ) ) {
-            total += pair.second * it->second.get<cata_variant_type::int_>();
+            total += pair.second.count * it->second.get<cata_variant_type::int_>();
         }
     }
     return total;
@@ -69,7 +124,7 @@ int event_multiset::total( const std::string &field, const cata::event::data_typ
 int event_multiset::minimum( const std::string &field ) const
 {
     int minimum = 0;
-    for( const auto &pair : counts_ ) {
+    for( const auto &pair : summaries_ ) {
         auto it = pair.first.find( field );
         if( it == pair.first.end() ) {
             continue;
@@ -85,7 +140,7 @@ int event_multiset::minimum( const std::string &field ) const
 int event_multiset::maximum( const std::string &field ) const
 {
     int maximum = 0;
-    for( const auto &pair : counts_ ) {
+    for( const auto &pair : summaries_ ) {
         auto it = pair.first.find( field );
         if( it == pair.first.end() ) {
             continue;
@@ -98,14 +153,42 @@ int event_multiset::maximum( const std::string &field ) const
     return maximum;
 }
 
-void event_multiset::add( const cata::event &e )
+template<time_point event_summary::*Member>
+struct compare_times {
+    bool operator()( const event_multiset::summaries_type::value_type &l,
+                     const event_multiset::summaries_type::value_type &r ) const {
+        return l.second.*Member < r.second.*Member;
+    }
+};
+
+cata::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
 {
-    counts_[e.data()]++;
+    auto minimum = std::min_element( summaries_.begin(), summaries_.end(),
+                                     compare_times<&event_summary::first>() );
+    if( minimum == summaries_.end() ) {
+        return cata::nullopt;
+    }
+    return *minimum;
 }
 
-void event_multiset::add( const counts_type::value_type &e )
+cata::optional<event_multiset::summaries_type::value_type> event_multiset::last() const
 {
-    counts_[e.first] += e.second;
+    auto minimum = std::max_element( summaries_.begin(), summaries_.end(),
+                                     compare_times<&event_summary::last>() );
+    if( minimum == summaries_.end() ) {
+        return cata::nullopt;
+    }
+    return *minimum;
+}
+
+void event_multiset::add( const cata::event &e )
+{
+    summaries_[e.data()].add( e );
+}
+
+void event_multiset::add( const summaries_type::value_type &e )
+{
+    summaries_[e.first].add( e.second );
 }
 
 base_watcher::~base_watcher()

@@ -151,64 +151,63 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    int new_dx = dest_loc.x - you.posx();
-    int new_dy = dest_loc.y - you.posy();
+    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
     if( !tile_iso ) {
-        if( new_dx > 0 ) {
-            you.facing = FD_RIGHT;
+        if( new_d.x > 0 ) {
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_RIGHT;
+                you.mounted_creature->facing = FacingDirection::RIGHT;
             }
-        } else if( new_dx < 0 ) {
-            you.facing = FD_LEFT;
+        } else if( new_d.x < 0 ) {
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_LEFT;
+                you.mounted_creature->facing = FacingDirection::LEFT;
             }
         }
     } else {
         //
         // iso:
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // left key             =>  -x +y       FD_LEFT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // left key             =>  -x +y       FacingDirection::LEFT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // left key             =>  -x +y       FD_LEFT
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
+        // left key             =>  -x +y       FacingDirection::LEFT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
         //
-        // right key            =>  +x +y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ +y       FD_RIGHT
+        // right key            =>  +x +y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ +y       FacingDirection::RIGHT
         // up key               =>  +x -y       ______
-        // left key             =>  -x -y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // y: left-up key       =>  __ -y       FD_LEFT
+        // left key             =>  -x -y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // y: left-up key       =>  __ -y       FacingDirection::LEFT
         // down key             =>  -x +y       ______
         //
-        if( new_dx >= 0 && new_dy >= 0 ) {
-            you.facing = FD_RIGHT;
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_RIGHT;
+                mons->facing = FacingDirection::RIGHT;
             }
         }
-        if( new_dy <= 0 && new_dx <= 0 ) {
-            you.facing = FD_LEFT;
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_LEFT;
+                mons->facing = FacingDirection::LEFT;
             }
         }
     }
@@ -857,15 +856,9 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
-        // Recenter our view
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
@@ -973,7 +966,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( !loc ) {
         loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
                                             _( "You don't have any items to throw." ) );
-        g->refresh_all();
     }
 
     if( !loc ) {
@@ -1030,11 +1022,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const tripoint original_player_position = you.pos();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
-        g->draw_ter();
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
 
     target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
                                             blind_throw_from_pos.has_value() );
@@ -1112,8 +1102,6 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             }
         }
     }
-
-    g->refresh_all();
 
     if( use_in_place ) {
         update_lum( loc, false );

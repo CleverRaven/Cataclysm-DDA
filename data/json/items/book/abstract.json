@@ -30,6 +30,7 @@
     "description": "Template for hard bound book of fiction",
     "weight": "1000 g",
     "volume": "1100 ml",
+    "longest_side": "23 cm",
     "price": 1999,
     "price_postapoc": 1500,
     "material": [ "paper", "cardboard" ],
@@ -41,8 +42,9 @@
     "type": "BOOK",
     "name": { "str": "paperback novel", "str_pl": "paperbacks" },
     "description": "An ordinary paperback book.  Or is it?  It is.",
-    "weight": "400 g",
-    "volume": "700 ml",
+    "weight": "425 g",
+    "volume": "662 ml",
+    "longest_side": "18 cm",
     "price": 799,
     "price_postapoc": 1500,
     "material": [ "paper" ],
@@ -55,7 +57,7 @@
     "type": "BOOK",
     "name": "Nonfiction Book",
     "description": "template for hard bound nonfiction book",
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "1100 ml",
     "price": 1450,
     "price_postapoc": 2900,
@@ -77,6 +79,31 @@
     "bashing": 1,
     "chapters": 18,
     "copy-from": "book_nonf_tpl"
+  },
+  {
+    "abstract": "book_fict_soft_pulp_tpl",
+    "type": "BOOK",
+    "name": "Generic Pulp Book",
+    "description": "This is a template for pulp books.  Which really all ought to be paperbacks, right?",
+    "looks_like": "novel_pulp",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": -200, "price_postapoc": -1000 }
+  },
+  {
+    "abstract": "book_fict_soft_scifi_tpl",
+    "type": "BOOK",
+    "name": "Generic SciFi Book",
+    "description": "This is a template for paperback scifi books.",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 }
+  },
+  {
+    "abstract": "book_fict_hard_scifi_tpl",
+    "type": "BOOK",
+    "name": "Generic SciFi Book",
+    "description": "This is a template for a hard cover scifi book.",
+    "copy-from": "book_fict_hard_tpl",
+    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 }
   },
   {
     "abstract": "book_nonf_hard_homemk_tpl",
@@ -234,7 +261,7 @@
     "name": "Tween Topics",
     "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
+    "relative": { "price_post": -400, "intelligence": -1, "fun": -1 }
   },
   {
     "abstract": "book_fict_soft_ya_quiddity",
@@ -242,7 +269,18 @@
     "name": "Quiddity Books",
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "chapters": 9 }
+    "relative": { "price_post": -400, "chapters": 7 }
+  },
+  {
+    "abstract": "book_fict_hard_ya_quiddity",
+    "type": "BOOK",
+    "name": "Quiddity Books",
+    "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
+    "weight": "500 g",
+    "volume": "1014 ml",
+    "longest_side": "22 cm",
+    "copy-from": "book_fict_hard_tpl",
+    "relative": { "price_post": -400, "chapters": 10 }
   },
   {
     "abstract": "book_fict_soft_satire_tpl",

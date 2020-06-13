@@ -279,7 +279,6 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
             output_string += std::string( "\n" ) +
                              _( "Other followers might have different temporary orders." );
         }
-        g->refresh_all();
         nmenu.reset();
         nmenu.text = _( "Issue what temporary order?" );
         nmenu.desc_enabled = true;
@@ -623,7 +622,6 @@ void game::chat()
     }
 
     u.moves -= 100;
-    refresh_all();
 }
 
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
@@ -879,7 +877,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             d.add_topic( next );
         }
     } while( !d.done );
-    g->refresh_all();
 
     if( g->u.activity.id() == ACT_AIM && !g->u.has_weapon() ) {
         g->u.cancel_activity();
@@ -3433,16 +3430,16 @@ bool npc::item_name_whitelisted( const std::string &to_match )
 
     auto &wlist = *rules.pickup_whitelist;
     const auto rule = wlist.check_item( to_match );
-    if( rule == RULE_WHITELISTED ) {
+    if( rule == rule_state::WHITELISTED ) {
         return true;
     }
 
-    if( rule == RULE_BLACKLISTED ) {
+    if( rule == rule_state::BLACKLISTED ) {
         return false;
     }
 
     wlist.create_rule( to_match );
-    return wlist.check_item( to_match ) == RULE_WHITELISTED;
+    return wlist.check_item( to_match ) == rule_state::WHITELISTED;
 }
 
 bool npc::item_whitelisted( const item &it )

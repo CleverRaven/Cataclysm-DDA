@@ -2194,7 +2194,6 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     }
 
     act->set_to_null();
-    return;
 }
 
 void activity_handlers::vehicle_finish( player_activity *act, player *p )
@@ -2224,7 +2223,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
         } else {
             if( vp ) {
                 g->m.invalidate_map_cache( g->get_levz() );
-                g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {
@@ -2448,35 +2446,54 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-enum repeat_type : int {
-    // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
-    REPEAT_INIT = 0,    // Haven't found repeat value yet.
-    REPEAT_ONCE,        // Repeat just once
-    REPEAT_FOREVER,     // Repeat for as long as possible
-    REPEAT_FULL,        // Repeat until damage==0
-    REPEAT_EVENT,       // Repeat until something interesting happens
-    REPEAT_CANCEL,      // Stop repeating
+enum class repeat_type : int {
+    // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
+    INIT = 0,    // Haven't found repeat value yet.
+    ONCE,        // Repeat just once
+    FOREVER,     // Repeat for as long as possible
+    FULL,        // Repeat until damage==0
+    EVENT,       // Repeat until something interesting happens
+    CANCEL,      // Stop repeating
 };
+
+using I = std::underlying_type_t<repeat_type>;
+static constexpr bool operator>=( const I &lhs, const repeat_type &rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+static constexpr bool operator<=( const I &lhs, const repeat_type &rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+static constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
 
 static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uilist rmenu;
     rmenu.text = title;
 
-    rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
-    rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
-    rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1', _( "Repeat once" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::FOREVER ), true, '2',
+                    _( "Repeat until reinforced" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '3',
+                    _( "Repeat until fully repaired, but don't reinforce" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
+                    _( "Repeat until success/failure/level up" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '5', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection - REPEAT_ONCE;
+    rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
 
-    if( rmenu.ret >= REPEAT_INIT && rmenu.ret <= REPEAT_EVENT ) {
+    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::EVENT ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
-    return REPEAT_CANCEL;
+    return repeat_type::CANCEL;
 }
 
 // HACK: This is a part of a hack to provide pseudo items for long repair activity
@@ -2537,7 +2554,8 @@ struct weldrig_hack {
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
+    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
+                         static_cast<int>( repeat_type::INIT ) ) );
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 
@@ -2567,7 +2585,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // Valid Repeat choice and target, attempt repair.
-    if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
+    if( repeat != repeat_type::INIT && act->targets.size() >= 2 ) {
         item_location &fix_location = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
@@ -2605,11 +2623,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                     old_level != p->get_skill_level( actor->used_skill );
 
         const bool need_input =
-            ( repeat == REPEAT_ONCE ) ||
-            ( repeat == REPEAT_EVENT && event_happened ) ||
-            ( repeat == REPEAT_FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
+            ( repeat == repeat_type::ONCE ) ||
+            ( repeat == repeat_type::EVENT && event_happened ) ||
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
         if( need_input ) {
-            repeat = REPEAT_INIT;
+            repeat = repeat_type::INIT;
         }
     }
     // Check tool is valid before we query target and Repeat choice.
@@ -2620,7 +2638,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        g->draw();
         item_location item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2630,13 +2647,13 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
         if( actor->can_repair_target( *p, *item_loc, true ) ) {
             act->targets.emplace_back( item_loc );
-            repeat = REPEAT_INIT;
+            repeat = repeat_type::INIT;
         }
     }
 
     const item &fix = *act->targets[1];
 
-    if( repeat == REPEAT_INIT ) {
+    if( repeat == repeat_type::INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
@@ -2652,7 +2669,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
         ammotype current_ammo;
-        if( !used_tool->ammo_current().is_null() ) {
+        if( used_tool->ammo_current().is_null() ) {
             current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
         } else {
             current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
@@ -2673,24 +2690,23 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
-            g->draw();
             repeat = repeat_menu( title, repeat );
 
-            if( repeat == REPEAT_CANCEL ) {
+            if( repeat == repeat_type::CANCEL ) {
                 act->set_to_null();
                 return;
             }
             act->values[0] = static_cast<int>( repeat );
             // BACK selected, redo target selection next.
-            if( repeat == REPEAT_INIT ) {
+            if( repeat == repeat_type::INIT ) {
                 p->activity.targets.pop_back();
                 return;
             }
-            if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= 0 ) {
                 p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
-                repeat = REPEAT_INIT;
+                repeat = repeat_type::INIT;
             }
-        } while( repeat == REPEAT_INIT );
+        } while( repeat == repeat_type::INIT );
     }
 
     // Otherwise keep retrying
@@ -2950,7 +2966,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         p->omt_path.pop_back();
         if( p->omt_path.empty() ) {
             p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-            g->draw();
             act->set_to_null();
             return;
         }
@@ -2977,7 +2992,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
     } else {
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
     }
-    g->draw();
     act->set_to_null();
 }
 
@@ -3704,7 +3718,6 @@ void activity_handlers::atm_finish( player_activity *act, player * )
 void activity_handlers::eat_menu_finish( player_activity *, player * )
 {
     // Only exists to keep the eat activity alive between turns
-    return;
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player * )

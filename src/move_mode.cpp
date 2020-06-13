@@ -13,7 +13,6 @@ namespace
 generic_factory<move_mode> move_mode_factory( "move_mode" );
 } // namespace
 
-
 template<>
 const move_mode &move_mode_id::obj() const
 {

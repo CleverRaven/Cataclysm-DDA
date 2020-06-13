@@ -72,7 +72,7 @@
     "type": "BOOK",
     "name": "10 Cool Things About Being A Ring Bearer",
     "//": "This book belongs to two genres: wedding and kids",
-    "description": "This book is for the delightful little ring bearer in your wedding.  The author depicts the responsibility and the honor in being a ring bearer your little angel will cherish.",
+    "description": "This book is for the delightful little ring bearer in your wedding.  The author depicts the responsibility and honor in being a ring bearer.  Your little angel will cherish this book as he or she learns how to behave on your perfect day.",
     "time": "15 m",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "chapters": -17, "intelligence": -2 }

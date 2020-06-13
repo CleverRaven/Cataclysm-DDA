@@ -58,11 +58,11 @@ enum weather_type : int {
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
-enum precip_class : int {
-    PRECIP_NONE,
-    PRECIP_VERY_LIGHT,
-    PRECIP_LIGHT,
-    PRECIP_HEAVY
+enum class precip_class : int {
+    NONE,
+    VERY_LIGHT,
+    LIGHT,
+    HEAVY
 };
 
 double precip_mm_per_hour( precip_class p );
@@ -105,7 +105,7 @@ struct weather_printable {
 namespace weather_effect
 {
 
-enum sun_intensity : int {
+enum class sun_intensity : int {
     normal = 1,
     high
 };

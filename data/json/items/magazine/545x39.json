@@ -28,7 +28,7 @@
     "volume": "750 ml",
     "price": 8500,
     "price_postapoc": 250,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "545x39" ],

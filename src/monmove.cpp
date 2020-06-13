@@ -289,7 +289,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     float power = c.power_rating();
     monster *mon = dynamic_cast< monster * >( &c );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
-    if( mon != nullptr && mon->attitude_to( *this ) == Attitude::A_HOSTILE ) {
+    if( mon != nullptr && mon->attitude_to( *this ) == Attitude::HOSTILE ) {
         power += 2;
     }
 
@@ -545,12 +545,12 @@ void monster::plan()
 
         tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
-        if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
+        if( att_to_target == Attitude::HOSTILE && !fleeing ) {
             set_dest( dest );
         } else if( fleeing ) {
             set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
-        if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
+        if( angers_hostile_weak && att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
                 anger += 10 - static_cast<int>( hp_per / 10 );
@@ -837,22 +837,21 @@ void monster::move()
         destination.z = posz();
     }
 
-    int new_dx = destination.x - pos().x;
-    int new_dy = destination.y - pos().y;
+    point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
     if( !tile_iso ) {
-        if( new_dx < 0 ) {
-            facing = FD_LEFT;
-        } else if( new_dx > 0 ) {
-            facing = FD_RIGHT;
+        if( new_d.x < 0 ) {
+            facing = FacingDirection::LEFT;
+        } else if( new_d.x > 0 ) {
+            facing = FacingDirection::RIGHT;
         }
     } else {
-        if( new_dy <= 0 && new_dx <= 0 ) {
-            facing = FD_LEFT;
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
+            facing = FacingDirection::LEFT;
         }
-        if( new_dx >= 0 && new_dy >= 0 ) {
-            facing = FD_RIGHT;
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
+            facing = FacingDirection::RIGHT;
         }
     }
 
@@ -906,14 +905,14 @@ void monster::move()
 
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             if( target != nullptr ) {
-                const Creature::Attitude att = attitude_to( *target );
-                if( att == A_HOSTILE ) {
+                const Attitude att = attitude_to( *target );
+                if( att == Attitude::HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ||
-                                                  target->has_flag( MF_QUEEN ) ) ) {
+                } else if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
+                           target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
@@ -1109,7 +1108,6 @@ void monster::footsteps( const tripoint &p )
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
-    return;
 }
 
 tripoint monster::scent_move()
@@ -1299,7 +1297,7 @@ bool monster::bash_at( const tripoint &p )
 
     // Don't bash if a friendly monster is standing there
     monster *target = g->critter_at<monster>( p );
-    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+    if( target != nullptr && attitude_to( *target ) == Attitude::FRIENDLY ) {
         return false;
     }
 
@@ -1417,7 +1415,7 @@ bool monster::attack_at( const tripoint &p )
 
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
-        if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
+        if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
             melee_attack( mon );
             return true;
         }
@@ -1697,19 +1695,18 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     add_effect( effect_pushed, 1_turns );
 
     for( size_t i = 0; i < 6; i++ ) {
-        const int dx = rng( -1, 1 );
-        const int dy = rng( -1, 1 );
-        if( dx == 0 && dy == 0 ) {
+        const point d( rng( -1, 1 ), rng( -1, 1 ) );
+        if( d.x == 0 && d.y == 0 ) {
             continue;
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = std::abs( dx - dir.x ) + std::abs( dy - dir.y );
+        const int direction_penalty = std::abs( d.x - dir.x ) + std::abs( d.y - dir.y );
         if( direction_penalty > 2 ) {
             continue;
         }
 
-        tripoint dest( p + point( dx, dy ) );
+        tripoint dest( p + d );
         const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
@@ -2026,12 +2023,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
-                const int destination_delta_x = remote_destination.x - nearby_destination.x;
-                const int destination_delta_y = remote_destination.y - nearby_destination.y;
-                const int destination_delta_z = remote_destination.z - nearby_destination.z;
-                const tripoint shove_destination( clamp( destination_delta_x, -1, 1 ),
-                                                  clamp( destination_delta_y, -1, 1 ),
-                                                  clamp( destination_delta_z, -1, 1 ) );
+                const tripoint destination_delta( -nearby_destination + remote_destination );
+                const tripoint shove_destination( clamp( destination_delta.x, -1, 1 ),
+                                                  clamp( destination_delta.y, -1, 1 ),
+                                                  clamp( destination_delta.z, -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {
@@ -2040,7 +2035,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
+                veh.move = tileray( destination_delta.xy() );
                 veh.smash( g->m, shove_damage_min, shove_damage_max, 0.10F );
             }
         }

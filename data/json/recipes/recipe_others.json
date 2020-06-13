@@ -3468,21 +3468,6 @@
   },
   {
     "type": "recipe",
-    "result": "bone_plate",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "40 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
-      [ [ "rope_natural_short", 4, "LIST" ], [ "adhesive", 4, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "spring",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

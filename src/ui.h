@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -90,6 +91,11 @@ struct uilist_entry {
     uilist_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
         enabled( E ), hotkey( K ), txt( T ),
         hotkey_color( H ), text_color( C ) {}
+    template<typename Enum, typename... Args,
+             typename = std::enable_if_t<std::is_enum<Enum>::value>>
+    uilist_entry( Enum e, Args && ... args ) :
+        uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+    {}
 };
 
 /**
@@ -106,7 +112,7 @@ struct uilist_entry {
  *   void refresh( uilist *menu ) {
  *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
  *           mvwprintz( menu->window, 0, 0, c_red, "( %s )",game_z[menu->selected]->name() );
- *           wrefresh( menu->window );
+ *           wnoutrefresh( menu->window );
  *       }
  *   }
  * }

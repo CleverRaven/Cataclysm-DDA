@@ -547,7 +547,6 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
-        void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( player &p );
@@ -580,7 +579,9 @@ class game
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
                                   const std::string &area_name, int column,
-                                  int &line, int last_line, bool draw_terrain_indicators, const visibility_variables &cache );
+                                  int &line, int last_line, const visibility_variables &cache );
+
+        void draw_look_around_cursor( const tripoint &lp, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
         void extended_description( const tripoint &p );
@@ -607,7 +608,7 @@ class game
                                       const std::string &none_message = "" );
 
         bool has_gametype() const;
-        special_game_id gametype() const;
+        special_game_type gametype() const;
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
@@ -845,7 +846,6 @@ class game
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                     visibility_type visibility );
-        void print_visibility_indicator( visibility_type visibility );
         void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
@@ -1039,8 +1039,12 @@ class game
         std::list<shared_ptr_fast<npc>> active_npc;
         int next_mission_id = 0;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
+
+        std::chrono::seconds time_played_at_last_load;
+        std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0;
         time_t last_save_timestamp;
+
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
         time_point remoteveh_cache_time;
@@ -1049,8 +1053,8 @@ class game
         bool npcs_dirty = false;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false;
-        /** Was the player sleeping during this turn. */
-        bool player_was_sleeping = false;
+        /** Is this the first redraw since waiting (sleeping or activity) started */
+        bool first_redraw_since_waiting_started = true;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zones_manager_open = false;
 

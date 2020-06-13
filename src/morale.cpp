@@ -708,8 +708,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         win_w = std::min( max_window_width, FULL_SCREEN_WIDTH );
         win_h = FULL_SCREEN_HEIGHT;
-        const int win_x = ( TERMX - win_w ) / 2;
-        const int win_y = ( TERMY - win_h ) / 2;
+        const point win( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 );
 
         rows_visible = std::max( win_h - static_lines_height, 0 );
         if( rows_total < rows_visible ) {
@@ -718,7 +717,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             offset = rows_total - rows_visible;
         }
 
-        w = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
+        w = catacurses::newwin( win_h, win_w, win );
 
         ui.position_from_window( w );
     } );
@@ -764,7 +763,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
         draw_scrollbar( w, offset, rows_visible, rows_total,
                         point( 0, top_lines.size() ), c_white, true );
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     input_context ctxt( "MORALE" );

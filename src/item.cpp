@@ -900,15 +900,20 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( is_comestible() && typeId() == rhs.typeId() ) {
+    if( has_temperature() && typeId() == rhs.typeId() ) {
+        if( goes_bad() ) {
+            //use maximum rot between the two
+            set_relative_rot( std::max( get_relative_rot(),
+                                        rhs.get_relative_rot() ) );
+        }
         const float lhs_energy = get_item_thermal_energy();
         const float rhs_energy = rhs.get_item_thermal_energy();
-        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                weight() ) + to_gram( rhs.weight() ) );
-        set_item_specific_energy( combined_specific_energy );
-        //use maximum rot between the two
-        set_relative_rot( std::max( get_relative_rot(),
-                                    rhs.get_relative_rot() ) );
+        if( rhs_energy > 0 && lhs_energy > 0 ) {
+            const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
+                    weight() ) + to_gram( rhs.weight() ) );
+            set_item_specific_energy( combined_specific_energy );
+        }
+
     } else if( !stacks_with( rhs, true ) ) {
         return false;
     }
@@ -3410,6 +3415,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) ) );
         }
+        // Chance of critical hit
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
@@ -3418,29 +3424,37 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               static_cast<int>( g->u.crit_chance( 100, 0, *this ) *
                                                       100 ) ) ) );
         }
+        // Bash damage
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> bashing (<neutral>%d</neutral> on a critical hit)" ),
-                                              static_cast<int>( non_crit.type_damage( DT_BASH ) ),
-                                              static_cast<int>( crit.type_damage( DT_BASH ) ) ) ) );
+            // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+            // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+            info.push_back( iteminfo( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
+                                      non_crit.type_damage( DT_BASH ) ) );
+            info.push_back( iteminfo( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
+                                      crit.type_damage( DT_BASH ) ) );
         }
+        // Cut damage
         if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> cutting (<neutral>%d</neutral> on a critical hit)" ),
-                                              static_cast<int>( non_crit.type_damage( DT_CUT ) ),
-                                              static_cast<int>( crit.type_damage( DT_CUT ) ) ) ) );
+
+            info.push_back( iteminfo( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
+                                      non_crit.type_damage( DT_CUT ) ) );
+            info.push_back( iteminfo( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
+                                      crit.type_damage( DT_CUT ) ) );
         }
+        // Pierce/stab damage
         if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> piercing (<neutral>%d</neutral> on a critical hit)" ),
-                                              static_cast<int>( non_crit.type_damage( DT_STAB ) ),
-                                              static_cast<int>( crit.type_damage( DT_STAB ) ) ) ) );
+
+            info.push_back( iteminfo( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
+                                      non_crit.type_damage( DT_STAB ) ) );
+            info.push_back( iteminfo( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
+                                      crit.type_damage( DT_STAB ) ) );
         }
+        // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<neutral>%d</neutral> moves per attack" ), attack_cost ) ) );
+            info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "<num>",
+                                      iteminfo::lower_is_better, attack_cost ) );
         }
         insert_separation_line( info );
     }
@@ -4919,7 +4933,7 @@ int item::lift_strength() const
 int item::attack_time() const
 {
     int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
+    ret = calculate_by_enchantment_wield( ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
 }
@@ -6550,6 +6564,11 @@ bool item::is_salvageable() const
     return !has_flag( flag_NO_SALVAGE );
 }
 
+bool item::is_disassemblable() const
+{
+    return recipe_dictionary::get_uncraft( typeId() ) && !has_flag( flag_ETHEREAL_ITEM );
+}
+
 bool item::is_craft() const
 {
     return craft_data_ != nullptr;
@@ -6602,7 +6621,7 @@ std::vector<enchantment> item::get_enchantments() const
 }
 
 double item::calculate_by_enchantment( const Character &owner, double modify,
-                                       enchantment::mod value, bool round_value ) const
+                                       enchant_vals::mod value, bool round_value ) const
 {
     double add_value = 0.0;
     double mult_value = 1.0;
@@ -6620,7 +6639,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     return modify;
 }
 
-double item::calculate_by_enchantment_wield( double modify, enchantment::mod value,
+double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
         bool round_value ) const
 {
     double add_value = 0.0;
@@ -7500,8 +7519,6 @@ void item::gun_cycle_mode()
         }
     }
     gun_set_mode( modes.begin()->first );
-
-    return;
 }
 
 const use_function *item::get_use( const std::string &use_name ) const
@@ -7722,7 +7739,7 @@ bool item::reload( player &u, item_location ammo, int qty )
 
             // any excess is wasted rather than overfilling the item
             item plut( *ammo );
-            plut.charges = std::min( qty * PLUTONIUM_CHARGES, ammo_capacity( ammotype( "plut_cell" ) ) );
+            plut.charges = std::min( qty * PLUTONIUM_CHARGES, ammo_capacity( ammo_plutonium ) );
             put_in( plut, item_pocket::pocket_type::MAGAZINE );
         } else {
             curammo = ammo->type;
@@ -9237,10 +9254,8 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
         }
     }
 
-    int source_x = get_var( "source_x", 0 );
-    int source_y = get_var( "source_y", 0 );
-    int source_z = get_var( "source_z", 0 );
-    tripoint source( source_x, source_y, source_z );
+    tripoint source2( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
+    tripoint source( source2 );
 
     return g->m.getlocal( source );
 }
@@ -9945,4 +9960,28 @@ void item::update_clothing_mod_val()
         }
         set_var( key, tmp );
     }
+}
+
+units::volume item::check_for_free_space( const item *it ) const
+{
+    units::volume volume;
+
+    for( const item *container : it->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        ret_val<std::vector<item_pocket>> containedPockets =
+                                           container->contents.get_all_contained_pockets();
+        if( containedPockets.success() ) {
+            volume += check_for_free_space( container );
+
+            for( auto pocket : containedPockets.value() ) {
+                if( pocket.rigid() ) {
+                    volume += pocket.remaining_volume();
+                }
+            }
+        } else {
+            if( container->contents.contents_are_rigid() ) {
+                volume += container->volume();
+            }
+        }
+    }
+    return volume;
 }

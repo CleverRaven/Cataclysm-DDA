@@ -646,25 +646,24 @@ void scrambler_blast( const tripoint &p )
 void emp_blast( const tripoint &p )
 {
     // TODO: Implement z part
-    int x = p.x;
-    int y = p.y;
+    point p2( p.xy() );
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
+    if( g->m.has_flag( "CONSOLE", p2 ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
+            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( p2 ) );
         }
-        g->m.ter_set( point( x, y ), t_console_broken );
+        g->m.ter_set( p2, t_console_broken );
         return;
     }
     // TODO: More terrain effects.
-    if( g->m.ter( point( x, y ) ) == t_card_science || g->m.ter( point( x, y ) ) == t_card_military ||
-        g->m.ter( point( x, y ) ) == t_card_industrial ) {
+    if( g->m.ter( p2 ) == t_card_science || g->m.ter( p2 ) == t_card_military ||
+        g->m.ter( p2 ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( point( x, y ), t_card_reader_broken );
+            g->m.ter_set( p2, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -672,8 +671,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( g->m.ter( point( x + i, y + j ) ) == t_door_metal_locked ) {
-                        g->m.ter_set( point( x + i, y + j ), t_floor );
+                    if( g->m.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
+                        g->m.ter_set( p2 + point( i, j ), t_floor );
                     }
                 }
             }
@@ -740,7 +739,7 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( g->u.posx() == x && g->u.posy() == y ) {
+    if( g->u.posx() == p2.x && g->u.posy() == p2.y ) {
         if( g->u.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( g->u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
@@ -758,7 +757,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : g->m.i_at( point( x, y ) ) ) {
+    for( auto &it : g->m.i_at( p2 ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }

@@ -67,7 +67,7 @@
     "description": "A neck to hip harness made from leather that can be attached to a canine for protection.  You could put this on a friendly dog.",
     "price": 17500,
     "price_postapoc": 1750,
-    "material": [ "cotton", "leather" ],
+    "material": [ "leather" ],
     "weight": "2145 g",
     "extend": { "flags": [ "NO_SALVAGE" ] }
   },
@@ -79,7 +79,7 @@
     "description": "Decorative bones affixed to a leather dog harness for that true post-apocalyptic style, even with a skull bone headpiece!  You could put this on a friendly dog.",
     "price": 19000,
     "price_postapoc": 1900,
-    "material": [ "bone", "leather" ],
+    "material": [ "leather" ],
     "weight": "2645 g"
   },
   {

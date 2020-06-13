@@ -176,14 +176,13 @@ class teleporter_callback : public uilist_callback
                                           rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
                                           index_pairs[entnum].x, index_pairs[entnum].y ) );
             }
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 
 cata::optional<tripoint> teleporter_list::choose_teleport_location()
 {
     cata::optional<tripoint> ret = cata::nullopt;
-    g->refresh_all();
 
     uilist teleport_selector;
     teleport_selector.w_height_setup = 24;

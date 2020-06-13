@@ -17,7 +17,6 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-
 // ITEM INFO
 // =========
 //
@@ -52,7 +51,6 @@
 //      tests/cata_test [iteminfo]
 //
 // Other tags: [book], [food], [pocket], [quality], [weapon], [volume], [weight], and many others
-
 
 // Call the info() function on an item with given flags, and return the formatted string.
 static std::string item_info_str( const item &it, const std::vector<iteminfo_parts> &part_flags )
@@ -1682,6 +1680,7 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
 
         CHECK( item_info_str( sonic, qualities ) ==
                "--\n"
+               "Has level <color_c_cyan>30 lockpicking</color> quality.\n"
                "Has level <color_c_cyan>2 prying</color> quality.\n"
                "Has level <color_c_cyan>2 screw driving</color> quality.\n"
                "Has level <color_c_cyan>1 fine screw driving</color> quality.\n"

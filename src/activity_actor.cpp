@@ -40,7 +40,6 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
-static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_lockpick( "lockpick" );
@@ -48,6 +47,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
+static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -150,7 +150,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
     g->reenter_fullscreen();
 
@@ -179,11 +178,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         }
         return;
     }
-
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
 
     // Fire!
     item *weapon = get_weapon();
@@ -264,7 +258,7 @@ void aim_activity_actor::restore_view()
     g->u.view_offset = initial_view_offset;
     if( changed_z ) {
         g->m.invalidate_map_cache( g->u.view_offset.z );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
     }
 }
 
@@ -310,7 +304,6 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.moves -= reload_time;
-    g->refresh_all();
     return true;
 }
 
@@ -335,7 +328,6 @@ void aim_activity_actor::unload_RAS_weapon()
         if( first_turn ) {
             you.moves = moves_before_unload;
         }
-        g->refresh_all();
     }
 }
 
@@ -511,18 +503,18 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
+enum class hack_result : int {
+    UNABLE,
+    FAIL,
+    NOTHING,
+    SUCCESS
 };
 
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
+enum class hack_type : int {
+    SAFE,
+    DOOR,
+    GAS,
+    NONE
 };
 
 static int hack_level( const Character &who )
@@ -537,7 +529,7 @@ static int hack_level( const Character &who )
 static hack_result hack_attempt( Character &who )
 {
     if( who.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
     const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
@@ -545,7 +537,7 @@ static hack_result hack_attempt( Character &who )
                                   who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
 
     // TODO: Remove this once player -> Character migration is complete
@@ -581,25 +573,25 @@ static hack_result hack_attempt( Character &who )
                                      units::to_kilojoule( who.get_power_level() ) ) ) );
             }
         }
-        return HACK_FAIL;
+        return hack_result::FAIL;
     } else if( success < 6 ) {
-        return HACK_NOTHING;
+        return hack_result::NOTHING;
     } else {
-        return HACK_SUCCESS;
+        return hack_result::SUCCESS;
     }
 }
 
 static hack_type get_hack_type( tripoint examp )
 {
-    hack_type type = HACK_NULL;
+    hack_type type = hack_type::NONE;
     const furn_t &xfurn_t = g->m.furn( examp ).obj();
     const ter_t &xter_t = g->m.ter( examp ).obj();
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
+        type = hack_type::GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
+        type = hack_type::DOOR;
     } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
+        type = hack_type::SAFE;
     }
     return type;
 }
@@ -609,10 +601,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
-        case HACK_UNABLE:
+        case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
-        case HACK_FAIL:
+        case hack_result::FAIL:
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             g->events().send<event_type::triggers_alarm>( who.getID() );
@@ -623,11 +615,11 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                                      who.global_sm_location() );
             }
             break;
-        case HACK_NOTHING:
+        case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
             break;
-        case HACK_SUCCESS:
-            if( type == HACK_GAS ) {
+        case hack_result::SUCCESS:
+            if( type == hack_type::GAS ) {
                 int tankUnits;
                 std::string fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
@@ -645,10 +637,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 } else {
                     who.add_msg_if_player( _( "Nothing happens." ) );
                 }
-            } else if( type == HACK_SAFE ) {
+            } else if( type == hack_type::SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
                 g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            } else if( type == HACK_DOOR ) {
+            } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 g->m.ter_set( examp, t_card_reader_broken );
@@ -943,7 +935,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         open_message = _( "With a satisfying click, the lock on the door opens." );
     }
 
-    bool bionic = it->has_flag( "PSEUDO" );
+    bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
     bool destroy = false;
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
@@ -955,7 +947,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                     who.dex_cur / 4.0;
     int lock_roll = rng( 1, 120 );
     int xp_gain = 0;
-    if( bionic || ( pick_roll >= lock_roll ) ) {
+    if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
         g->m.has_furn( target ) ?
         g->m.furn_set( target, new_furn_type ) :
@@ -978,14 +970,14 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !bionic ) {
-            // You don't gain much skill since the bionic does all the hard work for you
+        if( !perfect ) {
+            // You don't gain much skill since the item does all the hard work for you
             xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
         }
         you->practice( skill_lockpick, xp_gain );
     }
 
-    if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -1157,6 +1149,11 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
+    // Prevent interruptions from this point onwards, so that e.g. pain from
+    // injecting serum doesn't pop up messages about cancelling consuming (it's
+    // too late; we've already consumed).
+    act.interruptable = false;
+
     if( consume_location ) {
         if( consume_location.where() == item_location::type::character ) {
             g->u.consume( consume_location, force );
