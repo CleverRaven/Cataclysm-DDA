@@ -32,12 +32,13 @@ jobs:
         echo "::add-path::$PWD"
     - name: make
       run: |
-        ClangBuildAnalyzer --start .
+        mkdir obj
+        ClangBuildAnalyzer --start obj
         CLANG=clang++-9 CXXFLAGS=-ftime-trace make 
-        ClangBuildAnalyzer --stop . buildAnalysis
+        ClangBuildAnalyzer --stop obj buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis
     - uses: actions/upload-artifact@v2
       with:
         name: ClangBuildAnalyzer-traces
-        path: "./*.json"
+        path: "obj/*.json"
