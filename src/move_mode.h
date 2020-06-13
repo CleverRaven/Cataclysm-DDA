@@ -55,7 +55,6 @@ class move_mode
         uint32_t _letter;
         translation _name;
 
-
     public:
         static void load_move_mode( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src );

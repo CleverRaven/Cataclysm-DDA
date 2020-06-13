@@ -22,8 +22,7 @@ void bresenham( const point &p1, const point &p2, int t,
     // The slope components.
     const point d = p2 - p1;
     // Signs of slope values.
-    const int sx = ( d.x == 0 ) ? 0 : sgn( d.x );
-    const int sy = ( d.y == 0 ) ? 0 : sgn( d.y );
+    const point s( ( d.x == 0 ) ? 0 : sgn( d.x ), ( d.y == 0 ) ? 0 : sgn( d.y ) );
     // Absolute values of slopes x2 to avoid rounding errors.
     const point a = d.abs() * 2;
 
@@ -31,8 +30,8 @@ void bresenham( const point &p1, const point &p2, int t,
 
     if( a.x == a.y ) {
         while( cur.x != p2.x ) {
-            cur.y += sy;
-            cur.x += sx;
+            cur.y += s.y;
+            cur.x += s.x;
             if( !interact( cur ) ) {
                 break;
             }
@@ -40,10 +39,10 @@ void bresenham( const point &p1, const point &p2, int t,
     } else if( a.x > a.y ) {
         while( cur.x != p2.x ) {
             if( t > 0 ) {
-                cur.y += sy;
+                cur.y += s.y;
                 t -= a.x;
             }
-            cur.x += sx;
+            cur.x += s.x;
             t += a.y;
             if( !interact( cur ) ) {
                 break;
@@ -52,10 +51,10 @@ void bresenham( const point &p1, const point &p2, int t,
     } else {
         while( cur.y != p2.y ) {
             if( t > 0 ) {
-                cur.x += sx;
+                cur.x += s.x;
                 t -= a.y;
             }
-            cur.y += sy;
+            cur.y += s.y;
             t += a.x;
             if( !interact( cur ) ) {
                 break;
@@ -68,37 +67,32 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact )
 {
     // The slope components.
-    const int dx = loc2.x - loc1.x;
-    const int dy = loc2.y - loc1.y;
-    const int dz = loc2.z - loc1.z;
+    const tripoint d( -loc1 + loc2 );
     // The signs of the slopes.
-    const int sx = ( dx == 0 ? 0 : sgn( dx ) );
-    const int sy = ( dy == 0 ? 0 : sgn( dy ) );
-    const int sz = ( dz == 0 ? 0 : sgn( dz ) );
+    const tripoint s( ( d.x == 0 ? 0 : sgn( d.x ) ), ( d.y == 0 ? 0 : sgn( d.y ) ),
+                      ( d.z == 0 ? 0 : sgn( d.z ) ) );
     // Absolute values of slope components, x2 to avoid rounding errors.
-    const int ax = std::abs( dx ) * 2;
-    const int ay = std::abs( dy ) * 2;
-    const int az = std::abs( dz ) * 2;
+    const tripoint a( std::abs( d.x ) * 2, std::abs( d.y ) * 2, std::abs( d.z ) * 2 );
 
     tripoint cur( loc1 );
 
-    if( az == 0 ) {
-        if( ax == ay ) {
+    if( a.z == 0 ) {
+        if( a.x == a.y ) {
             while( cur.x != loc2.x ) {
-                cur.y += sy;
-                cur.x += sx;
+                cur.y += s.y;
+                cur.x += s.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ax > ay ) {
+        } else if( a.x > a.y ) {
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
-                    cur.y += sy;
-                    t -= ax;
+                    cur.y += s.y;
+                    t -= a.x;
                 }
-                cur.x += sx;
-                t += ay;
+                cur.x += s.x;
+                t += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -106,95 +100,95 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
         } else {
             while( cur.y != loc2.y ) {
                 if( t > 0 ) {
-                    cur.x += sx;
-                    t -= ay;
+                    cur.x += s.x;
+                    t -= a.y;
                 }
-                cur.y += sy;
-                t += ax;
+                cur.y += s.y;
+                t += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         }
     } else {
-        if( ax == ay && ay == az ) {
+        if( a.x == a.y && a.y == a.z ) {
             while( cur.x != loc2.x ) {
-                cur.z += sz;
-                cur.y += sy;
-                cur.x += sx;
+                cur.z += s.z;
+                cur.y += s.y;
+                cur.x += s.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ( az > ax ) && ( az > ay ) ) {
+        } else if( ( a.z > a.x ) && ( a.z > a.y ) ) {
             while( cur.z != loc2.z ) {
                 if( t > 0 ) {
-                    cur.x += sx;
-                    t -= az;
+                    cur.x += s.x;
+                    t -= a.z;
                 }
                 if( t2 > 0 ) {
-                    cur.y += sy;
-                    t2 -= az;
+                    cur.y += s.y;
+                    t2 -= a.z;
                 }
-                cur.z += sz;
-                t += ax;
-                t2 += ay;
+                cur.z += s.z;
+                t += a.x;
+                t2 += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ax == ay ) {
+        } else if( a.x == a.y ) {
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
-                    cur.z += sz;
-                    t -= ax;
+                    cur.z += s.z;
+                    t -= a.x;
                 }
-                cur.y += sy;
-                cur.x += sx;
-                t += az;
+                cur.y += s.y;
+                cur.x += s.x;
+                t += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ax == az ) {
+        } else if( a.x == a.z ) {
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
-                    cur.y += sy;
-                    t -= ax;
+                    cur.y += s.y;
+                    t -= a.x;
                 }
-                cur.z += sz;
-                cur.x += sx;
-                t += ax;
+                cur.z += s.z;
+                cur.x += s.x;
+                t += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ay == az ) {
+        } else if( a.y == a.z ) {
             while( cur.y != loc2.y ) {
                 if( t > 0 ) {
-                    cur.x += sx;
-                    t -= az;
+                    cur.x += s.x;
+                    t -= a.z;
                 }
-                cur.y += sy;
-                cur.z += sz;
-                t += az;
+                cur.y += s.y;
+                cur.z += s.z;
+                t += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ax > ay ) {
+        } else if( a.x > a.y ) {
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
-                    cur.y += sy;
-                    t -= ax;
+                    cur.y += s.y;
+                    t -= a.x;
                 }
                 if( t2 > 0 ) {
-                    cur.z += sz;
-                    t2 -= ax;
+                    cur.z += s.z;
+                    t2 -= a.x;
                 }
-                cur.x += sx;
-                t += ay;
-                t2 += az;
+                cur.x += s.x;
+                t += a.y;
+                t2 += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -202,16 +196,16 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
         } else { //dy > dx >= dz
             while( cur.y != loc2.y ) {
                 if( t > 0 ) {
-                    cur.x += sx;
-                    t -= ay;
+                    cur.x += s.x;
+                    t -= a.y;
                 }
                 if( t2 > 0 ) {
-                    cur.z += sz;
-                    t2 -= ay;
+                    cur.z += s.z;
+                    t2 -= a.y;
                 }
-                cur.y += sy;
-                t += ax;
-                t2 += az;
+                cur.y += s.y;
+                t += a.x;
+                t2 += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -384,8 +378,7 @@ direction direction_from( const point &p1, const point &p2 ) noexcept
 
 direction direction_from( const tripoint &p, const tripoint &q )
 {
-    // Note: Z-coordinate has to be inverted either here or in direction definitions
-    return direction_from( tripoint( q.x - p.x, q.y - p.y, -( q.z - p.z ) ) );
+    return direction_from( q - p );
 }
 
 point direction_XY( const direction dir )
@@ -510,35 +503,32 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> adjacent_closer_squares;
-    const int dx = to.x - from.x;
-    const int dy = to.y - from.y;
-    const int dz = to.z - from.z;
-    const int ax = std::abs( dx );
-    const int ay = std::abs( dy );
-    if( dz != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( dx ), sgn( dy ), sgn( dz ) ) );
+    const tripoint d( -from + to );
+    const point a( std::abs( d.x ), std::abs( d.y ) );
+    if( d.z != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
     }
-    if( ax > ay ) {
+    if( a.x > a.y ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), -1 ) );
-        if( dy != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
+        if( d.y != 0 ) {
+            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
         }
-    } else if( ax < ay ) {
+    } else if( a.x < a.y ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( dy ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( dy ) ) );
-        if( dx != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
+        if( d.x != 0 ) {
+            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
         }
-    } else if( dx != 0 ) {
+    } else if( d.x != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), sgn( dy ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( dx ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( dy ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
     }
 
     return adjacent_closer_squares;

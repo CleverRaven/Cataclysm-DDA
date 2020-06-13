@@ -8,7 +8,7 @@
     "symbol": "=",
     "color": "brown",
     "description": "An underwater fishing spear made from wood tipped with steel.  It's very light, but doesn't have much range.  Stands a below average chance of remaining intact once fired.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "weight": "18 g",
     "bashing": 1,

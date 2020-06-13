@@ -1633,6 +1633,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
+    // add martial arts block effectiveness bonus
+    block_score += mabuff_block_effectiveness_bonus();
+
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
     if( !force_unarmed && has_shield ) {
@@ -2233,7 +2236,7 @@ int Character::attack_speed( const item &weap ) const
     move_cost += skill_cost;
     move_cost -= dexbonus;
 
-    move_cost = calculate_by_enchantment( move_cost, enchantment::mod::ATTACK_SPEED, true );
+    move_cost = calculate_by_enchantment( move_cost, enchant_vals::mod::ATTACK_SPEED, true );
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;

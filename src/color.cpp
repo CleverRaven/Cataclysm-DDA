@@ -721,8 +721,7 @@ void color_manager::show_gui()
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
 
-    int iOffsetX = 0;
-    int iOffsetY = 0;
+    point iOffset;
 
     std::vector<int> vLines;
     vLines.push_back( -1 );
@@ -742,15 +741,15 @@ void color_manager::show_gui()
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-        iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        iOffsetY = calc_offset_y();
+        iOffset.x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        iOffset.y = calc_offset_y();
 
         w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                              point( iOffsetX, iOffsetY ) );
+                                              iOffset );
         w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+                                              iOffset + point_south_east );
         w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+                                       iOffset + point( 1, iHeaderHeight + 1 ) );
 
         ui.position_from_window( w_colors_border );
     };

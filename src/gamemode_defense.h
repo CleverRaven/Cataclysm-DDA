@@ -54,8 +54,8 @@ enum caravan_category {
 struct defense_game : public special_game {
         defense_game();
 
-        special_game_id id() override {
-            return SGAME_DEFENSE;
+        special_game_type id() override {
+            return special_game_type::DEFENSE;
         }
         bool init() override;
         void per_turn() override;

@@ -22,6 +22,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "flag.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
@@ -120,7 +121,6 @@ static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_flour( "flour" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_industrial( "id_industrial" );
@@ -198,12 +198,12 @@ static const std::string flag_FIRE( "FIRE" );
 static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MILLABLE( "MILLABLE" );
 static const std::string flag_NO_CVD( "NO_CVD" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
+static const std::string flag_PICKABLE( "PICKABLE" );
 static const std::string flag_PROCESSING( "PROCESSING" );
 static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 static const std::string flag_SAFECRACK( "SAFECRACK" );
@@ -213,6 +213,9 @@ static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
+
+// @TODO maybe make this a property of the item (depend on volume/type)
+static const time_duration milling_time = 6_hours;
 
 /**
  * Nothing player can interact with here.
@@ -576,7 +579,6 @@ class atm_menu
                 return balance_one > balance_two;
             } );
 
-
             for( item * const &cc : cash_cards_on_hand ) {
                 if( inserted == amount ) {
                     break;
@@ -685,8 +687,8 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-        const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+        const point padding( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4, std::max( 0,
+                             TERMY - FULL_SCREEN_HEIGHT ) / 6 );
         const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
         const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
         w_items_w  = window_w / 2;
@@ -697,11 +699,11 @@ void iexamine::vending( player &p, const tripoint &examp )
         lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
 
         w = catacurses::newwin( window_h, w_items_w,
-                                point( padding_x, padding_y ) );
+                                padding );
         w_item_info = catacurses::newwin( window_h, w_info_w,
-                                          point( padding_x + w_items_w, padding_y ) );
+                                          padding + point( w_items_w, 0 ) );
 
-        ui.position( point( padding_x, padding_y ), point( window_w, window_h ) );
+        ui.position( padding, point( window_w, window_h ) );
     } );
     ui.mark_resize();
 
@@ -952,7 +954,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
                 critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
+                critter.attitude_to( p ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
@@ -1385,8 +1387,14 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     if( prying_items.empty() ) {
-        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
-                 g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
+        if( g->m.has_flag( flag_PICKABLE, examp ) ) {
+            add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
+                     g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
+            locked_object_pickable( p, examp );
+        } else {
+            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
+                     g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
+        }
         return;
     }
 
@@ -4797,23 +4805,16 @@ static void mill_activate( player &p, const tripoint &examp )
     units::volume food_volume = 0_ml;
 
     for( item &it : items ) {
-        if( it.typeId() == itype_flour ) {
-            add_msg( _( "This mill already contains flour." ) );
-            add_msg( _( "Remove it before starting the mill again." ) );
-            return;
-        }
-        if( it.has_flag( flag_MILLABLE ) ) {
+        if( it.type->milling_data ) {
             food_present = true;
             food_volume += it.volume();
             continue;
-        }
-        if( !it.has_flag( flag_MILLABLE ) ) {
-            add_msg( m_bad, _( "This rack contains %s, which can't be milled!" ), it.tname( 1,
-                     false ) );
+        } else {
+            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1, false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
-            g->m.i_rem( examp, &it );
             p.mod_moves( -p.item_handling_cost( it ) );
+            g->m.i_rem( examp, &it );
             return;
         }
     }
@@ -4830,7 +4831,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
 
     for( auto &it : g->m.i_at( examp ) ) {
-        if( it.has_flag( flag_MILLABLE ) ) {
+        if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );
@@ -4838,7 +4839,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, next_mill_type );
     item result( "fake_milling_item", calendar::turn );
-    result.item_counter = to_turns<int>( 6_hours );
+    result.item_counter = to_turns<int>( milling_time );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
@@ -4970,9 +4971,18 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
     }
 
     for( item &it : items ) {
-        if( it.has_flag( flag_MILLABLE ) && it.get_comestible() ) {
-            it.calc_rot_while_processing( 6_hours );
-            item result( "flour", start_time + 6_hours, it.charges * 15 );
+        if( it.type->milling_data ) {
+            it.calc_rot_while_processing( milling_time );
+            const islot_milling &mdata = *it.type->milling_data;
+            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            result.components.push_back( it );
+            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+            for( const std::string &f : it.type->item_tags ) {
+                if( json_flag::get( f ).craft_inherit() ) {
+                    result.set_flag( f );
+                }
+            }
+            result.recipe_charges = result.charges;
             // Set flag to tell set_relative_rot() to calc from bday not now
             result.set_flag( flag_PROCESSING_RESULT );
             result.set_relative_rot( it.get_relative_rot() );
@@ -5162,7 +5172,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         return it.rotten();
     } );
     std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( flag_MILLABLE );
+        return static_cast<bool>( it.type->milling_data );
     } );
 
     uilist smenu;
@@ -5302,20 +5312,16 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     }
 
     time_duration time_left = 0_turns;
-    int hours_left = 0;
-    int minutes_left = 0;
     units::volume f_volume = 0_ml;
     bool f_check = false;
 
     for( const item &it : items_here ) {
-        if( it.is_food() ) {
+        if( it.typeId() != itype_fake_milling_item ) {
             f_check = true;
             f_volume += it.volume();
         }
         if( active && it.typeId() == itype_fake_milling_item ) {
             time_left = time_duration::from_turns( it.item_counter );
-            hours_left = to_hours<int>( time_left );
-            minutes_left = to_minutes<int>( time_left ) + 1;
         }
     }
 
@@ -5333,7 +5339,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         smenu.addentry_desc( 1, !empty, 'r',
                              empty ?  _( "Remove brake and start milling… insert some products for milling first" ) :
                              _( "Remove brake and start milling" ),
-                             _( "Remove brake and start milling, milling will take about 6 hours." ) );
+                             string_format( _( "Remove brake and start milling, milling will take about %s." ),
+                                            to_string( milling_time ) ) );
 
         smenu.addentry_desc( 2, !full, 'p',
                              full ? _( "Insert products for milling… mill is full" ) :
@@ -5359,15 +5366,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             if( active ) {
                 pop = colorize( _( "There's a mill here.  It is turning and milling." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
-                    if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish milling in about %d hour.",
-                                                        "It will finish milling in about %d hours.",
-                                                        hours_left ), hours_left ) + "\n\n";
-                    } else if( minutes_left > 30 ) {
-                        pop += _( "It will finish milling in less than an hour." );
-                    } else {
-                        pop += string_format( _( "It should take about %d minutes to finish milling." ), minutes_left );
-                    }
+                    pop += string_format( _( "It should take about %s to finish milling." ),
+                                          to_string_clipped( time_left ) ) + "\n";
                 }
             } else {
                 pop += colorize( _( "There's a mill here." ), c_green ) + "\n";
@@ -5403,7 +5403,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         case 3:
             // remove food
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
-                if( it->is_food() ) {
+                if( it->typeId() != itype_fake_milling_item ) {
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( *it );
 

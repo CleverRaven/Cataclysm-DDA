@@ -10,7 +10,7 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "!",
     "color": "white",
     "ammo": [ "battery" ],
@@ -77,7 +77,7 @@
     "price_postapoc": 100,
     "to_hit": -10,
     "bashing": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]

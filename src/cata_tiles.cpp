@@ -970,7 +970,7 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
 }
 
 struct tile_render_info {
-    const tripoint pos;
+    const tripoint pos{};
     // accumulator for 3d tallness of sprites rendered here so far;
     int height_3d = 0;
     lit_level ll;
@@ -1007,9 +1007,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         render_fill_rect( renderer, clipRect, 0, 0, 0 );
     }
 
-    int sx = 0;
-    int sy = 0;
-    get_window_tile_counts( width, height, sx, sy );
+    point s;
+    get_window_tile_counts( width, height, s.x, s.y );
 
     init_light();
     g->m.update_visibility_cache( center.z );
@@ -1025,9 +1024,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     screentile_height = divide_round_up( height, tile_height );
 
     const int min_col = 0;
-    const int max_col = sx;
+    const int max_col = s.x;
     const int min_row = 0;
-    const int max_row = sy;
+    const int max_row = s.y;
 
     //limit the render area to maximum view range (121x121 square centered on player)
     const int min_visible_x = g->u.posx() % SEEX;
@@ -1038,9 +1037,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     const auto &ch = g->m.access_cache( center.z );
 
     //set up a default tile for the edges outside the render area
-    visibility_type offscreen_type = VIS_DARK;
+    visibility_type offscreen_type = visibility_type::DARK;
     if( cache.u_is_boomered ) {
-        offscreen_type = VIS_BOOMER_DARK;
+        offscreen_type = visibility_type::BOOMER_DARK;
     }
 
     //retrieve night vision goggle status once per draw
@@ -1092,11 +1091,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
-                if( modulo( row - sy / 2, 2 ) != modulo( col - sx / 2, 2 ) ) {
+                if( modulo( row - s.y / 2, 2 ) != modulo( col - s.x / 2, 2 ) ) {
                     continue;
                 }
-                temp_x = divide_round_down( col - row - sx / 2 + sy / 2, 2 ) + o.x;
-                temp_y = divide_round_down( row + col - sy / 2 - sx / 2, 2 ) + o.y;
+                temp_x = divide_round_down( col - row - s.x / 2 + s.y / 2, 2 ) + o.x;
+                temp_y = divide_round_down( row + col - s.y / 2 - s.x / 2, 2 ) + o.y;
             } else {
                 temp_x = col + o.x;
                 temp_y = row + o.y;
@@ -1307,7 +1306,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
         for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
-            rectangle already_drawn( point( min_col, min_row ), point( max_col, max_row ) );
+            half_open_rectangle already_drawn( point( min_col, min_row ),
+                                               point( max_col, max_row ) );
             if( iso_mode ) {
                 // calculate the screen position according to the drawing code above (division rounded down):
 
@@ -1316,9 +1316,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
                 // ||
                 // \/
-                const int col = mem_y + mem_x + sx / 2 - o.y - o.x;
-                const int row = mem_y - mem_x + sy / 2 - o.y + o.x;
-                if( already_drawn.contains_half_open( point( col, row ) ) ) {
+                const int col = mem_y + mem_x + s.x / 2 - o.y - o.x;
+                const int row = mem_y - mem_x + s.y / 2 - o.y + o.x;
+                if( already_drawn.contains( point( col, row ) ) ) {
                     continue;
                 }
             } else {
@@ -1330,7 +1330,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // \/
                 // col = mem_x - o.x
                 // row = mem_y - o.y
-                if( already_drawn.contains_half_open( point( mem_x, mem_y ) - o ) ) {
+                if( already_drawn.contains( point( mem_x, mem_y ) - o ) ) {
                     continue;
                 }
             }
@@ -1598,9 +1598,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
+    half_open_rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
-        !screen_bounds.contains_half_open( pos.xy() ) ) {
+        !screen_bounds.contains( pos.xy() ) ) {
         return false;
     }
 
@@ -2066,7 +2066,7 @@ bool cata_tiles::draw_tile_at(
 
 bool cata_tiles::would_apply_vision_effects( const visibility_type visibility ) const
 {
-    return visibility != VIS_CLEAR;
+    return visibility != visibility_type::CLEAR;
 }
 
 bool cata_tiles::apply_vision_effects( const tripoint &pos,
@@ -2077,22 +2077,22 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     }
     std::string light_name;
     switch( visibility ) {
-        case VIS_HIDDEN:
+        case visibility_type::HIDDEN:
             light_name = "lighting_hidden";
             break;
-        case VIS_LIT:
+        case visibility_type::LIT:
             light_name = "lighting_lowlight_light";
             break;
-        case VIS_BOOMER:
+        case visibility_type::BOOMER:
             light_name = "lighting_boomered_light";
             break;
-        case VIS_BOOMER_DARK:
+        case visibility_type::BOOMER_DARK:
             light_name = "lighting_boomered_dark";
             break;
-        case VIS_DARK:
+        case visibility_type::DARK:
             light_name = "lighting_lowlight_dark";
             break;
-        case VIS_CLEAR:
+        case visibility_type::CLEAR:
             // should never happen
             break;
     }
@@ -2149,22 +2149,21 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         belowRect.w = ( belowRect.w * 3 ) / 4;
     }
     // translate from player-relative to screen relative tile position
-    int screen_x = 0;
-    int screen_y = 0;
+    point screen;
     if( tile_iso ) {
-        screen_x = ( ( pbelow.x - o.x ) - ( o.y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
+        screen.x = ( ( pbelow.x - o.x ) - ( o.y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( pbelow.y - o.y ) - ( pbelow.x - o.x ) - 4 ) * tile_width / 4 +
+        screen.y = ( ( pbelow.y - o.y ) - ( pbelow.x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
                    op.y;
     } else {
-        screen_x = ( pbelow.x - o.x ) * tile_width + op.x;
-        screen_y = ( pbelow.y - o.y ) * tile_height + op.y;
+        screen.x = ( pbelow.x - o.x ) * tile_width + op.x;
+        screen.y = ( pbelow.y - o.y ) * tile_height + op.y;
     }
-    belowRect.x = screen_x + ( tile_width - belowRect.w ) / 2;
-    belowRect.y = screen_y + ( tile_height - belowRect.h ) / 2;
+    belowRect.x = screen.x + ( tile_width - belowRect.w ) / 2;
+    belowRect.y = screen.y + ( tile_height - belowRect.h ) / 2;
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
@@ -2739,7 +2738,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         result = false;
         sees_player = false;
         is_player = false;
-        attitude = Creature::A_ANY;
+        attitude = Creature::Attitude::ANY;
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
             const auto ent_category = C_MONSTER;
@@ -2750,9 +2749,9 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
             const int subtile = corner;
             // depending on the toggle flip sprite left or right
             int rot_facing = -1;
-            if( m->facing == FD_RIGHT ) {
+            if( m->facing == FacingDirection::RIGHT ) {
                 rot_facing = 0;
-            } else if( m->facing == FD_LEFT ) {
+            } else if( m->facing == FacingDirection::LEFT ) {
                 rot_facing = 4;
             }
             if( rot_facing >= 0 ) {
@@ -2870,9 +2869,9 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
     int prev_height_3d = height_3d;
 
     // depending on the toggle flip sprite left or right
-    if( ch.facing == FD_RIGHT ) {
+    if( ch.facing == FacingDirection::RIGHT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
-    } else if( ch.facing == FD_LEFT ) {
+    } else if( ch.facing == FacingDirection::LEFT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
     }
 
@@ -2882,9 +2881,9 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
         std::string draw_id = overlay;
         if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
-            if( ch.facing == FD_RIGHT ) {
+            if( ch.facing == FacingDirection::RIGHT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d );
-            } else if( ch.facing == FD_LEFT ) {
+            } else if( ch.facing == FacingDirection::LEFT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts
@@ -3297,8 +3296,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
     const bool use_font = get_option<bool>( "ANIMATION_SCT_USE_FONT" );
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
-        const int iDX = iter->getPosX();
-        const int iDY = iter->getPosY();
+        const point iD( iter->getPosX(), iter->getPosY() );
         const int full_text_length = utf8_width( iter->getText() );
 
         int iOffsetX = 0;
@@ -3316,7 +3314,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) * full_text_length / 2;
 
                 overlay_strings.emplace(
-                    player_to_screen( point( iDX + direction_offset, iDY ) ),
+                    player_to_screen( iD + point( direction_offset, 0 ) ),
                     formatted_text( sText, FG, direction ) );
             } else {
                 for( auto &it : sText ) {
@@ -3324,7 +3322,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
                     if( tileset_ptr->find_tile_type( generic_id ) ) {
                         draw_from_id_string( generic_id, C_NONE, empty_string,
-                        { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, lit_level::LIT, false );
+                                             iD + tripoint( iOffsetX, iOffsetY, g->u.pos().z ), 0, 0, lit_level::LIT, false );
                     }
 
                     if( tile_iso ) {
@@ -3528,21 +3526,20 @@ void cata_tiles::do_tile_loading_report()
 
 point cata_tiles::player_to_screen( const point &p ) const
 {
-    int screen_x = 0;
-    int screen_y = 0;
+    point screen;
     if( tile_iso ) {
-        screen_x = ( ( p.x - o.x ) - ( o.y - p.y ) + screentile_width - 2 ) * tile_width / 2 +
+        screen.x = ( ( p.x - o.x ) - ( o.y - p.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op.x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, arbitrarily tall
-        screen_y = ( ( p.y - o.y ) - ( p.x - o.x ) - 4 ) * tile_width / 4 +
+        screen.y = ( ( p.y - o.y ) - ( p.x - o.x ) - 4 ) * tile_width / 4 +
                    screentile_height * tile_height / 2 + // TODO: more obvious centering math
                    op.y;
     } else {
-        screen_x = ( p.x - o.x ) * tile_width + op.x;
-        screen_y = ( p.y - o.y ) * tile_height + op.y;
+        screen.x = ( p.x - o.x ) * tile_width + op.x;
+        screen.y = ( p.y - o.y ) * tile_height + op.y;
     }
-    return {screen_x, screen_y};
+    return {screen};
 }
 
 template<typename Iter, typename Func>

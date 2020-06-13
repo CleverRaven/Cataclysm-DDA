@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <functional>
 #include <string>
@@ -25,6 +26,11 @@ enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
 
+namespace debug_menu
+{
+enum class debug_menu_index : int;
+} // namespace debug_menu
+
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
 
@@ -36,6 +42,8 @@ enum class cata_variant_type : int {
     body_part,
     bool_,
     character_id,
+    chrono_seconds,
+    debug_menu_index,
     efftype_id,
     hp_part,
     int_,
@@ -46,6 +54,7 @@ enum class cata_variant_type : int {
     mutagen_technique,
     mutation_category_id,
     oter_id,
+    oter_type_str_id,
     point,
     profession_id,
     skill_id,
@@ -158,7 +167,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 27,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 30,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -202,6 +211,20 @@ struct convert<cata_variant_type::character_id> {
 };
 
 template<>
+struct convert<cata_variant_type::chrono_seconds> {
+    using type = std::chrono::seconds;
+    static std::string to_string( const std::chrono::seconds v ) {
+        return std::to_string( v.count() );
+    }
+    static std::chrono::seconds from_string( const std::string &v ) {
+        return std::chrono::seconds( std::stoll( v ) );
+    }
+};
+
+template<>
+struct convert<cata_variant_type::debug_menu_index> : convert_enum<debug_menu::debug_menu_index> {};
+
+template<>
 struct convert<cata_variant_type::move_mode_id> : convert_string_id<move_mode_id> {};
 
 template<>
@@ -238,6 +261,9 @@ struct convert<cata_variant_type::mutation_category_id> : convert_string<std::st
 
 template<>
 struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
+
+template<>
+struct convert<cata_variant_type::oter_type_str_id> : convert_string_id<oter_type_str_id> {};
 
 template<>
 struct convert<cata_variant_type::point> {

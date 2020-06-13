@@ -48,7 +48,7 @@
     "name": { "str": "Boeing XM-P plasma rifle" },
     "description": "Boeing developed the focused plasma weaponry together with DARPA.  It heats solid hydrogen to create plasma and envelops it with polymers to reduce blooming.  While powerful, it suffers from short range.  Powered by UPS.",
     "price": 1750000,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "ups_charges": 5,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],

@@ -14,6 +14,7 @@
       { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20 },
+      { "monster": "mon_apatosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30 },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
@@ -64,6 +65,7 @@
       { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20 },
+      { "monster": "mon_apatosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 2, 4 ] }
     ]
   },
@@ -115,6 +117,13 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_triceratops",
+        "freq": 10,
+        "cost_multiplier": 30,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_stegosaurus",
         "freq": 15,
         "cost_multiplier": 20,
@@ -123,14 +132,14 @@
       },
       {
         "monster": "mon_ankylosaurus",
-        "freq": 3,
+        "freq": 15,
         "cost_multiplier": 20,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_triceratops",
-        "freq": 10,
-        "cost_multiplier": 30,
+        "monster": "mon_apatosaurus",
+        "freq": 15,
+        "cost_multiplier": 25,
         "pack_size": [ 1, 2 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
@@ -174,6 +183,13 @@
         "freq": 20,
         "cost_multiplier": 20,
         "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_apatosaurus",
+        "freq": 20,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
@@ -228,6 +244,13 @@
         "freq": 20,
         "cost_multiplier": 20,
         "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_apatosaurus",
+        "freq": 20,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_parasaurolophus", "freq": 30, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },

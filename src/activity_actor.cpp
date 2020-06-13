@@ -503,18 +503,18 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
+enum class hack_result : int {
+    UNABLE,
+    FAIL,
+    NOTHING,
+    SUCCESS
 };
 
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
+enum class hack_type : int {
+    SAFE,
+    DOOR,
+    GAS,
+    NONE
 };
 
 static int hack_level( const Character &who )
@@ -529,7 +529,7 @@ static int hack_level( const Character &who )
 static hack_result hack_attempt( Character &who )
 {
     if( who.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
     const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
@@ -537,7 +537,7 @@ static hack_result hack_attempt( Character &who )
                                   who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
 
     // TODO: Remove this once player -> Character migration is complete
@@ -573,25 +573,25 @@ static hack_result hack_attempt( Character &who )
                                      units::to_kilojoule( who.get_power_level() ) ) ) );
             }
         }
-        return HACK_FAIL;
+        return hack_result::FAIL;
     } else if( success < 6 ) {
-        return HACK_NOTHING;
+        return hack_result::NOTHING;
     } else {
-        return HACK_SUCCESS;
+        return hack_result::SUCCESS;
     }
 }
 
 static hack_type get_hack_type( tripoint examp )
 {
-    hack_type type = HACK_NULL;
+    hack_type type = hack_type::NONE;
     const furn_t &xfurn_t = g->m.furn( examp ).obj();
     const ter_t &xter_t = g->m.ter( examp ).obj();
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
+        type = hack_type::GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
+        type = hack_type::DOOR;
     } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
+        type = hack_type::SAFE;
     }
     return type;
 }
@@ -601,10 +601,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
-        case HACK_UNABLE:
+        case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
-        case HACK_FAIL:
+        case hack_result::FAIL:
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             g->events().send<event_type::triggers_alarm>( who.getID() );
@@ -615,11 +615,11 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                                      who.global_sm_location() );
             }
             break;
-        case HACK_NOTHING:
+        case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
             break;
-        case HACK_SUCCESS:
-            if( type == HACK_GAS ) {
+        case hack_result::SUCCESS:
+            if( type == hack_type::GAS ) {
                 int tankUnits;
                 std::string fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
@@ -637,10 +637,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 } else {
                     who.add_msg_if_player( _( "Nothing happens." ) );
                 }
-            } else if( type == HACK_SAFE ) {
+            } else if( type == hack_type::SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
                 g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            } else if( type == HACK_DOOR ) {
+            } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 g->m.ter_set( examp, t_card_reader_broken );
