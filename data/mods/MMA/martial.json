@@ -61,5 +61,23 @@
     "name": { "str_sp": "Distant Horizon" },
     "description": "This book contains the teaching of the Setting Sun discipline.",
     "book_data": { "martial_art": "style_mma_setting_sun" }
+  },
+  {
+    "id": "manual_mma_shii_cho",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Jedi Holocrons: Form I" },
+    "description": "This device contains the teachings of the first form of Jedi lightsaber combat: Shii-Cho.",
+    "book_data": { "martial_art": "style_mma_shii_cho" }
+  },
+  {
+    "id": "manual_mma_stone_dragon",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Shards of Granite" },
+    "description": "This book contains the teaching of the Stone Dragon discipline.",
+    "book_data": { "martial_art": "style_mma_stone_dragon" }
   }
 ]

@@ -329,7 +329,7 @@
     "snippet_category": "endochitin_desc",
     "description": "A piece of an insect's endoskeleton.",
     "price": 0,
-    "material": "chitin",
+    "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "89 g",
     "volume": "300 ml",

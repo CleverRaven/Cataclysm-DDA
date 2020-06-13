@@ -191,10 +191,10 @@ constexpr bool operator==( const I lhs, const creature_size rhs )
     return lhs == static_cast<I>( rhs );
 }
 
-enum FacingDirection {
-    FD_NONE = 0,
-    FD_LEFT = 1,
-    FD_RIGHT = 2
+enum class FacingDirection : int {
+    NONE = 0,
+    LEFT = 1,
+    RIGHT = 2
 };
 
 class Creature
@@ -243,7 +243,7 @@ class Creature
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
-        FacingDirection facing = FD_RIGHT;
+        FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -276,11 +276,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**

@@ -56,6 +56,16 @@
   },
   {
     "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_JEDI",
+    "name": { "str": "Jedi Training" },
+    "points": 2,
+    "description": "You are trained in the ways of the Jedi.  Your knowledge allows you to utilize a form of lightsaber combat.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_shii_cho" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "MMA_MARTIAL_ARTS_POKKEN",
     "name": { "str": "Pokken Master" },
     "points": 2,
@@ -71,7 +81,13 @@
     "points": 2,
     "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_mma_desert_wind", "style_mma_diamond_mind", "style_mma_iron_heart", "style_mma_setting_sun" ],
+    "initial_ma_styles": [
+      "style_mma_desert_wind",
+      "style_mma_diamond_mind",
+      "style_mma_iron_heart",
+      "style_mma_setting_sun",
+      "style_mma_stone_dragon"
+    ],
     "valid": false
   }
 ]

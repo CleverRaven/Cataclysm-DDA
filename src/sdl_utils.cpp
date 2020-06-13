@@ -101,10 +101,9 @@ SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
 
     const int w = factor * inner.w;
     const int h = factor * inner.h;
-    const int x = outer.x + ( outer.w - w ) / 2;
-    const int y = outer.y + ( outer.h - h ) / 2;
+    const point p( outer.x + ( outer.w - w ) / 2, outer.y + ( outer.h - h ) / 2 );
 
-    return SDL_Rect{ x, y, w, h };
+    return SDL_Rect{ p.x, p.y, w, h };
 }
 
 #endif // SDL_TILES

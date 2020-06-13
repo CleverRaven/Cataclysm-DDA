@@ -365,7 +365,7 @@
     "type": "martial_art",
     "id": "style_mma_setting_sun",
     "name": { "str": "Setting Sun" },
-    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them.  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
     "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
     "arm_block": 0,
     "learn_difficulty": 10,
@@ -401,5 +401,176 @@
       "mma_tec_setting_sun_throw_crit"
     ],
     "weapons": [ "i_staff", "shock_staff", "sword_crude", "sword_nail", "sword_wood", "q_staff" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_shii_cho",
+    "name": { "str": "Shii-Cho" },
+    "description": "Shii-Cho, \"The way of the Sarlacc\" was the first form lightsaber combat developed by the Jedi during their transition from metal weaponry to lightsabers.  Shii-Cho is regarded as a training form that all Jedi learn to understand the basics of armed combat.  Shii-Cho excels at fighting against groups but lacks the offensive power of the other lightsaber forms.",
+    "initiate": [
+      "You place one foot back and hold your weapon vertically on your dominant side.",
+      "%s places one foot back and hold their weapon vertically."
+    ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mma_buff_shii_cho_static1",
+        "name": "Determination",
+        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and protecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 Accuracy.",
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static2",
+        "name": "Apprentice Training",
+        "description": "Your training in Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static3",
+        "name": "Knight Training",
+        "description": "Further training in Shii-Cho improves your ability to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      },
+      {
+        "id": "mma_buff_shii_cho_static4",
+        "name": "Master Training",
+        "description": "As a master of Shii-Cho, your ability to fight against groups is second to none.\n\n+1 block attempts, +1 block effectiveness.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "block_effectiveness", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [ "mma_tec_shii_cho_counter", "mma_tec_shii_cho_disarm", "mma_tec_shii_cho_wide" ],
+    "weapons": [
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "sword_wood",
+      "tanto",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_stone_dragon",
+    "name": { "str": "Stone Dragon" },
+    "description": "The Stone Dragon discipline for focuses on strength, power, and toughness.Its teachings grant a martial adept the ability to splinter steel with a single, focused blow. Stone Dragon's defensive abilities focus on tapping into the enduring power of stone to turn aside attacks.",
+    "initiate": [ "You dig your heels into the ground and steady yourself.", "%s digs their heels into the ground." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "static_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_static",
+        "name": "Stonefoot Stance",
+        "description": "You crouch and set your feet flat on the ground, drawing the resilience of the earth into your body.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 2.0 },
+          { "stat": "armor", "type": "cut", "scale": 2.0 },
+          { "stat": "armor", "type": "stab", "scale": 2.0 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_oncrit",
+        "name": "Iron Bones",
+        "description": "When you make a successful attack, you enter a meditative state that leaves you almost invulnerable to harm.\n\n+5 bash, cut, and stab armor.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 5.0 },
+          { "stat": "armor", "type": "cut", "scale": 5.0 },
+          { "stat": "armor", "type": "stab", "scale": 5.0 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_onhit",
+        "name": "Stone Bones",
+        "description": "You focus your energy to enhance your defenses, drawing on the power of your weapon's impact with a foe to toughen yourself against a counterattack.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn. Stacks 5 times.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 5,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 1.0 },
+          { "stat": "armor", "type": "cut", "scale": 1.0 },
+          { "stat": "armor", "type": "stab", "scale": 1.0 }
+        ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_onmove1",
+        "name": "Cracked Stone",
+        "description": "Moving too much will negate the effects of Surefoot Stance.  Stay still to avoid shattering your stance!\n\nEnables \"Shattered Stone\" buff.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1
+      },
+      {
+        "id": "mma_buff_stone_dragon_onmove2",
+        "name": "Stattered Stone",
+        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 4 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "req_buffs": [ "mma_buff_stone_dragon_onmove1" ],
+        "buff_duration": 4,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": -2.0 },
+          { "stat": "armor", "type": "cut", "scale": -2.0 },
+          { "stat": "armor", "type": "stab", "scale": -2.0 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 0.9 },
+          { "stat": "damage", "type": "cut", "scale": 0.9 },
+          { "stat": "damage", "type": "stab", "scale": 0.9 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_stone_dragon_hammer", "mma_tec_stone_dragon_strike", "mma_tec_stone_dragon_colossus" ],
+    "weapons": [
+      "battleaxe",
+      "battleaxe_inferior",
+      "battleaxe_fake",
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
   }
 ]

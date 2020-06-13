@@ -557,8 +557,8 @@ bool main_menu::opening_screen()
             if( sel1 == 4 ) { // Special game
                 std::vector<std::string> special_names;
                 int xlen = 0;
-                for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
+                for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
+                    std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
                     special_names.push_back( spec_name );
                     xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
                 }
@@ -688,11 +688,11 @@ bool main_menu::opening_screen()
                     if( sel2 > 0 ) {
                         sel2--;
                     } else {
-                        sel2 = NUM_SPECIAL_GAMES - 2;
+                        sel2 = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2;
                     }
                     on_move();
                 } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-                    if( sel2 < NUM_SPECIAL_GAMES - 2 ) {
+                    if( sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2 ) {
                         sel2++;
                     } else {
                         sel2 = 0;
@@ -702,15 +702,15 @@ bool main_menu::opening_screen()
                     layer = 1;
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
-                    if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
+                    if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
                         on_out_of_scope cleanup( []() {
                             g->gamemode.reset();
                             g->u = avatar();
                             world_generator->set_active_world( nullptr );
                         } );
-                        g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
+                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             continue;
                         }
@@ -1045,14 +1045,13 @@ bool main_menu::load_character_tab( bool transfer )
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        const int offset_x = transfer ? 25 : 15;
-        const int offset_y = transfer ? -1 : 0;
+        const point offset( transfer ? 25 : 15, transfer ? -1 : 0 );
 
         print_menu( w_open, transfer ? 3 : 2, menu_offset );
 
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 ),
+                mvwprintz( w_open, menu_offset + point( offset.x + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
             } else {
                 for( int i = 0; i < static_cast<int>( all_worldnames.size() ); ++i ) {
@@ -1067,7 +1066,7 @@ bool main_menu::load_character_tab( bool transfer )
                         color1 = c_white;
                         color2 = h_white;
                     }
-                    mvwprintz( w_open, point( offset_x + menu_offset.x + extra_w / 2, line + offset_y ),
+                    mvwprintz( w_open, offset + point( extra_w / 2 + menu_offset.x, line ),
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
                                world_name, savegames_count );
                 }
@@ -1078,18 +1077,18 @@ bool main_menu::load_character_tab( bool transfer )
 
             const std::string &wn = all_worldnames[sel2];
 
-            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
+            mvwprintz( w_open, menu_offset + offset + point( extra_w / 2, -2 - sel2 ), h_white,
                        "%s", wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset.y ),
                            c_red, "%s", _( "No save games found!" ) );
             } else {
                 int line = menu_offset.y - 2;
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
+                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
                                "%s", savename.player_name() );
                 }
