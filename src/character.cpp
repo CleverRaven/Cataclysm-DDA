@@ -1691,7 +1691,7 @@ void Character::process_turn()
         }
     }
 
-    for( const trait_id mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations() ) {
         mutation_reflex_trigger( mut );
     }
 
