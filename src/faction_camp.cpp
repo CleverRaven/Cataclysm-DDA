@@ -3881,66 +3881,93 @@ bool basecamp::distribute_food()
     const tripoint &abspos = get_dumping_spot();
     const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
-    tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
-
-    bool has_food = false;
-    for( const tripoint &p_food_stock_abs : z_food ) {
-        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
-        if( !g->m.i_at( p_food_stock ).empty() ) {
-            has_food = true;
-            break;
-        }
-    }
-    if( !has_food ) {
-        popup( _( "No items are located at the drop point…" ) );
-        return false;
-    }
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
     int total = 0;
-    std::vector<item> keep_me;
-    for( const tripoint &p_food_stock_abs : z_food ) {
-        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
-        map_stack initial_items = g->m.i_at( p_food_stock );
-        for( item &i : initial_items ) {
-            std::vector<item *> comest_list{ &i };
-            if( i.is_food_container() ) {
-                std::vector<item *> comest = i.items_with( []( const item & it ) {
-                    return it.is_comestible();
-                } );
-                i.contents.clear_items();
-                //NPCs are lazy bastards who leave empties all around the camp fire
-                tripoint litter_spread = p_litter;
-                litter_spread.x += rng( -3, 3 );
-                litter_spread.y += rng( -3, 3 );
-                i.on_contents_changed();
-                g->m.add_item_or_charges( litter_spread, i, false );
-                comest_list = comest;
+
+    const auto rot_multip = [&]( const item & it, item * const container ) {
+        if( !it.goes_bad() ) {
+            return 1.;
+        }
+        float spoil_mod = 1;
+        if( container ) {
+            if( item_pocket *const pocket = container->contained_where( it ) ) {
+                spoil_mod = pocket->spoil_multiplier();
             }
-            for( item *comest : comest_list ) {
-                if( comest->is_comestible() && ( comest->rotten() || comest->get_comestible_fun() < -6 ) ) {
-                    keep_me.push_back( *comest );
-                } else if( comest->is_food() ) {
-                    double rot_multip;
-                    int rots_in = to_days<int>( time_duration::from_turns( comest->spoilage_sort_order() ) );
-                    if( rots_in >= 5 ) {
-                        rot_multip = 1.00;
-                    } else if( rots_in >= 2 ) {
-                        rot_multip = slow_rot;
-                    } else {
-                        rot_multip = quick_rot;
-                    }
-                    total += comest->get_comestible()->default_nutrition.kcal * rot_multip * i.count();
-                } else {
-                    keep_me.push_back( *comest );
+        }
+        // Container seals and prevents any spoilage.
+        if( spoil_mod == 0 ) {
+            return 1.;
+        }
+        // @TODO: this does not handle fridges or things like root cellar, but maybe it shouldn't.
+        const time_duration rots_in = ( it.get_shelf_life() - it.get_rot() ) / spoil_mod;
+        if( rots_in >= 5_days ) {
+            return 1.;
+        } else if( rots_in >= 2_days ) {
+            return slow_rot;
+        } else {
+            return quick_rot;
+        }
+    };
+    const auto consume_non_recursive = [&]( item & it, item * const container ) {
+        if( !it.is_comestible() ) {
+            return false;
+        }
+        // Stuff like butchery refuse and other disgusting stuff
+        if( it.get_comestible_fun() < -6 ) {
+            return false;
+        }
+        if( it.rotten() ) {
+            return false;
+        }
+        const int kcal = it.get_comestible()->default_nutrition.kcal * it.count() * rot_multip( it,
+                         container );
+        if( kcal <= 0 ) {
+            // can happen if calories is low and rot is high.
+            return false;
+        }
+        total += kcal;
+        return true;
+    };
+
+    // Returns whether the item should be removed from the map.
+    const auto consume = [&]( item & it, item * const container ) {
+        if( it.is_food_container() ) {
+            std::vector<item *> to_remove;
+            it.visit_items( [&]( item * content, item * parent ) {
+                if( consume_non_recursive( *content, parent ) ) {
+                    to_remove.push_back( content );
+                    return VisitResponse::SKIP;
                 }
+                return VisitResponse::NEXT;
+            } );
+            if( to_remove.empty() ) {
+                return false;
+            }
+            for( item *const food : to_remove ) {
+                it.remove_item( *food );
+            }
+            it.on_contents_changed();
+            return false;
+        }
+        return consume_non_recursive( it, container );
+    };
+    for( const tripoint &p_food_stock_abs : z_food ) {
+        // @FIXME: this will not handle zones in vehicle
+        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
+        map_stack items = g->m.i_at( p_food_stock );
+        for( auto iter = items.begin(); iter != items.end(); ) {
+            if( consume( *iter, nullptr ) ) {
+                iter = items.erase( iter );
+            } else {
+                ++iter;
             }
         }
-        g->m.i_clear( p_food_stock );
-        for( item &i : keep_me ) {
-            g->m.add_item_or_charges( p_food_stock, i, false );
-        }
-        keep_me.clear();
+    }
+
+    if( total <= 0 ) {
+        popup( _( "No suitable items are located at the drop points…" ) );
+        return false;
     }
 
     popup( _( "You distribute %d kcal worth of food to your companions." ), total );
