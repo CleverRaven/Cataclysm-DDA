@@ -1433,8 +1433,8 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
                 return entry;
             }
         }
-        return nullptr;
     }
+    return nullptr;
 }
 
 
