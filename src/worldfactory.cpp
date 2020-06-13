@@ -1255,16 +1255,15 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for( int i = 0; i < 5; ++i ) {
-        int x = xs[i];
-        int y = ys[i];
+        point p( xs[i], ys[i] );
         int l = ls[i];
         if( hv[i] ) {
             for( int j = 0; j < l; ++j ) {
-                mvwputch( win, point( x + j, y ), BORDER_COLOR, LINE_OXOX ); // -
+                mvwputch( win, p + point( j, 0 ), BORDER_COLOR, LINE_OXOX ); // -
             }
         } else {
             for( int j = 0; j < l; ++j ) {
-                mvwputch( win, point( x, y + j ), BORDER_COLOR, LINE_XOXO ); // |
+                mvwputch( win, p + point( 0, j ), BORDER_COLOR, LINE_XOXO ); // |
             }
         }
     }

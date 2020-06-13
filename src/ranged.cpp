@@ -2288,19 +2288,19 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     }
 
     // Make player's sprite flip to face the current target
-    int dx = dst.x - src.x;
-    int dy = dst.y - src.y;
+    point d( dst.xy() - src.xy() );
     if( !tile_iso ) {
-        if( dx > 0 ) {
+
+        if( d.x > 0 ) {
             you->facing = FacingDirection::RIGHT;
-        } else if( dx < 0 ) {
+        } else if( d.x < 0 ) {
             you->facing = FacingDirection::LEFT;
         }
     } else {
-        if( dx >= 0 && dy >= 0 ) {
+        if( d.x >= 0 && d.y >= 0 ) {
             you->facing = FacingDirection::RIGHT;
         }
-        if( dy <= 0 && dx <= 0 ) {
+        if( d.y <= 0 && d.x <= 0 ) {
             you->facing = FacingDirection::LEFT;
         }
     }
@@ -2512,17 +2512,15 @@ void target_ui::cycle_targets( int direction )
 
 void target_ui::set_view_offset( const tripoint &new_offset )
 {
-    int new_x = new_offset.x;
-    int new_y = new_offset.y;
-    int new_z = clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range );
-    new_z = clamp( new_z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+    tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
-    bool changed_z = you->view_offset.z != new_z;
-    you->view_offset = tripoint( new_x, new_y, new_z );
+    bool changed_z = you->view_offset.z != new_.z;
+    you->view_offset = new_;
     if( changed_z ) {
         // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
-        g->m.invalidate_map_cache( new_z );
+        g->m.invalidate_map_cache( new_.z );
     }
 }
 

@@ -964,26 +964,25 @@ void vehicle::do_autodrive()
         stop_autodriving();
         return;
     }
-    int x_side = 0;
-    int y_side = 0;
+    point side;
     if( omt_diff.x > 0 ) {
-        x_side = 2 * SEEX - 1;
+        side.x = 2 * SEEX - 1;
     } else if( omt_diff.x < 0 ) {
-        x_side = 0;
+        side.x = 0;
     } else {
-        x_side = SEEX;
+        side.x = SEEX;
     }
     if( omt_diff.y > 0 ) {
-        y_side = 2 * SEEY - 1;
+        side.y = 2 * SEEY - 1;
     } else if( omt_diff.y < 0 ) {
-        y_side = 0;
+        side.y = 0;
     } else {
-        y_side = SEEY;
+        side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
     tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
                                   veh_omt_pos.z );
-    tripoint autodrive_temp_target = ( global_a + tripoint( x_side, y_side,
+    tripoint autodrive_temp_target = ( global_a + tripoint( side,
                                        sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
     autodrive_local_target = g->m.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
@@ -1811,7 +1810,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
     // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
     // we can go ahead and merge
-    const point mount_zero = point_zero;
+    const point mount_zero{};
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
         for( const mapping &carry_map : carry_data ) {
@@ -6577,42 +6576,40 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const int px = modulo( real_global_pos.x, SEEX );
-    const int py = modulo( real_global_pos.y, SEEY );
+    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
     auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
         debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
-        debugmsg( "err %d,%d", px, py );
+    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
+        debugmsg( "err %d,%d", p.x, p.y );
         return false;
     }
 
-    return ( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_CURRENT ) ||
-             sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const int px = modulo( real_global_pos.x, SEEX );
-    const int py = modulo( real_global_pos.y, SEEY );
+    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
     auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
         debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
-        debugmsg( "err %d,%d", px, py );
+    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
+        debugmsg( "err %d,%d", p.x, p.y );
         return false;
     }
 
-    return !( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )

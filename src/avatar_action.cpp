@@ -151,16 +151,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    int new_dx = dest_loc.x - you.posx();
-    int new_dy = dest_loc.y - you.posy();
+    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
     if( !tile_iso ) {
-        if( new_dx > 0 ) {
+        if( new_d.x > 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 you.mounted_creature->facing = FacingDirection::RIGHT;
             }
-        } else if( new_dx < 0 ) {
+        } else if( new_d.x < 0 ) {
             you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 you.mounted_creature->facing = FacingDirection::LEFT;
@@ -197,14 +196,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // y: left-up key       =>  __ -y       FacingDirection::LEFT
         // down key             =>  -x +y       ______
         //
-        if( new_dx >= 0 && new_dy >= 0 ) {
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FacingDirection::RIGHT;
             }
         }
-        if( new_dy <= 0 && new_dx <= 0 ) {
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
             you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();

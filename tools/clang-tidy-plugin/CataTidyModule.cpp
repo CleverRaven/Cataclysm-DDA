@@ -2,6 +2,7 @@
 
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
+#include "CombineLocalsIntoPointCheck.h"
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
@@ -30,6 +31,8 @@ class CataModule : public ClangTidyModule
 {
     public:
         void addCheckFactories( ClangTidyCheckFactories &CheckFactories ) override {
+            CheckFactories.registerCheck<CombineLocalsIntoPointCheck>(
+                "cata-combine-locals-into-point" );
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );

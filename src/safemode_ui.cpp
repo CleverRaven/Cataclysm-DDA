@@ -80,14 +80,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
 
-        const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point offset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                            TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( offset_x, offset_y ) );
+        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset );
         w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + offset_x, 1 + offset_y ) );
+                                       offset + point_south_east );
         w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + offset_x, header_height + 1 + offset_y ) );
+                                offset + point( 1, header_height + 1 ) );
 
         ui.position_from_window( w_border );
     };
@@ -327,11 +327,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 catacurses::window w_help;
                 ui_adaptor help_ui;
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
-                    const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-                    const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+                    const point offset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                        TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
                     w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                                                 point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+                                                 offset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
 
                     help_ui.position_from_window( w_help );
                 };
@@ -511,17 +511,17 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     ui_adaptor ui;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-        const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                                   0 );
+        const point offset( 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                            5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                  0 ) );
 
         content_height = FULL_SCREEN_HEIGHT - 8;
         content_width = FULL_SCREEN_WIDTH - 30;
 
         w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-                             point( offset_x, offset_y ) );
+                             offset );
         w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
-                              point( 1 + offset_x, 1 + offset_y ) );
+                              offset + point_south_east );
 
         ui.position_from_window( w_test_rule_border );
     };

@@ -2430,25 +2430,24 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
     }
     const input_event event = ctxt.get_raw_input();
     if( event.type == input_event_t::mouse ) {
-        const int threshold_x = projected_window_width() / 100;
-        const int threshold_y = projected_window_height() / 100;
-        if( event.mouse_pos.x <= threshold_x ) {
+        const point threshold( projected_window_width() / 100, projected_window_height() / 100 );
+        if( event.mouse_pos.x <= threshold.x ) {
             ret.first.x -= speed;
             if( iso ) {
                 ret.first.y -= speed;
             }
-        } else if( event.mouse_pos.x >= projected_window_width() - threshold_x ) {
+        } else if( event.mouse_pos.x >= projected_window_width() - threshold.x ) {
             ret.first.x += speed;
             if( iso ) {
                 ret.first.y += speed;
             }
         }
-        if( event.mouse_pos.y <= threshold_y ) {
+        if( event.mouse_pos.y <= threshold.y ) {
             ret.first.y -= speed;
             if( iso ) {
                 ret.first.x += speed;
             }
-        } else if( event.mouse_pos.y >= projected_window_height() - threshold_y ) {
+        } else if( event.mouse_pos.y >= projected_window_height() - threshold.y ) {
             ret.first.y += speed;
             if( iso ) {
                 ret.first.x -= speed;
@@ -3297,7 +3296,7 @@ void game::display_faction_epilogues()
 }
 
 struct npc_dist_to_player {
-    const tripoint ppos;
+    const tripoint ppos{};
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
@@ -3504,8 +3503,8 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             }
         }
         if( zone_blink && zone_start && zone_end ) {
-            const int offset_x = ( g->u.posx() + g->u.view_offset.x ) - getmaxx( g->w_terrain ) / 2;
-            const int offset_y = ( g->u.posy() + g->u.view_offset.y ) - getmaxy( g->w_terrain ) / 2;
+            const point offset2( g->u.view_offset.xy() + point( g->u.posx() - getmaxx( g->w_terrain ) / 2,
+                                 g->u.posy() - getmaxy( g->w_terrain ) / 2 ) );
 
             tripoint offset;
 #if defined(TILES)
@@ -3513,7 +3512,7 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
                 offset = tripoint_zero; //TILES
             } else {
 #endif
-                offset = tripoint( offset_x, offset_y, 0 ); //CURSES
+                offset = tripoint( offset2, 0 ); //CURSES
 #if defined(TILES)
             }
 #endif
@@ -3745,17 +3744,15 @@ void game::draw_minimap()
     draw_border( w_minimap );
 
     const tripoint curs = u.global_omt_location();
-    const int cursx = curs.x;
-    const int cursy = curs.y;
+    const point curs2( curs.xy() );
     const tripoint targ = u.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
 
     for( int i = -2; i <= 2; i++ ) {
         for( int j = -2; j <= 2; j++ ) {
-            const int omx = cursx + i;
-            const int omy = cursy + j;
+            const point om( curs2 + point( i, j ) );
             nc_color ter_color;
-            tripoint omp( omx, omy, get_levz() );
+            tripoint omp( om, get_levz() );
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
             const bool vehicle_here = overmap_buffer.has_vehicle( omp );
@@ -3881,11 +3878,11 @@ void game::draw_minimap()
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
-                       ( targ.x - cursx ) : 4;
+        double slope = ( curs2.x != targ.x ) ? static_cast<double>( targ.y - curs2.y ) / static_cast<double>
+                       ( targ.x - curs2.x ) : 4;
 
-        if( cursx == targ.x || std::fabs( slope ) > 3.5 ) { // Vertical slope
-            if( targ.y > cursy ) {
+        if( curs2.x == targ.x || std::fabs( slope ) > 3.5 ) { // Vertical slope
+            if( targ.y > curs2.y ) {
                 mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
             } else {
                 mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
@@ -3894,8 +3891,8 @@ void game::draw_minimap()
             int arrowx = -1;
             int arrowy = -1;
             if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
-                arrowy = ( targ.y > cursy ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                arrowy = ( targ.y > curs2.y ? 6 : 0 );
+                arrowx = static_cast<int>( 3 + 3 * ( targ.y > curs2.y ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -3903,8 +3900,8 @@ void game::draw_minimap()
                     arrowx = 6;
                 }
             } else {
-                arrowx = ( targ.x > cursx ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                arrowx = ( targ.x > curs2.x ? 6 : 0 );
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x > curs2.x ? slope : ( 0 - slope ) ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -3929,8 +3926,8 @@ void game::draw_minimap()
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const int omx = cursx + i;
-            const int omy = cursy + j;
+            const int omx = curs2.x + i;
+            const int omy = curs2.y + j;
             tripoint omp( omx, omy, get_levz() );
             if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
                 const tripoint cur_pos {
@@ -5364,17 +5361,16 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const int &x = p.x;
     const int &y = p.y;
     const std::string &door_name = door_type.obj().name();
-    int kbx = x; // Used when player/monsters are knocked back
-    int kby = y; // and when moving items out of the way
+    point kb( x, y ); // and when moving items out of the way
     const auto valid_location = [&]( const tripoint & p ) {
         return g->is_empty( p );
     };
     if( const cata::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
             valid_location ) ) {
-        kbx = -pos->x + x + x;
-        kby = -pos->y + y + y;
+        kb.x = -pos->x + x + x;
+        kb.y = -pos->y + y + y;
     }
-    const tripoint kbp( kbx, kby, p.z );
+    const tripoint kbp( kb, p.z );
     if( kbp == p ) {
         // can't pushback any creatures anywhere, that means the door can't close.
         return false;
@@ -7275,8 +7271,7 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
             u.view_offset.x = active_item_position.x;
             u.view_offset.y = active_item_position.y;
         } else {
-            int xpos = POSX + active_item_position.x;
-            int ypos = POSY + active_item_position.y;
+            point pos( active_item_position.xy() + point( POSX, POSY ) );
 
             // item/monster list UI is on the right, so get the difference between its width
             // and the width of the sidebar on the right (if any)
@@ -7290,18 +7285,18 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
             to_map_font_dim_width( right_offset );
             int terrain_width = TERRAIN_WINDOW_WIDTH - right_offset;
 
-            if( xpos < 0 ) {
-                u.view_offset.x = xpos;
-            } else if( xpos >= terrain_width ) {
-                u.view_offset.x = xpos - ( terrain_width - 1 );
+            if( pos.x < 0 ) {
+                u.view_offset.x = pos.x;
+            } else if( pos.x >= terrain_width ) {
+                u.view_offset.x = pos.x - ( terrain_width - 1 );
             } else {
                 u.view_offset.x = 0;
             }
 
-            if( ypos < 0 ) {
-                u.view_offset.y = ypos;
-            } else if( ypos >= TERRAIN_WINDOW_HEIGHT ) {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 );
+            if( pos.y < 0 ) {
+                u.view_offset.y = pos.y;
+            } else if( pos.y >= TERRAIN_WINDOW_HEIGHT ) {
+                u.view_offset.y = pos.y - ( TERRAIN_WINDOW_HEIGHT - 1 );
             } else {
                 u.view_offset.y = 0;
             }
@@ -7428,12 +7423,11 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     int usedwidth = letters;
     const int gap_spaces = ( width - usedwidth ) / gaps;
     usedwidth += gap_spaces * gaps;
-    int xpos = gap_spaces + ( width - usedwidth ) / 2;
-    const int ypos = TERMY - height - 1;
+    point pos( gap_spaces + ( width - usedwidth ) / 2, TERMY - height - 1 );
 
     for( int i = 0; i < n; i++ ) {
-        xpos += shortcut_print( window, point( xpos, ypos ), c_white, c_light_green,
-                                tokens[i] ) + gap_spaces;
+        pos.x += shortcut_print( window, pos, c_white, c_light_green,
+                                 tokens[i] ) + gap_spaces;
     }
 }
 
@@ -9961,8 +9955,7 @@ bool game::phasing_move( const tripoint &dest_loc )
     tripoint dest = dest_loc;
     // tile is impassable
     int tunneldist = 0;
-    const int dx = sgn( dest.x - u.posx() );
-    const int dy = sgn( dest.y - u.posy() );
+    const point d( sgn( dest.x - u.posx() ), sgn( dest.y - u.posy() ) );
     while( m.impassable( dest ) ||
            ( critter_at( dest ) != nullptr && tunneldist > 0 ) ) {
         //add 1 to tunnel distance for each impassable tile in the line
@@ -9986,8 +9979,8 @@ bool game::phasing_move( const tripoint &dest_loc )
             return false;
         }
 
-        dest.x += dx;
-        dest.y += dy;
+        dest.x += d.x;
+        dest.y += d.y;
     }
 
     if( tunneldist != 0 ) {
@@ -10856,7 +10849,7 @@ void game::start_hauling( const tripoint &pos )
     // Whether the destination is inside a vehicle (not supported)
     const bool to_vehicle = false;
     // Destination relative to the player
-    const tripoint relative_destination = tripoint_zero;
+    const tripoint relative_destination{};
 
     u.assign_activity( player_activity( move_items_activity_actor(
                                             target_items,
@@ -11079,9 +11072,8 @@ void game::vertical_notes( int z_before, int z_after )
 
 point game::update_map( player &p )
 {
-    int x = p.posx();
-    int y = p.posy();
-    return update_map( x, y );
+    point p2( p.posx(), p.posy() );
+    return update_map( p2.x, p2.y );
 }
 
 point game::update_map( int &x, int &y )
@@ -11280,11 +11272,10 @@ void game::update_stair_monsters()
 
     // Attempt to spawn zombies.
     for( size_t i = 0; i < coming_to_stairs.size(); i++ ) {
-        int mposx = stairx[si];
-        int mposy = stairy[si];
+        point mpos( stairx[si], stairy[si] );
         monster &critter = coming_to_stairs[i];
         const tripoint dest {
-            mposx, mposy, g->get_levz()
+            mpos, g->get_levz()
         };
 
         // We might be not be visible.
@@ -11343,8 +11334,7 @@ void game::update_stair_monsters()
             continue;
         } else if( u.pos() == dest ) {
             // Monster attempts to push player of stairs
-            int pushx = -1;
-            int pushy = -1;
+            point push( point_north_west );
             int tries = 0;
 
             // the critter is now right on top of you and will attack unless
@@ -11355,12 +11345,11 @@ void game::update_stair_monsters()
             critter.spawn( dest );
             while( tries < creature_push_attempts ) {
                 tries++;
-                pushx = rng( -1, 1 );
-                pushy = rng( -1, 1 );
-                int iposx = mposx + pushx;
-                int iposy = mposy + pushy;
-                tripoint pos( iposx, iposy, get_levz() );
-                if( ( pushx != 0 || pushy != 0 ) && !critter_at( pos ) &&
+                push.x = rng( -1, 1 );
+                push.y = rng( -1, 1 );
+                point ipos( mpos + push );
+                tripoint pos( ipos, get_levz() );
+                if( ( push.x != 0 || push.y != 0 ) && !critter_at( pos ) &&
                     critter.can_move_to( pos ) ) {
                     bool resiststhrow = ( u.is_throw_immune() ) ||
                                         ( u.has_trait( trait_LEG_TENT_BRACE ) );
@@ -11389,8 +11378,8 @@ void game::update_stair_monsters()
                         msg = _( "The %s pushed you back!" );
                     }
                     add_msg( m_warning, msg.c_str(), critter.name() );
-                    u.setx( u.posx() + pushx );
-                    u.sety( u.posy() + pushy );
+                    u.setx( u.posx() + push.x );
+                    u.sety( u.posy() + push.y );
                     return;
                 }
             }
@@ -11411,20 +11400,18 @@ void game::update_stair_monsters()
             const int creature_throw_resist = 4;
 
             int tries = 0;
-            int pushx = 0;
-            int pushy = 0;
+            point push2;
             while( tries < creature_push_attempts ) {
                 tries++;
-                pushx = rng( -1, 1 );
-                pushy = rng( -1, 1 );
-                int iposx = mposx + pushx;
-                int iposy = mposy + pushy;
-                tripoint pos( iposx, iposy, get_levz() );
-                if( ( pushx == 0 && pushy == 0 ) || ( ( iposx == u.posx() ) && ( iposy == u.posy() ) ) ) {
+                push2.x = rng( -1, 1 );
+                push2.y = rng( -1, 1 );
+                point ipos2( mpos + push2 );
+                tripoint pos( ipos2, get_levz() );
+                if( ( push2.x == 0 && push2.y == 0 ) || ( ( ipos2.x == u.posx() ) && ( ipos2.y == u.posy() ) ) ) {
                     continue;
                 }
                 if( !critter_at( pos ) && other.can_move_to( pos ) ) {
-                    other.setpos( tripoint( iposx, iposy, get_levz() ) );
+                    other.setpos( tripoint( ipos2, get_levz() ) );
                     other.moves -= 50;
                     std::string msg;
                     if( one_in( creature_throw_resist ) ) {

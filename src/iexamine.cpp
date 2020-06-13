@@ -687,8 +687,8 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-        const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+        const point padding( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4, std::max( 0,
+                             TERMY - FULL_SCREEN_HEIGHT ) / 6 );
         const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
         const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
         w_items_w  = window_w / 2;
@@ -699,11 +699,11 @@ void iexamine::vending( player &p, const tripoint &examp )
         lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
 
         w = catacurses::newwin( window_h, w_items_w,
-                                point( padding_x, padding_y ) );
+                                padding );
         w_item_info = catacurses::newwin( window_h, w_info_w,
-                                          point( padding_x + w_items_w, padding_y ) );
+                                          padding + point( w_items_w, 0 ) );
 
-        ui.position( point( padding_x, padding_y ), point( window_w, window_h ) );
+        ui.position( padding, point( window_w, window_h ) );
     } );
     ui.mark_resize();
 

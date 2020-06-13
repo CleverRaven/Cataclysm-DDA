@@ -1635,8 +1635,8 @@ bool mattack::triffid_heartbeat( monster *z )
         int tries = 0;
         while( g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() &&
                tries < 20 ) {
-            int x = rng( g->u.posx(), z->posx() - 3 ), y = rng( g->u.posy(), z->posy() - 3 );
-            tripoint dest( x, y, z->posz() );
+            point p( rng( g->u.posx(), z->posx() - 3 ), rng( g->u.posy(), z->posy() - 3 ) );
+            tripoint dest( p, z->posz() );
             tries++;
             g->m.ter_set( dest, t_dirt );
             if( rl_dist( dest, g->u.pos() ) > 3 && g->num_creatures() < 30 &&

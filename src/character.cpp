@@ -10561,8 +10561,7 @@ void Character::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
-    int finX = rng( 1, SEEX * 2 - 2 );
-    int finY = rng( 1, SEEX * 2 - 2 );
+    point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
@@ -10570,11 +10569,11 @@ void Character::place_corpse( const tripoint &om_target )
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // Q: Why use furn_str_id instead of f_null?
     // TODO: fix it, see above.
-    if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
+    if( bay.furn( fin ) != furn_str_id( "f_null" ) ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
-                finX = p.x;
-                finY = p.y;
+                fin.x = p.x;
+                fin.y = p.y;
             }
         }
     }
@@ -10582,7 +10581,7 @@ void Character::place_corpse( const tripoint &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
-        bay.add_item_or_charges( point( finX, finY ), *itm );
+        bay.add_item_or_charges( fin, *itm );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -10598,7 +10597,7 @@ void Character::place_corpse( const tripoint &om_target )
     for( int i = 0; i < storage_modules.second; ++i ) {
         body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
     }
-    bay.add_item_or_charges( point( finX, finY ), body );
+    bay.add_item_or_charges( fin, body );
 }
 
 bool Character::sees_with_infrared( const Creature &critter ) const

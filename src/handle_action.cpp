@@ -203,43 +203,42 @@ input_context game::get_player_input( std::string &action )
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
         const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
-        int iStartX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0;
-        int iStartY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
-                      0;
-        int iEndX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+        point iStart( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0,
+                      ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                      0 );
+        point iEnd( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
                     ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
                     2 :
-                    TERRAIN_WINDOW_WIDTH;
-        int iEndY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                    TERRAIN_WINDOW_WIDTH, ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
                     ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
-                    2 : TERRAIN_WINDOW_HEIGHT;
+                    2 : TERRAIN_WINDOW_HEIGHT );
 
         if( fullscreen ) {
-            iStartX = 0;
-            iStartY = 0;
-            iEndX = TERMX;
-            iEndY = TERMY;
+            iStart.x = 0;
+            iStart.y = 0;
+            iEnd.x = TERMX;
+            iEnd.y = TERMY;
         }
 
         //x% of the Viewport, only shown on visible areas
         const auto weather_info = get_weather_animation( weather.weather );
-        int offset_x = u.posx() + u.view_offset.x - getmaxx( w_terrain ) / 2;
-        int offset_y = u.posy() + u.view_offset.y - getmaxy( w_terrain ) / 2;
+        point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
+                      -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
         if( tile_iso && use_tiles ) {
-            iStartX = 0;
-            iStartY = 0;
-            iEndX = MAPSIZE_X;
-            iEndY = MAPSIZE_Y;
-            offset_x = 0;
-            offset_y = 0;
+            iStart.x = 0;
+            iStart.y = 0;
+            iEnd.x = MAPSIZE_X;
+            iEnd.y = MAPSIZE_Y;
+            offset.x = 0;
+            offset.y = 0;
         }
 #endif //TILES
 
         // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
-        const int dropCount = static_cast<int>( iEndX * iEndY * weather_info.factor );
+        const int dropCount = static_cast<int>( iEnd.x * iEnd.y * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -273,19 +272,17 @@ input_context game::get_player_input( std::string &action )
                 wPrint.vdrops.clear();
 
                 for( int i = 0; i < dropCount; i++ ) {
-                    const int iRandX = rng( iStartX, iEndX - 1 );
-                    const int iRandY = rng( iStartY, iEndY - 1 );
-                    const int mapx = iRandX + offset_x;
-                    const int mapy = iRandY + offset_y;
+                    const point iRand( rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) );
+                    const point map( iRand + offset );
 
-                    const tripoint mapp( mapx, mapy, u.posz() );
+                    const tripoint mapp( map, u.posz() );
 
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
 
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
                         !critter_at( mapp, true ) ) {
                         // Suppress if a critter is there
-                        wPrint.vdrops.emplace_back( std::make_pair( iRandX, iRandY ) );
+                        wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
                     }
                 }
             }
@@ -358,12 +355,10 @@ inline static void rcdrive( const point &d )
         u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
         return;
     }
-    int cx = 0;
-    int cy = 0;
-    int cz = 0;
-    car_location_string >> cx >> cy >> cz;
+    tripoint c;
+    car_location_string >> c.x >> c.y >> c.z;
 
-    auto rc_pairs = m.get_rc_items( tripoint( cx, cy, cz ) );
+    auto rc_pairs = m.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
         if( rc_pair->second->typeId() == itype_radio_car_on && rc_pair->second->active ) {
@@ -377,14 +372,14 @@ inline static void rcdrive( const point &d )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( cx + d.x, cy + d.y, cz );
+    tripoint dest( c + d );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
-        tripoint src( cx, cy, cz );
+        tripoint src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;

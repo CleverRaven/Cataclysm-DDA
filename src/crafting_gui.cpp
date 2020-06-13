@@ -218,11 +218,10 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( isWide ) {
             item_info_width = width - FULL_SCREEN_WIDTH - 2;
             const int item_info_height = dataHeight - 3;
-            const int item_info_x = wStart + width - item_info_width;
-            const int item_info_y = headHeight + subHeadHeight;
+            const point item_info( wStart + width - item_info_width, headHeight + subHeadHeight );
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
-                                             point( item_info_x, item_info_y ) );
+                                             item_info );
         } else {
             item_info_width = 0;
             w_iteminfo = {};
