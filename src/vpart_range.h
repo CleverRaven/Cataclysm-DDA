@@ -146,7 +146,7 @@ class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
     public:
         vehicle_part_range( ::vehicle &v ) : generic_vehicle_part_range( v ) { }
 
-        bool matches( const size_t part ) const;
+        bool matches( size_t part ) const;
 };
 
 class vehicle_part_incl_fake_range : public generic_vehicle_part_range<vehicle_part_incl_fake_range>
