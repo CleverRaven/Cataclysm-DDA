@@ -1,0 +1,357 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_SWAMPER",
+    "name": { "str": "Swamper" },
+    "job_description": "The great eaters have returned and they must be fed",
+    "traits": [ { "trait": "SPIRITUAL" }, { "trait": "PRETTY" }, { "trait": "PSYCHOPATH" } ],
+    "common": false,
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "SWAMPER_Bo_Baronyx",
+    "//": "A charismatic religious leader and CEO.",
+    "name_unique": "Bo Baronyx",
+    "gender": "male",
+    "name_suffix": "CEO",
+    "class": "NC_SWAMPER",
+    "attitude": 7,
+    "mission": 3,
+    "chat": "TALK_SWAMPER",
+    "faction": "swamper",
+    "mission_offered": "MISSION_SWAMPER_GATHER_MEAT"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER",
+    "dynamic_line": {
+      "u_has_var": "talked_to_swamper",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "no": "You look hungry friend.  So much hunger in this world. This is the time of the eaters.",
+      "yes": {
+        "u_has_var": "asked_about_eating",
+        "type": "dialogue",
+        "context": "eating",
+        "value": "yes",
+        "no": "Welcome.  Are you hungry friend?",
+        "yes": "The eaters will be fed."
+      }
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_to_swamper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Hello.  Who are the eaters?",
+        "topic": "TALK_SWAMPER_EATING",
+        "condition": { "not": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" } },
+        "effect": { "u_add_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
+      },
+      {
+        "text": "So about the eaters…",
+        "topic": "TALK_SWAMPER_EATING",
+        "condition": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
+      },
+      {
+        "text": "You mentioned some pretenders before.  What does that mean?",
+        "topic": "TALK_SWAMPER_PRETENDER",
+        "condition": { "u_has_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" }
+      },
+      {
+        "text": "Would you like to join me on my travels?",
+        "topic": "TALK_SUGGEST_FOLLOW_SWAMPER",
+        "condition": { "not": "npc_following" }
+      },
+      { "text": "Let's trade items.", "topic": "TALK_SWAMPER", "effect": "start_trade" },
+      {
+        "text": "Is there a way I can help feed the eaters?",
+        "topic": "TALK_MISSION_LIST_SWAMPER",
+        "condition": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
+      },
+      { "text": "I have to get going.  Take care, CEO Baronyx.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_EATING",
+    "dynamic_line": "The great eaters have returned, along with the false ones.  We must feed the eaters and destroy the pretenders child.",
+    "responses": [
+      { "text": "Who are you talking about?", "topic": "TALK_SWAMPER_EATING2" },
+      { "text": "No thank you, I'd like to leave now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_EATING2",
+    "dynamic_line": "This Cataclysm has woken the great eaters, lost in time, returned them to the world to do their great work, to multiply and fill the land with their song.  The time of man is over, but we few who remain can do our part to protect this new world from the pretenders, who would steal the meat.",
+    "responses": [
+      { "text": "So what do you do with the meat?", "topic": "TALK_SWAMPER_MEAT" },
+      { "text": "Who are the great eaters and the pretenders?", "topic": "TALK_SWAMPER_EATING3" },
+      { "text": "Are there any others left?", "topic": "TALK_SWAMPER_OTHERS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_EATING3",
+    "dynamic_line": "The great eaters are the ones that were lost, what we call dinosaurs whose meat we took and who are taking it back.  The pretenders are those others that have come to steal the meat of this world.  It does not belong to them and we will take it from their mouths.",
+    "responses": [ { "text": "Okay, so you worship dinosaurs.  Understood.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_OTHERS",
+    "dynamic_line": "The Swampers knew these times would return and we prepared for them.  When others wasted their time and meat, we fed and grew strong, and we filled our stores with meat for this day.",
+    "responses": [
+      { "text": "Yes, very good.", "topic": "TALK_NONE" },
+      { "text": "You keep talking about meat.  Why is meat so important?", "topic": "TALK_SWAMPER_MEAT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_MEAT",
+    "dynamic_line": "The meat makes the great eaters strong.  We gather the meat and feed them, and in the end we too will serve the eaters in death as we do in life.  This was always our purpose and we lucky few have lived to see it.",
+    "responses": [ { "text": "Our purpose?  How do you know?", "topic": "TALK_SWAMPER_END" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_END",
+    "dynamic_line": "The return of the great eaters was fortold by a prophet.  We faithful have been waiting and preparing since the revelation.",
+    "responses": [
+      { "text": "I guess it must be nice to be proven right.", "topic": "TALK_SWAMPER_JOIN" },
+      { "text": "This is crazy.", "topic": "TALK_SWAMPER_INSULT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_JOIN",
+    "dynamic_line": "You understand our purpose.  I welcome you to this work, all are needed to feed the eaters.",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_SWAMPER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_INSULT",
+    "dynamic_line": "You deny what you see right in front of you.  This world is what was fortold.",
+    "responses": [ { "text": "Yeah, alright.", "topic": "TALK_SWAMPER" } ]
+  },
+  {
+    "id": "MISSION_SWAMPER_GATHER_MEAT",
+    "type": "mission_definition",
+    "name": { "str": "Gather meat for Bo Baronyx.  About 8 should do it." },
+    "difficulty": 1,
+    "value": 10000,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "meat",
+    "count": 8,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" } ] },
+    "dialogue": {
+      "describe": "The eaters are hungry.  They need meat",
+      "offer": "If you wish to feed the eaters, your work will be rewarded.  Go out, butcher a pure animal.  Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
+      "accepted": "Excellent.  The eaters must feed.",
+      "rejected": "Understood.  The great eaters will feed either way.",
+      "advice": "Some of the animals have become touched by the pretenders in recent days, larger and more dangerous, producing tainted mutant meat.  This will not work for the great eaters, it must be the true meat.",
+      "inquire": "Have you brought meat?",
+      "success": "The eaters will feed.",
+      "success_lie": "The eaters will feed I am sure.",
+      "failure": "I see no meat.  There is meat in the forests and swamps waiting for the eaters."
+    }
+  },
+  {
+    "id": "TALK_MISSION_LIST_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "has_no_available_mission": {
+        "has_no_assigned_mission": "The eaters have fed.  They will be hungry again in time",
+        "no": { "has_many_assigned_missions": "You know what to do.", "no": "That is all for now." }
+      },
+      "no": {
+        "has_many_available_missions": {
+          "has_no_assigned_mission": "The great eaters must be fed.  Are you ready?",
+          "no": {
+            "has_many_assigned_missions": "There is still more work to do.  Are you ready?",
+            "no": "There is meat ready for the feeding.  Are you ready to gather it?"
+          }
+        },
+        "no": {
+          "has_no_assigned_mission": "The eaters are hungry.",
+          "no": { "has_many_assigned_missions": "There is more meat needed.", "no": "I know of eaters ready for meat." }
+        }
+      }
+    },
+    "responses": [
+      { "text": "I see.", "topic": "TALK_NONE", "condition": "has_no_available_mission" },
+      {
+        "text": "I'm listening.",
+        "topic": "TALK_MISSION_OFFER_SWAMPER",
+        "condition": { "not": "has_no_available_mission" }
+      },
+      {
+        "text": "Maybe another time CEO Baronyx.",
+        "topic": "TALK_NONE",
+        "condition": { "not": "has_no_available_mission" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_OFFER_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": "If you are ready to be of service to the great eaters, go and find meat and bring it back.  There is always need for more.",
+    "responses": [
+      {
+        "text": "Happy to be of service to the great eaters.  I'm in.",
+        "topic": "TALK_MISSION_ACCEPTED_SWAMPER",
+        "effect": "assign_mission"
+      },
+      { "text": "Not interested.", "topic": "TALK_MISSION_REJECTED_SWAMPER" }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_ACCEPTED_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent. Make it happen.",
+    "responses": [
+      { "text": "Consider it done.  But I also wanted to ask…", "topic": "TALK_SWAMPER" },
+      { "text": "Where should I start?", "topic": "TALK_MISSION_ADVICE_SWAMPER" },
+      { "text": "Can you share some equipment to aid me in this?", "topic": "TALK_SHARE_EQUIPMENT_SWAMPER" },
+      { "text": "I'm off then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_ADVICE_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": "The great eaters are not picky, any pure meat will do, but mutant and tainted meat are not good enough.",
+    "responses": [ { "text": "So, meat from a creature that isn't a zombie, or a giant monster.  Got it.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SHARE_EQUIPMENT_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": "Of course, you should find everything you need here.",
+    "responses": [ { "text": "That explains the knives then.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SUGGEST_FOLLOW_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "seer_mark",
+      "no": "No, I must remain here to oversee the company.",
+      "yes": "Oh, you know my friend Brigitte.  Well in that case, let's go!"
+    },
+    "responses": [
+      { "text": "Of course CEO Baronyx.", "topic": "TALK_NONE", "condition": { "not": { "u_has_trait": "seer_mark" } } },
+      { "text": "Sweet!", "effect": "follow", "condition": { "u_has_trait": "seer_mark" }, "topic": "TALK_DONE" },
+      {
+        "text": "Not just now.  You should remain here to oversee the company.",
+        "condition": { "u_has_trait": "seer_mark" },
+        "topic": "TALK_NONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_REJECTED_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": "Of course, the company will be ready when you are and the great eaters will feed either way.",
+    "responses": [
+      { "text": "Maybe some other time.  Changing the topic…", "topic": "TALK_NONE" },
+      { "text": "Alright, but I have to go now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SWAMPER_PRETENDER",
+    "dynamic_line": "It was fortold that as the great eaters returned, so too would the pretenders, who would come to steal the meat.  Very little is asked of us, except that we do all we can to ensure that the true great eaters received as much meat as possible and the pretenders go hungry.",
+    "responses": [
+      { "text": "Yes CEO Baronyx, very good CEO Baronyx.", "topic": "TALK_NONE" },
+      { "text": "This makes no sense and I'm done talking about it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "faction",
+    "id": "swamper",
+    "name": "Swampers Religious Community and Hotels and Casinos",
+    "likes_u": 30,
+    "respects_u": 20,
+    "known_by_u": false,
+    "size": 25,
+    "power": 20,
+    "currency": "icon",
+    "food_supply": 87500,
+    "wealth": 82500,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "isherwood_family": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A prosperous but secretive group of churchgoers and entertainment moguls with an affection for dinosaurs.  They welcome all untainted humans."
+  }
+]
