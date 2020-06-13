@@ -38,11 +38,7 @@
   {
     "id": "bionics_common",
     "type": "item_group",
-    "items": [
-      [ "bn_bio_solar", 10 ],
-      [ "afs_bio_wind_turbine", 5 ],
-      [ "afs_bio_linguistic_coprocessor", 8 ]
-    ]
+    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_wind_turbine", 5 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
   },
   {
     "id": "bionics_mil",
@@ -52,10 +48,7 @@
   {
     "id": "bionics_sci",
     "type": "item_group",
-    "items": [
-      [ "bn_bio_solar", 5 ],
-      [ "afs_bio_wind_turbine", 2 ]
-    ]
+    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_wind_turbine", 2 ] ]
   },
   {
     "id": "bionics_op",

@@ -100,7 +100,17 @@
     "skills": [ { "level": 4, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "coat_lab", "gloves_medical", "mask_dust", "longshirt", "afs_complete_bionic_toolkit", "socks", "boots", "backpack", "jeans" ],
+        "items": [
+          "coat_lab",
+          "gloves_medical",
+          "mask_dust",
+          "longshirt",
+          "afs_complete_bionic_toolkit",
+          "socks",
+          "boots",
+          "backpack",
+          "jeans"
+        ],
         "entries": [ { "item": "cash_card", "charges": 50000 } ]
       },
       "male": [ "briefs" ],
