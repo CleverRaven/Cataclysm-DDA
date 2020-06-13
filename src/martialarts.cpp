@@ -1100,9 +1100,9 @@ int Character::mabuff_block_bonus() const
 int Character::mabuff_block_effectiveness_bonus( ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.block_effectiveness_bonus( *this );
-        } );
+    } );
     return ret;
 }
 int Character::mabuff_speed_bonus() const

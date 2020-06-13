@@ -1429,11 +1429,11 @@ bool overmap::inbounds( const tripoint &p, int clearance )
     static constexpr tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
     static constexpr tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT + 1 );
 
-    static constexpr box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
-    box stricter_boundaries = overmap_boundaries;
+    static constexpr half_open_box overmap_boundaries( overmap_boundary_min, overmap_boundary_max );
+    half_open_box stricter_boundaries = overmap_boundaries;
     stricter_boundaries.shrink( tripoint( clearance, clearance, 0 ) );
 
-    return stricter_boundaries.contains_half_open( p );
+    return stricter_boundaries.contains( p );
 }
 
 const scent_trace &overmap::scent_at( const tripoint &loc ) const
@@ -1456,7 +1456,7 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    if( g->gametype() == SGAME_DEFENSE ) {
+    if( g->gametype() == special_game_type::DEFENSE ) {
         dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
         return;
     }

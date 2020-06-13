@@ -1499,8 +1499,36 @@ it is present to help catch errors.
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
                "moves": 100 // how many moves this costs. (default: 0)
-}
+},
+"triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
+  [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
+    {
+      "trigger_type": "MOOD", // What variable is tracked by this trigger
+      "threshold_high": -50, // Is True if the value is below threshold_high
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
+    }
+  ],
+  [
+    {
+      "trigger_type": "TIME", // What variable is tracked by this trigger
+      "threshold_low": 20, // Is True if the value is above threshold_low
+      "threshold_high": 2, // Is True if the value is below threshold_high
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates 
+      "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
+    }
+  ]
+]
 ```
+	**Triggers:**
+		| trigger_type  | Description
+		|---            |---
+		| MOOD          | Trigger depends of the mood value.
+		| MOON          | Trigger depends of the pahse of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
+		| HUNGER        | Trigger depends of the hunger value. Very Hungry ~= 110
+		| THIRST        | Trigger depends of the thirst value.
+		| PAIN          | Trigger depends of the pain value.
+		| STAMINA       | Trigger depends of the stamina value.
+		| TIME          | Trigger depends of the time of the day. [ 1am = 1, Midnight = 24 ]
 
 ### Vehicle Groups
 

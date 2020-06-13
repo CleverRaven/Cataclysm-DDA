@@ -36,7 +36,7 @@
     "price": 0,
     "price_postapoc": 25,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [

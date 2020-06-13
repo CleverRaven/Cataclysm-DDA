@@ -2292,16 +2292,16 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     int dy = dst.y - src.y;
     if( !tile_iso ) {
         if( dx > 0 ) {
-            you->facing = FD_RIGHT;
+            you->facing = FacingDirection::RIGHT;
         } else if( dx < 0 ) {
-            you->facing = FD_LEFT;
+            you->facing = FacingDirection::LEFT;
         }
     } else {
         if( dx >= 0 && dy >= 0 ) {
-            you->facing = FD_RIGHT;
+            you->facing = FacingDirection::RIGHT;
         }
         if( dy <= 0 && dx <= 0 ) {
-            you->facing = FD_LEFT;
+            you->facing = FacingDirection::LEFT;
         }
     }
 

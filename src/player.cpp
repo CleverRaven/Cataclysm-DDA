@@ -854,6 +854,7 @@ void player::pause()
     }
 
     search_surroundings();
+    wait_effects();
 }
 
 void player::search_surroundings()

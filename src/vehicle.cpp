@@ -508,7 +508,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         if( pt.is_reactor() ) {
-            const ammotype plut( "plut_cell" );
+            const ammotype plut( "plutonium" );
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_plut_cell );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
@@ -4364,8 +4364,8 @@ bool vehicle::balanced_wheel_config() const
 
     // Check center of mass inside support of wheels (roughly)
     const point &com = local_center_of_mass();
-    const rectangle support( min, max );
-    return support.contains_inclusive( com );
+    const inclusive_rectangle support( min, max );
+    return support.contains( com );
 }
 
 bool vehicle::valid_wheel_config() const

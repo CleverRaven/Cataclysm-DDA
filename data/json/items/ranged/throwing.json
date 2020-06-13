@@ -130,7 +130,7 @@
     "price": 200,
     "price_postapoc": 50,
     "bashing": 5,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "ammo_type": "thrown",

@@ -75,7 +75,7 @@
     "price": 0,
     "to_hit": 1,
     "bashing": 8,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],

@@ -33,7 +33,7 @@
     "name": { "str": "slingshot" },
     "description": "A forked piece of wood with an elastic band stretched between two of its tips.  Can launch tiny pebbles and similar things at high speeds.",
     "price": 500,
-    "material": "wood",
+    "material": [ "wood" ],
     "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ],
     "skill": "archery",
     "ammo": [ "pebble" ],

@@ -196,7 +196,7 @@
     "to_hit": -3,
     "bashing": 7,
     "cutting": 11,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],

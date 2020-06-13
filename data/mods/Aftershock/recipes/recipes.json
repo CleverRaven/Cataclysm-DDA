@@ -505,6 +505,21 @@
     "components": [ [ [ "afs_titanium_small", 400 ] ] ]
   },
   {
+    "result": "afs_material_1",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "afs_titanium_small", 400 ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "control_laptop",
     "category": "CC_ELECTRONIC",
