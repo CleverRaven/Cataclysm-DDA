@@ -660,7 +660,7 @@ void editmap::draw_main_ui_overlay()
                             const tripoint spawn_p = sm_origin + sp.pos;
                             const auto spawn_it = spawns.find( spawn_p );
                             if( spawn_it == spawns.end() ) {
-                                const Creature::Attitude att = sp.friendly ? Creature::A_FRIENDLY : Creature::A_ANY;
+                                const Creature::Attitude att = sp.friendly ? Creature::Attitude::FRIENDLY : Creature::Attitude::ANY;
                                 spawns.emplace( spawn_p, std::make_tuple( sp.type, sp.count, false, att ) );
                             } else {
                                 std::get<2>( spawn_it->second ) = true;

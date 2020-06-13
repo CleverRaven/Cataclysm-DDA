@@ -1442,7 +1442,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
                                  get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
-                                         get_visibility_variables_cache() ) == VIS_CLEAR ||
+                                         get_visibility_variables_cache() ) == visibility_type::CLEAR ||
                                  // or if an actual center tile is transparent or next to a memorized tile
                                  ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
         if( may_connect ) {
@@ -5510,16 +5510,16 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
         case lit_level::DARK:
             // can't see this square at all
             if( cache.u_is_boomered ) {
-                return VIS_BOOMER_DARK;
+                return visibility_type::BOOMER_DARK;
             } else {
-                return VIS_DARK;
+                return visibility_type::DARK;
             }
         case lit_level::BRIGHT_ONLY:
             // can only tell that this square is bright
             if( cache.u_is_boomered ) {
-                return VIS_BOOMER;
+                return visibility_type::BOOMER;
             } else {
-                return VIS_LIT;
+                return visibility_type::LIT;
             }
 
         case lit_level::LOW:
@@ -5528,12 +5528,12 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
         // normal light
         case lit_level::BRIGHT:
             // bright light
-            return VIS_CLEAR;
+            return visibility_type::CLEAR;
         case lit_level::BLANK:
         case lit_level::MEMORIZED:
-            return VIS_HIDDEN;
+            return visibility_type::HIDDEN;
     }
-    return VIS_HIDDEN;
+    return visibility_type::HIDDEN;
 }
 
 bool map::apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const
@@ -5542,25 +5542,25 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
     nc_color color = c_black;
 
     switch( vis ) {
-        case VIS_CLEAR:
+        case visibility_type::CLEAR:
             // Drew the tile, so bail out now.
             return false;
-        case VIS_LIT:
+        case visibility_type::LIT:
             // can only tell that this square is bright
             symbol = '#';
             color = c_light_gray;
             break;
-        case VIS_BOOMER:
+        case visibility_type::BOOMER:
             symbol = '#';
             color = c_pink;
             break;
-        case VIS_BOOMER_DARK:
+        case visibility_type::BOOMER_DARK:
             symbol = '#';
             color = c_magenta;
             break;
-        case VIS_DARK:
+        case visibility_type::DARK:
         // can't see this square at all
-        case VIS_HIDDEN:
+        case visibility_type::HIDDEN:
             break;
     }
     wputch( w, color, symbol );
@@ -5653,7 +5653,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
                                          lighting == lit_level::LOW, lighting == lit_level::BRIGHT, false );
                         p.z++;
                     }
-                } else if( do_map_memory && ( vis == VIS_HIDDEN || vis == VIS_DARK ) ) {
+                } else if( do_map_memory && ( vis == visibility_type::HIDDEN || vis == visibility_type::DARK ) ) {
                     draw_maptile_from_memory( w, p, center );
                 }
 

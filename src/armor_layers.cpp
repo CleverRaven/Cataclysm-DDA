@@ -721,7 +721,7 @@ void player::sort_armor()
                 add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
                 return;
             }
-            if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
+            if( attitude_to( g->u ) != Creature::Attitude::FRIENDLY ) {
                 add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
                 return;
             }
