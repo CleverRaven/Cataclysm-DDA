@@ -111,7 +111,7 @@ class item_contents
         units::volume total_contained_volume() const;
 
         // gets all pockets contained in this item
-        ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket>> get_all_contained_pockets() const;
 
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
