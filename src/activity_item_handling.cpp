@@ -2914,7 +2914,7 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
 
 int get_auto_consume_moves( player &p, const bool food )
 {
-    if( p.is_npc() && p.has_effect( effect_nausea ) ) {
+    if( p.is_npc() ) {
         return 0;
     }
 
@@ -2971,7 +2971,7 @@ int get_auto_consume_moves( player &p, const bool food )
             int consume_moves = -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
                                 g->m.getlocal( loc ) ), 1 );
             consume_moves += to_moves<int>( p.get_consume_time( it ) );
-            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
+            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &comest );
 
             p.consume( item_loc );
 
