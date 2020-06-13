@@ -10774,6 +10774,18 @@ int Character::get_hp() const
     return get_hp( num_hp_parts );
 }
 
+int Character::get_lowest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int lowest_hp = 999;
+    for( int cur_hp : this->hp_cur ) {
+        if( cur_hp < lowest_hp ) {
+            lowest_hp = cur_hp;
+        }
+    }
+    return lowest_hp;
+}
+
 int Character::get_hp( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
