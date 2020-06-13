@@ -292,16 +292,12 @@
         [ "reloaded_shot_fletchette", -1 ],
         [ "reloaded_shot_slug", -1 ],
         [ "reloaded_shot_scrap", -1 ],
-        [ "reloaded_shot_he", -1 ],
-        [ "reloaded_shot_beanbag", -1 ],
         [ "bp_shot_00", -1 ],
         [ "bp_shot_bird", -1 ],
         [ "bp_shot_dragon", -1 ],
         [ "bp_shot_fletchette", -1 ],
         [ "bp_shot_slug", -1 ],
         [ "bp_shot_scrap", -1 ],
-        [ "bp_shot_he", -1 ],
-        [ "bp_shot_beanbag", -1 ],
         [ "shot_hull", -1 ]
       ]
     ],
