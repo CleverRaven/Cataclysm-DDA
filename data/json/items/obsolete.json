@@ -1262,7 +1262,7 @@
     "price": 0,
     "to_hit": -1,
     "bashing": 4,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "dark_gray",
     "pocket_data": [

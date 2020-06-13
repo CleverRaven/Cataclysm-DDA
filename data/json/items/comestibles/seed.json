@@ -315,7 +315,7 @@
     "price": 50,
     "charges": 6,
     "stack_size": 6,
-    "material": "garlic",
+    "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -3,
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
@@ -642,7 +642,7 @@
     "price": 50,
     "name": { "str_sp": "oat seeds" },
     "description": "Some oat seeds.",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
     "weight": "5 g",
     "stack_size": 40,
@@ -657,7 +657,7 @@
     "weight": "5 g",
     "price": 50,
     "stack_size": 40,
-    "material": "wheat",
+    "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
     "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "120 days" }
   },

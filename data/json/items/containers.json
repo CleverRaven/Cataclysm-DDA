@@ -250,7 +250,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 2,
-    "material": "glass",
+    "material": [ "glass" ],
     "ascii_picture": "glass_bottle",
     "symbol": ")",
     "color": "cyan",
@@ -430,7 +430,7 @@
     "volume": "253 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "250 ml", "max_contains_weight": "3 kg" } ]
@@ -446,7 +446,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -470,7 +470,7 @@
         "magazine_well": "2 L"
       }
     ],
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -485,7 +485,7 @@
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 10,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -938,7 +938,7 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -964,7 +964,7 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
     "pocket_data": [
@@ -1045,7 +1045,7 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 5,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1088,7 +1088,7 @@
     "volume": "502 ml",
     "price": 0,
     "bashing": 4,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1470,7 +1470,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
@@ -1626,7 +1626,7 @@
     "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]

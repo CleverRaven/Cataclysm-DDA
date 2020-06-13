@@ -140,7 +140,7 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 10,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "weight": "2000 g",
     "volume": "2500 ml",
     "bashing": 16,
