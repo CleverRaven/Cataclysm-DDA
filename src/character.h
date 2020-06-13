@@ -1012,6 +1012,8 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
+        /** Returns the critical hit chance bonus from martial arts buffs */
+        float mabuff_critical_hit_chance_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
         float mabuff_dodge_bonus() const;
         /** Returns the blocking effectiveness bonus from martial arts buffs */
