@@ -7755,7 +7755,7 @@ void map::do_vehicle_caching( int z )
             if( vehicle_is_opaque ) {
                 int dpart = v->part_with_feature( part, VPFLAG_OPENABLE, true );
                 if( dpart < 0 || !v->part( dpart ).open ) {
-                    transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                    transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_SOLID;
                 } else {
                     vehicle_is_opaque = false;
                 }

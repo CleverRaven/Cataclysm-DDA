@@ -559,8 +559,8 @@ task_reason veh_interact::cant_do( char mode )
             enough_light = g->u.fine_detail_vision_mod() <= 4;
             // checked later
             has_tools = true;
+            break;
         }
-        break;
 
         case 'f':
             valid_target = std::any_of( vpr.begin(), vpr.end(), [&]( const vpart_reference & ref ) {
@@ -613,7 +613,7 @@ task_reason veh_interact::cant_do( char mode )
             }
             return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & e ) {
                 return e.part().is_seat();
-            } ) ? CAN_DO : INVALID_TARGET;
+            } ) ? task_reason::CAN_DO : task_reason::INVALID_TARGET;
 
         case 'a':
             // relabel

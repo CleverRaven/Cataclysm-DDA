@@ -70,14 +70,14 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
     std::map<const vehicle_part *, repairable_status> repairable_cache;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const auto &info = vpr.info();
-        repairable_cache[ &vpr.part() ] = not_repairable;
+        repairable_cache[ &vpr.part() ] = repairable_status::not_repairable;
         if( vpr.part().removed || vpr.part().damage() <= 0 ) {
             continue;
         }
 
         if( vpr.part().is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[ &vpr.part()] = need_replacement;
+                repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
             }
 
             continue;
@@ -86,7 +86,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
         if( info.is_repairable() &&
             ( info.repair_requirements() * vpr.part().damage_level( 4 ) ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
-            repairable_cache[ &vpr.part()] = repairable;
+            repairable_cache[ &vpr.part()] = repairable_status::repairable;
         }
     }
 
@@ -103,7 +103,9 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
     if( high_damage_iterator == vpart_range.end() ||
         high_damage_iterator->part().removed ||
         !high_damage_iterator->info().is_repairable() ||
-        ( only_repairable && !repairable_cache[ &high_damage_iterator->part() ] ) ) {
+        ( only_repairable &&
+          !( repairable_cache[ &( high_damage_iterator->part() ) ] !=
+             repairable_status::repairable ) ) ) {
         static vehicle_part nullpart;
         return nullpart;
     }
