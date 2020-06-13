@@ -59,6 +59,10 @@ void pocket_favorite_callback::refresh( uilist *menu )
         const int startx = menu->w_width - menu->pad_right;
         const int width = menu->pad_right - 1;
 
+        fold_and_print( menu->window, point( 2, 2 ), width,
+                        c_light_gray, string_format( _( "Press a key to add to %s" ),
+                                colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
+
         selected_pocket->general_info( info, menu->selected + 1, true );
         selected_pocket->contents_info( info, menu->selected + 1, true );
         starty += fold_and_print( menu->window, point( startx, starty ), width,
@@ -76,23 +80,11 @@ void pocket_favorite_callback::refresh( uilist *menu )
 static std::string keys_text()
 {
     return
-        colorize( "p", c_light_green ) + "riority, " +
-        colorize( "i", c_light_green ) + "tem, " +
-        colorize( "c", c_light_green ) + "ategory, " +
-        colorize( "w", c_light_green ) + "hitelist, " +
-        colorize( "b", c_light_green ) + "lacklist";
-}
-
-static std::string whitelist_text()
-{
-    return keys_text() + "\n" +
-           _( "Press a key to add to whitelist" );
-}
-
-static std::string blacklist_text()
-{
-    return keys_text() + "\n" +
-           _( "Press a key to add to blacklist" );
+        colorize( "p", c_light_green ) + _( " priority, " ) +
+        colorize( "i", c_light_green ) + _( " item, " ) +
+        colorize( "c", c_light_green ) + _( " category, " ) +
+        colorize( "w", c_light_green ) + _( " whitelist, " ) +
+        colorize( "b", c_light_green ) + _( " blacklist" );
 }
 
 bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
@@ -118,11 +110,9 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     const char input = event.get_first_input();
     if( input == 'w' ) {
         whitelist = true;
-        menu->title = whitelist_text();
         return true;
     } else if( input == 'b' ) {
         whitelist = false;
-        menu->title = blacklist_text();
         return true;
     } else if( input == 'p' ) {
         string_input_popup popup;
@@ -1273,7 +1263,7 @@ void item_contents::favorite_settings_menu()
         }
     }
     uilist pocket_selector;
-    pocket_selector.text = whitelist_text();
+    pocket_selector.text = keys_text() + "\n ";
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {
