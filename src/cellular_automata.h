@@ -24,15 +24,14 @@ inline int neighbor_count( const std::vector<std::vector<int>> &cells, const int
     int neighbors = 0;
     for( int ni = -1; ni <= 1; ni++ ) {
         for( int nj = -1; nj <= 1; nj++ ) {
-            const int nx = p.x + ni;
-            const int ny = p.y + nj;
+            const point n( p + point( ni, nj ) );
 
             // These neighbors are outside the bounds, so they can't contribute.
-            if( nx < 0 || nx >= width || ny < 0 || ny >= height ) {
+            if( n.x < 0 || n.x >= width || n.y < 0 || n.y >= height ) {
                 continue;
             }
 
-            neighbors += cells[nx][ny];
+            neighbors += cells[n.x][n.y];
         }
     }
     // Because we included ourself in the loop above, subtract ourselves back out.

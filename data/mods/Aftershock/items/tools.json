@@ -257,6 +257,14 @@
     "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SAW_M_FINE", 1 ] ]
   },
   {
+    "id": "afs_complete_bionic_toolkit",
+    "copy-from": "screwdriver_set",
+    "type": "TOOL",
+    "name": { "str": "complete bionic toolkit" },
+    "description": "A set of very small robotic tools and encrypted digital keys originally designed to disassemble and test the quality of industrially produced bionics.  A highly skilled and patient engineer could use them to manually assemble new cybernetics.",
+    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SAW_M_FINE", 1 ] ]
+  },
+  {
     "id": "afs_bionic_power_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",

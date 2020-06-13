@@ -60,9 +60,9 @@ void timed_event::actualize()
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
-                int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
-                int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
-                g->place_critter_at( robot_type, tripoint( robx, roby, g->u.posz() ) );
+                point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
+                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
+                g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
             }
         }
         break;

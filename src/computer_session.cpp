@@ -84,9 +84,8 @@ static catacurses::window init_window()
 {
     const int width = FULL_SCREEN_WIDTH;
     const int height = FULL_SCREEN_HEIGHT;
-    const int x = std::max( 0, ( TERMX - width ) / 2 );
-    const int y = std::max( 0, ( TERMY - height ) / 2 );
-    return catacurses::newwin( height, width, point( x, y ) );
+    const point p( std::max( 0, ( TERMX - width ) / 2 ), std::max( 0, ( TERMY - height ) / 2 ) );
+    return catacurses::newwin( height, width, p );
 }
 
 computer_session::computer_session( computer &comp ) : comp( comp ),
@@ -101,9 +100,8 @@ void computer_session::use()
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         const int width = getmaxx( win );
         const int height = getmaxy( win );
-        const int x = std::max( 0, ( TERMX - width ) / 2 );
-        const int y = std::max( 0, ( TERMY - height ) / 2 );
-        win = catacurses::newwin( height, width, point( x, y ) );
+        const point p( std::max( 0, ( TERMX - width ) / 2 ), std::max( 0, ( TERMY - height ) / 2 ) );
+        win = catacurses::newwin( height, width, p );
         ui.position_from_window( win );
     } );
     ui.mark_resize();

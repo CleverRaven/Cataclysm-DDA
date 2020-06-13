@@ -387,19 +387,18 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
 
     } else {
-        const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
-        const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+        const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
 
         main_tex_clip_rect = SDL_Rect{
-            std::max( dx, 0 ),
-            std::max( dy, 0 ),
-            size_on_screen.x - 2 * std::max( dx, 0 ),
-            size_on_screen.y - 2 * std::max( dy, 0 )
+            std::max( d.x, 0 ),
+            std::max( d.y, 0 ),
+            size_on_screen.x - 2 * std::max( d.x, 0 ),
+            size_on_screen.y - 2 * std::max( d.y, 0 )
         };
 
         screen_clip_rect = SDL_Rect{
-            screen_rect.x - std::min( dx, 0 ),
-            screen_rect.y - std::min( dy, 0 ),
+            screen_rect.x - std::min( d.x, 0 ),
+            screen_rect.y - std::min( d.y, 0 ),
             main_tex_clip_rect.w,
             main_tex_clip_rect.h
         };

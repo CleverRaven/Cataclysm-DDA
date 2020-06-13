@@ -1045,14 +1045,13 @@ bool main_menu::load_character_tab( bool transfer )
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        const int offset_x = transfer ? 25 : 15;
-        const int offset_y = transfer ? -1 : 0;
+        const point offset( transfer ? 25 : 15, transfer ? -1 : 0 );
 
         print_menu( w_open, transfer ? 3 : 2, menu_offset );
 
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 ),
+                mvwprintz( w_open, menu_offset + point( offset.x + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
             } else {
                 for( int i = 0; i < static_cast<int>( all_worldnames.size() ); ++i ) {
@@ -1067,7 +1066,7 @@ bool main_menu::load_character_tab( bool transfer )
                         color1 = c_white;
                         color2 = h_white;
                     }
-                    mvwprintz( w_open, point( offset_x + menu_offset.x + extra_w / 2, line + offset_y ),
+                    mvwprintz( w_open, offset + point( extra_w / 2 + menu_offset.x, line ),
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
                                world_name, savegames_count );
                 }
@@ -1078,18 +1077,18 @@ bool main_menu::load_character_tab( bool transfer )
 
             const std::string &wn = all_worldnames[sel2];
 
-            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
+            mvwprintz( w_open, menu_offset + offset + point( extra_w / 2, -2 - sel2 ), h_white,
                        "%s", wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset.y ),
                            c_red, "%s", _( "No save games found!" ) );
             } else {
                 int line = menu_offset.y - 2;
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
+                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
                                "%s", savename.player_name() );
                 }

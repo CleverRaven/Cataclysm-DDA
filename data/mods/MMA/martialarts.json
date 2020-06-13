@@ -470,5 +470,107 @@
       "wakizashi_inferior",
       "wakizashi_fake"
     ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_stone_dragon",
+    "name": { "str": "Stone Dragon" },
+    "description": "The Stone Dragon discipline for focuses on strength, power, and toughness.Its teachings grant a martial adept the ability to splinter steel with a single, focused blow. Stone Dragon's defensive abilities focus on tapping into the enduring power of stone to turn aside attacks.",
+    "initiate": [ "You dig your heels into the ground and steady yourself.", "%s digs their heels into the ground." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "static_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_static",
+        "name": "Stonefoot Stance",
+        "description": "You crouch and set your feet flat on the ground, drawing the resilience of the earth into your body.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 2.0 },
+          { "stat": "armor", "type": "cut", "scale": 2.0 },
+          { "stat": "armor", "type": "stab", "scale": 2.0 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_oncrit",
+        "name": "Iron Bones",
+        "description": "When you make a successful attack, you enter a meditative state that leaves you almost invulnerable to harm.\n\n+5 bash, cut, and stab armor.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 5.0 },
+          { "stat": "armor", "type": "cut", "scale": 5.0 },
+          { "stat": "armor", "type": "stab", "scale": 5.0 }
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_onhit",
+        "name": "Stone Bones",
+        "description": "You focus your energy to enhance your defenses, drawing on the power of your weapon's impact with a foe to toughen yourself against a counterattack.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn. Stacks 5 times.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 5,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 1.0 },
+          { "stat": "armor", "type": "cut", "scale": 1.0 },
+          { "stat": "armor", "type": "stab", "scale": 1.0 }
+        ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_stone_dragon_onmove1",
+        "name": "Cracked Stone",
+        "description": "Moving too much will negate the effects of Surefoot Stance.  Stay still to avoid shattering your stance!\n\nEnables \"Shattered Stone\" buff.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1
+      },
+      {
+        "id": "mma_buff_stone_dragon_onmove2",
+        "name": "Stattered Stone",
+        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 4 turn.",
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "req_buffs": [ "mma_buff_stone_dragon_onmove1" ],
+        "buff_duration": 4,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": -2.0 },
+          { "stat": "armor", "type": "cut", "scale": -2.0 },
+          { "stat": "armor", "type": "stab", "scale": -2.0 }
+        ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 0.9 },
+          { "stat": "damage", "type": "cut", "scale": 0.9 },
+          { "stat": "damage", "type": "stab", "scale": 0.9 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_stone_dragon_hammer", "mma_tec_stone_dragon_strike", "mma_tec_stone_dragon_colossus" ],
+    "weapons": [
+      "battleaxe",
+      "battleaxe_inferior",
+      "battleaxe_fake",
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
   }
 ]

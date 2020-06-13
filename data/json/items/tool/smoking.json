@@ -45,7 +45,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -10,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
@@ -61,7 +61,7 @@
     "price_postapoc": 100,
     "to_hit": -10,
     "bashing": 1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
