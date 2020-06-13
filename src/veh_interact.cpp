@@ -612,8 +612,8 @@ task_reason veh_interact::cant_do( char mode )
             if( g->allies().empty() ) {
                 return task_reason::INVALID_TARGET;
             }
-            return std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part & e ) {
-                return e.is_seat();
+            return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & e ) {
+                return e.part().is_seat();
             } ) ? task_reason::CAN_DO : task_reason::INVALID_TARGET;
 
         case 'a':
