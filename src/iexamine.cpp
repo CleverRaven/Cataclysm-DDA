@@ -1680,7 +1680,9 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
-    harvest.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( p.pos() ) ) );
+    if( harvest.has_temperature() ) {
+        harvest.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( p.pos() ) ) );
+    }
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
         p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         p.i_add( harvest );
