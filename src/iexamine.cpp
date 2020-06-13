@@ -1389,6 +1389,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     if( prying_items.empty() ) {
         if( g->m.has_flag( flag_PICKABLE, examp ) ) {
+            add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
+                     g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
             locked_object_pickable( p, examp );
         } else {
             add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
