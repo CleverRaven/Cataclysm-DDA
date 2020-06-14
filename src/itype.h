@@ -638,20 +638,11 @@ struct islot_magazine {
     /** Default type of ammo contained by a magazine (often set for ammo belts) */
     itype_id default_ammo = itype_id::NULL_ID();
 
-    /**
-     * How reliable this magazine on a range of 0 to 10?
-     * @see doc/GAME_BALANCE.md
-     */
-    int reliability = 0;
-
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
-
-    /** If false, ammo will cook off if this mag is affected by fire */
-    bool protects_contents = false;
 };
 
 struct islot_battery {
@@ -813,6 +804,13 @@ struct conditional_name {
     translation name;
 };
 
+class islot_milling
+{
+    public:
+        itype_id into_;
+        double conversion_rate_;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -840,6 +838,7 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?

@@ -55,7 +55,7 @@
 class player;
 struct tripoint;
 
-static std::set<itype_id> item_blacklist;
+static item_blacklist_t item_blacklist;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -77,7 +77,7 @@ static void npc_implied_flags( itype &item_template );
 
 bool item_is_blacklisted( const itype_id &id )
 {
-    return item_blacklist.count( id );
+    return item_blacklist.blacklist.count( id );
 }
 
 static void assign( const JsonObject &jo, const std::string &name,
@@ -98,19 +98,19 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
 {
     auto parse = [&parts, &sided]( const std::string & val ) {
         if( val == "ARMS" || val == "ARM_EITHER" ) {
-            parts.set( bp_arm_l );
-            parts.set( bp_arm_r );
+            parts.set( bodypart_str_id( "arm_l" ) );
+            parts.set( bodypart_str_id( "arm_r" ) );
         } else if( val == "HANDS" || val == "HAND_EITHER" ) {
-            parts.set( bp_hand_l );
-            parts.set( bp_hand_r );
+            parts.set( bodypart_str_id( "hand_l" ) );
+            parts.set( bodypart_str_id( "hand_r" ) );
         } else if( val == "LEGS" || val == "LEG_EITHER" ) {
-            parts.set( bp_leg_l );
-            parts.set( bp_leg_r );
+            parts.set( bodypart_str_id( "leg_l" ) );
+            parts.set( bodypart_str_id( "leg_r" ) );
         } else if( val == "FEET" || val == "FOOT_EITHER" ) {
-            parts.set( bp_foot_l );
-            parts.set( bp_foot_r );
+            parts.set( bodypart_str_id( "foot_l" ) );
+            parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            parts.set( get_body_part_token( val ) );
+            parts.set( convert_bp( get_body_part_token( val ) ) );
         }
         sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
                  val == "LEG_EITHER" || val == "FOOT_EITHER";
@@ -571,9 +571,48 @@ void Item_factory::finalize()
     }
 }
 
+void item_blacklist_t::clear()
+{
+    blacklist.clear();
+    sub_blacklist.clear();
+}
+
 void Item_factory::finalize_item_blacklist()
 {
-    for( const itype_id &blackout : item_blacklist ) {
+    // Populate a whitelist, and a blacklist with items on whitelists and items on blacklists
+    std::set<itype_id> whitelist;
+    for( const std::pair<bool, std::set<itype_id>> &blacklist : item_blacklist.sub_blacklist ) {
+        // True == whitelist, false == blacklist
+        if( blacklist.first ) {
+            whitelist.insert( blacklist.second.begin(), blacklist.second.end() );
+        } else {
+            item_blacklist.blacklist.insert( blacklist.second.begin(), blacklist.second.end() );
+        }
+    }
+
+    bool whitelist_exists = !whitelist.empty();
+    // Remove all blacklisted items on the whitelist
+    std::set<itype_id> &blacklist = item_blacklist.blacklist;
+    for( const itype_id &it : whitelist ) {
+        if( blacklist.count( it ) ) {
+            whitelist.erase( it );
+        }
+    }
+
+    // Now, populate the blacklist with all the items that aren't whitelists, but only if a whitelist exists.
+    if( whitelist_exists ) {
+        blacklist.clear();
+        for( const std::pair<const itype_id, itype> &item : m_templates ) {
+            if( !whitelist.count( item.first ) ) {
+                blacklist.insert( item.first );
+            }
+        }
+    }
+
+    // And clear the blacklists we made in-between
+    item_blacklist.sub_blacklist.clear();
+
+    for( const itype_id &blackout : item_blacklist.blacklist ) {
         std::unordered_map<itype_id, itype>::iterator candidate = m_templates.find( blackout );
         if( candidate == m_templates.end() ) {
             debugmsg( "item on blacklist %s does not exist", blackout.c_str() );
@@ -668,7 +707,10 @@ void Item_factory::finalize_item_blacklist()
 
 void Item_factory::load_item_blacklist( const JsonObject &json )
 {
-    json.read( "items", item_blacklist, true );
+    bool whitelist = json.get_bool( "whitelist" );
+    std::set<itype_id> tmp_blacklist;
+    json.read( "items", tmp_blacklist, true );
+    item_blacklist.sub_blacklist.emplace_back( std::make_pair( whitelist, tmp_blacklist ) );
 }
 
 Item_factory::~Item_factory() = default;
@@ -881,6 +923,7 @@ void Item_factory::init()
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
     add_iuse( "PHEROMONE", &iuse::pheromone );
+    add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
@@ -959,7 +1002,6 @@ void Item_factory::init()
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
-    add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
     add_actor( std::make_unique<change_scent_iuse>() );
@@ -1157,6 +1199,11 @@ void Item_factory::check_definitions() const
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
         }
+        if( type->milling_data ) {
+            if( !has_template( type->milling_data->into_ ) ) {
+                msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
+            }
+        }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
                 msg += "must define at least one ammo type\n";
@@ -1265,9 +1312,6 @@ void Item_factory::check_definitions() const
             const itype *da = find_template( type->magazine->default_ammo );
             if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
                 msg += string_format( "invalid default_ammo %s\n", type->magazine->default_ammo.str() );
-            }
-            if( type->magazine->reliability < 0 || type->magazine->reliability > 100 ) {
-                msg += string_format( "invalid reliability %i\n", type->magazine->reliability );
             }
             if( type->magazine->reload_time < 0 ) {
                 msg += string_format( "invalid reload_time %i\n", type->magazine->reload_time );
@@ -1500,6 +1544,12 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
+void Item_factory::load( islot_milling &slot, const JsonObject &jo, const std::string & )
+{
+    assign( jo, "into", slot.into_ );
+    assign( jo, "conversion_rate", slot.conversion_rate_ );
+}
+
 void islot_ammo::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "ammo_type", type );
@@ -1653,6 +1703,7 @@ void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
     }
 }
 
+// TODO: Refactor this with load_tool_armor
 void Item_factory::load_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -1821,12 +1872,25 @@ void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
     }
 }
 
+// TODO: Refactor this with load_armor
+// This function does load_slot( def.tool ), but otherwise they are the same
 void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
         load_slot( def.tool, jo, src );
-        load_armor( jo, src );
+        if( def.was_loaded ) {
+            if( def.armor ) {
+                def.armor->was_loaded = true;
+            } else {
+                def.armor = cata::make_value<islot_armor>();
+                def.armor->was_loaded = true;
+            }
+        } else {
+            def.armor = cata::make_value<islot_armor>();
+        }
+        def.armor->load( jo );
+        load_basic_info( jo, def, src );
     }
 }
 
@@ -2091,7 +2155,6 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "capacity", slot.capacity, strict, 0 );
     assign( jo, "count", slot.count, strict, 0 );
     assign( jo, "default_ammo", slot.default_ammo, strict );
-    assign( jo, "reliability", slot.reliability, strict, 0, 10 );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
     assign( jo, "linkage", slot.linkage, strict );
 }
@@ -2275,7 +2338,6 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
             for( const ammotype &amtype : def.magazine->type ) {
                 mag_data.ammo_restriction.emplace( amtype, def.magazine->capacity );
             }
-            mag_data.fire_protection = def.magazine->protects_contents;
         }
         if( def.gun ) {
             for( const ammotype &amtype : def.gun->ammo ) {
@@ -2527,6 +2589,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
+    load_slot_optional( def.milling_data, jo, "milling", src );
 
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {

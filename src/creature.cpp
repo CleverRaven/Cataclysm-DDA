@@ -64,9 +64,12 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
-const std::map<std::string, m_size> Creature::size_map = {
-    {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
-    {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
+const std::map<std::string, creature_size> Creature::size_map = {
+    {"TINY",   creature_size::tiny},
+    {"SMALL",  creature_size::small},
+    {"MEDIUM", creature_size::medium},
+    {"LARGE",  creature_size::large},
+    {"HUGE",   creature_size::huge}
 };
 
 const std::set<material_id> Creature::cmat_flesh{
@@ -232,25 +235,25 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( ch != nullptr ) {
-        if( ch->movement_mode_is( CMM_CROUCH ) ) {
+        if( ch->is_crouching() ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
             float size_modifier = 1.0;
             switch( ch->get_size() ) {
-                case MS_TINY:
+                case creature_size::tiny:
                     size_modifier = 2.0;
                     break;
-                case MS_SMALL:
+                case creature_size::small:
                     size_modifier = 1.4;
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     size_modifier = 0.6;
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     size_modifier = 0.15;
                     break;
             }
@@ -437,7 +440,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // Helps avoid (possibly expensive) attitude calculation
             continue;
         }
-        if( m->attitude_to( u ) == A_HOSTILE ) {
+        if( m->attitude_to( u ) == Attitude::HOSTILE ) {
             target_rating = ( mon_rating + hostile_adj ) / dist;
             if( maybe_boo ) {
                 boo_hoo++;
@@ -465,15 +468,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 int Creature::size_melee_penalty() const
 {
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 30;
-        case MS_SMALL:
+        case creature_size::small:
             return 15;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 0;
-        case MS_LARGE:
+        case creature_size::large:
             return -10;
-        case MS_HUGE:
+        case creature_size::huge:
             return -20;
     }
 
@@ -758,19 +761,19 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( stun_strength > 0 ) {
         switch( get_size() ) {
-            case MS_TINY:
+            case creature_size::tiny:
                 stun_strength *= 4;
                 break;
-            case MS_SMALL:
+            case creature_size::small:
                 stun_strength *= 2;
                 break;
-            case MS_MEDIUM:
+            case creature_size::medium:
             default:
                 break;
-            case MS_LARGE:
+            case creature_size::large:
                 stun_strength /= 2;
                 break;
-            case MS_HUGE:
+            case creature_size::huge:
                 stun_strength /= 4;
                 break;
         }
@@ -1631,19 +1634,19 @@ units::mass Creature::weight_capacity() const
 {
     units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             base_carry /= 4;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             base_carry /= 2;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
         default:
             break;
-        case MS_LARGE:
+        case creature_size::large:
             base_carry *= 2;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             base_carry *= 4;
             break;
     }
@@ -1665,14 +1668,13 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
         return;
     }
 
-    int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
-    int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
+    point draw( -origin.xy() + point( getmaxx( w ) / 2 + posx(), getmaxy( w ) / 2 + posy() ) );
     if( inverted ) {
-        mvwputch_inv( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
+        mvwputch_inv( w, draw, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
-        mvwputch_hi( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
+        mvwputch_hi( w, draw, basic_symbol_color(), symbol() );
     } else {
-        mvwputch( w, point( draw_x, draw_y ), symbol_color(), symbol() );
+        mvwputch( w, draw, symbol_color(), symbol() );
     }
 }
 
@@ -1728,11 +1730,11 @@ void Creature::check_dead_state()
 std::string Creature::attitude_raw_string( Attitude att )
 {
     switch( att ) {
-        case Creature::A_HOSTILE:
+        case Attitude::HOSTILE:
             return "hostile";
-        case Creature::A_NEUTRAL:
+        case Attitude::NEUTRAL:
             return "neutral";
-        case Creature::A_FRIENDLY:
+        case Attitude::FRIENDLY:
             return "friendly";
         default:
             return "other";
@@ -1756,7 +1758,7 @@ const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude
         return strings.back();
     }
 
-    return strings[att];
+    return strings[static_cast<int>( att )];
 }
 
 std::string Creature::replace_with_npc_name( std::string input ) const

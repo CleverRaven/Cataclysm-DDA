@@ -192,13 +192,17 @@ class item_pocket
             return _saved_type;
         }
 
+        bool saved_sealed() const {
+            return _saved_sealed;
+        }
+
         // tries to put an item in the pocket. returns false if failure
         ret_val<contain_code> insert_item( const item &it );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
-        void add( const item &it );
+        void add( const item &it, item **ret = nullptr );
         /** fills the pocket to the brim with the item */
         void fill_with( item contained );
         bool can_unload_liquid() const;
@@ -228,6 +232,8 @@ class item_pocket
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
+        /** same as above, except returns the stack where input item was placed */
+        item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
 
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
@@ -236,6 +242,7 @@ class item_pocket
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST;
+        bool _saved_sealed = false;
         const pocket_data *data = nullptr;
         // the items inside the pocket
         std::list<item> contents;

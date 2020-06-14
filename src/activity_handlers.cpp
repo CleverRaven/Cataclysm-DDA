@@ -103,6 +103,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+enum class creature_size : int;
+
 static const efftype_id effect_sheared( "sheared" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -147,9 +149,7 @@ static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -240,13 +240,10 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 
@@ -373,7 +370,6 @@ activity_handlers::finish_functions = {
     { ACT_FIRSTAID, firstaid_finish },
     { ACT_FISH, fish_finish },
     { ACT_FORAGE, forage_finish },
-    { ACT_HOTWIRE_CAR, hotwire_finish },
     { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
@@ -386,7 +382,6 @@ activity_handlers::finish_functions = {
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
     { ACT_CRACKING, cracking_finish },
-    { ACT_LOCKPICK, lockpicking_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -615,7 +610,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                               u.has_amount( itype_vine_30, 1 ) ||
                               u.has_amount( itype_grapnel, 1 ) ||
                               u.has_amount( itype_chain, 1 );
-        const bool big_corpse = corpse.size >= MS_MEDIUM;
+        const bool big_corpse = corpse.size >= creature_size::medium;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
@@ -667,7 +662,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     }
 
     if( action == butcher_type::QUARTER ) {
-        if( corpse.size == MS_TINY ) {
+        if( corpse.size == creature_size::tiny ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
                                  corpse.nname() );
             act.targets.pop_back();
@@ -734,19 +729,19 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     int time_to_cut = 0;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
+        case creature_size::tiny:
             time_to_cut = 150;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             time_to_cut = 300;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             time_to_cut = 450;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             time_to_cut = 600;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             time_to_cut = 1800;
             break;
     }
@@ -972,7 +967,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 roll = roll / 4;
             } else if( entry.type == "bone" ) {
                 roll /= 2;
-            } else if( corpse_item->get_mtype()->size >= MS_MEDIUM && ( entry.type == "skin" ) ) {
+            } else if( corpse_item->get_mtype()->size >= creature_size::medium && ( entry.type == "skin" ) ) {
                 roll /= 2;
             } else if( entry.type == "offal" ) {
                 roll /= 5;
@@ -1161,9 +1156,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 
     if( action == butcher_type::DISSECT ) {
-        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     } else {
-        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+        p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
+                    0 ) + 4 );
     }
 }
 
@@ -1826,38 +1823,6 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::hotwire_finish( player_activity *act, player *p )
-{
-    //Grab this now, in case the vehicle gets shifted
-    if( const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
-                                           act->values[1],
-                                           p->posz() ) ) ) ) {
-        vehicle *const veh = &vp->vehicle();
-        const int mech_skill = act->values[2];
-        if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
-            //success
-            veh->is_locked = false;
-            add_msg( _( "This wire will start the engine." ) );
-        } else if( mech_skill > static_cast<int>( rng( 0, 4 ) ) ) {
-            //soft fail
-            veh->is_locked = false;
-            veh->is_alarm_on = veh->has_security_working();
-            add_msg( _( "This wire will probably start the engine." ) );
-        } else if( veh->is_alarm_on ) {
-            veh->is_locked = false;
-            add_msg( _( "By process of elimination, this wire will start the engine." ) );
-        } else {
-            //hard fail
-            veh->is_alarm_on = veh->has_security_working();
-            add_msg( _( "The red wire always starts the engine, doesn't it?" ) );
-        }
-    } else {
-        dbg( D_ERROR ) << "game:process_activity: ACT_HOTWIRE_CAR: vehicle not found";
-        debugmsg( "process_activity ACT_HOTWIRE_CAR: vehicle not found" );
-    }
-    act->set_to_null();
-}
-
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 {
     static const std::string salvage_string = "salvage";
@@ -2229,7 +2194,6 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     }
 
     act->set_to_null();
-    return;
 }
 
 void activity_handlers::vehicle_finish( player_activity *act, player *p )
@@ -2259,7 +2223,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
         } else {
             if( vp ) {
                 g->m.invalidate_map_cache( g->get_levz() );
-                g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {
@@ -2483,120 +2446,54 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::lockpicking_finish( player_activity *act, player *p )
+enum class repeat_type : int {
+    // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
+    INIT = 0,    // Haven't found repeat value yet.
+    ONCE,        // Repeat just once
+    FOREVER,     // Repeat for as long as possible
+    FULL,        // Repeat until damage==0
+    EVENT,       // Repeat until something interesting happens
+    CANCEL,      // Stop repeating
+};
+
+using I = std::underlying_type_t<repeat_type>;
+static constexpr bool operator>=( const I &lhs, const repeat_type &rhs )
 {
-    item_location &loc = act->targets[ 0 ];
-    item *it = loc.get_item();
-    if( it == nullptr ) {
-        debugmsg( "lockpick item location lost" );
-        p->cancel_activity();
-        return;
-    }
-
-    const ter_id ter_type = g->m.ter( act->placement );
-    const furn_id furn_type = g->m.furn( act->placement );
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
-    if( ter_type == t_chaingate_l ) {
-        new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-               ter_type == t_door_locked_interior ) {
-        new_ter_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_locked_peep ) {
-        new_ter_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_metal_pickable ) {
-        new_ter_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_bar_locked ) {
-        new_ter_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else if( furn_type == f_gunsafe_ml ) {
-        new_furn_type = f_safe_o;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else {
-        act->set_to_null();
-    }
-
-    bool destroy = false;
-
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, p->get_skill_level( skill_lockpick ) ) *
-                    ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    p->dex_cur / 4.0;
-    int lock_roll = rng( 1, 120 );
-    if( ( pick_roll >= lock_roll ) || it->has_flag( "PSEUDO" ) ) {
-        p->practice( skill_lockpick, lock_roll );
-        g->m.has_furn( act->placement ) ?
-        g->m.furn_set( act->placement, new_furn_type ) :
-        static_cast<void>( g->m.ter_set( act->placement, new_ter_type ) );
-        p->add_msg_if_player( m_good, open_message );
-    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
-        p->add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( act->placement, furn_str_id( "f_gunsafe_mj" ) );
-    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
-        if( it->inc_damage() ) {
-            p->add_msg_if_player( m_bad,
-                                  _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
-            destroy = true;
-        } else {
-            p->add_msg_if_player( m_bad,
-                                  _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
-        }
-    } else {
-        p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
-    }
-    if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
-        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                 p->global_sm_location() );
-        }
-    }
-    if( destroy || it->has_flag( "PSEUDO" ) ) {
-        p->i_rem( it );
-    }
-
-    act->set_to_null();
+    return lhs >= static_cast<I>( rhs );
 }
 
-enum repeat_type : int {
-    // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
-    REPEAT_INIT = 0,    // Haven't found repeat value yet.
-    REPEAT_ONCE,        // Repeat just once
-    REPEAT_FOREVER,     // Repeat for as long as possible
-    REPEAT_FULL,        // Repeat until damage==0
-    REPEAT_EVENT,       // Repeat until something interesting happens
-    REPEAT_CANCEL,      // Stop repeating
-};
+static constexpr bool operator<=( const I &lhs, const repeat_type &rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+static constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
 
 static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uilist rmenu;
     rmenu.text = title;
 
-    rmenu.addentry( REPEAT_ONCE, true, '1', _( "Repeat once" ) );
-    rmenu.addentry( REPEAT_FOREVER, true, '2', _( "Repeat until reinforced" ) );
-    rmenu.addentry( REPEAT_FULL, true, '3', _( "Repeat until fully repaired, but don't reinforce" ) );
-    rmenu.addentry( REPEAT_EVENT, true, '4', _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( REPEAT_INIT, true, '5', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1', _( "Repeat once" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::FOREVER ), true, '2',
+                    _( "Repeat until reinforced" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '3',
+                    _( "Repeat until fully repaired, but don't reinforce" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
+                    _( "Repeat until success/failure/level up" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '5', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection - REPEAT_ONCE;
+    rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
 
-    if( rmenu.ret >= REPEAT_INIT && rmenu.ret <= REPEAT_EVENT ) {
+    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::EVENT ) {
         return static_cast<repeat_type>( rmenu.ret );
     }
 
-    return REPEAT_CANCEL;
+    return repeat_type::CANCEL;
 }
 
 // HACK: This is a part of a hack to provide pseudo items for long repair activity
@@ -2657,7 +2554,8 @@ struct weldrig_hack {
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
+    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
+                         static_cast<int>( repeat_type::INIT ) ) );
     weldrig_hack w_hack;
     item_location *ploc = nullptr;
 
@@ -2687,7 +2585,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // Valid Repeat choice and target, attempt repair.
-    if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
+    if( repeat != repeat_type::INIT && act->targets.size() >= 2 ) {
         item_location &fix_location = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
@@ -2725,11 +2623,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                     old_level != p->get_skill_level( actor->used_skill );
 
         const bool need_input =
-            ( repeat == REPEAT_ONCE ) ||
-            ( repeat == REPEAT_EVENT && event_happened ) ||
-            ( repeat == REPEAT_FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
+            ( repeat == repeat_type::ONCE ) ||
+            ( repeat == repeat_type::EVENT && event_happened ) ||
+            ( repeat == repeat_type::FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
         if( need_input ) {
-            repeat = REPEAT_INIT;
+            repeat = repeat_type::INIT;
         }
     }
     // Check tool is valid before we query target and Repeat choice.
@@ -2740,7 +2638,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        g->draw();
         item_location item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2750,13 +2647,13 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
         if( actor->can_repair_target( *p, *item_loc, true ) ) {
             act->targets.emplace_back( item_loc );
-            repeat = REPEAT_INIT;
+            repeat = repeat_type::INIT;
         }
     }
 
     const item &fix = *act->targets[1];
 
-    if( repeat == REPEAT_INIT ) {
+    if( repeat == repeat_type::INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
@@ -2772,7 +2669,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
         ammotype current_ammo;
-        if( !used_tool->ammo_current().is_null() ) {
+        if( used_tool->ammo_current().is_null() ) {
             current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
         } else {
             current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
@@ -2793,24 +2690,23 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
-            g->draw();
             repeat = repeat_menu( title, repeat );
 
-            if( repeat == REPEAT_CANCEL ) {
+            if( repeat == repeat_type::CANCEL ) {
                 act->set_to_null();
                 return;
             }
             act->values[0] = static_cast<int>( repeat );
             // BACK selected, redo target selection next.
-            if( repeat == REPEAT_INIT ) {
+            if( repeat == repeat_type::INIT ) {
                 p->activity.targets.pop_back();
                 return;
             }
-            if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= 0 ) {
                 p->add_msg_if_player( m_info, _( "Your %s is already fully repaired." ), fix.tname() );
-                repeat = REPEAT_INIT;
+                repeat = repeat_type::INIT;
             }
-        } while( repeat == REPEAT_INIT );
+        } while( repeat == repeat_type::INIT );
     }
 
     // Otherwise keep retrying
@@ -3070,7 +2966,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         p->omt_path.pop_back();
         if( p->omt_path.empty() ) {
             p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-            g->draw();
             act->set_to_null();
             return;
         }
@@ -3097,7 +2992,6 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
     } else {
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
     }
-    g->draw();
     act->set_to_null();
 }
 
@@ -3824,7 +3718,6 @@ void activity_handlers::atm_finish( player_activity *act, player * )
 void activity_handlers::eat_menu_finish( player_activity *, player * )
 {
     // Only exists to keep the eat activity alive between turns
-    return;
 }
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player * )
@@ -4600,8 +4493,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( spell_being_cast.id(),
-                        spell_being_cast.get_level() );
+                g->events().send<event_type::player_levels_spell>( p->getID(),
+                        spell_being_cast.id(), spell_being_cast.get_level() );
             }
         }
     }

@@ -254,5 +254,88 @@
     "field": "z",
     "event_transformation": "moves_swam_underwater",
     "description": { "str_sp": "minimum z level reached underwater" }
+  },
+  {
+    "id": "avatar_wields_item",
+    "type": "event_transformation",
+    "event_type": "character_wields_item",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_last_item_wielded",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_wields_item",
+    "field": "itype"
+  },
+  {
+    "id": "avatar_wields_crowbar",
+    "type": "event_transformation",
+    "event_transformation": "avatar_wields_item",
+    "value_constraints": { "itype": { "equals": [ "itype_id", "crowbar" ] } },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "num_avatar_wields_crowbar",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wields_crowbar",
+    "description": { "str": "time wielded crowbar", "str_pl": "times wielded crowbar" }
+  },
+  {
+    "id": "avatar_wears_item",
+    "type": "event_transformation",
+    "event_type": "character_wears_item",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_wears_power_armor_heavy",
+    "type": "event_transformation",
+    "event_transformation": "avatar_wears_item",
+    "value_constraints": { "itype": { "equals": [ "itype_id", "power_armor_heavy" ] } },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "num_avatar_wears_power_armor_heavy",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wears_power_armor_heavy",
+    "description": { "str": "time worn tank suit", "str_pl": "times worn tank suit" }
+  },
+  {
+    "id": "first_omt",
+    "type": "event_statistic",
+    "stat_type": "first_value",
+    "event_type": "avatar_enters_omt",
+    "field": "pos"
+  },
+  {
+    "id": "avatar_enters_first_omt",
+    "type": "event_transformation",
+    "event_type": "avatar_enters_omt",
+    "value_constraints": { "pos": { "equals_statistic": "first_omt" } },
+    "drop_fields": [ "pos" ]
+  },
+  {
+    "id": "num_avatar_enter_first_omt",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_first_omt"
+  },
+  {
+    "id": "avatar_enters_oter_type",
+    "type": "event_transformation",
+    "event_type": "avatar_enters_omt",
+    "new_fields": { "oter_type_id": { "oter_type_of_oter": "oter_id" } },
+    "drop_fields": [ "oter_id" ]
+  },
+  {
+    "id": "last_oter_type_avatar_entered",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_enters_oter_type",
+    "field": "oter_type_id"
   }
 ]

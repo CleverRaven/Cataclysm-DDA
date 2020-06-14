@@ -51,18 +51,150 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum m_size : int {
-    MS_TINY = 1,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+enum class creature_size : int {
+    // Keep it starting at 1 - damage done to monsters depends on it
+    // Squirrel
+    tiny = 1,
+    // Dog
+    small,
+    // Human
+    medium,
+    // Cow
+    large,
+    // TAAAANK
+    huge
 };
 
-enum FacingDirection {
-    FD_NONE = 0,
-    FD_LEFT = 1,
-    FD_RIGHT = 2
+using I = std::underlying_type_t<creature_size>;
+constexpr I operator+( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) + static_cast<I>( rhs );
+}
+
+constexpr I operator+( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) + rhs;
+}
+
+constexpr I operator+( const I lhs, const creature_size rhs )
+{
+    return lhs + static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) - rhs;
+}
+
+constexpr I operator-( const I lhs, const creature_size rhs )
+{
+    return lhs - static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) * static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) * rhs;
+}
+
+constexpr I operator*( const I lhs, const creature_size rhs )
+{
+    return lhs * static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) / static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) / rhs;
+}
+
+constexpr bool operator<=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) <= rhs;
+}
+
+constexpr bool operator<=( const I lhs, const creature_size rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) < static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) < rhs;
+}
+
+constexpr bool operator<( const I lhs, const creature_size rhs )
+{
+    return lhs < static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) >= rhs;
+}
+
+constexpr bool operator>=( const I lhs, const creature_size rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) > static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) > rhs;
+}
+
+constexpr bool operator>( const I lhs, const creature_size rhs )
+{
+    return lhs > static_cast<I>( rhs );
+}
+
+constexpr bool operator==( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) == rhs;
+}
+
+constexpr bool operator==( const I lhs, const creature_size rhs )
+{
+    return lhs == static_cast<I>( rhs );
+}
+
+enum class FacingDirection : int {
+    NONE = 0,
+    LEFT = 1,
+    RIGHT = 2
 };
 
 class Creature
@@ -70,7 +202,7 @@ class Creature
     public:
         virtual ~Creature();
 
-        static const std::map<std::string, m_size> size_map;
+        static const std::map<std::string, creature_size> size_map;
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
@@ -111,7 +243,7 @@ class Creature
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
-        FacingDirection facing = FD_RIGHT;
+        FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -144,11 +276,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**
@@ -428,7 +560,7 @@ class Creature
         virtual float get_hit() const;
 
         virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
+        virtual creature_size get_size() const = 0;
         virtual int get_hp( hp_part bp ) const = 0;
         virtual int get_hp() const = 0;
         virtual int get_hp_max( hp_part bp ) const = 0;

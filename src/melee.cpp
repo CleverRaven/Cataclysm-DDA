@@ -616,7 +616,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_id( "num_bp" ), 0.0f, &dp );
     }
-    return;
 }
 
 void player::reach_attack( const tripoint &p )
@@ -629,7 +628,7 @@ void player::reach_attack( const tripoint &p )
 
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
-    int target_size = critter != nullptr ? critter->get_size() : 2;
+    const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
     last_target_pos = cata::nullopt;
     // Max out recoil
@@ -1634,6 +1633,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
+    // add martial arts block effectiveness bonus
+    block_score += mabuff_block_effectiveness_bonus();
+
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
     if( !force_unarmed && has_shield ) {
@@ -1671,7 +1673,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit->token ) ? block_bonus : 0;
+        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -1963,7 +1965,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts.test( mut_atk.bp ) ) {
+            if( !mut_atk.bp.is_empty() && !usable_body_parts.test( mut_atk.bp ) ) {
                 continue;
             }
 
@@ -2234,7 +2236,7 @@ int Character::attack_speed( const item &weap ) const
     move_cost += skill_cost;
     move_cost -= dexbonus;
 
-    move_cost = calculate_by_enchantment( move_cost, enchantment::mod::ATTACK_SPEED, true );
+    move_cost = calculate_by_enchantment( move_cost, enchant_vals::mod::ATTACK_SPEED, true );
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;

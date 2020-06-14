@@ -53,6 +53,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "options.h"
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -743,12 +744,10 @@ void npc::place_on_map()
     // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
     // The main map assumes that pos is in its own (local to the main map)
     // coordinate system. We have to change pos to match that assumption
-    const int dmx = submap_coords.x - g->get_levx();
-    const int dmy = submap_coords.y - g->get_levy();
-    const int offset_x = position.x % SEEX;
-    const int offset_y = position.y % SEEY;
+    const point dm( submap_coords + point( -g->get_levx(), -g->get_levy() ) );
+    const point offset( position.x % SEEX, position.y % SEEY );
     // value of "submap_coords.x * SEEX + posx()" is unchanged
-    setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
+    setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
 
     if( g->is_empty( pos() ) || is_mounted() ) {
         return;
@@ -839,6 +838,9 @@ void npc::starting_weapon( const npc_class_id &type )
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
         }
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+
     weapon.set_owner( get_faction()->id );
 }
 
@@ -1056,7 +1058,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
+            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) &&
+                it.covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
             }
@@ -1080,7 +1083,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id bp : get_all_body_parts() ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -1088,7 +1091,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( "SPLINT" ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp->token ) ) &&
+                                         iter->has_flag( "SPLINT" ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }
@@ -1152,6 +1156,7 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
+        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
@@ -1179,6 +1184,8 @@ bool npc::wield( item &it )
     } else {
         weapon = it;
     }
+
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
@@ -1374,10 +1381,9 @@ float npc::vehicle_danger( int radius ) const
             // FIXME: this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
-            int ax = wrapped_veh.v->global_pos3().x;
-            int ay = wrapped_veh.v->global_pos3().y;
-            int bx = static_cast<int>( ax + std::cos( facing * M_PI / 180.0 ) * radius );
-            int by = static_cast<int>( ay + std::sin( facing * M_PI / 180.0 ) * radius );
+            point a( wrapped_veh.v->global_pos3().xy() );
+            point b( static_cast<int>( a.x + std::cos( facing * M_PI / 180.0 ) * radius ),
+                     static_cast<int>( a.y + std::sin( facing * M_PI / 180.0 ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1386,10 +1392,10 @@ float npc::vehicle_danger( int radius ) const
             vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = std::sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) *
-                                       ( by - ay ) ) );
-            int closest = static_cast<int>( std::abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
-                                            ( bx - ax ) ) / normal );
+            double normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
+                                       ( b.y - a.y ) ) );
+            int closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) - ( posy() - a.y ) *
+                                            ( b.x - a.x ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1696,6 +1702,14 @@ void npc::shop_restock()
             count += 1;
             last_item = count > 10 && one_in( 100 );
         }
+    }
+
+    // This removes some items according to item spawn scaling factor,
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        ret.remove_if( [spawn_rate]( auto & ) {
+            return !( rng_float( 0, 1 ) < spawn_rate );
+        } );
     }
 
     has_new_items = true;
@@ -2013,10 +2027,9 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const int x = global_omt_location().x;
-    const int y = global_omt_location().y;
-    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
-        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+    const point p( global_omt_location().xy() );
+    for( int x2 = p.x - 3; x2 < p.x + 3; x2++ ) {
+        for( int y2 = p.y - 3; y2 < p.y + 3; y2++ ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) );
             if( bcp ) {
                 return true;
@@ -2066,9 +2079,9 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         }
     }
 
@@ -2079,11 +2092,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allies
-        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
-            return A_HOSTILE;
+        if( is_enemy() && other.attitude_to( g->u ) == Attitude::FRIENDLY ) {
+            return Attitude::HOSTILE;
         }
 
-        return A_NEUTRAL;
+        return Attitude::NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
@@ -2096,17 +2109,17 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-            return A_NEUTRAL;
+            return Attitude::NEUTRAL;
         case MATT_FRIEND:
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         case MATT_ATTACK:
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         case MATT_NULL:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
 
-    return A_NEUTRAL;
+    return Attitude::NEUTRAL;
 }
 
 void npc::npc_dismount()

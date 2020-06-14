@@ -3468,21 +3468,6 @@
   },
   {
     "type": "recipe",
-    "result": "bone_plate",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "40 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
-      [ [ "rope_natural_short", 4, "LIST" ], [ "adhesive", 4, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "spring",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4074,7 +4059,7 @@
     "skills_required": [ "tailor", 4 ],
     "difficulty": 6,
     "time": "1 h",
-    "book_learn": [ [ "scots_cookbook", 3 ] ],
+    "book_learn": [ [ "scots_tailor", 3 ], [ "scots_cookbook", 7 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],

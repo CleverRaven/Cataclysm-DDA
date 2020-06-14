@@ -58,7 +58,7 @@
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
-static constexpr box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
+static constexpr half_open_box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
 
 static const ter_id undefined_ter_id( -1 );
 
@@ -660,7 +660,7 @@ void editmap::draw_main_ui_overlay()
                             const tripoint spawn_p = sm_origin + sp.pos;
                             const auto spawn_it = spawns.find( spawn_p );
                             if( spawn_it == spawns.end() ) {
-                                const Creature::Attitude att = sp.friendly ? Creature::A_FRIENDLY : Creature::A_ANY;
+                                const Creature::Attitude att = sp.friendly ? Creature::Attitude::FRIENDLY : Creature::Attitude::ANY;
                                 spawns.emplace( spawn_p, std::make_tuple( sp.type, sp.count, false, att ) );
                             } else {
                                 std::get<2>( spawn_it->second ) = true;
@@ -823,7 +823,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         nc_color dummy = c_light_gray;
         print_colored_text( w_info, point( 1, line ), dummy, c_light_gray, *it );
     }
-    wrefresh( w_info );
+    wnoutrefresh( w_info );
 }
 
 static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
@@ -1517,7 +1517,7 @@ void editmap::recalc_target( shapetype shape )
             int radius = rl_dist( origin, target );
             for( const tripoint &p : g->m.points_in_radius( origin, radius ) ) {
                 if( rl_dist( p, origin ) <= radius ) {
-                    if( editmap_boundaries.contains_half_open( p ) ) {
+                    if( editmap_boundaries.contains( p ) ) {
                         target_list.push_back( p );
                     }
                 }
@@ -1548,7 +1548,7 @@ void editmap::recalc_target( shapetype shape )
                 for( int y = sy; y <= ey; y++ ) {
                     if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
                         const tripoint p( x, y, z );
-                        if( editmap_boundaries.contains_half_open( p ) ) {
+                        if( editmap_boundaries.contains( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -2005,8 +2005,8 @@ void editmap::mapgen_retarget()
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
-            if( editmap_boundaries.contains_half_open( ptarget ) &&
-                editmap_boundaries.contains_half_open( ptarget + point( SEEX, SEEY ) ) ) {
+            if( editmap_boundaries.contains( ptarget ) &&
+                editmap_boundaries.contains( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

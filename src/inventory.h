@@ -18,7 +18,6 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
-#include "magic_enchantment.h"
 #include "units.h"
 #include "visitable.h"
 

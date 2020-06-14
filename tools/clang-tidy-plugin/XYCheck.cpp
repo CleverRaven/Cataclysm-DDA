@@ -24,7 +24,7 @@ void XYCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         fieldDecl(
-            hasType( asString( "int" ) ),
+            hasType( isInteger() ),
             isXParam(),
             hasParent(
                 cxxRecordDecl(
@@ -36,7 +36,7 @@ void XYCheck::registerMatchers( MatchFinder *Finder )
     );
     Finder->addMatcher(
         parmVarDecl(
-            hasType( asString( "int" ) ),
+            hasType( isInteger() ),
             isXParam(),
             hasAncestor( functionDecl().bind( "function" ) )
         ).bind( "xparam" ),
@@ -53,6 +53,9 @@ static void CheckField( XYCheck &Check, const MatchFinder::MatchResult &Result )
         return;
     }
     const NameConvention NameMatcher( XVar->getName() );
+    if( !NameMatcher ) {
+        return;
+    }
     if( NameMatcher.Match( YVar->getName() ) != NameConvention::YName ) {
         return;
     }

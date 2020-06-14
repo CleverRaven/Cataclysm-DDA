@@ -31,6 +31,8 @@
 #include "ranged.h"
 #include "timed_event.h"
 #include "uistate.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
@@ -40,9 +42,12 @@ static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 
 static const skill_id skill_computer( "computer" );
+static const skill_id skill_lockpick( "lockpick" );
+static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
+static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -50,6 +55,8 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 template<>
 struct enum_traits<aim_activity_actor::WeaponSource> {
@@ -143,7 +150,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
     g->reenter_fullscreen();
 
@@ -172,11 +178,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         }
         return;
     }
-
-    // Recenter our view
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
 
     // Fire!
     item *weapon = get_weapon();
@@ -257,7 +258,7 @@ void aim_activity_actor::restore_view()
     g->u.view_offset = initial_view_offset;
     if( changed_z ) {
         g->m.invalidate_map_cache( g->u.view_offset.z );
-        g->refresh_all();
+        g->invalidate_main_ui_adaptor();
     }
 }
 
@@ -303,7 +304,6 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.moves -= reload_time;
-    g->refresh_all();
     return true;
 }
 
@@ -328,7 +328,6 @@ void aim_activity_actor::unload_RAS_weapon()
         if( first_turn ) {
             you.moves = moves_before_unload;
         }
-        g->refresh_all();
     }
 }
 
@@ -504,18 +503,18 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
+enum class hack_result : int {
+    UNABLE,
+    FAIL,
+    NOTHING,
+    SUCCESS
 };
 
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
+enum class hack_type : int {
+    SAFE,
+    DOOR,
+    GAS,
+    NONE
 };
 
 static int hack_level( const Character &who )
@@ -530,7 +529,7 @@ static int hack_level( const Character &who )
 static hack_result hack_attempt( Character &who )
 {
     if( who.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
     const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
@@ -538,7 +537,7 @@ static hack_result hack_attempt( Character &who )
                                   who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
 
     // TODO: Remove this once player -> Character migration is complete
@@ -574,25 +573,25 @@ static hack_result hack_attempt( Character &who )
                                      units::to_kilojoule( who.get_power_level() ) ) ) );
             }
         }
-        return HACK_FAIL;
+        return hack_result::FAIL;
     } else if( success < 6 ) {
-        return HACK_NOTHING;
+        return hack_result::NOTHING;
     } else {
-        return HACK_SUCCESS;
+        return hack_result::SUCCESS;
     }
 }
 
 static hack_type get_hack_type( tripoint examp )
 {
-    hack_type type = HACK_NULL;
+    hack_type type = hack_type::NONE;
     const furn_t &xfurn_t = g->m.furn( examp ).obj();
     const ter_t &xter_t = g->m.ter( examp ).obj();
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
+        type = hack_type::GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
+        type = hack_type::DOOR;
     } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
+        type = hack_type::SAFE;
     }
     return type;
 }
@@ -602,10 +601,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
-        case HACK_UNABLE:
+        case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
-        case HACK_FAIL:
+        case hack_result::FAIL:
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             g->events().send<event_type::triggers_alarm>( who.getID() );
@@ -616,11 +615,11 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                                      who.global_sm_location() );
             }
             break;
-        case HACK_NOTHING:
+        case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
             break;
-        case HACK_SUCCESS:
-            if( type == HACK_GAS ) {
+        case hack_result::SUCCESS:
+            if( type == hack_type::GAS ) {
                 int tankUnits;
                 std::string fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
@@ -638,10 +637,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 } else {
                     who.add_msg_if_player( _( "Nothing happens." ) );
                 }
-            } else if( type == HACK_SAFE ) {
+            } else if( type == hack_type::SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
                 g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            } else if( type == HACK_DOOR ) {
+            } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 g->m.ter_set( examp, t_card_reader_broken );
@@ -664,6 +663,78 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
 {
     return hacking_activity_actor().clone();
+}
+
+void hotwire_car_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
+{
+    if( calendar::once_every( 1_minutes ) ) {
+        bool lost = !g->m.veh_at( g->m.getlocal( target ) ).has_value();
+        if( lost ) {
+            act.set_to_null();
+            debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        }
+    }
+}
+
+void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( target ) );
+    if( !vp ) {
+        debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        return;
+    }
+    vehicle &veh = vp->vehicle();
+
+    int skill = who.get_skill_level( skill_mechanics );
+    if( skill > rng( 1, 6 ) ) {
+        // Success
+        who.add_msg_if_player( _( "You found the wire that starts the engine." ) );
+        veh.is_locked = false;
+    } else if( skill > rng( 0, 4 ) ) {
+        // Soft fail
+        who.add_msg_if_player( _( "You found a wire that looks like the right one." ) );
+        veh.is_alarm_on = veh.has_security_working();
+        veh.is_locked = false;
+    } else if( !veh.is_alarm_on ) {
+        // Hard fail
+        who.add_msg_if_player( _( "The red wire always starts the engine, doesn't it?" ) );
+        veh.is_alarm_on = veh.has_security_working();
+    } else {
+        // Already failed
+        who.add_msg_if_player(
+            _( "By process of elimination, you found the wire that starts the engine." ) );
+        veh.is_locked = false;
+    }
+}
+
+void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target", target );
+    jsout.member( "moves_total", moves_total );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn &jsin )
+{
+    hotwire_car_activity_actor actor( 0, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target", actor.target );
+    data.read( "moves_total", actor.moves_total );
+
+    return actor.clone();
 }
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
@@ -814,6 +885,176 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     return actor.clone();
 }
 
+void lockpick_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = moves_total;
+    act.moves_total = moves_total;
+}
+
+void lockpick_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    item *it;
+    if( lockpick.has_value() ) {
+        it = ( *lockpick ).get_item();
+    } else {
+        it = &*fake_lockpick;
+    }
+
+    if( !it ) {
+        debugmsg( "Lost ACT_LOCKPICK item" );
+        return;
+    }
+
+    const tripoint target = g->m.getlocal( this->target );
+    const ter_id ter_type = g->m.ter( target );
+    const furn_id furn_type = g->m.furn( target );
+    ter_id new_ter_type;
+    furn_id new_furn_type;
+    std::string open_message;
+    if( ter_type == t_chaingate_l ) {
+        new_ter_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
+               ter_type == t_door_locked_interior ) {
+        new_ter_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_locked_peep ) {
+        new_ter_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_metal_pickable ) {
+        new_ter_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_bar_locked ) {
+        new_ter_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open…" );
+    } else if( furn_type == f_gunsafe_ml ) {
+        new_furn_type = f_safe_o;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    }
+
+    bool perfect = it->has_flag( flag_PERFECT_LOCKPICK );
+    bool destroy = false;
+
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    int pick_roll = std::pow( 1.5, who.get_skill_level( skill_lockpick ) ) *
+                    ( std::pow( 1.3, who.get_skill_level( skill_mechanics ) ) +
+                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                    who.dex_cur / 4.0;
+    int lock_roll = rng( 1, 120 );
+    int xp_gain = 0;
+    if( perfect || ( pick_roll >= lock_roll ) ) {
+        xp_gain += lock_roll;
+        g->m.has_furn( target ) ?
+        g->m.furn_set( target, new_furn_type ) :
+        static_cast<void>( g->m.ter_set( target, new_ter_type ) );
+        who.add_msg_if_player( m_good, open_message );
+    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
+        who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
+        g->m.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
+    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
+        if( it->inc_damage() ) {
+            who.add_msg_if_player( m_bad,
+                                   _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+            destroy = true;
+        } else {
+            who.add_msg_if_player( m_bad,
+                                   _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
+        }
+    } else {
+        who.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
+    }
+
+    if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
+        if( !perfect ) {
+            // You don't gain much skill since the item does all the hard work for you
+            xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
+        }
+        you->practice( skill_lockpick, xp_gain );
+    }
+
+    if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+        sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                 who.global_sm_location() );
+        }
+    }
+
+    if( destroy && lockpick.has_value() ) {
+        ( *lockpick ).remove_item();
+    }
+}
+
+cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
+{
+    if( you.is_mounted() ) {
+        you.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return cata::nullopt;
+    }
+
+    const std::function<bool( const tripoint & )> is_pickable = [&you]( const tripoint & p ) {
+        if( p == you.pos() ) {
+            return false;
+        }
+        return g->m.has_flag( "PICKABLE", p );
+    };
+
+    const cata::optional<tripoint> target = choose_adjacent_highlight(
+            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+    if( !target ) {
+        return cata::nullopt;
+    }
+
+    if( is_pickable( *target ) ) {
+        return target;
+    }
+
+    const ter_id terr_type = g->m.ter( *target );
+    if( *target == you.pos() ) {
+        you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+    } else if( g->critter_at<npc>( *target ) ) {
+        you.add_msg_if_player( m_info,
+                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
+    } else if( terr_type == t_door_c ) {
+        you.add_msg_if_player( m_info, _( "That door isn't locked." ) );
+    } else {
+        you.add_msg_if_player( m_info, _( "That cannot be picked." ) );
+    }
+    return cata::nullopt;
+}
+
+void lockpick_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "lockpick", lockpick );
+    jsout.member( "fake_lockpick", fake_lockpick );
+    jsout.member( "target", target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &jsin )
+{
+    lockpick_activity_actor actor( 0, cata::nullopt, cata::nullopt, tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "lockpick", actor.lockpick );
+    data.read( "fake_lockpick", actor.fake_lockpick );
+    data.read( "target", actor.target );
+
+    return actor.clone();
+}
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -908,6 +1149,11 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
 void consume_activity_actor::finish( player_activity &act, Character & )
 {
+    // Prevent interruptions from this point onwards, so that e.g. pain from
+    // injecting serum doesn't pop up messages about cancelling consuming (it's
+    // too late; we've already consumed).
+    act.interruptable = false;
+
     if( consume_location ) {
         if( consume_location.where() == item_location::type::character ) {
             g->u.consume( consume_location, force );
@@ -1051,6 +1297,8 @@ deserialize_functions = {
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
+    { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },

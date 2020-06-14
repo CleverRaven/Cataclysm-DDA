@@ -201,6 +201,7 @@ void item_pocket::serialize( JsonOut &json ) const
         json.start_object();
         json.member( "pocket_type", data->type );
         json.member( "contents", contents );
+        json.member( "_sealed", _sealed );
         json.end_object();
     }
 }
@@ -212,6 +213,8 @@ void item_pocket::deserialize( JsonIn &jsin )
     int saved_type_int;
     data.read( "pocket_type", saved_type_int );
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+    data.read( "_sealed", _sealed );
+    _saved_sealed = _sealed;
 }
 
 void pocket_data::deserialize( JsonIn &jsin )
@@ -450,6 +453,10 @@ void Character::load( const JsonObject &data )
 
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
+    if( !data.read( "blood_type", my_blood_type ) ||
+        !data.read( "blood_rh_factor", blood_rh_factor ) ) {
+        randomize_blood();
+    }
 
     data.read( "custom_profession", custom_profession );
 
@@ -616,7 +623,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item( "null", 0 );
+    weapon = item();
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -718,6 +725,8 @@ void Character::store( JsonOut &json ) const
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
+    json.member_as_string( "blood_type", my_blood_type );
+    json.member( "blood_rh_factor", blood_rh_factor );
 
     json.member( "custom_profession", custom_profession );
 
@@ -1668,7 +1677,7 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", 0 );
+    real_weapon = item();
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
@@ -3508,17 +3517,23 @@ void cata_variant::serialize( JsonOut &jsout ) const
 
 void cata_variant::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
-        jsin.error( "Failed to read cata_variant" );
+    if( jsin.test_int() ) {
+        *this = cata_variant::make<cata_variant_type::int_>( jsin.get_int() );
+    } else if( jsin.test_bool() ) {
+        *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
+    } else {
+        jsin.start_array();
+        if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+            jsin.error( "Failed to read cata_variant" );
+        }
+        jsin.end_array();
     }
-    jsin.end_array();
 }
 
 void event_multiset::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    std::vector<counts_type::value_type> copy( counts_.begin(), counts_.end() );
+    std::vector<summaries_type::value_type> copy( summaries_.begin(), summaries_.end() );
     jsout.member( "event_counts", copy );
     jsout.end_object();
 }
@@ -3526,9 +3541,23 @@ void event_multiset::serialize( JsonOut &jsout ) const
 void event_multiset::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    std::vector<std::pair<cata::event::data_type, int>> copy;
-    jo.read( "event_counts", copy );
-    counts_ = { copy.begin(), copy.end() };
+    JsonArray events = jo.get_array( "event_counts" );
+    if( !events.empty() && events.get_array( 0 ).has_int( 1 ) ) {
+        // TEMPORARY until 0.F
+        // Read legacy format with just ints
+        std::vector<std::pair<cata::event::data_type, int>> copy;
+        jo.read( "event_counts", copy );
+        summaries_.clear();
+        for( const std::pair<cata::event::data_type, int> &p : copy ) {
+            event_summary summary{ p.second, calendar::start_of_game, calendar::start_of_game };
+            summaries_.emplace( p.first, summary );
+        }
+    } else {
+        // Read actual summaries
+        std::vector<std::pair<cata::event::data_type, event_summary>> copy;
+        jo.read( "event_counts", copy );
+        summaries_ = { copy.begin(), copy.end() };
+    }
 }
 
 void stats_tracker::serialize( JsonOut &jsout ) const

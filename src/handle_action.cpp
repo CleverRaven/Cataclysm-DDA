@@ -50,6 +50,7 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "options.h"
@@ -68,6 +69,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -201,43 +203,42 @@ input_context game::get_player_input( std::string &action )
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
         const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
-        int iStartX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0;
-        int iStartY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
-                      0;
-        int iEndX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+        point iStart( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0,
+                      ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                      0 );
+        point iEnd( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
                     ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
                     2 :
-                    TERRAIN_WINDOW_WIDTH;
-        int iEndY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                    TERRAIN_WINDOW_WIDTH, ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
                     ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
-                    2 : TERRAIN_WINDOW_HEIGHT;
+                    2 : TERRAIN_WINDOW_HEIGHT );
 
         if( fullscreen ) {
-            iStartX = 0;
-            iStartY = 0;
-            iEndX = TERMX;
-            iEndY = TERMY;
+            iStart.x = 0;
+            iStart.y = 0;
+            iEnd.x = TERMX;
+            iEnd.y = TERMY;
         }
 
         //x% of the Viewport, only shown on visible areas
         const auto weather_info = get_weather_animation( weather.weather );
-        int offset_x = u.posx() + u.view_offset.x - getmaxx( w_terrain ) / 2;
-        int offset_y = u.posy() + u.view_offset.y - getmaxy( w_terrain ) / 2;
+        point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
+                      -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
         if( tile_iso && use_tiles ) {
-            iStartX = 0;
-            iStartY = 0;
-            iEndX = MAPSIZE_X;
-            iEndY = MAPSIZE_Y;
-            offset_x = 0;
-            offset_y = 0;
+            iStart.x = 0;
+            iStart.y = 0;
+            iEnd.x = MAPSIZE_X;
+            iEnd.y = MAPSIZE_Y;
+            offset.x = 0;
+            offset.y = 0;
         }
 #endif //TILES
 
         // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
-        const int dropCount = static_cast<int>( iEndX * iEndY * weather_info.factor );
+        const int dropCount = static_cast<int>( iEnd.x * iEnd.y * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -246,7 +247,17 @@ input_context game::get_player_input( std::string &action )
         wPrint.vdrops.clear();
 
         ctxt.set_timeout( 125 );
-        bool initial_draw = true;
+
+        shared_ptr_fast<game::draw_callback_t> animation_cb =
+        make_shared_fast<game::draw_callback_t>( [&]() {
+            draw_weather( wPrint );
+
+            if( uquit != QUIT_WATCH ) {
+                draw_sct();
+            }
+        } );
+        add_draw_callback( animation_cb );
+
         do {
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
@@ -256,67 +267,28 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
+                invalidate_main_ui_adaptor();
 
-#if defined(TILES)
-                if( !use_tiles ) {
-#endif //TILES
-                    //If not using tiles, erase previous drops from w_terrain
-                    for( auto &elem : wPrint.vdrops ) {
-                        const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
-                        const lit_level lighting = visibility_cache[location.x][location.y];
-                        wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
-                        if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
-                            m.drawsq( w_terrain, u, location, false, true,
-                                      u.pos() + u.view_offset,
-                                      lighting == lit_level::LOW, lighting == lit_level::BRIGHT );
-                        }
-                    }
-#if defined(TILES)
-                }
-#endif //TILES
                 wPrint.vdrops.clear();
 
                 for( int i = 0; i < dropCount; i++ ) {
-                    const int iRandX = rng( iStartX, iEndX - 1 );
-                    const int iRandY = rng( iStartY, iEndY - 1 );
-                    const int mapx = iRandX + offset_x;
-                    const int mapy = iRandY + offset_y;
+                    const point iRand( rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) );
+                    const point map( iRand + offset );
 
-                    const tripoint mapp( mapx, mapy, u.posz() );
+                    const tripoint mapp( map, u.posz() );
 
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
 
-                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
+                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
                         !critter_at( mapp, true ) ) {
                         // Suppress if a critter is there
-                        wPrint.vdrops.emplace_back( std::make_pair( iRandX, iRandY ) );
+                        wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
                     }
                 }
             }
             // don't bother calculating SCT if we won't show it
             if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
-#if defined(TILES)
-                if( !use_tiles ) {
-#endif
-                    for( auto &elem : SCT.vSCT ) {
-                        //Erase previous text from w_terrain
-                        if( elem.getStep() > 0 ) {
-                            const int width = utf8_width( elem.getText() );
-                            for( int i = 0; i < width; ++i ) {
-                                const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
-                                const lit_level lighting = visibility_cache[location.x][location.y];
-                                wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
-                                if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
-                                    m.drawsq( w_terrain, u, location, false, true,
-                                              u.pos() + u.view_offset,
-                                              lighting == lit_level::LOW, lighting == lit_level::BRIGHT );
-                                }
-                            }
-                        }
-                    }
-#if defined(TILES)
-                }
-#endif
+                invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
 
@@ -347,27 +319,15 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
-            if( initial_draw ) {
-                werase( w_terrain );
-
-                draw_ter();
-                initial_draw = false;
-            }
-            draw_weather( wPrint );
-
-            if( uquit != QUIT_WATCH ) {
-                draw_sct();
-            }
-
-            wrefresh( w_terrain );
-            g->draw_panels();
-
+            std::unique_ptr<static_popup> deathcam_msg_popup;
             if( uquit == QUIT_WATCH ) {
-                query_popup()
-                .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
-                .on_top( true )
-                .show();
+                deathcam_msg_popup = std::make_unique<static_popup>();
+                deathcam_msg_popup
+                ->wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
+                .on_top( true );
             }
+
+            ui_manager::redraw_invalidated();
         } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
                  && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
@@ -395,12 +355,10 @@ inline static void rcdrive( const point &d )
         u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
         return;
     }
-    int cx = 0;
-    int cy = 0;
-    int cz = 0;
-    car_location_string >> cx >> cy >> cz;
+    tripoint c;
+    car_location_string >> c.x >> c.y >> c.z;
 
-    auto rc_pairs = m.get_rc_items( tripoint( cx, cy, cz ) );
+    auto rc_pairs = m.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
         if( rc_pair->second->typeId() == itype_radio_car_on && rc_pair->second->active ) {
@@ -414,14 +372,14 @@ inline static void rcdrive( const point &d )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( cx + d.x, cy + d.y, cz );
+    tripoint dest( c + d );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
-        tripoint src( cx, cy, cz );
+        tripoint src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
@@ -787,6 +745,10 @@ static void smash()
             return;
         }
     }
+
+    const int bash_furn = m.furn( smashp )->bash.str_min;
+    const int bash_ter = m.ter( smashp )->bash.str_min;
+
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
@@ -813,6 +775,31 @@ static void smash()
                 }
                 u.remove_weapon();
                 u.check_dead_state();
+            }
+
+            // It hurts if you smash things with your hands.
+            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
+
+            int glove_coverage = 0;
+            for( const item &i : u.worn ) {
+                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
+                    int temp_coverage = i.get_coverage();
+                    if( glove_coverage < temp_coverage ) {
+                        glove_coverage = temp_coverage;
+                    }
+                }
+            }
+
+            if( !u.has_weapon() && hard_target ) {
+                int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
+                if( u.hp_cur[hp_arm_r] > u.hp_cur[hp_arm_l] ) {
+                    u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_BASH, dam ) );
+                } else {
+                    u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_BASH, dam ) );
+                }
+                if( dam > 0 ) {
+                    add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), m.furnname( smashp ) );
+                }
             }
         }
         u.moves -= move_cost;
@@ -1292,16 +1279,12 @@ static void read()
 static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
 
     target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
     }
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
     g->reenter_fullscreen();
 }
 
@@ -1379,22 +1362,27 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &u = g->u;
+    const std::vector<move_mode_id> &modes = move_modes_by_speed();
+    const int cycle = 1027;
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
 
-    as_m.entries.emplace_back( CMM_RUN, true, 'r', _( "Run" ) );
-    as_m.entries.emplace_back( CMM_WALK, true, 'w', _( "Walk" ) );
-    as_m.entries.emplace_back( CMM_CROUCH, true, 'c', _( "Crouch" ) );
-    as_m.entries.emplace_back( CMM_COUNT, true, '"', _( "Cycle move mode (run/walk/crouch)" ) );
-    as_m.selected = 1;
+    for( size_t i = 0; i < modes.size(); ++i ) {
+        const move_mode_id &curr = modes[i];
+        as_m.entries.emplace_back( i, u.can_switch_to( curr ), curr->letter(), curr->name() );
+    }
+    as_m.entries.emplace_back( cycle, u.can_switch_to( u.current_movement_mode()->cycle() ), '"',
+                               _( "Cycle move mode" ) );
+    // This should select the middle move mode
+    as_m.selected = std::floor( modes.size() / 2 );
     as_m.query();
 
     if( as_m.ret != UILIST_CANCEL ) {
-        if( as_m.ret == CMM_COUNT ) {
+        if( as_m.ret == cycle ) {
             u.cycle_move_mode();
         } else {
-            u.set_movement_mode( static_cast<character_movemode>( as_m.ret ) );
+            u.set_movement_mode( modes[as_m.ret] );
         }
     }
 }
@@ -1545,7 +1533,6 @@ bool game::handle_action()
 
         if( act == ACTION_KEYBINDINGS ) {
             // already handled by input context
-            refresh_all();
             return false;
         }
 
@@ -2090,16 +2077,13 @@ bool game::handle_action()
                 break;
             case ACTION_BIONICS:
                 u.power_bionics();
-                refresh_all();
                 break;
             case ACTION_MUTATIONS:
                 u.power_mutations();
-                refresh_all();
                 break;
 
             case ACTION_SORT_ARMOR:
                 u.sort_armor();
-                refresh_all();
                 break;
 
             case ACTION_WAIT:
@@ -2143,7 +2127,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    refresh_all();
                 }
                 break;
 
@@ -2232,7 +2215,8 @@ bool game::handle_action()
 
             case ACTION_WHITELIST_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
-                    get_safemode().add_rule( get_safemode().lastmon_whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
+                    get_safemode().add_rule( get_safemode().lastmon_whitelist, Creature::Attitude::ANY, 0,
+                                             rule_state::WHITELISTED );
                     add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist );
                     set_safe_mode( SAFE_MODE_ON );
                     mostseen = 0;
@@ -2249,7 +2233,6 @@ bool game::handle_action()
                         uquit = QUIT_SUICIDE;
                     }
                 }
-                refresh_all();
                 break;
 
             case ACTION_SAVE:
@@ -2259,7 +2242,6 @@ bool game::handle_action()
                         uquit = QUIT_SAVED;
                     }
                 }
-                refresh_all();
                 break;
 
             case ACTION_QUICKSAVE:
@@ -2275,13 +2257,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MAP:
-                werase( w_terrain );
                 ui::omap::display();
                 break;
 
             case ACTION_SKY:
                 if( m.is_outside( u.pos() ) ) {
-                    werase( w_terrain );
                     ui::omap::display_visible_weather();
                 } else {
                     add_msg( m_info, _( "You can't see the sky from here." ) );
@@ -2302,47 +2282,38 @@ bool game::handle_action()
 
             case ACTION_MORALE:
                 u.disp_morale();
-                refresh_all();
                 break;
 
             case ACTION_MESSAGES:
                 Messages::display_messages();
-                refresh_all();
                 break;
 
             case ACTION_HELP:
                 get_help().display_help();
-                refresh_all();
                 break;
 
             case ACTION_OPTIONS:
                 get_options().show( true );
-                g->init_ui( true );
                 break;
 
             case ACTION_AUTOPICKUP:
                 get_auto_pickup().show();
-                refresh_all();
                 break;
 
             case ACTION_AUTONOTES:
                 get_auto_notes_settings().show_gui();
-                refresh_all();
                 break;
 
             case ACTION_SAFEMODE:
                 get_safemode().show();
-                refresh_all();
                 break;
 
             case ACTION_COLOR:
                 all_colors.show_gui();
-                refresh_all();
                 break;
 
             case ACTION_WORLD_MODS:
                 world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
-                refresh_all();
                 break;
 
             case ACTION_DEBUG:

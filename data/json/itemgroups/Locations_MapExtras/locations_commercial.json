@@ -96,6 +96,7 @@
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],
+      [ "sandbox_kit", 5 ],
       [ "survival_kit", 5 ]
     ]
   },

@@ -16,7 +16,9 @@
 #include "cata_variant.h"
 #include "character_id.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
@@ -954,11 +956,34 @@ void memorial_logger::notify( const cata::event &e )
                  e.get<bool>( "achievements_enabled" ) ? "" : _( " (disabled)" ) );
             break;
         }
+        case event_type::character_forgets_spell: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+                add( pgettext( "memorial_male", "Forgot the spell %s." ),
+                     pgettext( "memorial_female", "Forgot the spell %s." ),
+                     spell_name );
+            }
+            break;
+        }
+        case event_type::character_learns_spell: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+                add( pgettext( "memorial_male", "Learned the spell %s." ),
+                     pgettext( "memorial_female", "Learned the spell %s." ),
+                     spell_name );
+            }
+            break;
+        }
         case event_type::player_levels_spell: {
-            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
-            add( pgettext( "memorial_male", "Gained a spell level on %s." ),
-                 pgettext( "memorial_female", "Gained a spell level on %s." ),
-                 spell_name );
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+                add( pgettext( "memorial_male", "Gained a spell level on %s." ),
+                     pgettext( "memorial_female", "Gained a spell level on %s." ),
+                     spell_name );
+            }
             break;
         }
         case event_type::releases_subspace_specimens: {
@@ -1027,12 +1052,23 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Set off an alarm." ) );
             break;
         }
+        case event_type::uses_debug_menu: {
+            add( pgettext( "memorial_male", "Used the debug menu (%s)." ),
+                 pgettext( "memorial_female", "Used the debug menu (%s)." ),
+                 io::enum_to_string( e.get<debug_menu::debug_menu_index>( "debug_menu_option" ) ) );
+            break;
+        }
         // All the events for which we have no memorial log are here
+        case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
+        case event_type::character_wears_item:
+        case event_type::character_wields_item:
+        case event_type::game_load:
+        case event_type::game_save:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

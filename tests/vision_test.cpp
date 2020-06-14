@@ -23,6 +23,10 @@
 #include "shadowcasting.h"
 #include "type_id.h"
 
+static const move_mode_id move_mode_walk( "walk" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_crouch( "crouch" );
+
 enum class vision_test_flags {
     none = 0,
     no_3d = 1 << 0,
@@ -59,9 +63,9 @@ static void full_map_test( const std::vector<std::string> &setup,
     g->reset_light_level();
 
     if( !!( flags & vision_test_flags::crouching ) ) {
-        g->u.set_movement_mode( character_movemode::CMM_CROUCH );
+        g->u.set_movement_mode( move_mode_crouch );
     } else {
-        g->u.set_movement_mode( character_movemode::CMM_WALK );
+        g->u.set_movement_mode( move_mode_walk );
     }
 
     REQUIRE( !g->u.is_blind() );

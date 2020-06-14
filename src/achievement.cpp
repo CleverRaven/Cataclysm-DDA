@@ -78,6 +78,7 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
 {
     switch( data ) {
         // *INDENT-OFF*
+        case achievement_comparison::equal: return "==";
         case achievement_comparison::less_equal: return "<=";
         case achievement_comparison::greater_equal: return ">=";
         case achievement_comparison::anything: return "anything";
@@ -142,9 +143,11 @@ static nc_color color_from_completion( bool is_conduct, achievement_completion c
 struct achievement_requirement {
     string_id<event_statistic> statistic;
     achievement_comparison comparison;
-    int target;
-    bool becomes_false;
+    cata_variant target;
     requirement_visibility visibility = requirement_visibility::always;
+    cata::optional<translation> description;
+
+    bool becomes_false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -156,10 +159,14 @@ struct achievement_requirement {
         }
 
         jo.read( "visible", visibility, false );
+        jo.read( "description", description, false );
     }
 
     void finalize() {
         switch( comparison ) {
+            case achievement_comparison::equal:
+                becomes_false = statistic->monotonicity() == monotonically::constant;
+                return;
             case achievement_comparison::less_equal:
                 becomes_false = is_increasing( statistic->monotonicity() );
                 return;
@@ -178,17 +185,26 @@ struct achievement_requirement {
 
     void check( const achievement_id &id ) const {
         if( !statistic.is_valid() ) {
-            debugmsg( "score %s refers to invalid statistic %s", id.str(), statistic.str() );
+            debugmsg( "Achievement %s refers to invalid statistic %s", id.str(), statistic.str() );
+        }
+
+        if( target.type() != cata_variant_type::int_ && !description &&
+            visibility != requirement_visibility::never &&
+            comparison != achievement_comparison::anything ) {
+            debugmsg( "Achievement %s has a non-integer requirement which is sometimes visible.  "
+                      "Such requirements must have a description, but this one does not.",
+                      id.str() );
         }
     }
 
     bool satisifed_by( const cata_variant &v ) const {
-        int value = v.get<int>();
         switch( comparison ) {
+            case achievement_comparison::equal:
+                return v == target;
             case achievement_comparison::less_equal:
-                return value <= target;
+                return v.get<int>() <= target.get<int>();
             case achievement_comparison::greater_equal:
-                return value >= target;
+                return v.get<int>() >= target.get<int>();
             case achievement_comparison::anything:
                 return true;
             case achievement_comparison::last:
@@ -257,6 +273,14 @@ achievement_completion achievement::time_bound::completed() const
 {
     time_point now = calendar::turn;
     switch( comparison_ ) {
+        case achievement_comparison::equal:
+            if( now == target() ) {
+                return achievement_completion::completed;
+            } else if( now > target() ) {
+                return achievement_completion::failed;
+            } else {
+                return achievement_completion::pending;
+            }
         case achievement_comparison::less_equal:
             if( now <= target() ) {
                 return achievement_completion::completed;
@@ -281,6 +305,8 @@ achievement_completion achievement::time_bound::completed() const
 bool achievement::time_bound::becomes_false() const
 {
     switch( comparison_ ) {
+        case achievement_comparison::equal:
+            return false;
         case achievement_comparison::less_equal:
             return true;
         case achievement_comparison::greater_equal:
@@ -322,6 +348,9 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
                                       to_string( target() - now ) );
             case achievement_completion::completed:
                 switch( comparison_ ) {
+                    case achievement_comparison::equal:
+                        return string_format( _( "Exactly %s from %s" ),
+                                              to_string( period_ ), translate_epoch( epoch_ ) );
                     case achievement_comparison::less_equal:
                         return string_format( _( "Within %s of %s (%s remaining)" ),
                                               to_string( period_ ), translate_epoch( epoch_ ),
@@ -436,17 +465,22 @@ static cata::optional<std::string> text_for_requirement(
         return cata::nullopt;
     }
     nc_color c = is_satisfied ? c_green : c_yellow;
-    int current = current_value.get<int>();
-    int target;
     std::string result;
-    if( req.comparison == achievement_comparison::anything ) {
-        target = 1;
-        result = string_format( _( "Triggered by " ) );
+    if( req.description ) {
+        result = req.description->translated();
+    } else if( req.comparison == achievement_comparison::anything ) {
+        result = string_format( _( "Triggered by %s" ), req.statistic->description().translated() );
+    } else if( current_value.type() == cata_variant_type::int_ ) {
+        int current = current_value.get<int>();
+        int target = req.target.get<int>();
+        result = string_format( _( "%s/%s %s" ), current, target,
+                                req.statistic->description().translated( target ) );
     } else {
-        target = req.target;
-        result = string_format( _( "%s/%s " ), current, target );
+        // The tricky part here is formatting an arbitrary cata_variant value.
+        // It might be possible, but for now we punt the problem to content
+        // developers.
+        result = "ERROR: Non-integer requirements must provide a custom description";
     }
-    result += req.statistic->description().translated( target );
     return colorize( result, c );
 }
 
@@ -775,6 +809,7 @@ std::string achievements_tracker::ui_text_for( const achievement *ach ) const
 
 void achievements_tracker::clear()
 {
+    enabled_ = true;
     trackers_.clear();
     initial_achievements_.clear();
     achievements_status_.clear();

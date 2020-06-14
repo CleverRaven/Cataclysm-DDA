@@ -97,18 +97,6 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum character_movemode : int {
-    CMM_WALK = 0,
-    CMM_RUN,
-    CMM_CROUCH,
-    CMM_COUNT
-};
-
-template<>
-struct enum_traits<character_movemode> {
-    static constexpr auto last = character_movemode::CMM_COUNT;
-};
-
 enum class fatigue_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
@@ -189,6 +177,19 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
     SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
+};
+
+enum class blood_type {
+    blood_O,
+    blood_A,
+    blood_B,
+    blood_AB,
+    num_bt
+};
+
+template<>
+struct enum_traits<blood_type> {
+    static constexpr auto last = blood_type::num_bt;
 };
 
 // This tries to represent both rating and
@@ -459,7 +460,7 @@ class Character : public Creature, public visitable<Character>
         int get_fat_to_hp() const;
 
         /** Get size class of character **/
-        m_size get_size() const override;
+        creature_size get_size() const override;
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -627,11 +628,29 @@ class Character : public Creature, public visitable<Character>
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
-        /** Check against the character's current movement mode */
-        bool movement_mode_is( character_movemode mode ) const;
-        character_movemode get_movement_mode() const;
 
-        virtual void set_movement_mode( character_movemode mode ) = 0;
+        void wait_effects( bool attacking = false );
+
+        /** Series of checks to remove effects for waiting or moving */
+        bool try_remove_grab();
+        void try_remove_downed();
+        void try_remove_bear_trap();
+        void try_remove_lightsnare();
+        void try_remove_heavysnare();
+        void try_remove_crushed();
+        void try_remove_webs();
+
+        /** Check against the character's current movement mode */
+        bool movement_mode_is( const move_mode_id &mode ) const;
+        move_mode_id current_movement_mode() const;
+
+        bool is_running() const;
+        bool is_walking() const;
+        bool is_crouching() const;
+
+        bool can_switch_to( const move_mode_id &mode ) const;
+
+        virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
@@ -821,6 +840,9 @@ class Character : public Creature, public visitable<Character>
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
+        /**Trigger reflex activation if the mutation has one*/
+        void mutation_reflex_trigger( const trait_id &mut );
+
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
@@ -850,7 +872,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
         /** source of truth of whether a Character can run */
-        bool can_run();
+        bool can_run() const;
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
@@ -978,7 +1000,7 @@ class Character : public Creature, public visitable<Character>
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchantment::mod value,
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
@@ -992,6 +1014,8 @@ class Character : public Creature, public visitable<Character>
         float mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
         float mabuff_dodge_bonus() const;
+        /** Returns the blocking effectiveness bonus from martial arts buffs */
+        int mabuff_block_effectiveness_bonus() const;
         /** Returns the block bonus from martial arts buffs */
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
@@ -1060,7 +1084,7 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Bionic Stuff ---------------
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
-        bool activate_bionic( int b, bool eff_only = false );
+        bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
@@ -1153,6 +1177,9 @@ class Character : public Creature, public visitable<Character>
                                 const units::energy &power_lvl, int pl_skill );
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
+
+        /**When a critical failure occurs*/
+        void roll_critical_bionics_failure( body_part bp );
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1397,6 +1424,20 @@ class Character : public Creature, public visitable<Character>
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
         int ammo_count_for( const item &gun );
+
+        /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+
+        /** Same as `Character::can_reload`, but checks for attached gunmods as well. */
+        hint_rating rate_action_reload( const item &it ) const;
+        /** Whether a tool or a gun can be unloaded. */
+        hint_rating rate_action_unload( const item &it ) const;
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
@@ -1690,6 +1731,10 @@ class Character : public Creature, public visitable<Character>
         int tank_plut;
         int reactor_plut;
         int slow_rad;
+        blood_type my_blood_type;
+        bool blood_rh_factor;
+        // Randomizes characters' blood type and Rh
+        void randomize_blood();
 
         int focus_pool;
         int cash;
@@ -2072,8 +2117,6 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
-        hint_rating rate_action_eat( const item &it ) const;
-
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,
@@ -2108,10 +2151,6 @@ class Character : public Creature, public visitable<Character>
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
-
-        /** Used to determine player feedback on item use for the inventory code.
-         *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_change_side( const item &it ) const;
 
         bool get_check_encumbrance() {
             return check_encumbrance;
@@ -2246,7 +2285,7 @@ class Character : public Creature, public visitable<Character>
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */
-        m_size size_class = MS_MEDIUM;
+        creature_size size_class = creature_size::medium;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
@@ -2305,7 +2344,7 @@ class Character : public Creature, public visitable<Character>
         faction_id fac_id;
         faction *my_fac = nullptr;
 
-        character_movemode move_mode;
+        move_mode_id move_mode;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
@@ -2391,7 +2430,7 @@ class Character : public Creature, public visitable<Character>
 };
 
 // Little size helper, exposed for use in deserialization code.
-m_size calculate_size( const Character &c );
+creature_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<Character::stat> {

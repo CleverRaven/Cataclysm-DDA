@@ -10,7 +10,7 @@
     "price": 1000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ";",
     "color": "light_gray"
   },

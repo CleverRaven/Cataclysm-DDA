@@ -604,8 +604,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::hostile );
-            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
+            bool valid = cr_att != Creature::Attitude::FRIENDLY &&
+                         sp.is_valid_effect_target( spell_target::hostile );
+            valid |= cr_att == Creature::Attitude::FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
             valid |= victim == &caster && sp.is_valid_effect_target( spell_target::self );
             if( valid ) {
                 victim->knock_back_to( to );
@@ -693,8 +694,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else if( !g->u.is_armed() ) {
-        g->u.weapon = granted;
+    } else if( !g->u.is_armed() && g->u.wield( granted, 0 ) ) {
+        // nothing to do
     } else {
         g->u.i_add( granted );
     }

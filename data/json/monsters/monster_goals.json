@@ -9,34 +9,18 @@
     "type": "behavior",
     "id": "absorb_items",
     "strategy": "sequential",
-    "predicate": "monster_not_hallucination",
-    "children": [ "do_absorb" ]
-  },
-  {
-    "type": "behavior",
-    "id": "do_absorb",
-    "predicate": "monster_items_available",
+    "conditions": [ { "predicate": "monster_not_hallucination" }, { "predicate": "monster_items_available" } ],
     "goal": "consume_items"
   },
   {
     "type": "behavior",
     "id": "EAT_CROP",
     "strategy": "sequential",
-    "predicate": "monster_not_hallucination",
-    "children": [ "ready_to_eat_crop" ]
-  },
-  {
-    "type": "behavior",
-    "id": "ready_to_eat_crop",
-    "predicate": "monster_special_available",
-    "predicate_argument": "EAT_CROP",
-    "strategy": "sequential",
-    "children": [ "do_eat_crop" ]
-  },
-  {
-    "type": "behavior",
-    "id": "do_eat_crop",
-    "predicate": "monster_adjacent_plants",
+    "conditions": [
+      { "predicate": "monster_not_hallucination" },
+      { "predicate": "monster_special_available", "argument": "EAT_CROP" },
+      { "predicate": "monster_adjacent_plants" }
+    ],
     "goal": "EAT_CROP"
   }
 ]

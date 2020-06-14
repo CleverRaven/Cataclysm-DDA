@@ -71,7 +71,7 @@
     "prereqs": [ "MOUTH_TENDRILS" ],
     "cancels": [ "MANDIBLES" ],
     "category": [ "MIGO" ],
-    "wet_protection": [ { "part": "MOUTH", "neutral": 4 } ]
+    "wet_protection": [ { "part": "mouth", "neutral": 4 } ]
   },
   {
     "type": "mutation",
@@ -308,16 +308,16 @@
     "description": "You come from uplifted animal stock.  This decreases morale penalties for being wet.",
     "valid": false,
     "wet_protection": [
-      { "part": "HEAD", "neutral": 9 },
-      { "part": "LEG_L", "neutral": 11 },
-      { "part": "LEG_R", "neutral": 11 },
-      { "part": "FOOT_L", "neutral": 5 },
-      { "part": "FOOT_R", "neutral": 5 },
-      { "part": "ARM_L", "neutral": 11 },
-      { "part": "ARM_R", "neutral": 11 },
-      { "part": "HAND_L", "neutral": 16 },
-      { "part": "HAND_R", "neutral": 16 },
-      { "part": "TORSO", "neutral": 14 }
+      { "part": "head", "neutral": 9 },
+      { "part": "leg_l", "neutral": 11 },
+      { "part": "leg_r", "neutral": 11 },
+      { "part": "foot_l", "neutral": 5 },
+      { "part": "foot_r", "neutral": 5 },
+      { "part": "arm_l", "neutral": 11 },
+      { "part": "arm_r", "neutral": 11 },
+      { "part": "hand_l", "neutral": 16 },
+      { "part": "hand_r", "neutral": 16 },
+      { "part": "torso", "neutral": 14 }
     ]
   },
   {
@@ -413,9 +413,9 @@
     "description": "Your feet have grown massive and ready to support huge weight.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear normal size shoes.  Reduces wet effects.",
     "types": [ "LEGS" ],
     "category": [ "MASTODON" ],
-    "wet_protection": [ { "part": "FOOT_L", "neutral": 10 }, { "part": "FOOT_R", "neutral": 10 } ],
+    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "destroys_gear": true,
-    "armor": [ { "parts": [ "FOOT_L", "FOOT_R" ], "bash": 2, "cut": 2 } ],
+    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 2, "cut": 2 } ],
     "attacks": {
       "attack_text_u": "You kick %s with your massive feet",
       "attack_text_npc": "%1$s kicks %2$s with their massive feet",
@@ -476,7 +476,7 @@
     "description": "You have a pair of long, pointed tusks, like someone weaponized an elephant.  They allow you to make a strong piercing headbutt attack, but prevent wearing mouthgear that is not made of fabric.",
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
-    "restricts_gear": [ "MOUTH" ],
+    "restricts_gear": [ "mouth" ],
     "allow_soft_gear": true,
     "category": [ "MASTODON" ],
     "threshreq": [ "THRESH_MASTODON" ],
@@ -554,7 +554,7 @@
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
     "category": [ "MASTODON" ],
-    "restricts_gear": [ "MOUTH" ],
+    "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 10 },
     "craft_skill_bonus": [ [ "electronics", 1 ], [ "tailor", 1 ], [ "mechanics", 1 ], [ "cooking", 1 ] ]
   },
@@ -591,8 +591,8 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your hands have fused into three fingered paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
-    "encumbrance_always": [ [ "HAND_L", 10 ], [ "HAND_R", 10 ] ],
-    "restricts_gear": [ "HAND_L", "HAND_R" ],
+    "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
     "cancels": [ "TALONS" ],

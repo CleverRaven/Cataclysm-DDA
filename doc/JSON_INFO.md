@@ -514,7 +514,7 @@ This section describes each json file and their contents. Each json has their ow
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
-    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
+    "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "installation_requirement": "sewing_standard",
@@ -525,7 +525,7 @@ This section describes each json file and their contents. Each json has their ow
     "type": "bionic",
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
@@ -1254,6 +1254,18 @@ given field for that unique event:
 "field": "avatar_id"
 ```
 
+The value of the given field for the first event in the input stream:
+```C++
+"stat_type": "first_value",
+"field": "avatar_id"
+```
+
+The value of the given field for the last event in the input stream:
+```C++
+"stat_type": "last_value",
+"field": "avatar_id"
+```
+
 Regardless of `stat_type`, each `event_statistic` can also have:
 ```C++
 // Intended for use in describing scores and achievement requirements.
@@ -1312,6 +1324,10 @@ Additional optional fields for each entry in `requirements` are:
   `"when_requirement_completed"`, `"when_achievement_completed"`, or `"never"`
   to dictate when a requirement is visible.  Non-visible requirements will be
   hidden in the UI.
+* `"description"` will override the default description of the requirement, for
+  cases where the default is not suitable.  The default takes the form `x/y
+  foo` where `x` is the current statistic value, `y` is the target value, and
+  `foo` is the statistic description (if any).
 
 There are further optional fields for the `achievement`:
 
@@ -1422,29 +1438,29 @@ it is present to help catch errors.
             "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
             "str_mod" : 2
 },
-"wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
+"wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
-"restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
+"restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
 "encumbrance_always" : [ // Adds this much encumbrance to selected body parts
-    [ "ARM_L", 20 ],
-    [ "ARM_R", 20 ]
+    [ "arm_l", 20 ],
+    [ "arm_r", 20 ]
 ],
 "encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
-    [ "HAND_L", 50 ],
-    [ "HAND_R", 50 ]
+    [ "hand_l", 50 ],
+    [ "hand_r", 50 ]
 ],
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
-        [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
+        [ "head" ],
         { "bash" : 2 } // The resistance provided to the body part(s) selected above
     ],
     [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
+        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
 ],
@@ -1471,8 +1487,8 @@ it is present to help catch errors.
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
-"no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
-"lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ], // List of body parts that can't receive cbms. (default: empty)
+"lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
@@ -1483,8 +1499,36 @@ it is present to help catch errors.
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
                "moves": 100 // how many moves this costs. (default: 0)
-}
+},
+"triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
+  [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
+    {
+      "trigger_type": "MOOD", // What variable is tracked by this trigger
+      "threshold_high": -50, // Is True if the value is below threshold_high
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
+    }
+  ],
+  [
+    {
+      "trigger_type": "TIME", // What variable is tracked by this trigger
+      "threshold_low": 20, // Is True if the value is above threshold_low
+      "threshold_high": 2, // Is True if the value is below threshold_high
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates 
+      "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
+    }
+  ]
+]
 ```
+	**Triggers:**
+		| trigger_type  | Description
+		|---            |---
+		| MOOD          | Trigger depends of the mood value.
+		| MOON          | Trigger depends of the pahse of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
+		| HUNGER        | Trigger depends of the hunger value. Very Hungry ~= 110
+		| THIRST        | Trigger depends of the thirst value.
+		| PAIN          | Trigger depends of the pain value.
+		| STAMINA       | Trigger depends of the stamina value.
+		| TIME          | Trigger depends of the time of the day. [ 1am = 1, Midnight = 24 ]
 
 ### Vehicle Groups
 
@@ -1647,6 +1691,7 @@ See also VEHICLE_JSON.md
 "volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
 "integral_volume": 0,                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
 "integral_weight": 0,                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"longest_side": "15 cm",                     // Length of longest item dimension. Default is cube root of volume.
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
@@ -1662,6 +1707,10 @@ See also VEHICLE_JSON.md
     [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
+"milling": {                                 // Optional. If given, the item can be milled in a water/wind mill.
+  "into": "flour",                           // The item id of the result of the milling.
+  "conversion_rate": 1.0                     // Conversion of number of items that are milled (e.g. with a rate of 2, 10 input items will yield 20 milled items).
+},
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
@@ -1706,7 +1755,6 @@ See also VEHICLE_JSON.md
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
 "default_ammo": "556",           // If specified override the default ammo (optionally set this for ammo belts)
-"reliability" : 8,               // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
@@ -2063,9 +2111,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
-"material": "wood",   // Material types.  See materials.json for possible options
-"techniques": "FLAMING", // Combat techniques used by this tool
-"flags": "FIRE",      // Indicates special effects
+"material": [ "wood" ],   // Material types.  See materials.json for possible options
+"techniques": [ "FLAMING" ], // Combat techniques used by this tool
+"flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"
 "bashing": 12,        // Bashing damage caused by using it as a melee weapon
@@ -2380,10 +2428,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
-},
-"use_action": {
-    "type": "picklock", // picking a lock on a door
-    "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
 },
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.

@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <functional>
 #include <string>
@@ -14,6 +15,7 @@
 #include "enum_conversions.h"
 #include "hash_utils.h"
 #include "pldata.h"
+#include "point.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -23,7 +25,11 @@ template <typename E> struct enum_traits;
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
-enum character_movemode : int;
+
+namespace debug_menu
+{
+enum class debug_menu_index : int;
+} // namespace debug_menu
 
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
@@ -36,16 +42,21 @@ enum class cata_variant_type : int {
     body_part,
     bool_,
     character_id,
-    character_movemode,
+    chrono_seconds,
+    debug_menu_index,
     efftype_id,
     hp_part,
     int_,
     itype_id,
     matype_id,
     mtype_id,
+    move_mode_id,
     mutagen_technique,
     mutation_category_id,
     oter_id,
+    oter_type_str_id,
+    point,
+    profession_id,
     skill_id,
     species_id,
     spell_id,
@@ -53,6 +64,7 @@ enum class cata_variant_type : int {
     ter_id,
     trait_id,
     trap_str_id,
+    tripoint,
     num_types, // last
 };
 
@@ -155,7 +167,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 24,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 30,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -199,7 +211,21 @@ struct convert<cata_variant_type::character_id> {
 };
 
 template<>
-struct convert<cata_variant_type::character_movemode> : convert_enum<character_movemode> {};
+struct convert<cata_variant_type::chrono_seconds> {
+    using type = std::chrono::seconds;
+    static std::string to_string( const std::chrono::seconds v ) {
+        return std::to_string( v.count() );
+    }
+    static std::chrono::seconds from_string( const std::string &v ) {
+        return std::chrono::seconds( std::stoll( v ) );
+    }
+};
+
+template<>
+struct convert<cata_variant_type::debug_menu_index> : convert_enum<debug_menu::debug_menu_index> {};
+
+template<>
+struct convert<cata_variant_type::move_mode_id> : convert_string_id<move_mode_id> {};
 
 template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
@@ -237,6 +263,23 @@ template<>
 struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
 
 template<>
+struct convert<cata_variant_type::oter_type_str_id> : convert_string_id<oter_type_str_id> {};
+
+template<>
+struct convert<cata_variant_type::point> {
+    using type = point;
+    static std::string to_string( const point &v ) {
+        return v.to_string();
+    }
+    static point from_string( const std::string &v ) {
+        return point::from_string( v );
+    }
+};
+
+template<>
+struct convert<cata_variant_type::profession_id> : convert_string_id<profession_id> {};
+
+template<>
 struct convert<cata_variant_type::skill_id> : convert_string_id<skill_id> {};
 
 template<>
@@ -256,6 +299,17 @@ struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
 
 template<>
 struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> {};
+
+template<>
+struct convert<cata_variant_type::tripoint> {
+    using type = tripoint;
+    static std::string to_string( const tripoint &v ) {
+        return v.to_string();
+    }
+    static tripoint from_string( const std::string &v ) {
+        return tripoint::from_string( v );
+    }
+};
 
 } // namespace cata_variant_detail
 

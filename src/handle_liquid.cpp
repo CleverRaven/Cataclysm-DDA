@@ -187,8 +187,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
     std::vector<std::function<void()>> actions;
-
-    if( g->u.can_consume( liquid ) && !source_mon ) {
+    if( g->u.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
         if( g->u.can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
@@ -264,7 +263,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
 
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name );
 
-        g->refresh_all();
         const cata::optional<tripoint> target_pos_ = choose_adjacent( liqstr );
         if( !target_pos_ ) {
             return;
@@ -292,7 +290,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     }
 
     menu.query();
-    g->refresh_all();
     if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
@@ -334,6 +331,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     switch( target.dest_opt ) {
         case LD_CONSUME:
             g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
+            liquid.charges--;
             transfer_ok = true;
             break;
         case LD_ITEM: {

@@ -327,7 +327,7 @@ void tutorial_game::add_message( tut_lesson lesson )
         return;
     }
     tutorials_seen[lesson] = true;
+    g->invalidate_main_ui_adaptor();
     popup( SNIPPET.get_snippet_by_id( snippet_id( io::enum_to_string<tut_lesson>( lesson ) ) ).value_or(
                translation() ).translated(), PF_ON_TOP );
-    g->refresh_all();
 }

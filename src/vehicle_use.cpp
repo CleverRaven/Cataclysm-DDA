@@ -53,7 +53,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
@@ -434,40 +433,29 @@ int vehicle::select_engine()
 
 bool vehicle::interact_vehicle_locked()
 {
-    if( is_locked ) {
-        const inventory &crafting_inv = g->u.crafting_inventory();
-        add_msg( _( "You don't find any keys in the %s." ), name );
-        if( crafting_inv.has_quality( quality_id( "SCREW" ) ) ) {
-            if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ),
-                          name ) ) {
-                ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-                int mechanics_skill = g->u.get_skill_level( skill_mechanics );
-                const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
-                const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
-                //assign long activity
-                g->u.assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
-                // use part 0 as the reference point
-                point q = coord_translate( parts[0].mount );
-                const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
-                //[0]
-                g->u.activity.values.push_back( abs_veh_pos.x + q.x );
-                //[1]
-                g->u.activity.values.push_back( abs_veh_pos.y + q.y );
-                //[2]
-                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) );
-            } else {
-                if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
-                    is_alarm_on = true;
-                } else {
-                    add_msg( _( "You leave the controls alone." ) );
-                }
-            }
-        } else {
-            add_msg( _( "You could use a screwdriver to hotwire it." ) );
-        }
+    if( !is_locked ) {
+        return true;
     }
 
-    return !( is_locked );
+    add_msg( _( "You don't find any keys in the %s." ), name );
+    const inventory &inv = g->u.crafting_inventory();
+    if( inv.has_quality( quality_id( "SCREW" ) ) ) {
+        if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ), name ) ) {
+            ///\EFFECT_MECHANICS speeds up vehicle hotwiring
+            int skill = g->u.get_skill_level( skill_mechanics );
+            const int moves = to_moves<int>( 6000_seconds / ( ( skill > 0 ) ? skill : 1 ) );
+            tripoint target = g->m.getabs( global_pos3() ) + coord_translate( parts[0].mount );
+            g->u.assign_activity( hotwire_car_activity_actor( moves, target ) );
+        } else if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
+            is_alarm_on = true;
+        } else {
+            add_msg( _( "You leave the controls alone." ) );
+        }
+    } else {
+        add_msg( _( "You could use a screwdriver to hotwire it." ) );
+    }
+
+    return false;
 }
 
 void vehicle::smash_security_system()
@@ -1873,7 +1861,6 @@ void vehicle::use_bike_rack( int part )
     }
     if( success ) {
         g->m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
 }
 
@@ -2187,5 +2174,4 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
     }
-    return;
 }

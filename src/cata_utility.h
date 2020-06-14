@@ -84,6 +84,8 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
     return divide_round_up( num.value(), den.value() );
 }
 
+int divide_round_down( int a, int b );
+
 /**
  * Determine whether a value is between two given boundaries.
  *
@@ -553,8 +555,12 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ): t( t_in ), orig_t( t_in ),
-            impl( [this]() { t = orig_t; } ) {
+        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+
+        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
 };

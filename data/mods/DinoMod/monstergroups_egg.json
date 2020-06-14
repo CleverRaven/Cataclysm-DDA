@@ -7,12 +7,15 @@
       { "monster": "mon_compsognathus_hatchling", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_gallimimus_hatchling", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_pachycephalosaurus_hatchling", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_camptosaurus_hatchling", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_tyrannosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_albertosaurus_hatchling", "freq": 4, "cost_multiplier": 1 },
       { "monster": "mon_triceratops_hatchling", "freq": 3, "cost_multiplier": 1 },
       { "monster": "mon_stegosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_ankylosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_apatosaurus_hatchling", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_allosaurus_hatchling", "freq": 8, "cost_multiplier": 1 },
       { "monster": "mon_eoraptor_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_velociraptor_hatchling", "freq": 15, "cost_multiplier": 1 },
@@ -40,6 +43,12 @@
     "type": "monstergroup",
     "default": "mon_pachycephalosaurus_hatchling",
     "monsters": [ { "monster": "mon_pachycephalosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_camptosaurus",
+    "type": "monstergroup",
+    "default": "mon_camptosaurus_hatchling",
+    "monsters": [ { "monster": "mon_camptosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_spinosaurus",
@@ -76,6 +85,18 @@
     "type": "monstergroup",
     "default": "mon_ankylosaurus_hatchling",
     "monsters": [ { "monster": "mon_ankylosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_apatosaurus",
+    "type": "monstergroup",
+    "default": "mon_apatosaurus_hatchling",
+    "monsters": [ { "monster": "mon_apatosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_ceratosaurus",
+    "type": "monstergroup",
+    "default": "mon_ceratosaurus_hatchling",
+    "monsters": [ { "monster": "mon_ceratosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_allosaurus",

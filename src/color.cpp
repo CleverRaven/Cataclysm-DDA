@@ -713,7 +713,7 @@ static void draw_header( const catacurses::window &w )
     mvwprintz( w, point( 21, 3 ), c_white, _( "Normal" ) );
     mvwprintz( w, point( 52, 3 ), c_white, _( "Invert" ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void color_manager::show_gui()
@@ -721,8 +721,7 @@ void color_manager::show_gui()
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
 
-    int iOffsetX = 0;
-    int iOffsetY = 0;
+    point iOffset;
 
     std::vector<int> vLines;
     vLines.push_back( -1 );
@@ -742,15 +741,15 @@ void color_manager::show_gui()
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-        iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        iOffsetY = calc_offset_y();
+        iOffset.x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        iOffset.y = calc_offset_y();
 
         w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                              point( iOffsetX, iOffsetY ) );
+                                              iOffset );
         w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+                                              iOffset + point_south_east );
         w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+                                       iOffset + point( 1, iHeaderHeight + 1 ) );
 
         ui.position_from_window( w_colors_border );
     };
@@ -789,7 +788,7 @@ void color_manager::show_gui()
                 mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
             }
         }
-        wrefresh( w_colors_border );
+        wnoutrefresh( w_colors_border );
 
         draw_header( w_colors_header );
 
@@ -809,7 +808,7 @@ void color_manager::show_gui()
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
 
         draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, point( 0, 5 ) );
-        wrefresh( w_colors_border );
+        wnoutrefresh( w_colors_border );
 
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
@@ -842,7 +841,7 @@ void color_manager::show_gui()
             }
         }
 
-        wrefresh( w_colors );
+        wnoutrefresh( w_colors );
     } );
 
     while( true ) {

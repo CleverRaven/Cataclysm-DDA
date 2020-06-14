@@ -1706,12 +1706,12 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
-         translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE
        );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
-         translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the Y axis." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
@@ -2501,17 +2501,13 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
-            if( ingame ) {
-                g->refresh_all();
-            }
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        g->init_ui();
-        g->refresh_all();
+        g->mark_main_ui_adaptor_resize();
     }
 }
 #else
@@ -2535,7 +2531,7 @@ static void draw_borders_external(
             mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
@@ -2549,7 +2545,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 std::string options_manager::show( bool ingame, const bool world_options_only,
@@ -2719,7 +2715,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
                         page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
-        wrefresh( w_options_border );
+        wnoutrefresh( w_options_border );
 
         //Draw Tabs
         if( !world_options_only ) {
@@ -2738,7 +2734,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-        wrefresh( w_options_header );
+        wnoutrefresh( w_options_header );
 
         const std::string &opt_name = *page_items[iCurrentLine];
         cOpt &current_opt = cOPTIONS[opt_name];
@@ -2787,9 +2783,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }
-        wrefresh( w_options_tooltip );
+        wnoutrefresh( w_options_tooltip );
 
-        wrefresh( w_options );
+        wnoutrefresh( w_options );
     } );
 
     while( true ) {
@@ -2978,7 +2974,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
 
-        handle_resize( projected_window_width(), projected_window_height() );
+        resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
     }
 #else
     ( void ) terminal_size_changed;

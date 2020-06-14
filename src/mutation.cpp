@@ -177,11 +177,96 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
                                   bool start_powered )
 {
     unset_mutation( switched );
-    mutation_loss_effect( switched );
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target );
+}
+
+void Character::mutation_reflex_trigger( const trait_id &mut )
+{
+    if( mut->triger_list.empty() ) {
+        return;
+    }
+
+    bool activate = false;
+
+    std::pair<translation, game_message_type> msg_on;
+    std::pair<translation, game_message_type> msg_off;
+
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+        activate = false;
+        // OR conditions: if any trigger is true then this condition is true
+        for( const reflex_activation_data &rdata : vect_rdata ) {
+            if( rdata.is_trigger_true( *this ) ) {
+                activate = true;
+                msg_on = rdata.msg_on;
+                break;
+            }
+            msg_off = rdata.msg_off;
+        }
+        // AND conditions: if any OR condition is false then this is false
+        if( !activate ) {
+            break;
+        }
+    }
+
+    if( activate && !has_active_mutation( mut ) ) {
+        activate_mutation( mut );
+        if( !msg_on.first.empty() ) {
+            add_msg_if_player( msg_on.second, msg_on.first );
+        }
+    } else if( !activate && has_active_mutation( mut ) ) {
+        deactivate_mutation( mut );
+        if( !msg_off.first.empty() ) {
+            add_msg_if_player( msg_off.second, msg_off.first );
+        }
+    }
+}
+
+bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+{
+    bool activate = false;
+
+    int var = 0;
+    switch( trigger ) {
+        case PAIN:
+            var = guy.get_pain();
+            break;
+        case HUNGER:
+            var = guy.get_hunger();
+            break;
+        case THRIST:
+            var = guy.get_thirst();
+            break;
+        case MOOD:
+            var = guy.get_morale_level();
+            break;
+        case STAMINA:
+            var = guy.get_stamina();
+            break;
+        case MOON:
+            var = static_cast<int>( get_moon_phase( calendar::turn ) );
+            break;
+        case TIME:
+            var = to_hours<int>( time_past_midnight( calendar::turn ) );
+            break;
+        default:
+            debugmsg( "Invalid trigger" );
+            return false;
+    }
+
+    if( threshold_low < threshold_high ) {
+        if( var < threshold_high &&
+            var > threshold_low ) {
+            activate = true;
+        }
+    } else {
+        if( var < threshold_high ||
+            var > threshold_low ) {
+            activate = true;
+        }
+    }
+    return activate;
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -215,8 +300,8 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+    for( const bodypart_str_id &bp : restricts_gear ) {
+        if( it.covers( bp.id() ) ) {
             return true;
         }
     }
@@ -224,9 +309,9 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
-    const auto iter = armor.find( bp );
+    const auto iter = armor.find( bp.id() );
     if( iter == armor.end() ) {
         static const resistances nulres;
         return nulres;
@@ -235,17 +320,17 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-m_size calculate_size( const Character &c )
+creature_size calculate_size( const Character &c )
 {
     if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
         c.has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
+        return creature_size::large;
     } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
+        return creature_size::huge;
     }
-    return MS_MEDIUM;
+    return creature_size::medium;
 }
 
 void Character::mutation_effect( const trait_id &mut )
@@ -501,9 +586,6 @@ void Character::activate_mutation( const trait_id &mut )
             mod_fatigue( cost );
         }
         tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
         recalc_sight_limits();
     }
 
@@ -511,6 +593,10 @@ void Character::activate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+
+        if( !mdata.transform->msg_transform.empty() ) {
+            add_msg_if_player( m_neutral, mdata.transform->msg_transform );
+        }
         return;
     }
 
@@ -625,7 +711,6 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        g->refresh_all();
         avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
@@ -644,6 +729,10 @@ void Character::deactivate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( -trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+    }
+
+    if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
+        add_msg_if_player( m_neutral, mdata.transform->msg_transform );
     }
 }
 

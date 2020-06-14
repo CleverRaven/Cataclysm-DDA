@@ -29,7 +29,6 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "mapdata.h"
-#include "mapgen.h"
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
@@ -65,6 +64,7 @@ struct fragment_cloud;
 struct maptile;
 struct partial_con;
 struct rl_vec2d;
+struct spawn_data;
 struct trap;
 
 enum class special_item_type : int;
@@ -72,6 +72,7 @@ class npc_template;
 class tileray;
 class vpart_reference;
 struct mongroup;
+struct MonsterGroupResult;
 struct projectile;
 struct veh_collision;
 template<typename T>
@@ -1351,7 +1352,11 @@ class map
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::string &name = "NONE", const spawn_data &data = spawn_data() ) const;
+                        const std::string &name = "NONE" ) const;
+        void add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
+                        int faction_id, int mission_id, const std::string &name,
+                        const spawn_data &data ) const;
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );

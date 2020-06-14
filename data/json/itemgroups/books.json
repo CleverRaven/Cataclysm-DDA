@@ -178,20 +178,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_fict_soft_romc", "prob": 30 },
-      { "group": "SUS_book_fict_soft_spy", "prob": 28 },
-      { "group": "SUS_book_fict_soft_satire", "prob": 15 },
-      { "item": "novel_sports", "prob": 22 },
-      { "item": "novel_samurai", "prob": 22 },
-      { "item": "novel_swash", "prob": 14 },
-      { "group": "SUS_book_fict_soft_west", "prob": 22 },
+      { "group": "SUS_book_fict", "prob": 200 },
       { "item": "novel_war", "prob": 20 },
       { "item": "novel_war2", "prob": 20 },
       { "item": "novel_adventure", "prob": 14 },
       { "item": "novel_experimental", "prob": 1 },
       { "item": "novel_road", "prob": 10 },
       { "item": "novel_buddy", "prob": 12 },
-      { "item": "novel_scifi", "prob": 20 },
       { "item": "novel_drama", "prob": 40 },
       { "item": "novel_mystery", "prob": 25 },
       { "item": "novel_fantasy", "prob": 20 },
@@ -212,9 +205,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
+      { "group": "SUS_book_nonf_hard_phil", "prob": 1 },
       { "item": "classic_literature", "prob": 10 },
       { "item": "poetry_book", "prob": 10 },
-      { "item": "philosophy_book", "prob": 2 },
+      { "item": "philosophy_book", "prob": 1 },
       { "item": "essay_book", "prob": 6 },
       { "item": "plays_book", "prob": 8 }
     ]
@@ -224,11 +218,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
+      { "group": "SUS_book_fict_soft_ya", "prob": 30 },
+      { "group": "SUS_book_fict_hard_ya", "prob": 20 },
       { "item": "tall_tales", "prob": 10 },
       { "item": "story_book", "prob": 4 },
       { "item": "fairy_tales", "prob": 20 },
-      { "item": "novel_coa", "prob": 10 },
-      { "item": "novel_coa2", "prob": 10 },
       { "item": "child_book", "prob": 50 },
       { "item": "manual_dodge_kid", "prob": 20 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
@@ -291,7 +285,16 @@
       { "item": "survnote", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
-      { "item": "dnd_handbook", "prob": 2 }
+      { "item": "dnd_handbook", "prob": 2 },
+      { "item": "scots_tailor", "prob": 8 },
+      { "item": "vinegar_maker", "prob": 4 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "winemaking_beginner", "prob": 60 },
+      { "item": "manual_canning", "prob": 30 },
+      { "item": "manual_sealing", "prob": 40 },
+      { "item": "baking_book", "prob": 80 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 3 }
     ]
   },
   {
@@ -319,7 +322,14 @@
       { "item": "recipe_bullets", "prob": 2 },
       { "item": "howto_traps", "prob": 10 },
       { "item": "preserving_juice", "prob": 10 },
-      { "item": "manual_traps", "prob": 12 }
+      { "item": "manual_traps", "prob": 12 },
+      { "item": "vinegar_maker", "prob": 4 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "winemaking_beginner", "prob": 14 },
+      { "item": "manual_canning", "prob": 18 },
+      { "item": "manual_sealing", "prob": 9 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 8 }
     ]
   },
   {
@@ -355,7 +365,12 @@
       { "item": "reference_firstaid1", "prob": 1 },
       { "item": "reference_firstaid2", "prob": 1 },
       { "item": "basic_chemistry", "prob": 10 },
-      { "item": "survnote", "prob": 3 }
+      { "item": "survnote", "prob": 3 },
+      { "item": "winemaking_beginner", "prob": 10 },
+      { "item": "manual_canning", "prob": 8 },
+      { "item": "manual_sealing", "prob": 9 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 8 }
     ]
   },
   {
@@ -424,7 +439,9 @@
       { "item": "textbook_armeast", "prob": 3 },
       { "item": "survnote", "prob": 2 },
       { "item": "book_lockpick", "prob": 2 },
-      { "item": "basic_chemistry", "prob": 5 }
+      { "item": "basic_chemistry", "prob": 5 },
+      { "item": "fermenting_book", "prob": 8 },
+      { "item": "distilling_cookbook", "prob": 8 }
     ]
   },
   {
@@ -481,7 +498,13 @@
       { "item": "jewelry_book", "prob": 5 },
       { "item": "book_nonf_soft_speech_naillaw", "prob": 5 },
       { "item": "book_lockpick", "prob": 2 },
-      { "group": "religious_books", "prob": 40 }
+      { "group": "religious_books", "prob": 40 },
+      { "item": "vinegar_maker", "prob": 20 },
+      { "item": "dairy_book", "prob": 20 },
+      { "item": "winemaking_beginner", "prob": 60 },
+      { "item": "manual_canning", "prob": 80 },
+      { "item": "manual_sealing", "prob": 190 },
+      { "item": "baking_book", "prob": 190 }
     ]
   },
   {
@@ -529,7 +552,8 @@
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
       { "item": "book_lockpick", "prob": 1 },
-      { "group": "rare_martial_arts_books", "prob": 6 }
+      { "group": "rare_martial_arts_books", "prob": 6 },
+      { "item": "scots_tailor", "prob": 30 }
     ]
   },
   {

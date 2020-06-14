@@ -328,7 +328,7 @@ void robot_finds_kitten::show() const
     input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
     draw_border( bkatwin );
-    wrefresh( bkatwin );
+    wnoutrefresh( bkatwin );
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
@@ -411,7 +411,7 @@ void robot_finds_kitten::show() const
         case ui_state::exit:
             break;
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void robot_finds_kitten::process_input()
@@ -455,8 +455,8 @@ void robot_finds_kitten::process_input()
                     check.x++;
                 }
 
-                constexpr rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
-                if( !bounds.contains_half_open( check ) ) {
+                constexpr half_open_rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
+                if( !bounds.contains( check ) ) {
                     /* Can't move past edge */
                 } else if( rfkscreen[check.x][check.y] != EMPTY ) {
                     switch( rfkscreen[check.x][check.y] ) {

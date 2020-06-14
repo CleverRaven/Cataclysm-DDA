@@ -53,6 +53,128 @@
   },
   {
     "type": "technique",
+    "id": "mma_tec_diamond_mind_strike",
+    "name": "Insightful Strike",
+    "messages": [ "You spot %s's weakpoint and strike", "<npcname> spot %s's weakpoint and strike" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 0.5 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_diamond_mind_crit",
+    "name": "Greater Insightful Strike",
+    "messages": [ "You spot %s's weakpoint and strike", "<npcname> spot %s's weakpoint and strike" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 1.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_hylian_spin",
+    "name": "Spin Attack",
+    "messages": [
+      "You unleash a spin attack against %s and those nearby",
+      "<npcname> unleashes a spin attack against %s and those nearby"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "crit_ok": true,
+    "aoe": "spin"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_hylian_wide",
+    "name": "Spin Attack",
+    "messages": [
+      "You unleash a spin attack against %s and those nearby",
+      "<npcname> unleashes a spin attack against %s and those nearby"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "req_buffs": [ "mma_buff_hylian_onpause" ],
+    "crit_ok": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_disarm",
+    "name": "Disarming Strike",
+    "messages": [ "You skillfully disarm %s", "<npcname> skillfully disarms %s" ],
+    "unarmed_allowed": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_feint",
+    "name": "Lightning Recovery",
+    "messages": [ "You miss %s but recover in the blink of an eye", "<npcname> misses %s but recovers in the blink of an eye" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_execute",
+    "name": "Finishing Move",
+    "messages": [ "You finish off %s with a powerful slash", "<npcname> finishes off %s with a powerful slash" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_stun",
+    "name": "Dazing Strike",
+    "messages": [ "You harshly stun %s", "<npcname> harshly stuns %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_wide",
+    "name": "Steel Wind",
+    "messages": [
+      "You cleave through %s and those nearby like a steel wind",
+      "<npcname> cleaves through %s and those nearby like a steel wind"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_iron_heart_wide_crit",
+    "name": "Scything Blade",
+    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap throug %s and those nearby" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "aoe": "wide",
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "mma_tec_panzer_counter",
     "name": "Ausstoß",
     "//": "Outer Thrust.",
@@ -107,6 +229,180 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_kick",
+    "name": "Mega Kick",
+    "messages": [ "You use Mega Kick on %s", "<npcname> uses Mega Kick on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "hit", "scale": -2.0 } ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_lariat",
+    "name": "Darkest Lariat",
+    "messages": [ "You use Darkest Lariat on %s", "<npcname> uses Darkest Lariat on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_strike",
+    "name": "Smart Strike",
+    "messages": [ "You use Smart Strike on %s", "<npcname> uses Smart Strike on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_pokken_sweep",
+    "name": "Low Sweep",
+    "messages": [ "You use Low Sweep on %s", "<npcname> uses Low Sweep on %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_counter",
+    "name": "Fool's Strike",
+    "messages": [ "You completely fool %s and strike back", "<npcname> completely fools %s and strike back" ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.0 },
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_stun",
+    "name": "Hydra Slaying Strike",
+    "messages": [ "You interrupt %s with a perfectly aimed strike", "<npcname> interrupt %s with a perfectly aimed strike" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_throw",
+    "name": "Mighty Throw",
+    "messages": [ "You toss %s aside with a Mighty Throw", "<npcname> tosses %s with a Mighty Throw" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "down_dur": 2,
+    "knockback_dist": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_setting_sun_throw_crit",
+    "name": "Ballista Throw",
+    "messages": [ "You spin and hurl %s away with a Ballista Throw", "<npcname> spins and hurls %s away with a Ballista Throw" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "req_buffs": [ "mma_buff_setting_sun_onpause" ],
+    "crit_tec": true,
+    "down_dur": 2,
+    "knockback_dist": 4,
+    "powerful_knockback": true,
+    "weighting": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_shii_cho_counter",
+    "name": "Flowing Water",
+    "messages": [
+      "You deflect %s's attack and counter in one fluid motion",
+      "<npcname> deflects %s's attack and counters in one fluid motion"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "block_counter": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_shii_cho_disarm",
+    "name": "Disarming Slash",
+    "messages": [ "You disarm %s with a quick flick of your weapon", "<npcname> disarms %s with a quick flick of their weapon" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_shii_cho_wide",
+    "name": "Sarlacc Sweep",
+    "messages": [ "You quickly sweep through %s and those nearby", "<npcname> quickly sweeps through %s and those nearby" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_stone_dragon_hammer",
+    "name": "Mountain Hammer",
+    "messages": [
+      "You crush %s with the weight of your Mountain Hammer",
+      "<npcname> crushes %s with the weight of their Mountain Hammer"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_stone_dragon_strike",
+    "name": "Irrestistible Mountain Strike",
+    "messages": [ "You smash down on %s with a Mountain Strike", "<npcname> smashes down on %s with a Mountain Strike" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_stone_dragon_colossus",
+    "name": "Colossus Strike",
+    "messages": [ "You completely shatter %s with a Colossus Strike", "<npcname> completely shatters %s with a Colossus Strike" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "knockback_dist": 2,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
     ]
   }
 ]

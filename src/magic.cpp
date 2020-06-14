@@ -982,8 +982,10 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
         Creature::Attitude cr_att = cr->attitude_to( caster );
-        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( spell_target::hostile ) );
-        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( spell_target::ally ) &&
+        valid = valid || ( cr_att != Creature::Attitude::FRIENDLY &&
+                           is_valid_target( spell_target::hostile ) );
+        valid = valid || ( cr_att == Creature::Attitude::FRIENDLY &&
+                           is_valid_target( spell_target::ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
@@ -1388,6 +1390,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
     }
     if( force || can_learn_spell( guy, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
+        g->events().send<event_type::character_learns_spell>( guy.getID(), sp->id );
         guy.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
     } else {
         guy.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
@@ -1406,6 +1409,8 @@ void known_magic::forget_spell( const spell_id &sp )
         return;
     }
     add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
+    // TODO: add parameter for owner of known_magic for this function
+    g->events().send<event_type::character_forgets_spell>( g->u.getID(), sp->id );
     spellbook.erase( sp );
 }
 
@@ -1457,7 +1462,7 @@ int known_magic::max_mana( const Character &guy ) const
     const float unaugmented_mana = std::max( 0.0f,
                                    ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
                                    guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
-    return guy.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
+    return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const Character &guy, float turns )
@@ -1466,7 +1471,7 @@ void known_magic::update_mana( const Character &guy, float turns )
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1583,7 +1588,7 @@ class spellcasting_callback : public uilist_callback
             if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
                 draw_spell_info( *known_spells[menu->selected], menu );
             }
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 
@@ -2043,7 +2048,7 @@ void spellbook_callback::refresh( uilist *menu )
     if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
         draw_spellbook_info( spells[menu->selected], menu );
     }
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 void fake_spell::load( const JsonObject &jo )
