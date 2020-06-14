@@ -267,9 +267,11 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
             }
         }
     }
-    if( you.has_bionic( bio_digestion ) ) {
-        for( std::pair<const vitamin_id, int> &vit : res ) {
-            vit.second *= 1.5f;
+    for( const bionic_id &bid : you.get_bionics() ) {
+        if( bid->vitamin_absorb_mod != 1.0f ) {
+            for( std::pair<const vitamin_id, int> &vit : res ) {
+                vit.second *= bid->vitamin_absorb_mod;
+            }
         }
     }
     return res;
