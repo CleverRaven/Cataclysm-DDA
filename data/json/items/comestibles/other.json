@@ -771,7 +771,7 @@
     "comestible_type": "FOOD",
     "name": { "str": "fruit tea bag" },
     "copy-from": "tea_bag",
-    "description": "Paper sachet with tea leafs and fruit parts inside.  Put it into boiling water to get your cup of fruit tea."
+    "description": A paper sachet with leaves and fruit parts inside.  Put it into boiling water to make a cup of fruit tea."
   },
   {
     "id": "herbal_tea_bag",
