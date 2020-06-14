@@ -48,7 +48,7 @@
     "type": "MONSTER",
     "name": { "str": "fungal Deinonychus zombie" },
     "description": "Once a medium-sized feathered carnivorous dinosaur, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
-    "copy-from": "mon_zyrannosaurus",
+    "copy-from": "mon_zeinonychus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 2,
