@@ -1155,10 +1155,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // no wheel removal yet
                     continue;
                 }
-                const int max_lift = p.best_nearby_lifting_assist( src_loc );
-                const int lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                                           TOOL_LIFT_FACTOR );
-                const bool use_aid = max_lift >= lvl;
+                const units::mass max_lift = p.best_nearby_lifting_assist( src_loc );
+                const bool use_aid = max_lift >= base.weight();
                 const bool use_str = p.can_lift( base );
                 if( !( use_aid || use_str ) ) {
                     continue;
