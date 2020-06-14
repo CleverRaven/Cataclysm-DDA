@@ -136,6 +136,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
     if( item_id ) {
         std::map<std::string, const itype *> nearby_itypes;
+        selector_menu.title = _( "Select an item from nearby" );
         for( const std::list<item> *it_list : g->u.crafting_inventory().const_slice() ) {
             nearby_itypes.emplace( it_list->front().typeId()->nname( 1 ), it_list->front().type );
         }
@@ -1253,16 +1254,22 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 }
 
-void item_contents::favorite_settings_menu()
+void item_contents::favorite_settings_menu( const std::string &item_name )
 {
     pocket_favorite_callback cb( &contents );
     int num_container_pockets = 0;
+    std::map<int, std::string> pocket_name;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            pocket_name[num_container_pockets] =
+                string_format( "%s/%s",
+                               vol_to_info( "", "", pocket.contains_volume() ).sValue,
+                               vol_to_info( "", "", pocket.max_contains_volume() ).sValue );
             num_container_pockets++;
         }
     }
     uilist pocket_selector;
+    pocket_selector.title = item_name;
     pocket_selector.text = keys_text() + "\n ";
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
@@ -1277,7 +1284,7 @@ void item_contents::favorite_settings_menu()
         return TERMY;
     };
     for( int i = 1; i <= num_container_pockets; i++ ) {
-        pocket_selector.addentry( string_format( "%d", i ) );
+        pocket_selector.addentry( string_format( "%d - %s", i, pocket_name[i - 1] ) );
     }
 
     pocket_selector.query();

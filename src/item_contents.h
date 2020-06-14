@@ -151,7 +151,7 @@ class item_contents
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu();
+        void favorite_settings_menu( const std::string &item_name );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );
