@@ -8957,7 +8957,9 @@ void game::wield( item_location loc )
             add_msg( m_info, "%s", ret.c_str() );
         }
 
-        u.unwield();
+        if( !u.unwield() ) {
+            return;
+        }
 
         if( is_unwielding ) {
             if( !u.martial_arts_data.selected_is_none() ) {
