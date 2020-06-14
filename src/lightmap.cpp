@@ -238,37 +238,33 @@ void map::build_sunlight_cache( int zlev )
         return;
     }
 
-    // Replace this with a calculated shift based on time of day and date.
-    // At first compress the angle such that it takes no more than one tile of shift per level.
-    // To exceed that, we'll have to handle casting light from the side instead of the top.
-    point offset;
     const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
     const auto &prev_lm = prev_map_cache.lm;
     const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
     const auto &prev_floor_cache = prev_map_cache.floor_cache;
     const auto &outside_cache = map_cache.outside_cache;
     const float sight_penalty = weather::sight_penalty( g->weather.weather );
-    for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
-        bool x_inbounds = prev_x >= 0 && prev_x < MAPSIZE_X;
-        for( int y = 0, prev_y = offset.y; y < MAPSIZE_Y; y++, prev_y++ ) {
-            bool inbounds = x_inbounds && prev_y >= 0 && prev_y < MAPSIZE_Y;
-            four_quadrants prev_light( outside_light_level );
-            float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
-            if( inbounds ) {
-                prev_light = prev_lm[ prev_x ][ prev_y ];
-                prev_transparency = prev_transparency_cache[ prev_x ][ prev_y ];
-                // This is pretty gross, this cancels out the per-tile transparency effect
-                // derived from weather.
-                if( outside_cache[x][y] ) {
-                    prev_transparency /= sight_penalty;
-                }
+    for( int x = 0; x < MAPSIZE_X; x++ ) {
+        for( int y = 0; y < MAPSIZE_Y; y++ ) {
+            // Very common case
+            if( prev_floor_cache[x][y] ) {
+                lm[x][y].fill( inside_light_level );
+                continue;
+            }
+
+            four_quadrants prev_light = prev_lm[x][y];
+            float prev_transparency = prev_transparency_cache[x][y];
+            // This is pretty gross, this cancels out the per-tile transparency effect
+            // derived from weather.
+            if( outside_cache[x][y] ) {
+                prev_transparency /= sight_penalty;
             }
             // The formula to apply transparency to the light rays doesn't handle full opacity,
             // so handle that seperately.
             if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                !prev_floor_cache[x][y] && prev_light.max() > 0.0 && outside_cache[x][y] ) {
+                prev_light[quadrant( 0 )] > 0.0 && outside_cache[x][y] ) {
                 lm[x][y].fill( std::max( inside_light_level,
-                                         prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
+                                         prev_light[quadrant( 0 )] * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
                                          / prev_transparency ) );
             } else {
                 lm[x][y].fill( inside_light_level );
