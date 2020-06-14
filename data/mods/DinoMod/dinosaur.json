@@ -234,7 +234,6 @@
     ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -270,7 +269,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "BLEED", "ATTACKMON", "WARM" ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -308,7 +306,6 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "LUNGE", 5 ] ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -356,7 +353,6 @@
     ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -430,7 +426,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -469,7 +464,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -482,7 +476,7 @@
     "color": "brown_magenta",
     "volume": "1000 L",
     "weight": "20000 kg",
-    "bodytype": "elephant",    
+    "bodytype": "elephant",
     "material": [ "flesh" ],
     "aggression": -50,
     "morale": 100,
@@ -541,7 +535,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "BLEED", "ATTACKMON", "WARM", "SWIMS" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -577,7 +570,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "BLEED", "ATTACKMON", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -651,7 +643,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "BLEED", "WARM", "CLIMBS" ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -702,7 +693,6 @@
     ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -781,7 +771,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "BLEED", "ATTACKMON", "WARM", "CLIMBS" ],
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -817,7 +806,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -886,7 +874,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "BLEED", "WARM" ],
     "harvest": "mammal_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
