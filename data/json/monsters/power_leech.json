@@ -30,7 +30,7 @@
         "targeting_sound": "a faint buzz",
         "description": "Lightning arcs from the leech blossom!"
       },
-      [ "LEECH_SPAWNER", 25 ],
+      [ "LEECH_SPAWNER", 75 ],
       [ "MON_LEECH_EVOLUTION", 40 ],
       [ "PARROT", 40 ]
     ],
@@ -105,7 +105,7 @@
         "targeting_sound": "a faint buzz",
         "description": "Lightning arcs from the pod cluster!"
       },
-      [ "LEECH_SPAWNER", 35 ]
+      [ "LEECH_SPAWNER", 120 ]
     ],
     "harvest": "flesh_plant",
     "death_function": [ "NORMAL" ],
