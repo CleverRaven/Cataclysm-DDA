@@ -1589,10 +1589,7 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab() ) {
-        return false;
-    }
-    return true;
+    return has_effect( effect_grabbed ) && !attacking && !try_remove_grab();
 }
 
 void Character::wait_effects( bool attacking )
