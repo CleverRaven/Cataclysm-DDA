@@ -3975,10 +3975,10 @@ float game::natural_light_level( const int zlev ) const
     float mod_ret = -1;
     // Each artifact change does std::max(mod_ret, new val) since a brighter end value
     // will trump a lower one.
-    if( const timed_event *e = timed_events.get( TIMED_EVENT_DIM ) ) {
-        // TIMED_EVENT_DIM slowly dims the natural sky level, then relights it.
+    if( const timed_event *e = timed_events.get( timed_event_type::DIM ) ) {
+        // timed_event_type::DIM slowly dims the natural sky level, then relights it.
         const time_duration left = e->when - calendar::turn;
-        // TIMED_EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
+        // timed_event_type::DIM has an occurrence date of turn + 50, so the first 25 dim it,
         if( left > 25_turns ) {
             mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( left - 25_turns ) ) / 25_turns );
             // and the last 25 scale back towards normal.
@@ -3986,8 +3986,8 @@ float game::natural_light_level( const int zlev ) const
             mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( 25_turns - left ) ) / 25_turns );
         }
     }
-    if( timed_events.queued( TIMED_EVENT_ARTIFACT_LIGHT ) ) {
-        // TIMED_EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
+    if( timed_events.queued( timed_event_type::ARTIFACT_LIGHT ) ) {
+        // timed_event_type::ARTIFACT_LIGHT causes everywhere to become as bright as day.
         mod_ret = std::max<float>( ret, default_daylight_level() );
     }
     // If we had a changed light level due to an artifact event then it overwrites
