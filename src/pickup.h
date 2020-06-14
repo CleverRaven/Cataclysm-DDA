@@ -3,6 +3,7 @@
 #define CATA_SRC_PICKUP_H
 
 #include <vector>
+#include "point.h"
 
 class item;
 class item_location;
@@ -42,6 +43,23 @@ int cost_to_move_item( const Character &who, const item &it );
  * @param m map they are on
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
-} // namespace Pickup
 
+struct pickup_drawn_info {
+    int text_x_start;
+    int text_x_end;
+    int y;
+    int cur_it;
+    bool include_point( point p )const {
+        if( text_x_start <= p.x &&
+            p.x <= text_x_end &&
+            y == p.y ) {
+            return true;
+        }
+        return false;
+    }
+    static std::vector<pickup_drawn_info> list;
+    static pickup_drawn_info *find_by_coordinate( point p );
+};
+
+} // namespace Pickup
 #endif // CATA_SRC_PICKUP_H

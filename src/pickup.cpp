@@ -623,6 +623,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
+        ctxt.register_action( "SELECT" );
 #if defined(__ANDROID__)
         ctxt.allow_text_entry = true; // allow user to specify pickup amount
 #endif
@@ -669,6 +670,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
 
             werase( w_pickup );
+            pickup_drawn_info::list.clear();
             for( int cur_it = start; cur_it < start + maxitems; cur_it++ ) {
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
@@ -739,8 +741,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         item_name = string_format( "<color_light_red>!</color> %s", item_name );
                     }
 
-                    trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
+                    int y = 1 + ( cur_it % maxitems );
+                    trim_and_print( w_pickup, point( 6, y ), pickupW - 4, icolor,
                                     item_name );
+                    pickup_drawn_info drawn_info;
+                    drawn_info.text_x_start = 6;
+                    drawn_info.text_x_end = 6 + pickupW - 4;
+                    drawn_info.y = y;
+                    drawn_info.cur_it = cur_it;
+                    pickup_drawn_info::list.push_back( drawn_info );
                 }
             }
 
@@ -794,6 +803,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( itemcount < 0 ) {
                     itemcount = 0;
                 }
+            } else if( action == "SELECT" ) {
+                std::pair<point, bool> p = ctxt.get_coordinates_text( w_pickup );
+                if( p.second ) {
+                    pickup_drawn_info *drawn_info = pickup_drawn_info::find_by_coordinate( p.first );
+                    selected = drawn_info->cur_it;
+                    iScrollPos = 0;
+                    idx = selected;
+                }
+
             } else if( action == "SCROLL_UP" ) {
                 iScrollPos--;
             } else if( action == "SCROLL_DOWN" ) {
@@ -1081,4 +1099,16 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );
+}
+
+std::vector<Pickup::pickup_drawn_info> Pickup::pickup_drawn_info::list;
+
+Pickup::pickup_drawn_info *Pickup::pickup_drawn_info::find_by_coordinate( point p )
+{
+    for( pickup_drawn_info drawn_info : pickup_drawn_info::list ) {
+        if( drawn_info.include_point( p ) ) {
+            return &drawn_info;
+        }
+    }
+    return nullptr;
 }
