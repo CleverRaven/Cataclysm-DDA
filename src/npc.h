@@ -1300,7 +1300,7 @@ class npc : public player
          */
         tripoint global_square_location() const override;
         cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
-        int last_seen_player_turn; // Timeout to forgetting
+        int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
         tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
@@ -1311,16 +1311,16 @@ class npc : public player
          */
         tripoint goal;
         tripoint wander_pos = no_goal_point;
-        int wander_time;
+        int wander_time = 0;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
         cata::optional<tripoint> pulp_location;
         time_point restock;
-        bool fetching_item;
-        bool has_new_items; // If true, we have something new and should re-equip
-        int  worst_item_value; // The value of our least-wanted item
+        bool fetching_item = false;
+        bool has_new_items = false; // If true, we have something new and should re-equip
+        int  worst_item_value = 0; // The value of our least-wanted item
 
         std::vector<tripoint> path; // Our movement plans
 
@@ -1337,11 +1337,11 @@ class npc : public player
         npc_personality personality;
         npc_opinion op_of_u;
         npc_chatbin chatbin;
-        int patience; // Used when we expect the player to leave the area
+        int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
-        bool marked_for_death; // If true, we die as soon as we respawn!
-        bool hit_by_player;
-        bool hallucination; // If true, NPC is an hallucination
+        bool marked_for_death = false; // If true, we die as soon as we respawn!
+        bool hit_by_player = false;
+        bool hallucination = false; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.

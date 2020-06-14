@@ -327,8 +327,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 }
 
 struct veh_interact::install_info_t {
-    int pos;
-    size_t tab;
+    int pos = 0;
+    size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
     std::array<std::string, 8> tab_list;
     std::array<std::string, 8> tab_list_short;

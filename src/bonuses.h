@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-enum damage_type : int;
+#include <damage.h>
 
 class Character;
 class JsonObject;
@@ -54,7 +54,7 @@ struct affected_type {
 
     private:
         affected_stat stat = affected_stat::NONE;
-        damage_type type;
+        damage_type type = damage_type::DT_NULL;
 };
 
 // This is the bonus we are indexing

@@ -6948,7 +6948,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 }
 
 struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
+    int quality = 0;
     std::string name;
     std::string description;
 

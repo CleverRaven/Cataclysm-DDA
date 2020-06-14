@@ -2203,8 +2203,8 @@ class item : public visitable<item>
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
     public:
-        int charges;
-        units::energy energy;      // Amount of energy currently stored in a battery
+        int charges = 0;
+        units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
         int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt

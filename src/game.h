@@ -1043,7 +1043,7 @@ class game
         std::chrono::seconds time_played_at_last_load;
         std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0;
-        time_t last_save_timestamp;
+        time_t last_save_timestamp = 0;
 
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
