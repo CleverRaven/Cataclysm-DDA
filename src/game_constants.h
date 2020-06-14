@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_GAME_CONSTANTS_H
 #define CATA_SRC_GAME_CONSTANTS_H
 
-#include "units.h"
-
 // Fixed window sizes.
 #define HP_HEIGHT 14
 #define HP_WIDTH 7
@@ -100,12 +98,6 @@ constexpr int freezer = 23; // -5 Celsius
 // Temperature in which water freezes in Fahrenheit.
 constexpr int freezing = 32; // 0 Celsius
 } // namespace temperatures
-
-// Weight per level of LIFT/JACK tool quality.
-#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
-
-// Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
 
 // Slowest speed at which a gun can be aimed.
 #define MAX_AIM_COST 10

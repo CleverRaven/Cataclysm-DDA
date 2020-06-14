@@ -17,6 +17,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 class player;
 class vpart_info;
@@ -104,10 +105,10 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
-        // maximum level of available lifting equipment (if any)
-        int max_lift;
-        // maximum level of available jacking equipment (if any)
-        int max_jack;
+        // maximum weight capacity of available lifting equipment (if any)
+        units::mass max_lift;
+        // maximum weight_capacity of available jacking equipment (if any)
+        units::mass max_jack;
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 

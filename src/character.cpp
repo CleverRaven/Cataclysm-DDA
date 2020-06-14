@@ -2818,12 +2818,12 @@ units::mass Character::weight_carried() const
     return weight_carried_with_tweaks( item_tweaks() );
 }
 
-int Character::best_nearby_lifting_assist() const
+units::mass Character::best_nearby_lifting_assist() const
 {
     return best_nearby_lifting_assist( this->pos() );
 }
 
-int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
     const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
@@ -2833,10 +2833,11 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
-                     } );
+    int lift_quality = std::max( { this->max_quality( LIFT ), mech_lift,
+                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                                   vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                                 } );
+    return lifting_quality_to_mass( lift_quality );
 }
 
 units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
@@ -2888,9 +2889,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
     // Exclude wielded item if using lifting tool
     if( weaponweight + ret > weight_capacity() ) {
-        const float liftrequirement = std::ceil( units::to_gram<float>( weaponweight ) /
-                                      units::to_gram<float>( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+        if( g->new_game || best_nearby_lifting_assist() < weaponweight ) {
             ret += weaponweight;
         }
     } else {
@@ -10772,6 +10771,18 @@ bool Character::has_weapon() const
 int Character::get_hp() const
 {
     return get_hp( num_hp_parts );
+}
+
+int Character::get_lowest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int lowest_hp = 999;
+    for( int cur_hp : this->hp_cur ) {
+        if( cur_hp < lowest_hp ) {
+            lowest_hp = cur_hp;
+        }
+    }
+    return lowest_hp;
 }
 
 int Character::get_hp( hp_part bp ) const

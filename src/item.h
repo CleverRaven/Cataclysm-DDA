@@ -2290,6 +2290,14 @@ enum class hint_rating {
     cant
 };
 
+// Weight per level of LIFT/JACK tool quality.
+#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
+
+inline units::mass lifting_quality_to_mass( int quality_level )
+{
+    return TOOL_LIFT_FACTOR * quality_level;
+}
+
 /**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
  * and stays valid until the program ends.
