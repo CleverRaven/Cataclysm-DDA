@@ -2222,6 +2222,9 @@ class Character : public Creature, public visitable<Character>
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
 
+        // used in debugging all health
+        int get_lowest_hp() const;
+
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
