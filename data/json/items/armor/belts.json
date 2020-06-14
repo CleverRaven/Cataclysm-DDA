@@ -153,7 +153,6 @@
     "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",
-    "max_item_length": "70 cm",
     "price": 10000,
     "price_postapoc": 750,
     "bashing": 5,
@@ -168,6 +167,7 @@
         "holster": true,
         "max_contains_volume": "2250 ml",
         "max_contains_weight": "3600 g",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ]
       }
