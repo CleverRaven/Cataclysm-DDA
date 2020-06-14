@@ -819,7 +819,7 @@ class npc : public player
         faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
-         * @param m global submap coordinates.
+         * @param p global submap coordinates.
          */
         void spawn_at_sm( const tripoint &p );
         /**

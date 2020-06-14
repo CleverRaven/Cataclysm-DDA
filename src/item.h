@@ -491,7 +491,7 @@ class item : public visitable<item>
         /**
          * Reload item using ammo from location returning true if successful
          * @param u Player doing the reloading
-         * @param loc Location of ammo to be reloaded
+         * @param ammo Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
         bool reload( player &u, item_location ammo, int qty );
@@ -797,7 +797,6 @@ class item : public visitable<item>
          * Update rot for things that perish
          * All items that rot also have temperature
          * @param insulation Amount of insulation item has from surroundings
-         * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
