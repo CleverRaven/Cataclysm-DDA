@@ -755,7 +755,7 @@
     "material": [ "paper" ],
     "price": 50,
     "price_postapoc": 200,
-    "description": "Paper sachet with tea leafs inside.  Put it into boiling water to get your cup of black tea."
+    "description": "A paper sachet with tea leaves inside.  Put it into boiling water to make a cup of black tea."
   },
   {
     "id": "tea_green_bag",
