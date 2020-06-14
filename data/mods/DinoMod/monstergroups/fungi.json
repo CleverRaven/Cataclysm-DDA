@@ -4,7 +4,9 @@
     "name": "GROUP_FUNGI",
     "default": "mon_spore",
     "monsters": [
-      { "monster": "mon_zyrannosaurus_fungus", "freq": 0, "cost_multiplier": 0 }
+      { "monster": "mon_zpinosaurus_fungus", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_zyrannosaurus_fungus", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_zeinonychus_fungus", "freq": 0, "cost_multiplier": 0 }
     ]
   },
   {
@@ -12,7 +14,9 @@
     "name": "GROUP_FUNGI_TOWER",
     "default": "mon_fungal_tendril",
     "monsters": [
-      { "monster": "mon_zyrannosaurus_fungus", "freq": 50, "cost_multiplier": 0 }
+      { "monster": "mon_zpinosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zyrannosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zeinonychus_fungus", "freq": 75, "cost_multiplier": 0 }
     ]
   },
   {
@@ -20,7 +24,9 @@
     "name": "GROUP_FUNGI_FLOWERS",
     "default": "mon_fungal_blossom",
     "monsters": [
-      { "monster": "mon_zyrannosaurus_fungus", "freq": 50, "cost_multiplier": 0 }
+      { "monster": "mon_zpinosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zyrannosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zeinonychus_fungus", "freq": 75, "cost_multiplier": 0 }
     ]
   }
 ]
