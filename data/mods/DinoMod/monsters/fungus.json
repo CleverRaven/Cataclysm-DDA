@@ -40,7 +40,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": { "into": "mon_zyrannosaurus_fungus" },
+    "upgrades": { "half_life": 1400000, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
