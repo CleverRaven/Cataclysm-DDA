@@ -148,7 +148,6 @@ static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
-static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
@@ -379,7 +378,6 @@ activity_handlers::finish_functions = {
     { ACT_CRACKING, cracking_finish },
     { ACT_LOCKPICK, lockpicking_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
-    { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
     { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
@@ -1049,11 +1047,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
             if( drop->phase == LIQUID ) {
                 item obj( drop, calendar::turn, roll );
-                if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                    if( obj.goes_bad() ) {
-                        obj.set_rot( corpse_item->get_rot() );
-                    }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1069,11 +1064,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
             } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
-                if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                    if( obj.goes_bad() ) {
-                        obj.set_rot( corpse_item->get_rot() );
-                    }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1088,11 +1080,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             } else {
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
-                if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                    if( obj.goes_bad() ) {
-                        obj.set_rot( corpse_item->get_rot() );
-                    }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1138,7 +1127,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         if( item_charges > 0 ) {
             item ruined_parts( "ruined_chunks", calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
-            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
             if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", p.name );
@@ -1503,7 +1491,6 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         return;
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
-    milk.set_item_temperature( 311.75 );
     if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
@@ -1572,10 +1559,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
-        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
-                                                   277.15 ) );
-        }
 
         // 2. Transfer charges.
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
@@ -2858,40 +2841,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
-}
-
-void activity_handlers::heat_item_finish( player_activity *act, player *p )
-{
-    act->set_to_null();
-    if( act->targets.size() != 1 ) {
-        debugmsg( "invalid arguments to ACT_HEATING" );
-        return;
-    }
-    item_location &loc = act->targets[ 0 ];
-    item *const heat = loc.get_item();
-    if( heat == nullptr ) {
-        return;
-    }
-    item *const food = heat->get_food();
-    if( food == nullptr ) {
-        debugmsg( "item %s is not food", heat->typeId() );
-        return;
-    }
-    item &target = *food;
-    if( target.item_tags.count( "FROZEN" ) ) {
-        target.apply_freezerburn();
-        if( target.has_flag( flag_EATEN_COLD ) ) {
-            target.cold_up();
-            p->add_msg_if_player( m_info,
-                                  _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
-        } else {
-            target.heat_up();
-            p->add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
-        }
-    } else {
-        target.heat_up();
-        p->add_msg_if_player( m_info, _( "You heat up the food." ) );
-    }
 }
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )

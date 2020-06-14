@@ -104,7 +104,7 @@
     "looks_like": "pot",
     "symbol": ")",
     "color": "light_green",
-    "use_action": "HOTPLATE",
+    "use_action": "cauterize",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

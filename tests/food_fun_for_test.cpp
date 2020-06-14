@@ -15,12 +15,8 @@
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
 static const std::string flag_FELINE( "FELINE" );
-static const std::string flag_FROZEN( "FROZEN" );
 static const std::string flag_LUPINE( "LUPINE" );
-static const std::string flag_MELTS( "MELTS" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 
@@ -112,129 +108,6 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
             }
         }
     }
-}
-
-// N.B. food that tastes better hot is `modify_morale` with different math
-TEST_CASE( "fun for cold food", "[fun_for][food][cold]" )
-{
-    avatar dummy;
-    std::pair<int, int> actual_fun;
-
-    GIVEN( "food that tastes good, but better when cold" ) {
-        item cola( "cola" );
-        REQUIRE( cola.is_comestible() );
-        REQUIRE( cola.has_flag( flag_EATEN_COLD ) );
-        int cola_fun = cola.get_comestible_fun();
-
-        WHEN( "it is cold" ) {
-            cola.set_flag( flag_COLD );
-            REQUIRE( cola.has_flag( flag_COLD ) );
-
-            THEN( "it is more fun than normal" ) {
-                actual_fun = dummy.fun_for( cola );
-                CHECK( actual_fun.first == cola_fun * 2 );
-            }
-        }
-
-        WHEN( "it is not cold" ) {
-            REQUIRE_FALSE( cola.has_flag( flag_COLD ) );
-            THEN( "it has normal fun" ) {
-                actual_fun = dummy.fun_for( cola );
-                CHECK( actual_fun.first == cola_fun );
-            }
-        }
-    }
-
-    GIVEN( "food that tastes bad, but better when cold" ) {
-        item sports( "sports_drink" );
-        REQUIRE( sports.is_comestible() );
-        int sports_fun = sports.get_comestible_fun();
-
-        REQUIRE( sports_fun < 0 );
-        REQUIRE( sports.has_flag( flag_EATEN_COLD ) );
-
-        WHEN( "it is cold" ) {
-            sports.set_flag( flag_COLD );
-            REQUIRE( sports.has_flag( flag_COLD ) );
-
-            THEN( "it doesn't taste bad" ) {
-                actual_fun = dummy.fun_for( sports );
-                CHECK( actual_fun.first > 0 );
-            }
-        }
-
-        WHEN( "it is not cold" ) {
-            REQUIRE_FALSE( sports.has_flag( flag_COLD ) );
-
-            THEN( "it tastes as bad as usual" ) {
-                actual_fun = dummy.fun_for( sports );
-                CHECK( actual_fun.first == sports_fun );
-            }
-        }
-    }
-
-    GIVEN( "food that tastes good, but no better when cold" ) {
-        item coffee( "coffee" );
-        REQUIRE( coffee.is_comestible() );
-        int coffee_fun = coffee.get_comestible_fun();
-
-        REQUIRE( coffee_fun > 0 );
-        REQUIRE_FALSE( coffee.has_flag( flag_EATEN_COLD ) );
-
-        WHEN( "it is cold" ) {
-            coffee.set_flag( flag_COLD );
-            REQUIRE( coffee.has_flag( flag_COLD ) );
-
-            THEN( "it tastes just as good as usual" ) {
-                actual_fun = dummy.fun_for( coffee );
-                CHECK( actual_fun.first == coffee_fun );
-            }
-        }
-
-        WHEN( "it is not cold" ) {
-            REQUIRE_FALSE( coffee.has_flag( flag_COLD ) );
-
-            THEN( "it tastes just as good as usual" ) {
-                actual_fun = dummy.fun_for( coffee );
-                CHECK( actual_fun.first == coffee_fun );
-            }
-        }
-
-        // Note: One might expect a "HOT" test to go here, since
-        // coffee is actually EATEN_HOT, but that is calculated in
-        // Character::modify_morale, not Character::food_fun
-    }
-}
-
-TEST_CASE( "fun for melted food", "[fun_for][food][melted]" )
-{
-    avatar dummy;
-    std::pair<int, int> actual_fun;
-
-    GIVEN( "food that is fun but melts" ) {
-        item icecream( "icecream" );
-        REQUIRE( icecream.is_comestible() );
-        REQUIRE( icecream.has_flag( flag_MELTS ) );
-        int icecream_fun = icecream.get_comestible_fun();
-
-        WHEN( "it is not frozen" ) {
-            REQUIRE_FALSE( icecream.has_flag( flag_FROZEN ) );
-
-            THEN( "it is half as fun" ) {
-                actual_fun = dummy.fun_for( icecream );
-                CHECK( actual_fun.first == icecream_fun / 2 );
-            }
-        }
-    }
-
-    /* TODO: Mock-up such a food, as none exist in game
-    GIVEN( "food that is not fun and also melts" ) {
-        WHEN( "it is not frozen" ) {
-            THEN( "it tastes worse" ) {
-            }
-        }
-    }
-    */
 }
 
 TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
@@ -442,4 +315,3 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
         }
     }
 }
-

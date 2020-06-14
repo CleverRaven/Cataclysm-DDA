@@ -1453,9 +1453,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     // but item::display_name tags use a space so this prevents
                     // needing *second* translation for the same thing with a
                     // space in front of it
-                    if( it.item_tags.count( "FROZEN" ) ) {
-                        specials += _( " (frozen)" );
-                    } else if( it.rotten() ) {
+                    if( it.rotten() ) {
                         specials += _( " (rotten)" );
                     }
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );

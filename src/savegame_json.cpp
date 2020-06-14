@@ -2177,7 +2177,6 @@ void item::io( Archive &archive )
 
     archive.io( "energy", energy, 0_mJ );
 
-    int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
@@ -2199,14 +2198,10 @@ void item::io( Archive &archive )
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_rot_check", last_rot_check, calendar::start_of_cataclysm );
-    archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
-    archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.io( "specific_energy", specific_energy, -10 );
-    archive.io( "temperature", temperature, 0 );
     archive.io( "recipe_charges", recipe_charges, 1 );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
     []( const itype & i ) {
@@ -2276,10 +2271,8 @@ void item::io( Archive &archive )
     if( is_food() ) {
         active = true;
     }
-    if( !active &&
-        ( item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
-          item_tags.count( "WET" ) > 0 ) ) {
-        // Some hot/cold items from legacy saves may be inactive
+    if( !active && item_tags.count( "WET" ) > 0 ) {
+        // Some wet items from legacy saves may be inactive
         active = true;
     }
     std::string mode;
@@ -2303,12 +2296,6 @@ void item::io( Archive &archive )
     // Remove stored translated gerund in favor of storing the inscription tool type
     item_vars.erase( "item_label_type" );
     item_vars.erase( "item_note_type" );
-
-    current_phase = static_cast<phase_id>( cur_phase );
-    // override phase if frozen, needed for legacy save
-    if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
-        current_phase = SOLID;
-    }
 
     // Activate corpses from old saves
     if( is_corpse() && !active ) {

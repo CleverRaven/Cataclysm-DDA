@@ -264,11 +264,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.is_frozen_liquid() ) {
-        if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
-            option = STASH;
-        }
-    } else if( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ) {
+    } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
@@ -451,7 +447,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
             isEmpty = true;
             for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
+                if( maybe_water.typeId() != "water" ) {
                     isEmpty = false;
                     break;
                 }

@@ -21,8 +21,7 @@
     "sub": "hotplate",
     "artifact_data": { "charge_type": "ARTC_TIME" },
     "use_action": [
-      "HOTPLATE",
-      "HEAT_FOOD",
+      "cauterize",
       {
         "type": "transform",
         "target": "heat_cube_torch_on",

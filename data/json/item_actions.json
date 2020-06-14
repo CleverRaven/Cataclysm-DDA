@@ -81,11 +81,6 @@
   },
   {
     "type": "item_action",
-    "id": "HOTPLATE",
-    "name": { "str": "Heat up food (with it)" }
-  },
-  {
-    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": { "str": "Attach as toolmod" }
   },
@@ -568,16 +563,6 @@
     "type": "item_action",
     "id": "HAIRKIT",
     "name": { "str": "Trim the hair" }
-  },
-  {
-    "type": "item_action",
-    "id": "HEATPACK",
-    "name": { "str": "Use" }
-  },
-  {
-    "type": "item_action",
-    "id": "HEAT_FOOD",
-    "name": { "str": "Heat up food (in it)" }
   },
   {
     "type": "item_action",

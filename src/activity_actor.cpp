@@ -228,7 +228,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !newit.made_of_from_type( LIQUID ) ) {
+        if( !newit.made_of( LIQUID ) ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             if( newit.is_owned_by( who, true ) ) {

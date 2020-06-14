@@ -159,7 +159,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
                                const monster *const source_mon,
                                liquid_dest_opt &target )
 {
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of( LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -307,7 +307,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                                      const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
-    if( !liquid.made_of_from_type( LIQUID ) ) {
+    if( !liquid.made_of( LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
@@ -401,7 +401,7 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
-    if( liquid.made_of_from_type( SOLID ) ) {
+    if( liquid.made_of( SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.

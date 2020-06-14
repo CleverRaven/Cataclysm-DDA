@@ -37,8 +37,7 @@
     "color": "dark_gray",
     "contains": "2500 ml",
     "watertight": true,
-    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "afs_fridge",

@@ -127,16 +127,12 @@ static const std::string flag_BYPRODUCT( "BYPRODUCT" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
 static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
 static const std::string flag_CATTLE( "CATTLE" );
-static const std::string flag_COLD( "COLD" );
 static const std::string flag_COOKED( "COOKED" );
 static const std::string flag_CORPSE( "CORPSE" );
 static const std::string flag_EATEN_HOT( "EATEN_HOT" );
-static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 static const std::string flag_FELINE( "FELINE" );
 static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FROZEN( "FROZEN" );
 static const std::string flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
-static const std::string flag_HOT( "HOT" );
 static const std::string flag_INEDIBLE( "INEDIBLE" );
 static const std::string flag_LUPINE( "LUPINE" );
 static const std::string flag_MELTS( "MELTS" );
@@ -458,24 +454,6 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     float fun_max = fun < 0 ? fun * 6 : fun * 3;
-    if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
-        if( fun > 0 ) {
-            fun *= 2;
-        } else {
-            fun = 1;
-            fun_max = 5;
-        }
-    }
-
-    if( comest.has_flag( flag_MELTS ) && !comest.has_flag( flag_FROZEN ) ) {
-        if( fun > 0 ) {
-            fun *= 0.5;
-        } else {
-            // Melted freezable food tastes 25% worse than frozen freezable food.
-            // Frozen freezable food... say that 5 times fast
-            fun *= 1.25;
-        }
-    }
 
     if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
@@ -665,16 +643,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             if( !elem->edible() ) {
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
-        }
-    }
-    if( food.item_tags.count( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
-        !food.has_flag( flag_MELTS ) ) {
-        if( edible ) {
-            return ret_val<edible_rating>::make_failure(
-                       _( "It's frozen solid.  You must defrost it before you can eat it." ) );
-        }
-        if( drinkable ) {
-            return ret_val<edible_rating>::make_failure( _( "You can't drink it while it's frozen." ) );
         }
     }
 
@@ -1082,14 +1050,9 @@ void Character::modify_addiction( const islot_comestible &comest )
     }
 }
 
-void Character::modify_morale( item &food, const int nutr )
+void Character::modify_morale( item &food, const int )
 {
     time_duration morale_time = 2_hours;
-    if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
-        morale_time = 3_hours;
-        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
-        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
-    }
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {

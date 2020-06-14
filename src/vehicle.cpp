@@ -3276,22 +3276,6 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     } );
 }
 
-float vehicle::fuel_specific_energy( const itype_id &ftype ) const
-{
-    float total_energy = 0;
-    float total_mass = 0;
-    for( auto vehicle_part : parts ) {
-        if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype  &&
-            vehicle_part.base.contents_made_of( LIQUID ) ) {
-            float energy = vehicle_part.base.contents.front().specific_energy;
-            float mass = to_gram( vehicle_part.base.contents.front().weight() );
-            total_energy += energy * mass;
-            total_mass += mass;
-        }
-    }
-    return total_energy / total_mass;
-}
-
 int vehicle::drain( const itype_id &ftype, int amount )
 {
     if( ftype == fuel_type_battery ) {

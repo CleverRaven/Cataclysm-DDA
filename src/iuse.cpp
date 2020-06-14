@@ -2080,27 +2080,6 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
     return 0;
 }
 
-static int cauterize_elec( player &p, item &it )
-{
-    if( it.charges == 0 && it.ammo_capacity() ) {
-        p.add_msg_if_player( m_info, _( "You need batteries to cauterize wounds." ) );
-        return 0;
-    } else if( !p.has_effect( effect_bite ) && !p.has_effect( effect_bleed ) && !p.is_underwater() ) {
-        if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-              p.has_trait( trait_CENOBITE ) ) &&
-            p.query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
-        } else {
-            p.add_msg_if_player( m_info,
-                                 _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
-            return 0;
-        }
-    } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
-        return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
-    }
-    return 0;
-}
-
 int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
@@ -5588,91 +5567,6 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
     }
 }
 
-/**
- * Heats up a food item.
- * @return 1 if an item was heated, false if nothing was heated.
- */
-static bool heat_item( player &p )
-{
-    auto loc = g->inv_map_splice( []( const item & itm ) {
-        const item *food = itm.get_food();
-        return food && !food->item_tags.count( "HOT" );
-    }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
-
-    item *heat = loc.get_item();
-    if( heat == nullptr ) {
-        add_msg( m_info, _( "Never mind." ) );
-        return false;
-    }
-    item *target = heat->get_food();
-    // simulates heat capacity of food, more weight = longer heating time
-    // this is x2 to simulate larger delta temperature of frozen food in relation to
-    // heating non-frozen food (x1); no real life physics here, only aproximations
-    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
-    if( target->item_tags.count( "FROZEN" ) && !target->has_flag( flag_EATEN_COLD ) ) {
-        duration *= 2;
-    }
-    p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
-    p.assign_activity( ACT_HEATING, duration );
-    p.activity.targets.push_back( item_location( p, target ) );
-    return true;
-}
-
-int iuse::heatpack( player *p, item *it, bool, const tripoint & )
-{
-    if( heat_item( *p ) ) {
-        it->convert( "heatpack_used" );
-    }
-    return 0;
-}
-
-int iuse::heat_food( player *p, item *it, bool, const tripoint & )
-{
-    if( g->m.has_nearby_fire( p->pos() ) ) {
-        heat_item( *p );
-    } else if( p->has_active_bionic( bio_tools ) && p->get_power_level() > 10_kJ &&
-               query_yn( _( "There is no fire around, use your integrated toolset instead?" ) ) ) {
-        if( heat_item( *p ) ) {
-            p->mod_power_level( -10_kJ );
-        }
-    } else {
-        p->add_msg_if_player( m_info, _( "You need to be next to fire to heat something up with the %s." ),
-                              it->tname() );
-    }
-    return 0;
-}
-
-int iuse::hotplate( player *p, item *it, bool, const tripoint & )
-{
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    if( it->typeId() != "atomic_coffeepot" && ( !it->units_sufficient( *p ) ) ) {
-        p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
-        return 0;
-    }
-
-    int choice = 0;
-    if( ( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ||
-          p->has_trait( trait_MASOCHIST ) ||
-          p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) && !p->is_underwater() ) {
-        //Might want to cauterize
-        choice = uilist( _( "Using hotplate:" ), {
-            _( "Heat food" ), _( "Cauterize wound" )
-        } );
-    }
-
-    if( choice == 0 ) {
-        if( heat_item( *p ) ) {
-            return it->type->charges_to_use();
-        }
-    } else if( choice == 1 ) {
-        return cauterize_elec( *p, *it );
-    }
-    return 0;
-}
-
 int iuse::towel( player *p, item *it, bool t, const tripoint & )
 {
     return towel_common( p, it, t );
@@ -8583,12 +8477,6 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( cooktime <= 0 ) {
             item meal( it->get_var( "DISH" ) );
-            if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
-                meal.heat_up();
-            } else {
-                meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
-                                           g->weather.get_temperature( pos ) ) ) );
-            }
 
             it->active = false;
             it->erase_var( "DISH" );
@@ -8690,11 +8578,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( mc_take == choice ) {
             item &dish = *dish_it;
-            if( dish.has_flag( "FROZEN" ) ) {
-                dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
-            }
             const std::string dish_name = dish.tname( dish.charges, false );
-            const bool is_delicious = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
             if( dish.made_of( LIQUID ) ) {
                 if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
                     p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
@@ -8710,14 +8594,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             it->remove_item( *dish_it );
             it->erase_var( "RECIPE" );
             it->convert( "multi_cooker" );
-            if( is_delicious ) {
-                p->add_msg_if_player( m_good,
-                                      _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
-                                      dish_name );
-            } else {
-                p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
-                                      dish_name );
-            }
+            p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
+                                  dish_name );
 
             return 0;
         }

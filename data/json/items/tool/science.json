@@ -53,7 +53,7 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
+    "use_action": "cauterize",
     "magazines": [
       [
         "battery",

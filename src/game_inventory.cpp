@@ -408,7 +408,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
-                if( loc->made_of_from_type( LIQUID ) ) {
+                if( loc->made_of( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
@@ -588,7 +588,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
                               ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
 
-            if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( flag_LIQUIDCONT, loc.position() ) ) {
+            if( loc->made_of( LIQUID ) && !g->m.has_flag( flag_LIQUIDCONT, loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 

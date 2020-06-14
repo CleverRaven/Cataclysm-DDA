@@ -908,7 +908,7 @@ static void move_item( player &p, item &it, const int quantity, const tripoint &
     }
 
     // Check that we can pick it up.
-    if( !it.made_of_from_type( LIQUID ) ) {
+    if( !it.made_of( LIQUID ) ) {
         p.mod_moves( -move_cost( it, src, dest ) );
         if( activity_to_restore == ACT_TIDY_UP ) {
             it.erase_var( "activity_var" );
@@ -1147,7 +1147,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
         for( const auto &elem2 : g->m.i_at( elem ) ) {
-            if( in_loot_zones && elem2.made_of_from_type( LIQUID ) ) {
+            if( in_loot_zones && elem2.made_of( LIQUID ) ) {
                 continue;
             }
             if( check_weight ) {
@@ -2205,7 +2205,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             item &thisitem = *it->first;
 
             // skip unpickable liquid
-            if( thisitem.made_of_from_type( LIQUID ) ) {
+            if( thisitem.made_of( LIQUID ) ) {
                 continue;
             }
 

@@ -164,7 +164,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "cauterize"
   },
   {
     "id": "clay_pot",
@@ -182,7 +182,6 @@
     "color": "brown",
     "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -234,7 +233,7 @@
     "ammo": "battery",
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
+    "use_action": "cauterize",
     "magazines": [
       [
         "battery",
@@ -309,7 +308,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "cauterize" ]
   },
   {
     "id": "flask_yeast",
@@ -382,7 +381,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "cauterize"
   },
   {
     "id": "heatpack",
@@ -398,8 +397,7 @@
     "cutting": 1,
     "material": "plastic",
     "symbol": ";",
-    "color": "light_gray",
-    "use_action": "HEATPACK"
+    "color": "light_gray"
   },
   {
     "id": "heatpack_used",
@@ -435,7 +433,7 @@
     "ammo": "tinder",
     "max_charges": 100,
     "charges_per_use": 25,
-    "use_action": "HOTPLATE"
+    "use_action": "cauterize"
   },
   {
     "id": "hotplate",
@@ -453,7 +451,7 @@
     "color": "green",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": "HOTPLATE",
+    "use_action": "cauterize",
     "magazines": [
       [
         "battery",
@@ -572,7 +570,7 @@
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [ "cauterize" ],
     "magazines": [
       [
         "battery",
@@ -596,8 +594,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "milk_cream_jar",
@@ -657,7 +654,7 @@
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "use_action": [ "cauterize" ],
     "magazines": [
       [
         "battery",
@@ -734,7 +731,7 @@
     "initial_charges": 800,
     "max_charges": 800,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "cauterize"
   },
   {
     "id": "pastaextruder",
@@ -795,7 +792,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": "cauterize"
   },
   {
     "id": "pressure_cooker",
@@ -815,7 +812,6 @@
     "looks_like": "pot_canning",
     "container_data": { "contains": "2 L", "seals": true, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -922,7 +918,7 @@
     "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "cauterize" ]
   },
   {
     "id": "teapot",

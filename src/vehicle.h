@@ -1119,9 +1119,6 @@ class vehicle
         int engine_fuel_left( int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
-        // Returns the total specific energy of this fuel type. Frozen is ignored.
-        float fuel_specific_energy( const itype_id &ftype ) const;
-
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount );

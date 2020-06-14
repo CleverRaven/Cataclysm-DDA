@@ -2914,7 +2914,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     for( item &it : items_here ) {
-        if( !it.made_of_from_type( LIQUID ) ) {
+        if( !it.made_of( LIQUID ) ) {
             add_msg( _( "You remove %s from the vat." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, &it );
@@ -2955,7 +2955,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
                 // TODO: Different age based on settings
                 item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
-                if( booze.made_of_from_type( LIQUID ) ) {
+                if( booze.made_of( LIQUID ) ) {
                     add_msg( _( "The %s is now ready for bottling." ), booze.tname() );
                 }
             }
@@ -2999,7 +2999,7 @@ static void displace_items_except_one_liquid( const tripoint &examp )
     bool liquid_present = false;
     map_stack items = g->m.i_at( examp );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-        if( !it->made_of_from_type( LIQUID ) || liquid_present ) {
+        if( !it->made_of( LIQUID ) || liquid_present ) {
             // This isn't a liquid or there was already another kind of liquid inside,
             // so this has to be moved.
             // This will add items to a space near the vat, because it's flagged as NOITEM.
@@ -3025,7 +3025,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         return !it.is_container_empty() && it.can_unload_liquid();
     } );
     const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
-        return it.made_of_from_type( LIQUID );
+        return it.made_of( LIQUID );
     } );
 
     if( !liquid_present || has_container_with_liquid ) {
@@ -4740,7 +4740,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_MILLABLE ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, false, examp, nullptr );
+            it.process_rot( 1, false, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -4840,7 +4840,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, false, examp, nullptr );
+            it.process_rot( 1, false, examp, nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

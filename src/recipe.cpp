@@ -604,16 +604,6 @@ std::function<bool( const item & )> recipe::get_component_filter(
         };
     }
 
-    // If the result is made hot, we can allow frozen components.
-    // EDIBLE_FROZEN components ( e.g. flour, chocolate ) are allowed as well
-    // Otherwise forbid them
-    std::function<bool( const item & )> frozen_filter = return_true<item>;
-    if( result.is_food() && !hot_result() ) {
-        frozen_filter = []( const item & component ) {
-            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
-        };
-    }
-
     // Disallow usage of non-full magazines as components
     // This is primarily used to require a fully charged battery, but works for any magazine.
     std::function<bool( const item & )> magazine_filter = return_true<item>;
@@ -623,10 +613,9 @@ std::function<bool( const item & )> recipe::get_component_filter(
         };
     }
 
-    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+    return [ rotten_filter, magazine_filter ]( const item & component ) {
         return is_crafting_component( component ) &&
                rotten_filter( component ) &&
-               frozen_filter( component ) &&
                magazine_filter( component );
     };
 }

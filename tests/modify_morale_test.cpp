@@ -191,38 +191,6 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     }
 }
 
-TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
-{
-    avatar dummy;
-
-    GIVEN( "some food that tastes better when hot" ) {
-        item &bread = dummy.i_add( item( "sourdough_bread" ) );
-        REQUIRE( bread.has_flag( flag_EATEN_HOT ) );
-
-        WHEN( "it is hot" ) {
-            bread.set_flag( flag_HOT );
-            REQUIRE( bread.has_flag( flag_HOT ) );
-
-            THEN( "character gets a morale bonus for having a hot meal" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( bread );
-                CHECK( dummy.has_morale( MORALE_FOOD_HOT ) > 0 );
-            }
-        }
-
-        WHEN( "it is not hot" ) {
-            REQUIRE_FALSE( bread.has_flag( flag_HOT ) );
-
-            THEN( "character does not get any morale bonus" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( bread );
-                CHECK_FALSE( dummy.has_morale( MORALE_FOOD_HOT ) );
-            }
-        }
-    }
-}
-
-
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
@@ -607,4 +575,3 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
         }
     }
 }
-

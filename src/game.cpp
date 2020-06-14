@@ -8491,8 +8491,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
-    if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
-                                            !u.crush_frozen_liquid( opt.ammo ) ) ) {
+    if( opt.ammo.get_item() == nullptr ) {
         return;
     }
 
@@ -9702,7 +9701,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
     [&]( item & liquid_item ) {
-        return liquid_item.made_of_from_type( LIQUID );
+        return liquid_item.made_of( LIQUID );
     } );
 
     const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
@@ -10484,7 +10483,7 @@ void game::start_hauling( const tripoint &pos )
     map_stack items = m.i_at( pos );
     for( item &it : items ) {
         // Liquid cannot be picked up
-        if( it.made_of_from_type( LIQUID ) ) {
+        if( it.made_of( LIQUID ) ) {
             continue;
         }
         target_items.emplace_back( map_cursor( pos ), &it );

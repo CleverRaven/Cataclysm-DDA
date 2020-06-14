@@ -19,7 +19,7 @@
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "artifact_data": { "charge_type": "ARTC_SOLAR" },
-    "use_action": "HOTPLATE"
+    "use_action": "cauterize"
   },
   {
     "id": "knife_crt",

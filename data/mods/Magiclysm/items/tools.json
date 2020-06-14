@@ -17,8 +17,7 @@
     "contains": "16 L",
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
     "watertight": true,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
-    "use_action": "HEAT_FOOD"
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ]
   },
   {
     "id": "demon_forge",

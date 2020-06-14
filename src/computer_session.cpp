@@ -1106,7 +1106,7 @@ void computer_session::action_conveyor()
         print_line( _( "No items detected at: LOADING BAY." ) );
     }
     for( const auto &it : items ) {
-        if( !it.made_of_from_type( LIQUID ) ) {
+        if( !it.made_of( LIQUID ) ) {
             g->m.add_item_or_charges( platform, it );
         }
     }

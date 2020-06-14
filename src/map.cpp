@@ -4101,7 +4101,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         // Cannot drop liquids into tiles that are comprised of liquid
-        if( obj.made_of_from_type( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+        if( obj.made_of( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
             return false;
         }
 
@@ -4192,9 +4192,9 @@ item &map::add_item( const tripoint &p, item new_item )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
+    // Process foods when they are added to the map, here instead of add_item_at()
     // to avoid double processing food and corpses during active item processing.
-    if( new_item.is_food() || new_item.has_temperature() ) {
+    if( new_item.is_food() ) {
         new_item.process( nullptr, p, false );
     }
 
@@ -4548,7 +4548,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         float it_insulation = 1.0;
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
-        if( target.has_temperature() || target.is_food_container() ) {
+        if( target.is_food() || target.is_food_container() || target.is_corpse() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
                 flag = temperature_flag::TEMP_HEATER;
@@ -6949,8 +6949,6 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     }
 
     item sap( "maple_sap", calendar::turn );
-
-    sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
 
     // Is there a proper container?
     auto items = i_at( p );

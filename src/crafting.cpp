@@ -1188,22 +1188,8 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit_counter++;
         }
 
-        if( food_contained.has_temperature() ) {
-            if( food_contained.goes_bad() ) {
-                food_contained.set_relative_rot( relative_rot );
-            }
-            if( should_heat ) {
-                food_contained.heat_up();
-            } else {
-                // Really what we should be doing is averaging the temperatures
-                // between the recipe components if we don't have a heat tool, but
-                // that's kind of hard.  For now just set the item to 20 C
-                // and reset the temperature, don't
-                // forget byproducts below either when you fix this.
-                //
-                // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( 293.15 );
-            }
+        if( food_contained.goes_bad() ) {
+            food_contained.set_relative_rot( relative_rot );
         }
 
         newit.set_owner( get_faction()->id );
@@ -1224,15 +1210,8 @@ void player::complete_craft( item &craft, const tripoint &loc )
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
         for( auto &bp : bps ) {
-            if( bp.has_temperature() ) {
-                if( bp.goes_bad() ) {
-                    bp.set_relative_rot( relative_rot );
-                }
-                if( should_heat ) {
-                    bp.heat_up();
-                } else {
-                    bp.set_item_temperature( 293.15 );
-                }
+            if( bp.goes_bad() ) {
+                bp.set_relative_rot( relative_rot );
             }
             bp.set_owner( get_faction()->id );
             if( bp.made_of( LIQUID ) ) {
@@ -2148,7 +2127,6 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
     const auto dis_requirements = dis.disassembly_requirements();
     item &org_item = *target;
     const bool filthy = org_item.is_filthy();
-    const tripoint loc = target.position();
 
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
@@ -2268,10 +2246,6 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         // Use item from components list, or (if not contained)
         // use newit, the default constructed.
         item act_item = newit;
-
-        if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
-        }
 
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {

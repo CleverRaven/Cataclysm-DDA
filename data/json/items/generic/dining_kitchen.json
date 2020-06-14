@@ -116,7 +116,6 @@
     "to_hit": 1,
     "price": 4500,
     "price_postapoc": 10,
-    "use_action": "HEAT_FOOD",
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -690,7 +689,6 @@
     "color": "dark_gray",
     "container_data": { "contains": "25 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -762,8 +760,7 @@
     "symbol": ")",
     "color": "light_gray",
     "container_data": { "contains": "1 L", "watertight": true },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -781,8 +778,7 @@
     "symbol": ")",
     "color": "light_red",
     "container_data": { "contains": "1 L", "watertight": true },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",

@@ -21,7 +21,6 @@ TEST_CASE( "Rate of rotting" )
         // At 65 F (18,3 C) item rots at rate of 1h/1h
         // So the level of rot should be about same as the item age
         // In preserving containers and in freezer the item should not rot at all
-        // Item in freezer should not be frozen.
 
         // Items created at turn zero are handled differently, so ensure we're
         // not there.
@@ -68,9 +67,6 @@ TEST_CASE( "Rate of rotting" )
         // In freezer and in preserving container still should be no rot
         CHECK( sealed_item.get_rot() == 0_turns );
         CHECK( freeze_item.get_rot() == 0_turns );
-
-        // The item in freezer should still not be frozen
-        CHECK( !freeze_item.item_tags.count( "FROZEN" ) );
     }
 }
 
@@ -92,8 +88,8 @@ TEST_CASE( "Items rot away" )
         calendar::turn += 20_minutes;
         test_item.mod_rot( 2_days );
 
-        CHECK( test_item.process_temperature_rot( 1, false, tripoint_zero, nullptr,
-                temperature_flag::TEMP_HEATER ) );
+        CHECK( test_item.process_rot( 1, false, tripoint_zero, nullptr,
+                                      temperature_flag::TEMP_HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
     }
 }

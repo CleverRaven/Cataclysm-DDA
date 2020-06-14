@@ -1432,9 +1432,6 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 
     item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid.is_food() ) {
-        liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
-    }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( desired_liquid, qty - liquid.charges );
     }
@@ -2574,7 +2571,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
 
 ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.made_of_from_type( LIQUID ) ) {
+    if( it.made_of( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
@@ -2897,7 +2894,7 @@ void player::mend_item( item_location &&obj, bool interactive )
 
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
-    if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
+    if( ammo.is_ammo() ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
         qty = clamp( qty, ammo.contents.front().charges, 1 );
@@ -3238,7 +3235,7 @@ bool player::unload( item &it )
             ammo.set_flag( "FILTHY" );
         }
 
-        if( ammo.made_of_from_type( LIQUID ) ) {
+        if( ammo.made_of( LIQUID ) ) {
             if( !this->add_or_drop_with_msg( ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
@@ -4452,4 +4449,3 @@ bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
 }
-

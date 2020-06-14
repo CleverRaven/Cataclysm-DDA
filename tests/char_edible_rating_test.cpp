@@ -108,89 +108,6 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
     }
 }
 
-TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
-{
-    avatar dummy;
-
-    GIVEN( "food that is not edible when frozen" ) {
-        item apple( "apple" );
-        REQUIRE_FALSE( apple.has_flag( "EDIBLE_FROZEN" ) );
-        REQUIRE_FALSE( apple.has_flag( "MELTS" ) );
-
-        WHEN( "it is not frozen" ) {
-            REQUIRE_FALSE( apple.item_tags.count( "FROZEN" ) );
-
-            THEN( "they can eat it" ) {
-                expect_can_eat( dummy, apple );
-            }
-        }
-
-        WHEN( "it is frozen" ) {
-            apple.item_tags.insert( "FROZEN" );
-            REQUIRE( apple.item_tags.count( "FROZEN" ) );
-
-            THEN( "they cannot eat it" ) {
-                expect_cannot_eat( dummy, apple, "It's frozen solid.  You must defrost it before you can eat it." );
-            }
-        }
-    }
-
-    GIVEN( "drink that is not drinkable when frozen" ) {
-        item water( "water_clean" );
-        REQUIRE_FALSE( water.has_flag( "EDIBLE_FROZEN" ) );
-        REQUIRE_FALSE( water.has_flag( "MELTS" ) );
-
-        WHEN( "it is not frozen" ) {
-            REQUIRE_FALSE( water.item_tags.count( "FROZEN" ) );
-
-            THEN( "they can drink it" ) {
-                expect_can_eat( dummy, water );
-            }
-        }
-
-        WHEN( "it is frozen" ) {
-            water.item_tags.insert( "FROZEN" );
-            REQUIRE( water.item_tags.count( "FROZEN" ) );
-
-            THEN( "they cannot drink it" ) {
-                expect_cannot_eat( dummy, water, "You can't drink it while it's frozen." );
-            }
-        }
-    }
-
-    GIVEN( "food that is edible when frozen" ) {
-        item necco( "neccowafers" );
-        REQUIRE( necco.has_flag( "EDIBLE_FROZEN" ) );
-
-        WHEN( "it is frozen" ) {
-            necco.item_tags.insert( "FROZEN" );
-            REQUIRE( necco.item_tags.count( "FROZEN" ) );
-
-            THEN( "they can eat it" ) {
-                expect_can_eat( dummy, necco );
-            }
-        }
-    }
-
-    GIVEN( "food that melts" ) {
-        item milkshake( "milkshake" );
-
-        // When food does not have EDIBLE_FROZEN, it will still be edible
-        // frozen if it MELTS. Ice cream, milkshakes and such do not have
-        // EDIBLE_FROZEN, but they have MELTS, which has the same effect.
-        REQUIRE( milkshake.has_flag( "MELTS" ) );
-
-        WHEN( "it is frozen" ) {
-            milkshake.item_tags.insert( "FROZEN" );
-            REQUIRE( milkshake.item_tags.count( "FROZEN" ) );
-
-            THEN( "they can eat it" ) {
-                expect_can_eat( dummy, milkshake );
-            }
-        }
-    }
-}
-
 TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
 {
     avatar dummy;
@@ -506,4 +423,3 @@ TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
         }
     }
 }
-

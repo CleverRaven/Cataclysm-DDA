@@ -162,13 +162,10 @@ static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
-static const std::string flag_FREEZERBURN( "FREEZERBURN" );
-static const std::string flag_FROZEN( "FROZEN" );
 static const std::string flag_GIBBED( "GIBBED" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
 static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
 static const std::string flag_IS_ARMOR( "IS_ARMOR" );
 static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
@@ -181,8 +178,6 @@ static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_MAG_BELT( "MAG_BELT" );
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_MAG_EJECT( "MAG_EJECT" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
 static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
@@ -366,9 +361,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
             put_in( item( type->magazine->default_ammo, calendar::turn, type->magazine->count ) );
         }
 
-    } else if( has_temperature() || goes_bad() ) {
+    } else if( goes_bad() ) {
         active = true;
-        last_temp_check = bday;
         last_rot_check = bday;
 
     } else if( type->tool ) {
@@ -385,9 +379,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         snip_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
-    if( current_phase == PNULL ) {
-        current_phase = type->phase;
-    }
     // item always has any relic properties from itype.
     if( type->relic_data ) {
         relic_data = type->relic_data;
@@ -437,7 +428,6 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
     if( is_food() ) {
         active = true;
-        last_temp_check = bday;
         last_rot_check = bday;
         if( goes_bad() ) {
             const item *most_rotten = get_most_rotten_component( *this );
@@ -700,11 +690,6 @@ bool item::is_null() const
 bool item::is_unarmed_weapon() const
 {
     return has_flag( flag_UNARMED_WEAPON ) || is_null();
-}
-
-bool item::is_frozen_liquid() const
-{
-    return made_of( SOLID ) && made_of_from_type( LIQUID );
 }
 
 bool item::covers( const body_part bp ) const
@@ -1557,28 +1542,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_rot_check ) ) );
             }
-            if( food && food->has_temperature() ) {
-                info.push_back( iteminfo( "BASE", _( "last temp: " ),
-                                          "", iteminfo::lower_is_better,
-                                          to_turn<int>( food->last_temp_check ) ) );
-                info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
-                                          food->temperature ) );
-                info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
-                                          iteminfo::lower_is_better,
-                                          food->specific_energy ) );
-                info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "",
-                                          iteminfo::lower_is_better,
-                                          1000 * food->get_specific_heat_liquid() ) );
-                info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "",
-                                          iteminfo::lower_is_better,
-                                          1000 * food->get_specific_heat_solid() ) );
-                info.push_back( iteminfo( "BASE", _( "latent heat: " ), "",
-                                          iteminfo::lower_is_better,
-                                          food->get_latent_heat() ) );
-                info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "",
-                                          iteminfo::lower_is_better,
-                                          food->get_freeze_point() ) );
-            }
         }
     }
 }
@@ -1757,17 +1720,6 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             info.emplace_back( "DESCRIPTION", get_freshness_description( *food_item ) );
         }
 
-        if( food_item->has_flag( flag_FREEZERBURN ) && !food_item->rotten() &&
-            !food_item->has_flag( flag_MUSHY ) ) {
-            info.emplace_back( "DESCRIPTION",
-                               _( "* Quality of this food suffers when it's frozen, and it "
-                                  "<neutral>will become mushy after thawing out</neutral>." ) );
-        }
-        if( food_item->has_flag( flag_MUSHY ) && !food_item->rotten() ) {
-            info.emplace_back( "DESCRIPTION",
-                               _( "* It was frozen once and after thawing became <bad>mushy and "
-                                  "tasteless</bad>.  It will rot quickly if thawed again." ) );
-        }
         if( food_item->has_flag( flag_NO_PARASITES ) && g->u.get_skill_level( skill_cooking ) >= 3 ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* It seems that deep freezing <good>killed all "
@@ -3344,7 +3296,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
             const translation &description = contents_item->type->description;
 
-            if( contents_item->made_of_from_type( LIQUID ) ) {
+            if( contents_item->made_of( LIQUID ) ) {
                 units::volume contents_volume = contents_item->volume() * batch;
                 int converted_volume_scale = 0;
                 const double converted_volume =
@@ -4234,7 +4186,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string burntext;
-    if( with_prefix && !made_of_from_type( LIQUID ) ) {
+    if( with_prefix && !made_of( LIQUID ) ) {
         if( volume() >= 1_liter && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if( burnt > 0 ) {
@@ -4302,25 +4254,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (dirty)" );
         } else if( rotten() ) {
             tagtext += _( " (rotten)" );
-        } else if( has_flag( flag_MUSHY ) ) {
-            tagtext += _( " (mushy)" );
         } else if( is_going_bad() ) {
             tagtext += _( " (old)" );
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
-        }
-    }
-    if( has_temperature() ) {
-        if( has_flag( flag_HOT ) ) {
-            tagtext += _( " (hot)" );
-        }
-        if( has_flag( flag_COLD ) ) {
-            tagtext += _( " (cold)" );
-        }
-        if( has_flag( flag_FROZEN ) ) {
-            tagtext += _( " (frozen)" );
-        } else if( has_flag( flag_MELTS ) ) {
-            tagtext += _( " (melted)" ); // he melted
         }
     }
 
@@ -5091,10 +5028,6 @@ int item::get_comestible_fun() const
         fun += json_flag::get( flag ).taste_mod();
     }
 
-    if( has_flag( flag_MUSHY ) ) {
-        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
-    }
-
     return fun;
 }
 
@@ -5262,22 +5195,10 @@ void item::calc_rot( time_point time, int temp )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
-        last_rot_check = time;
-        return;
-    }
-
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
         factor = 0.75;
-    }
-    if( item_tags.count( "MUSHY" ) ) {
-        factor = 3.0;
-    }
-
-    if( item_tags.count( "COLD" ) ) {
-        temp = std::min( temperatures::fridge, temp );
     }
 
     // simulation of different age of food at the start of the game and good/bad storage
@@ -5301,9 +5222,8 @@ void item::calc_rot_while_processing( time_duration processing_duration )
         return;
     }
 
-    // Apply no rot or temperature while smoking
+    // Apply no rot while smoking
     last_rot_check += processing_duration;
-    last_temp_check += processing_duration;
 }
 
 units::volume item::get_storage() const
@@ -6021,14 +5941,6 @@ bool item::made_of( phase_id phase ) const
     if( is_null() ) {
         return false;
     }
-    return current_phase == phase;
-}
-
-bool item::made_of_from_type( phase_id phase ) const
-{
-    if( is_null() ) {
-        return false;
-    }
     return type->phase == phase;
 }
 
@@ -6168,11 +6080,6 @@ bool item::is_food_container() const
             craft_data_->making->create_result().is_food_container() );
 }
 
-bool item::has_temperature() const
-{
-    return is_food() || is_corpse();
-}
-
 bool item::is_med_container() const
 {
     return !contents.empty() && contents.front().is_medication();
@@ -6186,42 +6093,6 @@ bool item::is_corpse() const
 const mtype *item::get_mtype() const
 {
     return corpse;
-}
-
-float item::get_specific_heat_liquid() const
-{
-    if( is_corpse() ) {
-        return made_of_types()[0]->specific_heat_liquid();
-    }
-    // If it is not a corpse it is a food
-    return get_comestible()->specific_heat_liquid;
-}
-
-float item::get_specific_heat_solid() const
-{
-    if( is_corpse() ) {
-        return made_of_types()[0]->specific_heat_solid();
-    }
-    // If it is not a corpse it is a food
-    return get_comestible()->specific_heat_solid;
-}
-
-float item::get_latent_heat() const
-{
-    if( is_corpse() ) {
-        return made_of_types()[0]->latent_heat();
-    }
-    // If it is not a corpse it is a food
-    return get_comestible()->latent_heat;
-}
-
-float item::get_freeze_point() const
-{
-    if( is_corpse() ) {
-        return made_of_types()[0]->freeze_point();
-    }
-    // If it is not a corpse it is a food
-    return get_comestible()->freeze_point;
 }
 
 template<typename Item>
@@ -6427,7 +6298,7 @@ bool item::can_unload_liquid() const
     }
 
     const item &cts = contents.front();
-    bool cts_is_frozen_liquid = cts.made_of_from_type( LIQUID ) && cts.made_of( SOLID );
+    bool cts_is_frozen_liquid = cts.made_of( LIQUID ) && cts.made_of( SOLID );
     return is_bucket() || !cts_is_frozen_liquid;
 }
 
@@ -7710,7 +7581,7 @@ bool item::reload( player &u, item_location loc, int qty )
             put_in( to_reload );
         }
     } else if( is_watertight_container() ) {
-        if( !ammo->made_of_from_type( LIQUID ) ) {
+        if( !ammo->made_of( LIQUID ) ) {
             debugmsg( "Tried to reload liquid container with non-liquid." );
             return false;
         }
@@ -7852,10 +7723,6 @@ bool item::burn( fire_data &frd )
             burnt = 0;
             return false;
         }
-    } else if( has_temperature() ) {
-        heat_up();
-    } else if( is_food_container() ) {
-        contents.front().heat_up();
     }
 
     burnt += roll_remainder( burn_added );
@@ -8111,146 +7978,6 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-void item::set_item_specific_energy( const float new_specific_energy )
-{
-    const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
-    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
-    const float latent_heat = get_latent_heat(); // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
-    const float completely_frozen_specific_energy = specific_heat_solid *
-            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_specific_energy = completely_frozen_specific_energy +
-            latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-    float new_item_temperature;
-    float freeze_percentage = 1;
-
-    if( new_specific_energy > completely_liquid_specific_energy ) {
-        // Item is liquid
-        new_item_temperature = freezing_temperature + ( new_specific_energy -
-                               completely_liquid_specific_energy ) /
-                               ( specific_heat_liquid );
-        freeze_percentage = 0;
-    } else if( new_specific_energy < completely_frozen_specific_energy ) {
-        // Item is solid
-        new_item_temperature = new_specific_energy / ( specific_heat_solid );
-    } else {
-        // Item is partially solid
-        new_item_temperature = freezing_temperature;
-        freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
-                            ( completely_liquid_specific_energy - completely_frozen_specific_energy );
-    }
-
-    // Apply temperature tags tags
-    // Hot = over  temperatures::hot
-    // Warm = over temperatures::warm
-    // Cold = below temperatures::cold
-    // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
-        if( freeze_percentage < 0.5 ) {
-            // Item melts and becomes mushy
-            current_phase = type->phase;
-            apply_freezerburn();
-        }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
-    }
-    if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
-    } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
-        current_phase = SOLID;
-        // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
-        if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
-        }
-    } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
-    }
-    temperature = std::lround( 100000 * new_item_temperature );
-    specific_energy = std::lround( 100000 * new_specific_energy );
-    reset_temp_check();
-}
-
-float item::get_specific_energy_from_temperature( const float new_temperature )
-{
-    const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
-    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
-    const float latent_heat = get_latent_heat(); // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
-    const float completely_frozen_energy = specific_heat_solid *
-                                           freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_energy = completely_frozen_energy +
-                                           latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-    float new_specific_energy;
-
-    if( new_temperature <= freezing_temperature ) {
-        new_specific_energy = specific_heat_solid * new_temperature;
-    } else {
-        new_specific_energy = completely_liquid_energy + specific_heat_liquid *
-                              ( new_temperature - freezing_temperature );
-    }
-    return new_specific_energy;
-}
-
-void item::set_item_temperature( float new_temperature )
-{
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
-    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
-    const float latent_heat = get_latent_heat(); // J/kg
-
-    float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
-    float freeze_percentage = 0;
-
-    temperature = std::lround( 100000 * new_temperature );
-    specific_energy = std::lround( 100000 * new_specific_energy );
-
-    const float completely_frozen_specific_energy = specific_heat_solid *
-            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_specific_energy = completely_frozen_specific_energy +
-            latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-
-    if( new_specific_energy < completely_frozen_specific_energy ) {
-        // Item is solid
-        freeze_percentage = 1;
-    } else {
-        // Item is partially solid
-        freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
-                            ( completely_liquid_specific_energy - completely_frozen_specific_energy );
-    }
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
-        if( freeze_percentage < 0.5 ) {
-            // Item melts and becomes mushy
-            current_phase = type->phase;
-            apply_freezerburn();
-        }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
-    }
-    if( new_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
-    } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
-        current_phase = SOLID;
-        // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
-        if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
-        }
-    } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
-    }
-    reset_temp_check();
-}
-
 void item::fill_with( item &liquid, int amount )
 {
     amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
@@ -8267,17 +7994,8 @@ void item::fill_with( item &liquid, int amount )
         }
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( is_food_container() ) {
-        // if container already has liquid we need to sum the energy
         item &cts = contents.front();
-        const float lhs_energy = cts.get_item_thermal_energy();
-        const float rhs_energy = liquid.get_item_thermal_energy();
-        if( rhs_energy < 0 ) {
-            debugmsg( "Poured item has no defined temperature" );
-        }
-        const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
-                cts.weight() ) + to_gram( liquid.weight() ) );
-        cts.set_item_specific_energy( combined_specific_energy );
-        //use maximum rot between the two
+        // Use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
                                         liquid.get_relative_rot() ) );
         cts.mod_charges( amount );
@@ -8499,7 +8217,7 @@ bool item::has_rotten_away() const
 bool item::has_rotten_away( const tripoint &pnt )
 {
     if( goes_bad() ) {
-        return process_temperature_rot( 1, false, pnt, nullptr );
+        return process_rot( 1, false, pnt, nullptr );
     } else if( type->container && type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
@@ -8507,7 +8225,7 @@ bool item::has_rotten_away( const tripoint &pnt )
         // Items inside rot but do not vanish as the container seals them in.
         for( item *c : contents.all_items_top() ) {
             if( c->goes_bad() ) {
-                c->process_temperature_rot( 1, true, pnt, nullptr );
+                c->process_rot( 1, true, pnt, nullptr );
             }
         }
         return false;
@@ -8642,36 +8360,22 @@ int item::processing_speed() const
     return 1;
 }
 
-void item::apply_freezerburn()
-{
-    if( !has_flag( flag_FREEZERBURN ) ) {
-        return;
-    }
-    if( !item_tags.count( "MUSHY" ) ) {
-        item_tags.insert( "MUSHY" );
-    }
-}
-
-bool item::process_temperature_rot( float insulation, const bool seals,
-                                    const tripoint &pos,
-                                    player *carrier, const temperature_flag flag )
+bool item::process_rot( float insulation, const bool seals,
+                        const tripoint &pos,
+                        player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
     // last_temp_check and last_rot_check in this case
-    if( now - last_temp_check < 0_turns ) {
-        reset_temp_check();
+    if( now - last_rot_check < 0_turns ) {
         last_rot_check = now;
         return false;
     }
 
-    // process temperature and rot at most once every 100_turns (10 min)
+    // process rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
-    if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
-        return false;
-    }
 
     int temp = g->weather.get_temperature( pos );
 
@@ -8702,15 +8406,8 @@ bool item::process_temperature_rot( float insulation, const bool seals,
         temp += 5;
     }
 
-    time_point time;
+    time_point time = last_rot_check;
     item_internal::scoped_goes_bad_cache _cache( this );
-    const bool process_rot = goes_bad();
-
-    if( process_rot ) {
-        time = std::min( last_rot_check, last_temp_check );
-    } else {
-        time = last_temp_check;
-    }
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -8767,24 +8464,12 @@ bool item::process_temperature_rot( float insulation, const bool seals,
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
-            // Calculate item temperature from environment temperature
-            // If the time was more than 2 d ago just set the item to environment temperature
-            if( now - time > 2_days ) {
-                // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
-                temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
-                last_temp_check = time;
-            } else if( time - last_temp_check > smallest_interval ) {
-                calc_temp( env_temperature, insulation, time );
-            }
-
             // Calculate item rot
-            if( process_rot && time - last_rot_check > smallest_interval ) {
-                calc_rot( time, env_temperature );
+            calc_rot( time, env_temperature );
 
-                if( has_rotten_away() && carrier == nullptr && !seals ) {
-                    // No need to track item that will be gone
-                    return true;
-                }
+            if( has_rotten_away() && carrier == nullptr && !seals ) {
+                // No need to track item that will be gone
+                return true;
             }
         }
     }
@@ -8792,242 +8477,15 @@ bool item::process_temperature_rot( float insulation, const bool seals,
     // Remaining <1 h from above
     // and items that are held near the player
     if( now - time > smallest_interval ) {
-        calc_temp( temp, insulation, now );
-        if( process_rot ) {
-            calc_rot( now, temp );
+        calc_rot( now, temp );
 
-            if( has_rotten_away() && carrier == nullptr && !seals ) {
-                return true;
-            }
+        if( has_rotten_away() && carrier == nullptr && !seals ) {
+            return true;
         }
         return false;
     }
 
-    // Just now created items will get here.
-    if( specific_energy < 0 ) {
-        set_item_temperature( temp_to_kelvin( temp ) );
-    }
     return false;
-}
-
-void item::calc_temp( const int temp, const float insulation, const time_point &time )
-{
-    // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
-    const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
-    const float old_temperature = 0.00001 * temperature;
-    const float temperature_difference = env_temperature - old_temperature;
-
-    // If no or only small temperature difference then no need to do math.
-    if( std::abs( temperature_difference ) < 0.9 ) {
-        last_temp_check = time;
-        return;
-    }
-    const float mass = to_gram( weight() ); // g
-
-    // If item has negative energy set to environment temperature (it not been processed ever)
-    if( specific_energy < 0 ) {
-        set_item_temperature( env_temperature );
-        last_temp_check = time;
-        return;
-    }
-
-    // specific_energy = item thermal energy (10e-5 J/g). Stored in the item
-    // temperature = item temperature (10e-5 K). Stored in the item
-    const float conductivity_term = 0.0076 * std::pow( to_milliliter( volume() ),
-                                    2.0 / 3.0 ) / insulation;
-    const float specific_heat_liquid = get_specific_heat_liquid();
-    const float specific_heat_solid = get_specific_heat_solid();
-    const float latent_heat = get_latent_heat();
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
-    const float completely_frozen_specific_energy = specific_heat_solid *
-            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
-    const float completely_liquid_specific_energy = completely_frozen_specific_energy +
-            latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-
-    float new_specific_energy;
-    float new_item_temperature;
-    float freeze_percentage = 0;
-    int extra_time;
-    const time_duration time_delta = time - last_temp_check;
-
-    // Temperature calculations based on Newton's law of cooling.
-    // Calculations are done assuming that the item stays in its phase.
-    // This assumption can cause over heating when transitioning from melting to liquid.
-    // In other transitions the item may cool/heat too little but that won't be a problem.
-    if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
-        // Was solid.
-        new_item_temperature = ( - temperature_difference
-                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
-                                 + env_temperature );
-        new_specific_energy = new_item_temperature * specific_heat_solid;
-        if( new_item_temperature > freezing_temperature + 0.5 ) {
-            // Started melting before temp was calculated.
-            // 0.5 is here because we don't care if it heats up a bit too high
-            // Calculate how long the item was solid
-            // and apply rest of the time as melting
-            extra_time = to_turns<int>( time_delta )
-                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
-                         * ( mass * specific_heat_solid / conductivity_term );
-            new_specific_energy = completely_frozen_specific_energy
-                                  + conductivity_term
-                                  * ( env_temperature - freezing_temperature ) * extra_time / mass;
-            new_item_temperature = freezing_temperature;
-            if( new_specific_energy > completely_liquid_specific_energy ) {
-                // The item then also finished melting.
-                // This may happen rarely with very small items
-                // Just set the item to environment temperature
-                set_item_temperature( env_temperature );
-                last_temp_check = time;
-                return;
-            }
-        }
-    } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
-        // Was liquid.
-        new_item_temperature = ( - temperature_difference
-                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
-                                             specific_heat_liquid ) )
-                                 + env_temperature );
-        new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
-                              completely_liquid_specific_energy;
-        if( new_item_temperature < freezing_temperature - 0.5 ) {
-            // Started freezing before temp was calculated.
-            // 0.5 is here because we don't care if it cools down a bit too low
-            // Calculate how long the item was liquid
-            // and apply rest of the time as freezing
-            extra_time = to_turns<int>( time_delta )
-                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
-                         * ( mass * specific_heat_liquid / conductivity_term );
-            new_specific_energy = completely_liquid_specific_energy
-                                  + conductivity_term
-                                  * ( env_temperature - freezing_temperature ) * extra_time / mass;
-            new_item_temperature = freezing_temperature;
-            if( new_specific_energy < completely_frozen_specific_energy ) {
-                // The item then also finished freezing.
-                // This may happen rarely with very small items
-                // Just set the item to environment temperature
-                set_item_temperature( env_temperature );
-                last_temp_check = time;
-                return;
-            }
-        }
-    } else {
-        // Was melting or freezing
-        new_specific_energy = 0.00001 * specific_energy + conductivity_term *
-                              temperature_difference * to_turns<int>( time_delta ) / mass;
-        new_item_temperature = freezing_temperature;
-        if( new_specific_energy > completely_liquid_specific_energy ) {
-            // Item melted before temp was calculated
-            // Calculate how long the item was melting
-            // and apply rest of the time as liquid
-            extra_time = to_turns<int>( time_delta ) - ( mass / ( conductivity_term * temperature_difference ) )
-                         *
-                         ( completely_liquid_specific_energy - 0.00001 * specific_energy );
-            new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * std::exp( - extra_time * conductivity_term / ( mass *
-                                                 specific_heat_liquid ) )
-                                     + env_temperature );
-            new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
-                                  completely_liquid_specific_energy;
-        } else if( new_specific_energy < completely_frozen_specific_energy ) {
-            // Item froze before temp was calculated
-            // Calculate how long the item was freezing
-            // and apply rest of the time as solid
-            extra_time = to_turns<int>( time_delta ) - ( mass / ( conductivity_term * temperature_difference ) )
-                         *
-                         ( completely_frozen_specific_energy - 0.00001 * specific_energy );
-            new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * std::exp( -  extra_time * conductivity_term / ( mass *
-                                                 specific_heat_solid ) )
-                                     + env_temperature );
-            new_specific_energy = new_item_temperature * specific_heat_solid;
-        }
-    }
-    // Check freeze status now based on energies.
-    if( new_specific_energy > completely_liquid_specific_energy ) {
-        freeze_percentage = 0;
-    } else if( new_specific_energy < completely_frozen_specific_energy ) {
-        // Item is solid
-        freeze_percentage = 1;
-    } else {
-        // Item is partially solid
-        freeze_percentage = ( completely_liquid_specific_energy - new_specific_energy ) /
-                            ( completely_liquid_specific_energy - completely_frozen_specific_energy );
-    }
-
-    // Apply temperature tags tags
-    // Hot = over  temperatures::hot
-    // Warm = over temperatures::warm
-    // Cold = below temperatures::cold
-    // Frozen = Over 50% frozen
-    if( item_tags.count( "FROZEN" ) ) {
-        item_tags.erase( "FROZEN" );
-        if( freeze_percentage < 0.5 ) {
-            // Item melts and becomes mushy
-            current_phase = type->phase;
-            apply_freezerburn();
-        }
-    } else if( item_tags.count( "COLD" ) ) {
-        item_tags.erase( "COLD" );
-    } else if( item_tags.count( "HOT" ) ) {
-        item_tags.erase( "HOT" );
-    }
-    if( new_item_temperature > temp_to_kelvin( temperatures::hot ) ) {
-        item_tags.insert( "HOT" );
-    } else if( freeze_percentage > 0.5 ) {
-        item_tags.insert( "FROZEN" );
-        current_phase = SOLID;
-        // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
-        if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
-            if( !( item_tags.count( "NO_PARASITES" ) ) ) {
-                item_tags.insert( "NO_PARASITES" );
-            }
-        }
-    } else if( new_item_temperature < temp_to_kelvin( temperatures::cold ) ) {
-        item_tags.insert( "COLD" );
-    }
-    temperature = std::lround( 100000 * new_item_temperature );
-    specific_energy = std::lround( 100000 * new_specific_energy );
-
-    last_temp_check = time;
-}
-
-float item::get_item_thermal_energy()
-{
-    const float mass = to_gram( weight() ); // g
-    return 0.00001 * specific_energy * mass;
-}
-
-void item::heat_up()
-{
-    item_tags.erase( "COLD" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "HOT" );
-    current_phase = type->phase;
-    // Set item temperature to 60 C (333.15 K, 122 F)
-    // Also set the energy to match
-    temperature = 333.15 * 100000;
-    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 333.15 ) );
-
-    reset_temp_check();
-}
-
-void item::cold_up()
-{
-    item_tags.erase( "HOT" );
-    item_tags.erase( "FROZEN" );
-    item_tags.insert( "COLD" );
-    current_phase = type->phase;
-    // Set item temperature to 3 C (276.15 K, 37.4 F)
-    // Also set the energy to match
-    temperature = 276.15 * 100000;
-    specific_energy = std::lround( 100000 * get_specific_energy_from_temperature( 276.15 ) );
-
-    reset_temp_check();
-}
-
-void item::reset_temp_check()
-{
-    last_temp_check = calendar::turn;
 }
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
@@ -9575,8 +9033,8 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_tool( carrier, pos );
     }
     // All foods that go bad have temperature
-    if( has_temperature() &&
-        process_temperature_rot( insulation, seals, pos, carrier, flag ) ) {
+    if( ( is_food() || is_corpse() ) &&
+        process_rot( insulation, seals, pos, carrier, flag ) ) {
         if( is_comestible() ) {
             g->m.rotten_item_spawn( *this, pos );
         }
@@ -9873,7 +9331,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
-    if( made_of_from_type( LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
+    if( made_of( LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
         !item_tags.count( "DIRTY" ) ) {
         item_tags.insert( "DIRTY" );
     }

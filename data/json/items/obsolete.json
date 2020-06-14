@@ -956,7 +956,7 @@
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
     "use_action": [
-      "HOTPLATE",
+      "cauterize",
       {
         "target": "hobo_stove",
         "msg": "The ember is extinguished.",
@@ -1261,7 +1261,6 @@
     "color": "dark_gray",
     "container_data": { "contains": "1500 ml", "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

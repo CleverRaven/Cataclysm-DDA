@@ -742,7 +742,7 @@ class item : public visitable<item>
          */
         void mod_charges( int mod );
         /**
-         * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_temperature_rot()
+         * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_rot()
          * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
          * used for rot calculation.
          * @return true if the item has rotten away and should be removed, false otherwise.
@@ -752,7 +752,7 @@ class item : public visitable<item>
         /**
          * Accumulate rot of the item since last rot calculation.
          * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
-         * If you need to calc rot of item call process_temperature_rot instead.
+         * If you need to calc rot of item call process_rot instead.
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
@@ -776,23 +776,8 @@ class item : public visitable<item>
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, bool seals, const tripoint &pos,
-                                      player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
-
-        /** Set the item to HOT */
-        void heat_up();
-
-        /** Set the item to COLD */
-        void cold_up();
-
-        /** Sets the item temperature and item energy from new temperature (K)*/
-        void set_item_temperature( float new_temperature );
-
-        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
-        void set_item_specific_energy( float specific_energy );
-
-        /** reset the last_temp_check used when crafting new items and the like */
-        void reset_temp_check();
+        bool process_rot( float insulation, bool seals, const tripoint &pos,
+                          player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         int get_comestible_fun() const;
 
@@ -846,9 +831,6 @@ class item : public visitable<item>
          */
         bool has_rotten_away() const;
 
-        /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
-        void apply_freezerburn();
-
         time_duration get_rot() const {
             return rot;
         }
@@ -877,10 +859,6 @@ class item : public visitable<item>
          * Each item is made of one or more materials (@ref material_type). Materials have
          * properties that affect properties of the item (e.g. resistance against certain
          * damage types).
-         *
-         * Additionally, items have a phase property (@ref phase_id). This is independent of
-         * the material types (there can be solid items made of X and liquid items made of the same
-         * material).
          *
          * Corpses inherit the material of the monster type.
          */
@@ -935,7 +913,6 @@ class item : public visitable<item>
          * Are we solid, liquid, gas, plasma?
          */
         bool made_of( phase_id phase ) const;
-        bool made_of_from_type( phase_id phase ) const;
         /**
          * Returns a list of components used to craft this item or the default
          * components if it wasn't player-crafted.
@@ -1162,16 +1139,6 @@ class item : public visitable<item>
         bool is_irremovable() const;
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
-
-        bool has_temperature() const;
-
-        /** Returns true if the item is A: is SOLID and if it B: is of type LIQUID */
-        bool is_frozen_liquid() const;
-
-        float get_specific_heat_liquid() const;
-        float get_specific_heat_solid() const;
-        float get_latent_heat() const;
-        float get_freeze_point() const; // Fahrenheit
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
@@ -2085,21 +2052,6 @@ class item : public visitable<item>
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
                                bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
-        /**
-         * Calculate the thermal energy and temperature change of the item
-         * @param temp Temperature of surroundings
-         * @param insulation Amount of insulation item has
-         * @param time time point which the item is processed to
-         */
-        void calc_temp( int temp, float insulation, const time_point &time );
-
-        /**
-         * Get the thermal energy of the item in Joules.
-         */
-        float get_item_thermal_energy();
-
-        /** Calculates item specific energy (J/g) from temperature (K)*/
-        float get_specific_energy_from_temperature( float new_temperature );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
@@ -2187,8 +2139,6 @@ class item : public visitable<item>
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
-        int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
-        int temperature = 0;       // Temperature of the item (in 0.00001 K).
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
 
@@ -2206,17 +2156,8 @@ class item : public visitable<item>
         time_duration rot = 0_turns;
         /** Time when the rot calculation was last performed. */
         time_point last_rot_check = calendar::turn_zero;
-        /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
-        /**
-         * Current phase state, inherits a default at room temperature from
-         * itype and can be changed through item processing.  This is a static
-         * cast to avoid importing the entire enums.h header here, zero is
-         * PNULL.
-         */
-        phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
         mutable faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item

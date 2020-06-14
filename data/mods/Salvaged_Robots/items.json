@@ -174,7 +174,7 @@
     "use_action": [
       { "type": "HAMMER" },
       { "type": "BOLTCUTTERS" },
-      { "type": "HOTPLATE" },
+      { "type": "cauterize" },
       { "type": "WATER_PURIFIER" },
       { "type": "GUN_REPAIR" },
       { "type": "firestarter" },
