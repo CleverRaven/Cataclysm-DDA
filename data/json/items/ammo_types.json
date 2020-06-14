@@ -469,6 +469,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "albuterol",
+    "name": "albuterol",
+    "default": "albuterol"
+  },
+  {
+    "type": "ammunition_type",
     "id": "stimpack_ammo",
     "name": "stimulant module",
     "default": "stimpack_ammo"

@@ -38,6 +38,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -146,74 +147,67 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        if( you.movement_mode_is( CMM_WALK ) ) {
-            you.increase_activity_level( LIGHT_EXERCISE );
-        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-            you.increase_activity_level( MODERATE_EXERCISE );
-        } else {
-            you.increase_activity_level( ACTIVE_EXERCISE );
-        }
+        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    int new_dx = dest_loc.x - you.posx();
-    int new_dy = dest_loc.y - you.posy();
+    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
     if( !tile_iso ) {
-        if( new_dx > 0 ) {
-            you.facing = FD_RIGHT;
+        if( new_d.x > 0 ) {
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_RIGHT;
+                you.mounted_creature->facing = FacingDirection::RIGHT;
             }
-        } else if( new_dx < 0 ) {
-            you.facing = FD_LEFT;
+        } else if( new_d.x < 0 ) {
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_LEFT;
+                you.mounted_creature->facing = FacingDirection::LEFT;
             }
         }
     } else {
         //
         // iso:
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // left key             =>  -x +y       FD_LEFT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // left key             =>  -x +y       FacingDirection::LEFT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // left key             =>  -x +y       FD_LEFT
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
+        // left key             =>  -x +y       FacingDirection::LEFT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
         //
-        // right key            =>  +x +y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ +y       FD_RIGHT
+        // right key            =>  +x +y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ +y       FacingDirection::RIGHT
         // up key               =>  +x -y       ______
-        // left key             =>  -x -y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // y: left-up key       =>  __ -y       FD_LEFT
+        // left key             =>  -x -y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // y: left-up key       =>  __ -y       FacingDirection::LEFT
         // down key             =>  -x +y       ______
         //
-        if( new_dx >= 0 && new_dy >= 0 ) {
-            you.facing = FD_RIGHT;
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_RIGHT;
+                mons->facing = FacingDirection::RIGHT;
             }
         }
-        if( new_dy <= 0 && new_dx <= 0 ) {
-            you.facing = FD_LEFT;
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_LEFT;
+                mons->facing = FacingDirection::LEFT;
             }
         }
     }
@@ -394,7 +388,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.movement_mode_is( CMM_WALK )
+        && you.is_walking()
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -564,10 +558,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
+    tripoint old_abs_pos = m.getabs( you.pos() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( you, m, p );
+    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
@@ -580,13 +575,13 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
 
     body_part_set drenchFlags{ {
-            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
         }
     };
 
     if( you.is_underwater() ) {
-        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
+        drenchFlags.unify_set( { { bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ) } } );
     }
     you.drench( 100, drenchFlags, true );
 }
@@ -861,15 +856,9 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
-        // Recenter our view
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
@@ -977,7 +966,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( !loc ) {
         loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
                                             _( "You don't have any items to throw." ) );
-        g->refresh_all();
     }
 
     if( !loc ) {
@@ -1034,11 +1022,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const tripoint original_player_position = you.pos();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
-        g->draw_ter();
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
 
     target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
                                             blind_throw_from_pos.has_value() );
@@ -1116,8 +1102,6 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             }
         }
     }
-
-    g->refresh_all();
 
     if( use_in_place ) {
         update_lum( loc, false );

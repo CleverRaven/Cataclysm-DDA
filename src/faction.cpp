@@ -672,11 +672,11 @@ void faction_manager::display() const
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const point term( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                         point( term_y, term_x ) );
+                                         point( term.y, term.x ) );
 
         entries_per_page = FULL_SCREEN_HEIGHT - 4;
 
@@ -811,7 +811,7 @@ void faction_manager::display() const
             default:
                 break;
         }
-        wrefresh( w_missions );
+        wnoutrefresh( w_missions );
     } );
 
     while( true ) {

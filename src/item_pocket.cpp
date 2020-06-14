@@ -38,6 +38,28 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 // *INDENT-ON*
 } // namespace io
 
+std::string pocket_data::check_definition() const
+{
+    if( type == item_pocket::pocket_type::MOD ||
+        type == item_pocket::pocket_type::CORPSE ||
+        type == item_pocket::pocket_type::MIGRATION ) {
+        return "";
+    }
+    if( magazine_well > 0_ml && rigid ) {
+        return "rigid overrides magazine_well\n";
+    }
+    if( magazine_well >= max_contains_volume() ) {
+        return "magazine well larger than pocket volume.  consider using rigid instead.\n";
+    }
+    if( max_item_volume && *max_item_volume < min_item_volume ) {
+        return "max_item_volume is greater than min_item_volume.  no item can fit.\n";
+    }
+    if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
+        return "watertight or gastight is incompatible with min_item_volume\n";
+    }
+    return "";
+}
+
 void pocket_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
@@ -133,6 +155,36 @@ void item_pocket::restack()
             }
         }
     }
+}
+
+item *item_pocket::restack( /*const*/ item *it )
+{
+    item *ret = it;
+    if( contents.size() <= 1 ) {
+        return ret;
+    }
+    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+        if( !outer_iter->count_by_charges() ) {
+            continue;
+        }
+        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                ++inner_iter;
+                continue;
+            }
+            if( outer_iter->combine( *inner_iter ) ) {
+                // inner was placed in outer, check if inner was the item that we track
+                if( &( *inner_iter ) == ret ) {
+                    ret = &( *outer_iter );
+                }
+                inner_iter = contents.erase( inner_iter );
+                outer_iter = contents.begin();
+            } else {
+                ++inner_iter;
+            }
+        }
+    }
+    return ret;
 }
 
 bool item_pocket::has_item_stacks_with( const item &it ) const
@@ -293,6 +345,11 @@ size_t item_pocket::size() const
 units::volume item_pocket::volume_capacity() const
 {
     return data->volume_capacity;
+}
+
+units::volume item_pocket::magazine_well() const
+{
+    return data->magazine_well;
 }
 
 units::mass item_pocket::weight_capacity() const
@@ -1149,10 +1206,14 @@ bool item_pocket::airtight() const
     return data->airtight;
 }
 
-void item_pocket::add( const item &it )
+void item_pocket::add( const item &it, item **ret )
 {
     contents.push_back( it );
-    restack();
+    if( ret == nullptr ) {
+        restack();
+    } else {
+        *ret = restack( &contents.back() );
+    }
 }
 
 void item_pocket::fill_with( item contained )

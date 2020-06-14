@@ -790,7 +790,7 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 template <typename T, typename M>
 static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
                                 const std::function<bool( const item & )> &filter,
-                                std::function<void( int )> visitor )
+                                const std::function<void( int )> &visitor )
 {
     int qty = 0;
 
@@ -833,7 +833,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 template <typename T>
 int visitable<T>::charges_of( const itype_id &what, int limit,
                               const std::function<bool( const item & )> &filter,
-                              std::function<void( int )> visitor ) const
+                              const std::function<void( int )> &visitor ) const
 {
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
@@ -842,7 +842,7 @@ int visitable<T>::charges_of( const itype_id &what, int limit,
 template <>
 int visitable<inventory>::charges_of( const itype_id &what, int limit,
                                       const std::function<bool( const item & )> &filter,
-                                      std::function<void( int )> visitor ) const
+                                      const std::function<void( int )> &visitor ) const
 {
     if( what == itype_UPS ) {
         int qty = 0;
@@ -870,7 +870,7 @@ int visitable<inventory>::charges_of( const itype_id &what, int limit,
 template <>
 int visitable<Character>::charges_of( const itype_id &what, int limit,
                                       const std::function<bool( const item & )> &filter,
-                                      std::function<void( int )> visitor ) const
+                                      const std::function<void( int )> &visitor ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );

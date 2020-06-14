@@ -13,7 +13,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "monster_size_capacity", "TINY" ] ],
+    "properties": [ [ "creature_size_capacity", "TINY" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -26,7 +26,7 @@
     "volume": "5 ml",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": "DOG_WHISTLE"
@@ -98,7 +98,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -126,7 +126,7 @@
     "volume": "20 ml",
     "price": 800,
     "price_postapoc": 100,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "yellow",
     "looks_like": "dog_whistle",

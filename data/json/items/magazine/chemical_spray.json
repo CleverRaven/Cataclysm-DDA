@@ -9,12 +9,11 @@
     "volume": "2 L",
     "price": 5000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "chemical_spray" ],
     "capacity": 800,
-    "reliability": 9,
     "reload_time": 3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "chemical_spray": 800 }, "watertight": true } ]
   }

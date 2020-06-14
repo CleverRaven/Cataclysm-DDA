@@ -27,7 +27,7 @@ struct species_type;
 template <typename E> struct enum_traits;
 
 enum body_part : int;
-enum m_size : int;
+enum class creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -72,7 +72,7 @@ enum m_flag : int {
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
-    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then MS_TINY
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
@@ -242,7 +242,7 @@ struct mtype {
         mfaction_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
-        m_size size;
+        creature_size size;
         units::volume volume;
         units::mass weight;
         phase_id phase;

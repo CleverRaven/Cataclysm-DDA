@@ -382,15 +382,6 @@ class player : public Character
         bool unwield();
 
         /**
-         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
-         * @param it Thing to be reloaded
-         * @param ammo if set also check item currently compatible with this specific ammo or magazine
-         * @note items currently loaded with a detachable magazine are considered reloadable
-         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
-         */
-        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
-
-        /**
          * Attempt to mend an item (fix any current faults)
          * @param obj Object to mend
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
@@ -489,16 +480,6 @@ class player : public Character
          * takes pos as a parameter so that remote spots can be judged
          * if they will potentially have enough light when player gets there */
         float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
-
-        /** Used to determine player feedback on item use for the inventory code.
-         *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_use( const item &it ) const;
-        hint_rating rate_action_wear( const item &it ) const;
-        hint_rating rate_action_takeoff( const item &it ) const;
-        hint_rating rate_action_reload( const item &it ) const;
-        hint_rating rate_action_unload( const item &it ) const;
-        hint_rating rate_action_mend( const item &it ) const;
-        hint_rating rate_action_disassemble( const item &it );
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );

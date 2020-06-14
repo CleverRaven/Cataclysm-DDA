@@ -326,8 +326,6 @@ int right_print( const catacurses::window &w, int line, int right_indent,
 void insert_table( const catacurses::window &w, int pad, int line, int columns,
                    const nc_color &FG, const std::string &divider, bool r_align,
                    const std::vector<std::string> &data );
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
@@ -504,8 +502,7 @@ struct item_info_data {
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
             : sItemName( sItemName ), sTypeName( sTypeName ),
-              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( 0 ), ptr_selected( &selected ) {}
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ) {}
 
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
@@ -589,10 +586,6 @@ size_t shortcut_print( const catacurses::window &w, const point &p, nc_color tex
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
 std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
-
-// short visual animation (player, monster, ...) (hit, dodge, ...)
-// cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile );
 
 /**
  * @return Pair of a string containing the bar, and its color
@@ -847,7 +840,7 @@ class scrollbar
 // Update the text with set_text (it will be wrapped for you).
 // scroll_up and scroll_down are expected to be called from handlers for the
 // keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wrefresh for its
+// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
 // window internally.
 class scrolling_text_view
 {

@@ -76,12 +76,12 @@ std::string get_input_string_from_file( const std::string &fname = "input.txt" )
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_TIMEOUT,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
+enum class input_event_t : int  {
+    error,
+    timeout,
+    keyboard,
+    gamepad,
+    mouse
 };
 
 /**
@@ -116,7 +116,7 @@ struct input_event {
 #endif
 
     input_event() : edit_refresh( false ) {
-        type = CATA_INPUT_ERROR;
+        type = input_event_t::error;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
@@ -634,6 +634,8 @@ class input_context
          */
         input_event get_raw_input();
 
+        std::pair<point, bool> get_coordinates_text( const catacurses::window &capture_win ) const;
+
         /**
          * Get the human-readable name for an action.
          */
@@ -675,7 +677,7 @@ class input_context
          * Sets input polling timeout as appropriate for the current interface system.
          * Use this method to set timeouts when using input_context, rather than calling
          * the old timeout() method or using input_manager::(re)set_timeout, as using
-         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * this method will cause input_event_t::timeout events to be generated correctly,
          * and will reset timeout correctly when a new input context is entered.
          */
         void set_timeout( int val );

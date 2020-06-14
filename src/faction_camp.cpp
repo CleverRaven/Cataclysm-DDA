@@ -378,7 +378,7 @@ int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, i
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total
 /// mass and volume
 /// @ref take, whether you take the item or count it
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance = 100,
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint &omt_tgt, int chance = 100,
                             bool take = true );
 void apply_camp_ownership( const tripoint &camp_pos, int radius );
 /*
@@ -433,7 +433,7 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, 
         int trips = 1, int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
 int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
@@ -749,11 +749,11 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         comp_list npc_list = get_mission_workers( "_faction_camp_firewood" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_firewood" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to gather light brush and heavy sticks.\n\n"
+                                  "Send a companion to gather light brush and stout branches.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: N/A\n"
                                   "Gathering Possibilities:\n"
-                                  "> heavy sticks\n"
+                                  "> stout branches\n"
                                   "> withered plants\n"
                                   "> splintered wood\n\n"
                                   "Risk: Very Low\n"
@@ -1545,10 +1545,6 @@ bool basecamp::handle_mission( const std::string &miss_id,
         emergency_recall();
     }
 
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels( true );
-
     return true;
 
 }
@@ -1649,11 +1645,11 @@ void basecamp::worker_assignment_ui()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const point term( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          point( term_y, term_x ) );
+                                          point( term.y, term.x ) );
         entries_per_page = FULL_SCREEN_HEIGHT - 4;
 
         ui.position_from_window( w_followers );
@@ -1697,7 +1693,7 @@ void basecamp::worker_assignment_ui()
         }
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
-        wrefresh( w_followers );
+        wnoutrefresh( w_followers );
     } );
 
     while( true ) {
@@ -1746,11 +1742,11 @@ void basecamp::job_assignment_ui()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const point term( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                     point( term_y, term_x ) );
+                                     point( term.y, term.x ) );
 
         entries_per_page = FULL_SCREEN_HEIGHT - 4;
 
@@ -1810,7 +1806,7 @@ void basecamp::job_assignment_ui()
         }
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
-        wrefresh( w_jobs );
+        wnoutrefresh( w_jobs );
     } );
 
     while( true ) {
@@ -1921,7 +1917,6 @@ void basecamp::start_cut_logs()
                        chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
-        g->draw_ter();
 
         npc_ptr comp = start_mission( "_faction_camp_cut_log", work_time, true,
                                       _( "departs to cut logs…" ), false, {},
@@ -1967,7 +1962,6 @@ void basecamp::start_clearcut()
                        chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
-        g->draw_ter();
 
         npc_ptr comp = start_mission( "_faction_camp_clearcut", work_time,
                                       true, _( "departs to clear a forest…" ), false, {},
@@ -2276,7 +2270,7 @@ static bool farm_valid_seed( const item &itm )
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
-        npc_ptr comp = nullptr )
+        const npc_ptr &comp = nullptr )
 {
     size_t plots_cnt = 0;
     std::string crops;
@@ -3014,7 +3008,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win,
         tab_space += tab_step + utf8_width( t );
         tab_x++;
     }
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std::string &role_id,
@@ -3233,9 +3227,8 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
                 continue;
             }
             // get a random number that is either 1 or -1
-            int dir_x = 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 );
-            int dir_y = 3 * rng( -1, 1 ) + rng( -1, 1 );
-            tripoint to = p + tripoint( dir_x, dir_y, omt_tgt.z );
+            point dir( 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 ), 3 * rng( -1, 1 ) + rng( -1, 1 ) );
+            tripoint to = p + tripoint( dir, omt_tgt.z );
             std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
             for( auto &elem : tree ) {
                 target_bay.destroy( elem );
@@ -3264,7 +3257,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     return harvested;
 }
 
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, bool take )
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint &omt_tgt, int chance, bool take )
 {
     tinymap target_bay;
     target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
@@ -3501,7 +3494,7 @@ int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volu
     return 2 * std::max( trips_m, trips_v );
 }
 
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp )
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
@@ -3559,9 +3552,6 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
 {
     std::vector<item *> equipment_lost;
     do {
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-
         std::vector<std::string> names;
         names.reserve( equipment.size() );
         for( auto &i : equipment ) {
@@ -3891,66 +3881,93 @@ bool basecamp::distribute_food()
     const tripoint &abspos = get_dumping_spot();
     const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
 
-    tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
-
-    bool has_food = false;
-    for( const tripoint &p_food_stock_abs : z_food ) {
-        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
-        if( !g->m.i_at( p_food_stock ).empty() ) {
-            has_food = true;
-            break;
-        }
-    }
-    if( !has_food ) {
-        popup( _( "No items are located at the drop point…" ) );
-        return false;
-    }
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
     int total = 0;
-    std::vector<item> keep_me;
-    for( const tripoint &p_food_stock_abs : z_food ) {
-        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
-        map_stack initial_items = g->m.i_at( p_food_stock );
-        for( item &i : initial_items ) {
-            std::vector<item *> comest_list{ &i };
-            if( i.is_food_container() ) {
-                std::vector<item *> comest = i.items_with( []( const item & it ) {
-                    return it.is_comestible();
-                } );
-                i.contents.clear_items();
-                //NPCs are lazy bastards who leave empties all around the camp fire
-                tripoint litter_spread = p_litter;
-                litter_spread.x += rng( -3, 3 );
-                litter_spread.y += rng( -3, 3 );
-                i.on_contents_changed();
-                g->m.add_item_or_charges( litter_spread, i, false );
-                comest_list = comest;
+
+    const auto rot_multip = [&]( const item & it, item * const container ) {
+        if( !it.goes_bad() ) {
+            return 1.;
+        }
+        float spoil_mod = 1;
+        if( container ) {
+            if( item_pocket *const pocket = container->contained_where( it ) ) {
+                spoil_mod = pocket->spoil_multiplier();
             }
-            for( item *comest : comest_list ) {
-                if( comest->is_comestible() && ( comest->rotten() || comest->get_comestible_fun() < -6 ) ) {
-                    keep_me.push_back( *comest );
-                } else if( comest->is_food() ) {
-                    double rot_multip;
-                    int rots_in = to_days<int>( time_duration::from_turns( comest->spoilage_sort_order() ) );
-                    if( rots_in >= 5 ) {
-                        rot_multip = 1.00;
-                    } else if( rots_in >= 2 ) {
-                        rot_multip = slow_rot;
-                    } else {
-                        rot_multip = quick_rot;
-                    }
-                    total += comest->get_comestible()->default_nutrition.kcal * rot_multip * i.count();
-                } else {
-                    keep_me.push_back( *comest );
+        }
+        // Container seals and prevents any spoilage.
+        if( spoil_mod == 0 ) {
+            return 1.;
+        }
+        // @TODO: this does not handle fridges or things like root cellar, but maybe it shouldn't.
+        const time_duration rots_in = ( it.get_shelf_life() - it.get_rot() ) / spoil_mod;
+        if( rots_in >= 5_days ) {
+            return 1.;
+        } else if( rots_in >= 2_days ) {
+            return slow_rot;
+        } else {
+            return quick_rot;
+        }
+    };
+    const auto consume_non_recursive = [&]( item & it, item * const container ) {
+        if( !it.is_comestible() ) {
+            return false;
+        }
+        // Stuff like butchery refuse and other disgusting stuff
+        if( it.get_comestible_fun() < -6 ) {
+            return false;
+        }
+        if( it.rotten() ) {
+            return false;
+        }
+        const int kcal = it.get_comestible()->default_nutrition.kcal * it.count() * rot_multip( it,
+                         container );
+        if( kcal <= 0 ) {
+            // can happen if calories is low and rot is high.
+            return false;
+        }
+        total += kcal;
+        return true;
+    };
+
+    // Returns whether the item should be removed from the map.
+    const auto consume = [&]( item & it, item * const container ) {
+        if( it.is_food_container() ) {
+            std::vector<item *> to_remove;
+            it.visit_items( [&]( item * content, item * parent ) {
+                if( consume_non_recursive( *content, parent ) ) {
+                    to_remove.push_back( content );
+                    return VisitResponse::SKIP;
                 }
+                return VisitResponse::NEXT;
+            } );
+            if( to_remove.empty() ) {
+                return false;
+            }
+            for( item *const food : to_remove ) {
+                it.remove_item( *food );
+            }
+            it.on_contents_changed();
+            return false;
+        }
+        return consume_non_recursive( it, container );
+    };
+    for( const tripoint &p_food_stock_abs : z_food ) {
+        // @FIXME: this will not handle zones in vehicle
+        const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
+        map_stack items = g->m.i_at( p_food_stock );
+        for( auto iter = items.begin(); iter != items.end(); ) {
+            if( consume( *iter, nullptr ) ) {
+                iter = items.erase( iter );
+            } else {
+                ++iter;
             }
         }
-        g->m.i_clear( p_food_stock );
-        for( item &i : keep_me ) {
-            g->m.add_item_or_charges( p_food_stock, i, false );
-        }
-        keep_me.clear();
+    }
+
+    if( total <= 0 ) {
+        popup( _( "No suitable items are located at the drop points…" ) );
+        return false;
     }
 
     popup( _( "You distribute %d kcal worth of food to your companions." ), total );
@@ -3973,7 +3990,7 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-void basecamp::place_results( item result )
+void basecamp::place_results( const item &result )
 {
     if( by_radio ) {
         tinymap target_bay;

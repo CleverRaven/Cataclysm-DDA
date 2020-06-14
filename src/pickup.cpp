@@ -88,14 +88,14 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                 const std::string sItemName = begin_iterator->tname( 1, false );
 
                 //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
+                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
                     bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                } else if( get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
                     //No prematched pickup rule found
                     //check rules in more detail
                     get_auto_pickup().create_rule( &*begin_iterator );
 
-                    if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
+                    if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
                         bPickup = true;
                     }
                 }
@@ -108,7 +108,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                     if( weight_limit && volume_limit ) {
                         if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
                             begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                            get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
                             bPickup = true;
                         }
                     }
@@ -521,7 +521,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     std::vector<std::list<item_stack::iterator>> stacked_here;
-    for( item_stack::iterator it : here ) {
+    for( const item_stack::iterator &it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
             if( stack.front()->display_stacked_with( *it ) ) {
@@ -655,7 +655,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 draw_item_info( w_item_info, dummy );
             } else {
                 werase( w_item_info );
-                wrefresh( w_item_info );
+                wnoutrefresh( w_item_info );
             }
             draw_custom_border( w_item_info, 0 );
 
@@ -664,7 +664,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             trim_and_print( w_item_info, point( 4, 0 ), pickupW - 8, selected_item.color_in_inventory(),
                             selected_item.display_name() );
             wprintw( w_item_info, " >" );
-            wrefresh( w_item_info );
+            wnoutrefresh( w_item_info );
 
             const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
 
@@ -777,7 +777,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                            fmted_weight_predict, fmted_weight_capacity,
                                            fmted_volume_predict, fmted_volume_capacity ) );
 
-            wrefresh( w_pickup );
+            wnoutrefresh( w_pickup );
         } );
 
         // Now print the two lists; those on the ground and about to be added to inv

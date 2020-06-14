@@ -233,7 +233,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
     mvwputch( w, point( 0, 2 ), c_light_gray, LINE_XXXO );
     mvwputch( w, point( list_width, 2 ), c_light_gray, LINE_XOXX );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static nc_color construction_color( const std::string &con_name, bool highlight )
@@ -613,13 +613,13 @@ construction_id construction_menu( const bool blueprint )
         }
 
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
-        wrefresh( w_con );
+        wnoutrefresh( w_con );
 
         // place the cursor at the selected construction name as expected by screen readers
         if( cursor_pos ) {
             wmove( w_list, cursor_pos.value() );
         }
-        wrefresh( w_list );
+        wnoutrefresh( w_list );
     } );
 
     do {
@@ -770,6 +770,7 @@ construction_id construction_menu( const bool blueprint )
                     if( !player_can_see_to_build( g->u, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
+                        ui.reset();
                         place_construction( constructs[select] );
                         uistate.last_construction = constructs[select];
                     }
@@ -884,7 +885,6 @@ bool can_construct( const construction &con )
 
 void place_construction( const std::string &desc )
 {
-    g->refresh_all();
     const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc( desc );
@@ -897,12 +897,13 @@ void place_construction( const std::string &desc )
         }
     }
 
-    for( auto &elem : valid ) {
-        g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                     g->u.pos() + g->u.view_offset );
-    }
-    wrefresh( g->w_terrain );
-    g->draw_panels();
+    shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
+        for( auto &elem : valid ) {
+            g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
+                         g->u.pos() + g->u.view_offset );
+        }
+    } );
+    g->add_draw_callback( draw_valid );
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {

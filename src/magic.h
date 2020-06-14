@@ -61,13 +61,13 @@ enum class spell_flag : int {
     LAST
 };
 
-enum energy_type {
-    hp_energy,
-    mana_energy,
-    stamina_energy,
-    bionic_energy,
-    fatigue_energy,
-    none_energy
+enum class magic_energy_type : int {
+    hp,
+    mana,
+    stamina,
+    bionic,
+    fatigue,
+    none
 };
 
 enum class spell_target : int {
@@ -251,7 +251,7 @@ class spell_type
         std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
-        energy_type energy_source = energy_type::none_energy;
+        magic_energy_type energy_source = magic_energy_type::none;
 
         damage_type dmg_type = damage_type::DT_NULL;
 
@@ -405,8 +405,8 @@ class spell
         std::string aoe_string() const;
         std::string duration_string() const;
 
-        // energy source enum
-        energy_type energy_source() const;
+        // magic energy source enum
+        magic_energy_type energy_source() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
         std::string damage_type_string() const;

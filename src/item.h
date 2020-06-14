@@ -23,7 +23,6 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -43,6 +42,7 @@ class gunmod_location;
 class item;
 class iteminfo_query;
 class material_type;
+class monster;
 class nc_color;
 class player;
 class recipe;
@@ -54,6 +54,11 @@ struct tripoint;
 template<typename T>
 class ret_val;
 
+namespace enchant_vals
+{
+enum class mod : int;
+} // namespace enchant_vals
+
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
 class item_category;
@@ -62,7 +67,6 @@ struct use_function;
 
 enum art_effect_passive : int;
 enum body_part : int;
-enum m_size : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -395,6 +399,8 @@ class item : public visitable<item>
         /* type specific helper functions for info() that should probably be in itype() */
         void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+        void debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
         void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                        int batch, bool debug ) const;
         void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
@@ -715,6 +721,9 @@ class item : public visitable<item>
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+
+        // recusive function that checks pockets for remaining free space
+        units::volume check_for_free_space( const item *it ) const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious
@@ -1153,6 +1162,7 @@ class item : public visitable<item>
         bool is_book() const;
         bool is_map() const;
         bool is_salvageable() const;
+        bool is_disassemblable() const;
         bool is_craft() const;
 
         bool is_deployable() const;
@@ -1496,7 +1506,7 @@ class item : public visitable<item>
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( body_part bp ) const;
+        bool covers( const bodypart_id &bp ) const;
         /**
          * Bitset of all covered body parts.
          *
@@ -2087,10 +2097,10 @@ class item : public visitable<item>
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
         std::vector<enchantment> get_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchantment::mod value,
+        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
                                          bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify, enchantment::mod value,
+        double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
                                                bool round_value = false ) const;
 
     private:
@@ -2268,18 +2278,16 @@ bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
 
 /**
- *  Hint value used in a hack to decide text color.
- *
- *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
- *  will eventually be rewritten to eliminate the need for this hack.
+ * Hint value used for item examination screen and filtering items by action.
+ * Represents whether an item permits given action (reload, wear, read, etc.).
  */
-enum class hint_rating : int {
-    /** Item should display as gray */
-    cant = 0,
-    /** Item should display as red */
-    iffy = 1,
-    /** Item should display as green */
-    good = -999
+enum class hint_rating {
+    /** Item permits this action */
+    good,
+    /** Item permits this action, but circumstances don't */
+    iffy,
+    /** Item does not permit this action */
+    cant
 };
 
 /**

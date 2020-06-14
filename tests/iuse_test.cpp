@@ -323,7 +323,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
-        dummy.drench( 100, { bp_torso, bp_head, bp_arm_l, bp_arm_r }, false );
+        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+                      false );
         REQUIRE( dummy.body_wetness[bp_torso] > 0 );
         REQUIRE( dummy.body_wetness[bp_head] > 0 );
         REQUIRE( dummy.body_wetness[bp_arm_l] > 0 );
@@ -512,7 +513,9 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     avatar dummy;
-    item inhaler( "inhaler", 0, item::default_charges_tag{} );
+    item inhaler( "inhaler" );
+    inhaler.ammo_set( itype_id( "albuterol" ) );
+    REQUIRE( inhaler.ammo_remaining() > 0 );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );

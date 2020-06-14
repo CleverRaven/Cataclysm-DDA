@@ -20,6 +20,7 @@ class requirement_watcher;
 class stats_tracker;
 
 enum class achievement_comparison : int {
+    equal,
     less_equal,
     greater_equal,
     anything,
@@ -56,7 +57,7 @@ class achievement
         static const std::vector<achievement> &get_all();
         static void reset();
 
-        string_id<achievement> id;
+        achievement_id id;
         bool was_loaded = false;
 
         const translation &name() const {
@@ -71,7 +72,7 @@ class achievement
             return is_conduct_;
         }
 
-        const std::vector<string_id<achievement>> &hidden_by() const {
+        const std::vector<achievement_id> &hidden_by() const {
             return hidden_by_;
         }
 
@@ -85,7 +86,7 @@ class achievement
                 };
 
                 void deserialize( JsonIn & );
-                void check( const string_id<achievement> & ) const;
+                void check( const achievement_id & ) const;
 
                 time_point target() const;
                 achievement_completion completed() const;
@@ -108,7 +109,7 @@ class achievement
         translation name_;
         translation description_;
         bool is_conduct_ = false;
-        std::vector<string_id<achievement>> hidden_by_;
+        std::vector<achievement_id> hidden_by_;
         cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
@@ -181,7 +182,7 @@ class achievements_tracker : public event_subscriber
 
         void report_achievement( const achievement *, achievement_completion );
 
-        achievement_completion is_completed( const string_id<achievement> & ) const;
+        achievement_completion is_completed( const achievement_id & ) const;
         bool is_hidden( const achievement * ) const;
         std::string ui_text_for( const achievement * ) const;
         bool is_enabled() const {
@@ -203,12 +204,12 @@ class achievements_tracker : public event_subscriber
         bool enabled_ = true;
         std::function<void( const achievement *, bool )> achievement_attained_callback_;
         std::function<void( const achievement *, bool )> achievement_failed_callback_;
-        std::unordered_set<string_id<achievement>> initial_achievements_;
+        std::unordered_set<achievement_id> initial_achievements_;
 
         // Class invariant: each valid achievement has exactly one of a watcher
         // (if it's pending) or a status (if it's completed or failed).
-        std::unordered_map<string_id<achievement>, achievement_tracker> trackers_;
-        std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
+        std::unordered_map<achievement_id, achievement_tracker> trackers_;
+        std::unordered_map<achievement_id, achievement_state> achievements_status_;
 };
 
 #endif // CATA_SRC_ACHIEVEMENT_H

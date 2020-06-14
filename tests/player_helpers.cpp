@@ -72,6 +72,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.consume( food );
 
     dummy.empty_skills();
+    dummy.martial_arts_data.clear_styles();
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
@@ -83,7 +84,7 @@ void clear_character( player &dummy, bool debug_storage )
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
-    dummy.set_movement_mode( CMM_WALK );
+    dummy.set_movement_mode( move_mode_id( "walk" ) );
     dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.

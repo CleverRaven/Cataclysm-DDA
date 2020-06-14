@@ -9,7 +9,21 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
+    "id": "office_holepunch",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "hole puncher" },
+    "description": "This metal tool can help you punch a single hole in a piece of paper.  I mean, you could do more if you wanted, but you'd have to do them one at a time.  Or, if you really wanted more holes with one punch, I suppose you could fold the paper…  This is a one cylinder hole puncher.",
+    "weight": "68 g",
+    "volume": "80 ml",
+    "price": 400,
+    "price_postapoc": 10,
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -23,7 +37,7 @@
     "volume": "10 ml",
     "price": 25,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray"
   },

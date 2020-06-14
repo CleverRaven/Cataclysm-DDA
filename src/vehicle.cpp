@@ -46,6 +46,7 @@
 #include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
+#include "move_mode.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -149,10 +150,11 @@ class DefaultRemovePartHandler : public RemovePartHandler
             }
             // TODO: maybe do this for all the nearby NPCs as well?
 
-            if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
+            if( g->u.get_grab_type() == object_type::VEHICLE &&
+                g->u.grab_point == veh.global_part_pos3( part ) ) {
                 if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                    g->u.grab( OBJECT_NONE );
+                    g->u.grab( object_type::NONE );
                 }
             }
 
@@ -506,7 +508,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         if( pt.is_reactor() ) {
-            const ammotype plut( "plut_cell" );
+            const ammotype plut( "plutonium" );
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_plut_cell );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
@@ -897,12 +899,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // we really want to avoid running the player over.
     // If its a helicopter, we dont need to worry about airborne obstacles so much
     // And fuel efficiency is terrible at low speeds.
-    int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
-        safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
-        safe_player_follow_speed = 200;
-    }
+    const int safe_player_follow_speed = 400 * g->u.current_movement_mode()->move_speed_mult();
     if( follow_protocol ) {
         if( ( ( turn_x > 0 || turn_x < 0 ) && velocity > safe_player_follow_speed ) ||
             rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) < 7 + ( ( mount_max.y * 3 ) + 4 ) ) {
@@ -967,26 +964,25 @@ void vehicle::do_autodrive()
         stop_autodriving();
         return;
     }
-    int x_side = 0;
-    int y_side = 0;
+    point side;
     if( omt_diff.x > 0 ) {
-        x_side = 2 * SEEX - 1;
+        side.x = 2 * SEEX - 1;
     } else if( omt_diff.x < 0 ) {
-        x_side = 0;
+        side.x = 0;
     } else {
-        x_side = SEEX;
+        side.x = SEEX;
     }
     if( omt_diff.y > 0 ) {
-        y_side = 2 * SEEY - 1;
+        side.y = 2 * SEEY - 1;
     } else if( omt_diff.y < 0 ) {
-        y_side = 0;
+        side.y = 0;
     } else {
-        y_side = SEEY;
+        side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
     tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
                                   veh_omt_pos.z );
-    tripoint autodrive_temp_target = ( global_a + tripoint( x_side, y_side,
+    tripoint autodrive_temp_target = ( global_a + tripoint( side,
                                        sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
     autodrive_local_target = g->m.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
@@ -1814,10 +1810,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
     // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
     // we can go ahead and merge
-    const point mount_zero = point_zero;
+    const point mount_zero{};
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
-        for( auto carry_map : carry_data ) {
+        for( const mapping &carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
             std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
@@ -4367,8 +4363,8 @@ bool vehicle::balanced_wheel_config() const
 
     // Check center of mass inside support of wheels (roughly)
     const point &com = local_center_of_mass();
-    const rectangle support( min, max );
-    return support.contains_inclusive( com );
+    const inclusive_rectangle support( min, max );
+    return support.contains( com );
 }
 
 bool vehicle::valid_wheel_config() const
@@ -5224,7 +5220,7 @@ bool vehicle::remove_item( int part, item *it )
     return true;
 }
 
-vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator it )
+vehicle_stack::iterator vehicle::remove_item( int part, const vehicle_stack::const_iterator &it )
 {
     cata::colony<item> &veh_items = parts[part].items;
 
@@ -5283,7 +5279,7 @@ void vehicle::place_spawn_items()
                 }
                 for( const std::string &e : spawn.item_groups ) {
                     item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm );
-                    for( auto spawn_item : group_items ) {
+                    for( const auto &spawn_item : group_items ) {
                         created.emplace_back( spawn_item );
                     }
                 }
@@ -6580,42 +6576,40 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const int px = modulo( real_global_pos.x, SEEX );
-    const int py = modulo( real_global_pos.y, SEEY );
+    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
     auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
         debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
-        debugmsg( "err %d,%d", px, py );
+    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
+        debugmsg( "err %d,%d", p.x, p.y );
         return false;
     }
 
-    return ( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_CURRENT ) ||
-             sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const int px = modulo( real_global_pos.x, SEEX );
-    const int py = modulo( real_global_pos.y, SEEY );
+    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
     auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
         debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
-        debugmsg( "err %d,%d", px, py );
+    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
+        debugmsg( "err %d,%d", p.x, p.y );
         return false;
     }
 
-    return !( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )

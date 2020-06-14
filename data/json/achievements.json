@@ -110,5 +110,76 @@
     "type": "achievement",
     "name": "Ain't no valley low enough",
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
+  },
+  {
+    "id": "achievement_wield_crowbar",
+    "type": "achievement",
+    "name": "Freeman's favorite",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_wields_crowbar",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Wield a crowbar"
+      }
+    ]
+  },
+  {
+    "id": "achievement_wear_power_armor",
+    "type": "achievement",
+    "name": "Impenetrable",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_wears_power_armor_heavy",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Wear a tank suit"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_lab_finale",
+    "type": "achievement",
+    "name": "What are they hiding?",
+    "requirements": [
+      {
+        "event_statistic": "last_oter_type_avatar_entered",
+        "is": "==",
+        "target": [ "oter_type_str_id", "lab_finale" ],
+        "visible": "when_achievement_completed",
+        "description": "Enter a lab finale room"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_refugee_center",
+    "type": "achievement",
+    "name": "The Last Homely House",
+    "requirements": [
+      {
+        "event_statistic": "last_oter_type_avatar_entered",
+        "is": "==",
+        "target": [ "oter_type_str_id", "evac_center_18" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a refugee center"
+      }
+    ]
+  },
+  {
+    "id": "achievement_return_to_first_omt",
+    "type": "achievement",
+    "name": "Return to your roots",
+    "hidden_by": [ "achievement_survive_91_days" ],
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "91 days" },
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enter_first_omt",
+        "is": ">=",
+        "target": 1,
+        "description": "Return to the location you started the game"
+      }
+    ]
   }
 ]

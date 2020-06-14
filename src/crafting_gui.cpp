@@ -218,11 +218,10 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( isWide ) {
             item_info_width = width - FULL_SCREEN_WIDTH - 2;
             const int item_info_height = dataHeight - 3;
-            const int item_info_x = wStart + width - item_info_width;
-            const int item_info_y = headHeight + subHeadHeight;
+            const point item_info( wStart + width - item_info_width, headHeight + subHeadHeight );
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
-                                             point( item_info_x, item_info_y ) );
+                                             item_info );
         } else {
             item_info_width = 0;
             w_iteminfo = {};
@@ -435,7 +434,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             const auto &req = current[line]->simple_requirements();
 
             draw_can_craft_indicator( w_head, *current[line] );
-            wrefresh( w_head );
+            wnoutrefresh( w_head );
 
             int ypos = 0;
 
@@ -457,7 +456,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
                 std::string enumerated_books =
                     enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-                []( itype_id type_id ) {
+                []( const itype_id & type_id ) {
                     return colorize( item::nname( type_id ), c_cyan );
                 } );
                 const std::string text = string_format( _( "Written in: %s" ), enumerated_books );
@@ -561,7 +560,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
-        wrefresh( w_data );
+        wnoutrefresh( w_data );
 
         if( isWide && !current.empty() ) {
             item_info_data data = item_info_data_from_recipe( current[line], count, item_info_scroll );
@@ -575,7 +574,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( cursor_pos ) {
             // place the cursor at the selected item name as expected by screen readers
             wmove( w_data, cursor_pos.value() );
-            wrefresh( w_data );
+            wnoutrefresh( w_data );
         }
     } );
 
@@ -1098,7 +1097,7 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
             break;
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
@@ -1145,7 +1144,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
             break;
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 template<typename T>

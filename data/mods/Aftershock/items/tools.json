@@ -118,7 +118,7 @@
     "price_postapoc": 1200,
     "to_hit": 1,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ] ],
@@ -255,6 +255,14 @@
     "name": { "str": "bionic maintenance toolkit" },
     "description": "A set of very small tools and encrypted digital keys normally used to repair bionic modules in clinical settings.  They will allow you to disassemble simple bionics, but anything more complex would require even more specialized tools.",
     "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SAW_M_FINE", 1 ] ]
+  },
+  {
+    "id": "afs_complete_bionic_toolkit",
+    "copy-from": "screwdriver_set",
+    "type": "TOOL",
+    "name": { "str": "complete bionic toolkit" },
+    "description": "A set of very small robotic tools and encrypted digital keys originally designed to disassemble and test the quality of industrially produced bionics.  A highly skilled and patient engineer could use them to manually assemble new cybernetics.",
+    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SAW_M_FINE", 1 ] ]
   },
   {
     "id": "afs_bionic_power_mod",

@@ -235,7 +235,7 @@
     "description": "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
     "price": 250,
     "price_postapoc": 300,
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
     "fun": 3,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
@@ -297,7 +297,7 @@
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
     "price": 175,
     "price_postapoc": 175,
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]

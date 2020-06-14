@@ -101,7 +101,7 @@
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and fireweed.",
     "price": 190,
     "price_postapoc": 50,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "250 ml",
     "charges": 20,
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
@@ -154,5 +154,13 @@
     "name": { "str_sp": "mustard powder" },
     "description": "A fragnant yellow powder.  Not edible in this form.",
     "color": "red"
+  },
+  {
+    "id": "artificial_sweetener",
+    "copy-from": "sugar",
+    "type": "COMESTIBLE",
+    "name": "artificial sweetener",
+    "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
+    "calories": 0
   }
 ]

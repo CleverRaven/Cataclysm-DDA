@@ -42,12 +42,12 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min ), auto_resume( false )
+    placement( tripoint_min )
 {
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+    actor( actor.clone() )
 {
 }
 
@@ -339,9 +339,15 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
            position == other.position && name == other.name && targets == other.targets;
 }
 
-bool player_activity::is_distraction_ignored( distraction_type type ) const
+bool player_activity::is_interruptible() const
 {
-    return ignored_distractions.find( type ) != ignored_distractions.end();
+    return ( type.is_null() || type->interruptable() ) && interruptable;
+}
+
+bool player_activity::is_distraction_ignored( distraction_type distraction ) const
+{
+    return !is_interruptible() ||
+           ignored_distractions.find( distraction ) != ignored_distractions.end();
 }
 
 void player_activity::ignore_distraction( distraction_type type )

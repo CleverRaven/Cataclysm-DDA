@@ -13,7 +13,7 @@
     "calories": 113,
     "description": "Pale, football-shaped egg laid by a dinosaur.",
     "price": 500,
-    "material": "egg",
+    "material": [ "egg" ],
     "volume": 1,
     "stack_size": 4,
     "fun": -6,
@@ -41,6 +41,13 @@
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachycephalosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_camptosaurus",
+    "name": "camptosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_camptosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -83,6 +90,20 @@
     "name": "ankylosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_ankylosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_apatosaurus",
+    "name": "apatosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_apatosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ceratosaurus",
+    "name": "ceratosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_ceratosaurus"
   },
   {
     "type": "COMESTIBLE",

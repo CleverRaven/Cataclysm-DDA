@@ -10,7 +10,7 @@
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -3,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": "WEATHER_TOOL",
@@ -27,7 +27,7 @@
     "price_postapoc": 1000,
     "to_hit": 1,
     "bashing": 4,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
     "initial_charges": 1,
@@ -97,8 +97,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "200 kg",
         "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       }
     ]
@@ -116,7 +116,7 @@
     "price": 100000,
     "to_hit": -10,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "color": "dark_gray",
@@ -124,8 +124,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -141,7 +141,7 @@
     "price": 100000,
     "to_hit": -10,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "symbol": "E",
@@ -159,8 +159,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -180,7 +180,7 @@
     "power_draw": 120000,
     "revert_to": "vac_oven_small_full",
     "charges_per_use": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "use_action": {
@@ -197,8 +197,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -216,7 +216,7 @@
     "bashing": 10,
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
@@ -224,8 +224,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -243,7 +243,7 @@
     "price": 500000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "power_draw": 1500000,
@@ -262,8 +262,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -294,7 +294,7 @@
     "price": 500000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": [ "battery" ],
     "power_draw": 1500000,
@@ -313,8 +313,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -343,7 +343,7 @@
     "price": 2000000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
@@ -363,8 +363,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -393,7 +393,7 @@
     "price": 2000000,
     "to_hit": -10,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
@@ -414,8 +414,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -446,7 +446,7 @@
     "price": 20000,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "qualities": [ [ "EXTRACT", 1 ] ]
   },
   {
@@ -462,7 +462,7 @@
     "price": 100,
     "to_hit": 10,
     "cutting": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "qualities": [ [ "FILTER", 2 ] ]
   },
   {
@@ -478,7 +478,7 @@
     "price": 100,
     "to_hit": 10,
     "cutting": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "qualities": [ [ "FILTER", 1 ] ]
   },
   {
@@ -494,7 +494,7 @@
     "price": 300000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
@@ -511,8 +511,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -543,7 +543,7 @@
     "price": 200000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "ammo": [ "battery" ],
     "power_draw": 600000,
     "charges_per_use": 1,
@@ -562,8 +562,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -594,7 +594,7 @@
     "price": 280000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "butane_tank",
@@ -652,7 +652,7 @@
     "price": 100,
     "price_postapoc": 500,
     "to_hit": -3,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
     "use_action": "WEATHER_TOOL",
@@ -707,7 +707,7 @@
     "price_postapoc": 100,
     "to_hit": 1,
     "bashing": 2,
-    "material": "platinum",
+    "material": [ "platinum" ],
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "link_sheet",

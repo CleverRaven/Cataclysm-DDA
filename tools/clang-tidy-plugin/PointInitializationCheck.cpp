@@ -9,6 +9,8 @@
 #include <clang/ASTMatchers/ASTMatchersInternal.h>
 #include <clang/Basic/Diagnostic.h>
 
+#include "Utils.h"
+
 using namespace clang::ast_matchers;
 
 namespace clang
@@ -19,9 +21,6 @@ namespace cata
 {
 void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
 {
-    using TypeMatcher = clang::ast_matchers::internal::Matcher<QualType>;
-    const TypeMatcher IsPointType =
-        qualType( anyOf( asString( "struct point" ), asString( "struct tripoint" ) ) );
     using CxxConstructorMatcher = clang::ast_matchers::internal::Matcher<Expr>;
     const CxxConstructorMatcher ZeroConstructor = cxxConstructExpr( anyOf(
                 allOf(
@@ -43,11 +42,11 @@ void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
             ) ).bind( "expr" );
     Finder->addMatcher( varDecl(
                             unless( parmVarDecl() ),
-                            hasType( IsPointType ),
+                            hasType( isPointType() ),
                             hasInitializer( ZeroConstructor )
                         ).bind( "decl" ), this );
     Finder->addMatcher( cxxCtorInitializer(
-                            forField( hasType( IsPointType ) ),
+                            forField( hasType( isPointType() ) ),
                             withInitializer( ZeroConstructor )
                         ).bind( "init" ), this );
 }
@@ -63,10 +62,16 @@ static void CheckDecl( PointInitializationCheck &Check, const MatchFinder::Match
         return;
     }
     QualType Type = MatchedDecl->getType();
+    PrintingPolicy Policy( LangOptions{} );
+    Policy.SuppressTagKeyword = true;
+    Type.removeLocalConst();
+    std::string Replacement = Type.getAsString( Policy ) + " " + MatchedDecl->getNameAsString();
+    SourceRange ToReplace( MatchedDecl->getTypeSpecStartLoc(),  MatchedDecl->getEndLoc() );
     Check.diag(
         MatchedExpr->getBeginLoc(),
-        "Unnecessary initialization of %0. %1 is zero-initialized by default." ) <<
-                MatchedDecl << Type;
+        "Unnecessary initialization of %0. %1 is zero-initialized by default." )
+            << MatchedDecl << Type
+            << FixItHint::CreateReplacement( ToReplace, Replacement );
 }
 
 static void CheckInit( PointInitializationCheck &Check, const MatchFinder::MatchResult &Result )

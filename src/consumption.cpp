@@ -267,7 +267,11 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
             }
         }
     }
-
+    if( you.has_bionic( bio_digestion ) ) {
+        for( std::pair<const vitamin_id, int> &vit : res ) {
+            vit.second *= 1.5f;
+        }
+    }
     return res;
 }
 
@@ -550,7 +554,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
-    for( auto vit : vitamins ) {
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
         vitamin_mod( vit.first, vit.second, capped );
     }
 }
@@ -1346,22 +1350,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-hint_rating Character::rate_action_eat( const item &it ) const
-{
-    if( !can_consume( it ) ) {
-        return hint_rating::cant;
-    }
-
-    const auto rating = will_eat( it );
-    if( rating.success() ) {
-        return hint_rating::good;
-    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
-        return hint_rating::cant;
-    }
-
-    return hint_rating::iffy;
-}
-
 bool Character::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{
@@ -1636,6 +1624,9 @@ time_duration Character::get_consume_time( const item &it )
 {
     const int charges = std::max( it.charges, 1 );
     int volume = units::to_milliliter( it.volume() ) / charges;
+    if( 0 == volume && it.type ) {
+        volume = units::to_milliliter( it.type->volume );
+    }
     time_duration time = time_duration::from_seconds( std::max( ( volume /
                          5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
     float consume_time_modifier = 1;//only for food and drinks
@@ -1826,4 +1817,3 @@ bool player::consume( item_location loc, bool force )
 
     return true;
 }
-

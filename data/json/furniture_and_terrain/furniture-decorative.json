@@ -200,6 +200,23 @@
   },
   {
     "type": "furniture",
+    "id": "f_sand_castle",
+    "name": "sand castle",
+    "description": "A glorious castle made of sand.  This mighty fortress will stand tall for the ages to come, a true testimony of the skills of its builder.",
+    "symbol": "m",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "crunch.",
+      "sound_fail": "thump.",
+      "items": [ { "item": "material_sand", "count": 8 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_decorative_tree",
     "name": "decorative tree",
     "description": "A decorative pine tree littered with ornaments for the winter holidays.",

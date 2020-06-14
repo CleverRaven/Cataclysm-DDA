@@ -397,10 +397,10 @@ static void wet_player( int amount )
 
     const auto &wet = g->u.body_wetness;
     const auto &capacity = g->u.drench_capacity;
-    body_part_set drenched_parts{ { bp_torso, bp_arm_l, bp_arm_r, bp_head } };
+    body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
     if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts |= { { bp_leg_l, bp_leg_r } };
+        drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
     }
 
     g->u.drench( amount, drenched_parts, false );
@@ -411,27 +411,27 @@ double precip_mm_per_hour( precip_class const p )
 // the precipitation were rain (rather than snow).
 {
     return
-        p == PRECIP_VERY_LIGHT ? 0.5 :
-        p == PRECIP_LIGHT ? 1.5 :
-        p == PRECIP_HEAVY ? 3   :
+        p == precip_class::VERY_LIGHT ? 0.5 :
+        p == precip_class::LIGHT ? 1.5 :
+        p == precip_class::HEAVY ? 3   :
         0;
 }
 
 void do_rain( weather_type const w )
 {
-    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+    if( !weather::rains( w ) || weather::precip( w ) == precip_class::NONE ) {
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
     int wetness = 0;
     time_duration decay_time = 60_turns;
-    if( weather::precip( w ) == PRECIP_VERY_LIGHT ) {
+    if( weather::precip( w ) == precip_class::VERY_LIGHT ) {
         wetness = 5;
         decay_time = 5_turns;
-    } else if( weather::precip( w ) == PRECIP_LIGHT ) {
+    } else if( weather::precip( w ) == precip_class::LIGHT ) {
         wetness = 30;
         decay_time = 15_turns;
-    } else if( weather::precip( w ) == PRECIP_HEAVY ) {
+    } else if( weather::precip( w ) == precip_class::HEAVY ) {
         decay_time = 45_turns;
         wetness = 60;
     }

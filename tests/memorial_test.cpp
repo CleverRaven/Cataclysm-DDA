@@ -7,6 +7,7 @@
 #include "bodypart.h"
 #include "catch/catch.hpp"
 #include "character_id.h"
+#include "debug_menu.h"
 #include "event.h"
 #include "game.h"
 #include "memorial_logger.h"
@@ -14,6 +15,7 @@
 #include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
+#include "profession.h"
 #include "type_id.h"
 
 class event_bus;
@@ -183,10 +185,12 @@ TEST_CASE( "memorials" )
         m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
-        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
+        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
+        std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
+        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -209,8 +213,25 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
+    // In magiclysm, the first character_forgets_spell event will trigger an
+    // achievement which also enters the log.  We don't want that to pollute
+    // the test case, so send another event first.
+    b.send<event_type::character_forgets_spell>( ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_forgets_spell>(
+        m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    // Similarly for character_learns_spell
+    b.send<event_type::character_learns_spell>( ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_learns_spell>(
+        m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    // Similarly for character_levels_spell
+    b.send<event_type::player_levels_spell>( ch, spell_id( "pain_damage" ), 5 );
+
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", spell_id( "pain_damage" ), 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );
@@ -238,4 +259,7 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::triggers_alarm>(
         m, b, "Set off an alarm.", ch );
+
+    check_memorial<event_type::uses_debug_menu>(
+        m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
 }

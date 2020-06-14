@@ -79,7 +79,7 @@
   {
     "type": "recipe",
     "result": "manatouched_serum",
-    "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
+    "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
     "components": [ [ [ "mana_dust", 20 ] ], [ [ "mana_potion", 4 ], [ "mana_potion_greater", 1 ], [ "mana_infused_blood", 6 ] ] ],
     "skill_used": "cooking",
     "difficulty": 4,
@@ -154,6 +154,7 @@
       [ [ "potion_starter", 5 ] ],
       [
         [ "egg_bird", 5 ],
+        [ "egg_bird_unfert", 5 ],
         [ "egg_grouse", 5 ],
         [ "egg_duck", 3 ],
         [ "egg_crow", 5 ],

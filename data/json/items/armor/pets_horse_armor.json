@@ -124,7 +124,7 @@
     "description": "Decorative bones affixed to leather horse barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly horse.",
     "price": 45000,
     "price_postapoc": 3000,
-    "material": [ "bone", "leather" ],
+    "material": [ "leather" ],
     "weight": "17 kg",
     "volume": "150 L",
     "material_thickness": 6
