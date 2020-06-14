@@ -1450,12 +1450,12 @@ class Character : public Creature, public visitable<Character>
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /// Checks for items, tools, and vehicles with the Lifting quality near the character
-        /// returning the highest quality in range.
-        int best_nearby_lifting_assist() const;
+        /// returning the largest weight liftable by an item in range.
+        units::mass best_nearby_lifting_assist() const;
 
         /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
-        int best_nearby_lifting_assist( const tripoint &world_pos ) const;
+        units::mass best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
         // Inventory + weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
