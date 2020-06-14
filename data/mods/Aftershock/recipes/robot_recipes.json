@@ -33,6 +33,21 @@
     ]
   },
   {
+    "abstract": "bot_utilibot_base",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 4 ], [ "computer", 5 ] ],
+    "difficulty": 6,
+    "time": 25000,
+    "reversible": false,
+    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
+    "tools": [ [ [ "electrohack", 20 ] ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
+  },
+  {
     "result": "bot_utilibot_beehive",
     "type": "recipe",
     "id_suffix": "from_parts",
@@ -41,11 +56,7 @@
       [ [ "broken_utilibot", 1 ] ],
       [ [ "afs_energy_storage_4", 1 ] ],
       [ [ "metal_tank_little", 4 ] ],
-      [ [ "gun_module", 8 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "crossbow", 1 ] ],
       [ [ "motor_micro", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "afs_circuitry_2", 2 ] ],

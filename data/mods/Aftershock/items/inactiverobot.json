@@ -254,8 +254,7 @@
       "monster_id": "mon_utilibot_beehive",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -277,8 +276,7 @@
       "monster_id": "mon_medibot",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   },
@@ -314,8 +312,7 @@
       "difficulty": 1,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -330,8 +327,7 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   }
 ]

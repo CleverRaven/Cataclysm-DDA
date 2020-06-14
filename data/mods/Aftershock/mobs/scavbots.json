@@ -4,18 +4,17 @@
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
     "name": "bee bot",
-    "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers honey combs.  It protects the insect colony with a mechanical crossbow mounted to its chassis.",
+    "description": "A salvaged utility robot converted into an AI monitored bee hive that periodically removes and delivers honey combs.",
     "color": "brown",
-    "speed": 50,
-    "aggression": 10,
+    "speed": 0,
+    "aggression": 0,
     "morale": 20,
     "fear_triggers": [ "HURT" ],
     "revert_to_itype": "bot_utilibot_beehive",
     "biosignature": { "biosig_item": "honeycomb", "biosig_timer": 3600 },
-    "//": [ "emit_bee_trail" ],
+    "//": [ "emit_bee_field" ],
     "special_attacks": [ [ "PARROT", 10 ] ],
-    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] },
-    "extend": { "flags": [ "STUMBLES", "DROPS_AMMO" ] }
+    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] }
   },
   {
     "id": "mon_light_hack",
