@@ -969,7 +969,7 @@
     "symbol": "~",
     "quench": 40,
     "calories": 2,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Stronger than green tea.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
     "price": 90,
     "price_postapoc": 25,
     "volume": "250 ml",
