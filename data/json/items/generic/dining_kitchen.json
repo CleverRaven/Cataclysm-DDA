@@ -708,7 +708,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -730,7 +730,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -753,7 +753,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -775,7 +775,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -797,7 +797,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "12 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -821,7 +821,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "25 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "25 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -974,7 +974,7 @@
     "weight": "728 g",
     "volume": "1500 ml",
     "bashing": 5,
-    "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
   },
   {
