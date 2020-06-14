@@ -5,7 +5,7 @@
     "name": "Point Flare",
     "description": "Causes an intense heat at the location, damaging the target.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE" ],
+    "flags": [ "CONCENTRATE", "SOMATIC", "LOUD" ],
     "effect": "target_attack",
     "damage_type": "fire",
     "min_damage": 16,
