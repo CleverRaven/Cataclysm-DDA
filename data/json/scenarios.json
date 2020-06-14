@@ -206,7 +206,7 @@
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "professions": [ "churl" ],
-    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "WAYFARER", "SPIRITUAL" ],
+    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
