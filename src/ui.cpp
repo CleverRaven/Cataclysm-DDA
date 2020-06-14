@@ -879,7 +879,8 @@ void uilist::query( bool loop, int timeout )
 
 uilist_entry *uilist::find_entry_by_coordinate( point p )
 {
-    for( uilist_entry &entry : entries ) {
+    for( int i : fentries ) {
+        uilist_entry &entry = entries[i];
         if( entry.drawn_info.include_point( p ) ) {
             return &entry;
         }
