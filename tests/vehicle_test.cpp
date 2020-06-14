@@ -76,40 +76,6 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
 }
 
-int count_all_parts_plus_active_fakes( const vehicle *veh )
-{
-    int active_parts = 0;
-    for( const auto &p : veh->get_all_parts_incl_fake( false ) ) {
-        ++active_parts;
-    }
-    return active_parts;
-}
-
-int count_all_parts( const vehicle *veh )
-{
-    int all_parts = 0;
-    for( const auto &p : veh->get_all_parts_incl_fake( true ) ) {
-        ++all_parts;
-    }
-    return all_parts;
-}
-
-int count_original_parts( const vehicle *veh )
-{
-    int parts = 0;
-    for( const auto &p : veh->get_all_parts() ) {
-        ++parts;
-    }
-    return parts;
-}
-
-void close_all_doors( vehicle *veh )
-{
-    for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
-        veh->close( vp.part_index() );
-    }
-}
-
 TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 {
     /**
@@ -128,7 +94,11 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         const tripoint test_origin( 60, 60, 0 );
         vehicle *veh = g->m.add_vehicle( vproto_id( "suv" ), test_origin, 0, 0, 0 );
         REQUIRE( veh != nullptr );
-        close_all_doors( veh );
+        for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+            if( veh->is_open( vp.part_index() ) ) {
+                veh->close( vp.part_index() );
+            }
+        }
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
         veh->engine_on = true;
@@ -137,9 +107,20 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         veh->velocity = veh->cruise_velocity;
 
 
-        int active_fake_parts_pre_turn = count_all_parts_plus_active_fakes( veh );
+        int active_fake_parts_pre_turn = 0;
+        for( const auto &p : veh->get_all_parts_incl_fake( false ) ) {
+            if( veh->real_or_active_fake_part( p.part_index() ) ) {
+                ++active_fake_parts_pre_turn;
+            }
+        }
         CHECK( ( active_fake_parts_pre_turn - original_parts ) == 0 );
-        int parts = count_original_parts( veh );
+        int parts = 0;
+        for( const auto &p : veh->get_all_parts() ) {
+            if( !veh->fake_part( p.part_index() ) ) {
+                ++parts;
+            }
+        }
+
         CHECK( parts == original_parts );
 
         WHEN( "The vehicle turns such that it is not perpendicular to a cardinal axis" ) {
@@ -148,9 +129,20 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
             veh->idle( true );
 
             THEN( "The gaps in the vehicle is filled by fake parts" ) {
-                int all_parts = count_all_parts( veh );
+                int all_parts = 0;
+                for( const auto &p : veh->get_all_parts_incl_fake( true ) ) {
+                    if( p.part_index() >= 0 ) {
+                        ++all_parts;
+                    }
+                }
+
                 CHECK( all_parts == ( original_parts + fake_parts ) );
-                int active_parts = count_all_parts_plus_active_fakes( veh );
+                int active_parts = 0;
+                for( const auto &p : veh->get_all_parts_incl_fake( false ) ) {
+                    if( veh->real_or_active_fake_part( p.part_index() ) ) {
+                        ++active_parts;
+                    }
+                }
                 CHECK( active_parts == ( original_parts + enabled_fakes_at_45_degrees ) );
             }
         }
@@ -159,7 +151,12 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
             g->m.vehmove();
             veh->idle( true );
             THEN( "Fakes that no longer fill gaps become inactive" ) {
-                int active_parts2 = count_all_parts_plus_active_fakes( veh );
+                int active_parts2 = 0;
+                for( const auto &p : veh->get_all_parts_incl_fake( false ) ) {
+                    if( veh->real_or_active_fake_part( p.part_index() ) ) {
+                        ++active_parts2;
+                    }
+                }
                 CHECK( active_parts2 == ( original_parts + enabled_fakes_at_60_degrees ) );
             }
         }
@@ -172,7 +169,11 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
     const tripoint test_origin( 60, 60, 0 );
     vehicle *veh = g->m.add_vehicle( vproto_id( "suv" ), test_origin, 0, 0, 0 );
     REQUIRE( veh != nullptr );
-    close_all_doors( veh );
+    for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+        if( veh->is_open( vp.part_index() ) ) {
+            veh->close( vp.part_index() );
+        }
+    }
 
     veh->tags.insert( "IN_CONTROL_OVERRIDE" );
     veh->engine_on = true;
@@ -203,7 +204,11 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
         const tripoint test_origin( 60, 60, 0 );
         vehicle *veh = g->m.add_vehicle( vproto_id( "suv" ), test_origin, 0, 0, 0 );
         REQUIRE( veh != nullptr );
-        close_all_doors( veh );
+        for( const vpart_reference vp : veh->get_avail_parts( "OPENABLE" ) ) {
+            if( veh->is_open( vp.part_index() ) ) {
+                veh->close( vp.part_index() );
+            }
+        }
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
         veh->engine_on = true;
@@ -220,7 +225,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
             tripoint fake_front_right_headlight = veh->mount_to_tripoint( fake_r_hl );
             // we're travelling south east, so placing it SE of the fake headlight mirror will impact it on next move
             tripoint obstacle_point = fake_front_right_headlight + tripoint_south_east;
-            g->m.furn_set( point( obstacle_point.x, obstacle_point.y ), furn_id( "f_boulder_large" ) );
+            g->m.furn_set( obstacle_point.xy(), furn_id( "f_boulder_large" ) );
 
             THEN( "The collision damage is applied to the fake's parent" ) {
                 g->m.vehmove();
@@ -239,8 +244,8 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
                         damaged_fake_parts.push_back( rel );
                     }
                 }
-                CHECK( damaged_parts.size() > 0 );
-                CHECK( damaged_fake_parts.size() == 0 );
+                CHECK( !damaged_parts.empty() );
+                CHECK( damaged_fake_parts.empty() );
 
             }
         }
@@ -257,8 +262,19 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
         REQUIRE( veh != nullptr );
         WHEN( "The vehicle is placed in the world" ) {
             THEN( "There are no fake parts added" ) {
-                int original_parts = count_original_parts( veh );
-                int fake_parts = count_all_parts( veh );
+                int original_parts = 0;
+                for( const auto &p : veh->get_all_parts() ) {
+                    if( !veh->fake_part( p.part_index() ) ) {
+                        ++original_parts;
+                    }
+                }
+
+                int fake_parts = 0;
+                for( const auto &p : veh->get_all_parts_incl_fake( true ) ) {
+                    if( veh->real_or_active_fake_part( p.part_index() ) ) {
+                        ++fake_parts;
+                    }
+                }
 
                 CHECK( ( original_parts - fake_parts ) == 0 );
             }
