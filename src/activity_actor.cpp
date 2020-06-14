@@ -1125,7 +1125,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     if( consume_location ) {
         const auto ret = g->u.will_eat( *consume_location, true );
         if( !ret.success() ) {
-            open_consume_menu = false;
+            consume_menu_selections = std::vector<int>();
             return;
         } else {
             force = true;
@@ -1134,7 +1134,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     } else if( !consume_item.is_null() ) {
         const auto ret = g->u.will_eat( consume_item, true );
         if( !ret.success() ) {
-            open_consume_menu = false;
+            consume_menu_selections = std::vector<int>();
             return;
         } else {
             force = true;
@@ -1166,9 +1166,12 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
+    //setting act to null clears these so back them up
+    std::vector<int> temp_selections = consume_menu_selections;
     act.set_to_null();
-    if( open_consume_menu ) {
+    if( !temp_selections.empty() ) {
         g->u.assign_activity( ACT_EAT_MENU );
+        g->u.activity.values = temp_selections;
     }
 }
 
@@ -1178,7 +1181,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "open_consume_menu", open_consume_menu );
+    jsout.member( "consume_menu_selections", consume_menu_selections );
     jsout.member( "force", force );
 
     jsout.end_object();
@@ -1187,13 +1190,14 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
 {
     item_location null;
-    consume_activity_actor actor( null );
+    std::vector<int> values;
+    consume_activity_actor actor( null, values );
 
     JsonObject data = jsin.get_object();
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "open_consume_menu", actor.open_consume_menu );
+    data.read( "consume_menu_selections", actor.consume_menu_selections );
     data.read( "force", actor.force );
 
     return actor.clone();

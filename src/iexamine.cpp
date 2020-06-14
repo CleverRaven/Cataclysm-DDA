@@ -1661,7 +1661,7 @@ static bool drink_nectar( player &p )
     if( can_drink_nectar( p ) ) {
         add_msg( _( "You drink some nectar." ) );
         item nectar( "nectar", calendar::turn, 1 );
-        p.assign_activity( player_activity( consume_activity_actor( nectar, false ) ) );
+        p.assign_activity( player_activity( consume_activity_actor( nectar ) ) );
         return true;
     }
 
@@ -1705,7 +1705,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         }
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
-        p.assign_activity( player_activity( consume_activity_actor( poppy, false ) ) );
+        p.assign_activity( player_activity( consume_activity_actor( poppy ) ) );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -3183,7 +3183,7 @@ void iexamine::keg( player &p, const tripoint &examp )
                 if( !p.can_consume( drink ) ) {
                     return; // They didn't actually drink
                 }
-                p.assign_activity( player_activity( consume_activity_actor( drink, false ) ) );
+                p.assign_activity( player_activity( consume_activity_actor( drink ) ) );
                 drink.charges--;
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),

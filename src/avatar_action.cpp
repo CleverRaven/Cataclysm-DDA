@@ -892,7 +892,7 @@ bool avatar_action::eat_here( avatar &you )
             g->m.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
+            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             return true;
         }
     }
@@ -904,7 +904,7 @@ bool avatar_action::eat_here( avatar &you )
         } else {
             add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
+            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             if( g->m.ter( you.pos() ) == t_grass_tall ) {
                 g->m.ter_set( you.pos(), t_grass_long );
             } else if( g->m.ter( you.pos() ) == t_grass_long ) {
@@ -933,17 +933,23 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc, true );
+    avatar_action::eat( you, loc, you.activity.values );
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc, bool open_consume_menu )
+void avatar_action::eat( avatar &you, const item_location &loc )
+{
+    avatar_action::eat( you, loc, std::vector<int>() );
+}
+
+void avatar_action::eat( avatar &you, const item_location &loc,
+                         std::vector<int> consume_menu_selections )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, open_consume_menu ) ) );
+    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,

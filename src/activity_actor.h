@@ -513,7 +513,7 @@ class consume_activity_actor : public activity_actor
     private:
         item_location consume_location;
         item consume_item;
-        bool open_consume_menu = false;
+        std::vector<int> consume_menu_selections;
         bool force = false;
         /**
          * @pre @p other is a consume_activity_actor
@@ -521,15 +521,18 @@ class consume_activity_actor : public activity_actor
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
             return ( consume_location == c_actor.consume_location &&
-                     open_consume_menu == c_actor.open_consume_menu &&
                      force == c_actor.force && &consume_item == &c_actor.consume_item );
         }
     public:
-        consume_activity_actor( const item_location &consume_location, bool open_consume_menu = false ) :
-            consume_location( consume_location ), open_consume_menu( open_consume_menu ) {}
+        consume_activity_actor( const item_location &consume_location,
+                                std::vector<int> consume_menu_selections ) :
+            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ) {}
 
-        consume_activity_actor( item consume_item, bool open_consume_menu = false ) :
-            consume_item( consume_item ), open_consume_menu( open_consume_menu ) {}
+        consume_activity_actor( const item_location &consume_location ) :
+            consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
+
+        consume_activity_actor( item consume_item ) :
+            consume_item( consume_item ), consume_menu_selections( std::vector<int>() ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_CONSUME" );
