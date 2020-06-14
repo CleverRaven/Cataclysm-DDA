@@ -66,6 +66,15 @@ static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hunger_blank( "hunger_blank" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
+static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_hungry( "hunger_hungry" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
+static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
@@ -787,7 +796,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( food.charges > 0 && food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ) {
+    if( food.charges > 0 && ( food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ||
+                              has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
         if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
