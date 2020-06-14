@@ -8549,7 +8549,7 @@ std::string item::components_to_string() const
     []( const std::pair<std::string, int> &entry ) -> std::string {
         if( entry.second != 1 )
         {
-            return string_format( _( "%d x %s" ), entry.second, entry.first );
+            return string_format( pgettext( "components count", "%d x %s" ), entry.second, entry.first );
         } else
         {
             return entry.first;
