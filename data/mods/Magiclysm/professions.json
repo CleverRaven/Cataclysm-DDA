@@ -234,5 +234,181 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "techno_prepper",
+    "name": "Techno-Prepper",
+    "description": "You've long suspected the world might suddenly turn over. With your training, spells, and revolver, your chances are far better than most.",
+    "spells": [ { "id": "create_atomic_lamp", "level": 8 }, { "id": "invisibility", "level": 2 } ],
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "stabbing" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "hat_boonie", "longshirt", "socks", "jeans", "gloves_light", "boots", "trenchcoat" ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m47a1", "ammo-item": "38_special", "charges": 6, "container-item": "holster" },
+          { "item": "sheath", "contents-item": "knife_combat" },
+          { "item": "38_special", "charges": 24 },
+          { "item": "ref_lighter", "charges": 50 }
+        ]
+      },
+      "male": [ "undershirt", "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "magic_vamp",
+    "name": "Bionic Pseudovamp",
+    "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night. Your neglect to your health in your pursuit has left you pale and unlively.",
+    "points": 7,
+    "spells": [
+      { "id": "recover_mana", "level": 2 },
+      { "id": "necrotic_gaze", "level": 2 },
+      { "id": "summon_zombie", "level": 2 },
+      { "id": "dark_sight", "level": 3 }
+    ],
+    "CBMs": [ "bio_fuel_cell_blood", "bio_power_storage_mkII", "bio_nanobots" ],
+    "skills": [
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 2, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "suit", "tie_necktie", "tieclip", "socks", "dress_shoes", "knit_scarf", "sunglasses", "wristwatch", "smart_phone" ],
+        "entries": [ { "item": "knife_baselard", "container-item": "sheath" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2" ]
+  },
+  {
+    "type": "profession",
+    "ident": "academy_wizard",
+    "name": "Academy Wizard",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells. With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "points": 4,
+    "spells": [
+      { "id": "magic_missile", "level": 6 },
+      { "id": "magus_mana_bolt", "level": 2 },
+      { "id": "create_atomic_light", "level": 3 },
+      { "id": "protection_aura", "level": 3 }
+    ],
+    "skills": [
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 4, "name": "spellcraft" },
+      { "level": 3, "name": "chemistry" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "copper_circlet", "robe", "bastsandals", "pocketwatch" ],
+        "entries": [ { "item": "q_staff", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "ident": "biomancer_musician",
+    "name": "Corrosive Rocker",
+    "description": "Your metal career soared to new heights when you swapped special effects for acrid gore and spiked whips. It seems the Cataclysm is now your final tour.",
+    "points": 4,
+    "spells": [
+      { "id": "vicious_tentacle", "level": 2 },
+      { "id": "bio_acidicspray", "level": 3 },
+      { "id": "biomancer_visceral_projection", "level": 2 }
+    ],
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 2, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [
+          "jacket_leather",
+          "pants_leather",
+          "leather_belt",
+          "socks",
+          "boots",
+          "gloves_fingerless",
+          "guitar_electric",
+          "switchblade"
+        ],
+        "entries": [ { "item": "pepto", "charges": 10, "container-item": "bottle_plastic_small" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "BIOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "storm_police",
+    "name": "Shock Officer",
+    "description": "You were enrolled in a experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
+    "points": 4,
+    "spells": [
+      { "id": "windstrike", "level": 3 },
+      { "id": "windrun", "level": 3 },
+      { "id": "jolt", "level": 4 },
+      { "id": "stormshaper_ionization", "level": 2 }
+    ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 4, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "whistle", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "PR24-retracted", "container-item": "police_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    },
+    "traits": [ "PROF_POLICE", "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "earth_boxer",
+    "name": "Earthquake Brawler",
+    "description": "You've made a name for yourself in underground magic boxing rings as an unstoppable punching machine. Now that all your opponents are undead, there's no need to hold back.",
+    "points": 4,
+    "spells": [
+      { "id": "earthshaper_stoneskin", "level": 2 },
+      { "id": "stonefist", "level": 4 },
+      { "id": "seismic_stomp", "level": 4 },
+      { "id": "recover_stamina", "level": 2 }
+    ],
+    "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "spellcraft" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "under_armor_shorts", "under_armor", "shorts", "gloves_wraps", "headgear", "mouthpiece", "socks", "sneakers" ]
+      },
+      "female": [ "sports_bra" ]
+    }
   }
 ]
