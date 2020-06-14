@@ -58,6 +58,8 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+
 template<>
 struct enum_traits<aim_activity_actor::WeaponSource> {
     static constexpr aim_activity_actor::WeaponSource last =
@@ -1166,7 +1168,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     }
     act.set_to_null();
     if( open_consume_menu ) {
-        avatar_action::eat( g->u );
+        g->u.assign_activity( ACT_EAT_MENU );
     }
 }
 
