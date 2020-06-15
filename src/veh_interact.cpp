@@ -3102,7 +3102,7 @@ void veh_interact::complete_vehicle( player &p )
 
         case 'o': {
             const inventory &inv = p.crafting_inventory();
-            if( vehicle_part >= static_cast<int>( veh->part_count() ) ) {
+            if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, p );
                 if( vehicle_part == -1 ) {
                     p.add_msg_if_player( m_info, _( "The %s has already been removed by someone else." ),

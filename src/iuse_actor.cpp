@@ -655,7 +655,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
             // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read( parts );
-            for( size_t i = 0; i < parts.size() && i < veh->part_count(); i++ ) {
+            for( size_t i = 0; i < parts.size() && i < static_cast<size_t>( veh->part_count() ); i++ ) {
                 const vehicle_part &src = parts[i];
                 vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are

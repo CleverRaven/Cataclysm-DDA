@@ -31,7 +31,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
-    for( size_t part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
+    for( int part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
         monster *mon = grabbed_vehicle->get_pet( part_index );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),

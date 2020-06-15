@@ -541,7 +541,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( static_cast<size_t>( coll.part ) > veh.part_count() ||
+            if( coll.part > veh.part_count() ||
                 veh.part( coll.part ).removed ) {
                 continue;
             }
