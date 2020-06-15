@@ -1,3 +1,4 @@
+
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
 dist: xenial
@@ -22,12 +23,9 @@ addons:
 compiler: gcc
 os: linux
 
-# We have branch builds disabled globally to prevent double-builds of PRs.
-# This re-enables just the master branch.
 branches:
   only:
-  - master
-  - development
+  - upload
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.
@@ -62,36 +60,9 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
-    # Then build different configurations and targets in parallel.
-    - stage: "Main Compilers"
-      env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
-      name: "GCC 5.3 Make build with curses, Magiclysm, and no Localization"
-      compiler: gcc
-      addons: &gcc53
-        apt:
-          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
-          sources: [*apt_sources]
-
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency"
-      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
-      dist: bionic
-      compiler: gcc
-      addons: &gcc8
-        apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: *apt_sources
-
-    - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
-      name: "Clang 8 Make build with sanitizers enabled, but long-running tests disabled"
-      compiler: clang
-      addons: &clang8
-        apt:
-          packages: ["clang-8"]
-          sources: [*apt_sources, llvm-toolchain-xenial-8]
-
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
-      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
+      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1 DEPLOY="bindist"
       name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
       compiler: gcc
       addons: &gcc
@@ -116,6 +87,33 @@ jobs:
       os: osx
       osx_image: xcode10.1
       compiler: clang
+
+    # Then build different configurations and targets in parallel.
+    - stage: "Main Compilers"
+      env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
+      name: "GCC 5.3 Make build with curses, Magiclysm, and no Localization"
+      compiler: gcc
+      addons: &gcc53
+        apt:
+          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
+          sources: [*apt_sources]
+
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency" DEPLOY="bindist"
+      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
+      dist: bionic
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
+
+    - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
+      name: "Clang 8 Make build with sanitizers enabled, but long-running tests disabled"
+      compiler: clang
+      addons: &clang8
+        apt:
+          packages: ["clang-8"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants
     - stage: compilers
@@ -180,13 +178,13 @@ jobs:
           packages: ["clang-5.0"]
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
-    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
-      name: "Clang 6 CMake build with tiles and sound"
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
+      name: "Clang 6 CMake build with Curses"
       if: type != pull_request
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
+          packages: ["clang-6.0"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     - env: CLANG=clang++-7
@@ -210,3 +208,18 @@ script:
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-6; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
+
+before_deploy:
+  - export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
+
+deploy:
+  provider: releases
+  api_key:
+    secure: yHikOGBqrnD9DVKVTE357zU4FomF2HYutWQZLTo2wTRaitnos9hhYGFW0+HSQdNRMvj0HcNFuCbkFZGuKPztKNzH84lFubWjzQb3OLKnp5aCtdl/wm/MnXJeY7T7kEPqgalyP+PFPoNXpjcicrbliaZFRqX2PcFMpPFXRh18/zbm+8dNsgkdtmEgsEDYKQRkQeOJ87kgPji3AjQGTzWa184bk4dbohpLWT21GwguNiZ2+8QoRVjDF6bqH1PZer/Ap4b8pIBvpLe+52/4NYOvS27MbOmfxzn5oZ3aGzZamrwkhiOLfKiKqDeF8Ih7NdC3TwJnrL+PybGUSVgDgJl97lowo/sywSg7p2GhQ0OJOKw5/oiGkAlkTrwFgdUR6c+FUWOZnIEIgGtN12u4xvQn5kBBRq4W5muXHjWandAZ8iNyWqcZ7vqvhUGp0Dj1vvRWVvtktjdpBbYVNt3tNMEx/y62yz+2HiSjBnWSjnSskIg8wLq7a9nTa6Gragu6D/WcR1IXwnLc2dYvG9rj6Zpow5aZrqMieYSmQBML/9bKo2MY219R6FXdjJjTBi56ZP6r1nAL2LUjyOmlV4epP7oyp5Kq1t+deO7rwsq1RaLHkRi9JYYX90OjPsFZCn6xBGb4+IHUbGblr9PQ7cfjmX31o1zw+lThB9Zp0jeEsRvxIdI=
+  file_glob: true
+  file: ${RELEASE_PKG_FILES}
+  skip_cleanup: true
+  on:
+    branch: upload
+    tags: true
+    condition: $DEPLOY = '1'
