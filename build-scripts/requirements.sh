@@ -23,7 +23,7 @@ else
     travis_retry=
 fi
 
-if just_json; then
+if [ ! -n $ENABLE_DEPLOY ] && just_json; then
     export JUST_JSON=true
     export CODE_COVERAGE=""
 fi

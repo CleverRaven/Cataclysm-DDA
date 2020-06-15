@@ -60,29 +60,25 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
-    - stage: "Platforms and Tidy"
+    - stage: "Deployable"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
-      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1 DEPLOY="bindist"
+      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1 DEPLOY=1 OSNAME=win32
       name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
-    - env: NATIVE=android COMPILER=gcc
-      name: "Android build"
-      language: android
-      android:
-        components:
-          - build-tools-28.0.1
-          - android-28
-      cache:
-        # The ccache feature in Travis doesn't work for language: android, so
-        # do it ourselves.
-        directories:
-          - $HOME/.ccache
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 DEPLOY=1 OSNAME=lin32
+      name: "GCC 8 Make build with Tiles and Sound"
+      dist: bionic
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1 DEPLOY=1 OSNAME=osx32
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.1
@@ -97,15 +93,6 @@ jobs:
         apt:
           packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
           sources: [*apt_sources]
-
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency" DEPLOY="bindist"
-      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
-      dist: bionic
-      compiler: gcc
-      addons: &gcc8
-        apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: *apt_sources
 
     - env: CLANG=clang++-8 SANITIZE=address,undefined EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items ~[starve] ~grenade_lethality"
       name: "Clang 8 Make build with sanitizers enabled, but long-running tests disabled"
@@ -200,6 +187,7 @@ before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
   - CXX="$COMPILER"
+  - export VERSION="${TRAVIS_BUILD_NUMBER}-${OSNAME}"
   - source build-scripts/requirements.sh
 
 script:
@@ -210,16 +198,18 @@ after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 before_deploy:
-  - export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
+  - export TRAVIS_TAG=${TRAVIS_BUILD_NUMBER}
+  - git tag $TRAVIS_TAG
+  - export RELEASE_PKG_FILES=$(ls cataclysm*.zip cataclysm*.tar.gz)
 
 deploy:
   provider: releases
   api_key:
-    secure: yHikOGBqrnD9DVKVTE357zU4FomF2HYutWQZLTo2wTRaitnos9hhYGFW0+HSQdNRMvj0HcNFuCbkFZGuKPztKNzH84lFubWjzQb3OLKnp5aCtdl/wm/MnXJeY7T7kEPqgalyP+PFPoNXpjcicrbliaZFRqX2PcFMpPFXRh18/zbm+8dNsgkdtmEgsEDYKQRkQeOJ87kgPji3AjQGTzWa184bk4dbohpLWT21GwguNiZ2+8QoRVjDF6bqH1PZer/Ap4b8pIBvpLe+52/4NYOvS27MbOmfxzn5oZ3aGzZamrwkhiOLfKiKqDeF8Ih7NdC3TwJnrL+PybGUSVgDgJl97lowo/sywSg7p2GhQ0OJOKw5/oiGkAlkTrwFgdUR6c+FUWOZnIEIgGtN12u4xvQn5kBBRq4W5muXHjWandAZ8iNyWqcZ7vqvhUGp0Dj1vvRWVvtktjdpBbYVNt3tNMEx/y62yz+2HiSjBnWSjnSskIg8wLq7a9nTa6Gragu6D/WcR1IXwnLc2dYvG9rj6Zpow5aZrqMieYSmQBML/9bKo2MY219R6FXdjJjTBi56ZP6r1nAL2LUjyOmlV4epP7oyp5Kq1t+deO7rwsq1RaLHkRi9JYYX90OjPsFZCn6xBGb4+IHUbGblr9PQ7cfjmX31o1zw+lThB9Zp0jeEsRvxIdI=
+    secure: YkZwEzn5TJI6fdqiYNUdWp4FaIQxvGgznW6YduSEGiiOawJOWrGqk10NGKCuOicOBI32h7ivoEIuPWc1pvABgY45WgFxI8XprBtt67sNvu//cF8GGJztevdVKbuMFa7ENRF3AuQU/OI1ll2kN5WFz+mQwfXI3Cp1kRNqUt26i8Xf7TWuXthjPob9oitlIEdq2P80Q3d6+SM8Mu2qyYF6TqUY45UMsxIFaf0HpJqgqrDZYF4iOKAoK1GihpgBYZb/VEkQWMR9yV/YOsSMDVhFXCr32tcjkxz9wY1azr6RdRK15xO/uJa8/j00a8E4rWZ/NIL3p2ZHGGXSrgDM12d1AY0nYs4Hr4VqtGv6jSemg/k9fml/7KHRa04oTv74ncUS1YYyVggQqGYd/Odekkj7yewOINUWNeZfMgsqYUgX1rlGiIxP5lkoMPwQRkFVo31k/eQ6SwrprYpi0QZWayy56LdhKZELiiuba6C5lWu5/39+hjxxsRonEwupCnuh6dGIEzhDhIEu7H2JRfqh1mxU8nOWSKac9PkOeQRBERAxiidBjIccDLVfwkxpeUSdXgrMXJ3VKNvdCOJmiA3ExHTvOCNfxMk6TfOLwjkpOOB+DqnN9G7STMjKZfO505W0QPWKHGFNbfD+g/qd4rTY7Fk+j5eDK+3WDeeEcl06vZmmij0=
   file_glob: true
   file: ${RELEASE_PKG_FILES}
   skip_cleanup: true
   on:
+    repo: cataclysmbnteam/Cataclysm-BN
     branch: upload
-    tags: true
-    condition: $DEPLOY = '1'
+    condition: $ENABLE_DEPLOY = '1' && $DEPLOY = '1'
