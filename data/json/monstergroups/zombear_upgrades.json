@@ -2,14 +2,14 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBEAR_UPGRADE",
-    "default": "mon_zombear_tough",
+    "default": "mon_zombear_skeleton",
     "//": "No bionics or fungal",
     "monsters": [
       { "monster": "mon_zombear_grabber", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombear_grappler", "freq": 45, "cost_multiplier": 7 },
       { "monster": "mon_zombear_hunter", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombear_skeleton", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_zombiear_smoker", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zombear_smoker", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombear_shady", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombear_gasbag", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombear_biter", "freq": 15, "cost_multiplier": 5 },
