@@ -1205,33 +1205,33 @@
     "replace": "sheet_kevlar_layered"
   },
   {
-	"id": "can_drink_unsealed",
-	"type": "MIGRATION",
-	"replace": "can_drink"
+    "id": "can_drink_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_drink"
   },
   {
-	"id": "can_food_unsealed",
-	"type": "MIGRATION",
-	"replace": "can_food"
+    "id": "can_food_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_food"
   },
   {
-	"id": "can_food_big_unsealed",
-	"type": "MIGRATION",
-	"replace": "can_food_big"
+    "id": "can_food_big_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_food_big"
   },
   {
-	"id": "cup_plastic_unsealed",
-	"type": "MIGRATION",
-	"replace": "cup_plastic"
+    "id": "cup_plastic_unsealed",
+    "type": "MIGRATION",
+    "replace": "cup_plastic"
   },
   {
-	"id": "can_medium_unsealed",
-	"type": "MIGRATION",
-	"replace": "can_medium"
+    "id": "can_medium_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_medium"
   },
   {
-	"id": "carton_unsealed",
-	"type": "MIGRATION",
-	"replace": "carton_sealed"
+    "id": "carton_unsealed",
+    "type": "MIGRATION",
+    "replace": "carton_sealed"
   }
 ]
