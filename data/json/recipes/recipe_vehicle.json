@@ -399,7 +399,6 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ ],
     "components": [ [ [ "log", 4 ] ], [ [ "rope_natural", 3, "LIST" ] ] ]
   },
   {
