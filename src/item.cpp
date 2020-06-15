@@ -510,6 +510,10 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
+    if( !mt->zombify_into.is_empty() ) {
+        result.set_var( "zombie_form", mt->zombify_into.c_str() );
+    }
+
     // This is unconditional because the const itemructor above sets result.name to
     // "human corpse".
     result.corpse_name = name;
@@ -5609,7 +5613,8 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+    return is_corpse() && ( corpse->has_flag( MF_REVIVES ) || has_var( "zombie_form" ) ) &&
+           damage() < max_damage() &&
            !( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ||
               has_flag( flag_QUARTERED ) ||
               has_flag( flag_SKINNED ) || has_flag( flag_PULPED ) );

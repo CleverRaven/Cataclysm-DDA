@@ -5245,6 +5245,9 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
                                           ( it.get_mtype()->id );
+    if( it.has_var( "zombie_form" ) ) { // if the monster can reanimate has a zombie
+        newmon_ptr = make_shared_fast<monster>( mtype_id( it.get_var( "zombie_form" ) ) );
+    }
     monster &critter = *newmon_ptr;
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
