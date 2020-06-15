@@ -2983,6 +2983,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "seat_wood_flimsy",
+    "name": { "str": "flimsy wooden seat" },
+    "looks_like": "seat",
+    "symbol": "#",
+    "color": "brown",
+    "broken_symbol": "*",
+    "broken_color": "brown",
+    "damage_modifier": 20,
+    "durability": 75,
+    "description": "A place to sit.",
+    "item": "frame_wood_light",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 4, 6 ] } ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "seat_wood",
     "name": { "str": "wooden seat" },
     "looks_like": "seat",
