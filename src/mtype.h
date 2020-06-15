@@ -313,7 +313,6 @@ struct mtype {
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
 
-
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;
         int baby_count;
