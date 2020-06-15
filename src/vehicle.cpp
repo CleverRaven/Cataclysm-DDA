@@ -6492,11 +6492,6 @@ std::map<itype_id, int> vehicle::fuels_left() const
     return result;
 }
 
-bool vehicle::is_foldable() const
-{
-    return get_folded().success();
-}
-
 bool vehicle::restore( const std::string &data )
 {
     std::istringstream veh_data( data );

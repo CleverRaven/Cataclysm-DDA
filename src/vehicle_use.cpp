@@ -708,9 +708,16 @@ void vehicle::use_controls( const tripoint &pos )
                           keybind( "TOGGLE_TRACKING" ) );
     actions.push_back( [&] { toggle_tracking(); } );
 
-    if( is_foldable() && !remote ) {
-        options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
-        actions.push_back( [&] { fold_up(); } );
+    if( !remote ) {
+        const ret_val<item> folded = get_folded();
+        if( folded.success() ) {
+            options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
+            actions.push_back( [&] { fold_up(); } );
+        } else {
+            options.emplace_back( string_format( _( "Folding impossible: %s" ), folded.str() ) );
+            options.back().enabled = false;
+            actions.push_back( [] { } );
+        }
     }
 
     if( has_part( "ENGINE" ) ) {
@@ -1904,7 +1911,6 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_electronics = avail_part_with_feature( interact_part, "CTRL_ELECTRONIC", true ) >= 0;
     const int cargo_part = part_with_feature( interact_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
-    const bool can_be_folded = is_foldable();
     const bool remotely_controlled = g->remoteveh() == this;
     const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
     const bool has_autoclave = autoclave_part >= 0;
@@ -1967,8 +1973,13 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_items_on_ground && !items_are_sealed ) {
         selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
     }
-    if( can_be_folded && !remotely_controlled ) {
-        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
+    if( !remotely_controlled ) {
+        const ret_val<item> folded = get_folded();
+        if( folded.success() ) {
+            selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
+        } else {
+            selectmenu.addentry( FOLD_VEHICLE, false, 'f', _( "Folding impossible: %s" ), folded.str() );
+        }
     }
     if( turret.can_unload() ) {
         selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name() );

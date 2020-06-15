@@ -1588,8 +1588,6 @@ class vehicle
         // returns whether the door is open or not
         bool is_open( int part_index ) const;
 
-        // Simply checks if @ref get_folded returns success.
-        bool is_foldable() const;
         // Restore parts of a folded vehicle.
         bool restore( const std::string &data );
         //handles locked vehicles interaction
