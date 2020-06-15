@@ -3172,18 +3172,6 @@ units::mass vehicle::total_mass() const
     return mass_cache;
 }
 
-units::volume vehicle::total_folded_volume() const
-{
-    units::volume m = 0_ml;
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.part().removed ) {
-            continue;
-        }
-        m += vp.info().folded_voluma.value_or( 0_ml );
-    }
-    return m;
-}
-
 const point &vehicle::rotated_center_of_mass() const
 {
     // TODO: Bring back caching of this point
