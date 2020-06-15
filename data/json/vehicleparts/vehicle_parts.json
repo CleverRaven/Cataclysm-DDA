@@ -1451,6 +1451,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "raft_board",
+    "name": { "str": "raft boat hull" },
+    "description": "Logs tied togther that will keep your boat out of the water.",
+    "symbol": "o",
+    "looks_like": "t_wall_log",
+    "color": "brown",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 30,
+    "item": "raft_board",
+    "location": "under",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "FLOATS" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+    "damage_reduction": { "all": 5 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "plastic_boat_hull",
     "name": { "str": "plastic boat hull" },
     "description": "A rigid plastic sheet that keeps water out of your boat.",

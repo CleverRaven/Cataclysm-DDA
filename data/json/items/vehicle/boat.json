@@ -17,6 +17,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "raft_board",
+    "symbol": "o",
+    "color": "brown",
+    "name": { "str": "raft boat hull" },
+    "description": "Logs tied together to make a vehicle float. Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "weight": "6000 g",
+    "volume": "12500 ml",
+    "bashing": 8,
+    "to_hit": -3,
+    "category": "veh_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "plastic_boat_hull",
     "symbol": "o",
     "color": "brown",
