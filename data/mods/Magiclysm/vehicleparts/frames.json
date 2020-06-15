@@ -15,7 +15,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ], [ "spellcraft", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ],
     "damage_reduction": { "all": 12 }
   },
   {

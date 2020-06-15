@@ -31,8 +31,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ],
-    "extend": { "flags": [ "FOLDABLE" ] }
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ]
   },
   {
     "id": "engine_electric_small",
@@ -55,7 +54,6 @@
       { "item": "steel_chunk", "count": [ 1, 3 ] },
       { "item": "cable", "charges": [ 3, 6 ] }
     ],
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 6 }
   },
   {

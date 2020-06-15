@@ -213,7 +213,7 @@ class vpart_info
         /** Default ammo (for turrets) */
         itype_id default_ammo = itype_id::NULL_ID();
 
-        /** Volume of a part when folded. If the part is not foldable, this will be empty. */
+        /** Volume of a part when folded. Defaults to the volume of the item itself. */
         cata::optional<units::volume> folded_volume;
 
         /** Cargo location volume */

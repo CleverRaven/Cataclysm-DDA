@@ -19,7 +19,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER", "FOLDABLE" ]
+    "flags": [ "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "atomic_lamp",
@@ -40,7 +40,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE" ]
+    "flags": [ "ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "atomic_light",
@@ -78,7 +78,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "directed_floodlight",
@@ -90,7 +90,7 @@
     "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.  During installation, you can choose what direction to point the light.",
     "//": "8000lm 100W LED floodlight",
     "epower": -100,
-    "flags": [ "HALF_CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "HALF_CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "headlight",
@@ -113,7 +113,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "motorcycle_headlight",
@@ -136,7 +136,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "wide_headlight",
@@ -147,7 +147,7 @@
     "looks_like": "headlight",
     "description": "A bright light that illuminates a wide cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
     "epower": -150,
-    "flags": [ "WIDE_CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "WIDE_CONE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "headlight_reinforced",
@@ -194,7 +194,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
     "damage_reduction": { "all": 6 }
   },
   {

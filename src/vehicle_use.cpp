@@ -769,7 +769,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 }
 
-item vehicle::get_folded() const
+ret_val<item> vehicle::get_folded() const
 {
     item result( "generic_folded_vehicle", calendar::turn );
 
@@ -784,7 +784,7 @@ item vehicle::get_folded() const
         json.write( parts );
         result.set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
-        debugmsg( "Error storing vehicle: %s", e.c_str() );
+        return ret_val<item>::make_failure( item(), "Error storing vehicle: %s", e.c_str() );
     }
 
     units::mass weight = 0_gram;
@@ -794,6 +794,18 @@ item vehicle::get_folded() const
         weight += part.get_base().weight();
     }
 
+    // arbitrary limit
+    if( volume >= 500_liter ) {
+        return ret_val<item>::make_failure( item(),
+                                            _( "The %s would be too large (> 500 liter) to fold it." ), name );
+    }
+
+    // arbitrary limit
+    if( weight >= 500_kilogram ) {
+        return ret_val<item>::make_failure( item(), _( "The %s would be too heavy (> 500 kg) to fold it." ),
+                                            name );
+    }
+
     result.set_var( "weight", to_milligram( weight ) );
     result.set_var( "volume", volume / units::legacy_volume_factor );
     result.set_var( "name", string_format( _( "folded %s" ), name ) );
@@ -801,17 +813,11 @@ item vehicle::get_folded() const
     // TODO: a better description?
     result.set_var( "description", string_format( _( "A folded %s." ), name ) );
 
-    return result;
+    return ret_val<item>::make_success( result );
 }
 
 bool vehicle::fold_up()
 {
-    const bool can_be_folded = is_foldable();
-    if( !can_be_folded ) {
-        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
-        return false;
-    }
-
     if( g->u.controlling_vehicle ) {
         add_msg( m_warning,
                  _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
@@ -824,14 +830,25 @@ bool vehicle::fold_up()
         return false;
     }
 
+    const ret_val<item> folded = get_folded();
+    if( !folded.success() ) {
+        add_msg( "%s", folded.str() );
+        return false;
+    }
+
+    // add_item_or_charges returns a reference to the placed item, or a null item if the
+    // item could not be placed anywhere (usually because it's too large).
+    if( g->m.add_item_or_charges( global_part_pos3( 0 ), folded.value() ).is_null() ) {
+        add_msg( _( "There is no space nearby to put the folded %s." ), name );
+        return false;
+    }
+
     add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
 
     if( g->u.get_grab_type() != object_type::NONE ) {
         g->u.grab( object_type::NONE );
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
-
-    item bicycle = get_folded();
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
@@ -846,7 +863,6 @@ bool vehicle::fold_up()
 
     unboard_all();
 
-    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles

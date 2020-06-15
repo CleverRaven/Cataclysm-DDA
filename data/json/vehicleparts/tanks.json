@@ -22,7 +22,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "FLUIDTANK", "FOLDABLE" ],
+    "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 26, "stab": 8 }
   },
   {

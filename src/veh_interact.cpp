@@ -1043,9 +1043,20 @@ void veh_interact::do_install()
                         return;
                     }
                 }
-                if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
-                    !query_yn( _( "Installing this part will make the vehicle unfoldable.  Continue?" ) ) ) {
-                    return;
+                if( veh->get_folded().success() ) {
+                    // Simulate installation of the part into a new vehicle and check
+                    // whether it can be folded afterwards.
+                    const ret_val<item> folded = [&]() {
+                        vehicle tmp_copy = *veh;
+                        tmp_copy.install_part( {-dd.x, -dd.y}, sel_vpart_info->get_id(), true );
+                        return tmp_copy.get_folded();
+                    }
+                    ();
+                    if( !folded.success() &&
+                        !query_yn( _( "Installing this part will make the vehicle unfoldable.  %s  Continue?" ),
+                                   folded.str() ) ) {
+                        return;
+                    }
                 }
                 const auto &shapes =
                     vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item.str() ];

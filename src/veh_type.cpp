@@ -452,10 +452,6 @@ void vpart_info::finalize()
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
     for( auto &e : vpart_info_all ) {
-        if( e.second.folded_volume ) {
-            e.second.set_flag( "FOLDABLE" );
-        }
-
         for( const auto &f : e.second.flags ) {
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
@@ -597,9 +593,6 @@ void vpart_info::check()
         }
         if( part.folded_volume.value_or( 0_ml ) < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
-        }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume && *part.folded_volume == 0_ml ) {
-            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );

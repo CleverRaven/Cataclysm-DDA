@@ -32,7 +32,7 @@
       "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS" ] },
+    "extend": { "flags": [ "MUSCLE_LEGS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   },
   {
@@ -53,7 +53,7 @@
       "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] },
+    "extend": { "flags": [ "MUSCLE_ARMS", "CONTROLS" ] },
     "damage_reduction": { "all": 4 }
   }
 ]

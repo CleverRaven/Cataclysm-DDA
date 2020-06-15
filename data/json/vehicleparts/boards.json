@@ -32,7 +32,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
   },
   {
     "abstract": "cloth_halfboard",

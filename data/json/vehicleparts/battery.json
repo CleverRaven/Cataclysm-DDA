@@ -20,8 +20,7 @@
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "FOLDABLE" ]
+    }
   },
   {
     "id": "battery_motorbike",
@@ -92,8 +91,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" }
-    },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    }
   },
   {
     "id": "small_storage_battery",
@@ -108,8 +106,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] }
-    },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    }
   },
   {
     "id": "storage_battery",

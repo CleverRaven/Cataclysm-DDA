@@ -839,7 +839,7 @@ class vehicle
         void use_controls( const tripoint &pos );
 
         /// @return An item that contains the folded up version of this vehicle.
-        item get_folded() const;
+        ret_val<item> get_folded() const;
 
         // Fold up the vehicle
         bool fold_up();
@@ -1588,7 +1588,7 @@ class vehicle
         // returns whether the door is open or not
         bool is_open( int part_index ) const;
 
-        // Consists only of parts with the FOLDABLE tag.
+        // Simply checks if @ref get_folded returns success.
         bool is_foldable() const;
         // Restore parts of a folded vehicle.
         bool restore( const std::string &data );

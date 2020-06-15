@@ -6494,12 +6494,7 @@ std::map<itype_id, int> vehicle::fuels_left() const
 
 bool vehicle::is_foldable() const
 {
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( !vp.has_feature( "FOLDABLE" ) ) {
-            return false;
-        }
-    }
-    return true;
+    return get_folded().success();
 }
 
 bool vehicle::restore( const std::string &data )
