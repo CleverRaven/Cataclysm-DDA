@@ -9030,6 +9030,13 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( corpse == nullptr || damage() >= max_damage() ) {
         return false;
     }
+
+    // handle human corpses rising as zombies
+    if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+        !mtype_id( "mon_human" )->zombify_into.is_empty() ) {
+        set_var( "zombie_form", mtype_id( "mon_human" )->zombify_into.c_str() );
+    }
+
     if( !ready_to_revive( pos ) ) {
         return false;
     }
