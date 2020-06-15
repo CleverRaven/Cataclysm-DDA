@@ -365,8 +365,8 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
     }
-
-    return ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    // crash fix on examine of vehicles with turrets (i.e. firetrucks with water cannons)
+    return !ammo_current().is_null() && ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
