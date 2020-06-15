@@ -1756,9 +1756,9 @@
       "Oh what a day!  What a lovely day!",
       "I'm on top of the world, baby!"
     ],
-    "max_intensity": 25,
+    "max_intensity": 11,
     "int_dur_factor": "10 s",
-    "scaling_mods": { "speed_mod": [ 0.42 ], "str_mod": [ 0.06 ], "dex_mod": [ 0.05 ], "int_mod": [ 0.084 ], "per_mod": [ 0.1 ] }
+    "scaling_mods": { "speed_mod": [ 1 ], "str_mod": [ 0.1 ], "dex_mod": [ 0.125 ], "int_mod": [ 0.2 ], "per_mod": [ 0.25 ] }
   },
   {
     "type": "effect_type",
@@ -1777,9 +1777,9 @@
       "This is not what you planned for your life.",
       "When will all your suffering end?"
     ],
-    "max_intensity": 1000,
+    "max_intensity": 100,
     "int_dur_factor": "10 s",
-    "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
+    "scaling_mods": { "speed_mod": [ -1 ], "str_mod": [ -0.1 ], "dex_mod": [ -0.125 ], "int_mod": [ -0.2 ], "per_mod": [ -0.25 ] },
     "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
   },
   {
