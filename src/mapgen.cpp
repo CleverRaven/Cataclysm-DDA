@@ -1439,14 +1439,14 @@ class jmapgen_make_rubble : public jmapgen_piece
 class jmapgen_computer : public jmapgen_piece
 {
     public:
-        std::string name;
+        translation name;
         translation access_denied;
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
         jmapgen_computer( const JsonObject &jsi ) {
-            name = jsi.get_string( "name" );
+            jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
@@ -1466,7 +1466,8 @@ class jmapgen_computer : public jmapgen_piece
             const int ry = y.get();
             dat.m.ter_set( point( rx, ry ), t_console );
             dat.m.furn_set( point( rx, ry ), f_null );
-            computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name, security );
+            computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name.translated(),
+                                                security );
             for( const auto &opt : options ) {
                 cpu->add_option( opt );
             }
