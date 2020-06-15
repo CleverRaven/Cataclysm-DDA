@@ -1306,7 +1306,16 @@
     "time": "7 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "cordage_36", 6 ], [ "withered", 36 ], [ "straw_pile", 36 ], [ "tanbark", 36 ], [ "birchbark", 36 ], [ "willowbark", 36 ] ] ]
+    "components": [ 
+      [ 
+        [ "cordage_36", 6 ],
+        [ "withered", 36 ],
+        [ "straw_pile", 36 ],
+        [ "tanbark", 36 ],
+        [ "birchbark", 36 ],
+        [ "willowbark", 36 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -1317,7 +1326,17 @@
     "time": "7 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "withered", 180 ], [ "straw_pile", 180 ], [ "tanbark", 180 ], [ "birchbark", 180 ], [ "willowbark", 180 ] ] ]
+    "components": [
+      [ 
+        [ "rope_makeshift_6", 5 ],
+        [ "cordage_36", 30 ],
+        [ "withered", 180 ],
+        [ "straw_pile", 180 ],
+        [ "tanbark", 180 ],
+        [ "birchbark", 180 ],
+        [ "willowbark", 180 ]
+      ] 
+    ]
   },
   {
     "type": "recipe",
