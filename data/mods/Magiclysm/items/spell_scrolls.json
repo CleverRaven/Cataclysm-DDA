@@ -892,5 +892,13 @@
     "name": { "str": "Scroll of Improved Knock", "str_pl": "Scrolls of Improved Knock" },
     "description": "You can channel magical energy to open any locked door from a short range away.",
     "use_action": { "type": "learn_spell", "spells": [ "improved_knock" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell-scroll",
+    "id": "spell_scroll_repelling_arc",
+    "name": { "str": "Scroll of Repelling Arc", "str_pl": "Scrolls of Repelling Arc" },
+    "description": "You manifest an aura of crackling electricity around you to strike attackers with baleful lightning.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_repelling_arc" ] }
   }
 ]
