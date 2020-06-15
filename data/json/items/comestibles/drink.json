@@ -1048,8 +1048,8 @@
     "name": "green tea",
     "copy-from": "tea",
     "color": "green",
-    "fatigue_mod": 3,
-    "stim": 1,
+    "fatigue_mod": 7,
+    "stim": 2,
     "calories": 2,
     "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures.",
     "fun": 6
