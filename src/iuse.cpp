@@ -372,7 +372,8 @@ static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
-#define RADIO_PER_TURN 25 // how many characters per turn of radio
+// how many characters per turn of radio
+static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 

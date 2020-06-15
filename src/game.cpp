@@ -449,10 +449,6 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
 
-// Fixed window sizes
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-
 #if !(defined(_WIN32) || defined(TILES))
 // in ncurses_def.cpp
 void check_encoding();
@@ -7306,7 +7302,7 @@ static void centerlistview( const tripoint &active_item_position, int ui_width )
 }
 
 #if defined(TILES)
-#define MAXIMUM_ZOOM_LEVEL 4
+static constexpr int MAXIMUM_ZOOM_LEVEL = 4;
 #endif
 void game::zoom_out()
 {

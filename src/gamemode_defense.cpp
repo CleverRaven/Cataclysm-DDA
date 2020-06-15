@@ -47,8 +47,10 @@ static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-#define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
-#define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
+// One in X chance of single-flavor wave
+static constexpr int SPECIAL_WAVE_CHANCE = 5;
+// Don't use a special wave with < X monsters
+static constexpr int SPECIAL_WAVE_MIN = 5;
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
 #define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\

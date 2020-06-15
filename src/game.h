@@ -36,7 +36,7 @@ class Creature_tracker;
 class item;
 class spell_events;
 
-#define DEFAULT_TILESET_ZOOM 16
+static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 static const std::string SAVE_MASTER( "master.gsav" );
 static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );

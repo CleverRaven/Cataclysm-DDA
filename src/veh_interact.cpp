@@ -90,7 +90,7 @@ static inline std::string health_color( bool status )
 }
 
 // Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
+static constexpr units::mass JACK_LIMIT = 8500_kilogram; // 8500kg ( 8.5 metric tonnes )
 
 // cap JACK requirements to support arbitrarily large vehicles
 static double jack_quality( const vehicle &veh )

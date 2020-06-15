@@ -2289,8 +2289,8 @@ enum class hint_rating {
     cant
 };
 
-// Weight per level of LIFT/JACK tool quality.
-#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
+// Weight per level of LIFT/JACK tool quality
+static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
 
 inline units::mass lifting_quality_to_mass( int quality_level )
 {
