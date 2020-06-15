@@ -472,7 +472,9 @@ const item &item_contents::first_ammo() const
 {
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            return pocket.front().contents.first_ammo();
+            if( !pocket.front().contents.empty() ) {
+                return pocket.front().contents.first_ammo();
+            }
         }
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
