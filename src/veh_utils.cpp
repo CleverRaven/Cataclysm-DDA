@@ -16,6 +16,7 @@
 #include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_range.h"
 #include "character.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -68,47 +69,48 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
         repairable
     };
     std::map<const vehicle_part *, repairable_status> repairable_cache;
-    for( const vehicle_part &part : veh.parts ) {
-        const auto &info = part.info();
-        repairable_cache[ &part ] = repairable_status::not_repairable;
-        if( part.removed || part.damage() <= 0 ) {
+    for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        const auto &info = vpr.info();
+        repairable_cache[ &vpr.part() ] = repairable_status::not_repairable;
+        if( vpr.part().removed || vpr.part().damage() <= 0 ) {
             continue;
         }
 
-        if( part.is_broken() ) {
+        if( vpr.part().is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[ &part ] = repairable_status::need_replacement;
+                repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
             }
 
             continue;
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv,
+            ( info.repair_requirements() * vpr.part().damage_level( 4 ) ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
-            repairable_cache[ &part ] = repairable_status::repairable;
+            repairable_cache[ &vpr.part()] = repairable_status::repairable;
         }
     }
 
-    const auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
-    const vehicle_part & b ) {
-        return ( repairable_cache[ &b ] > repairable_cache[ &a ] ) ||
-               ( repairable_cache[ &b ] == repairable_cache[ &a ] && b.damage() > a.damage() );
+    const auto part_damage_comparison = [&repairable_cache]( const vpart_reference & a,
+    const vpart_reference & b ) {
+        return ( repairable_cache[ &b.part() ] > repairable_cache[ &a.part()] ) ||
+               ( repairable_cache[ &b.part()] == repairable_cache[ &a.part()] &&
+                 b.part().damage() > a.part().damage() );
     };
-
-    const auto high_damage_iterator = std::max_element( veh.parts.begin(),
-                                      veh.parts.end(),
+    const vehicle_part_range vp_range = veh.get_all_parts();
+    const auto high_damage_iterator = std::max_element( vp_range.begin(),
+                                      vp_range.end(),
                                       part_damage_comparison );
-    if( high_damage_iterator == veh.parts.end() ||
-        high_damage_iterator->removed ||
+    if( high_damage_iterator == vp_range.end() ||
+        high_damage_iterator->part().removed ||
         !high_damage_iterator->info().is_repairable() ||
         ( only_repairable &&
-          repairable_cache[ &( *high_damage_iterator ) ] != repairable_status::not_repairable ) ) {
+          repairable_cache[ &( *high_damage_iterator ).part() ] != repairable_status::not_repairable ) ) {
         static vehicle_part nullpart;
         return nullpart;
     }
 
-    return *high_damage_iterator;
+    return high_damage_iterator->part();
 }
 
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
@@ -168,7 +170,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         g->m.spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
         const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
-        veh.parts[partnum].direction = dir;
+        veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {
         veh.set_hp( pt, pt.info().durability );

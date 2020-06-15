@@ -725,7 +725,7 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
         return false;
     }
     int time_to_take = 0;
-    if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
+    if( vpindex >= veh->part_count() ) {
         // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
         // so just bail out, as we don't know if the next shifted part is suitable for repair.
         if( type == 'r' ) {
@@ -739,7 +739,7 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     }
     const vpart_info &vp = veh->part_info( vpindex );
     if( type == 'r' ) {
-        const vehicle_part part = veh->parts[ vpindex ];
+        const vehicle_part part = veh->part( vpindex );
         time_to_take = vp.repair_time( p ) * part.damage() / part.max_damage();
     } else if( type == 'o' ) {
         time_to_take = vp.removal_time( p );
@@ -764,7 +764,7 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     // values[5]
     p.activity.values.push_back( -point_zero.y );
     // values[6]
-    p.activity.values.push_back( veh->index_of_part( &veh->parts[vpindex] ) );
+    p.activity.values.push_back( veh->index_of_part( &veh->part( vpindex ) ) );
     p.activity.str_values.push_back( vp.get_id().str() );
     // this would only be used for refilling tasks
     item_location target;

@@ -241,16 +241,13 @@ void map::add_vehicle_to_cache( vehicle *veh )
     auto &ch = get_cache( veh->sm_pos.z );
     ch.veh_in_active_range = true;
     // Get parts
-    std::vector<vehicle_part> &parts = veh->parts;
-    int partid = 0;
-    for( std::vector<vehicle_part>::iterator it = parts.begin(),
-         end = parts.end(); it != end; ++it, ++partid ) {
-        if( it->removed ) {
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        if( vpr.part().removed ) {
             continue;
         }
-        const tripoint p = veh->global_part_pos3( *it );
+        const tripoint p = veh->global_part_pos3( vpr.part() );
         ch.veh_cached_parts.insert( std::make_pair( p,
-                                    std::make_pair( veh, partid ) ) );
+                                    std::make_pair( veh, static_cast<int>( vpr.part_index() ) ) ) );
         if( inbounds( p ) ) {
             ch.veh_exists_at[p.x][p.y] = true;
         }
@@ -544,12 +541,12 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( static_cast<size_t>( coll.part ) > veh.parts.size() ||
-                veh.parts[coll.part].removed ) {
+            if( static_cast<size_t>( coll.part ) > veh.part_count() ||
+                veh.part( coll.part ).removed ) {
                 continue;
             }
 
-            const point &collision_point = veh.parts[coll.part].mount;
+            const point &collision_point = veh.part( coll.part ).mount;
             const int coll_dmg = coll.imp;
             // Shock damage, if the target part is a rotor treat as an aimed hit.
             if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
@@ -658,7 +655,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
-                const float wheel_area =  veh.parts[ w ].wheel_area();
+                const float wheel_area =  veh.part( w ).wheel_area();
 
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
@@ -829,10 +826,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             parm2 = veh_veh_coll.target_part;
         }
 
-        epicenter1 += veh.parts[parm1].mount;
+        epicenter1 += veh.part( parm1 ).mount;
         veh.damage( parm1, dmg1_part, DT_BASH );
 
-        epicenter2 += veh2.parts[parm2].mount;
+        epicenter2 += veh2.part( parm2 ).mount;
         veh2.damage( parm2, dmg2_part, DT_BASH );
     }
 
@@ -1120,7 +1117,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x, part_pos.y, part_pos.z,
                           g->u.posx(), g->u.posy(), g->u.posz() );
-                veh.parts[prt].remove_flag( vehicle_part::passenger_flag );
+                veh.part( prt ).remove_flag( vehicle_part::passenger_flag );
                 r.moved = true;
                 continue;
             }
@@ -1132,7 +1129,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
             }
 
             // Place passenger on the new part location
-            const vehicle_part &veh_part = veh.parts[prt];
+            const vehicle_part &veh_part = veh.part( prt );
             tripoint psgp( dp + part_pos.xy() - veh_part.precalc[0] + veh_part.precalc[1] + tripoint( 0, 0,
                            psg->posz() ) );
             // someone is in the way so try again
@@ -1151,16 +1148,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
     }
 
     veh.shed_loose_parts();
-    for( auto &prt : veh.parts ) {
-        prt.precalc[0] = prt.precalc[1];
-    }
-    veh.pivot_anchor[0] = veh.pivot_anchor[1];
-    veh.pivot_rotation[0] = veh.pivot_rotation[1];
+    veh.advance_precalc_mounts( dst_offset, p2.z );
 
-    veh.pos = dst_offset;
-    veh.sm_pos.z = p2.z;
-    // Invalidate vehicle's point cache
-    veh.occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
         veh.set_submap_moved( point( p2.x / SEEX, p2.y / SEEY ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
@@ -2704,8 +2693,8 @@ bool map::mop_spills( const tripoint &p )
         vehicle *const veh = &vp->vehicle();
         std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
         for( auto &elem : parts_here ) {
-            if( veh->parts[elem].blood > 0 ) {
-                veh->parts[elem].blood = 0;
+            if( veh->part( elem ).blood > 0 ) {
+                veh->part( elem ).blood = 0;
                 retval = true;
             }
             //remove any liquids that somehow didn't fall through to the ground
@@ -4368,7 +4357,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             if( time_left <= 0_turns ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
-                cur_veh.parts[part].enabled = false;
+                cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 add_msg( _( "It should take %d minutes to finish washing items in the %s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
@@ -4397,7 +4386,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     n.item_tags.erase( no_sterile );
                 }
                 autoclave_finished = true;
-                cur_veh.parts[part].enabled = false;
+                cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 add_msg( _( "It should take %d minutes to finish sterilising items in the %s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
@@ -4411,7 +4400,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     vehicle_part recharge_part;
-    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
+    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.part( recharge_part_idx ) ) &&
         !recharge_part.removed && !recharge_part.is_broken() &&
         ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
@@ -5364,7 +5353,7 @@ void map::add_splatter( const field_type_id &type, const tripoint &where, int in
             // Might be -1 if all the vehicle's parts at where are marked for removal
             const int part = veh->part_displayed_at( vp->mount() );
             if( part != -1 ) {
-                veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
+                veh->part( part ).blood += 200 * std::min( intensity, 3 ) / 3;
                 return;
             }
         }
@@ -6705,7 +6694,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
         vehicle *veh = iter->get();
-        if( !veh->parts.empty() ) {
+        if( veh->part_count() > 0 ) {
             // Always fix submap coordinates for easier Z-level-related operations
             veh->sm_pos = grid;
             iter++;
@@ -7735,7 +7724,7 @@ void map::do_vehicle_caching( int z )
 
             if( vehicle_is_opaque ) {
                 int dpart = v->part_with_feature( part, VPFLAG_OPENABLE, true );
-                if( dpart < 0 || !v->parts[dpart].open ) {
+                if( dpart < 0 || !v->part( dpart ).open ) {
                     transparency_cache[p2.x][p2.y] = LIGHT_TRANSPARENCY_SOLID;
                 } else {
                     vehicle_is_opaque = false;

@@ -1654,7 +1654,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
-        const int wheel_area = veh.parts[ p ].wheel_area();
+        const int wheel_area = veh.cpart( p ).wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -1712,7 +1712,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
                       part_pos.x, part_pos.y, part_pos.z );
-            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
+            veh.part( ps ).remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 
