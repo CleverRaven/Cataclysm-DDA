@@ -177,13 +177,15 @@ def key_counter(data, where_fn_list):
             # If value is an object, tally key.subkey for all object subkeys
             if type(val) == OrderedDict:
                 for subkey in val.keys():
-                    stats[key + '.' + subkey] += 1
+                    if not subkey.startswith('//'):
+                        stats[key + '.' + subkey] += 1
 
             # If value is a list of objects, tally key.subkey for each
             elif type(val) == list and all(type(e) == OrderedDict for e in val):
                 for obj in val:
                     for subkey in obj.keys():
-                        stats[key + '.' + subkey] += 1
+                        if not subkey.startswith('//'):
+                            stats[key + '.' + subkey] += 1
 
             # For anything else, it only counts as one
             else:
