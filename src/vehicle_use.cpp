@@ -771,16 +771,7 @@ void vehicle::use_controls( const tripoint &pos )
 
 item vehicle::get_folded() const
 {
-    const bool can_be_folded = is_foldable();
-
-    std::string itype_id = "folding_bicycle";
-    for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-            itype_id = elem.substr( 12 );
-            break;
-        }
-    }
-    item result( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
+    item result( "generic_folded_vehicle", calendar::turn );
 
     // Store data of all parts, iuse::unfold_bicyle only loads
     // some of them, some are expect to be
@@ -803,14 +794,12 @@ item vehicle::get_folded() const
         weight += part.get_base().weight();
     }
 
-    if( can_be_folded ) {
-        result.set_var( "weight", to_milligram( weight ) );
-        result.set_var( "volume", volume / units::legacy_volume_factor );
-        result.set_var( "name", string_format( _( "folded %s" ), name ) );
-        result.set_var( "vehicle_name", name );
-        // TODO: a better description?
-        result.set_var( "description", string_format( _( "A folded %s." ), name ) );
-    }
+    result.set_var( "weight", to_milligram( weight ) );
+    result.set_var( "volume", volume / units::legacy_volume_factor );
+    result.set_var( "name", string_format( _( "folded %s" ), name ) );
+    result.set_var( "vehicle_name", name );
+    // TODO: a better description?
+    result.set_var( "description", string_format( _( "A folded %s." ), name ) );
 
     return result;
 }
