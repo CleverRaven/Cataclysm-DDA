@@ -193,7 +193,10 @@ void player_activity::do_turn( player &p )
         no_food_nearby_for_auto_consume = false;
         no_drink_nearby_for_auto_consume = false;
     }
-    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume &&
+    // Only do once every two minutes to loosely simulate consume times,
+    // the exact amount of time is added correctly below, here we just want to prevent eating something every second
+    if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
+        !no_food_nearby_for_auto_consume &&
         !p.has_effect( effect_nausea ) ) {
         if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
             int consume_moves = get_auto_consume_moves( p, true );

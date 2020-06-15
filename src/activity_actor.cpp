@@ -1190,8 +1190,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
 {
     item_location null;
-    std::vector<int> values;
-    consume_activity_actor actor( null, values );
+    consume_activity_actor actor( null );
 
     JsonObject data = jsin.get_object();
 
