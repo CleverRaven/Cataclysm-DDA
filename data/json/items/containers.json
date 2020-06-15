@@ -579,16 +579,6 @@
     ]
   },
   {
-    "id": "can_drink_unsealed",
-    "copy-from": "can_drink",
-    "type": "GENERIC",
-    "name": { "str": "opened aluminum can" },
-    "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "carton_sealed",
     "type": "GENERIC",
     "category": "container",
@@ -612,16 +602,6 @@
         "max_contains_weight": "5 kg"
       }
     ]
-  },
-  {
-    "id": "carton_unsealed",
-    "copy-from": "carton_sealed",
-    "type": "GENERIC",
-    "name": { "str": "opened paper carton" },
-    "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  This one is open and its contents will spoil.",
-    "symbol": ")",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "plastic_bag_vac",
@@ -673,16 +653,6 @@
     ]
   },
   {
-    "id": "can_food_unsealed",
-    "copy-from": "can_food",
-    "type": "GENERIC",
-    "name": { "str": "small opened tin can" },
-    "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "can_medium",
     "copy-from": "can_food",
     "type": "GENERIC",
@@ -703,15 +673,6 @@
       }
     ],
     "volume": "503 ml"
-  },
-  {
-    "id": "can_medium_unsealed",
-    "copy-from": "can_medium",
-    "type": "GENERIC",
-    "name": { "str": "medium opened tin can" },
-    "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
-    "looks_like": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "canteen",
@@ -864,16 +825,6 @@
         "max_contains_weight": "1 kg"
       }
     ]
-  },
-  {
-    "id": "cup_plastic_unsealed",
-    "copy-from": "cup_plastic",
-    "type": "GENERIC",
-    "name": { "str": "opened plastic cup" },
-    "description": "A small, vacuum formed cup, essentially trash.",
-    "symbol": ")",
-    "color": "light_cyan",
-    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "flask_glass",
@@ -1581,16 +1532,6 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
-  },
-  {
-    "id": "can_food_big_unsealed",
-    "copy-from": "can_food_big",
-    "type": "GENERIC",
-    "name": { "str": "large opened tin can" },
-    "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "survival_kit_box",
