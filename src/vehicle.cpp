@@ -6538,7 +6538,7 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 
 vehicle_part &vpart_reference::part() const
 {
-    assert( part_index() < vehicle().parts.size() );
+    assert( part_index() < static_cast<size_t>( vehicle().part_count() ) );
     return vehicle().part( part_index() );
 }
 
