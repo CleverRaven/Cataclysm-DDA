@@ -459,8 +459,8 @@
     "components": [
       [
         [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "plastic_chunk", 1 ]
       ],
@@ -485,8 +485,8 @@
     "components": [
       [
         [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "plastic_chunk", 1 ]
       ],

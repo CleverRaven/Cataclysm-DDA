@@ -540,8 +540,8 @@
       [
         [ "clay_teapot", 1 ],
         [ "jug_clay", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "can_drink_unsealed", 1 ],
+        [ "can_food", 1 ],
+        [ "can_drink", 1 ],
         [ "canister_empty", 1 ]
       ]
     ]
@@ -563,8 +563,8 @@
       [
         [ "clay_teapot", 1 ],
         [ "jug_clay", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "can_drink_unsealed", 1 ],
+        [ "can_food", 1 ],
+        [ "can_drink", 1 ],
         [ "canister_empty", 1 ]
       ]
     ]
@@ -1609,7 +1609,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "grenade", 1 ] ],
-      [ [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ]
+      [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -1631,7 +1631,7 @@
         [ "steel_chunk", 1 ],
         [ "canister_empty", 1 ],
         [ "clay_canister", 1 ],
-        [ "can_food_unsealed", 1 ]
+        [ "can_food", 1 ]
       ],
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
@@ -2077,7 +2077,7 @@
     "time": "20 m",
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
+    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4019,7 +4019,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 6 ], [ "aluminum_foil", 40 ] ],
+      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "aluminum_foil", 40 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
     ]

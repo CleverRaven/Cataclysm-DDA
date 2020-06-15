@@ -79,7 +79,7 @@
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ],
       [ [ "paper", 50 ] ],
       [ [ "duct_tape", 20 ] ]
     ]
