@@ -9767,11 +9767,19 @@ point game::place_player( const tripoint &dest_loc )
                     u.activity.targets.emplace_back( map_cursor( u.pos() ), it );
                 }
             }
-        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
+        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
+                   pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const auto pulp = [&]( const tripoint & pos ) {
-                for( const auto &maybe_corpse : m.i_at( pos ) ) {
+                for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
+
+                        if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                            if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+                                continue;
+                            }
+                        }
+
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = g->m.getabs( pos );
                         u.activity.auto_resume = true;
@@ -9781,8 +9789,8 @@ point game::place_player( const tripoint &dest_loc )
                 }
             };
 
-            if( pulp_butcher == "pulp_adjacent" ) {
-                for( auto &elem : adjacentDir ) {
+            if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                for( const direction &elem : adjacentDir ) {
                     pulp( u.pos() + direction_XY( elem ) );
                 }
             } else {
