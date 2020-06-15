@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-#include <damage.h>
+#include "damage.h"
 
 class Character;
 class JsonObject;
