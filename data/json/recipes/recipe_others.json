@@ -2548,7 +2548,7 @@
   },
   {
     "type": "recipe",
-    "result": "can_medium_unsealed",
+    "result": "can_medium",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
