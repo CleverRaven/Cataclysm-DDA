@@ -916,7 +916,6 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    player *patient = dynamic_cast<player *>( current_ally() );
     if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
@@ -1082,18 +1081,21 @@ void npc::execute_action( npc_action action )
             }
             break;
 
-        case npc_heal_player:
-            update_path( patient->pos() );
-            if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( *patient );
-            } else if( !path.empty() ) {
-                say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
-                move_to_next();
-            } else {
-                move_pause();
+        case npc_heal_player: {
+            player *patient = dynamic_cast<player *>( current_ally() );
+            if( patient ) {
+                update_path( patient->pos() );
+                if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
+                    heal_player( *patient );
+                } else if( !path.empty() ) {
+                    say( _( "Hold still %s, I'm coming to help you." ), patient->disp_name() );
+                    move_to_next();
+                } else {
+                    move_pause();
+                }
             }
             break;
-
+        }
         case npc_follow_player:
             update_path( g->u.pos() );
             if( static_cast<int>( path.size() ) <= follow_distance() &&
