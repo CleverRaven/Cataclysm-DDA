@@ -1464,9 +1464,9 @@
     "item": "raft_board",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "CUT", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "rope_natural_short", 1 ] ] }
     },
     "flags": [ "FLOATS" ],
     "breaks_into": [ { "item": "splinter", "count": [ 10, 20 ] } ],
