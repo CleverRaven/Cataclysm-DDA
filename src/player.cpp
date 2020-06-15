@@ -226,9 +226,9 @@ stat_mod player::get_pain_penalty() const
     }
 
     if( !has_trait( trait_INT_SLIME ) ) {
-        ret.intelligence = 1 + stat_penalty;
+        ret.intelligence = stat_penalty;
     } else {
-        ret.intelligence = 1 + pain / 5;
+        ret.intelligence = pain / 5;
     }
 
     ret.perception = stat_penalty * 2 / 3;
