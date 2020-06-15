@@ -537,13 +537,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass", 1 ] ],
-      [
-        [ "clay_teapot", 1 ],
-        [ "jug_clay", 1 ],
-        [ "can_food", 1 ],
-        [ "can_drink", 1 ],
-        [ "canister_empty", 1 ]
-      ]
+      [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -560,13 +554,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass", 1 ] ],
-      [
-        [ "clay_teapot", 1 ],
-        [ "jug_clay", 1 ],
-        [ "can_food", 1 ],
-        [ "can_drink", 1 ],
-        [ "canister_empty", 1 ]
-      ]
+      [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -1607,10 +1595,7 @@
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "grenade", 1 ] ],
-      [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ]
-    ]
+    "components": [ [ [ "grenade", 1 ] ], [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1626,13 +1611,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
-      [
-        [ "scrap", 3 ],
-        [ "steel_chunk", 1 ],
-        [ "canister_empty", 1 ],
-        [ "clay_canister", 1 ],
-        [ "can_food", 1 ]
-      ],
+      [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
         [ "gunpowder", 72 ],
