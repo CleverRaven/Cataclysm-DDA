@@ -2686,11 +2686,11 @@ void veh_interact::display_details( const vpart_info *part )
                     small_mode ? _( "Wgt" ) : _( "Weight" ),
                     convert_weight( item::find_type( part->item )->weight ),
                     weight_units() );
-    if( part->folded_volume != 0_ml ) {
+    if( part->folded_volume ) {
         fold_and_print( w_details, point( col_2, line + 2 ), column_width, c_white,
                         "%s: <color_light_gray>%s %s</color>",
                         small_mode ? _( "FoldVol" ) : _( "Folded Volume" ),
-                        format_volume( part->folded_volume ),
+                        format_volume( *part->folded_volume ),
                         volume_units_abbr() );
     }
 

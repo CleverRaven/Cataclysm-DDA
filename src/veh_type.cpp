@@ -452,7 +452,7 @@ void vpart_info::finalize()
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
     for( auto &e : vpart_info_all ) {
-        if( e.second.folded_volume > 0_ml ) {
+        if( e.second.folded_volume ) {
             e.second.set_flag( "FOLDABLE" );
         }
 
@@ -595,10 +595,10 @@ void vpart_info::check()
         if( part.dmg_mod < 0 ) {
             debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
         }
-        if( part.folded_volume < 0_ml ) {
+        if( part.folded_volume.value_or( 0_ml ) < 0_ml ) {
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
+        if( part.has_flag( "FOLDABLE" ) && part.folded_volume && *part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {

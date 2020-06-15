@@ -3179,7 +3179,7 @@ units::volume vehicle::total_folded_volume() const
         if( vp.part().removed ) {
             continue;
         }
-        m += vp.info().folded_volume;
+        m += vp.info().folded_voluma.value_or( 0_ml );
     }
     return m;
 }

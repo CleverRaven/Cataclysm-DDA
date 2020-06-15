@@ -20,6 +20,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "optional.h"
 
 class player;
 class JsonObject;
@@ -212,8 +213,8 @@ class vpart_info
         /** Default ammo (for turrets) */
         itype_id default_ammo = itype_id::NULL_ID();
 
-        /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
+        /** Volume of a part when folded. If the part is not foldable, this will be empty. */
+        cata::optional<units::volume> folded_volume;
 
         /** Cargo location volume */
         units::volume size = 0_ml;
