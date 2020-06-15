@@ -1453,7 +1453,7 @@
     "type": "vehicle_part",
     "id": "raft_board",
     "name": { "str": "raft boat hull" },
-    "description": "Logs tied togther that will keep your boat out of the water.",
+    "description": "Logs tied together that will keep your boat out of the water.",
     "symbol": "o",
     "looks_like": "t_wall_log",
     "color": "brown",
