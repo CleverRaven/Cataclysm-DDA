@@ -1049,7 +1049,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
                 break;
             case player_display_tab::stats:
                 if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
-                    you.as_avatar()->upgrade_stat_prompt( static_cast<Character::stat>( line ) );
+                    you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
                 }
                 invalidate_tab( curtab );
                 break;
