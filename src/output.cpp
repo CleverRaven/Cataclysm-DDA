@@ -339,8 +339,8 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text )
 {
-    constexpr int text_x = 1;
-    constexpr int text_y = 1;
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    constexpr point text2( 1, 1 );
 
     input_context ctxt( "SCROLLABLE_TEXT" );
     ctxt.register_action( "UP" );
@@ -379,12 +379,12 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_black_white );
-        for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
+        for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
-            print_colored_text( w, point( text_x, pos_y ), dummy, dummy, lines[line] );
+            print_colored_text( w, point( text2.x, pos_y ), dummy, dummy, lines[line] );
         }
-        scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
+        scrollbar().offset_x( width - 1 ).offset_y( text2.y ).content_size( lines.size() )
         .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
         wnoutrefresh( w );
     } );

@@ -42,46 +42,46 @@ inline double iso_tangent( double distance, double vertex )
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
-inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z ) noexcept
+inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
 {
-    return ( ( x > 0 ) ? 2u : ( x < 0 ) ? 1u : 0u ) * 1u +
-           ( ( y > 0 ) ? 2u : ( y < 0 ) ? 1u : 0u ) * 3u +
-           ( ( z > 0 ) ? 2u : ( z < 0 ) ? 1u : 0u ) * 9u;
+    return ( ( p.x > 0 ) ? 2u : ( p.x < 0 ) ? 1u : 0u ) * 1u +
+           ( ( p.y > 0 ) ? 2u : ( p.y < 0 ) ? 1u : 0u ) * 3u +
+           ( ( p.z > 0 ) ? 2u : ( p.z < 0 ) ? 1u : 0u ) * 9u;
 }
 
 // This more general version of this function gives correct values for larger inputs.
 unsigned make_xyz( const tripoint & );
 
 enum class direction : unsigned {
-    ABOVENORTHWEST = make_xyz_unit( -1, -1, -1 ),
-    NORTHWEST      = make_xyz_unit( -1, -1,  0 ),
-    BELOWNORTHWEST = make_xyz_unit( -1, -1,  1 ),
-    ABOVENORTH     = make_xyz_unit( 0, -1, -1 ),
-    NORTH          = make_xyz_unit( 0, -1,  0 ),
-    BELOWNORTH     = make_xyz_unit( 0, -1,  1 ),
-    ABOVENORTHEAST = make_xyz_unit( 1, -1, -1 ),
-    NORTHEAST      = make_xyz_unit( 1, -1,  0 ),
-    BELOWNORTHEAST = make_xyz_unit( 1, -1,  1 ),
+    ABOVENORTHWEST = make_xyz_unit( tripoint_above + tripoint_north_west ),
+    NORTHWEST      = make_xyz_unit( tripoint_north_west ),
+    BELOWNORTHWEST = make_xyz_unit( tripoint_below + tripoint_north_west ),
+    ABOVENORTH     = make_xyz_unit( tripoint_above + tripoint_north ),
+    NORTH          = make_xyz_unit( tripoint_north ),
+    BELOWNORTH     = make_xyz_unit( tripoint_below + tripoint_north ),
+    ABOVENORTHEAST = make_xyz_unit( tripoint_above + tripoint_north_east ),
+    NORTHEAST      = make_xyz_unit( tripoint_north_east ),
+    BELOWNORTHEAST = make_xyz_unit( tripoint_below + tripoint_north_east ),
 
-    ABOVEWEST      = make_xyz_unit( -1,  0, -1 ),
-    WEST           = make_xyz_unit( -1,  0,  0 ),
-    BELOWWEST      = make_xyz_unit( -1,  0,  1 ),
-    ABOVECENTER    = make_xyz_unit( 0,  0, -1 ),
-    CENTER         = make_xyz_unit( 0,  0,  0 ),
-    BELOWCENTER    = make_xyz_unit( 0,  0,  1 ),
-    ABOVEEAST      = make_xyz_unit( 1,  0, -1 ),
-    EAST           = make_xyz_unit( 1,  0,  0 ),
-    BELOWEAST      = make_xyz_unit( 1,  0,  1 ),
+    ABOVEWEST      = make_xyz_unit( tripoint_above + tripoint_west ),
+    WEST           = make_xyz_unit( tripoint_west ),
+    BELOWWEST      = make_xyz_unit( tripoint_below + tripoint_west ),
+    ABOVECENTER    = make_xyz_unit( tripoint_above ),
+    CENTER         = make_xyz_unit( tripoint_zero ),
+    BELOWCENTER    = make_xyz_unit( tripoint_below ),
+    ABOVEEAST      = make_xyz_unit( tripoint_above + tripoint_east ),
+    EAST           = make_xyz_unit( tripoint_east ),
+    BELOWEAST      = make_xyz_unit( tripoint_below + tripoint_east ),
 
-    ABOVESOUTHWEST = make_xyz_unit( -1,  1, -1 ),
-    SOUTHWEST      = make_xyz_unit( -1,  1,  0 ),
-    BELOWSOUTHWEST = make_xyz_unit( -1,  1,  1 ),
-    ABOVESOUTH     = make_xyz_unit( 0,  1, -1 ),
-    SOUTH          = make_xyz_unit( 0,  1,  0 ),
-    BELOWSOUTH     = make_xyz_unit( 0,  1,  1 ),
-    ABOVESOUTHEAST = make_xyz_unit( 1,  1, -1 ),
-    SOUTHEAST      = make_xyz_unit( 1,  1,  0 ),
-    BELOWSOUTHEAST = make_xyz_unit( 1,  1,  1 ),
+    ABOVESOUTHWEST = make_xyz_unit( tripoint_above + tripoint_south_west ),
+    SOUTHWEST      = make_xyz_unit( tripoint_south_west ),
+    BELOWSOUTHWEST = make_xyz_unit( tripoint_below + tripoint_south_west ),
+    ABOVESOUTH     = make_xyz_unit( tripoint_above + tripoint_south ),
+    SOUTH          = make_xyz_unit( tripoint_south ),
+    BELOWSOUTH     = make_xyz_unit( tripoint_below + tripoint_south ),
+    ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
+    SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
+    BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
 };
 
 template< class T >

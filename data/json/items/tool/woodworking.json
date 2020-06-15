@@ -196,7 +196,7 @@
     "to_hit": -3,
     "bashing": 7,
     "cutting": 11,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
@@ -208,7 +208,7 @@
     "type": "TOOL",
     "name": { "str": "metal axe head" },
     "description": "This is a chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well as an axe but really can't compare to a proper axe.",
-    "material": "steel",
+    "material": [ "steel" ],
     "bashing": 8,
     "cutting": 12,
     "flags": [ "SHEATH_AXE" ]

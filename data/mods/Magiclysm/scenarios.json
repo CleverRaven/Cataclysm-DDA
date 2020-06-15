@@ -19,7 +19,14 @@
     "description": "You have been an apprentice to a wizard for some time now, working on a prototype device that could perhaps be used to escape from the Cataclysm.  Something went wrong with the maiden voyage though, and your teacher teleported his insides into his outsides.  Now you have to figure out how to survive on your own.  At least he left his notebook…",
     "start_name": "Wizard's Secret Basement Study",
     "allowed_locs": [ "sloc_magic_basement" ],
-    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
+    "professions": [
+      "wizard_novice",
+      "novice_necromancer",
+      "novice_earthshaper",
+      "novice_technomancer",
+      "novice_stormshaper",
+      "academy_wizard"
+    ]
   },
   {
     "type": "scenario",
@@ -30,6 +37,24 @@
     "description": "You have been an apprentice to a wizard for some time now, you've saved for years for your dream vacation at a secluded wizard tower.  Your journey of self-discovery is interrupted by the Cataclysm.  Now you have to figure out how to survive on your own.",
     "start_name": "Wizard's Retreat Vacation",
     "allowed_locs": [ "sloc_lake_retreat" ],
-    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
+    "professions": [
+      "wizard_novice",
+      "novice_necromancer",
+      "novice_earthshaper",
+      "novice_technomancer",
+      "novice_stormshaper",
+      "academy_wizard"
+    ]
+  },
+  {
+    "type": "scenario",
+    "ident": "Exile",
+    "name": "Exile",
+    "flags": [ "LONE_START" ],
+    "points": 1,
+    "description": "You are an exile, whether because of people shunning you because of who you are or from a personal choice.  The dead aren't willing to leave you be.",
+    "start_name": "Exiled",
+    "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_lmoe", "sloc_lighthouse_ground", "sloc_cabin_lake" ],
+    "professions": [ "druid", "novice_necromancer" ]
   }
 ]

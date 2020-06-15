@@ -628,6 +628,18 @@ class Character : public Creature, public visitable<Character>
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
+
+        void wait_effects( bool attacking = false );
+
+        /** Series of checks to remove effects for waiting or moving */
+        bool try_remove_grab();
+        void try_remove_downed();
+        void try_remove_bear_trap();
+        void try_remove_lightsnare();
+        void try_remove_heavysnare();
+        void try_remove_crushed();
+        void try_remove_webs();
+
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
         move_mode_id current_movement_mode() const;
@@ -828,6 +840,9 @@ class Character : public Creature, public visitable<Character>
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
+        /**Trigger reflex activation if the mutation has one*/
+        void mutation_reflex_trigger( const trait_id &mut );
+
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
@@ -985,7 +1000,7 @@ class Character : public Creature, public visitable<Character>
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchantment::mod value,
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
@@ -999,6 +1014,8 @@ class Character : public Creature, public visitable<Character>
         float mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
         float mabuff_dodge_bonus() const;
+        /** Returns the blocking effectiveness bonus from martial arts buffs */
+        int mabuff_block_effectiveness_bonus() const;
         /** Returns the block bonus from martial arts buffs */
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
@@ -1433,12 +1450,12 @@ class Character : public Creature, public visitable<Character>
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /// Checks for items, tools, and vehicles with the Lifting quality near the character
-        /// returning the highest quality in range.
-        int best_nearby_lifting_assist() const;
+        /// returning the largest weight liftable by an item in range.
+        units::mass best_nearby_lifting_assist() const;
 
         /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
-        int best_nearby_lifting_assist( const tripoint &world_pos ) const;
+        units::mass best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
         // Inventory + weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
@@ -2204,6 +2221,9 @@ class Character : public Creature, public visitable<Character>
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
+
+        // used in debugging all health
+        int get_lowest_hp() const;
 
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;

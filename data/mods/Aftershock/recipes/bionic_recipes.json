@@ -7,15 +7,15 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_augs", 5 ], [ "recipe_lab_elec", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "power_supply", 6 ], [ "UPS_off", 1 ] ],
-      [ [ "amplifier", 4 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_material_1", 6 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
@@ -28,15 +28,15 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 10,
-    "time": 70000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "power_supply", 10 ], [ "UPS_off", 2 ], [ "adv_UPS_off", 1 ] ],
-      [ [ "amplifier", 6 ] ],
+      [ [ "afs_energy_storage_4", 2 ] ],
+      [ [ "afs_material_1", 6 ] ],
       [ [ "plut_cell", 2 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
@@ -49,13 +49,19 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_energy_storage_1", 4 ] ],
+      [ [ "afs_energy_storage_4", 2 ] ],
+      [ [ "afs_material_2", 12 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -65,13 +71,18 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_energy_storage_1", 2 ] ],
+      [ [ "afs_circuitry_2", 2 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -81,13 +92,17 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "tools": [ [ [ "afs_solderers_item", -1 ], [ "toolset", -1 ] ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "adv_UPS_off", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -97,13 +112,19 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_biomaterial_4", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -113,13 +134,18 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "lens", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_neural_io_1", 1 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -129,13 +155,19 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "element", 1 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_biomaterial_4", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -145,16 +177,17 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 8,
-    "time": 50000,
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 8,
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "element", 4 ] ],
-      [ [ "hose", 1 ] ],
-      [ [ "cu_pipe", 6 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_cloth_4", 4 ] ],
+      [ [ "afs_neural_io_3", 1 ] ],
+      [ [ "afs_material_3", 6 ] ],
+      [ [ "afs_material_2", 6 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
@@ -166,17 +199,19 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 100 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 3 ] ],
-      [ [ "cable", 8 ] ],
-      [ [ "transponder", 1 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_material_4", 1 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_material_3", 8 ] ],
+      [ [ "afs_neural_io_3", 1 ] ],
+      [ [ "afs_magnet_4", 1 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
@@ -188,13 +223,19 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 6,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "syringe", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_circuitry_1", 2 ] ],
+      [ [ "syringe", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "afs_material_2", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -204,17 +245,18 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 400 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "spring", 4 ] ],
-      [ [ "plastic_chunk", 3 ] ],
-      [ [ "wire", 3 ] ],
-      [ [ "rag", 8 ], [ "pillow", 2 ] ],
+      [ [ "afs_biomaterial_4", 6 ] ],
+      [ [ "afs_material_3", 12 ] ],
+      [ [ "afs_material_2", 2 ] ],
+      [ [ "afs_circuitry_2", 2 ] ],
+      [ [ "afs_neural_io_2", 2 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
@@ -226,13 +268,21 @@
     "skill_used": "electronics",
     "skills_required": [ [ "firstaid", 4 ], [ "mechanics", 3 ] ],
     "difficulty": 6,
-    "time": 50000,
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 6,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 400 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "spring", 4 ] ], [ [ "afs_scrap_titanium", 4 ] ], [ [ "wire", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "afs_biomaterial_4", 10 ] ],
+      [ [ "afs_circuitry_2", 5 ] ],
+      [ [ "afs_scrap_titanium", 50 ] ],
+      [ [ "afs_material_3", 10 ] ],
+      [ [ "afs_neural_io_2", 10 ] ],
+      [ [ "afs_neural_io_4", 4 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -242,29 +292,19 @@
     "skill_used": "electronics",
     "skills_required": [ [ "firstaid", 4 ] ],
     "difficulty": 6,
-    "time": 50000,
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 6,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "glass_tinted", 4 ] ], [ [ "cable", 7 ] ], [ [ "wire", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "bio_sunglasses",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_CBMS",
-    "skill_used": "electronics",
-    "skills_required": [ [ "firstaid", 4 ] ],
-    "difficulty": 6,
-    "time": 50000,
-    "reversible": true,
-    "decomp_learn": 6,
-    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "glass_tinted", 4 ] ], [ [ "cable", 7 ] ], [ [ "wire", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "glass_tinted", 4 ] ],
+      [ [ "afs_material_1", 3 ] ],
+      [ [ "afs_neural_io_1", 1 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -274,13 +314,19 @@
     "skill_used": "electronics",
     "skills_required": [ [ "firstaid", 5 ], [ "launcher", 3 ] ],
     "difficulty": 8,
-    "time": 50000,
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 9,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "nail", 1 ] ] ]
+    "components": [
+      [ [ "afs_material_3", 4 ] ],
+      [ [ "afs_magnet_3", 1 ] ],
+      [ [ "afs_neural_io_4", 1 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -290,18 +336,24 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": "50 m",
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "BIONIC_ASSEMBLY", "level": 2 }
     ],
-    "components": [ [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ],
+      [ [ "afs_material_3", 4 ] ],
+      [ [ "afs_material_2", 2 ] ],
+      [ [ "afs_neural_io_2", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -311,18 +363,23 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": "50 m",
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "BIONIC_ASSEMBLY", "level": 2 }
     ],
-    "components": [ [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ],
+      [ [ "afs_material_3", 4 ] ],
+      [ [ "afs_neural_io_2", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -332,18 +389,23 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": "50 m",
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "BIONIC_ASSEMBLY", "level": 2 }
     ],
-    "components": [ [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ],
+      [ [ "afs_material_3", 4 ] ],
+      [ [ "afs_neural_io_2", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -353,33 +415,22 @@
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 5 ],
     "difficulty": 6,
-    "time": "50 m",
+    "time": "4 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "BIONIC_ASSEMBLY", "level": 2 }
     ],
-    "components": [ [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_bio_precision_solderers",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_CBMS",
-    "skill_used": "electronics",
-    "skills_required": [ [ "firstaid", 4 ] ],
-    "difficulty": 5,
-    "time": 40000,
-    "reversible": true,
-    "decomp_learn": 7,
-    "book_learn": [ [ "recipe_lab_elec", 4 ], [ "recipe_augs", 4 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "element", 3 ] ], [ [ "cable", 10 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "alloy_sheet", 4 ], [ "alloy_plate", 1 ] ],
+      [ [ "afs_material_3", 4 ] ],
+      [ [ "afs_neural_io_2", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   }
 ]

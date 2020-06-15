@@ -18,15 +18,6 @@
     "difficulty": 4
   },
   {
-    "id": "afs_bio_precision_solderers",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Precision Solderers CBM" },
-    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
-    "price": 20000,
-    "difficulty": 3
-  },
-  {
     "id": "afs_bio_missiles",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

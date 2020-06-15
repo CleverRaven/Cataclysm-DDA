@@ -817,10 +817,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         draw_camp_labels( w, center );
     }
 
-    rectangle screen_bounds( corner.xy(), corner.xy() + point( om_map_width, om_map_height ) );
+    half_open_rectangle screen_bounds( corner.xy(),
+                                       corner.xy() + point( om_map_width, om_map_height ) );
 
-    if( has_target && blink && !screen_bounds.contains_half_open( target.xy() ) ) {
-        point marker = clamp_half_open( target.xy(), screen_bounds ) - corner.xy();
+    if( has_target && blink && !screen_bounds.contains( target.xy() ) ) {
+        point marker = clamp( target.xy(), screen_bounds ) - corner.xy();
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {
@@ -979,6 +980,12 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
+    }
+
+    if( data.debug_editor ) {
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), ccur_ter.id().str() );
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   _( "oter_type: %s" ), ccur_ter->get_type_id().str() );
     }
 
     if( has_target ) {
@@ -1530,6 +1537,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
             path_type ptype;
+            ptype.only_known_by_player = true;
             ptype.avoid_danger = true;
             bool in_vehicle = g->u.in_vehicle && g->u.controlling_vehicle;
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );

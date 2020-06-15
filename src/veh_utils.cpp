@@ -62,7 +62,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
     player &who = static_cast<player &>( who_arg );
     const auto &inv = who.crafting_inventory();
 
-    enum repairable_status {
+    enum class repairable_status {
         not_repairable = 0,
         need_replacement,
         repairable
@@ -70,14 +70,14 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
     std::map<const vehicle_part *, repairable_status> repairable_cache;
     for( const vehicle_part &part : veh.parts ) {
         const auto &info = part.info();
-        repairable_cache[ &part ] = not_repairable;
+        repairable_cache[ &part ] = repairable_status::not_repairable;
         if( part.removed || part.damage() <= 0 ) {
             continue;
         }
 
         if( part.is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[ &part ] = need_replacement;
+                repairable_cache[ &part ] = repairable_status::need_replacement;
             }
 
             continue;
@@ -86,7 +86,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
         if( info.is_repairable() &&
             ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
-            repairable_cache[ &part ] = repairable;
+            repairable_cache[ &part ] = repairable_status::repairable;
         }
     }
 
@@ -102,7 +102,8 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_
     if( high_damage_iterator == veh.parts.end() ||
         high_damage_iterator->removed ||
         !high_damage_iterator->info().is_repairable() ||
-        ( only_repairable && !repairable_cache[ &( *high_damage_iterator ) ] ) ) {
+        ( only_repairable &&
+          repairable_cache[ &( *high_damage_iterator ) ] != repairable_status::not_repairable ) ) {
         static vehicle_part nullpart;
         return nullpart;
     }

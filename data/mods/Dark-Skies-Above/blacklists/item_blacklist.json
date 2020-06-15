@@ -2,6 +2,7 @@
   {
     "//": "blacklists sci-fi items native to cata's default setting, as they don't fit C:DSA's lore at the moment",
     "type": "ITEM_BLACKLIST",
+    "whitelist": false,
     "items": [
       "12mm",
       "20x66_10_mag",

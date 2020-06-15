@@ -84,7 +84,7 @@
     "price": 3500,
     "price_postapoc": 500,
     "bashing": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
     "skill": "cooking",

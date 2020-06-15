@@ -14,6 +14,23 @@
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
   {
+    "id": "afs_solderers_item",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "precision solderers" },
+    "flags": [ "TRADER_AVOID" ],
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
+  },
+  {
+    "id": "afs_bio_precision_solderers",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Precision Solderers CBM" },
+    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
+    "price": 20000,
+    "difficulty": 3
+  },
+  {
     "type": "GENERIC",
     "id": "afs_hauling_space",
     "name": { "str": "hauling space" },

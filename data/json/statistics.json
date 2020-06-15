@@ -316,7 +316,7 @@
     "type": "event_transformation",
     "event_type": "avatar_enters_omt",
     "value_constraints": { "pos": { "equals_statistic": "first_omt" } },
-    "drop_fields": [ "oter_id" ]
+    "drop_fields": [ "pos" ]
   },
   {
     "id": "num_avatar_enter_first_omt",
@@ -325,17 +325,17 @@
     "event_transformation": "avatar_enters_first_omt"
   },
   {
-    "id": "avatar_enters_lab_finale",
+    "id": "avatar_enters_oter_type",
     "type": "event_transformation",
     "event_type": "avatar_enters_omt",
-    "value_constraints": { "oter_id": { "equals": [ "oter_id", "lab_finale" ] } },
+    "new_fields": { "oter_type_id": { "oter_type_of_oter": "oter_id" } },
     "drop_fields": [ "oter_id" ]
   },
   {
-    "id": "num_avatar_enter_lab_finale",
+    "id": "last_oter_type_avatar_entered",
     "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_enters_lab_finale",
-    "description": { "str": "time entered lab finale", "str_pl": "times entered lab finale" }
+    "stat_type": "last_value",
+    "event_transformation": "avatar_enters_oter_type",
+    "field": "oter_type_id"
   }
 ]

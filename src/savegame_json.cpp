@@ -456,7 +456,7 @@ void Character::load( const JsonObject &data )
     if( !data.read( "blood_type", my_blood_type ) ||
         !data.read( "blood_rh_factor", blood_rh_factor ) ) {
         randomize_blood();
-    };
+    }
 
     data.read( "custom_profession", custom_profession );
 
@@ -3517,11 +3517,17 @@ void cata_variant::serialize( JsonOut &jsout ) const
 
 void cata_variant::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
-        jsin.error( "Failed to read cata_variant" );
+    if( jsin.test_int() ) {
+        *this = cata_variant::make<cata_variant_type::int_>( jsin.get_int() );
+    } else if( jsin.test_bool() ) {
+        *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
+    } else {
+        jsin.start_array();
+        if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+            jsin.error( "Failed to read cata_variant" );
+        }
+        jsin.end_array();
     }
-    jsin.end_array();
 }
 
 void event_multiset::serialize( JsonOut &jsout ) const

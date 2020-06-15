@@ -80,14 +80,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
 
-        const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point offset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                            TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( offset_x, offset_y ) );
+        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset );
         w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + offset_x, 1 + offset_y ) );
+                                       offset + point_south_east );
         w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + offset_x, header_height + 1 + offset_y ) );
+                                offset + point( 1, header_height + 1 ) );
 
         ui.position_from_window( w_border );
     };
@@ -283,15 +283,16 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "*", true, false, Creature::A_HOSTILE,
+            current_tab.push_back( rules_class( "*", true, false, Creature::Attitude::HOSTILE,
                                                 get_option<int>( "SAFEMODEPROXIMITY" )
-                                                , HOSTILE_SPOTTED ) );
-            current_tab.push_back( rules_class( "*", true, true, Creature::A_HOSTILE, 5, SOUND ) );
+                                                , Categories::HOSTILE_SPOTTED ) );
+            current_tab.push_back( rules_class( "*", true, true, Creature::Attitude::HOSTILE, 5,
+                                                Categories::SOUND ) );
             line = current_tab.size() - 1;
         } else if( action == "ADD_RULE" ) {
             changes_made = true;
-            current_tab.push_back( rules_class( "", true, false, Creature::A_HOSTILE,
-                                                get_option<int>( "SAFEMODEPROXIMITY" ), HOSTILE_SPOTTED ) );
+            current_tab.push_back( rules_class( "", true, false, Creature::Attitude::HOSTILE,
+                                                get_option<int>( "SAFEMODEPROXIMITY" ), Categories::HOSTILE_SPOTTED ) );
             line = current_tab.size() - 1;
         } else if( action == "REMOVE_RULE" && !current_tab.empty() ) {
             changes_made = true;
@@ -326,11 +327,11 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 catacurses::window w_help;
                 ui_adaptor help_ui;
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
-                    const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-                    const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+                    const point offset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                        TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
                     w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                                                 point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+                                                 offset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
 
                     help_ui.position_from_window( w_help );
                 };
@@ -381,27 +382,27 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             } else if( column == COLUMN_WHITE_BLACKLIST ) {
                 current_tab[line].whitelist = !current_tab[line].whitelist;
             } else if( column == COLUMN_CATEGORY ) {
-                if( current_tab[line].category == HOSTILE_SPOTTED ) {
-                    current_tab[line].category = SOUND;
-                } else if( current_tab[line].category == SOUND ) {
-                    current_tab[line].category = HOSTILE_SPOTTED;
+                if( current_tab[line].category == Categories::HOSTILE_SPOTTED ) {
+                    current_tab[line].category = Categories::SOUND;
+                } else if( current_tab[line].category == Categories::SOUND ) {
+                    current_tab[line].category = Categories::HOSTILE_SPOTTED;
                 }
             } else if( column == COLUMN_ATTITUDE ) {
                 auto &attitude = current_tab[line].attitude;
                 switch( attitude ) {
-                    case Creature::A_HOSTILE:
-                        attitude = Creature::A_NEUTRAL;
+                    case Creature::Attitude::HOSTILE:
+                        attitude = Creature::Attitude::NEUTRAL;
                         break;
-                    case Creature::A_NEUTRAL:
-                        attitude = Creature::A_FRIENDLY;
+                    case Creature::Attitude::NEUTRAL:
+                        attitude = Creature::Attitude::FRIENDLY;
                         break;
-                    case Creature::A_FRIENDLY:
-                        attitude = Creature::A_ANY;
+                    case Creature::Attitude::FRIENDLY:
+                        attitude = Creature::Attitude::ANY;
                         break;
-                    case Creature::A_ANY:
-                        attitude = Creature::A_HOSTILE;
+                    case Creature::Attitude::ANY:
+                        attitude = Creature::Attitude::HOSTILE;
                 }
-            } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == SOUND ||
+            } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == Categories::SOUND ||
                        !current_tab[line].whitelist ) ) {
                 const auto text = string_input_popup()
                                   .title( _( "Proximity Distance (0=max view distance)" ) )
@@ -510,17 +511,17 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     ui_adaptor ui;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-        const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                                   0 );
+        const point offset( 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                            5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                  0 ) );
 
         content_height = FULL_SCREEN_HEIGHT - 8;
         content_width = FULL_SCREEN_WIDTH - 30;
 
         w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-                             point( offset_x, offset_y ) );
+                             offset );
         w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
-                              point( 1 + offset_x, 1 + offset_y ) );
+                              offset + point_south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -598,8 +599,8 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
                          const int proximity_in,
                          const rule_state state_in )
 {
-    character_rules.push_back( rules_class( rule_in, true, ( state_in == RULE_WHITELISTED ),
-                                            attitude_in, proximity_in, HOSTILE_SPOTTED ) );
+    character_rules.push_back( rules_class( rule_in, true, ( state_in == rule_state::WHITELISTED ),
+                                            attitude_in, proximity_in, Categories::HOSTILE_SPOTTED ) );
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
@@ -655,21 +656,21 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
     //may have some performance issues since exclusion needs to check all monsters also
     for( auto &rule : rules_in ) {
         switch( rule.category ) {
-            case HOSTILE_SPOTTED:
+            case Categories::HOSTILE_SPOTTED:
                 if( !rule.whitelist ) {
                     //Check include patterns against all monster mtypes
                     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-                        set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
+                        set_rule( rule, mtype.nname(), rule_state::BLACKLISTED );
                     }
                 } else {
                     //exclude monsters from the existing mapping
                     for( const auto &safemode_rule : safemode_rules_hostile ) {
-                        set_rule( rule, safemode_rule.first, RULE_WHITELISTED );
+                        set_rule( rule, safemode_rule.first, rule_state::WHITELISTED );
                     }
                 }
                 break;
-            case SOUND:
-                set_rule( rule, rule.rule, rule.whitelist ? RULE_WHITELISTED : RULE_BLACKLISTED );
+            case Categories::SOUND:
+                set_rule( rule, rule.rule, rule.whitelist ? rule_state::WHITELISTED : rule_state::BLACKLISTED );
                 break;
             default:
                 break;
@@ -679,22 +680,22 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
 
 void safemode::set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in )
 {
-    static std::vector<Creature::Attitude> attitude_any = { {Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY} };
+    static std::vector<Creature::Attitude> attitude_any = { {Creature::Attitude::HOSTILE, Creature::Attitude::NEUTRAL, Creature::Attitude::FRIENDLY} };
     switch( rule_in.category ) {
-        case HOSTILE_SPOTTED:
+        case Categories::HOSTILE_SPOTTED:
             if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
-                if( rule_in.attitude == Creature::A_ANY ) {
+                if( rule_in.attitude == Creature::Attitude::ANY ) {
                     for( auto &att : attitude_any ) {
-                        safemode_rules_hostile[name_in][att] = rule_state_class( rs_in, rule_in.proximity,
-                                                               HOSTILE_SPOTTED );
+                        safemode_rules_hostile[name_in][static_cast<int>( att )] = rule_state_class( rs_in,
+                                rule_in.proximity, Categories::HOSTILE_SPOTTED );
                     }
                 } else {
-                    safemode_rules_hostile[name_in][rule_in.attitude] = rule_state_class( rs_in, rule_in.proximity,
-                            HOSTILE_SPOTTED );
+                    safemode_rules_hostile[name_in][static_cast<int> ( rule_in.attitude )] = rule_state_class( rs_in,
+                            rule_in.proximity, Categories::HOSTILE_SPOTTED );
                 }
             }
             break;
-        case SOUND:
+        case Categories::SOUND:
             safemode_rules_sound.push_back( rule_in );
             break;
         default:
@@ -709,17 +710,17 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
     const auto iter = safemode_rules_hostile.find( creature_name_in );
     if( iter != safemode_rules_hostile.end() ) {
         const auto &tmp = ( iter->second )[static_cast<int>( attitude_in )];
-        if( tmp.state == RULE_BLACKLISTED ) {
+        if( tmp.state == rule_state::BLACKLISTED ) {
             if( tmp.proximity == 0 || proximity_in <= tmp.proximity ) {
-                return RULE_BLACKLISTED;
+                return rule_state::BLACKLISTED;
             }
 
-        } else if( tmp.state == RULE_WHITELISTED ) {
-            return RULE_WHITELISTED;
+        } else if( tmp.state == rule_state::WHITELISTED ) {
+            return rule_state::WHITELISTED;
         }
     }
 
-    return RULE_NONE;
+    return rule_state::NONE;
 }
 
 bool safemode::is_sound_safe( const std::string &sound_name_in,
@@ -847,7 +848,7 @@ void safemode::deserialize( JsonIn &jsin )
         const Creature::Attitude attitude = static_cast<Creature::Attitude>( jo.get_int( "attitude" ) );
         const int proximity = jo.get_int( "proximity" );
         const Categories cat = jo.has_member( "category" ) ? static_cast<Categories>
-                               ( jo.get_int( "category" ) ) : HOSTILE_SPOTTED;
+                               ( jo.get_int( "category" ) ) : Categories::HOSTILE_SPOTTED;
 
         temp_rules.push_back(
             rules_class( rule, active, whitelist, attitude, proximity, cat )
