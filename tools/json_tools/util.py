@@ -167,8 +167,27 @@ def key_counter(data, where_fn_list):
     stats = Counter()
     matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
     for item in matching_data:
-        # We assume we are working with JSON data and that all keys are strings
-        stats.update(item.keys())
+        # Check each key for nested data
+        for key in item.keys():
+            # Skip comments
+            if key.startswith('//'):
+                continue
+
+            val = item[key]
+            # If value is an object, tally key.subkey for all object subkeys
+            if type(val) == OrderedDict:
+                for subkey in val.keys():
+                    stats[key + '.' + subkey] += 1
+
+            # If value is a list of objects, tally key.subkey for each
+            elif type(val) == list and all(type(e) == OrderedDict for e in val):
+                for obj in val:
+                    for subkey in obj.keys():
+                        stats[key + '.' + subkey] += 1
+
+            # For anything else, it only counts as one
+            else:
+                stats[key] += 1
 
     return stats, len(matching_data)
 
