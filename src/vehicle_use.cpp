@@ -769,6 +769,52 @@ void vehicle::use_controls( const tripoint &pos )
     }
 }
 
+item vehicle::get_folded() const
+{
+    const bool can_be_folded = is_foldable();
+
+    std::string itype_id = "folding_bicycle";
+    for( const auto &elem : tags ) {
+        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
+            itype_id = elem.substr( 12 );
+            break;
+        }
+    }
+    item result( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
+
+    // Store data of all parts, iuse::unfold_bicyle only loads
+    // some of them, some are expect to be
+    // vehicle specific and therefore constant (like id, mount).
+    // Writing everything here is easier to manage, as only
+    // iuse::unfold_bicyle has to adopt to changes.
+    try {
+        std::ostringstream veh_data;
+        JsonOut json( veh_data );
+        json.write( parts );
+        result.set_var( "folding_bicycle_parts", veh_data.str() );
+    } catch( const JsonError &e ) {
+        debugmsg( "Error storing vehicle: %s", e.c_str() );
+    }
+
+    units::mass weight = 0_gram;
+    units::volume volume = 0_ml;
+    for( const auto &part : parts ) {
+        volume += part.info().folded_volume ? *part.info().folded_volume : part.get_base().volume();
+        weight += part.get_base().weight();
+    }
+
+    if( can_be_folded ) {
+        result.set_var( "weight", to_milligram( weight ) );
+        result.set_var( "volume", volume / units::legacy_volume_factor );
+        result.set_var( "name", string_format( _( "folded %s" ), name ) );
+        result.set_var( "vehicle_name", name );
+        // TODO: a better description?
+        result.set_var( "description", string_format( _( "A folded %s." ), name ) );
+    }
+
+    return result;
+}
+
 bool vehicle::fold_up()
 {
     const bool can_be_folded = is_foldable();
@@ -796,16 +842,7 @@ bool vehicle::fold_up()
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 
-    std::string itype_id = "folding_bicycle";
-    for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-            itype_id = elem.substr( 12 );
-            break;
-        }
-    }
-
-    // create a folding [non]bicycle item
-    item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
+    item bicycle = get_folded();
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
@@ -819,29 +856,6 @@ bool vehicle::fold_up()
     }
 
     unboard_all();
-
-    // Store data of all parts, iuse::unfold_bicyle only loads
-    // some of them, some are expect to be
-    // vehicle specific and therefore constant (like id, mount).
-    // Writing everything here is easier to manage, as only
-    // iuse::unfold_bicyle has to adopt to changes.
-    try {
-        std::ostringstream veh_data;
-        JsonOut json( veh_data );
-        json.write( parts );
-        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
-    } catch( const JsonError &e ) {
-        debugmsg( "Error storing vehicle: %s", e.c_str() );
-    }
-
-    if( can_be_folded ) {
-        bicycle.set_var( "weight", to_milligram( total_mass() ) );
-        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-        bicycle.set_var( "vehicle_name", name );
-        // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
-    }
 
     g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );

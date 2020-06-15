@@ -838,6 +838,9 @@ class vehicle
          */
         void use_controls( const tripoint &pos );
 
+        /// @return An item that contains the folded up version of this vehicle.
+        item get_folded() const;
+
         // Fold up the vehicle
         bool fold_up();
 
