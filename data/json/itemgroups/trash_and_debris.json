@@ -36,7 +36,7 @@
       [ "bottle_plastic_small", 1 ],
       [ "bag_canvas", 1 ],
       [ "bag_canvas_small", 1 ],
-      [ "cup_plastic_unsealed", 3 ],
+      [ "cup_plastic", 3 ],
       [ "bottle_glass", 1 ],
       { "group": "tinware", "prob": 3 },
       [ "can_drink", 2 ],
