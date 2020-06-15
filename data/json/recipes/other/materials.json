@@ -8,7 +8,20 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ], [ "tanbark", 1 ], [ "willowbark", 1 ] ] ]
+    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "from_bark",
+    "result": "cordage_6",
+    "result_mult": 6,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "tanbark", 1 ], [ "willowbark", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -19,7 +32,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "cordage_6", 6 ], [ "withered", 6 ], [ "straw_pile", 6 ], [ "tanbark", 6 ], [ "willowbark", 6 ] ] ]
+    "components": [ [ [ "cordage_6", 6 ], [ "withered", 6 ], [ "straw_pile", 6 ], [ "tanbark", 1 ], [ "willowbark", 1 ] ] ]
   },
   {
     "type": "recipe",
