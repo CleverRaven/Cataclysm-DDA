@@ -439,7 +439,7 @@
     "type": "MONSTER",
     "name": { "str": "thorny bear shambler" },
     "copy-from": "mon_zombear",
-    "description": "What once was a bear with long, matted hair twisted with thorny vines that wrap together and then twist back into the body. Long interlocking thorns jut out the sides of its head, dripping with a mysterious silvery liquid.",
+    "description": "What once was a bear with long, matted hair twisted with thorny vines that wrap together and then twist back into the body.  Long interlocking thorns jut out the sides of its head, dripping with a mysterious silvery liquid.",
     "species": [ "ZOMBIE", "PLANT" ],
     "speed": 85,
     "material": [ "veggy" ],
