@@ -12,8 +12,7 @@
       [ 
         [ "withered", 1 ],
         [ "straw_pile", 1 ],
-        [ "tanbark", 1 ],
-        [ "birchbark", 1 ],
+        [ "tanbark", 1 ]
         [ "willowbark", 1 ]
       ]
     ]
@@ -33,7 +32,6 @@
         [ "withered", 6 ],
         [ "straw_pile", 6 ],
         [ "tanbark", 6 ],
-        [ "birchbark", 6 ],
         [ "willowbark", 6 ]
       ]
     ]
