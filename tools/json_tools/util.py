@@ -192,6 +192,25 @@ def key_counter(data, where_fn_list):
     return stats, len(matching_data)
 
 
+def object_value_counter(obj):
+    """Return a Counter tallying all values in the given {dict},
+    recursing into nested dicts and lists.
+    """
+    return list_value_counter(obj.values())
+
+def list_value_counter(_list):
+    """Return a Counter tallying all values in the given {list of dicts}
+    or {list of strs}, recursing into nested dicts and lists.
+    """
+    stats = Counter()
+    for elem in _list:
+        if type(elem) == OrderedDict:
+            stats += object_value_counter(elem)
+        elif type(elem) == list:
+            stats += list_value_counter(elem)
+        else:
+            stats[str(elem)] += 1
+    return stats
 
 def value_counter(data, search_key, where_fn_list):
     """Takes a search_key {str}, and for values found in data {list of dicts}
@@ -202,20 +221,54 @@ def value_counter(data, search_key, where_fn_list):
     """
     stats = Counter()
     matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
+
+    # Search key may use one level of dotted notation to descend into an
+    # dict or list-of-dict in the matching data
+
+    # Exactly one dot is allowed to look in parent_key.child_key
+    if search_key.count('.') == 1:
+        parent_key, child_key = search_key.split('.')
+    # With no dots, just use the plain key
+    elif search_key.count('.') == 0:
+        parent_key = search_key
+        child_key = None
+    else:
+        raise ArgumentError("Only one '.' allowed in search key")
+
     for item in matching_data:
-        if search_key not in item:
+        if parent_key not in item:
             stats['MISSING'] += 1
             continue
 
-        v = item[search_key]
-        if type(v) == list:
-            stats.update(v)
-        elif type(v) == int or type(v) == float:
-            # Cast to string.
-            stats[str(v)] += 1
+        parent_val = item[parent_key]
+
+        stat_vals = []
+
+        # Get value from parent_key.child_key if it's an object
+        if type(parent_val) == OrderedDict and child_key in parent_val:
+            stat_vals.append(parent_val[child_key])
+        # Get values from parent_key.child_key for objects in a list
+        elif type(parent_val) == list and all(type(e) == OrderedDict
+                                              for e in parent_val):
+            for od in parent_val:
+                if child_key in od:
+                    stat_vals.append(od[child_key])
         else:
-            # assume string
-            stats[v] += 1
+            stat_vals.append(parent_val)
+
+        for val in stat_vals:
+            # Cast numbers to strings
+            if type(val) == int or type(val) == float:
+                stats[str(val)] += 1
+            # Pull all values from objects
+            elif type(val) == OrderedDict:
+                stats += list_value_counter(val.values())
+            # Pull values from list of objects or strings
+            elif type(val) == list:
+                stats += list_value_counter(val)
+
+            else:
+                stats[str(val)] += 1
 
     return stats, len(matching_data)
 
