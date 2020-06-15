@@ -295,8 +295,8 @@
     "flags": [ "LOUD" ],
     "sound_type": "combat",
     "sound_description": "arcing electricity!",
-	"min_range": 5,
-	"max_range": 5
+    "min_range": 5,
+    "max_range": 5
   },
   {
     "id": "stormshaper_repelling_arc",
