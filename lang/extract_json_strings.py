@@ -64,8 +64,10 @@ ignore_files = {os.path.normpath(i) for i in {
 ignorable = {
     "ammo_effect",
     "behavior",
+    "charge_removal_blacklist",
     "city_building",
     "colordef",
+    "disease_type",
     "emit",
     "enchantment",
     "event_transformation",
@@ -93,6 +95,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "SCENARIO_BLACKLIST",
     "scent_type",
     "skill_boost",
     "TRAIT_BLACKLIST",
@@ -247,6 +250,9 @@ def extract_martial_art(item):
     if "description" in item:
         writestr(outfile, item["description"],
                  comment="Description for martial art '{}'".format(name))
+    if "initiate" in item:
+        writestr(outfile, item["initiate"], format_strings=True,
+                 comment="initiate message for martial art '{}'".format(name))
     onhit_buffs = item.get("onhit_buffs", list())
     static_buffs = item.get("static_buffs", list())
     onmove_buffs = item.get("onmove_buffs", list())
@@ -641,10 +647,14 @@ def extract_missiondef(item):
 def extract_mutation(item):
     outfile = get_outfile("mutation")
 
-    item_name = found = item.get("name")
+    item_name_or_id = found = item.get("name")
     if found is None:
-        raise WrongJSONItem("JSON item don't contain 'name' field", item)
-    writestr(outfile, found)
+        if "copy-from" in item:
+            item_name_or_id = item["id"]
+        else:
+            raise WrongJSONItem("JSON item don't contain 'name' field", item)
+    else:
+        writestr(outfile, found)
 
     simple_fields = [ "description" ]
 
@@ -652,7 +662,7 @@ def extract_mutation(item):
         found = item.get(f)
         # Need that check due format string argument
         if found is not None:
-            writestr(outfile, found, comment="Description for {}".format(item_name))
+            writestr(outfile, found, comment="Description for {}".format(item_name_or_id))
 
     if "attacks" in item:
         attacks = item.get("attacks")
