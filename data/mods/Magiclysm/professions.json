@@ -237,6 +237,53 @@
   },
   {
     "type": "profession",
+    "ident": "ranger",
+    "name": "Introspectionist",
+    "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone. ",
+    "spells": [ { "id": "magic_missile", "level": 4 } ],
+    "points": 4,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
+    "traits": [ "MAGUS" ],
+    "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ],
+        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "vengpreacher",
+    "name": "Vengeful Preacher",
+    "description": "You lost your faith when your spouse died of illness.  You've been drinking yourself to death ever since.  God is punishing everyone with this apocalypse, you are going to show them your brand of mercy.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "bashing" }, { "level": 1, "name": "gun" } ],
+    "items": {
+      "both": {
+        "items": [
+          "hoodie",
+          "jeans",
+          "socks",
+          "boots",
+          "wristwatch",
+          "holy_symbol",
+          "priest_beginner",
+          "whiskey",
+          "whiskey",
+          "45colt_jhp"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6 } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
+  },
+  {
+    "type": "profession",
     "ident": "techno_prepper",
     "name": "Techno-Prepper",
     "description": "You've long suspected the world might suddenly turn over. With your training, spells, and revolver, your chances are far better than most.",
