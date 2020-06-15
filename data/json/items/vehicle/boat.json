@@ -21,7 +21,7 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "raft boat hull" },
-    "description": "Logs tied together to make a vehicle float. Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
+    "description": "Logs tied together to make a vehicle float.  Add boat hulls to a vehicle until it floats.  Then attach oars or a motor to get the boat to move.",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
