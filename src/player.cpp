@@ -3641,11 +3641,11 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
-    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() - 2 );
+    float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0,
-                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0 );
+    float ambient_light = std::max( 1.0f,
+                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
 
     return std::min( own_light, ambient_light );
 }

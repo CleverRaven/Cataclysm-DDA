@@ -1903,7 +1903,7 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
  * @param pad Reduce table width by padding left side.
  * @param line Line to insert table.
  * @param columns Number of columns. Can be 1.
- * @param nc_color &FG Default color of table text.
+ * @param FG Default color of table text.
  * @param divider To insert a character separating table entries. Can be blank.
  * @param r_align true for right aligned, false for left aligned.
  * @param data Text data to fill.

@@ -1237,7 +1237,7 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
                 }
             }
         }
-        g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
+        g->timed_events.add( timed_event_type::TEMPLE_FLOOD, calendar::turn + 3_turns );
         return true;
     }
     return false;

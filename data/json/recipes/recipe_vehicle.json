@@ -391,6 +391,18 @@
   },
   {
     "type": "recipe",
+    "result": "raft_board",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "log", 4 ] ], [ [ "rope_natural", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "plastic_boat_hull",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",

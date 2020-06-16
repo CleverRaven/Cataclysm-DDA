@@ -475,7 +475,7 @@
     "type": "martial_art",
     "id": "style_mma_stone_dragon",
     "name": { "str": "Stone Dragon" },
-    "description": "The Stone Dragon discipline for focuses on strength, power, and toughness.Its teachings grant a martial adept the ability to splinter steel with a single, focused blow. Stone Dragon's defensive abilities focus on tapping into the enduring power of stone to turn aside attacks.",
+    "description": "The Stone Dragon discipline for focuses on strength, power, and toughness.  Its teachings grant a martial adept the ability to splinter steel with a single, focused blow.  Stone Dragon's defensive abilities focus on tapping into the enduring power of stone to turn aside attacks.",
     "initiate": [ "You dig your heels into the ground and steady yourself.", "%s digs their heels into the ground." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",

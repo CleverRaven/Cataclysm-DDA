@@ -139,9 +139,9 @@ static const mtype_id mon_wolf( "mon_wolf" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 struct mass_volume {
-    units::mass wgt;
-    units::volume vol;
-    int count;
+    units::mass wgt = 0_gram;
+    units::volume vol = 0_ml;
+    int count = 0;
 };
 
 namespace base_camps
