@@ -14,7 +14,7 @@
     "material": [ "glass" ],
     "symbol": "*",
     "color": "yellow",
-    "use_action": "ACIDBOMB_ACT",
+    "use_action": [ "ACIDBOMB_ACT" ],
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
@@ -443,7 +443,7 @@
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
-    "use_action": "FIRECRACKER_PACK"
+    "use_action": [ "FIRECRACKER_PACK" ]
   },
   {
     "id": "firecracker_pack_act",
@@ -768,7 +768,7 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
-    "use_action": "GRENADE_INC_ACT",
+    "use_action": [ "GRENADE_INC_ACT" ],
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID" ]
   },
   {

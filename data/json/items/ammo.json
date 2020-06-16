@@ -110,7 +110,7 @@
     "material": [ "aluminum" ],
     "volume": "10 ml",
     "weight": "4 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200
   },
   {
@@ -244,7 +244,7 @@
     "material": [ "paper" ],
     "weight": "1 g",
     "volume": "100ml",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "stack_size": 200,
     "count": 30,
     "flags": [ "UNRECOVERABLE" ]
@@ -262,7 +262,7 @@
     "material": [ "plastic", "copper" ],
     "volume": "750 ml",
     "weight": "2 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200
   },
   {
@@ -460,7 +460,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "stack_size": 100,
     "count": 20
   },
@@ -478,7 +478,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "stack_size": 100,
     "count": 20
   },
@@ -540,7 +540,7 @@
     "flags": [ "TINDER" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 454,
     "effects": [ "COOKOFF" ]
   },
@@ -612,7 +612,7 @@
     "material": [ "powder" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200,
     "effects": [ "COOKOFF" ]
   },
@@ -630,7 +630,7 @@
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200
   },
   {
@@ -646,7 +646,7 @@
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200,
     "effects": [ "COOKOFF" ]
   },
@@ -663,7 +663,7 @@
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200,
     "effects": [ "COOKOFF" ]
   },
@@ -680,7 +680,7 @@
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200,
     "effects": [ "COOKOFF" ]
   },
@@ -697,7 +697,7 @@
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200,
     "effects": [ "COOKOFF" ]
   },
@@ -714,7 +714,7 @@
     "material": [ "steel", "powder" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200,
     "effects": [ "COOKOFF" ]
   },
@@ -731,7 +731,7 @@
     "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
     "weight": "2 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 25
   },
   {
@@ -746,7 +746,7 @@
     "material": [ "rubber" ],
     "volume": "250 ml",
     "weight": "38 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -762,7 +762,7 @@
     "material": [ "copper" ],
     "volume": "250 ml",
     "weight": "2 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200
   },
   {
@@ -778,7 +778,7 @@
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "3 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 35
   },
   {
@@ -790,7 +790,7 @@
     "color": "red",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
     "volume": "0 ml",
-    "ammo_type": [ "NULL" ],
+    "ammo_type": "NULL",
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -863,7 +863,7 @@
     "weight": "1 mg",
     "flags": [ "TRADER_AVOID" ],
     "phase": "gas",
-    "ammo_type": [ "albuterol" ]
+    "ammo_type": "albuterol"
   },
   {
     "type": "AMMO",
@@ -974,7 +974,7 @@
     "phase": "liquid",
     "volume": "250 ml",
     "weight": "2 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 50
   },
   {
@@ -1108,7 +1108,7 @@
     "material": [ "iron" ],
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 150
   },
   {
@@ -1205,6 +1205,6 @@
     "material": [ "bronze" ],
     "symbol": ",",
     "color": "yellow",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   }
 ]

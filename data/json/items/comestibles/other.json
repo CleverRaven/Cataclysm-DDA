@@ -91,7 +91,7 @@
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
-    "use_action": "MARLOSS",
+    "use_action": [ "MARLOSS" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 20,

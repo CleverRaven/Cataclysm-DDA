@@ -28,7 +28,7 @@
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "hk_mp5",
-        "ammo_type": "9mm",
+        "ammo_type": [ "9mm" ],
         "fake_skills": [ [ "gun", 5 ], [ "smg", 5 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 14, "DEFAULT" ] ],

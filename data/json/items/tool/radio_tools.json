@@ -55,7 +55,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
-    "use_action": "RADIOCAR",
+    "use_action": [ "RADIOCAR" ],
     "flags": [ "RADIO_CONTAINER" ],
     "pocket_data": [
       {
@@ -74,7 +74,7 @@
     "name": { "str": "RC car (on)", "str_pl": "RC cars (on)" },
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
-    "use_action": "RADIOCARON",
+    "use_action": [ "RADIOCARON" ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID" ]
   },
   {

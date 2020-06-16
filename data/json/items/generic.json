@@ -2855,7 +2855,7 @@
     "price_postapoc": 0,
     "weight": "1 g",
     "volume": "250 ml",
-    "use_action": "CRAFT",
+    "use_action": [ "CRAFT" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {

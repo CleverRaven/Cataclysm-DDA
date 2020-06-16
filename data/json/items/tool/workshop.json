@@ -732,7 +732,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER" ],
     "flags": [ "BELT_CLIP" ]
   },
   {

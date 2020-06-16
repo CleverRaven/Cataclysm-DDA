@@ -911,7 +911,7 @@
     ],
     "turns_per_charge": 18,
     "revert_to": "rm13_armor",
-    "use_action": "RM13ARMOR_ON",
+    "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
     "encumbrance": 10,
     "qualities": [ [ "GLARE", 2 ] ],
@@ -1622,7 +1622,7 @@
     "volume": "750 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
     "charges_per_use": 1,
-    "use_action": "JET_INJECTOR",
+    "use_action": [ "JET_INJECTOR" ],
     "material_thickness": 3
   },
   {
@@ -1809,7 +1809,7 @@
     "volume": "2500 ml",
     "to_hit": -3,
     "revert_to": "emer_blanket",
-    "use_action": "PACK_ITEM",
+    "use_action": [ "PACK_ITEM" ],
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
     "warmth": 50,
@@ -1903,7 +1903,7 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
-    "use_action": "PICK_LOCK",
+    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -1918,7 +1918,7 @@
     "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
-    "use_action": "PICK_LOCK",
+    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]
   },

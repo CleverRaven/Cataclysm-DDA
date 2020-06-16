@@ -32,7 +32,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 3 ] ],
-    "use_action": "PICK_LOCK"
+    "use_action": [ "PICK_LOCK" ]
   },
   {
     "id": "iceaxe",

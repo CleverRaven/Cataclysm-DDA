@@ -30,7 +30,7 @@
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "WASH_HARD_ITEMS"
+    "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
     "id": "elec_hairtrimmer",
@@ -122,7 +122,7 @@
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": [ "SHAVEKIT" ]
   },
   {
     "id": "sponge",

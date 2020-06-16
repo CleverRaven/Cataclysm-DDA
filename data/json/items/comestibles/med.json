@@ -1318,7 +1318,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
-    "use_action": "SLEEP"
+    "use_action": [ "SLEEP" ]
   },
   {
     "id": "poppy_pain",
@@ -1361,7 +1361,7 @@
     "color": "magenta",
     "healthy": -2,
     "addiction_type": "opiate",
-    "use_action": "SLEEP"
+    "use_action": [ "SLEEP" ]
   },
   {
     "id": "poppysyrup",

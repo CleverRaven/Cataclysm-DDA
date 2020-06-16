@@ -2129,7 +2129,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "power_draw": 50,       // Energy consumption rate in mW
 "ammo": [ "NULL" ],       // Ammo types used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
-"use_action": "firestarter" // Action performed when tool is used, see special definition below
+"use_action": [ "firestarter" ] // Action performed when tool is used, see special definition below
 ```
 
 ### Seed Data
@@ -2256,7 +2256,7 @@ Possible values are the same as for effects_carried.
 
 (optional, default: empty list)
 
-Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"` and it must have a non-zero max_charges value).
+Effects of the artifact when it's activated (which require it to have a `"use_action": [ "ARTIFACT" ]` and it must have a non-zero max_charges value).
 
 Possible values (see src/artifact.h for an up-to-date list):
 

@@ -32,7 +32,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CAMERA",
+    "use_action": [ "CAMERA" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -150,7 +150,7 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "use_action": "DIRECTIONAL_ANTENNA"
+    "use_action": [ "DIRECTIONAL_ANTENNA" ]
   },
   {
     "id": "e_handcuffs",
@@ -299,7 +299,7 @@
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": "HAND_CRANK",
+    "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -380,7 +380,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "use_action": "MP3",
+    "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "pocket_data": [
       {

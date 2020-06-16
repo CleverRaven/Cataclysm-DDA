@@ -105,7 +105,7 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "use_action": "CARVER_ON",
+    "use_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -125,7 +125,7 @@
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -714,7 +714,7 @@
     "ammo": [ "battery" ],
     "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER",
+    "use_action": [ "MULTICOOKER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1019,7 +1019,7 @@
     "color": "light_blue",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {

@@ -75,6 +75,6 @@
     "symbol": "?",
     "color": "magenta",
     "count": 1,
-    "ammo_type": "mana"
+    "ammo_type": [ "mana" ]
   }
 ]
