@@ -14,7 +14,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "count": 250,
-    "ammo_type": "components"
+    "ammo_type": [ "components" ]
   },
   {
     "id": "dye_powder",
@@ -31,6 +31,6 @@
     "symbol": "=",
     "color": "dark_gray",
     "count": 250,
-    "ammo_type": "components"
+    "ammo_type": [ "components" ]
   }
 ]

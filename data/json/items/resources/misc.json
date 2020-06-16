@@ -78,7 +78,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "count": 200,
-    "ammo_type": "components",
+    "ammo_type": [ "components" ],
     "effects": [ "COOKOFF" ]
   },
   {
@@ -127,7 +127,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "count": 50,
-    "ammo_type": "components",
+    "ammo_type": [ "components" ],
     "effects": [ "COOKOFF" ]
   },
   {
@@ -158,7 +158,7 @@
     "material": [ "rubber" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components"
+    "ammo_type": [ "components" ]
   },
   {
     "id": "esapi_plate",

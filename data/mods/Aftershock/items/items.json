@@ -199,7 +199,7 @@
     "looks_like": "silver_small",
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": [ "components" ]
   },
   {
     "id": "afs_titanium_implant",
