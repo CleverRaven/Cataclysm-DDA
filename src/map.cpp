@@ -124,6 +124,11 @@ static cata::colony<item> nulitems;          // Returned when &i_at() is asked f
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
 static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
 
+map &get_map()
+{
+    return g->m;
+}
+
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it )
 {

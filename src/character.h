@@ -2432,6 +2432,8 @@ class Character : public Creature, public visitable<Character>
         bool last_climate_control_ret;
 };
 
+Character &get_player_character();
+
 // Little size helper, exposed for use in deserialization code.
 creature_size calculate_size( const Character &c );
 

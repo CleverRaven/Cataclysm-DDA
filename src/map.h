@@ -1823,6 +1823,8 @@ class map
         bool need_draw_lower_floor( const tripoint &p );
 };
 
+map &get_map();
+
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 

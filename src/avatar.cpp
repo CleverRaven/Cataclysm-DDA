@@ -121,6 +121,11 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 class JsonIn;
 class JsonOut;
 
+avatar &get_avatar()
+{
+    return g->u;
+}
+
 avatar::avatar()
 {
     show_map_memory = true;

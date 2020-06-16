@@ -12490,3 +12490,13 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
     }
 }
 } // namespace cata_event_dispatch
+
+void game_ui::init_ui()
+{
+    g->init_ui( true );
+}
+
+event_bus &get_event_bus()
+{
+    return g->events();
+}

@@ -265,6 +265,8 @@ class avatar : public player
         monster_visible_info mon_visible;
 };
 
+avatar &get_avatar();
+
 struct points_left {
     int stat_points;
     int trait_points;
