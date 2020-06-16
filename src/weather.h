@@ -19,13 +19,20 @@
  * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
  */
 ///@{
-#define BODYTEMP_FREEZING 500   //!< More aggressive cold effects.
-#define BODYTEMP_VERY_COLD 2000 //!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-#define BODYTEMP_COLD 3500      //!< Frostbite timer will not improve while below this point.
-#define BODYTEMP_NORM 5000      //!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
-#define BODYTEMP_HOT 6500       //!< Level 1 hotness.
-#define BODYTEMP_VERY_HOT 8000  //!< Level 2 hotness.
-#define BODYTEMP_SCORCHING 9500 //!< Level 3 hotness.
+//!< More aggressive cold effects.
+static constexpr int BODYTEMP_FREEZING = 500;
+//!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
+static constexpr int BODYTEMP_VERY_COLD = 2000;
+//!< Frostbite timer will not improve while below this point.
+static constexpr int BODYTEMP_COLD = 3500;
+//!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
+static constexpr int BODYTEMP_NORM = 5000;
+//!< Level 1 hotness.
+static constexpr int BODYTEMP_HOT = 6500;
+//!< Level 2 hotness.
+static constexpr int BODYTEMP_VERY_HOT = 8000;
+//!< Level 3 hotness.
+static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
 #include <string>

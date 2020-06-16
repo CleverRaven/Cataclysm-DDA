@@ -77,7 +77,7 @@ class veh_interact
         const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;
-        int page_size;
+        int page_size = 0;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
         // height of the stats window
         const int stats_h = 8;

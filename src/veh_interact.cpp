@@ -90,7 +90,7 @@ static inline std::string health_color( bool status )
 }
 
 // Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
+static constexpr units::mass JACK_LIMIT = 8500_kilogram; // 8500kg ( 8.5 metric tonnes )
 
 // cap JACK requirements to support arbitrarily large vehicles
 static double jack_quality( const vehicle &veh )
@@ -327,8 +327,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 }
 
 struct veh_interact::install_info_t {
-    int pos;
-    size_t tab;
+    int pos = 0;
+    size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
     std::array<std::string, 8> tab_list;
     std::array<std::string, 8> tab_list_short;

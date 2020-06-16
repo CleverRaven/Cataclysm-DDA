@@ -668,7 +668,7 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 1_minutes );
+    g->timed_events.add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
     if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
         g->u.add_effect( effect_amigara, 2_minutes );
     }
@@ -1248,8 +1248,8 @@ void computer_session::failure_alarm()
     g->events().send<event_type::triggers_alarm>( g->u.getID() );
     sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                    "alarm" );
-    if( g->get_levz() > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-        g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+    if( g->get_levz() > 0 && !g->timed_events.queued( timed_event_type::WANTED ) ) {
+        g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                              g->u.global_sm_location() );
     }
 }
@@ -1330,7 +1330,7 @@ void computer_session::failure_pump_leak()
 
 void computer_session::failure_amigara()
 {
-    g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 30_seconds );
+    g->timed_events.add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
     g->u.add_effect( effect_amigara, 2_minutes );
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                   10,

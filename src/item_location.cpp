@@ -106,7 +106,7 @@ class item_location::impl
         }
         mutable safe_reference<item> what;
         mutable int idx = -1;
-        mutable bool needs_unpacking;
+        mutable bool needs_unpacking = false;
 
     public:
         //Flag that controls whether functions like obtain() should stack the obtained item

@@ -93,7 +93,6 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_BYPRODUCT( "BYPRODUCT" );
 static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );

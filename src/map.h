@@ -111,44 +111,44 @@ class map_stack : public item_stack
 
 struct visibility_variables {
     // Is this struct initialized for current z-level
-    bool variables_set;
-    bool u_sight_impaired;
-    bool u_is_boomered;
+    bool variables_set = false;
+    bool u_sight_impaired = false;
+    bool u_is_boomered = false;
     // Cached values for map visibility calculations
-    int g_light_level;
-    int u_clairvoyance;
-    float vision_threshold;
+    int g_light_level = 0;
+    int u_clairvoyance = 0;
+    float vision_threshold = 0.0f;
 };
 
 struct bash_params {
     // Initial strength
-    int strength;
+    int strength = 0;
     // Make a sound?
-    bool silent;
+    bool silent = false;
     // Essentially infinite bash strength + some
-    bool destroy;
+    bool destroy = false;
     // Do we want to bash floor if no furn/wall exists?
-    bool bash_floor;
+    bool bash_floor = false;
     /**
      * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
      * At 0.0, the bash is against str_min of targeted objects
      * This is required for proper "piercing" bashing, so that one strong hit
      * can destroy a wall and a floor under it rather than only one at a time.
      */
-    float roll;
+    float roll = 0.0f;
     // Was anything hit?
-    bool did_bash;
+    bool did_bash = false;
     // Was anything destroyed?
-    bool success;
+    bool success = false;
     // Did we bash furniture, terrain or vehicle
-    bool bashed_solid;
+    bool bashed_solid = false;
     /*
      * Are we bashing this location from above?
      * Used in determining what sort of terrain the location will turn into,
      * since if we bashed from above and destroyed it, it probably shouldn't
      * have a roof either.
     */
-    bool bashing_from_above;
+    bool bashing_from_above = false;
 };
 
 struct level_cache {
@@ -156,9 +156,9 @@ struct level_cache {
     level_cache();
     level_cache( const level_cache &other ) = default;
 
-    bool transparency_cache_dirty;
-    bool outside_cache_dirty;
-    bool floor_cache_dirty;
+    bool transparency_cache_dirty = false;
+    bool outside_cache_dirty = false;
+    bool floor_cache_dirty = false;
 
     four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
     float sm[MAPSIZE_X][MAPSIZE_Y];
