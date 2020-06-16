@@ -3146,11 +3146,13 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
 
         std::string descr;
         if( reqs_list.empty() ) {
+            //~ 1 is approx. time (e.g. 'about 5 minutes'), 2 is a list of items
             descr = string_format( _( "<bold>Disassembly</bold> takes %s and might yield: %s." ),
                                    approx_time, comps_str );
         } else {
             const std::string reqs_str = enumerate_as_string( reqs_list );
             descr = string_format(
+                        //~ 1 is approx. time, 2 is a list of items and tools, 3 is a list of items
                         _( "<bold>Disassembly</bold> takes %s, requires %s and <bold>might yield</bold>: %s." ),
                         approx_time, reqs_str, comps_str );
         }
