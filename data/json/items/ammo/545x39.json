@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 30,
-    "ammo_type": "545x39",
+    "ammo_type": [ "545x39" ],
     "casing": "545_casing",
     "range": 37,
     "//": ".222 52.8gr Mil FMJ, 21.3gr SF033 fl.",
