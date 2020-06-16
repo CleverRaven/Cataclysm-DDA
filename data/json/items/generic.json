@@ -3094,7 +3094,7 @@
   {
     "id": "pouch_autoclave",
     "type": "AMMO",
-    "ammo_type": "NULL",
+    "ammo_type": [ "NULL" ],
     "category": "other",
     "name": { "str": "autoclave pouch", "str_pl": "autoclave pouches" },
     "description": "A medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, this pouch can keep things sterile indefinitely.",
@@ -3404,7 +3404,7 @@
     "symbol": ".",
     "flags": [ "HURT_WHEN_WIELDED" ],
     "color": "white",
-    "ammo_type": "components"
+    "ammo_type": [ "components" ]
   },
   {
     "id": "clay_pot_flower",
