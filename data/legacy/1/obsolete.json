@@ -343,7 +343,7 @@
   },
   {
     "id": "metal_tank_small",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "symbol": "}",
     "color": "light_cyan",
     "name": "small metal tank",
