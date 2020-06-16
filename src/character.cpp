@@ -388,6 +388,12 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 } // namespace io
 
+Character &get_player_character()
+{
+    return g->u;
+}
+
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -1589,10 +1595,7 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab() ) {
-        return false;
-    }
-    return true;
+    return !has_effect( effect_grabbed ) || attacking || try_remove_grab();
 }
 
 void Character::wait_effects( bool attacking )
@@ -2163,7 +2166,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
-int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
+int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 {
     int ret = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2818,12 +2821,12 @@ units::mass Character::weight_carried() const
     return weight_carried_with_tweaks( item_tweaks() );
 }
 
-int Character::best_nearby_lifting_assist() const
+units::mass Character::best_nearby_lifting_assist() const
 {
     return best_nearby_lifting_assist( this->pos() );
 }
 
-int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
     const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
@@ -2833,10 +2836,11 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
-                     } );
+    int lift_quality = std::max( { this->max_quality( LIFT ), mech_lift,
+                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                                   vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                                 } );
+    return lifting_quality_to_mass( lift_quality );
 }
 
 units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
@@ -2888,9 +2892,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
     // Exclude wielded item if using lifting tool
     if( weaponweight + ret > weight_capacity() ) {
-        const float liftrequirement = std::ceil( units::to_gram<float>( weaponweight ) /
-                                      units::to_gram<float>( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+        if( g->new_game || best_nearby_lifting_assist() < weaponweight ) {
             ret += weaponweight;
         }
     } else {
@@ -3541,10 +3543,10 @@ void Character::reset_stats()
         mod_str_bonus( 20 );
     }
 
-    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
-    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
-    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
-    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
+    mod_str_bonus( get_mod_stat_from_bionic( character_stat::STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( character_stat::DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( character_stat::PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( character_stat::INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -4206,17 +4208,17 @@ void Character::print_health() const
 namespace io
 {
 template<>
-std::string enum_to_string<Character::stat>( Character::stat data )
+std::string enum_to_string<character_stat>( character_stat data )
 {
     switch( data ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return "STR";
-    case Character::stat::DEXTERITY:    return "DEX";
-    case Character::stat::INTELLIGENCE: return "INT";
-    case Character::stat::PERCEPTION:   return "PER";
+    case character_stat::STRENGTH:     return "STR";
+    case character_stat::DEXTERITY:    return "DEX";
+    case character_stat::INTELLIGENCE: return "INT";
+    case character_stat::PERCEPTION:   return "PER";
 
         // *INDENT-ON*
-        case Character::stat::DUMMY_STAT:
+        case character_stat::DUMMY_STAT:
             break;
     }
     abort();
@@ -8190,14 +8192,14 @@ void Character::set_fac_id( const std::string &my_fac_id )
     fac_id = faction_id( my_fac_id );
 }
 
-std::string get_stat_name( Character::stat Stat )
+std::string get_stat_name( character_stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return pgettext( "strength stat", "STR" );
-    case Character::stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
-    case Character::stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
-    case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
+    case character_stat::STRENGTH:     return pgettext( "strength stat", "STR" );
+    case character_stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
+    case character_stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
+    case character_stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
         // *INDENT-ON*
         default:
             break;
@@ -10772,6 +10774,18 @@ bool Character::has_weapon() const
 int Character::get_hp() const
 {
     return get_hp( num_hp_parts );
+}
+
+int Character::get_lowest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int lowest_hp = 999;
+    for( int cur_hp : this->hp_cur ) {
+        if( cur_hp < lowest_hp ) {
+            lowest_hp = cur_hp;
+        }
+    }
+    return lowest_hp;
 }
 
 int Character::get_hp( hp_part bp ) const

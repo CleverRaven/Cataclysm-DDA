@@ -16,7 +16,6 @@
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
@@ -468,7 +467,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
         return false;
     }
 

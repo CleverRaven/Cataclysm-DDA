@@ -89,12 +89,15 @@ static inline std::string health_color( bool status )
     return status ? "<color_light_green>" : "<color_light_red>";
 }
 
+// Cap JACK requirements to support arbitrarily large vehicles.
+static constexpr units::mass JACK_LIMIT = 8500_kilogram; // 8500kg ( 8.5 metric tonnes )
+
 // cap JACK requirements to support arbitrarily large vehicles
 static double jack_quality( const vehicle &veh )
 {
     const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(),
             JACK_LIMIT );
-    return std::ceil( mass / TOOL_LIFT_FACTOR );
+    return std::ceil( mass / lifting_quality_to_mass( 1 ) );
 }
 
 /** Can part currently be reloaded with anything? */
@@ -324,8 +327,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 }
 
 struct veh_interact::install_info_t {
-    int pos;
-    size_t tab;
+    int pos = 0;
+    size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
     std::array<std::string, 8> tab_list;
     std::array<std::string, 8> tab_list_short;
@@ -483,10 +486,11 @@ void veh_interact::cache_tool_availability()
     if( g->u.is_mounted() ) {
         mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
     }
-    max_jack = std::max( { g->u.max_quality( qual_JACK ), mech_jack,
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( qual_JACK ),
-                           vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( qual_JACK )
-                         } );
+    int max_quality = std::max( { g->u.max_quality( qual_JACK ), mech_jack,
+                                  map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( qual_JACK ),
+                                  vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( qual_JACK )
+                                } );
+    max_jack = lifting_quality_to_mass( max_quality );
 }
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
@@ -766,15 +770,15 @@ bool veh_interact::can_install_part()
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
-        use_aid = ( max_jack >= lvl ) || can_self_jack();
+        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
         item base( sel_vpart_info->item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         TOOL_LIFT_FACTOR );
+                         lifting_quality_to_mass( 1 ) );
         str = base.lift_strength();
-        use_aid = max_lift >= lvl;
+        use_aid = max_lift >= base.weight();
         use_str = g->u.can_lift( base );
     }
 
@@ -1766,15 +1770,15 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
-        use_aid = ( max_jack >= lvl ) || can_self_jack();
+        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
         item base( sel_vpart_info->item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         TOOL_LIFT_FACTOR );
+                         lifting_quality_to_mass( 1 ) );
         str = base.lift_strength();
-        use_aid = max_lift >= lvl;
+        use_aid = max_lift >= base.weight();
         use_str = g->u.can_lift( base );
     }
 
@@ -3032,7 +3036,7 @@ void veh_interact::complete_vehicle( player &p )
                                  veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
-                p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) );
+                p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) );
             }
 
             break;
@@ -3160,7 +3164,7 @@ void veh_interact::complete_vehicle( player &p )
                 }
                 for( const std::pair<const skill_id, int> &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
-                    p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
+                    p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) / 2 );
                 }
             }
 

@@ -273,7 +273,7 @@ class uilist // NOLINT(cata-xy)
         size_scalar w_width_setup;
         size_scalar w_height_setup;
 
-        int textwidth;
+        int textwidth = 0;
 
         size_scalar pad_left_setup;
         size_scalar pad_right_setup;
@@ -282,11 +282,11 @@ class uilist // NOLINT(cata-xy)
         // This only serves as a hint, not a hard limit, so the number of lines
         // may still exceed this value when for example the description text is
         // long enough.
-        int desc_lines_hint;
-        bool desc_enabled;
+        int desc_lines_hint = 0;
+        bool desc_enabled = false;
 
-        bool filtering;
-        bool filtering_nocase;
+        bool filtering = false;
+        bool filtering_nocase = false;
 
         // return on selecting disabled entry, default false
         bool allow_disabled = false;
@@ -308,13 +308,13 @@ class uilist // NOLINT(cata-xy)
         std::vector<std::string> textformatted;
 
         catacurses::window window;
-        int w_x;
-        int w_y;
-        int w_width;
-        int w_height;
+        int w_x = 0;
+        int w_y = 0;
+        int w_width = 0;
+        int w_height = 0;
 
-        int pad_left;
-        int pad_right;
+        int pad_left = 0;
+        int pad_right = 0;
 
         int vshift = 0;
 
@@ -329,12 +329,12 @@ class uilist // NOLINT(cata-xy)
         std::unique_ptr<string_input_popup> filter_popup;
         std::string filter;
 
-        int max_entry_len;
-        int max_column_len;
+        int max_entry_len = 0;
+        int max_column_len = 0;
 
         int vmax = 0;
 
-        int desc_lines;
+        int desc_lines = 0;
 
         bool started = false;
 
@@ -342,10 +342,10 @@ class uilist // NOLINT(cata-xy)
         // Results
         // TODO change to getters
         std::string ret_act;
-        int ret;
-        int keypress;
+        int ret = 0;
+        int keypress = 0;
 
-        int selected;
+        int selected = 0;
 };
 
 /**

@@ -400,10 +400,10 @@ static void shadowcasting_3d_2d( const int iterations )
 
 // T, O and V are 'T'ransparent, 'O'paque and 'V'isible.
 // X marks the player location, which is not set to visible by this algorithm.
-#define T LIGHT_TRANSPARENCY_CLEAR
-#define O LIGHT_TRANSPARENCY_SOLID
-#define V LIGHT_TRANSPARENCY_CLEAR
-#define X LIGHT_TRANSPARENCY_SOLID
+static constexpr float T = LIGHT_TRANSPARENCY_CLEAR;
+static constexpr float O = LIGHT_TRANSPARENCY_SOLID;
+static constexpr float V = LIGHT_TRANSPARENCY_CLEAR;
+static constexpr float X = LIGHT_TRANSPARENCY_SOLID;
 
 const point ORIGIN( 65, 65 );
 

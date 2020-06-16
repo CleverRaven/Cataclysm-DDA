@@ -97,7 +97,7 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-#define MON_RADIUS 3
+static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 static void build_mine_room( room_type type, const point &p1, const point &p2, mapgendata &dat );
@@ -5774,6 +5774,12 @@ void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p 
 {
     add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
                spawn_details.data );
+}
+
+void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
+                     int faction_id, int mission_id, const std::string &name ) const
+{
+    add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,

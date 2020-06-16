@@ -629,8 +629,11 @@ void character_edit_menu()
             smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
+            smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
             smenu.query();
             int *bp_ptr = nullptr;
+            bool all_select = false;
+
             switch( smenu.ret ) {
                 case 0:
                     bp_ptr = &p.hp_cur[hp_torso];
@@ -650,6 +653,9 @@ void character_edit_menu()
                 case 5:
                     bp_ptr = &p.hp_cur[hp_leg_r];
                     break;
+                case 6:
+                    all_select = true;
+                    break;
                 default:
                     break;
             }
@@ -658,6 +664,15 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
+                    p.reset_stats();
+                }
+            } else if( all_select ) {
+                int value;
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
+                    value >= 0 ) {
+                    for( int &cur_hp : p.hp_cur ) {
+                        cur_hp = value;
+                    }
                     p.reset_stats();
                 }
             }

@@ -331,9 +331,9 @@ static void do_blast( const tripoint &p, const float power,
 
         struct blastable_part {
             bodypart_id bp;
-            float low_mul;
-            float high_mul;
-            float armor_mul;
+            float low_mul = 0.0f;
+            float high_mul = 0.0f;
+            float armor_mul = 0.0f;
         };
 
         static const std::array<blastable_part, 6> blast_parts = { {

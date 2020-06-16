@@ -121,6 +121,11 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 class JsonIn;
 class JsonOut;
 
+avatar &get_avatar()
+{
+    return g->u;
+}
+
 avatar::avatar()
 {
     show_map_memory = true;
@@ -1379,7 +1384,7 @@ static int xp_to_next( const avatar &you )
     return xp_next;
 }
 
-void avatar::upgrade_stat_prompt( const Character::stat &stat )
+void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
     const int next_lvl_xp = xp_to_next( *this );
@@ -1391,19 +1396,19 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 
     std::string stat_string;
     switch( stat ) {
-        case STRENGTH:
+        case character_stat::STRENGTH:
             stat_string = _( "strength" );
             break;
-        case DEXTERITY:
+        case character_stat::DEXTERITY:
             stat_string = _( "dexterity" );
             break;
-        case INTELLIGENCE:
+        case character_stat::INTELLIGENCE:
             stat_string = _( "intelligence" );
             break;
-        case PERCEPTION:
+        case character_stat::PERCEPTION:
             stat_string = _( "perception" );
             break;
-        case DUMMY_STAT:
+        case character_stat::DUMMY_STAT:
             stat_string = _( "invalid stat" );
             debugmsg( "Tried to use invalid stat" );
             break;
@@ -1414,19 +1419,19 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
     if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         switch( stat ) {
-            case STRENGTH:
+            case character_stat::STRENGTH:
                 str_upgrade++;
                 break;
-            case DEXTERITY:
+            case character_stat::DEXTERITY:
                 dex_upgrade++;
                 break;
-            case INTELLIGENCE:
+            case character_stat::INTELLIGENCE:
                 int_upgrade++;
                 break;
-            case PERCEPTION:
+            case character_stat::PERCEPTION:
                 per_upgrade++;
                 break;
-            case DUMMY_STAT:
+            case character_stat::DUMMY_STAT:
                 debugmsg( "Tried to use invalid stat" );
                 break;
         }

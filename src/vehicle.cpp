@@ -1717,7 +1717,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         std::vector<int> carry_parts_here;
 
         // the index where the racking part is on the vehicle with the rack
-        int rack_part;
+        int rack_part = 0;
 
         // the mount point we are going to add to the vehicle with the rack
         point carry_mount;

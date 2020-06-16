@@ -433,14 +433,14 @@ class lockpick_activity_actor : public activity_actor
             const cata::optional<item> &fake_lockpick,
             const tripoint &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
-            target( target ) {};
+            target( target ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_LOCKPICK" );
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &who ) override;
 
         static cata::optional<tripoint> select_location( avatar &you );

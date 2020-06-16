@@ -115,7 +115,7 @@ class bite_actor : public melee_actor
     public:
         // one_in( this - damage dealt ) chance of getting infected
         // i.e. the higher is this, the lower chance of infection
-        int no_infection_chance;
+        int no_infection_chance = 0;
 
         bite_actor();
         ~bite_actor() override = default;

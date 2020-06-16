@@ -424,8 +424,7 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 35,
-    "encumbrance": 2,
-    "max_encumbrance": 15,
+    "encumbrance": 25,
     "longest_side": "900 cm",
     "//": "The main section of the golf bag actually assumes things will stick out of it, but specifically contains them, so some extra wiggle room was added.",
     "pocket_data": [
