@@ -1,7 +1,6 @@
 #include <string>
 
 #include "behavior.h"
-#include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "monster.h"
@@ -17,7 +16,8 @@ status_t monster_oracle_t::not_hallucination( const std::string & ) const
 
 status_t monster_oracle_t::items_available( const std::string & ) const
 {
-    if( !g->m.has_flag( TFLAG_SEALED, subject->pos() ) && g->m.has_items( subject->pos() ) ) {
+    if( !get_map().has_flag( TFLAG_SEALED, subject->pos() ) &&
+        get_map().has_items( subject->pos() ) ) {
         return status_t::running;
     }
     return status_t::failure;
@@ -26,8 +26,8 @@ status_t monster_oracle_t::items_available( const std::string & ) const
 // TODO: Have it select a target and stash it somewhere.
 status_t monster_oracle_t::adjacent_plants( const std::string & ) const
 {
-    for( const tripoint &p : g->m.points_in_radius( subject->pos(), 1 ) ) {
-        if( g->m.has_flag( "PLANT", p ) ) {
+    for( const tripoint &p : get_map().points_in_radius( subject->pos(), 1 ) ) {
+        if( get_map().has_flag( "PLANT", p ) ) {
             return status_t::running;
         }
     }

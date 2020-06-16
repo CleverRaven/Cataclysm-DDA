@@ -271,4 +271,6 @@ class weather_manager
         void clear_temp_cache();
 };
 
+weather_manager &get_weather();
+
 #endif // CATA_SRC_WEATHER_H

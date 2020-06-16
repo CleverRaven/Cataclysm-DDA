@@ -9,9 +9,7 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
-#include "game.h"
 #include "map.h"
 #include "player.h"
 #include "veh_type.h"
@@ -28,11 +26,6 @@
 
 namespace veh_utils
 {
-
-int calc_xp_gain( const vpart_info &vp, const skill_id &sk )
-{
-    return calc_xp_gain( vp, sk, g->u );
-}
 
 int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who )
 {
@@ -56,10 +49,8 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
                       to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )
+vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
 {
-    // TODO: Get rid of this cast after moving relevant functions down to Character
-    player &who = static_cast<player &>( who_arg );
     const auto &inv = who.crafting_inventory();
 
     enum class repairable_status {
@@ -153,7 +144,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     who.invalidate_crafting_inventory();
 
     for( const auto &sk : pt.is_broken() ? vp.install_skills : vp.repair_skills ) {
-        who.practice( sk.first, calc_xp_gain( vp, sk.first ) );
+        who.practice( sk.first, calc_xp_gain( vp, sk.first, who ) );
     }
 
     // If part is broken, it will be destroyed and references invalidated
@@ -165,7 +156,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
-        g->m.spawn_items( who.pos(), pt.pieces_for_broken_part() );
+        get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
         const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
         veh.parts[partnum].direction = dir;
