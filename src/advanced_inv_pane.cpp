@@ -81,30 +81,18 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
 }
 
 /** converts a raw list of items to "stacks" - itms that are not count_by_charges that otherwise stack go into one stack */
-static std::list<std::list<item *>> item_list_to_stack( std::list<item *> item_list )
+static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> item_list )
 {
-    std::list<std::list<item *>> ret;
-    for( auto iter_outer = item_list.begin(); iter_outer != item_list.end(); ) {
-        std::list<item *> item_stack{};
-        for( auto iter_inner = item_list.begin(); iter_inner != item_list.end(); ) {
-            if( iter_outer == iter_inner ) {
-                ++iter_inner;
-            } else if( ( *iter_outer )->display_stacked_with( **iter_inner ) ) {
-                if( item_stack.empty() ) {
-                    item_stack.push_back( *iter_outer );
-                }
+    std::vector<std::vector<item *>> ret;
+    for( auto iter_outer = item_list.begin(); iter_outer != item_list.end(); ++iter_outer ) {
+        std::vector<item *> item_stack( { *iter_outer } );
+        for( auto iter_inner = std::next( iter_outer ); iter_inner != item_list.end(); ) {
+            if( ( *iter_outer )->display_stacked_with( **iter_inner ) ) {
                 item_stack.push_back( *iter_inner );
                 iter_inner = item_list.erase( iter_inner );
             } else {
                 ++iter_inner;
             }
-        }
-
-        if( item_stack.empty() && !item_list.empty() ) {
-            item_stack.push_back( *iter_outer );
-            iter_outer = item_list.erase( iter_outer );
-        } else {
-            ++iter_outer;
         }
         ret.push_back( item_stack );
     }
@@ -122,7 +110,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
         if( worn_item.contents.empty() ) {
             continue;
         }
-        for( const std::list<item *> &it_stack : item_list_to_stack(
+        for( const std::vector<item *> &it_stack : item_list_to_stack(
                  worn_item.contents.all_items_top() ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {

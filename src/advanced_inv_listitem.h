@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ADVANCED_INV_LISTITEM_H
 #define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
-#include <list>
 #include <string>
+#include <vector>
 
 #include "type_id.h"
 #include "units.h"
@@ -32,7 +32,7 @@ class advanced_inv_listitem
         // the id of the item
         itype_id id;
         // The list of items
-        std::list<item *> items;
+        std::vector<item *> items;
         /**
          * The displayed name of the item.
          */
@@ -83,7 +83,7 @@ class advanced_inv_listitem
          * @param area The source area. Must not be AIM_ALL.
          * @param from_vehicle Is the item from a vehicle cargo space?
          */
-        advanced_inv_listitem( const std::list<item *> &list, int index,
+        advanced_inv_listitem( const std::vector<item *> &list, int index,
                                aim_location area, bool from_vehicle );
 };
 #endif // CATA_SRC_ADVANCED_INV_LISTITEM_H

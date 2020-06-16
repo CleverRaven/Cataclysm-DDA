@@ -23,7 +23,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     assert( stacks >= 1 );
 }
 
-advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int index,
+advanced_inv_listitem::advanced_inv_listitem( const std::vector<item *> &list, int index,
         aim_location area, bool from_vehicle ) :
     idx( index ),
     area( area ),

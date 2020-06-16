@@ -1161,7 +1161,7 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
             }
             g->u.activity.values.push_back( amount_to_move );
         } else {
-            for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+            for( auto it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
                 if( from_vehicle ) {
                     g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
@@ -1186,7 +1186,7 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
             }
             quantities.push_back( amount_to_move );
         } else {
-            for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+            for( auto it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
                 if( from_vehicle ) {
                     target_items.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
