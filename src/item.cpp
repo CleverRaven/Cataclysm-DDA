@@ -3122,17 +3122,41 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
-        const requirement_data::alter_item_comp_vector &components = req.get_components();
-        const std::string components_list = enumerate_as_string( components.begin(), components.end(),
-        []( const std::vector<item_comp> &comps ) {
-            return comps.front().to_string();
+        const std::string approx_time = to_string_approx( time_duration::from_turns( dis.time / 100 ) );
+
+        const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
+        const std::string comps_str = enumerate_as_string( comps_list.begin(), comps_list.end(),
+        []( const std::vector<item_comp> &comp_opts ) {
+            return comp_opts.front().to_string();
         } );
+
+        std::vector<std::string> reqs_list;
+        const requirement_data::alter_tool_comp_vector &tools_list = req.get_tools();
+        for( const std::vector<tool_comp> &it : tools_list ) {
+            if( !it.empty() ) {
+                reqs_list.push_back( it.front().to_string() );
+            }
+        }
+        const requirement_data::alter_quali_req_vector &quals_list = req.get_qualities();
+        for( const std::vector<quality_requirement> &it : quals_list ) {
+            if( !it.empty() ) {
+                reqs_list.push_back( it.front().to_colored_string() );
+            }
+        }
+
+        std::string descr;
+        if( reqs_list.empty() ) {
+            descr = string_format( _( "<bold>Disassembly</bold> takes %s and might yield: %s." ),
+                                   approx_time, comps_str );
+        } else {
+            const std::string reqs_str = enumerate_as_string( reqs_list );
+            descr = string_format(
+                        _( "<bold>Disassembly</bold> takes %s, requires %s and <bold>might yield</bold>: %s." ),
+                        approx_time, reqs_str, comps_str );
+        }
+
         insert_separation_line( info );
-        info.push_back( iteminfo( "DESCRIPTION",
-                                  string_format( _( "<bold>Disassembly</bold> takes %s and "
-                                          "might yield: %s." ),
-                                          to_string_approx( time_duration::from_turns( dis.time /
-                                                  100 ) ), components_list ) ) );
+        info.push_back( iteminfo( "DESCRIPTION", descr ) );
     }
 }
 
