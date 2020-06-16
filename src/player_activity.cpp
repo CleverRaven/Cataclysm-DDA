@@ -8,7 +8,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "construction.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -156,7 +155,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
 
         if( type == activity_id( "ACT_BUILD" ) ) {
-            partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
+            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;

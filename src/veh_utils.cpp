@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "game.h"
 #include "map.h"
 #include "player.h"
 #include "veh_type.h"
@@ -157,7 +156,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
-        g->m.spawn_items( who.pos(), pt.pieces_for_broken_part() );
+        get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
         const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
         veh.parts[partnum].direction = dir;

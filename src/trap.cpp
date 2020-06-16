@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "event.h"
 #include "event_bus.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "item.h"
@@ -237,7 +236,7 @@ void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
-                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+                get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }
     }
