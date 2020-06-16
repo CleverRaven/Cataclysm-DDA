@@ -370,6 +370,11 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 
 } // namespace io
 
+Character &get_player_character()
+{
+    return g->u;
+}
+
 
 // *INDENT-OFF*
 Character::Character() :
@@ -2040,7 +2045,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
-int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
+int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 {
     int ret = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -3338,10 +3343,10 @@ void Character::reset_stats()
         mod_str_bonus( 20 );
     }
 
-    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
-    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
-    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
-    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
+    mod_str_bonus( get_mod_stat_from_bionic( character_stat::STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( character_stat::DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( character_stat::PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( character_stat::INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -3999,17 +4004,17 @@ void Character::print_health() const
 namespace io
 {
 template<>
-std::string enum_to_string<Character::stat>( Character::stat data )
+std::string enum_to_string<character_stat>( character_stat data )
 {
     switch( data ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return "STR";
-    case Character::stat::DEXTERITY:    return "DEX";
-    case Character::stat::INTELLIGENCE: return "INT";
-    case Character::stat::PERCEPTION:   return "PER";
+    case character_stat::STRENGTH:     return "STR";
+    case character_stat::DEXTERITY:    return "DEX";
+    case character_stat::INTELLIGENCE: return "INT";
+    case character_stat::PERCEPTION:   return "PER";
 
         // *INDENT-ON*
-        case Character::stat::DUMMY_STAT:
+        case character_stat::DUMMY_STAT:
             break;
     }
     abort();
@@ -7489,14 +7494,14 @@ void Character::set_fac_id( const std::string &my_fac_id )
     fac_id = faction_id( my_fac_id );
 }
 
-std::string get_stat_name( Character::stat Stat )
+std::string get_stat_name( character_stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return pgettext( "strength stat", "STR" );
-    case Character::stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
-    case Character::stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
-    case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
+    case character_stat::STRENGTH:     return pgettext( "strength stat", "STR" );
+    case character_stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
+    case character_stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
+    case character_stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
         // *INDENT-ON*
         default:
             return pgettext( "fake stat there's an error", "ERR" );

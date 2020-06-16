@@ -270,6 +270,14 @@ inline social_modifiers operator+( social_modifiers lhs, const social_modifiers 
     return lhs;
 }
 
+enum class character_stat : char {
+    STRENGTH,
+    DEXTERITY,
+    INTELLIGENCE,
+    PERCEPTION,
+    DUMMY_STAT
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -304,14 +312,6 @@ class Character : public Creature, public visitable<Character>
             slightly_comfortable = 3,
             comfortable = 5,
             very_comfortable = 10
-        };
-
-        enum stat {
-            STRENGTH,
-            DEXTERITY,
-            INTELLIGENCE,
-            PERCEPTION,
-            DUMMY_STAT
         };
 
         // Character stats
@@ -1046,7 +1046,7 @@ class Character : public Creature, public visitable<Character>
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
-        int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
+        int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint> omt_path;
 
@@ -2304,12 +2304,14 @@ class Character : public Creature, public visitable<Character>
         bool last_climate_control_ret;
 };
 
+Character &get_player_character();
+
 template<>
-struct enum_traits<Character::stat> {
-    static constexpr Character::stat last = Character::stat::DUMMY_STAT;
+struct enum_traits<character_stat> {
+    static constexpr character_stat last = character_stat::DUMMY_STAT;
 };
 /**Get translated name of a stat*/
-std::string get_stat_name( Character::stat Stat );
+std::string get_stat_name( character_stat Stat );
 
 // TODO: Move to its own file (it's not Character-specific)
 namespace vision

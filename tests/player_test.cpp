@@ -5,7 +5,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "player.h"
 #include "weather.h"
 #include "bodypart.h"
@@ -15,6 +14,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "weather.h"
+#include "game.h"
 
 // Run update_bodytemp() until core body temperature settles.
 static int converge_temperature( player &p )
@@ -54,15 +54,15 @@ static int converge_temperature( player &p )
 static int find_converging_temp( player &p, int expected_ambient, int expected_bodytemp )
 {
     constexpr int tol = 100;
-    REQUIRE( !g->m.has_flag( TFLAG_SWIMMABLE, p.pos() ) );
-    REQUIRE( !g->m.has_flag( TFLAG_DEEP_WATER, p.pos() ) );
+    REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
+    REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     int actual_ambient = expected_ambient;
     int step = 2 * 128;
     do {
         step /= 2;
-        g->weather.temperature = actual_ambient;
-        g->weather.clear_temp_cache();
-        const int actual_temperature = g->weather.get_temperature( p.pos() );
+        get_weather().temperature = actual_ambient;
+        get_weather().clear_temp_cache();
+        const int actual_temperature = get_weather().get_temperature( p.pos() );
         REQUIRE( actual_temperature == actual_ambient );
 
         int converged_temperature = converge_temperature( p );
@@ -104,16 +104,15 @@ static void test_temperature_spread( player &p, const std::array<int, 7> &expect
 TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]" )
 {
     clear_map();
-    clear_avatar();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();
 
-    REQUIRE( !g->m.has_flag( TFLAG_SWIMMABLE, pos ) );
-    REQUIRE( !g->m.has_flag( TFLAG_DEEP_WATER, pos ) );
+    REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
+    REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    g->weather.weather = WEATHER_CLOUDY;
-    g->weather.windspeed = 0;
+    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().windspeed = 0;
 
     SECTION( "Nude target temperatures." ) {
         test_temperature_spread( dummy, {{ 8, 35, 64, 82, 98, 110, 122 }} );
@@ -167,15 +166,15 @@ TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]
 static int find_converging_water_temp( player &p, int expected_water, int expected_bodytemp )
 {
     constexpr int tol = 100;
-    REQUIRE( g->m.has_flag( TFLAG_SWIMMABLE, p.pos() ) );
-    REQUIRE( g->m.has_flag( TFLAG_DEEP_WATER, p.pos() ) );
+    REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
+    REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     int actual_water = expected_water;
     int step = 2 * 128;
     do {
         step /= 2;
-        g->weather.water_temperature = actual_water;
-        g->weather.clear_temp_cache();
-        const int actual_temperature = g->weather.get_water_temperature( p.pos() );
+        get_weather().water_temperature = actual_water;
+        get_weather().clear_temp_cache();
+        const int actual_temperature = get_weather().get_water_temperature( p.pos() );
         REQUIRE( actual_temperature == actual_water );
 
         int converged_temperature = converge_temperature( p );
@@ -212,15 +211,15 @@ TEST_CASE( "Player body temperatures in water.", "[.bodytemp]" )
 {
     clear_map();
     clear_avatar();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();
 
-    g->m.ter_set( pos, t_water_dp );
-    REQUIRE( g->m.has_flag( TFLAG_SWIMMABLE, pos ) );
-    REQUIRE( g->m.has_flag( TFLAG_DEEP_WATER, pos ) );
+    get_map().ter_set( pos, t_water_dp );
+    REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
+    REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    g->weather.weather = WEATHER_CLOUDY;
+    get_weather().weather = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 
@@ -258,8 +257,8 @@ TEST_CASE( "Player body temperatures in water.", "[.bodytemp]" )
 static void hypothermia_check( player &p, int water_temperature, time_duration expected_time,
                                int expected_temperature )
 {
-    g->weather.water_temperature = water_temperature;
-    g->weather.clear_temp_cache();
+    get_weather().water_temperature = water_temperature;
+    get_weather().clear_temp_cache();
     int expected_turns = to_turns<int>( expected_time );
     int lower_bound = expected_turns * 0.8f;
     int upper_bound = expected_turns * 1.2f;
@@ -281,15 +280,15 @@ TEST_CASE( "Water hypothermia check.", "[.bodytemp]" )
 {
     clear_map();
     clear_avatar();
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();
 
-    g->m.ter_set( pos, t_water_dp );
-    REQUIRE( g->m.has_flag( TFLAG_SWIMMABLE, pos ) );
-    REQUIRE( g->m.has_flag( TFLAG_DEEP_WATER, pos ) );
+    get_map().ter_set( pos, t_water_dp );
+    REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
+    REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    g->weather.weather = WEATHER_CLOUDY;
+    get_weather().weather = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 

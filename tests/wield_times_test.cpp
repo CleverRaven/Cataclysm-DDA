@@ -5,7 +5,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player.h"
@@ -41,7 +40,8 @@ static void wield_check_internal( player &dummy, item &the_item, const char *sec
 
 static void do_test( const bool generating_cases )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
+    map &m = get_map();
     const tripoint spot = dummy.pos();
 
     dummy.worn.clear();
@@ -53,7 +53,7 @@ static void do_test( const bool generating_cases )
     wield_check( "Wielding combat knife from inventory while unencumbered", dummy,
                  dummy.i_add( item( "knife_combat" ) ), 125 );
     wield_check( "Wielding metal tank from outside inventory while unencumbered", dummy,
-                 g->m.add_item( spot, item( "metal_tank" ) ), 300 );
+                 m.add_item( spot, item( "metal_tank" ) ), 300 );
 
     dummy.worn = {{ item( "gloves_work" ) }};
     dummy.reset_encumbrance();
@@ -64,7 +64,7 @@ static void do_test( const bool generating_cases )
     wield_check( "Wielding combat knife from inventory while wearing work gloves", dummy,
                  dummy.i_add( item( "knife_combat" ) ), 150 );
     wield_check( "Wielding metal tank from outside inventory while wearing work gloves", dummy,
-                 g->m.add_item( spot, item( "metal_tank" ) ), 340 );
+                 m.add_item( spot, item( "metal_tank" ) ), 340 );
 
     dummy.worn = {{ item( "boxing_gloves" ) }};
     dummy.reset_encumbrance();
@@ -75,7 +75,7 @@ static void do_test( const bool generating_cases )
     wield_check( "Wielding combat knife from inventory while wearing boxing gloves", dummy,
                  dummy.i_add( item( "knife_combat" ) ), 200 );
     wield_check( "Wielding metal tank from outside inventory while wearing boxing gloves", dummy,
-                 g->m.add_item( spot, item( "metal_tank" ) ), 400 );
+                 m.add_item( spot, item( "metal_tank" ) ), 400 );
 }
 
 TEST_CASE( "Wield time test", "[wield]" )

@@ -2557,7 +2557,7 @@ void load_bionic( const JsonObject &jsobj )
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
     for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
-        new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
+        new_bionic.stat_bonus.emplace( io::string_to_enum<character_stat>( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 
