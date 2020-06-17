@@ -1936,9 +1936,6 @@ void monster::load( const JsonObject &data )
         baby_timer.reset();
     }
 
-    biosignatures = data.get_bool( "biosignatures", type->biosignatures );
-    biosig_timer = data.get_int( "biosig_timer", -1 );
-
     data.read( "udder_timer", udder_timer );
 
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
@@ -2029,8 +2026,6 @@ void monster::store( JsonOut &json ) const
     json.member( "last_updated", last_updated );
     json.member( "reproduces", reproduces );
     json.member( "baby_timer", baby_timer );
-    json.member( "biosignatures", biosignatures );
-    json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
 
     json.member( "summon_time_limit", summon_time_limit );

@@ -4252,7 +4252,6 @@ void game::monmove()
             if( critter.has_flag( MF_MILKABLE ) ) {
                 critter.refill_udders();
             }
-            critter.try_biosignature();
             critter.try_reproduce();
         }
         while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {

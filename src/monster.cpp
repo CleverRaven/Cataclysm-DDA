@@ -210,7 +210,6 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    biosig_timer = -1;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
 }
@@ -231,7 +230,6 @@ monster::monster( const mtype_id &id ) : monster()
     ammo = type->starting_ammo;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
-    biosignatures = type->biosignatures;
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
@@ -297,7 +295,6 @@ void monster::poly( const mtype_id &id )
     faction = type->default_faction;
     upgrades = type->upgrades;
     reproduces = type->reproduces;
-    biosignatures = type->biosignatures;
 }
 
 bool monster::can_upgrade()
@@ -495,31 +492,6 @@ void monster::refill_udders()
         // no point granularizing this really, you milk once a day.
         ammo.begin()->second = type->starting_ammo.begin()->second;
         udder_timer = calendar::turn;
-    }
-}
-
-void monster::try_biosignature()
-{
-    if( !biosignatures ) {
-        return;
-    }
-    if( !type->biosig_timer ) {
-        return;
-    }
-
-    if( !biosig_timer ) {
-        biosig_timer.emplace( calendar::turn + *type->biosig_timer );
-    }
-    int counter = 0;
-    while( true ) {
-        // don't catch up too much, otherwise on some scenarios,
-        // we could have years worth of poop just deposited on the floor.
-        if( *biosig_timer > calendar::turn || counter > 50 ) {
-            return;
-        }
-        g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
-        *biosig_timer += *type->biosig_timer;
-        counter += 1;
     }
 }
 
@@ -2941,7 +2913,6 @@ void monster::on_load()
 {
     try_upgrade( false );
     try_reproduce();
-    try_biosignature();
     if( has_flag( MF_MILKABLE ) ) {
         refill_udders();
     }

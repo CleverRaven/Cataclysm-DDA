@@ -865,20 +865,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    if( jo.has_member( "biosignature" ) ) {
-        JsonObject biosig = jo.get_object( "biosignature" );
-        if( biosig.has_int( "biosig_timer" ) ) {
-            biosig_timer = time_duration::from_days( biosig.get_int( "biosig_timer" ) );
-        } else if( biosig.has_string( "biosig_timer" ) ) {
-            biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
-                           time_duration::units );
-        }
-
-        optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
-                  "null" );
-        biosignatures = true;
-    }
-
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
 
@@ -1240,20 +1226,6 @@ void MonsterGenerator::check_monster_definitions() const
             if( !item::type_is_defined( mon.baby_egg ) ) {
                 debugmsg( "item_id %s of monster %s is not a valid item id",
                           mon.baby_egg.c_str(), mon.id.c_str() );
-            }
-        }
-
-        if( mon.biosignatures ) {
-            if( !mon.biosig_timer || *mon.biosig_timer <= 0_seconds ) {
-                debugmsg( "Time between biosignature drops (%d) is invalid for %s",
-                          mon.biosig_timer ? to_turns<int>( *mon.biosig_timer ) : -1, mon.id.c_str() );
-            }
-            if( mon.biosig_item == "null" ) {
-                debugmsg( "No biosignature drop defined for monster %s", mon.id.c_str() );
-            }
-            if( !item::type_is_defined( mon.biosig_item ) ) {
-                debugmsg( "item_id %s of monster %s is not a valid item id",
-                          mon.biosig_item.c_str(), mon.id.c_str() );
             }
         }
     }

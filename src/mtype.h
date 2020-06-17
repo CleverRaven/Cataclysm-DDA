@@ -319,10 +319,6 @@ struct mtype {
         itype_id baby_egg;
         std::vector<std::string> baby_flags;
 
-        // Monster biosignature variables
-        cata::optional<time_duration> biosig_timer;
-        itype_id biosig_item;
-
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;
 
@@ -333,7 +329,6 @@ struct mtype {
         bool was_loaded = false;
         bool upgrades;
         bool reproduces;
-        bool biosignatures;
 
         mtype();
         /**

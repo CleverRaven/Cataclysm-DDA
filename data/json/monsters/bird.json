@@ -25,7 +25,6 @@
     "harvest": "bird_tiny",
     "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD" ]
   },
@@ -39,8 +38,7 @@
     "speed": 110,
     "color": "brown",
     "reproduction": { "baby_egg": "egg_grouse", "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "baby_flags": [ "SPRING", "SUMMER" ]
   },
   {
     "id": "mon_crow",
@@ -69,7 +67,6 @@
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_crow", "baby_count": 3, "baby_timer": 8 },
     "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
@@ -99,7 +96,6 @@
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
@@ -113,8 +109,7 @@
     "hp": 15,
     "dodge": 3,
     "reproduction": { "baby_egg": "egg_goose_canadian", "baby_count": 3, "baby_timer": 10 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 }
+    "baby_flags": [ "SPRING" ]
   },
   {
     "id": "mon_turkey",
@@ -144,7 +139,6 @@
     "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
@@ -188,7 +182,6 @@
     "harvest": "bird_tiny",
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },

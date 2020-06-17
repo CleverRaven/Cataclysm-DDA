@@ -29,7 +29,6 @@
     "baby_flags": [ "SPRING" ],
     "//": "Baby elephants don't actually exist (yet), but Spring is the wet season (their mating season) so baby_flags is defined so that they get angry then",
     "harvest": "mammal_large_leather",
-    "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 16 },
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "SMASH", 15 ] ],
     "flags": [
       "SEES",
