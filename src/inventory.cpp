@@ -459,7 +459,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
         if( m.accessible_items( p ) ) {
-            for( auto &i : m.i_at( p ) ) {
+            for( item &i : m.i_at( p ) ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {

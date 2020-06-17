@@ -980,7 +980,7 @@ void computer_session::action_irradiator()
                 print_error( _( "ERROR: Processing platform empty." ) );
             } else {
                 g->u.moves -= 300;
-                for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
+                for( item it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
                     // actual food processing
                     itype_id irradiated_type( "irradiated_" + it->typeId().str() );
                     if( !it->rotten() && item_controller->has_template( irradiated_type ) ) {

@@ -388,7 +388,7 @@ bool mattack::antqueen( monster *z )
         }
 
         if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
-            for( auto &i : g->m.i_at( dest ) ) {
+            for( item &i : g->m.i_at( dest ) ) {
                 if( i.typeId() == itype_ant_egg ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
@@ -970,7 +970,7 @@ bool mattack::resurrect( monster *z )
             continue;
         }
 
-        for( auto &i : g->m.i_at( p ) ) {
+        for( item &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {

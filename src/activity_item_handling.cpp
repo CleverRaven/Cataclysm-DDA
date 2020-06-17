@@ -1034,7 +1034,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 continue;
             }
         }
-        for( const auto &elem2 : here.i_at( elem ) ) {
+        for( const item &elem2 : here.i_at( elem ) ) {
             if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
@@ -1266,7 +1266,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         std::vector<item> corpses;
         int big_count = 0;
         int small_count = 0;
-        for( const auto &i : here.i_at( src_loc ) ) {
+        for( const item &i : here.i_at( src_loc ) ) {
             // make sure nobody else is working on that corpse right now
             if( i.is_corpse() && !i.has_var( "activity_var" ) ) {
                 const mtype corpse = *i.get_mtype();
@@ -1309,7 +1309,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     }
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
-        for( auto &i : here.i_at( src_loc ) ) {
+        for( item &i : here.i_at( src_loc ) ) {
             if( i.typeId() == itype_log ) {
                 // do we have an axe?
                 if( p.has_quality( qual_AXE, 1 ) ) {
@@ -1925,7 +1925,7 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     map &here = get_map();
-    for( auto &i : here.i_at( src_loc ) ) {
+    for( item &i : here.i_at( src_loc ) ) {
         if( i.typeId() == itype_log ) {
             here.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
@@ -2097,7 +2097,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_veh = nullptr;
             src_part = -1;
         }
-        for( auto &it : here.i_at( src_loc ) ) {
+        for( item &it : here.i_at( src_loc ) ) {
             items.push_back( std::make_pair( &it, false ) );
         }
 

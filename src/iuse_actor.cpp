@@ -1231,7 +1231,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
-    for( const auto &i : g->m.i_at( pos ) ) {
+    for( const item &i : g->m.i_at( pos ) ) {
         if( i.typeId() == itype_brazier ) {
             has_unactivated_brazier = true;
         }

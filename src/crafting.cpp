@@ -478,7 +478,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             continue;
         }
         if( here.accessible_items( loc ) ) {
-            for( const auto &it : here.i_at( loc ) ) {
+            for( const item &it : here.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( &it );
                 }

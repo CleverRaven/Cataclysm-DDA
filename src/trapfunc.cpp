@@ -67,7 +67,7 @@ static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 static float pit_effectiveness( const tripoint &p )
 {
     units::volume corpse_volume = 0_ml;
-    for( auto &pit_content : g->m.i_at( p ) ) {
+    for( item &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();
         }

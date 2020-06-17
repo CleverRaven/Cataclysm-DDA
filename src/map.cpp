@@ -2495,7 +2495,7 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
 
 bool map::tinder_at( const tripoint &p )
 {
-    for( const auto &i : i_at( p ) ) {
+    for( const item &i : i_at( p ) ) {
         if( i.has_flag( "TINDER" ) ) {
             return true;
         }
@@ -2511,7 +2511,7 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
         return false;
     }
 
-    for( const auto &i : i_at( p ) ) {
+    for( const item &i : i_at( p ) ) {
         if( i.flammable( threshold ) ) {
             return true;
         }
@@ -4138,7 +4138,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     auto place_item = [&]( const tripoint & tile ) -> item& {
         if( obj.count_by_charges() )
         {
-            for( auto &e : i_at( tile ) ) {
+            for( item &e : i_at( tile ) ) {
                 if( e.merge_charges( obj ) ) {
                     return e;
                 }

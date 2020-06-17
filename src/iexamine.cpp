@@ -3940,7 +3940,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
             // Return a potentially empty tank, but only if we don't find a closer full one.
             tank_loc.emplace( tmp );
         }
-        for( auto &k : g->m.i_at( tmp ) ) {
+        for( item &k : g->m.i_at( tmp ) ) {
             if( k.made_of( phase_id::LIQUID ) ) {
                 distance = new_distance;
                 tank_loc.emplace( tmp );
@@ -4833,7 +4833,7 @@ static void mill_activate( player &p, const tripoint &examp )
         return;
     }
 
-    for( auto &it : g->m.i_at( examp ) ) {
+    for( item &it : g->m.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.process_temperature_rot( 1, examp, nullptr );
@@ -4934,7 +4934,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     }
 
     p.use_charges( itype_fire, 1 );
-    for( auto &it : g->m.i_at( examp ) ) {
+    for( item &it : g->m.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
             it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( flag_PROCESSING );

@@ -5437,7 +5437,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         return false;
     }
     if( bash_dmg == 0 ) {
-        for( auto &elem : m.i_at( point( x, y ) ) ) {
+        for( item &elem : m.i_at( point( x, y ) ) ) {
             if( elem.made_of( phase_id::LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
@@ -6320,7 +6320,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         return;
     } else {
         std::map<std::string, std::pair<int, nc_color>> item_names;
-        for( auto &item : m.i_at( lp ) ) {
+        for( item &item : m.i_at( lp ) ) {
             ++item_names[item.tname()].first;
             item_names[item.tname()].second = item.color_in_inventory();
         }
@@ -7205,7 +7205,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
 
-            for( auto &elem : m.i_at( points_p_it ) ) {
+            for( item &elem : m.i_at( points_p_it ) ) {
                 const std::string name = elem.tname();
                 const tripoint relative_pos = points_p_it - u.pos();
 
@@ -9765,7 +9765,7 @@ point game::place_player( const tripoint &dest_loc )
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
             const auto pulp = [&]( const tripoint & pos ) {
-                for( const auto &maybe_corpse : m.i_at( pos ) ) {
+                for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
@@ -9824,7 +9824,7 @@ point game::place_player( const tripoint &dest_loc )
                 std::vector<std::string> names;
                 std::vector<size_t> counts;
                 std::vector<item> items;
-                for( auto &tmpitem : m.i_at( u.pos() ) ) {
+                for( item &tmpitem : m.i_at( u.pos() ) ) {
 
                     std::string next_tname = tmpitem.tname();
                     std::string next_dname = tmpitem.display_name();
@@ -10064,7 +10064,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
     units::mass furniture_contents_weight = 0_gram;
-    for( auto &contained_item : m.i_at( fpos ) ) {
+    for( item &contained_item : m.i_at( fpos ) ) {
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
@@ -10144,7 +10144,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
             std::move( m.i_at( fpos ).begin(), m.i_at( fpos ).end(),
                        std::back_inserter( temp ) );
             m.i_clear( fpos );
-            for( auto item_iter = m.i_at( fdest ).begin();
+            for( item item_iter = m.i_at( fdest ).begin();
                  item_iter != m.i_at( fdest ).end(); ++item_iter ) {
                 m.i_at( fpos ).insert( *item_iter );
             }
