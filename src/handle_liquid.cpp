@@ -220,7 +220,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-
     for( const auto &e : here.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( here.veh_at( e ) );
         vehicle_part_range vpr = veh->get_all_parts();
