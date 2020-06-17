@@ -1217,7 +1217,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             offsetDistance = rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                             veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
+                             veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 

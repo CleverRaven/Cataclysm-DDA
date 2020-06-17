@@ -284,12 +284,12 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             didit = true;
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
-                                   veh->parts[inside_closable].name() );
+                                   veh->part( inside_closable ).name() );
         } else if( openable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s is already closed." ),
-                                   veh->parts[openable].name() );
+                                   veh->part( openable ).name() );
         } else {
-            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name() );
+            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->part( vpart ).name() );
         }
     } else if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
         who.add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );

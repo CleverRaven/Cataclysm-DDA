@@ -36,6 +36,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -52,7 +53,7 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
 
 static void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
 {
-    const map_stack stack = g->m.i_at( pos );
+    const map_stack stack = get_map().i_at( pos );
     // Need to store the *index* of the item on the ground, but it may be a virtual item from
     // an infinite liquid source.
     const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
@@ -121,7 +122,7 @@ bool handle_liquid_from_ground( const map_stack::iterator &on_ground,
     if( on_ground->charges > 0 ) {
         return false;
     }
-    g->m.i_at( pos ).erase( on_ground );
+    get_map().i_at( pos ).erase( on_ground );
     return true;
 }
 
@@ -169,11 +170,12 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
 
     uilist menu;
 
+    map &here = get_map();
     const std::string liquid_name = liquid.display_name( liquid.charges );
     if( source_pos != nullptr ) {
         //~ %1$s: liquid name, %2$s: terrain name
         menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
-                                   g->m.name( *source_pos ) );
+                                   here.name( *source_pos ) );
     } else if( source_veh != nullptr ) {
         //~ %1$s: liquid name, %2$s: vehicle name
         menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
@@ -218,10 +220,11 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-    for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
-        if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part & pt ) {
-        return pt.can_reload( liquid );
+    for( const auto &e : here.points_in_radius( g->u.pos(), 1 ) ) {
+        auto veh = veh_pointer_or_null( here.veh_at( e ) );
+        vehicle_part_range vpr = veh->get_all_parts();
+        if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
+        return pt.part().can_reload( liquid );
         } ) ) {
             opts.insert( veh );
         }
@@ -237,7 +240,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         } );
     }
 
-    for( auto &target_pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    for( auto &target_pos : here.points_in_radius( g->u.pos(), 1 ) ) {
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
@@ -257,7 +260,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         // From infinite source to the ground somewhere else. The target has
         // infinite space and the liquid can not be used from there anyway.
         if( liquid.has_infinite_charges() && source_pos != nullptr ) {
-            add_msg( m_info, _( "Clearing out the %s would take forever." ), g->m.name( *source_pos ) );
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), here.name( *source_pos ) );
             return;
         }
 
@@ -273,7 +276,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
-        if( !g->m.can_put_items_ter_furn( target.pos ) ) {
+        if( !here.can_put_items_ter_furn( target.pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
@@ -328,6 +331,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
         }
     };
 
+    map &here = get_map();
     switch( target.dest_opt ) {
         case LD_CONSUME:
             g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
@@ -344,10 +348,10 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {
                         case item_location::type::map:
-                            g->m.make_active( target.item_loc );
+                            here.make_active( target.item_loc );
                             break;
                         case item_location::type::vehicle:
-                            g->m.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
+                            here.veh_at( target.item_loc.position() )->vehicle().make_active( target.item_loc );
                             break;
                         case item_location::type::container:
                         case item_location::type::character:
@@ -379,7 +383,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                 if( target.dest_opt == LD_KEG ) {
                     iexamine::pour_into_keg( target.pos, liquid );
                 } else {
-                    g->m.add_item_or_charges( target.pos, liquid );
+                    here.add_item_or_charges( target.pos, liquid );
                     liquid.charges = 0;
                 }
                 g->u.mod_moves( -100 );
