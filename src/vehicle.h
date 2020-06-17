@@ -1730,8 +1730,22 @@ class vehicle
         // Cached points occupied by the vehicle
         std::set<tripoint> occupied_points;
 
-    public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    public:
+        // Number of parts contained in this vehicle
+        int part_count() const;
+        // Returns the vehicle_part with the given part number
+        vehicle_part &part( int part_num );
+        // Same as vehicle::part() except with const binding
+        const vehicle_part &cpart( int part_num ) const;
+        // Determines whether the given part_num is valid for this vehicle
+        bool valid_part( int part_num ) const;
+        // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp
+        void force_erase_part( int part_num );
+        // Updates the internal precalculated mount offsets after the vehicle has been displaced
+        // used in map::displace_vehicle()
+        void advance_precalc_mounts( const point &new_pos, int submap_z );
+
         std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
