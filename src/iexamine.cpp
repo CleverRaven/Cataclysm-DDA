@@ -329,7 +329,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         return;
     }
 
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
@@ -664,7 +664,7 @@ void iexamine::vending( player &p, const tripoint &examp )
 {
     constexpr int moves_cost = to_turns<int>( 5_seconds );
     int money = p.charges_of( itype_cash_card );
-    auto vend_items = g->m.i_at( examp );
+    map_stack vend_items = g->m.i_at( examp );
 
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty." ) );
@@ -843,7 +843,7 @@ void iexamine::vending( player &p, const tripoint &examp )
  */
 void iexamine::toilet( player &p, const tripoint &examp )
 {
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     auto water = items.begin();
     for( ; water != items.end(); ++water ) {
         if( water->typeId() == itype_water ) {
@@ -2375,7 +2375,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
 
     static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     for( const item &i : items ) {
         if( i.typeId() == itype_charcoal ) {
             add_msg( _( "This kiln already contains charcoal." ) );
@@ -2504,7 +2504,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
 
     static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
     bool fuel_present = false;
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     for( const item &i : items ) {
         if( i.typeId() == itype_chem_carbide ) {
             add_msg( _( "This furnace already contains calcium carbide." ) );
@@ -2847,7 +2847,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
     bool ferment = false;
     bool brew_present = false;
     int charges_on_ground = 0;
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( !item_it->is_brewable() || brew_present ) {
             // This isn't a brew or there was already another kind of brew inside,
@@ -3537,7 +3537,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     material_type m = metals.at( m_idx );
 
     // check inputs and tally total mass
-    auto inputs = g->m.i_at( examp );
+    map_stack inputs = g->m.i_at( examp );
     units::mass sum_weight = 0_gram;
     auto ca = m.compact_accepts();
     std::set<material_id> accepts( ca.begin(), ca.end() );
@@ -3737,7 +3737,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
-            auto items = g->m.i_at( examp );
+            map_stack items = g->m.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
@@ -3773,7 +3773,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         return;
     }
     p.use_charges( ammo->get_id(), amount );
-    auto items = g->m.i_at( examp );
+    map_stack items = g->m.i_at( examp );
     for( auto &itm : items ) {
         if( itm.type == ammo ) {
             itm.charges += amount;
@@ -4043,7 +4043,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
 
 bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 {
-    auto items = g->m.i_at( src );
+    map_stack items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             if( item_it->charges < units ) {
@@ -4072,7 +4072,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 
 static int fromPumpFuel( const tripoint &dst, const tripoint &src )
 {
-    auto items = g->m.i_at( src );
+    map_stack items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             // how much do we have in the pump?
@@ -5697,7 +5697,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             is_undeployable = true;
         }
 
-        auto items_at_furn = g->m.i_at( examp );
+        map_stack items_at_furn = g->m.i_at( examp );
         items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {

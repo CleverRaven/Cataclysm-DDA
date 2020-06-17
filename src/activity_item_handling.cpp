@@ -1768,7 +1768,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     if( loot_src_lot == tripoint_zero ) {
         return false;
     }
-    auto items_there = here.i_at( src_loc );
+    map_stack items_there = here.i_at( src_loc );
     vehicle *dest_veh;
     int dest_part;
     if( const cata::optional<vpart_reference> vp = here.veh_at(
@@ -1810,7 +1810,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
     const std::vector<std::tuple<tripoint, itype_id, int>> mental_map_2 = requirements_map( p,
             distance );
     int pickup_count = 1;
-    auto items_there = here.i_at( src_loc );
+    map_stack items_there = here.i_at( src_loc );
     vehicle *src_veh = nullptr;
     int src_part = 0;
     if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",

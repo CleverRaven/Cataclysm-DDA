@@ -9693,8 +9693,8 @@ void Character::migrate_items_to_storage( bool disintegrate )
 std::string Character::is_snuggling() const
 {
     map &here = get_map();
-    auto begin = here.i_at( pos() ).begin();
-    auto end = here.i_at( pos() ).end();
+    map_stack begin = here.i_at( pos() ).begin();
+    map_stack end = here.i_at( pos() ).end();
 
     if( in_vehicle ) {
         if( const cata::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
@@ -9851,7 +9851,7 @@ int Character::floor_item_warmth( const tripoint &pos )
 
     int item_warmth = 0;
     // Search the floor for items
-    const auto floor_item = here.i_at( pos );
+    const map_stack floor_item = here.i_at( pos );
     for( const item &elem : floor_item ) {
         if( !elem.is_armor() ) {
             continue;

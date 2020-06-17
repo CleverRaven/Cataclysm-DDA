@@ -4034,7 +4034,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
     map &here = get_map();
     for( const tripoint &p : here.points_in_rectangle( camp_pos + point( -radius, -radius ),
             camp_pos + point( radius, radius ) ) ) {
-        auto items = here.i_at( p.xy() );
+        map_stack items = here.i_at( p.xy() );
         for( item &elem : items ) {
             elem.set_owner( g->u );
         }

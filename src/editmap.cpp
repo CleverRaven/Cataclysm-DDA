@@ -1383,7 +1383,7 @@ void editmap::edit_itm()
     ilmenu.w_height_setup = [this]() -> int {
         return TERMY - infoHeight - 1;
     };
-    auto items = get_map().i_at( target );
+    map_stack items = get_map().i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),

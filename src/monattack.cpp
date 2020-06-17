@@ -348,7 +348,7 @@ bool mattack::eat_food( monster *z )
         if( g->m.has_flag( "PLANT", p ) ) {
             continue;
         }
-        auto items = g->m.i_at( p );
+        map_stack items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
             if( !item.is_food() || item.get_comestible_fun() < -20 ) {
@@ -4275,7 +4275,7 @@ bool mattack::absorb_meat( monster *z )
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        auto items = g->m.i_at( p );
+        map_stack items = g->m.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
             if( current_item_material == material_id( "flesh" ) ||

@@ -1108,7 +1108,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             } else {
                 // check item stacks in vehicle and map at said square
                 auto sq = squares[changeSquare];
-                auto map_stack = get_map().i_at( sq.pos );
+                map_stack map_stack = get_map().i_at( sq.pos );
                 auto veh_stack = sq.veh->get_items( sq.vstor );
                 // auto switch to vehicle storage if vehicle items are there, or neither are there
                 if( !veh_stack.empty() || map_stack.empty() ) {

@@ -647,7 +647,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
             g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
         }
     } else if( location.where() == item_location::type::map ) {
-        auto items = g->m.i_at( location.position() );
+        map_stack items = g->m.i_at( location.position() );
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {

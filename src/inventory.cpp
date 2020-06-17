@@ -485,7 +485,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         // crafting
         if( m.furn( p ).obj().examine == &iexamine::toilet ) {
             // get water charges at location
-            auto toilet = m.i_at( p );
+            map_stack toilet = m.i_at( p );
             auto water = toilet.end();
             for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
                 if( candidate->typeId() == itype_water ) {
@@ -500,7 +500,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         // keg-kludge
         if( m.furn( p ).obj().examine == &iexamine::keg ) {
-            auto liq_contained = m.i_at( p );
+            map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
                     add_item( i );

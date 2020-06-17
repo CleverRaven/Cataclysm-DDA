@@ -1113,7 +1113,7 @@ void computer_session::action_conveyor()
         query_any( _( "Press any key…" ) );
         return;
     }
-    auto items = here.i_at( platform );
+    map_stack items = here.i_at( platform );
     if( !items.empty() ) {
         print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
     } else {

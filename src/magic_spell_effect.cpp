@@ -616,8 +616,8 @@ static void spell_move( const spell &sp, const Creature &caster,
 
     // Moving items
     if( sp.is_valid_effect_target( spell_target::item ) ) {
-        auto src_items = g->m.i_at( from );
-        auto dst_items = g->m.i_at( to );
+        map_stack src_items = g->m.i_at( from );
+        map_stack dst_items = g->m.i_at( to );
         for( const item &item : src_items ) {
             dst_items.insert( item );
         }

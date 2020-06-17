@@ -356,7 +356,7 @@ void map::generate_lightmap( const int zlev )
                     }
 
                     if( cur_submap->get_lum( { sx, sy } ) && has_items( p ) ) {
-                        auto items = i_at( p );
+                        map_stack items = i_at( p );
                         add_light_from_items( p, items.begin(), items.end() );
                     }
 

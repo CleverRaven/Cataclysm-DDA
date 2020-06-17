@@ -2009,8 +2009,8 @@ void map::drop_furniture( const tripoint &p )
     // If it's sealed, we need to drop items with it
     const auto &frn_obj = frn.obj();
     if( frn_obj.has_flag( TFLAG_SEALED ) && has_items( p ) ) {
-        auto old_items = i_at( p );
-        auto new_items = i_at( current );
+        map_stack old_items = i_at( p );
+        map_stack new_items = i_at( current );
         for( const auto &it : old_items ) {
             new_items.insert( it );
         }
@@ -2087,7 +2087,7 @@ void map::drop_items( const tripoint &p )
         return;
     }
 
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     // TODO: Make items check the volume tile below can accept
     // rather than disappearing if it would be overloaded
 
@@ -2677,7 +2677,7 @@ bool map::mop_spills( const tripoint &p )
     bool retval = false;
 
     if( !has_flag( "LIQUIDCONT", p ) ) {
-        auto items = i_at( p );
+        map_stack items = i_at( p );
         auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
             return it.made_of( phase_id::LIQUID );
         } );
@@ -3315,7 +3315,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     }
 
     std::vector<item> smashed_contents;
-    auto bashed_items = i_at( p );
+    map_stack bashed_items = i_at( p );
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
@@ -4739,7 +4739,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                                    map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
-        auto item_list = m->i_at( p );
+        map_stack item_list = m->i_at( p );
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
             // looking for a liquid that matches
@@ -4768,7 +4768,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
-        auto stack = m->i_at( p );
+        map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
         [ammo]( const item & i ) {
             return i.typeId() == ammo;
@@ -5000,7 +5000,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
             if( p.y != -1 && p.y != pos.y ) {
                 continue;
             }
-            auto items = i_at( pos );
+            map_stack items = i_at( pos );
             for( auto &elem : items ) {
                 if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &elem ) );
@@ -6800,7 +6800,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
     if( has_flag_ter_or_furn( TFLAG_INDOORS, p ) ) {
         return;
     }
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     units::volume maxvolume = 0_ml;
     auto biggest_container = items.end();
     for( auto candidate = items.begin(); candidate != items.end(); ++candidate ) {
@@ -6982,7 +6982,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
 
     // Is there a proper container?
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     for( auto &it : items ) {
         if( it.will_spill() || it.is_watertight_container() ) {
             const int capacity = it.get_remaining_capacity_for_liquid( sap, true );
