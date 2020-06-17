@@ -348,7 +348,7 @@ bool mattack::eat_food( monster *z )
         if( g->m.has_flag( "PLANT", p ) ) {
             continue;
         }
-        auto items = g->m.i_at( p );
+        map_stack items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
             if( !item.is_food() || item.get_comestible_fun() < -20 ) {
@@ -388,7 +388,7 @@ bool mattack::antqueen( monster *z )
         }
 
         if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
-            for( auto &i : g->m.i_at( dest ) ) {
+            for( item &i : g->m.i_at( dest ) ) {
                 if( i.typeId() == itype_ant_egg ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
@@ -970,7 +970,7 @@ bool mattack::resurrect( monster *z )
             continue;
         }
 
-        for( auto &i : g->m.i_at( p ) ) {
+        for( item &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
@@ -4275,7 +4275,7 @@ bool mattack::absorb_meat( monster *z )
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        auto items = g->m.i_at( p );
+        map_stack items = g->m.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
             if( current_item_material == material_id( "flesh" ) ||

@@ -302,7 +302,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             who.add_msg_if_player( m_info, _( "You cannot close the %s." ), m.name( closep ) );
         }
     } else {
-        auto items_in_way = m.i_at( closep );
+        map_stack items_in_way = m.i_at( closep );
         // Scoot up to 25 liters of items out of the way
         if( m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
             const units::volume max_nudge = 25_liter;

@@ -475,7 +475,7 @@ VisitResponse visitable<map_cursor>::visit_items(
         return VisitResponse::NEXT;
     }
 
-    for( auto &e : g->m.i_at( *cur ) ) {
+    for( item &e : g->m.i_at( *cur ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }

@@ -9851,7 +9851,7 @@ int Character::floor_item_warmth( const tripoint &pos )
 
     int item_warmth = 0;
     // Search the floor for items
-    const auto floor_item = here.i_at( pos );
+    const map_stack floor_item = here.i_at( pos );
     for( const item &elem : floor_item ) {
         if( !elem.is_armor() ) {
             continue;

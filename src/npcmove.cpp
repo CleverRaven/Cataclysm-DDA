@@ -3068,7 +3068,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 std::list<item> npc::pick_up_item_map( const tripoint &where )
 {
-    auto stack = g->m.i_at( where );
+    map_stack stack = g->m.i_at( where );
     return npc_pickup_from_stack( *this, stack );
 }
 
@@ -3212,7 +3212,7 @@ bool npc::find_corpse_to_pulp()
             return nullptr;
         }
 
-        const auto items = g->m.i_at( p );
+        const map_stack items = g->m.i_at( p );
         const item *found = nullptr;
         for( const item &it : items )
         {

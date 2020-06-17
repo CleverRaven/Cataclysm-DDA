@@ -762,7 +762,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : here.i_at( p2 ) ) {
+    for( item &it : here.i_at( p2 ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }

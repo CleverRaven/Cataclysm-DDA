@@ -2118,7 +2118,7 @@ void monster::process_turn()
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
-                const auto items = g->m.i_at( zap );
+                const map_stack items = g->m.i_at( zap );
                 for( const auto &item : items ) {
                     if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );

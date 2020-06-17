@@ -730,7 +730,7 @@ static void smash()
         }
     }
 
-    for( const auto &maybe_corpse : here.i_at( smashp ) ) {
+    for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
