@@ -14,7 +14,7 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 5,
-    "encumbrance": 7,
+    "encumbrance": 5,
 	"max_encumbrance": 15,
     "material_thickness": 1,
     "pocket_data": [
@@ -191,7 +191,7 @@
     "covers": [ "TORSO" ],
     "coverage": 20,
     "encumbrance": 3,
-    "max_encumbrance": 20,
+    "max_encumbrance": 15,
     "material_thickness": 2,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
