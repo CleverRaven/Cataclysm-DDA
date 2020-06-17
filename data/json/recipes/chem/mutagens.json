@@ -686,7 +686,12 @@
     "time": "12 m",
     "book_learn": [ [ "recipe_elfa", 8 ] ],
     "using": [ [ "mutagen_production_standard", 31 ] ],
-    "components": [ [ [ "mutagen_plant", 2 ], [ "iv_mutagen_plant", 1 ] ], [ [ "mutagen_slime", 1 ] ], [ [ "mutagen_bird", 1 ] ], [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ] ],
+    "components": [
+      [ [ "mutagen_plant", 2 ], [ "iv_mutagen_plant", 1 ] ],
+      [ [ "mutagen_slime", 1 ] ],
+      [ [ "mutagen_bird", 1 ] ],
+      [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ]
+    ],
     "flags": [ "SECRET" ]
   },
   {
