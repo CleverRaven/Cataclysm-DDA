@@ -2835,14 +2835,14 @@ void bionic::toggle_safe_fuel_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
-        if (get_auto_start_thresh() < 0.70){
-            tmenu.addentry( 2, true, 't', _( "Above 70 %%" ) );
+        if (get_auto_start_thresh() < 0.80){
+            tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
         }
-        if (get_auto_start_thresh() < 0.45){
-            tmenu.addentry( 3, true, 'f', _( "Above 45 %%" ) );
+        if (get_auto_start_thresh() < 0.55){
+            tmenu.addentry( 3, true, 'f', _( "Above 55 %%" ) );
         }
-        if (get_auto_start_thresh() < 0.20){
-            tmenu.addentry( 4, true, 's', _( "Above 20 %%" ) );
+        if (get_auto_start_thresh() < 0.30){
+            tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
         }
         tmenu.query();
 
@@ -2851,13 +2851,13 @@ void bionic::toggle_safe_fuel_mod()
                 set_safe_fuel_thresh( 1.0 );
                 break;
             case 2:
-                set_safe_fuel_thresh( 0.70 );
+                set_safe_fuel_thresh( 0.80 );
                 break;
             case 3:
-                set_safe_fuel_thresh( 0.45 );
+                set_safe_fuel_thresh( 0.55 );
                 break;
             case 4:
-                set_safe_fuel_thresh( 0.20 );
+                set_safe_fuel_thresh( 0.30 );
                 break;
             default:
                 set_safe_fuel_thresh( 1.0 );
