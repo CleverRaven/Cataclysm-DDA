@@ -142,7 +142,7 @@
         "type": "gun",
         "cooldown": 1,
         "gun_type": "rm451_flamethrower",
-        "ammo_type": [ "napalm" ],
+        "ammo_type": "napalm",
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",

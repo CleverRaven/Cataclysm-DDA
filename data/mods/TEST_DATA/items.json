@@ -8,7 +8,7 @@
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
     "material": [ "stone" ],
-    "ammo_type": [ "rock" ],
+    "ammo_type": "rock",
     "flags": [ "TRADER_AVOID" ],
     "weight": "657 g",
     "volume": "250 ml",
@@ -163,7 +163,7 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "test_halligan",
@@ -721,7 +721,7 @@
     "weight": "30 g",
     "bashing": 2,
     "cutting": 1,
-    "ammo_type": [ "arrow" ],
+    "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "dispersion": 110,
     "loudness": 0,
@@ -847,7 +847,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": [ "9mm" ],
+    "ammo_type": "9mm",
     "casing": "9mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26 },
@@ -870,7 +870,7 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 30,
-    "ammo_type": [ "45" ],
+    "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 2 },
@@ -901,7 +901,7 @@
   {
     "id": "test_gas",
     "type": "AMMO",
-    "ammo_type": [ "test_gas" ],
+    "ammo_type": "test_gas",
     "category": "chems",
     "name": { "str_sp": "test gas" },
     "description": "Some mysterious substance in the form of a gas.  Only for testing, do not inhale!",
