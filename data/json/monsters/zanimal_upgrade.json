@@ -107,7 +107,7 @@
     "id": "mon_zoose_brute",
     "type": "MONSTER",
     "name": { "str": "antlered hammer" },
-    "copy-from": "mon_zombear",
+    "copy-from": "mon_zoose",
     "description": "This once great moose's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "hp": 315,
