@@ -249,7 +249,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -269,7 +269,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
