@@ -815,7 +815,7 @@
     "volume": "1250 ml",
     "weight": "790 g",
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
@@ -1511,7 +1511,7 @@
     "material": [ "wood" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "components",
+    "ammo_type": "components"
   },
   {
     "id": "acetylene",
