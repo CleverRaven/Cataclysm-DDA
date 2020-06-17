@@ -43,4 +43,6 @@ class event_bus
         std::vector<event_subscriber *> subscribers;
 };
 
+event_bus &get_event_bus();
+
 #endif // CATA_SRC_EVENT_BUS_H

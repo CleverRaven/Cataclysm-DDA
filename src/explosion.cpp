@@ -167,9 +167,10 @@ static void do_blast( const tripoint &p, const float power,
     static const int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
     static const int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
     static const int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
-    const size_t max_index = g->m.has_zlevels() ? 10 : 8;
+    map &here = get_map();
+    const size_t max_index = here.has_zlevels() ? 10 : 8;
 
-    g->m.bash( p, fire ? power : ( 2 * power ), true, false, false );
+    here.bash( p, fire ? power : ( 2 * power ), true, false, false );
 
     std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp_first >
     open;
@@ -196,7 +197,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        if( g->m.impassable( pt ) && pt != p ) {
+        if( here.impassable( pt ) && pt != p ) {
             // Don't propagate further
             continue;
         }
@@ -206,7 +207,7 @@ static void do_blast( const tripoint &p, const float power,
         int empty_neighbors = 0;
         for( size_t i = 0; i < 8; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) == 0 && g->m.valid_move( pt, dest, false, true ) ) {
+            if( closed.count( dest ) == 0 && here.valid_move( pt, dest, false, true ) ) {
                 empty_neighbors++;
             }
         }
@@ -215,7 +216,7 @@ static void do_blast( const tripoint &p, const float power,
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) != 0 || !g->m.inbounds( dest ) ) {
+            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ) {
                 continue;
             }
 
@@ -228,21 +229,21 @@ static void do_blast( const tripoint &p, const float power,
                                          force / 2;
                 if( z_offset[i] == 0 ) {
                     // Horizontal - no floor bashing
-                    g->m.bash( dest, bash_force, true, false, false );
+                    here.bash( dest, bash_force, true, false, false );
                 } else if( z_offset[i] > 0 ) {
                     // Should actually bash through the floor first, but that's not really possible yet
-                    g->m.bash( dest, bash_force, true, false, true );
-                } else if( !g->m.valid_move( pt, dest, false, true ) ) {
+                    here.bash( dest, bash_force, true, false, true );
+                } else if( !here.valid_move( pt, dest, false, true ) ) {
                     // Only bash through floor if it doesn't exist
                     // Bash the current tile's floor, not the one's below
-                    g->m.bash( pt, bash_force, true, false, true );
+                    here.bash( pt, bash_force, true, false, true );
                 }
             }
 
             float next_dist = distance;
             next_dist += ( x_offset[i] == 0 || y_offset[i] == 0 ) ? tile_dist : diag_dist;
             if( z_offset[i] != 0 ) {
-                if( !g->m.valid_move( pt, dest, false, true ) ) {
+                if( !here.valid_move( pt, dest, false, true ) ) {
                     continue;
                 }
 
@@ -259,7 +260,7 @@ static void do_blast( const tripoint &p, const float power,
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
     for( auto &pt : closed ) {
-        if( g->m.impassable( pt ) ) {
+        if( here.impassable( pt ) ) {
             continue;
         }
 
@@ -283,8 +284,8 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        if( g->m.has_items( pt ) ) {
-            g->m.smash_items( pt, force, _( "force of the explosion" ) );
+        if( here.has_items( pt ) ) {
+            here.smash_items( pt, force, _( "force of the explosion" ) );
         }
 
         if( fire ) {
@@ -293,16 +294,16 @@ static void do_blast( const tripoint &p, const float power,
                 intensity++;
             }
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
+            if( !here.has_zlevels() && here.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
                 intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, fd_fire, intensity );
         }
 
-        if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
+        if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
             vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
         }
@@ -331,9 +332,9 @@ static void do_blast( const tripoint &p, const float power,
 
         struct blastable_part {
             bodypart_id bp;
-            float low_mul;
-            float high_mul;
-            float armor_mul;
+            float low_mul = 0.0f;
+            float high_mul = 0.0f;
+            float armor_mul = 0.0f;
         };
 
         static const std::array<blastable_part, 6> blast_parts = { {
@@ -382,12 +383,13 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     fragment_cloud obstacle_cache[MAPSIZE_X][MAPSIZE_Y];
     fragment_cloud visited_cache[MAPSIZE_X][MAPSIZE_Y];
 
+    map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range area = g->m.points_on_zlevel( src.z );
+    const tripoint_range area = here.points_on_zlevel( src.z );
 
-    g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
+    here.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -417,8 +419,8 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj = proj;
             frag.proj.speed = cloud.velocity;
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
-            // dealt_dag->m.total_damage() == 0 means armor block
-            // dealt_dag->m.total_damage() > 0 means took damage
+            // dealt_dam.total_damage() == 0 means armor block
+            // dealt_dam.total_damage() > 0 means took damage
             // Need to diffentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
@@ -475,11 +477,11 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 }
             }
         }
-        if( g->m.impassable( target ) ) {
-            if( optional_vpart_position vp = g->m.veh_at( target ) ) {
+        if( here.impassable( target ) ) {
+            if( optional_vpart_position vp = here.veh_at( target ) ) {
                 vp->vehicle().damage( vp->part_index(), damage / 100 );
             } else {
-                g->m.bash( target, damage / 100, true );
+                here.bash( target, damage / 100, true );
             }
         }
     }
@@ -520,6 +522,7 @@ void explosion( const tripoint &p, const explosion_data &ex )
         do_blast( p, ex.power / 15.0, ex.distance_factor, ex.fire );
     }
 
+    map &here = get_map();
     const auto &shr = ex.shrapnel;
     if( shr.casing_mass > 0 ) {
         auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
@@ -530,7 +533,7 @@ void explosion( const tripoint &p, const explosion_data &ex )
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
             for( const auto &e : shrapnel_locations ) {
-                if( g->m.passable( e ) ) {
+                if( here.passable( e ) ) {
                     tiles.push_back( e );
                 }
             }
@@ -542,7 +545,7 @@ void explosion( const tripoint &p, const explosion_data &ex )
             tiles.resize( std::min( static_cast<int>( tiles.size() ), qty ) );
 
             for( const auto &e : tiles ) {
-                g->m.add_item_or_charges( e, item( shr.drop, calendar::turn, item::solitary_tag{} ) );
+                here.add_item_or_charges( e, item( shr.drop, calendar::turn, item::solitary_tag{} ) );
             }
         }
     }
@@ -552,11 +555,12 @@ void flashbang( const tripoint &p, bool player_immune )
 {
     draw_explosion( p, 8, c_white );
     int dist = rl_dist( g->u.pos(), p );
+    map &here = get_map();
     if( dist <= 8 && !player_immune ) {
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
-        if( g->m.sees( g->u.pos(), p, 8 ) ) {
+        if( here.sees( g->u.pos(), p, 8 ) ) {
             int flash_mod = 0;
             if( g->u.has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
@@ -584,7 +588,7 @@ void flashbang( const tripoint &p, bool player_immune )
             if( dist <= 4 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
-            if( critter.has_flag( MF_SEES ) && g->m.sees( critter.pos(), p, 8 ) ) {
+            if( critter.has_flag( MF_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
             if( critter.has_flag( MF_HEARS ) ) {
@@ -648,22 +652,23 @@ void emp_blast( const tripoint &p )
     // TODO: Implement z part
     point p2( p.xy() );
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", p2 ) ) {
+    map &here = get_map();
+    if( here.has_flag( "CONSOLE", p2 ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( p2 ) );
+            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
         }
-        g->m.ter_set( p2, t_console_broken );
+        here.ter_set( p2, t_console_broken );
         return;
     }
     // TODO: More terrain effects.
-    if( g->m.ter( p2 ) == t_card_science || g->m.ter( p2 ) == t_card_military ||
-        g->m.ter( p2 ) == t_card_industrial ) {
+    if( here.ter( p2 ) == t_card_science || here.ter( p2 ) == t_card_military ||
+        here.ter( p2 ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( p2, t_card_reader_broken );
+            here.ter_set( p2, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -671,8 +676,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( g->m.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
-                        g->m.ter_set( p2 + point( i, j ), t_floor );
+                    if( here.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
+                        here.ter_set( p2 + point( i, j ), t_floor );
                     }
                 }
             }
@@ -704,10 +709,10 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                g->m.add_item_or_charges( p, critter.to_item() );
+                here.add_item_or_charges( p, critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
-                        g->m.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );
+                        here.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
                 g->remove_zombie( critter );
@@ -757,7 +762,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : g->m.i_at( p2 ) ) {
+    for( auto &it : here.i_at( p2 ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }
@@ -777,6 +782,7 @@ void resonance_cascade( const tripoint &p )
     int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
     int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
     tripoint dest( startx, starty, p.z );
+    map &here = get_map();
     for( int &i = dest.x; i <= endx; i++ ) {
         for( int &j = dest.y; j <= endy; j++ ) {
             switch( rng( 1, 80 ) ) {
@@ -810,7 +816,7 @@ void resonance_cascade( const tripoint &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                g->m.add_field( { k, l, p.z }, type, 3 );
+                                here.add_field( { k, l, p.z }, type, 3 );
                             }
                         }
                     }
@@ -820,11 +826,11 @@ void resonance_cascade( const tripoint &p )
                 case  8:
                 case  9:
                 case 10:
-                    g->m.trap_set( dest, tr_portal );
+                    here.trap_set( dest, tr_portal );
                     break;
                 case 11:
                 case 12:
-                    g->m.trap_set( dest, tr_goo );
+                    here.trap_set( dest, tr_goo );
                     break;
                 case 13:
                 case 14:
@@ -835,7 +841,7 @@ void resonance_cascade( const tripoint &p )
                 case 16:
                 case 17:
                 case 18:
-                    g->m.destroy( dest );
+                    here.destroy( dest );
                     break;
                 case 19:
                     explosion( dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );

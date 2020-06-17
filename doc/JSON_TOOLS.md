@@ -95,8 +95,29 @@ $ tools/json_tools/values.py --key type | tools/json_tools/lister.py
 ["AMMO", "ARMOR", "BATTERY", "BIONIC_ITEM", "BOOK", "COMESTIBLE", ...]
 ```
 
+The `keys.py` output will use `parent.child` dotted notation for objects nested within one another.
+For example, the "name" value is often an object including a pluralized form, and items with
+"pocket_data" typically contain a nested list of objects in their JSON. The dot indicates keys
+within those objects:
 
-## Table of examples
+```console
+$ tools/json_tools/keys.py type=ARMOR | tools/json_tools/lister.py
+
+{ ..., "pocket_data.max_contains_volume", "pocket_data.max_item_length", "pocket_data.pocket_type", ... }
+```
+
+These dotted keys can be passed as the `-k` or `--key` argument of `values.py`, to inspect values
+within those nested objects or lists of objects in the JSON data. For example, to look at the values
+of "max_item_length" within the "pocket_data" objects of `ARMOR` types:
+
+```console
+$ tools/json_tools/values.py -k pocket_data.max_item_length type=ARMOR
+
+{ "25 cm": 1, "140 cm": 1, "16 cm": 1, "50 cm": 5, "MISSING": 785, ... }
+```
+
+
+## Examples and use cases
 
 | Desired keys | Command-line
 | ---          | ---
@@ -116,4 +137,5 @@ $ tools/json_tools/values.py --key type | tools/json_tools/lister.py
 | Encumbrances of `ARMOR` made of `leather` | `values.py -k encumbrance type=ARMOR material=leather`
 | All `mutation` type `category` values | `values.py -k category type=mutation`
 | Addiction types of `COMESTIBLE` items | `values.py -k addiction_type type=COMESTIBLE`
-
+| Valid targets of `SPELL` types | `values.py -k valid_targets type=SPELL`
+| Monster conditions in `monstergroup` types | `values.py -k monsters.conditions type=monstergroup`

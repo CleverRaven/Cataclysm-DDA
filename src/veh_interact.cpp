@@ -90,7 +90,7 @@ static inline std::string health_color( bool status )
 }
 
 // Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
+static constexpr units::mass JACK_LIMIT = 8500_kilogram; // 8500kg ( 8.5 metric tonnes )
 
 // cap JACK requirements to support arbitrarily large vehicles
 static double jack_quality( const vehicle &veh )
@@ -331,8 +331,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 }
 
 struct veh_interact::install_info_t {
-    int pos;
-    size_t tab;
+    int pos = 0;
+    size_t tab = 0;
     std::vector<const vpart_info *> tab_vparts;
     std::array<std::string, 8> tab_list;
     std::array<std::string, 8> tab_list_short;
@@ -3046,9 +3046,9 @@ void veh_interact::complete_vehicle( player &p )
                                  veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
-                p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) );
+                p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) );
             }
-
+            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             break;
         }
 
@@ -3174,7 +3174,7 @@ void veh_interact::complete_vehicle( player &p )
                 }
                 for( const std::pair<const skill_id, int> &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
-                    p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
+                    p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) / 2 );
                 }
             }
 
@@ -3196,6 +3196,7 @@ void veh_interact::complete_vehicle( player &p )
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );
+            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             break;
         }
     }

@@ -30,7 +30,7 @@
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
     "cutting": 10,
     "material": [ "leather", "steel" ],
-    "flags": [ "REACHATTACK", "WHIP", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
   },
   {
     "id": "lobotomizer",
