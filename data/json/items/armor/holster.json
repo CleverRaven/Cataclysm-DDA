@@ -14,14 +14,15 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 5,
-    "encumbrance": 5,
+    "encumbrance": 7,
+	"max_encumbrance": 15,
     "material_thickness": 1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1500 ml",
-        "max_contains_volume": "9 L",
+        "max_contains_volume": "3500 ml",
         "max_contains_weight": "10 kg",
         "max_item_length": "60 cm",
         "moves": 150
@@ -77,7 +78,7 @@
     "covers": [ "TORSO" ],
     "coverage": 5,
     "encumbrance": 3,
-    "max_encumbrance": 7,
+    "max_encumbrance": 15,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST" ],
     "pocket_data": [
@@ -85,7 +86,7 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "500 ml",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "5000 ml",
         "max_contains_weight": "5 kg",
         "max_item_length": "160 cm",
         "moves": 50
@@ -132,7 +133,7 @@
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "encumbrance": 1,
-    "max_encumbrance": 2,
+    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -159,6 +160,7 @@
     "material": [ "lycra" ],
     "covers": [ "LEGS" ],
     "encumbrance": 1,
+    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -188,17 +190,21 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 20,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "encumbrance": 3,
+    "max_encumbrance": 20,
     "material_thickness": 2,
     "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       {
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1250 ml",
-        "max_contains_volume": "8 L",
+        "max_contains_volume": "2500 ml",
         "max_contains_weight": "8200 g",
-        "max_item_length": "120 cm",
+        "max_item_length": "60 cm",
         "moves": 50
       }
     ],
@@ -220,7 +226,8 @@
     "color": "light_gray",
     "covers": [ "LEG_EITHER" ],
     "coverage": 10,
-    "encumbrance": 2,
+    "encumbrance": 6,
+    "max_encumbrance": 9,
     "material_thickness": 1,
     "pocket_data": [
       {
