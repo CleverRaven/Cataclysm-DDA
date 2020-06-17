@@ -3,10 +3,12 @@
 
 #include "calendar.h"
 #include "catch/catch.hpp"
+#include "map.h"
 #include "game.h"
 #include "item.h"
 #include "point.h"
 #include "weather.h"
+#include "map_helpers.h"
 
 static void set_map_temperature( int new_temperature )
 {
@@ -84,12 +86,33 @@ TEST_CASE( "Items rot away" )
         // Process item once to set all of its values.
         test_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_HEATER );
 
-        // Set rot to >2 days and process again. process_temperature_rot should return true.
+        // Set rot to >2 days and process again. process_rot should return true.
         calendar::turn += 20_minutes;
         test_item.mod_rot( 2_days );
 
         CHECK( test_item.process_rot( 1, false, tripoint_zero, nullptr,
                                       temperature_flag::TEMP_HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
+    }
+
+    SECTION( "Item on map rots away" ) {
+        clear_map();
+        const tripoint loc = { 0, 0, 0 };
+
+        if( calendar::turn <= calendar::start_of_cataclysm ) {
+            calendar::turn = calendar::start_of_cataclysm + 1_minutes;
+        }
+
+        item test_item( "meat_cooked" );
+        test_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_HEATER );
+        g->m.add_item_or_charges( loc, test_item, false );
+
+        REQUIRE( g->m.i_at( loc ).size() == 1 );
+
+        calendar::turn += 20_minutes;
+        g->m.i_at( loc ).only_item().mod_rot( 7_days );
+        g->m.process_items();
+
+        CHECK( g->m.i_at( loc ).empty() );
     }
 }

@@ -8936,9 +8936,14 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
         return VisitResponse::NEXT;
     } );
     for( item *it : removed_items ) {
-        remove_item( *it );
+        if( it != this ) {
+            remove_item( *it );
+        }
     }
-    return !removed_items.empty();
+    return !removed_items.empty() && std::any_of( removed_items.begin(), removed_items.end(),
+    [this]( const item * r ) {
+        return r == this;
+    } );
 }
 
 bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
