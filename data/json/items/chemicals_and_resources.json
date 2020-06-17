@@ -481,7 +481,7 @@
     "weight": "2 g",
     "//": "Weight should be 1.76g but the game will round down the number to 1g and 1.76g is closer to 2g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_plastic",
     "count": 100
   },
@@ -500,7 +500,7 @@
     "weight": "654 mg",
     "//": "density: 7.14 g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -519,7 +519,7 @@
     "weight": "814 mg",
     "//": "density: 5.1 g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -538,7 +538,7 @@
     "weight": "869 mg",
     "//": "density: 5.026 g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -557,7 +557,7 @@
     "weight": "746 mg",
     "//": "density: 1.984 g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -576,7 +576,7 @@
     "weight": "561 mg",
     "//": "density: 2.12 g/cm3 (25 °C)",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -594,7 +594,7 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
@@ -614,7 +614,7 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
@@ -633,7 +633,7 @@
     "volume": "250 ml",
     "weight": "200 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -651,7 +651,7 @@
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": -44,
@@ -672,7 +672,7 @@
     "weight": "1520 mg",
     "//": "density: 5.22 g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -691,7 +691,7 @@
     "weight": "641 mg",
     "//": "density: 2.22 g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
@@ -726,7 +726,7 @@
     "volume": "250 ml",
     "weight": "325 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -760,7 +760,7 @@
     "volume": "290 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_canvas",
     "count": 500
   },
@@ -779,7 +779,7 @@
     "volume": "303 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_canvas",
     "count": 500
   },
@@ -797,7 +797,7 @@
     "volume": "250 ml",
     "weight": "5275 mg",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_canvas",
     "count": 50
   },
@@ -815,7 +815,7 @@
     "volume": "1250 ml",
     "weight": "790 g",
     "bashing": 1,
-    "ammo_type": [ "components" ]
+    "ammo_type": "components",
   },
   {
     "type": "AMMO",
@@ -831,7 +831,7 @@
     "volume": "250 ml",
     "weight": "13350 mg",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_canvas",
     "count": 50
   },
@@ -848,7 +848,7 @@
     "volume": "250 ml",
     "weight": "300 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -865,7 +865,7 @@
     "volume": "250 ml",
     "weight": "300 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -884,7 +884,7 @@
     "weight": "10 g",
     "//": "Weight might not be accurate.",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_canvas",
     "count": 50
   },
@@ -902,7 +902,7 @@
     "volume": "294 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_canvas",
     "count": 500
   },
@@ -920,7 +920,7 @@
     "volume": "100 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_plastic",
     "count": 100
   },
@@ -938,7 +938,7 @@
     "volume": "10 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_plastic",
     "count": 10
   },
@@ -957,7 +957,7 @@
     "volume": "270 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 500
   },
   {
@@ -975,7 +975,7 @@
     "volume": "300 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 500
   },
   {
@@ -993,7 +993,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_plastic",
     "count": 200
   },
@@ -1011,7 +1011,7 @@
     "volume": "250 ml",
     "weight": "70 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bag_plastic",
     "count": 10
   },
@@ -1199,7 +1199,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "flags": [ "DETERGENT" ],
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "box_small",
     "count": 20
   },
@@ -1216,7 +1216,7 @@
     "description": "A bar of soap cut into flakes suitable for use in a washing machine.",
     "volume": "250 ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "flags": [ "DETERGENT" ],
     "count": 20
   },
@@ -1252,7 +1252,7 @@
     "material": [ "steel" ],
     "volume": "15 L",
     "weight": "250 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 50
   },
   {
@@ -1269,7 +1269,7 @@
     "material": [ "powder_nonflam" ],
     "volume": "164ml",
     "weight": "1 g",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 100
   },
   {
@@ -1463,7 +1463,7 @@
     "material": [ "wood" ],
     "symbol": ".",
     "color": "brown",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "stack_size": 200,
     "looks_like": "bb"
   },
@@ -1511,7 +1511,7 @@
     "material": [ "wood" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components",
   },
   {
     "id": "acetylene",
