@@ -24,6 +24,7 @@ enum scaling_stat : int {
 enum class affected_stat : int {
     NONE = 0,
     HIT,
+    CRITICAL_HIT_CHANCE,
     DODGE,
     BLOCK,
     BLOCK_EFFECTIVENESS,

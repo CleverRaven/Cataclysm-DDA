@@ -645,6 +645,10 @@ int ma_buff::hit_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::HIT );
 }
+int ma_buff::critical_hit_chance_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::CRITICAL_HIT_CHANCE );
+}
 int ma_buff::dodge_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::DODGE );
@@ -1077,6 +1081,14 @@ float Character::mabuff_tohit_bonus() const
     float ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & ) {
         ret += b.hit_bonus( *this );
+    } );
+    return ret;
+}
+float Character::mabuff_critical_hit_chance_bonus() const
+{
+    float ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
     } );
     return ret;
 }
