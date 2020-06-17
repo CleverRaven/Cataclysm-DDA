@@ -1267,9 +1267,8 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel.str() ) );
             }
 
-            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
-                get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency
-                > get_max_power_level() ) {
+            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ((get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency > get_max_power_level()) || ( ((get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency) > (get_max_power_level() * bio.get_safe_fuel_thresh())) 
+                ))){ 
                 if( is_metabolism_powered ) {
                     add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
                                            _( "<npcname>'s %s turns off to not waste calories." ),
@@ -1286,6 +1285,7 @@ bool Character::burn_fuel( int b, bool start )
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
+                
             } else {
                 if( current_fuel_stock > 0 ) {
                     map &here = get_map();
@@ -2829,8 +2829,40 @@ void bionic::toggle_safe_fuel_mod()
     }
     if( !has_flag( flag_SAFE_FUEL_OFF ) ) {
         set_flag( flag_SAFE_FUEL_OFF );
+        set_safe_fuel_thresh( 2.0 );
     } else {
         remove_flag( flag_SAFE_FUEL_OFF );
+        uilist tmenu;
+        tmenu.text = _( "Chose Safe Fuel Level Threshold" );
+        tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
+        if (get_auto_start_thresh() < 0.70){
+            tmenu.addentry( 2, true, 't', _( "Above 70 %%" ) );
+        }
+        if (get_auto_start_thresh() < 0.45){
+            tmenu.addentry( 3, true, 'f', _( "Above 45 %%" ) );
+        }
+        if (get_auto_start_thresh() < 0.20){
+            tmenu.addentry( 4, true, 's', _( "Above 20 %%" ) );
+        }
+        tmenu.query();
+
+        switch( tmenu.ret ) {
+            case 1:
+                set_safe_fuel_thresh( 1.0 );
+                break;
+            case 2:
+                set_safe_fuel_thresh( 0.70 );
+                break;
+            case 3:
+                set_safe_fuel_thresh( 0.45 );
+                break;
+            case 4:
+                set_safe_fuel_thresh( 0.20 );
+                break;
+            default:
+                set_safe_fuel_thresh( 1.0 );
+                break;
+        }
     }
 }
 
@@ -2843,9 +2875,15 @@ void bionic::toggle_auto_start_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
-        tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
-        tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
+        if (get_safe_fuel_thresh() > 0.25){
+            tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
+        }
+        if (get_safe_fuel_thresh() > 0.50){
+            tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
+        }
+        if (get_safe_fuel_thresh() > 0.75){
+            tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
+        }
         tmenu.query();
 
         switch( tmenu.ret ) {
@@ -2884,6 +2922,21 @@ bool bionic::is_auto_start_on() const
     return get_auto_start_thresh() > -1.0;
 }
 
+float bionic::get_safe_fuel_thresh() const
+{
+    return safe_fuel_threshold;
+}
+
+bool bionic::is_safe_fuel_on() const
+{
+    return get_safe_fuel_thresh() < 2.0;
+}
+
+void bionic::set_safe_fuel_thresh( float val )
+{
+    safe_fuel_threshold = val;
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2899,6 +2952,9 @@ void bionic::serialize( JsonOut &json ) const
     }
     if( is_auto_start_on() ) {
         json.member( "auto_start_threshold", auto_start_threshold );
+    }
+    if( is_safe_fuel_on() ) {
+        json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
 
     json.end_object();
@@ -2922,6 +2978,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_float( "auto_start_threshold" ) ) {
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
+    }
+    if( jo.has_float( "safe_fuel_threshold" ) ) {
+        safe_fuel_threshold = jo.get_float( "safe_fuel_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {
