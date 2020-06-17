@@ -33,7 +33,7 @@
         "name": "Aikido Stance",
         "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "stat": "block", "scaling-stat": "dex", "scale": 1.0 ] ]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
       },
       {
         "id": "buff_aikido_static2",
