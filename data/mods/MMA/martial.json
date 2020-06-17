@@ -79,5 +79,14 @@
     "name": { "str_sp": "Shards of Granite" },
     "description": "This book contains the teaching of the Stone Dragon discipline.",
     "book_data": { "martial_art": "style_mma_stone_dragon" }
+  },
+  {
+    "id": "manual_mma_tiger_claw",
+    "copy-from": "book_martial",
+    "looks_like": "manual_karate",
+    "type": "GENERIC",
+    "name": { "str_sp": "Reaping Talons" },
+    "description": "This book contains the teaching of the Tiger Claw discipline.",
+    "book_data": { "martial_art": "style_mma_tiger_claw" }
   }
 ]
