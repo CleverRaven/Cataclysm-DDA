@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 10,
     "stack_size": 15,
-    "ammo_type": [ "300" ],
+    "ammo_type": "300",
     "casing": "300_casing",
     "range": 65,
     "damage": {
