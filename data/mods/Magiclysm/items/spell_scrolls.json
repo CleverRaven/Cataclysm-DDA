@@ -895,7 +895,7 @@
   },
   {
     "type": "BOOK",
-    "copy-from": "spell-scroll",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_repelling_arc",
     "name": { "str": "Scroll of Repelling Arc", "str_pl": "Scrolls of Repelling Arc" },
     "description": "You manifest an aura of crackling electricity around you to strike attackers with baleful lightning.",
