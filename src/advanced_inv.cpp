@@ -245,7 +245,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
-                maxvolume = g->m.max_volume( s.pos );
+                maxvolume = get_map().max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( s.weight ),
@@ -817,6 +817,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         do_return_entry();
     }
 
+    map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
@@ -877,7 +878,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -934,7 +935,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -1107,7 +1108,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             } else {
                 // check item stacks in vehicle and map at said square
                 auto sq = squares[changeSquare];
-                auto map_stack = g->m.i_at( sq.pos );
+                auto map_stack = get_map().i_at( sq.pos );
                 auto veh_stack = sq.veh->get_items( sq.vstor );
                 // auto switch to vehicle storage if vehicle items are there, or neither are there
                 if( !veh_stack.empty() || map_stack.empty() ) {
@@ -1843,7 +1844,7 @@ void advanced_inventory::draw_minimap()
     // get the center of the window
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     // draw the 3x3 tiles centered around player
-    g->m.draw( minimap, g->u.pos() );
+    get_map().draw( minimap, g->u.pos() );
     for( auto s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {
