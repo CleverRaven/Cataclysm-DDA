@@ -2837,13 +2837,13 @@ void bionic::toggle_safe_fuel_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
-        if (get_auto_start_thresh() < 0.80){
+        if( get_auto_start_thresh() < 0.80 ) {
             tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
         }
-        if (get_auto_start_thresh() < 0.55){
+        if( get_auto_start_thresh() < 0.55 ) {
             tmenu.addentry( 3, true, 'f', _( "Above 55 %%" ) );
         }
-        if (get_auto_start_thresh() < 0.30){
+        if( get_auto_start_thresh() < 0.30 ) {
             tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
         }
         tmenu.query();
