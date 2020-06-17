@@ -124,7 +124,7 @@
         "########|^^|#######################|^^|#####################|^^|########",
         "########|^^|#######################|^^|#####################|^^|########",
         "########|^^|#######################|^^|#####################|^^|########",
-        "#######||^^|######################||^^|#####################|^^|########",
+        "#######||^^|######################||^^|#####################|^^||#######",
         "#######|P^^|######################|P^^|#####################|^^P|#######",
         "#######|^^^|######################|^^^|#####################|^^^|#######",
         "#######|424|######################|424|#####################|424|#######",
@@ -162,11 +162,11 @@
       "palettes": [ "prison_palette" ],
       "terrain": {
         "2": "t_concrete",
-		"4": "t_concrete",
+        "4": "t_concrete",
         "@": "t_door_metal_pickable",
         "R": "t_window_bars",
         "^": "t_concrete",
-		"P": "t_concrete",
+        "P": "t_concrete",
         "Y": "t_pavement_y",
         "Z": "t_door_bar_o"
       },
@@ -180,9 +180,9 @@
           { "item": "cop_shoes", "chance": 20 }
         ],
         "C": [ { "item": "hand_tools", "chance": 30 } ],
-		"P": [ { "item": "tools_plumbing", "chance": 100, "repeat": [ 1, 5 ] } ]
+        "P": [ { "item": "tools_plumbing", "chance": 100, "repeat": [ 1, 5 ] } ]
       },
-	  "liquids": { "4": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "4": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 23 ], "y": [ 20, 23 ], "density": 0.3 },
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 14, 15 ], "y": [ 50, 55 ], "density": 0.3 },
@@ -194,10 +194,10 @@
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 53, 64 ], "y": [ 32, 34 ], "density": 0.2 },
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 9, 20 ], "y": [ 32, 34 ], "density": 0.2 }
       ],
-	  "place_monster": [ 
-	    { "monster": "mon_zombie_technician", "x": [ 8, 10 ], "y": [ 110, 115 ], "chance": 100 },
+      "place_monster": [
+        { "monster": "mon_zombie_technician", "x": [ 8, 10 ], "y": [ 110, 115 ], "chance": 100 },
         { "monster": "mon_zombie_technician", "x": [ 33, 35 ], "y": [ 110, 115 ], "chance": 100 },
-        { "monster": "mon_zombie_technician", "x": [ 57, 59 ], "y": [ 110, 115 ], "chance": 100 }		
+        { "monster": "mon_zombie_technician", "x": [ 57, 59 ], "y": [ 110, 115 ], "chance": 100 }
       ],
       "place_vehicles": [ { "vehicle": "bus_prison", "x": 8, "y": 12, "chance": 25, "rotation": 180 } ]
     }
@@ -445,7 +445,9 @@
         "6": "t_card_science",
         "7": "t_floor",
         "/": "t_floor",
-        "?": "t_floor"
+        "?": "t_floor",
+        "C": "t_floor",
+        "Z": "t_floor"
       },
       "items": {
         "l": [
