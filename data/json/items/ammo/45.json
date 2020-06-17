@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 30,
-    "ammo_type": [ "45" ],
+    "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
     "//": ".451in, 230gr, Speer TMJ 4480, 5.5gr Alliant UNIQUE",

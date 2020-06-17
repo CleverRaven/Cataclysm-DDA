@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": [ "38" ],
+    "ammo_type": "38",
     "casing": "38_casing",
     "range": 14,
     "//": ".357in 140gr, Speer JHP 4203, 6.1gr Hodgdon HS-6",

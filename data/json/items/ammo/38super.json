@@ -16,7 +16,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": [ "38super" ],
+    "ammo_type": "38super",
     "casing": "38super_casing",
     "range": 14,
     "//": ".38 Super Auto .355, 124grain FMJ, 5.8 gr Alliant UNIQUE",

@@ -16,7 +16,7 @@
     "color": "light_gray",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": [ "44" ],
+    "ammo_type": "44",
     "casing": "44_casing",
     "range": 16,
     "//": ".429in, 240gr, Speer HP GD 4455, 15.1gr ADI AP 90",
