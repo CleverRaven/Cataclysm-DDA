@@ -391,10 +391,11 @@ bool vehicle_part::fill_with( item &liquid )
         return false;
     }
 
-    int charges_max = base.ammo_capacity(item::find_type(base.ammo_current() )->ammo->type ) - base.ammo_remaining();
+    int charges_max = base.ammo_capacity( item::find_type( base.ammo_current() )->ammo->type ) -
+                      base.ammo_remaining();
     int qty = liquid.charges;
 
-    if (charges_max < liquid.charges) {
+    if( charges_max < liquid.charges ) {
         qty = liquid.charges - charges_max;
     }
 
