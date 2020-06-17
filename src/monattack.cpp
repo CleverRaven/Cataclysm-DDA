@@ -167,6 +167,7 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
@@ -1015,7 +1016,7 @@ bool mattack::resurrect( monster *z )
             const monster *const zed = dynamic_cast<const monster *>( &critter );
             return zed && zed != z && zed->type->has_flag( MF_REVIVES ) &&
                    zed->type->in_species( species_ZOMBIE ) &&
-                   z->attitude_to( *zed ) == Creature::Attitude::A_FRIENDLY  &&
+                   z->attitude_to( *zed ) == Creature::Attitude::FRIENDLY  &&
                    within_target_range( z, zed, 10 );
         } );
         if( !allies ) {
@@ -1445,7 +1446,7 @@ bool mattack::growplants( monster *z )
         Creature *critter = g->critter_at( p );
         // Don't grow under friends (and self)
         if( critter != nullptr &&
-            z->attitude_to( *critter ) == Creature::A_FRIENDLY ) {
+            z->attitude_to( *critter ) == Creature::Attitude::FRIENDLY ) {
             continue;
         }
 
@@ -1476,7 +1477,7 @@ bool mattack::growplants( monster *z )
         }
 
         Creature *critter = g->critter_at( p );
-        if( critter != nullptr && z->attitude_to( *critter ) == Creature::A_FRIENDLY ) {
+        if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::FRIENDLY ) {
             // Don't buff terrain below friends (and self)
             continue;
         }
@@ -1538,7 +1539,7 @@ bool mattack::vine( monster *z )
     z->moves -= 100;
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = g->critter_at( dest );
-        if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::A_HOSTILE ) {
+        if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             if( critter->uncanny_dodge() ) {
                 return true;
             }
@@ -1635,8 +1636,8 @@ bool mattack::triffid_heartbeat( monster *z )
         int tries = 0;
         while( g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() &&
                tries < 20 ) {
-            int x = rng( g->u.posx(), z->posx() - 3 ), y = rng( g->u.posy(), z->posy() - 3 );
-            tripoint dest( x, y, z->posz() );
+            point p( rng( g->u.posx(), z->posx() - 3 ), rng( g->u.posy(), z->posy() - 3 ) );
+            tripoint dest( p, z->posz() );
             tries++;
             g->m.ter_set( dest, t_dirt );
             if( rl_dist( dest, g->u.pos() ) > 3 && g->num_creatures() < 30 &&
@@ -2730,8 +2731,12 @@ bool mattack::grab( monster *z )
 
     item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed
+    int reflex_mod = pl->has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
+    const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
+                             z->type->melee_sides + z->type->melee_dice );
+
     if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 &&
-        rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
+        dodged_grab ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
@@ -3006,7 +3011,7 @@ bool mattack::nurse_assist( monster *z )
 
     if( found_target ) {
         if( target->is_wearing( itype_badge_doctor ) ||
-            z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
+            z->attitude_to( *target ) == Creature::Attitude::FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
@@ -3031,7 +3036,7 @@ bool mattack::nurse_operate( monster *z )
     }
 
     if( ( ( g->u.is_wearing( itype_badge_doctor ) ||
-            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
+            z->attitude_to( g->u ) == Creature::Attitude::FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
@@ -3060,7 +3065,7 @@ bool mattack::nurse_operate( monster *z )
             }
         }
     }
-    if( found_target && z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) {
+    if( found_target && z->attitude_to( g->u ) == Creature::Attitude::FRIENDLY ) {
         // 50% chance to not turn hostile again
         if( one_in( 2 ) ) {
             return false;
@@ -3284,7 +3289,7 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
-    g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
+    g->timed_events.add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                          g->u.global_sm_location() );
 
     return true;
@@ -3318,7 +3323,7 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    auto m_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
+    auto m_type = target->attitude_to( g->u ) == Creature::Attitude::FRIENDLY ? m_bad : m_neutral;
     target->add_msg_player_or_npc( m_type,
                                    _( "The %s shocks you!" ),
                                    _( "The %s shocks <npcname>!" ),
@@ -3844,7 +3849,7 @@ bool mattack::chickenbot( monster *z )
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
     if( z->get_hp() <= z->get_hp_max() ||
-        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
+        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::HOSTILE ) ) {
         cap += 2;
     }
 
@@ -3926,7 +3931,7 @@ bool mattack::multi_robot( monster *z )
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
     if( z->get_hp() <= z->get_hp_max() ||
-        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
+        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::HOSTILE ) ) {
         cap += 2;
     }
 
@@ -4026,7 +4031,7 @@ bool mattack::upgrade( monster *z )
         // Check this first because it is a relatively cheap check
         if( zed.can_upgrade() ) {
             // Then do the more expensive ones
-            if( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
+            if( z->attitude_to( zed ) != Creature::Attitude::HOSTILE &&
                 within_target_range( z, &zed, 10 ) ) {
                 targets.push_back( &zed );
             }
@@ -5648,7 +5653,7 @@ bool mattack::grenadier( monster *const z )
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.
     Creature *const target = static_cast<Creature *>( &g->u );
-    if( z->attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( z->attitude_to( *target ) == Creature::Attitude::FRIENDLY ) {
         return false;
     }
     int ret = grenade_helper( z, target, 30, 60, grenades );
@@ -5681,7 +5686,7 @@ bool mattack::grenadier_elite( monster *const z )
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.
     Creature *const target = static_cast<Creature *>( &g->u );
-    if( z->attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( z->attitude_to( *target ) == Creature::Attitude::FRIENDLY ) {
         return false;
     }
     int ret = grenade_helper( z, target, 30, 60, grenades );

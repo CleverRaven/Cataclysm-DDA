@@ -14,7 +14,7 @@
     "description": "Baked muffins made of pumpkin.  Perfect for your fall feast.",
     "price": 50,
     "price_postapoc": 5,
-    "material": "fruit",
+    "material": [ "fruit" ],
     "volume": "35 ml",
     "stack_size": 24,
     "fun": 3,

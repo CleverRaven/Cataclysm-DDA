@@ -274,22 +274,20 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
     }
     const int num_pods = rng( 8, 12 );
     for( int i = 0; i < num_pods; i++ ) {
-        const int podx = rng( 1, SEEX * 2 - 2 );
-        const int pody = rng( 1, SEEY * 2 - 2 );
-        int nonx = 0;
-        int nony = 0;
-        while( nonx == 0 && nony == 0 ) {
-            nonx = rng( -1, 1 );
-            nony = rng( -1, 1 );
+        const point pod( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        point non;
+        while( non.x == 0 && non.y == 0 ) {
+            non.x = rng( -1, 1 );
+            non.y = rng( -1, 1 );
         }
         for( int x = -1; x <= 1; x++ ) {
             for( int y = -1; y <= 1; y++ ) {
-                if( ( x != nonx || y != nony ) && ( x != 0 || y != 0 ) ) {
-                    m.ter_set( point( podx + x, pody + y ), t_paper );
+                if( ( x != non.x || y != non.y ) && ( x != 0 || y != 0 ) ) {
+                    m.ter_set( pod + point( x, y ), t_paper );
                 }
             }
         }
-        m.add_spawn( mon_wasp, 1, tripoint( podx, pody, loc.z ) );
+        m.add_spawn( mon_wasp, 1, tripoint( pod, loc.z ) );
     }
     m.place_items( "rare", 70, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), false,
                    calendar::start_of_cataclysm );
@@ -335,8 +333,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
 
 static bool mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    int cx = rng( 6, SEEX * 2 - 7 );
-    int cy = rng( 6, SEEY * 2 - 7 );
+    point c( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ) );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
@@ -344,14 +341,14 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                 m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
             } else {
-                if( x >= cx - dice( 1, 5 ) && x <= cx + dice( 1, 5 ) && y >= cy - dice( 1, 5 ) &&
-                    y <= cy + dice( 1, 5 ) ) {
+                if( x >= c.x - dice( 1, 5 ) && x <= c.x + dice( 1, 5 ) && y >= c.y - dice( 1, 5 ) &&
+                    y <= c.y + dice( 1, 5 ) ) {
                     if( one_in( 7 ) && m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
                         m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
                     }
                 }
-                if( x >= cx - dice( 1, 6 ) && x <= cx + dice( 1, 6 ) && y >= cy - dice( 1, 6 ) &&
-                    y <= cy + dice( 1, 6 ) ) {
+                if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
+                    y <= c.y + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
                         m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
@@ -364,8 +361,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( std::abs( x - cx ) + ( std::abs( y -
-                                         cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
+                } else if( one_in( 4 + ( std::abs( x - c.x ) + ( std::abs( y -
+                                         c.y ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( TFLAG_DIGGABLE ) ) {
@@ -403,8 +400,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     int y_max = SEEY * 2 - bbox.p2.y - 1;
 
     // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-    int x1 = clamp( cx + x_offset, x_min, x_max );
-    int y1 = clamp( cy + y_offset, y_min, y_max );
+    int x1 = clamp( c.x + x_offset, x_min, x_max );
+    int y1 = clamp( c.y + y_offset, y_min, y_max );
 
     vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
                                        1 );
@@ -552,8 +549,8 @@ static bool mx_military( map &m, const tripoint & )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, point( mx, my ), point( mx, my ), 1, true );
+        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
     m.place_spawns( GROUP_MAYBE_MIL, 2, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     0.1f ); //0.1 = 1-5
@@ -579,8 +576,8 @@ static bool mx_science( map &m, const tripoint & )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, point( mx, my ), point( mx, my ), 1, true );
+        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
     m.place_items( "rare", 45, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
                    calendar::start_of_cataclysm );
@@ -613,8 +610,8 @@ static bool mx_collegekids( map &m, const tripoint & )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, point( mx, my ), point( mx, my ), 1, true );
+        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
 
     return true;
@@ -907,25 +904,23 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
     bool a_has_drugs = one_in( 2 );
 
     for( int i = 0; i < num_bodies_a; i++ ) {
-        int x = 0;
-        int y = 0;
-        int x_offset = 0;
-        int y_offset = 0;
+        point p;
+        point offset;
         int tries = 0;
         do { // Loop until we find a valid spot to dump a body, or we give up
             if( north_south ) {
-                x = rng( 0, SEEX * 2 - 1 );
-                y = rng( 0, SEEY - 4 );
-                x_offset = 0;
-                y_offset = -1;
+                p.x = rng( 0, SEEX * 2 - 1 );
+                p.y = rng( 0, SEEY - 4 );
+                offset.x = 0;
+                offset.y = -1;
             } else {
-                x = rng( 0, SEEX - 4 );
-                y = rng( 0, SEEY * 2 - 1 );
-                x_offset = -1;
-                y_offset = 0;
+                p.x = rng( 0, SEEX - 4 );
+                p.y = rng( 0, SEEY * 2 - 1 );
+                offset.x = -1;
+                offset.y = 0;
             }
             tries++;
-        } while( tries < 10 && m.impassable( point( x, y ) ) );
+        } while( tries < 10 && m.impassable( p ) );
 
         if( tries < 10 ) { // We found a valid spot!
             if( a_has_drugs && num_drugs > 0 ) {
@@ -934,50 +929,48 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
                     drugs_placed = num_drugs;
                     num_drugs = 0;
                 }
-                m.spawn_item( point( x, y ), drugtype, 0, drugs_placed );
+                m.spawn_item( p, drugtype, 0, drugs_placed );
             }
             if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_spitter, 1, { x, y, abs_sub.z } );
+                m.add_spawn( mon_zombie_spitter, 1, { p, abs_sub.z } );
             } else {
-                m.place_items( "map_extra_drugdeal", 100, point( x, y ), point( x, y ), true,
+                m.place_items( "map_extra_drugdeal", 100, p, p, true,
                                calendar::start_of_cataclysm );
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {x + j * x_offset, y + j * y_offset, abs_sub.z}, fd_blood, 1, 0_turns );
+                    m.add_field( p + tripoint( j * offset.x, j * offset.y, abs_sub.z ), fd_blood, 1, 0_turns );
                 }
             }
         }
     }
     for( int i = 0; i < num_bodies_b; i++ ) {
-        int x = 0;
-        int y = 0;
-        int x_offset = 0;
-        int y_offset = 0;
+        point p2;
+        point offset2;
         int tries = 0;
         do { // Loop until we find a valid spot to dump a body, or we give up
             if( north_south ) {
-                x = rng( 0, SEEX * 2 - 1 );
-                y = rng( SEEY + 3, SEEY * 2 - 1 );
-                x_offset = 0;
-                y_offset = 1;
+                p2.x = rng( 0, SEEX * 2 - 1 );
+                p2.y = rng( SEEY + 3, SEEY * 2 - 1 );
+                offset2.x = 0;
+                offset2.y = 1;
             } else {
-                x = rng( SEEX + 3, SEEX * 2 - 1 );
-                y = rng( 0, SEEY * 2 - 1 );
-                x_offset = 1;
-                y_offset = 0;
+                p2.x = rng( SEEX + 3, SEEX * 2 - 1 );
+                p2.y = rng( 0, SEEY * 2 - 1 );
+                offset2.x = 1;
+                offset2.y = 0;
             }
             tries++;
-        } while( tries < 10 && m.impassable( point( x, y ) ) );
+        } while( tries < 10 && m.impassable( p2 ) );
 
         if( tries < 10 ) { // We found a valid spot!
             if( one_in( 20 ) ) {
-                m.add_spawn( mon_zombie_smoker, 1, { x, y, abs_sub.z } );
+                m.add_spawn( mon_zombie_smoker, 1, { p2, abs_sub.z } );
             } else {
-                m.place_items( "map_extra_drugdeal", 100, point( x, y ), point( x, y ), true,
+                m.place_items( "map_extra_drugdeal", 100, p2, p2, true,
                                calendar::start_of_cataclysm );
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( {x + j * x_offset, y + j * y_offset, abs_sub.z}, fd_blood, 1, 0_turns );
+                    m.add_field( p2 + tripoint( j * offset2.x, j * offset2.y, abs_sub.z ), fd_blood, 1, 0_turns );
                 }
                 if( !a_has_drugs && num_drugs > 0 ) {
                     int drugs_placed = rng( 2, 6 );
@@ -985,15 +978,15 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
                         drugs_placed = num_drugs;
                         num_drugs = 0;
                     }
-                    m.spawn_item( point( x, y ), drugtype, 0, drugs_placed );
+                    m.spawn_item( p2, drugtype, 0, drugs_placed );
                 }
             }
         }
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, point( mx, my ), point( mx, my ), 1, true );
+        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
 
     return true;
@@ -1609,12 +1602,12 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
 {
     int size = rng( 2, 6 );
     int size_squared = size * size;
-    int x = rng( size, SEEX * 2 - 1 - size ), y = rng( size, SEEY * 2 - 1 - size );
-    for( int i = x - size; i <= x + size; i++ ) {
-        for( int j = y - size; j <= y + size; j++ ) {
+    point p( rng( size, SEEX * 2 - 1 - size ), rng( size, SEEY * 2 - 1 - size ) );
+    for( int i = p.x - size; i <= p.x + size; i++ ) {
+        for( int j = p.y - size; j <= p.y + size; j++ ) {
             //If we're using circular distances, make circular craters
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
-            if( !trigdist || ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) <= size_squared ) {
+            if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
                 m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
             }
@@ -1654,8 +1647,7 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
 {
     const tripoint portal_location = { rng( 5, SEEX * 2 - 6 ), rng( 5, SEEX * 2 - 6 ), abs_sub.z };
-    const int x = portal_location.x;
-    const int y = portal_location.y;
+    const point p( portal_location.xy() );
 
     switch( rng( 1, 7 ) ) {
         //Mycus spreading through the portal
@@ -1668,7 +1660,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 }
             }
             //50% chance to spawn pouf-maker
-            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, point( x - 1, y - 1 ), point( x + 1, y + 1 ), 1, true );
+            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, p + point_north_west, p + point_south_east, 1, true );
             break;
         }
         //Netherworld monsters spawning around the portal
@@ -1696,9 +1688,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         case 4: {
             m.add_field( portal_location, fd_fatigue, 3 );
             const int rad = 10;
-            for( int i = x - rad; i <= x + rad; i++ ) {
-                for( int j = y - rad; j <= y + rad; j++ ) {
-                    if( trig_dist( point( x, y ), point( i, j ) ) + rng( 0, 3 ) <= rad ) {
+            for( int i = p.x - rad; i <= p.x + rad; i++ ) {
+                for( int j = p.y - rad; j <= p.y + rad; j++ ) {
+                    if( trig_dist( p, point( i, j ) ) + rng( 0, 3 ) <= rad ) {
                         const tripoint loc( i, j, abs_sub.z );
                         dead_vegetation_parser( m, loc );
                         m.adjust_radiation( loc.xy(), rng( 20, 40 ) );
@@ -1710,37 +1702,36 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Lava seams originating from the portal
         case 5: {
             if( abs_sub.z <= 0 ) {
-                int x1 = rng( 0,    SEEX     - 3 ), y1 = rng( 0,    SEEY     - 3 ),
-                    x2 = rng( SEEX, SEEX * 2 - 3 ), y2 = rng( SEEY, SEEY * 2 - 3 );
+                point p1( rng( 0,    SEEX     - 3 ), rng( 0,    SEEY     - 3 ) );
+                point p2( rng( SEEX, SEEX * 2 - 3 ), rng( SEEY, SEEY * 2 - 3 ) );
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
                 static const std::array<direction, 4> possibilities = { { direction::EAST, direction::WEST, direction::NORTH, direction::SOUTH } };
                 const direction extra_lava_dir = random_entry( possibilities );
-                int x_extra = 0;
-                int y_extra = 0;
+                point extra;
                 switch( extra_lava_dir ) {
                     case direction::NORTH:
-                        y_extra = -1;
+                        extra.y = -1;
                         break;
                     case direction::EAST:
-                        x_extra = 1;
+                        extra.x = 1;
                         break;
                     case direction::SOUTH:
-                        y_extra = 1;
+                        extra.y = 1;
                         break;
                     case direction::WEST:
-                        x_extra = -1;
+                        extra.x = -1;
                         break;
                     default:
                         break;
                 }
 
-                const tripoint portal_location = { x1 + x_extra, y1 + y_extra, abs_sub.z };
+                const tripoint portal_location = { p1 + tripoint( extra, abs_sub.z ) };
                 m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
-                place_fumarole( m, point( x1, y1 ), point( x2, y2 ), ignited );
-                place_fumarole( m, point( x1 + x_extra, y1 + y_extra ), point( x2 + x_extra, y2 + y_extra ),
+                place_fumarole( m, p1, p2, ignited );
+                place_fumarole( m, p1 + extra, p2 + extra,
                                 ignited );
 
                 for( auto &i : ignited ) {
@@ -1761,10 +1752,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
                                 true );
             }
-            const int x_pos = x + rng( -5, 5 );
-            const int y_pos = y + rng( -5, 5 );
-            circle( &m, ter_id( "t_wall_resin" ), point( x_pos, y_pos ), 6 );
-            rough_circle( &m, ter_id( "t_floor_resin" ), point( x_pos, y_pos ), 5 );
+            const point pos( p + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+            circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
+            rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
             break;
         }
         //Anomaly caused by the portal and spawned an artifact
@@ -1773,7 +1763,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
-            m.spawn_natural_artifact( { x + rng( -1, 1 ), y + rng( -1, 1 ), abs_sub.z }, prop );
+            m.spawn_natural_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ), prop );
             break;
         }
     }
@@ -1965,7 +1955,7 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
                         m.ter_set( location, t_water_dp );
                         break;
                     case 3:
-                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
+                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, point( i, j ) );
                         if( neighbors == 8 ) {
                             m.ter_set( location, t_water_dp );
                         } else {

@@ -230,7 +230,7 @@ class submap : maptile_soa<SEEX, SEEY>
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
-        bool is_uniform;
+        bool is_uniform = false;
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 
@@ -268,16 +268,13 @@ struct maptile {
         friend map; // To allow "sliding" the tile in x/y without bounds checks
         friend submap;
         submap *const sm;
-        size_t x;
-        size_t y;
+        point pos_;
         point pos() const {
-            return point( x, y );
+            return pos_;
         }
 
-        maptile( submap *sub, const size_t nx, const size_t ny ) :
-            sm( sub ), x( nx ), y( ny ) { }
         maptile( submap *sub, const point &p ) :
-            sm( sub ), x( p.x ), y( p.y ) { }
+            sm( sub ), pos_( p ) { }
     public:
         trap_id get_trap() const {
             return sm->get_trap( pos() );

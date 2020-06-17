@@ -1,0 +1,418 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements.  resistance_12x12",
+    "nested_mapgen_id": "recroom_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "............",
+        "....ElHHHl..",
+        "..........T.",
+        "..........ER",
+        "...eee.....R",
+        "...eee.....R",
+        "...eee......",
+        "...eee.....$",
+        "........AC..",
+        "........AC..",
+        "........AC..",
+        "MMM......CS!"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "terrain": {
+        ".": "t_carpet_purple",
+        "e": "t_carpet_purple",
+        "R": "t_carpet_purple",
+        "E": "t_carpet_purple",
+        "l": "t_carpet_purple",
+        "H": "t_carpet_purple",
+        "T": "t_carpet_purple",
+        "A": "t_carpet_purple",
+        "C": "t_carpet_purple",
+        "S": "t_carpet_purple",
+        "!": "t_carpet_purple",
+        "$": "t_carpet_purple"
+      },
+      "furniture": { "!": "f_fridge", "$": "f_server", "e": "f_workbench" },
+      "items": {
+        "!": { "item": "supplies_reagents_lab", "chance": 100, "repeat": [ 1, 10 ] },
+        "e": [
+          { "item": "book_gunref", "chance": 5 },
+          { "item": "supplies_mechanics", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "schematics", "chance": 3 }
+        ],
+        "C": [ { "item": "wetbar_stack", "chance": 25 }, { "item": "wetbar_counter", "chance": 25 } ],
+        "M": [ { "item": "afs_scrapgroup", "chance": 65, "repeat": [ 1, 3 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements.  cyberpunk_12x12",
+    "nested_mapgen_id": "tvroom_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "............",
+        ".00,,,,,,,..",
+        ".,,,,,,,,,!.",
+        ".,,,,,,,,,!.",
+        ".,,,,,,,,,!.",
+        ".,,,,,,,,,..",
+        "..HHHHHHH...",
+        "..H........T",
+        "....lll....E",
+        "........K...",
+        ".....$......",
+        "............"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "terrain": {
+        ".": "t_carpet_yellow",
+        ",": "t_carpet_yellow",
+        "H": "t_carpet_yellow",
+        "l": "t_carpet_yellow",
+        "T": "t_carpet_yellow",
+        "E": "t_carpet_yellow",
+        "$": "t_carpet_yellow",
+        "!": "t_carpet_yellow",
+        "0": "t_carpet_yellow"
+      },
+      "furniture": { "!": "f_utility_shelf", "$": "f_utility_shelf", "0": "f_sleep_pod" },
+      "items": {
+        "!": { "item": "guns_ganger", "chance": 80, "repeat": [ 1, 3 ] },
+        ".": [
+          { "item": "ammo_common", "chance": 5 },
+          { "item": "trash", "chance": 1 },
+          { "item": "bed", "chance": 1 },
+          { "item": "afs_scrapgroup", "chance": 3 }
+        ],
+        "$": { "item": "a_television", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements.  amateur_crispr_12x12",
+    "nested_mapgen_id": "workoutroom_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "............",
+        "..,,,,,,,,..",
+        "..,0,,,,0,..",
+        "..,,,,,,,,..",
+        "..,,,,,,,,..",
+        "..,!!,,uu,..",
+        "..,,,,,,,,..",
+        "............",
+        ".........AA.",
+        ".......CCCC.",
+        ".......S....",
+        ".......!...$"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "terrain": {
+        ".": "t_carpet_red",
+        "A": "t_carpet_red",
+        "C": "t_carpet_red",
+        "S": "t_carpet_red",
+        "!": "t_carpet_red",
+        "$": "t_carpet_red",
+        ",": "t_linoleum_white",
+        "c": "t_linoleum_white",
+        "u": "t_linoleum_white",
+        "X": "t_linoleum_white"
+      },
+      "furniture": { "!": "f_fridge", "$": "f_rack_wood", "0": "f_crispr", "u": "f_cryo_pod" },
+      "items": { "!": { "item": "tools_medical", "chance": 80, "repeat": [ 2, 8 ] }, "$": { "item": "a_television", "chance": 100 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements.  room_6x6_makerspace",
+    "nested_mapgen_id": "room_6x6_woodworker",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|GEEA|",
+        "|0  C|",
+        "|G FD|",
+        "|GF B|",
+        "|||+||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_locked",
+        " ": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "E": "t_thconc_floor",
+        "F": "t_thconc_floor",
+        "G": "t_thconc_floor"
+      },
+      "furniture": {
+        "A": [ "f_neuralnet_inserter" ],
+        "B": [ "f_server" ],
+        "C": "f_atomic_butter_churn",
+        "D": "f_monomolecularsaw",
+        "E": "f_workbench",
+        "F": "f_stool",
+        "G": "f_rack_wood",
+        "0": "f_3dprinter"
+      },
+      "place_items": [
+        { "item": "home_hw", "x": [ 1, 3 ], "y": 4, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "afs_scrapgroup", "x": 1, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_orchard_N",
+    "//": "an grow area for various exotic plants",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||+||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "|Q hTh Q|",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "|||||||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_orchard_S",
+    "//": "an grow area for various exotic plants",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "|Q hTh Q|",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "||||+||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_weed_E",
+    "//": "an grow area for various exotic plants",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "|Q hTh  +",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "|||||||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_weed_W",
+    "//": "an grow area for various exotic plants",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "+  hTh Q|",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "|||||||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "items": { "item": "exoticplants", "chance": 100 }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  }
+]

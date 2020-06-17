@@ -182,8 +182,9 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_RECOIL );
     }
 
+    map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : g->m.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+        for( const item &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -191,29 +192,29 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.ter( p ) == t_door_o ) {
+    for( const tripoint &p : here.points_in_radius( g->u.pos(), 1 ) ) {
+        if( here.ter( p ) == t_door_o ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( g->m.ter( p ) == t_door_c ) {
+        } else if( here.ter( p ) == t_door_c ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( g->m.ter( p ) == t_window ) {
+        } else if( here.ter( p ) == t_window ) {
             add_message( tut_lesson::LESSON_SMASH );
             break;
-        } else if( g->m.furn( p ) == f_rack && !g->m.i_at( p ).empty() ) {
+        } else if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( g->m.ter( p ) == t_stairs_down ) {
+        } else if( here.ter( p ) == t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( g->m.ter( p ) == t_water_sh ) {
+        } else if( here.ter( p ) == t_water_sh ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         }
     }
 
-    if( !g->m.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
+    if( !here.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 }
@@ -252,16 +253,18 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_SMASH );
             break;
 
-        case ACTION_USE:
+        case ACTION_USE: {
             if( g->u.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-                if( g->m.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
+            map &here = get_map();
+            for( const tripoint &dest : here.points_in_radius( g->u.pos(), 1 ) ) {
+                if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
                     add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
                 }
             }
-            break;
+        }
+        break;
 
         case ACTION_EAT:
             if( g->u.last_item == itype_codeine ) {

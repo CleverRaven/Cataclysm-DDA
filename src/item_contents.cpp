@@ -5,7 +5,6 @@
 
 #include "character.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -401,7 +400,7 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
                 if( mag.has_flag( "MAG_DESTROY" ) ) {
                     pocket.remove_item( mag );
                 } else if( mag.has_flag( "MAG_EJECT" ) ) {
-                    g->m.add_item( pos, mag );
+                    get_map().add_item( pos, mag );
                     pocket.remove_item( mag );
                 }
             }
@@ -703,6 +702,19 @@ std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type p
     return all_items_internal;
 }
 
+std::list<const item *> item_contents::all_standard_items_top() const
+{
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_standard_type() ) {
+            std::list<const item *> contained_items = pocket.all_items_top();
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
 std::list<item *> item_contents::all_items_top()
 {
     std::list<item *> ret;
@@ -825,11 +837,40 @@ units::mass item_contents::total_container_weight_capacity() const
     return total_weight;
 }
 
+ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() const
+{
+    std::vector<item_pocket> pockets;
+    bool found = false;
+
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            found = true;
+            pockets.push_back( pocket );
+        }
+    }
+    if( found ) {
+        return ret_val<std::vector<item_pocket>>::make_success( pockets );
+    } else {
+        return ret_val<std::vector<item_pocket>>::make_failure( pockets );
+    }
+}
+
 units::volume item_contents::total_container_capacity() const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            total_vol += pocket.volume_capacity();
+        }
+    }
+    return total_vol;
+}
+
+units::volume item_contents::total_standard_capacity() const
+{
+    units::volume total_vol = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_standard_type() ) {
             total_vol += pocket.volume_capacity();
         }
     }
@@ -939,6 +980,19 @@ bool item_contents::all_pockets_rigid() const
         }
     }
     return true;
+}
+
+bool item_contents::contents_are_rigid() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return false;
 }
 
 units::volume item_contents::item_size_modifier() const

@@ -36,6 +36,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -220,8 +221,9 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     std::set<vehicle *> opts;
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
-        if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part & pt ) {
-        return pt.can_reload( liquid );
+        vehicle_part_range vpr = veh->get_all_parts();
+        if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
+        return pt.part().can_reload( liquid );
         } ) ) {
             opts.insert( veh );
         }

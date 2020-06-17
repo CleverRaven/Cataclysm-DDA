@@ -267,7 +267,14 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
             }
         }
     }
-
+    for( const bionic_id &bid : you.get_bionics() ) {
+        if( bid->vitamin_absorb_mod == 1.0f ) {
+            continue;
+        }
+        for( std::pair<const vitamin_id, int> &vit : res ) {
+            vit.second *= bid->vitamin_absorb_mod;
+        }
+    }
     return res;
 }
 
@@ -1089,7 +1096,8 @@ void Character::modify_morale( item &food, const int nutr )
     // Does not apply to non-ingested consumables like bandages or drugs
     if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) &&
         food.get_comestible()->comesttype != "MED" ) {
-        if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
+        map &here = get_map();
+        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
                 add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
@@ -1804,7 +1812,7 @@ bool player::consume( item_location loc, bool force )
         i_rem( loc.get_item() );
 
     } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
+        if( Pickup::handle_spillable_contents( *this, target, get_map() ) ) {
             i_rem( &target );
         }
         inv.restack( *this );

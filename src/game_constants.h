@@ -2,82 +2,80 @@
 #ifndef CATA_SRC_GAME_CONSTANTS_H
 #define CATA_SRC_GAME_CONSTANTS_H
 
-#include "units.h"
-
 // Fixed window sizes.
-#define HP_HEIGHT 14
-#define HP_WIDTH 7
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-#define MONINFO_HEIGHT 12
-#define MONINFO_WIDTH 48
-#define MESSAGES_HEIGHT 8
-#define MESSAGES_WIDTH 48
-#define LOCATION_HEIGHT 1
-#define LOCATION_WIDTH 48
-#define STATUS_HEIGHT 4
-#define STATUS_WIDTH 55
+static constexpr int HP_HEIGHT = 14;
+static constexpr int HP_WIDTH = 7;
+static constexpr int MINIMAP_HEIGHT = 7;
+static constexpr int MINIMAP_WIDTH = MINIMAP_HEIGHT;
+static constexpr int MONINFO_HEIGHT = 12;
+static constexpr int MONINFO_WIDTH = 48;
+static constexpr int MESSAGES_HEIGHT = 8;
+static constexpr int MESSAGES_WIDTH = 48;
+static constexpr int LOCATION_HEIGHT = 1;
+static constexpr int LOCATION_WIDTH = 48;
+static constexpr int STATUS_HEIGHT = 4;
+static constexpr int STATUS_WIDTH = 55;
 
-#define BLINK_SPEED 300
-#define EXPLOSION_MULTIPLIER 7
+static constexpr int BLINK_SPEED = 300;
+static constexpr int EXPLOSION_MULTIPLIER = 7;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
-#define MAX_ITEM_IN_SQUARE 4096
+static constexpr int MAX_ITEM_IN_SQUARE = 4096;
 // no reason to differ.
-#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE
+static constexpr int MAX_ITEM_IN_VEHICLE_STORAGE = MAX_ITEM_IN_SQUARE;
 // only can wear a maximum of two of any type of clothing.
-#define MAX_WORN_PER_TYPE 2
+static constexpr int MAX_WORN_PER_TYPE = 2;
 
-#define MAPSIZE 11
-#define HALF_MAPSIZE static_cast<int>( MAPSIZE / 2 )
+static constexpr int MAPSIZE = 11;
+static constexpr int HALF_MAPSIZE = static_cast<int>( MAPSIZE / 2 );
 
 // SEEX/SEEY define the size of a nonant, or grid.
 // All map segments will need to be at least this wide.
-#define SEEX 12
-#define SEEY SEEX
+static constexpr int SEEX = 12;
+static constexpr int SEEY = SEEX;
 
-#define MAPSIZE_X (SEEX * MAPSIZE)
-#define MAPSIZE_Y (SEEY * MAPSIZE)
+static constexpr int MAPSIZE_X = SEEX * MAPSIZE;
+static constexpr int MAPSIZE_Y = SEEY * MAPSIZE;
 
-#define HALF_MAPSIZE_X (SEEX * HALF_MAPSIZE)
-#define HALF_MAPSIZE_Y (SEEY * HALF_MAPSIZE)
+static constexpr int HALF_MAPSIZE_X = SEEX * HALF_MAPSIZE;
+static constexpr int HALF_MAPSIZE_Y = SEEY * HALF_MAPSIZE;
 
-#define MAX_VIEW_DISTANCE ( SEEX * HALF_MAPSIZE )
+static constexpr int MAX_VIEW_DISTANCE = SEEX * HALF_MAPSIZE;
 
 /**
  * Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
  * it's just like SEEX/SEEY for submaps.
 */
-#define OMAPX 180
-#define OMAPY 180
+static constexpr int OMAPX = 180;
+static constexpr int OMAPY = OMAPX;
 
 // Size of a square unit of terrain saved to a directory.
-#define SEG_SIZE 32
+static constexpr int SEG_SIZE = 32;
 
 /**
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map
 */
-#define PICKUP_RANGE 6
+static constexpr int PICKUP_RANGE = 6;
 
 // Number of z-levels below 0 (not including 0).
-#define OVERMAP_DEPTH 10
+static constexpr int OVERMAP_DEPTH = 10;
 // Number of z-levels above 0 (not including 0).
-#define OVERMAP_HEIGHT 10
+static constexpr int OVERMAP_HEIGHT = 10;
 // Total number of z-levels.
-#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+static constexpr int OVERMAP_LAYERS = 1 + OVERMAP_DEPTH + OVERMAP_HEIGHT;
 
 // Maximum move cost when handling an item.
-#define MAX_HANDLING_COST 400
+static constexpr int MAX_HANDLING_COST = 400;
 // Move cost of accessing an item in inventory.
-#define INVENTORY_HANDLING_PENALTY 100
+static constexpr int INVENTORY_HANDLING_PENALTY = 100;
 // Move cost of accessing an item lying on the map. TODO: Less if player is crouching.
-#define MAP_HANDLING_PENALTY 80
+static constexpr int MAP_HANDLING_PENALTY = 80;
 // Move cost of accessing an item lying on a vehicle.
-#define VEHICLE_HANDLING_PENALTY 80
+static constexpr int VEHICLE_HANDLING_PENALTY = 80;
 
 // Amount by which to charge an item for each unit of plutonium cell.
-#define PLUTONIUM_CHARGES 500
+static constexpr int PLUTONIUM_CHARGES = 500;
 
 // Temperature constants.
 namespace temperatures
@@ -101,23 +99,17 @@ constexpr int freezer = 23; // -5 Celsius
 constexpr int freezing = 32; // 0 Celsius
 } // namespace temperatures
 
-// Weight per level of LIFT/JACK tool quality.
-#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
-
-// Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
-
 // Slowest speed at which a gun can be aimed.
-#define MAX_AIM_COST 10
+static constexpr int MAX_AIM_COST = 10;
 
 // Maximum (effective) level for a skill.
-#define MAX_SKILL 10
+static constexpr int MAX_SKILL = 10;
 
 // Maximum (effective) level for a stat.
-#define MAX_STAT 14
+static constexpr int MAX_STAT = 14;
 
 // Maximum range at which ranged attacks can be executed.
-#define RANGE_HARD_CAP 60
+static constexpr int RANGE_HARD_CAP = 60;
 
 // Accuracy levels which a shots tangent must be below.
 constexpr double accuracy_headshot = 0.1;
@@ -131,25 +123,25 @@ constexpr double accuracy_grazing  = 1.0;
 constexpr double MAX_RECOIL = 3000;
 
 // Minimum item damage output of relevant type to allow using with relevant weapon skill.
-#define MELEE_STAT 5
+static constexpr int MELEE_STAT = 5;
 
 // Effective lower bound to combat skill levels when CQB bionic is active.
-#define BIO_CQB_LEVEL 5
+static constexpr int BIO_CQB_LEVEL = 5;
 
 // Minimum size of a horde to show up on the minimap.
-#define HORDE_VISIBILITY_SIZE 3
+static constexpr int HORDE_VISIBILITY_SIZE = 3;
 
 /**
  * Average annual temperature in F used for climate, weather and temperature calculation.
  * Average New England temperature = 43F/6C rounded to int.
 */
-#define AVERAGE_ANNUAL_TEMPERATURE 43
+static constexpr int AVERAGE_ANNUAL_TEMPERATURE = 43;
 
 /**
  * Base starting spring temperature in F used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */
-#define SPRING_TEMPERATURE 65
+static constexpr int SPRING_TEMPERATURE = 65;
 
 /**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.

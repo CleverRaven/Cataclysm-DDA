@@ -152,7 +152,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
 
             if( g->u.get_grab_type() == object_type::VEHICLE &&
                 g->u.grab_point == veh.global_part_pos3( part ) ) {
-                if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
+                if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
                     g->u.grab( object_type::NONE );
                 }
@@ -223,9 +223,9 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->part( part_num ).is_broken() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->parts[part_num].info().size, 10000_liter );
+        return std::min( myorigin->part( part_num ).info().size, 10000_liter );
     }
     return 0_ml;
 }
@@ -508,7 +508,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         if( pt.is_reactor() ) {
-            const ammotype plut( "plut_cell" );
+            const ammotype plut( "plutonium" );
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( itype_plut_cell );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
@@ -964,26 +964,25 @@ void vehicle::do_autodrive()
         stop_autodriving();
         return;
     }
-    int x_side = 0;
-    int y_side = 0;
+    point side;
     if( omt_diff.x > 0 ) {
-        x_side = 2 * SEEX - 1;
+        side.x = 2 * SEEX - 1;
     } else if( omt_diff.x < 0 ) {
-        x_side = 0;
+        side.x = 0;
     } else {
-        x_side = SEEX;
+        side.x = SEEX;
     }
     if( omt_diff.y > 0 ) {
-        y_side = 2 * SEEY - 1;
+        side.y = 2 * SEEY - 1;
     } else if( omt_diff.y < 0 ) {
-        y_side = 0;
+        side.y = 0;
     } else {
-        y_side = SEEY;
+        side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
     tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
                                   veh_omt_pos.z );
-    tripoint autodrive_temp_target = ( global_a + tripoint( x_side, y_side,
+    tripoint autodrive_temp_target = ( global_a + tripoint( side,
                                        sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
     autodrive_local_target = g->m.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
@@ -1718,7 +1717,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         std::vector<int> carry_parts_here;
 
         // the index where the racking part is on the vehicle with the rack
-        int rack_part;
+        int rack_part = 0;
 
         // the mount point we are going to add to the vehicle with the rack
         point carry_mount;
@@ -1811,7 +1810,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
     // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
     // we can go ahead and merge
-    const point mount_zero = point_zero;
+    const point mount_zero{};
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
         for( const mapping &carry_map : carry_data ) {
@@ -4364,8 +4363,8 @@ bool vehicle::balanced_wheel_config() const
 
     // Check center of mass inside support of wheels (roughly)
     const point &com = local_center_of_mass();
-    const rectangle support( min, max );
-    return support.contains_inclusive( com );
+    const inclusive_rectangle support( min, max );
+    return support.contains( com );
 }
 
 bool vehicle::valid_wheel_config() const
@@ -6118,7 +6117,7 @@ bool vpart_position::is_inside() const
     // this should be called elsewhere and not in a function that intends to just query
     // it's also a no-op if the insides are up to date.
     vehicle().refresh_insides();
-    return vehicle().parts[part_index()].inside;
+    return vehicle().part( part_index() ).inside;
 }
 
 void vehicle::unboard_all()
@@ -6539,8 +6538,8 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 
 vehicle_part &vpart_reference::part() const
 {
-    assert( part_index() < vehicle().parts.size() );
-    return vehicle().parts[part_index()];
+    assert( part_index() < static_cast<size_t>( vehicle().part_count() ) );
+    return vehicle().part( part_index() );
 }
 
 const vpart_info &vpart_reference::info() const
@@ -6555,7 +6554,7 @@ player *vpart_reference::get_passenger() const
 
 point vpart_position::mount() const
 {
-    return vehicle().parts[part_index()].mount;
+    return vehicle().part( part_index() ).mount;
 }
 
 tripoint vpart_position::pos() const
@@ -6577,42 +6576,40 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const int px = modulo( real_global_pos.x, SEEX );
-    const int py = modulo( real_global_pos.y, SEEY );
+    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
     auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
         debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
-        debugmsg( "err %d,%d", px, py );
+    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
+        debugmsg( "err %d,%d", p.x, p.y );
         return false;
     }
 
-    return ( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_CURRENT ) ||
-             sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const int px = modulo( real_global_pos.x, SEEX );
-    const int py = modulo( real_global_pos.y, SEEY );
+    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
     auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
         debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
-        debugmsg( "err %d,%d", px, py );
+    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
+        debugmsg( "err %d,%d", p.x, p.y );
         return false;
     }
 
-    return !( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_INDOORS ) ||
-              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
@@ -6853,6 +6850,45 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
+int vehicle::part_count() const
+{
+    return static_cast<int>( parts.size() );
+}
+
+vehicle_part &vehicle::part( int part_num )
+{
+    return parts[part_num];
+}
+
+const vehicle_part &vehicle::cpart( int part_num ) const
+{
+    return const_cast<vehicle_part &>( parts[part_num] );
+}
+
+bool vehicle::valid_part( int part_num ) const
+{
+    return part_num >= 0 && part_num < static_cast<int>( parts.size() );
+}
+
+void vehicle::force_erase_part( int part_num )
+{
+    parts.erase( parts.begin() + part_num );
+}
+
+void vehicle::advance_precalc_mounts( const point &new_pos, int submap_z )
+{
+    for( vehicle_part &pt : parts ) {
+        pt.precalc[0] = pt.precalc[1];
+    }
+    pivot_anchor[0] = pivot_anchor[1];
+    pivot_rotation[0] = pivot_rotation[1];
+
+    pos = new_pos;
+    sm_pos.z = submap_z;
+    // Invalidate vehicle's point cache
+    occupied_cache_time = calendar::before_time_starts;
+}
+
 bool vehicle::refresh_zones()
 {
     if( zones_dirty ) {
@@ -6912,7 +6948,7 @@ tripoint vehicle::exhaust_dest( int part ) const
 template<>
 bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const
 {
-    const vehicle_part &vp = this->vehicle().parts[part];
+    const vehicle_part &vp = this->vehicle().part( part );
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
            ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
@@ -6923,7 +6959,7 @@ bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) 
 template<>
 bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part ) const
 {
-    const vehicle_part &vp = this->vehicle().parts[part];
+    const vehicle_part &vp = this->vehicle().part( part );
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
            ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&

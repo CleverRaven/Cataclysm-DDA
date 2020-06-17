@@ -604,8 +604,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::hostile );
-            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
+            bool valid = cr_att != Creature::Attitude::FRIENDLY &&
+                         sp.is_valid_effect_target( spell_target::hostile );
+            valid |= cr_att == Creature::Attitude::FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
             valid |= victim == &caster && sp.is_valid_effect_target( spell_target::self );
             if( valid ) {
                 victim->knock_back_to( to );
@@ -749,20 +750,20 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
 void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoint & )
 {
     const std::map<std::string, timed_event_type> timed_event_map{
-        { "help", timed_event_type::TIMED_EVENT_HELP },
-        { "wanted", timed_event_type::TIMED_EVENT_WANTED },
-        { "robot_attack", timed_event_type::TIMED_EVENT_ROBOT_ATTACK },
-        { "spawn_wyrms", timed_event_type::TIMED_EVENT_SPAWN_WYRMS },
-        { "amigara", timed_event_type::TIMED_EVENT_AMIGARA },
-        { "roots_die", timed_event_type::TIMED_EVENT_ROOTS_DIE },
-        { "temple_open", timed_event_type::TIMED_EVENT_TEMPLE_OPEN },
-        { "temple_flood", timed_event_type::TIMED_EVENT_TEMPLE_FLOOD },
-        { "temple_spawn", timed_event_type::TIMED_EVENT_TEMPLE_SPAWN },
-        { "dim", timed_event_type::TIMED_EVENT_DIM },
-        { "artifact_light", timed_event_type::TIMED_EVENT_ARTIFACT_LIGHT }
+        { "help", timed_event_type::HELP },
+        { "wanted", timed_event_type::WANTED },
+        { "robot_attack", timed_event_type::ROBOT_ATTACK },
+        { "spawn_wyrms", timed_event_type::SPAWN_WYRMS },
+        { "amigara", timed_event_type::AMIGARA },
+        { "roots_die", timed_event_type::ROOTS_DIE },
+        { "temple_open", timed_event_type::TEMPLE_OPEN },
+        { "temple_flood", timed_event_type::TEMPLE_FLOOD },
+        { "temple_spawn", timed_event_type::TEMPLE_SPAWN },
+        { "dim", timed_event_type::DIM },
+        { "artifact_light", timed_event_type::ARTIFACT_LIGHT }
     };
 
-    timed_event_type spell_event = timed_event_type::TIMED_EVENT_NULL;
+    timed_event_type spell_event = timed_event_type::NONE;
 
     const auto iter = timed_event_map.find( sp.effect_data() );
     if( iter != timed_event_map.cend() ) {
