@@ -15,7 +15,7 @@
     "material": [ "orichalcum_metal" ],
     "symbol": ",",
     "color": "light_green",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -34,7 +34,7 @@
     "material": [ "orichalcum_metal" ],
     "symbol": ",",
     "color": "light_green",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "qualities": [ [ "CUT", 1 ] ]
   },
   {

@@ -320,7 +320,7 @@
     "volume": 1,
     "weight": 1,
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 10,
     "stack_size": 100
   },
