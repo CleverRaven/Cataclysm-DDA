@@ -79,7 +79,7 @@
     "id": "MMA_MARTIAL_ARTS_SUBLIME",
     "name": { "str": "Martial Adept" },
     "points": 3,
-    "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way. You start with your choice of Desert Wind, Diamond Mind, Iron Heart, Setting Sun, Stone Dragon, or Tiger Claw.",
+    "description": "You are a martial adept and learned one of the martial disciplines of the Sublime Way.  You start with your choice of Desert Wind, Diamond Mind, Iron Heart, Setting Sun, Stone Dragon, or Tiger Claw.",
     "starting_trait": true,
     "initial_ma_styles": [
       "style_mma_desert_wind",
