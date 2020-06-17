@@ -47,24 +47,39 @@
     ]
   },
   {
-    "id": "inhaler",
-    "type": "TOOL",
-    "category": "drugs",
-    "name": { "str": "inhaler" },
-    "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
-    "weight": "85 g",
-    "volume": "250 ml",
-    "price": 5000,
-    "price_postapoc": 750,
-    "material": [ "plastic" ],
-    "symbol": "!",
-    "color": "light_blue",
-    "initial_charges": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "albuterol": 100 } } ],
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": "INHALER"
+   "id": "inhaler",
+   "type": "TOOL",
+   "category": "drugs",
+   "name": {
+     "str": "inhaler"
+   },
+   "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
+   "weight": "85 g",
+   "volume": "250 ml",
+   "price": 5000,
+   "price_postapoc": 750,
+   "material": [
+     "plastic"
+   ],
+   "symbol": "!",
+   "color": "light_blue",
+   "initial_charges": 100,
+   "pocket_data": [
+     {
+       "pocket_type": "MAGAZINE",
+       "airtight": true,
+       "rigid": true,
+       "watertight": true,
+       "ammo_restriction": { "albuterol": 100 }
+     }
+   ],
+   "max_charges": 100,
+   "charges_per_use": 1,
+   "flags": [
+     "NO_UNLOAD",
+     "NO_RELOAD"
+   ],
+   "use_action": "INHALER"
   },
   {
     "id": "rx12_injector",
