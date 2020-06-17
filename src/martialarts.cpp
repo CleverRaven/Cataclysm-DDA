@@ -1090,7 +1090,7 @@ float Character::mabuff_critical_hit_chance_bonus() const
     float ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
-        } );
+    } );
     return ret;
 }
 float Character::mabuff_dodge_bonus() const
