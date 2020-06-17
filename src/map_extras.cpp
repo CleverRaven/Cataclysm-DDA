@@ -2219,6 +2219,52 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     return true;
 }
 
+static bool mx_reed( map &m, const tripoint &abs_sub )
+{
+    // This map extra is for populating river banks, lake shores, etc. with
+    // water vegetation
+
+    // intensity consistent for whole overmap terrain bit
+    // so vegetation is placed from one_in(1) = full overgrowth
+    // to one_in(4) = 1/4 of terrain;
+    int intensity = rng( 1, 4);
+
+    const auto near_water = [ &m ]( tripoint loc ) {
+
+        for( const tripoint &p : m.points_in_radius( loc, 1 ) ) {
+            if( p == loc ) {
+                continue;
+            }
+            if( m.ter( p ) == t_water_moving_sh || m.ter( p ) == t_water_sh ||
+                m.ter( p ) == t_water_moving_dp || m.ter( p ) == t_water_dp ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint loc( i, j, abs_sub.z );
+            weighted_int_list<furn_id> vegetation;
+            vegetation.add( f_cattails, 15 );
+            vegetation.add( f_lotus, 5 );
+            vegetation.add( f_lilypad, 1 );
+            if( ( m.ter( loc ) == t_water_sh || m.ter( loc ) == t_water_moving_sh ) &&
+                one_in( intensity ) ) {
+                m.furn_set( loc, vegetation.pick()->id() );
+            }
+            // tall grass imitates reed
+            if( ( m.ter( loc ) == t_dirt || m.ter( loc ) == t_grass ) &&
+                one_in( near_water( loc ) ? intensity : 7 ) ) {
+                m.ter_set( loc, t_grass_tall );
+            }
+        }
+    }
+
+    return true;
+}
+
 static bool mx_roadworks( map &m, const tripoint &abs_sub )
 {
     // This map extra creates road works on NS & EW roads, including barricades (as barrier poles),
@@ -3010,7 +3056,8 @@ FunctionMap builtin_functions = {
     { "mx_looters", mx_looters },
     { "mx_corpses", mx_corpses },
     { "mx_grave", mx_grave },
-    { "mx_city_trap", mx_city_trap }
+    { "mx_city_trap", mx_city_trap },
+    { "mx_reed", mx_reed }
 };
 
 map_extra_pointer get_function( const std::string &name )
