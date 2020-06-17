@@ -342,7 +342,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "use_action": "MA_MANUAL",
+    "use_action": [ "MA_MANUAL" ],
     "book_data": { "time": "10 m", "intelligence": 9 }
   }
 ]

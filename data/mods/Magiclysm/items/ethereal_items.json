@@ -339,7 +339,7 @@
     "color": "white",
     "initial_charges": 15,
     "max_charges": 15,
-    "use_action": "WATER_PURIFIER"
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "id": "obfuscating_aura",

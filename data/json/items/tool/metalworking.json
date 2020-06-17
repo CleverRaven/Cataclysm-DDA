@@ -47,7 +47,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS",
+    "use_action": [ "BOLTCUTTERS" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -270,7 +270,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   }
 ]

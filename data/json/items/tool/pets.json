@@ -14,7 +14,7 @@
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "creature_size_capacity", "TINY" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -29,7 +29,7 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": "DOG_WHISTLE"
+    "use_action": [ "DOG_WHISTLE" ]
   },
   {
     "id": "shears",
@@ -99,7 +99,7 @@
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -130,6 +130,6 @@
     "symbol": ";",
     "color": "yellow",
     "looks_like": "dog_whistle",
-    "use_action": "DOG_WHISTLE"
+    "use_action": [ "DOG_WHISTLE" ]
   }
 ]
