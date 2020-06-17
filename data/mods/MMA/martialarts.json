@@ -577,7 +577,7 @@
     "type": "martial_art",
     "id": "style_mma_tiger_claw",
     "name": { "str": "Tiger Claw" },
-    "description": "The Tiger Claw discipline embraces a feral rage that lurks within the heart of its initiates.  In battle, such warriors growl like wild animals, attack with a furry similar to that of a barbarian, and rely on overwhelming, vicious assaults to defeat their enemeies.",
+    "description": "The Tiger Claw discipline embraces a feral rage that lurks within the heart of its initiates.  In battle, such warriors growl like wild animals, attack with a furry similar to that of a barbarian, and rely on overwhelming, vicious assaults to defeat their enemies.",
     "initiate": [ "You emit a low growl as you prepare for battle.", "%s hunkers down like a wild animal." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
