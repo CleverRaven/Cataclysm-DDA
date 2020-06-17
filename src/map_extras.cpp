@@ -2227,7 +2227,7 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
     // intensity consistent for whole overmap terrain bit
     // so vegetation is placed from one_in(1) = full overgrowth
     // to one_in(4) = 1/4 of terrain;
-    int intensity = rng( 1, 4);
+    int intensity = rng( 1, 4 );
 
     const auto near_water = [ &m ]( tripoint loc ) {
 
