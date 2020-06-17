@@ -22,7 +22,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": [ "40" ],
+    "ammo_type": "40",
     "casing": "40_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26, "armor_penetration": 4 },

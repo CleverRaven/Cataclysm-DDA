@@ -14,7 +14,7 @@
     "color": "light_gray",
     "count": 20,
     "stack_size": 15,
-    "ammo_type": [ "454" ],
+    "ammo_type": "454",
     "casing": "454_casing",
     "range": 16,
     "damage": { "damage_type": "bullet", "amount": 48, "armor_penetration": 8 },

@@ -14,7 +14,7 @@
     "color": "light_gray",
     "count": 20,
     "stack_size": 10,
-    "ammo_type": [ "500" ],
+    "ammo_type": "500",
     "casing": "500_casing",
     "range": 16,
     "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 8 },

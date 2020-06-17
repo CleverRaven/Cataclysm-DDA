@@ -126,7 +126,7 @@
     "color": "pink",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": [ "20x66mm" ],
+    "ammo_type": "20x66mm",
     "range": 12,
     "damage": { "damage_type": "bullet", "amount": 60 },
     "recoil": 2500,

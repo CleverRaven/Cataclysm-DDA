@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": [ "3006" ],
+    "ammo_type": "3006",
     "casing": "3006_casing",
     "range": 61,
     "damage": { "damage_type": "bullet", "amount": 62, "armor_penetration": 10 },

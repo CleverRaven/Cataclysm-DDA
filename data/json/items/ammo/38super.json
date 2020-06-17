@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": [ "38super" ],
+    "ammo_type": "38super",
     "casing": "38super_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26 },

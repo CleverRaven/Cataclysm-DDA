@@ -14,7 +14,7 @@
     "color": "dark_gray",
     "count": 40,
     "stack_size": 80,
-    "ammo_type": [ "46" ],
+    "ammo_type": "46",
     "casing": "46mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 18, "armor_penetration": 20 },

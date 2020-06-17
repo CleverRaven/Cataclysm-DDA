@@ -15,7 +15,7 @@
     "color": "yellow",
     "count": 30,
     "stack_size": 30,
-    "ammo_type": [ "545x39" ],
+    "ammo_type": "545x39",
     "casing": "545_casing",
     "range": 37,
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 6 },
