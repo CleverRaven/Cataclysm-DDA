@@ -393,7 +393,7 @@
     "name": { "str_sp": "fungal seeds" },
     "color": "dark_gray",
     "description": "Some fungal seeds.",
-    "ammo_type": [ "NULL" ],
+    "ammo_type": "NULL",
     "stack_size": 8,
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "fungal flower", "grow": "91 days" }
   },
