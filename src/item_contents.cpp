@@ -137,7 +137,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
     if( item_id ) {
         std::map<std::string, const itype *> nearby_itypes;
         selector_menu.title = _( "Select an item from nearby" );
-        for( const std::list<item> *it_list : g->u.crafting_inventory().const_slice() ) {
+        for( const std::list<item> *it_list : get_player_character().crafting_inventory().const_slice() ) {
             nearby_itypes.emplace( it_list->front().typeId()->nname( 1 ), it_list->front().type );
         }
 
