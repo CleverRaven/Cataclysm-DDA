@@ -10144,7 +10144,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
             std::move( m.i_at( fpos ).begin(), m.i_at( fpos ).end(),
                        std::back_inserter( temp ) );
             m.i_clear( fpos );
-            for( item item_iter = m.i_at( fdest ).begin();
+            for( auto item_iter = m.i_at( fdest ).begin();
                  item_iter != m.i_at( fdest ).end(); ++item_iter ) {
                 m.i_at( fpos ).insert( *item_iter );
             }
