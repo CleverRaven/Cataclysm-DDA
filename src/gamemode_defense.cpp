@@ -1061,7 +1061,7 @@ void defense_game::caravan()
                     g->u.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges( g->u.pos(), tmp );
+                    get_map().add_item_or_charges( g->u.pos(), tmp );
                 }
             }
         }
