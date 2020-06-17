@@ -548,18 +548,8 @@
           "mx_casings": 30
         }
       },
-      "river": {
-        "chance": 3,
-        "extras": {
-          "mx_reed": 100
-        }
-      },
-      "lake_shore": {
-        "chance": 2,
-        "extras": {
-          "mx_reed": 100
-        }
-      }
+      "river": { "chance": 3, "extras": { "mx_reed": 100 } },
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
     },
     "city": {
       "shop_radius": 30,
