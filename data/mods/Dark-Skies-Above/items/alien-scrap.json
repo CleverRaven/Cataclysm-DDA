@@ -14,7 +14,7 @@
     "material": [ "dks_blend_mat" ],
     "symbol": ",",
     "color": "light_cyan",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
