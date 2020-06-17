@@ -1871,7 +1871,8 @@
         "pocket_type": "CONTAINER",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
+		"max_item_lenght": "70 cm",
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
@@ -1879,7 +1880,7 @@
     "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR", "HAMMER" ],
     "qualities": [
       [ "HAMMER", 3 ],
-      [ "PRY", 1 ],
+      [ "PRY", 3 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
       [ "WRENCH", 2 ],
