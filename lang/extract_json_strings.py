@@ -280,7 +280,12 @@ def extract_martial_art(item):
     static_buffs = item.get("static_buffs", list())
     onmove_buffs = item.get("onmove_buffs", list())
     ondodge_buffs = item.get("ondodge_buffs", list())
-    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs
+    onattack_buffs = item.get("onattack_buffs", list())
+    onpause_buffs = item.get("onpause_buffs", list())
+    onblock_buffs = item.get("onblock_buffs", list())
+    ongethit_buffs = item.get("ongethit_buffs", list())
+    
+    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs + onattack_buffs + onpause_buffs + onblock_buffs + ongethit_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
         if buff["name"] == item["name"]:
