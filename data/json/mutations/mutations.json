@@ -6807,7 +6807,7 @@
     "id": "FAST_REFLEXES",
     "name": { "str": "Fast Reflexes" },
     "points": 3,
-    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
+    "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
     "starting_trait": true,
     "dodge_modifier": 2
   }
