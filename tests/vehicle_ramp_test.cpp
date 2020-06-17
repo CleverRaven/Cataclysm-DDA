@@ -12,7 +12,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -23,6 +22,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "enums.h"
+#include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "line.h"
@@ -37,9 +37,9 @@
 #include "player_helpers.h"
 #include "map_helpers.h"
 
-const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blind( "blind" );
 
-static void clear_game_and_set_map( const int transit_x, bool use_ramp, bool up )
+static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
@@ -91,12 +91,12 @@ static void clear_game_and_set_map( const int transit_x, bool use_ramp, bool up 
             }
         }
     }
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 // Algorithm goes as follows:
-// Clear map
+// Clear map and create a ramp
 // Spawn a vehicle
 // Drive it over the ramp, and confirm that the vehicle changes z-levels
 static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
@@ -114,7 +114,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
-        return 0;
+        return;
     }
 
     vehicle &veh = *veh_ptr;
@@ -237,5 +237,90 @@ TEST_CASE( "vehicle_ramp_test_61", "[vehicle][ramp]" )
 {
     for( const std::string &veh : ramp_vehs_to_test ) {
         test_ramp( veh, 61 );
+    }
+}
+
+static void level_out( const vproto_id &veh_id, const bool drop_pos )
+{
+    map &here = get_map();
+    clear_game_and_set_ramp( 75, drop_pos, false );
+    const int start_z = drop_pos ? 1 : 0;
+
+    const tripoint map_starting_point( 60, 60, start_z );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, 180, 1, 0 );
+
+    REQUIRE( veh_ptr != nullptr );
+    if( veh_ptr == nullptr ) {
+        return;
+    }
+    vehicle &veh = *veh_ptr;
+    veh.check_falling_or_floating();
+
+    REQUIRE( !veh.is_in_water() );
+
+    veh.tags.insert( "IN_CONTROL_OVERRIDE" );
+    veh.engine_on = true;
+
+    const int target_velocity = 800;
+    veh.cruise_velocity = target_velocity;
+    veh.velocity = target_velocity;
+    CHECK( veh.safe_velocity() > 0 );
+
+    std::vector<vehicle_part *> all_parts;
+    for( const tripoint &pos : veh.get_points() ) {
+        for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
+            all_parts.push_back( prt );
+            if( drop_pos && prt->mount.x < 0 ) {
+                prt->precalc[0].z = -1;
+                prt->precalc[1].z = -1;
+            } else if( !drop_pos && prt->mount.x > 1 ) {
+                prt->precalc[0].z = 1;
+                prt->precalc[1].z = 1;
+            }
+        }
+    }
+    std::set<int> z_span;
+    for( vehicle_part *prt : all_parts ) {
+        z_span.insert( veh.global_part_pos3( *prt ).z );
+    }
+    REQUIRE( z_span.size() > 1 );
+
+    monster *dmon_p = g->place_critter_at( mtype_id( "debug_mon" ), map_starting_point );
+    monster &dmon = *dmon_p;
+
+    for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+        for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
+            here.ter_set( tripoint( x, y, 1 ), ter_id( "t_open_air" ) );
+            here.ter_set( tripoint( x, y, 0 ), ter_id( "t_pavement" ) );
+        }
+    }
+
+    here.vehmove();
+    for( vehicle_part *prt : all_parts ) {
+        CHECK( veh.global_part_pos3( *prt ).z == 0 );
+    }
+    CHECK( dmon.posz() == 0 );
+    CHECK( veh.global_pos3().z == 0 );
+}
+
+static void test_leveling( std::string type )
+{
+    SECTION( type + " body drop" ) {
+        level_out( vproto_id( type ), true );
+    }
+    SECTION( type + " edge drop" ) {
+        level_out( vproto_id( type ), false );
+    }
+}
+
+static std::vector<std::string> level_vehs_to_test = {{
+        "beetle",
+    }
+};
+
+TEST_CASE( "vehicle_level_test", "[vehicle][ramp]" )
+{
+    for( const std::string &veh : level_vehs_to_test ) {
+        test_leveling( veh );
     }
 }
