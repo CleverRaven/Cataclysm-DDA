@@ -2835,7 +2835,6 @@ void bionic::toggle_safe_fuel_mod()
         set_flag( flag_SAFE_FUEL_OFF );
         set_safe_fuel_thresh( 2.0 );
     } else {
-<<<<<<< HEAD
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
