@@ -78,7 +78,7 @@ struct bionic_data {
     /**Amount of bullet protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bullet_protec;
 
-    float vitamin_absorb_mod = 1.0;
+    float vitamin_absorb_mod = 1.0f;
 
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
