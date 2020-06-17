@@ -12,7 +12,7 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "button_plastic",
@@ -28,7 +28,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "count": 20,
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "button_steel",
@@ -69,7 +69,7 @@
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "zipper_long_plastic",
@@ -92,6 +92,6 @@
     "material": [ "plastic", "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   }
 ]
