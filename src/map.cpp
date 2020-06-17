@@ -6747,8 +6747,14 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
+    temperature_flag flag;
+    if( ter( pnt ) == t_rootcellar ) {
+        flag = temperature_flag::ROOT_CELLAR;
+    } else {
+        flag = temperature_flag::NORMAL;
+    }
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( pnt ) ) {
+        if( it->has_rotten_away( pnt, 1, flag ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }

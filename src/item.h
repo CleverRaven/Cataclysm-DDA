@@ -774,7 +774,8 @@ class item : public visitable<item>
          * used for rot calculation.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f );
+        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f,
+                              temperature_flag flag = temperature_flag::NORMAL );
 
         /**
          * Accumulate rot of the item since last rot calculation.
