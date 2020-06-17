@@ -1613,7 +1613,7 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
             std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = g->m.use_amount( loc, radius, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
