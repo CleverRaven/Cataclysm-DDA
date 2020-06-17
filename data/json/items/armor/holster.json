@@ -15,7 +15,7 @@
     "covers": [ "TORSO" ],
     "coverage": 5,
     "encumbrance": 5,
-	"max_encumbrance": 15,
+    "max_encumbrance": 15,
     "material_thickness": 1,
     "pocket_data": [
       {
