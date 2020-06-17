@@ -87,7 +87,7 @@ static std::string keys_text()
         colorize( "b", c_light_green ) + _( " blacklist" );
 }
 
-bool pocket_favorite_callback::key( const input_context &ctxt, const input_event &event, int,
+bool pocket_favorite_callback::key( const input_context &, const input_event &event, int,
                                     uilist *menu )
 {
     item_pocket *selected_pocket = nullptr;
