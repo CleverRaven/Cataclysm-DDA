@@ -213,7 +213,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     item *it = nullptr;
     switch( id ) {
         case AIM_CONTAINER:
-            if( advitem != nullptr && advitem->is_item_entry() ) {
+            if( advitem != nullptr ) {
                 it = advitem->items.front();
                 from_vehicle = advitem->from_vehicle;
             }

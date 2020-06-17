@@ -40,28 +40,3 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
 {
     assert( stacks >= 1 );
 }
-
-advanced_inv_listitem::advanced_inv_listitem()
-    : area()
-    , id( "null" )
-    , cat( nullptr )
-{
-}
-
-advanced_inv_listitem::advanced_inv_listitem( const item_category *cat )
-    : area()
-    , id( "null" )
-    , name( cat->name() )
-    , cat( cat )
-{
-}
-
-bool advanced_inv_listitem::is_category_header() const
-{
-    return items.empty() && cat != nullptr;
-}
-
-bool advanced_inv_listitem::is_item_entry() const
-{
-    return !items.empty();
-}
