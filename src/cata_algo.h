@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_ALGO_H
-#define CATA_ALGO_H
+#ifndef CATA_SRC_CATA_ALGO_H
+#define CATA_SRC_CATA_ALGO_H
 
 #include <algorithm>
 #include <cassert>
@@ -122,4 +122,4 @@ std::vector<std::vector<T>> find_cycles( const std::unordered_map<T, std::vector
 
 } // namespace cata
 
-#endif // CATA_ALGO_H
+#endif // CATA_SRC_CATA_ALGO_H

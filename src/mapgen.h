@@ -1,27 +1,27 @@
 #pragma once
-#ifndef MAPGEN_H
-#define MAPGEN_H
+#ifndef CATA_SRC_MAPGEN_H
+#define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <map>
 #include <memory>
 #include <string>
-#include <vector>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
+#include "memory_fast.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class time_point;
-struct point;
 class JsonArray;
+class JsonMember;
 class JsonObject;
-class mission;
-struct tripoint;
 class map;
-template <typename T> struct weighted_int_list;
 class mapgendata;
+class mission;
+template <typename T> struct weighted_int_list;
+
 using building_gen_pointer = void ( * )( mapgendata & );
 
 //////////////////////////////////////////////////////////////////////////
@@ -126,6 +126,10 @@ struct jmapgen_setmap {
     bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 };
 
+struct spawn_data {
+    std::map<itype_id, jmapgen_int> ammo;
+};
+
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -158,8 +162,7 @@ class jmapgen_piece
         virtual void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( mapgendata &/*dat*/, int /*offset_x*/,
-                                            int /*offset_y*/ ) const {
+        virtual bool has_vehicle_collision( mapgendata &/*dat*/, const point &/*offset*/ ) const {
             return false;
         }
 };
@@ -263,7 +266,7 @@ struct jmapgen_objects {
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
-        void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
+        void add( const jmapgen_place &place, const shared_ptr_fast<const jmapgen_piece> &piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -271,7 +274,7 @@ struct jmapgen_objects {
          * them in @ref objects.
          */
         template<typename PieceType>
-        void load_objects( JsonArray parray );
+        void load_objects( const JsonArray &parray );
 
         /**
          * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
@@ -468,4 +471,4 @@ void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
-#endif
+#endif // CATA_SRC_MAPGEN_H

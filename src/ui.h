@@ -1,18 +1,23 @@
 #pragma once
-#ifndef UI_H
-#define UI_H
+#ifndef CATA_SRC_UI_H
+#define CATA_SRC_UI_H
 
+#include <initializer_list>
 #include <map>
+#include <memory>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
-#include <initializer_list>
 
 #include "color.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
+#include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "translations.h"
+
+class translation;
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -24,18 +29,12 @@ const int UILIST_UNBOUND = -1026;
 const int UILIST_CANCEL = -1027;
 const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
-const int MENU_ALIGN_LEFT = -1;
-const int MENU_ALIGN_CENTER = 0;
-const int MENU_ALIGN_RIGHT = 1;
-const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
-// NOLINTNEXTLINE(cata-use-named-point-constants)
-constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 
-struct input_event;
 class input_context;
 class string_input_popup;
 class ui_adaptor;
+struct input_event;
 
 catacurses::window new_centered_win( int nlines, int ncols );
 
@@ -92,23 +91,11 @@ struct uilist_entry {
     uilist_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
         enabled( E ), hotkey( K ), txt( T ),
         hotkey_color( H ), text_color( C ) {}
-};
-
-/**
- * Virtual base class for windowed ui stuff (like uilist)
- */
-class ui_container // NOLINT(cata-xy)
-{
-    public:
-        virtual ~ui_container() = default;
-
-    public:
-        int w_x;
-        int w_y;
-        int w_width;
-        int w_height;
-        catacurses::window window;
-        virtual void refresh( bool refresh_children = true ) = 0;
+    template<typename Enum, typename... Args,
+             typename = std::enable_if_t<std::is_enum<Enum>::value>>
+    uilist_entry( Enum e, Args && ... args ) :
+        uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+    {}
 };
 
 /**
@@ -122,8 +109,11 @@ class ui_container // NOLINT(cata-xy)
  *       game_z[num]->dead = true;
  *     }
  *   }
- *   void select(int num, uilist * menu) {
- *       mvwprintz(menu->window, 0, 0, c_red, "( %s )",game_z[num]->name() );
+ *   void refresh( uilist *menu ) {
+ *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
+ *           mvwprintz( menu->window, 0, 0, c_red, "( %s )",game_z[menu->selected]->name() );
+ *           wnoutrefresh( menu->window );
+ *       }
  *   }
  * }
  * uilist monmenu;
@@ -149,13 +139,16 @@ class uilist;
 class uilist_callback
 {
     public:
-        virtual void select( int /*entnum*/, uilist * ) {}
+
+        /**
+        * After a new item is selected, call this once
+        */
+        virtual void select( uilist * ) {}
         virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
                           uilist * ) {
             return false;
         }
         virtual void refresh( uilist * ) {}
-        virtual void redraw( uilist * ) {}
         virtual ~uilist_callback() = default;
 };
 /*@}*/
@@ -163,60 +156,42 @@ class uilist_callback
  * uilist: scrolling vertical list menu
  */
 
-class uilist: public ui_container
+class uilist // NOLINT(cata-xy)
 {
     public:
-        int ret;
-        std::string ret_act;
-        int selected;
-        int keypress;
-        std::string text;
-        std::vector<std::string> textformatted;
-        std::string input_category;
-        std::vector<std::pair<std::string, translation>> additional_actions;
-        int textwidth;
-        int textalign;
-        int max_entry_len;
-        int max_column_len;
-        std::string title;
-        std::vector<uilist_entry> entries;
-        std::map<int, int> keymap;
-        bool desc_enabled;
-        int desc_lines;
-        std::string footer_text; // basically the same as desc, except it doesn't change based on selection
-        bool border;
-        bool filtering;
-        bool filtering_nocase;
-        nc_color border_color;
-        nc_color text_color;
-        nc_color title_color;
-        nc_color hilight_color;
-        nc_color hotkey_color;
-        nc_color disabled_color;
-        int pad_left = 0;
-        int pad_right = 0;
-        bool allow_disabled = false; // return on selecting disabled entry, default false
-        // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
-        bool allow_anykey = false;
-        bool allow_cancel = true; // return UILIST_CANCEL on "QUIT" action, default true
-        // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
-        // and unhandled by callback, default false.
-        bool allow_additional = false;
-        bool hilight_disabled = false;
-        bool hilight_full = false;
-        int vshift = 0;
-        int vmax = 0;
-        std::string filter;
-        std::vector<int> fentries;
-        int fselected = 0;
-        bool centered_scroll = false;
+        class size_scalar
+        {
+            public:
+                struct auto_assign {
+                };
 
-        bool scrollbar_auto = false;
-        nc_color scrollbar_nopage_color;
-        nc_color scrollbar_page_color;
-        int scrollbar_side = 0;
+                size_scalar &operator=( auto_assign );
+                size_scalar &operator=( int val );
+                size_scalar &operator=( const std::function<int()> &fun );
 
-        uilist_callback *callback;
+                friend class uilist;
+
+            private:
+                std::function<int()> fun;
+        };
+
+        class pos_scalar
+        {
+            public:
+                struct auto_assign {
+                };
+
+                pos_scalar &operator=( auto_assign );
+                pos_scalar &operator=( int val );
+                // the parameter to the function is the corresponding size vector element
+                // (width for x, height for y)
+                pos_scalar &operator=( const std::function<int( int )> &fun );
+
+                friend class uilist;
+
+            private:
+                std::function<int( int )> fun;
+        };
 
         uilist();
         uilist( const std::string &hotkeys_override );
@@ -224,14 +199,8 @@ class uilist: public ui_container
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<const char *const> opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<uilist_entry> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<std::string> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                std::initializer_list<const char *const> opts );
 
-        ~uilist() override;
+        ~uilist();
 
         void init();
         void setup();
@@ -239,13 +208,8 @@ class uilist: public ui_container
         void reposition( ui_adaptor &ui );
         void show();
         bool scrollby( int scrollby );
-        int scroll_amount_from_key( int key );
-        int scroll_amount_from_action( const std::string &action );
         void query( bool loop = true, int timeout = -1 );
         void filterlist();
-        void apply_scrollbar();
-        void refresh( bool refresh_callback = true ) override;
-        void redraw( bool redraw_callback = true );
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
         // K is templated so it matches a `char` literal and a `int` value.
@@ -263,21 +227,125 @@ class uilist: public ui_container
 
         void reset();
 
+        // Can be called before `uilist::query` to keep the uilist on UI stack after
+        // `uilist::query` returns. The returned `ui_adaptor` is cleared when the
+        // `uilist` is deconstructed.
+        //
+        // Example:
+        //     shared_ptr_fast<ui_adaptor> ui = menu.create_or_get_ui_adaptor();
+        //     menu.query()
+        //     // before `ui` or `menu` is deconstructed, the menu will always be
+        //     // displayed on screen.
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+
         operator int() const;
 
     private:
-        bool started = false;
-        std::unique_ptr<string_input_popup> filter_popup;
-
-        bool w_x_autoassigned = false;
-        bool w_y_autoassigned = false;
-
+        int scroll_amount_from_action( const std::string &action );
+        void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();
 
-    protected:
+    public:
+        // Parameters
+        // TODO change to setters
+        std::string title;
+        std::string text;
+        // basically the same as desc, except it doesn't change based on selection
+        std::string footer_text;
+        std::vector<uilist_entry> entries;
+
+        std::string input_category;
+        std::vector<std::pair<std::string, translation>> additional_actions;
+
+        nc_color border_color;
+        nc_color text_color;
+        nc_color title_color;
+        nc_color hilight_color;
+        nc_color hotkey_color;
+        nc_color disabled_color;
+
+        uilist_callback *callback;
+
+        pos_scalar w_x_setup;
+        pos_scalar w_y_setup;
+        size_scalar w_width_setup;
+        size_scalar w_height_setup;
+
+        int textwidth = 0;
+
+        size_scalar pad_left_setup;
+        size_scalar pad_right_setup;
+
+        // Maximum number of lines to be allocated for displaying descriptions.
+        // This only serves as a hint, not a hard limit, so the number of lines
+        // may still exceed this value when for example the description text is
+        // long enough.
+        int desc_lines_hint = 0;
+        bool desc_enabled = false;
+
+        bool filtering = false;
+        bool filtering_nocase = false;
+
+        // return on selecting disabled entry, default false
+        bool allow_disabled = false;
+        // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_anykey = false;
+        // return UILIST_CANCEL on "QUIT" action, default true
+        bool allow_cancel = true;
+        // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
+        // and unhandled by callback, default false.
+        bool allow_additional = false;
+        bool hilight_disabled = false;
+
+    private:
         std::string hotkeys;
+
+    public:
+        // Iternal states
+        // TODO make private
+        std::vector<std::string> textformatted;
+
+        catacurses::window window;
+        int w_x = 0;
+        int w_y = 0;
+        int w_width = 0;
+        int w_height = 0;
+
+        int pad_left = 0;
+        int pad_right = 0;
+
+        int vshift = 0;
+
+        int fselected = 0;
+
+    private:
+        std::vector<int> fentries;
+        std::map<int, int> keymap;
+
+        weak_ptr_fast<ui_adaptor> ui;
+
+        std::unique_ptr<string_input_popup> filter_popup;
+        std::string filter;
+
+        int max_entry_len = 0;
+        int max_column_len = 0;
+
+        int vmax = 0;
+
+        int desc_lines = 0;
+
+        bool started = false;
+
+    public:
+        // Results
+        // TODO change to getters
+        std::string ret_act;
+        int ret = 0;
+        int keypress = 0;
+
+        int selected = 0;
 };
 
 /**
@@ -287,14 +355,12 @@ class uilist: public ui_container
 class pointmenu_cb : public uilist_callback
 {
     private:
-        const std::vector< tripoint > &points;
-        int last; // to suppress redrawing
-        tripoint last_view; // to reposition the view after selecting
+        struct impl_t;
+        pimpl<impl_t> impl;
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
-        ~pointmenu_cb() override = default;
-        void select( int num, uilist *menu ) override;
-        void refresh( uilist *menu ) override;
+        ~pointmenu_cb() override;
+        void select( uilist *menu ) override;
 };
 
-#endif
+#endif // CATA_SRC_UI_H

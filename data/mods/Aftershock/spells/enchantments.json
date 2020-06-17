@@ -1,0 +1,7 @@
+[
+  {
+    "type": "enchantment",
+    "id": "cranial_explosion",
+    "intermittent_activation": { "effects": [ { "frequency": "5 days", "spell_effects": [ { "id": "head_go_bye" } ] } ] }
+  }
+]

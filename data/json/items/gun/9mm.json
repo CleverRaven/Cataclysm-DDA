@@ -1,23 +1,54 @@
 [
   {
+    "id": "90two",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Beretta 90-two" },
+    "description": "A more modern version of Beretta's popular 92 series of handguns, the 90-two performs largely the same.  The main difference is a sleeker, almost futuristic-looking design owed in large parts to the polymer underbarrel rail cover.",
+    "weight": "921 g",
+    "volume": "518 ml",
+    "price": 65000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "range": 1,
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 450,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m9mag", "m9bigmag" ]
+      }
+    ]
+  },
+  {
     "id": "calico",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Calico M960", "str_pl": "Calico M960" },
+    "name": { "str_sp": "Calico M960" },
     "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
     "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
     "weight": "2270 g",
     "volume": "1 L",
     "price": 240000,
+    "price_postapoc": 5000,
     "to_hit": -2,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
-    "ranged_damage": 2,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 450,
@@ -37,8 +68,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "calicomag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "calicomag" ]
+      }
+    ]
   },
   {
     "id": "cx4",
@@ -50,15 +88,16 @@
     "weight": "2580 g",
     "volume": "1500 ml",
     "price": 90000,
+    "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "rifle",
     "range": 20,
-    "ranged_damage": 2,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 10,
     "min_cycle_recoil": 450,
@@ -78,8 +117,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m9bigmag", "m9mag" ]
+      }
+    ]
   },
   {
     "id": "glock_19",
@@ -91,19 +137,27 @@
     "weight": "600 g",
     "volume": "500 ml",
     "price": 69000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": -1,
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ]
   },
   {
     "id": "hk_mp5",
@@ -115,14 +169,15 @@
     "weight": "2730 g",
     "volume": "2894 ml",
     "price": 280000,
+    "price_postapoc": 3500,
     "to_hit": -2,
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 450,
@@ -143,7 +198,15 @@
       [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mp5mag", "mp5bigmag" ]
+      }
+    ]
   },
   {
     "id": "hk_mp5sd",
@@ -153,6 +216,7 @@
     "description": "The H&K MP5SD offers subsonic performance in almost the same footprint as the H&K MP5, retaining its handiness.  The large suppressor cuts down on muzzle flash greatly, aiding in night operations.  It has also seen some popularity with SWAT teams, as it lowers the risk of fire and explosions in illegal laboratories.  With body armor in more common use, the MP5SD has waned in popularity among special forces due to its decreased terminal performance.",
     "weight": "3230 g",
     "price": 3000000,
+    "price_postapoc": 14000,
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -177,6 +241,7 @@
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.  The MP5K-PDW model features a shorter barrel, a built-in foregrip, and a side folding stock for vehicle or aircraft crew use.",
     "weight": "2360 g",
     "volume": "1753 ml",
+    "price_postapoc": 3500,
     "bashing": 8,
     "dispersion": 270,
     "ranged_damage": 0,
@@ -232,33 +297,43 @@
     "weight": "3570 g",
     "volume": "15 L",
     "price": 480000,
+    "price_postapoc": 5000,
     "bashing": 15,
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 2 },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
-    "magazines": [ [ "9mm", [ "mp5mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mp5mag" ]
+      }
+    ]
   },
   {
     "id": "ksub2000",
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Kel-Tec SUB-2000", "str_pl": "Kel-Tec SUB-2000" },
+    "name": { "str_sp": "Kel-Tec SUB-2000" },
     "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9x19mm Glock magazines.",
     "weight": "1930 g",
     "volume": "1750 ml",
     "price": 75000,
+    "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "rifle",
     "range": 18,
-    "ranged_damage": 3,
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
@@ -277,31 +352,76 @@
       [ "sling", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ]
   },
   {
     "id": "m9",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Beretta M9A1", "str_pl": "Beretta M9A1" },
+    "name": { "str_sp": "Beretta M9A1" },
     "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of US armed force from 1985 only until recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40S&W.",
     "weight": "961 g",
     "volume": "528 ml",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "range": 1,
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m9mag", "m9bigmag" ]
+      }
+    ]
+  },
+  {
+    "id": "px4",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Beretta Px4 Storm" },
+    "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry, while maintaining the reliability the 92 series is known for.",
+    "weight": "785 g",
+    "volume": "505 ml",
+    "price": 65000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "range": 1,
+    "dispersion": 440,
+    "durability": 7,
+    "min_cycle_recoil": 450,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "px4mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_9mm",
@@ -314,14 +434,15 @@
     "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
+    "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "rifle",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
@@ -340,7 +461,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 1 } } ]
   },
   {
     "id": "smg_9mm",
@@ -353,12 +475,13 @@
     "weight": "3274 g",
     "volume": "1750 ml",
     "price": 20000,
+    "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": -3,
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 590,
     "durability": 4,
     "blackpowder_tolerance": 24,
@@ -379,7 +502,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "9mm", [ "survivor9mm_mag", "stenmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "survivor9mm_mag", "stenmag" ]
+      }
+    ]
   },
   {
     "id": "sten",
@@ -391,13 +522,14 @@
     "weight": "3200 g",
     "volume": "1750 ml",
     "price": 40000,
+    "price_postapoc": 1500,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "[",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 360,
     "durability": 5,
     "blackpowder_tolerance": 24,
@@ -414,24 +546,33 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stenmag", "survivor9mm_mag" ]
+      }
+    ]
   },
   {
     "id": "tec9",
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "TEC-9", "str_pl": "TEC-9" },
+    "name": { "str_sp": "TEC-9" },
     "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks and low cost.",
     "weight": "1400 g",
     "volume": "500 ml",
     "price": 125000,
+    "price_postapoc": 2750,
     "to_hit": -2,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "skill": "smg",
     "dispersion": 520,
     "durability": 6,
@@ -452,50 +593,66 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tec9mag" ]
+      }
+    ]
   },
   {
     "id": "usp_9mm",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "USP 9mm", "str_pl": "USP 9mm" },
+    "name": { "str_sp": "USP 9mm" },
     "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "weight": "770 g",
     "volume": "500 ml",
     "price": 68000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": -1,
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 400,
     "durability": 9,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "usp9mag" ]
+      }
+    ]
   },
   {
     "id": "uzi",
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "Uzi 9mm", "str_pl": "Uzi 9mm" },
+    "name": { "str_sp": "Uzi 9mm" },
     "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.  Total weight of gun 3500 grams.  Current weight of folding stock 200 grams.",
     "description": "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",
     "weight": "2700 g",
     "volume": "1250 ml",
     "price": 208000,
+    "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": 1,
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 450,
@@ -515,8 +672,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "uzimag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "uzimag" ]
+      }
+    ]
   },
   {
     "id": "glock_17",
@@ -528,19 +692,27 @@
     "weight": "630 g",
     "volume": "500 ml",
     "price": 69000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": -1,
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": 1,
-    "//": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
-    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
+    "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+      }
+    ]
   },
   {
     "id": "glock_18c",
@@ -550,6 +722,7 @@
     "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
     "weight": "620 g",
     "price": 100000,
+    "price_postapoc": 2500,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "built_in_mods": [ "barrel_ported" ]
   },
@@ -561,13 +734,21 @@
     "description": "The Kel-Tec PF-9 remains one of the most popular backup pistols due to its history of reliability, affordability, and concealability.  Chambered in 9x19mm, recoil is best described as unpleasant, and follow-up shots are difficult to place quickly.",
     "weight": "360 g",
     "volume": "218ml",
-    "ranged_damage": -1,
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "price": 18000,
+    "price_postapoc": 2000,
     "bashing": 2,
-    "ammo": "9mm",
-    "magazine_well": "65 ml",
+    "ammo": [ "9mm" ],
     "min_cycle_recoil": 450,
-    "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "kpf9mag" ]
+      }
+    ]
   },
   {
     "id": "m17",
@@ -579,16 +760,24 @@
     "weight": "840 g",
     "volume": "500 ml",
     "price": 69000,
+    "price_postapoc": 2750,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p320mag_17rd_9x19mm" ]
+      }
+    ]
   },
   {
     "id": "hi_power_9mm",
@@ -600,15 +789,23 @@
     "weight": "900 g",
     "volume": "418 ml",
     "price": 32000,
+    "price_postapoc": 2250,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "bhp9mag_13rd", "bhp9mag_15rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ]
+      }
+    ]
   },
   {
     "id": "walther_p38",
@@ -620,15 +817,23 @@
     "weight": "800 g",
     "volume": "547 ml",
     "price": 39000,
+    "price_postapoc": 2250,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "p38mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p38mag" ]
+      }
+    ]
   },
   {
     "id": "walther_ppq_9mm",
@@ -640,14 +845,22 @@
     "weight": "615 g",
     "volume": "413 ml",
     "price": 65000,
+    "price_postapoc": 2500,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ]
+      }
+    ]
   },
   {
     "id": "hptc9",
@@ -659,15 +872,23 @@
     "weight": "820 g",
     "volume": "539 ml",
     "price": 7500,
+    "price_postapoc": 2250,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
+      }
+    ]
   },
   {
     "id": "cz75",
@@ -679,15 +900,23 @@
     "weight": "1000 g",
     "volume": "526 ml",
     "price": 10000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ]
+      }
+    ]
   },
   {
     "id": "walther_ccp",
@@ -699,14 +928,22 @@
     "weight": "570 g",
     "volume": "318 ml",
     "price": 12500,
+    "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ccpmag" ]
+      }
+    ]
   }
 ]

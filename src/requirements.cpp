@@ -1,32 +1,47 @@
 #include "requirements.h"
 
+#include <algorithm>
+#include <cassert>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
-#include <limits>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <memory>
 #include <set>
 #include <stack>
-#include <unordered_map>
+#include <unordered_set>
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "color.h"
 #include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
+#include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "color.h"
-#include "item.h"
-#include "visitable.h"
+#include "player.h"
 #include "point.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "visitable.h"
+
+static const itype_id itype_char_forge( "char_forge" );
+static const itype_id itype_crucible( "crucible" );
+static const itype_id itype_fire( "fire" );
+static const itype_id itype_forge( "forge" );
+static const itype_id itype_mold_plastic( "mold_plastic" );
+static const itype_id itype_oxy_torch( "oxy_torch" );
+static const itype_id itype_press( "press" );
+static const itype_id itype_sewing_kit( "sewing_kit" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_welder( "welder" );
+static const itype_id itype_welder_crude( "welder_crude" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -101,6 +116,14 @@ std::string quality_requirement::to_string( const int, const int ) const
                           count, type.obj().name, level );
 }
 
+std::string quality_requirement::to_colored_string() const
+{
+    //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
+    return string_format( ngettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
+                                    "%1$d tools with <info>%2$s of %3$d</info> or more", count ),
+                          count, type.obj().name, level );
+}
+
 bool tool_comp::by_charges() const
 {
     return count > 0;
@@ -114,7 +137,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
                                          count * batch ),
                               item::nname( type ), count * batch );
     } else {
-        return item::nname( type, abs( count ) );
+        return item::nname( type, std::abs( count ) );
     }
 }
 
@@ -185,11 +208,11 @@ void tool_comp::load( const JsonValue &value )
 {
     if( value.test_string() ) {
         // constructions uses this format: [ "tool", ... ]
-        type = value.get_string();
+        value.read( type, true );
         count = -1;
     } else {
         JsonArray comp = value.get_array();
-        type = comp.get_string( 0 );
+        comp.read( 0, type, true );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
     }
@@ -213,7 +236,7 @@ void tool_comp::dump( JsonOut &jsout ) const
 void item_comp::load( const JsonValue &value )
 {
     JsonArray comp = value.get_array();
-    type = comp.get_string( 0 );
+    comp.read( 0, type, true );
     count = comp.get_int( 1 );
     size_t handled = 2;
     while( comp.size() > handled ) {
@@ -334,7 +357,7 @@ template<typename T>
 bool requirement_data::any_marked_available( const std::vector<T> &comps )
 {
     for( const auto &comp : comps ) {
-        if( comp.available == a_true ) {
+        if( comp.available == available_status::a_true ) {
             return true;
         }
     }
@@ -355,7 +378,7 @@ std::string requirement_data::print_all_objs( const std::string &header,
         []( const T & t ) {
             return t.to_string();
         } );
-        std::sort( alternatives.begin(), alternatives.end() );
+        std::sort( alternatives.begin(), alternatives.end(), localized_compare );
         buffer += join( alternatives, _( " or " ) );
     }
     if( buffer.empty() ) {
@@ -454,7 +477,7 @@ template <typename T, typename Getter>
 void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 {
     std::set<requirement_id> already_nested;
-    for( auto &vec : list ) {
+    for( std::vector<T> &vec : list ) {
         // We always need to restart from the beginning in case of vector relocation
         while( true ) {
             auto iter = std::find_if( vec.begin(), vec.end(), []( const T & req ) {
@@ -464,7 +487,7 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
                 break;
             }
 
-            const auto req_id = requirement_id( iter->type );
+            const auto req_id = requirement_id( iter->type.str() );
             if( !req_id.is_valid() ) {
                 debugmsg( "Tried to inline unknown requirement %s", req_id.c_str() );
                 return;
@@ -482,7 +505,9 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
             iter = vec.erase( iter );
 
             const auto &to_inline = getter( multiplied );
-            vec.insert( iter, to_inline.front().begin(), to_inline.front().end() );
+            if( !to_inline.empty() ) {
+                vec.insert( iter, to_inline.front().begin(), to_inline.front().end() );
+            }
         }
     }
 }
@@ -518,7 +543,7 @@ void requirement_data::reset()
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-        std::string hilite, requirement_display_flags flags ) const
+        const std::string &hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -554,8 +579,8 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
             int qty = 0;
-            if( component.get_component_type() == COMPONENT_ITEM ) {
-                const itype_id item_id = static_cast<itype_id>( component.type );
+            if( component.get_component_type() == component_type::ITEM ) {
+                const itype_id item_id = itype_id( component.type.str() );
                 if( item::count_by_charges( item_id ) ) {
                     qty = crafting_inv.charges_of( item_id, INT_MAX, filter );
                 } else {
@@ -577,7 +602,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             }
             buffer_has.push_back( text + color_tag );
         }
-        std::sort( list_as_string.begin(), list_as_string.end() );
+        std::sort( list_as_string.begin(), list_as_string.end(), localized_compare );
 
         const std::string separator = colorize( _( " OR " ), c_white );
         const std::string unfolded = join( list_as_string, separator );
@@ -655,11 +680,11 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
             [ &UPS_charges_used ]( int charges ) {
             UPS_charges_used = std::min( UPS_charges_used, charges );
             } ) ) {
-                tool.available = a_true;
+                tool.available = available_status::a_true;
             } else {
-                tool.available = a_false;
+                tool.available = available_status::a_false;
             }
-            has_tool_in_set = has_tool_in_set || tool.available == a_true;
+            has_tool_in_set = has_tool_in_set || tool.available == available_status::a_true;
         }
         if( !has_tool_in_set ) {
             retval = false;
@@ -670,7 +695,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     }
 
     if( total_UPS_charges_used > 0 &&
-        total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
+        total_UPS_charges_used > crafting_inv.charges_of( itype_UPS ) ) {
         return false;
     }
     return retval;
@@ -678,7 +703,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
-    craft_flags, std::function<void( int )> ) const
+    craft_flags, const std::function<void( int )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -689,7 +714,7 @@ bool quality_requirement::has(
 nc_color quality_requirement::get_color( bool has_one, const inventory &,
         const std::function<bool( const item & )> &, int ) const
 {
-    if( available == a_true ) {
+    if( available == available_status::a_true ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;
@@ -697,7 +722,7 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
 
 bool tool_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags flags, std::function<void( int )> visitor ) const
+    craft_flags flags, const std::function<void( int )> &visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -719,7 +744,7 @@ bool tool_comp::has(
 nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( available == a_insufficent ) {
+    if( available == available_status::a_insufficent ) {
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         return c_green;
@@ -729,7 +754,7 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
 
 bool item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags, std::function<void( int )> ) const
+    craft_flags, const std::function<void( int )> & ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -745,7 +770,7 @@ bool item_comp::has(
 nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( available == a_insufficent ) {
+    if( available == available_status::a_insufficent ) {
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         return c_green;
@@ -788,12 +813,12 @@ bool requirement_data::check_enough_materials( const inventory &crafting_inv,
 bool requirement_data::check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( comp.available != a_true ) {
+    if( comp.available != available_status::a_true ) {
         return false;
     }
     const int cnt = std::abs( comp.count ) * batch;
     const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr && tq->available == a_true ) {
+    if( tq != nullptr && tq->available == available_status::a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
         const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
@@ -814,7 +839,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
         // batch factor is explicitly 1, because it's already included in the count.
         if( !i_tmp.has( crafting_inv, filter, 1 ) && !t_tmp.has( crafting_inv, filter, 1 ) ) {
-            comp.available = a_insufficent;
+            comp.available = available_status::a_insufficent;
         }
     }
     const itype *it = item::find_type( comp.type );
@@ -825,15 +850,15 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + abs( comp.count ) ) ) {
-            comp.available = a_insufficent;
+        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + std::abs( comp.count ) ) ) {
+            comp.available = available_status::a_insufficent;
         }
     }
-    return comp.available == a_true;
+    return comp.available == available_status::a_true;
 }
 
 template <typename T>
-static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string &id )
+static bool apply_blacklist( std::vector<std::vector<T>> &vec, const itype_id &id )
 {
     // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
@@ -855,15 +880,15 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
     return blacklisted;
 }
 
-void requirement_data::blacklist_item( const std::string &id )
+void requirement_data::blacklist_item( const itype_id &id )
 {
     blacklisted |= apply_blacklist( tools, id );
     blacklisted |= apply_blacklist( components, id );
 }
 
 template <typename T>
-static void apply_replacement( std::vector<std::vector<T>> &vec, const std::string &id,
-                               const std::string &replacement )
+static void apply_replacement( std::vector<std::vector<T>> &vec, const itype_id &id,
+                               const itype_id &replacement )
 {
     // If the target and replacement are both present, remove the target.
     // If only the target is present, replace it.
@@ -933,32 +958,32 @@ requirement_data requirement_data::disassembly_requirements() const
             const itype_id &type = tool.type;
 
             // If crafting required a welder or forge then disassembly requires metal sawing
-            if( type == "welder" || type == "welder_crude" || type == "oxy_torch" ||
-                type == "forge" || type == "char_forge" ) {
+            if( type == itype_welder || type == itype_welder_crude || type == itype_oxy_torch ||
+                type == itype_forge || type == itype_char_forge ) {
                 new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
                 replaced = true;
                 break;
             }
             //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
-            if( type == "sewing_kit" ||
-                type == "mold_plastic" ) {
+            if( type == itype_sewing_kit ||
+                type == itype_mold_plastic ) {
                 new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
                 replaced = true;
                 break;
             }
 
-            if( type == "crucible" ) {
+            if( type == itype_crucible ) {
                 replaced = true;
                 break;
             }
             //This ensures that you don't need a hand press to break down reloaded ammo.
-            if( type == "press" ) {
+            if( type == itype_press ) {
                 replaced = true;
                 remove_fire = true;
                 new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
-            if( type == "fire" && remove_fire ) {
+            if( type == itype_fire && remove_fire ) {
                 replaced = true;
                 break;
             }

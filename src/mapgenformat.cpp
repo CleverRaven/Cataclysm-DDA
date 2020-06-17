@@ -1,39 +1,39 @@
 #include "mapgenformat.h"
 
-#include <cctype>
 #include <algorithm>
+#include <cctype>
 #include <string>
 
 #include "map.h"
 #include "mapdata.h"
+#include "point.h"
 
 namespace mapf
 {
 
-void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
+void formatted_set_simple( map *m, const point &start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
 {
     const char *p = cstr;
-    int x = startx;
-    int y = starty;
+    point p2( start );
     while( *p != 0 ) {
         if( *p == '\n' ) {
-            y++;
-            x = startx;
+            p2.y++;
+            p2.x = start.x;
         } else {
             const ter_id ter = ter_b.translate( *p );
             const furn_id furn = furn_b.translate( *p );
             if( ter != t_null ) {
-                m->ter_set( point( x, y ), ter );
+                m->ter_set( p2, ter );
             }
             if( furn != f_null ) {
                 if( furn == f_toilet ) {
-                    m->place_toilet( point( x, y ) );
+                    m->place_toilet( p2 );
                 } else {
-                    m->furn_set( point( x, y ), furn );
+                    m->furn_set( p2, furn );
                 }
             }
-            x++;
+            p2.x++;
         }
         p++;
     }

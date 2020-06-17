@@ -55,7 +55,7 @@
     "id": "meat_dragon",
     "type": "COMESTIBLE",
     "copy-from": "meat",
-    "name": { "str": "dragon meat", "str_pl": "dragon meat" },
+    "name": { "str_sp": "dragon meat" },
     "description": "The meat from a slain dragon.  It does not seem to respond to cooking the same way as other meat, making it obvious that it still retains some magical properties.",
     "parasites": 0
   },
@@ -70,7 +70,7 @@
   {
     "id": "purified_meat",
     "type": "COMESTIBLE",
-    "flags": "NUTRIENT_OVERRIDE",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "copy-from": "meat",
     "name": "purified meat",
     "description": "Indistinguishable from pre-Cataclysm lab grown beef.  It should be excellent but somehow it's just edible.",
@@ -79,7 +79,7 @@
   {
     "id": "impure_meat",
     "type": "COMESTIBLE",
-    "flags": "NUTRIENT_OVERRIDE",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "copy-from": "mutant_meat",
     "name": "impure meat",
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",

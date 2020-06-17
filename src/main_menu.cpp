@@ -2,17 +2,23 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <exception>
 #include <functional>
-#include <map>
+#include <istream>
 #include <memory>
+#include <ctime>
 
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_id.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "gamemode.h"
@@ -22,25 +28,22 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "pldata.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-#include "color.h"
-#include "enums.h"
-#include "options.h"
-#include "pldata.h"
-#include "string_formatter.h"
-#include "ui_manager.h"
-
-static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const
 {
@@ -215,9 +218,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     print_menu_items( w_open, vMenuItems, iSel, point( final_offset, offset.y ), spacing );
 
-    catacurses::refresh();
-    wrefresh( w_open );
-    catacurses::refresh();
+    wnoutrefresh( w_open );
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -237,6 +238,88 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
         result.push_back( alt_text );
     }
     return result;
+}
+
+/* compare against table of easter dates */
+bool main_menu::is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday main_menu::get_holiday_from_time()
+{
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = std::time( nullptr );
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            return holiday::new_year;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            return holiday::easter;
+        } else if( month == 7 && day == 4 ) {
+            return holiday::independence_day;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            return holiday::halloween;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            return holiday::thanksgiving;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            return holiday::christmas;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    return holiday::none;
 }
 
 void main_menu::init_windows()
@@ -370,9 +453,8 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
 
     draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
-    wrefresh( w_border );
-    wrefresh( w_text );
-    catacurses::refresh();
+    wnoutrefresh( w_border );
+    wnoutrefresh( w_text );
 }
 
 void main_menu::load_char_templates()
@@ -383,14 +465,18 @@ void main_menu::load_char_templates()
             true ) ) {
         path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
     }
-    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
+    std::sort( templates.begin(), templates.end(), localized_compare );
+    std::reverse( templates.begin(), templates.end() );
 }
 
 bool main_menu::opening_screen()
 {
+    // set holiday based on local system time
+    current_holiday = get_holiday_from_time();
+
     // Play title music, whoo!
     play_music( "title" );
 
@@ -398,9 +484,7 @@ bool main_menu::opening_screen()
     world_generator->init();
 
     get_help().load();
-    init_windows();
     init_strings();
-    print_menu( w_open, 0, menu_offset );
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         popup( _( "Unable to make config directory.  Check permissions." ) );
@@ -435,11 +519,15 @@ bool main_menu::opening_screen()
     load_char_templates();
 
     ctxt.register_cardinal();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "DELETE_TEMPLATE" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
+
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
@@ -469,8 +557,8 @@ bool main_menu::opening_screen()
             if( sel1 == 4 ) { // Special game
                 std::vector<std::string> special_names;
                 int xlen = 0;
-                for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
+                for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
+                    std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
                     special_names.push_back( spec_name );
                     xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
                 }
@@ -478,7 +566,7 @@ bool main_menu::opening_screen()
                 point offset( menu_offset + point( -( xlen / 4 ) + 32 + extra_w / 2, -2 ) );
                 print_menu_items( w_open, special_names, sel2, offset );
 
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             } else if( sel1 == 5 ) {  // Settings Menu
                 int settings_subs_to_display = vSettingsSubItems.size();
                 std::vector<std::string> settings_subs;
@@ -494,7 +582,7 @@ bool main_menu::opening_screen()
                     offset.x -= 6;
                 }
                 print_menu_items( w_open, settings_subs, sel2, offset );
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             }
         }
     } );
@@ -502,7 +590,7 @@ bool main_menu::opening_screen()
         init_windows();
         ui.position_from_window( w_open );
     } );
-    ui.position_from_window( w_open );
+    ui.mark_resize();
 
     while( !start ) {
         ui_manager::redraw();
@@ -536,7 +624,7 @@ bool main_menu::opening_screen()
                     sel1 = 8;
                     action = "CONFIRM";
                 }
-            } else if( action == "LEFT" ) {
+            } else if( action == "LEFT" || action == "PREV_TAB" ) {
                 sel_line = 0;
                 if( sel1 > 0 ) {
                     sel1--;
@@ -544,7 +632,7 @@ bool main_menu::opening_screen()
                     sel1 = 8;
                 }
                 on_move();
-            } else if( action == "RIGHT" ) {
+            } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 sel_line = 0;
                 if( sel1 < 8 ) {
                     sel1++;
@@ -596,15 +684,15 @@ bool main_menu::opening_screen()
                 }
 
                 std::string action = ctxt.handle_input();
-                if( action == "LEFT" ) {
+                if( action == "LEFT" || action == "PREV_TAB" ) {
                     if( sel2 > 0 ) {
                         sel2--;
                     } else {
-                        sel2 = NUM_SPECIAL_GAMES - 2;
+                        sel2 = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2;
                     }
                     on_move();
-                } else if( action == "RIGHT" ) {
-                    if( sel2 < NUM_SPECIAL_GAMES - 2 ) {
+                } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
+                    if( sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2 ) {
                         sel2++;
                     } else {
                         sel2 = 0;
@@ -614,15 +702,15 @@ bool main_menu::opening_screen()
                     layer = 1;
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
-                    if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
+                    if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
                         on_out_of_scope cleanup( []() {
                             g->gamemode.reset();
                             g->u = avatar();
                             world_generator->set_active_world( nullptr );
                         } );
-                        g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
+                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             continue;
                         }
@@ -653,14 +741,14 @@ bool main_menu::opening_screen()
                     }
                 }
 
-                if( action == "LEFT" ) {
+                if( action == "LEFT" || action == "PREV_TAB" ) {
                     if( sel2 > 0 ) {
                         --sel2;
                     } else {
                         sel2 = settings_subs_to_display - 1;
                     }
                     on_move();
-                } else if( action == "RIGHT" ) {
+                } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                     if( sel2 < settings_subs_to_display - 1 ) {
                         ++sel2;
                     } else {
@@ -689,10 +777,6 @@ bool main_menu::opening_screen()
                 }
             }
         }
-    }
-    if( start ) {
-        g->refresh_all();
-        g->draw();
     }
     return start;
 }
@@ -733,15 +817,15 @@ bool main_menu::new_character_tab()
             center_print( w_open, getmaxy( w_open ) - 7, c_yellow, hints[sel2] );
 
             print_menu_items( w_open, vSubItems, sel2, menu_offset + point( 0, -2 ) );
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         } else if( layer == 3 && sel1 == 1 ) {
             // Then view presets
             if( templates.empty() ) {
                 mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
                            c_red, "%s", _( "No templates found!" ) );
             } else {
-                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
-                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
+                fold_and_print( w_open, menu_offset + point( 20 + extra_w / 2, -2 ), 0,
+                                c_light_gray, "%s", _( "Press [<color_white>d</color>] to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = menu_offset.y - 4 - i;
                     mvwprintz( w_open, point( 20 + menu_offset.x + extra_w / 2, line ),
@@ -749,7 +833,7 @@ bool main_menu::new_character_tab()
                                templates[i] );
                 }
             }
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         }
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
@@ -780,13 +864,13 @@ bool main_menu::new_character_tab()
                     }
                 }
             }
-            if( action == "LEFT" ) {
+            if( action == "LEFT" || action == "PREV_TAB" ) {
                 sel2--;
                 if( sel2 < 0 ) {
                     sel2 = vSubItems.size() - 1;
                 }
                 on_move();
-            } else if( action == "RIGHT" ) {
+            } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 sel2++;
                 if( sel2 >= static_cast<int>( vSubItems.size() ) ) {
                     sel2 = 0;
@@ -802,6 +886,7 @@ bool main_menu::new_character_tab()
                         g->u = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
+                    g->gamemode = nullptr;
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
@@ -816,19 +901,19 @@ bool main_menu::new_character_tab()
                         debugmsg( "Error: %s", err.what() );
                         continue;
                     }
-                    character_type play_type = PLTYPE_CUSTOM;
+                    character_type play_type = character_type::CUSTOM;
                     switch( sel2 ) {
                         case 0:
-                            play_type = PLTYPE_CUSTOM;
+                            play_type = character_type::CUSTOM;
                             break;
                         case 2:
-                            play_type = PLTYPE_RANDOM;
+                            play_type = character_type::RANDOM;
                             break;
                         case 3:
-                            play_type = PLTYPE_NOW;
+                            play_type = character_type::NOW;
                             break;
                         case 4:
-                            play_type = PLTYPE_FULL_RANDOM;
+                            play_type = character_type::FULL_RANDOM;
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
@@ -870,7 +955,7 @@ bool main_menu::new_character_tab()
                 } else {
                     sel3 = 0;
                 }
-            } else if( action == "LEFT"  || action == "QUIT" ) {
+            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
                 sel1 = 1;
                 layer = 2;
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
@@ -886,11 +971,12 @@ bool main_menu::new_character_tab()
                         }
                     }
                 }
-            } else if( action == "RIGHT" || action == "CONFIRM" ) {
+            } else if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 on_out_of_scope cleanup( []() {
                     g->u = avatar();
                     world_generator->set_active_world( nullptr );
                 } );
+                g->gamemode = nullptr;
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
                     continue;
@@ -902,7 +988,7 @@ bool main_menu::new_character_tab()
                     debugmsg( "Error: %s", err.what() );
                     continue;
                 }
-                if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
+                if( !g->u.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
                     MAPBUFFER.reset();
                     overmap_buffer.clear();
@@ -959,14 +1045,13 @@ bool main_menu::load_character_tab( bool transfer )
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        const int offset_x = transfer ? 25 : 15;
-        const int offset_y = transfer ? -1 : 0;
+        const point offset( transfer ? 25 : 15, transfer ? -1 : 0 );
 
         print_menu( w_open, transfer ? 3 : 2, menu_offset );
 
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 ),
+                mvwprintz( w_open, menu_offset + point( offset.x + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
             } else {
                 for( int i = 0; i < static_cast<int>( all_worldnames.size() ); ++i ) {
@@ -981,34 +1066,34 @@ bool main_menu::load_character_tab( bool transfer )
                         color1 = c_white;
                         color2 = h_white;
                     }
-                    mvwprintz( w_open, point( offset_x + menu_offset.x + extra_w / 2, line + offset_y ),
+                    mvwprintz( w_open, offset + point( extra_w / 2 + menu_offset.x, line ),
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
                                world_name, savegames_count );
                 }
             }
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         } else if( layer == 3 && sel1 == 2 ) {
             savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
 
             const std::string &wn = all_worldnames[sel2];
 
-            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
+            mvwprintz( w_open, menu_offset + offset + point( extra_w / 2, -2 - sel2 ), h_white,
                        "%s", wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset.y ),
                            c_red, "%s", _( "No save games found!" ) );
             } else {
                 int line = menu_offset.y - 2;
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
+                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
                                "%s", savename.player_name() );
                 }
             }
-            wrefresh( w_open );
+            wnoutrefresh( w_open );
         }
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
@@ -1039,9 +1124,9 @@ bool main_menu::load_character_tab( bool transfer )
                 } else {
                     sel2 = 0;
                 }
-            } else if( action == "LEFT" || action == "QUIT" ) {
+            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
                 layer = 1;
-            } else if( action == "RIGHT" || action == "CONFIRM" ) {
+            } else if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 if( sel2 >= 0 && sel2 < static_cast<int>( all_worldnames.size() ) ) {
                     layer = 3;
                 }
@@ -1076,17 +1161,18 @@ bool main_menu::load_character_tab( bool transfer )
                 } else {
                     sel3 = 0;
                 }
-            } else if( action == "LEFT" || action == "QUIT" ) {
+            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
                 layer = transfer ? 1 : 2;
                 sel3 = 0;
             }
-            if( action == "RIGHT" || action == "CONFIRM" ) {
+            if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
                     on_out_of_scope cleanup( []() {
                         g->u = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
 
+                    g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
                     world_generator->last_character_name = savegames[sel3].player_name();
@@ -1100,9 +1186,10 @@ bool main_menu::load_character_tab( bool transfer )
                         continue;
                     }
 
-                    g->load( savegames[sel3] );
-                    cleanup.cancel();
-                    start = true;
+                    if( g->load( savegames[sel3] ) ) {
+                        cleanup.cancel();
+                        start = true;
+                    }
                 }
             }
         }
@@ -1147,7 +1234,7 @@ void main_menu::world_tab()
                     wprintz( w_open, c_light_gray, "]" );
                 }
 
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             } else if( layer == 2 ) { // Show world names
                 mvwprintz( w_open, menu_offset + point( 25 + extra_w / 2, -2 ),
                            ( sel2 == 0 ? h_white : c_white ), "%s", _( "Create World" ) );
@@ -1169,7 +1256,7 @@ void main_menu::world_tab()
                                ( sel2 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
                 }
 
-                wrefresh( w_open );
+                wnoutrefresh( w_open );
             }
         }
     } );
@@ -1234,11 +1321,11 @@ void main_menu::world_tab()
                     sel3 = 0;
                 }
                 on_move();
-            } else if( action == "LEFT" || action == "QUIT" ) {
+            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
                 layer = 2;
             }
 
-            if( action == "RIGHT" || action == "CONFIRM" ) {
+            if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 if( sel3 == 2 ) { // Active World Mods
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2 - 1] );
                     world_generator->show_active_world_mods( world->active_mod_order );
@@ -1302,10 +1389,10 @@ void main_menu::world_tab()
                 } else {
                     sel2 = 0;
                 }
-            } else if( action == "LEFT" || action == "QUIT" ) {
+            } else if( action == "LEFT" || action == "PREV_TAB" || action == "QUIT" ) {
                 layer = 1;
             }
-            if( action == "RIGHT" || action == "CONFIRM" ) {
+            if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 if( sel2 == 0 ) {
                     world_generator->make_new_world();
 

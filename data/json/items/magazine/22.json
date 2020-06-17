@@ -8,12 +8,14 @@
     "weight": "64 g",
     "volume": "250 ml",
     "price": 600,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 8,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "a180mag",
@@ -24,14 +26,15 @@
     "weight": "760 g",
     "volume": "500 ml",
     "price": 7300,
-    "material": "steel",
+    "price_postapoc": 250,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 165,
-    "reliability": 7,
     "reload_time": 150,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 165 } } ]
   },
   {
     "id": "marlin_tubeloader",
@@ -42,12 +45,14 @@
     "weight": "180 g",
     "volume": "250 ml",
     "price": 1200,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 19,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ]
   },
   {
     "id": "mosquitomag",
@@ -58,13 +63,14 @@
     "weight": "60 g",
     "volume": "250 ml",
     "price": 1700,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "ruger1022bigmag",
@@ -75,13 +81,14 @@
     "weight": "180 g",
     "volume": "500 ml",
     "price": 7900,
-    "material": "steel",
+    "price_postapoc": 200,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 25,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 25 } } ]
   },
   {
     "id": "ruger1022mag",
@@ -92,14 +99,15 @@
     "weight": "80 g",
     "volume": "250 ml",
     "price": 1400,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
-    "reliability": 9,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "sw22mag",
@@ -110,13 +118,14 @@
     "weight": "70 g",
     "volume": "250 ml",
     "price": 2100,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "j22mag",
@@ -127,13 +136,14 @@
     "weight": "55 g",
     "volume": "27ml",
     "price": 2800,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 6,
-    "reliability": 6,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 6 } } ]
   },
   {
     "id": "wp22mag",
@@ -144,12 +154,13 @@
     "weight": "25 g",
     "volume": "126 ml",
     "price": 3250,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "22",
+    "ammo_type": [ "22" ],
     "capacity": 10,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
   }
 ]

@@ -1,19 +1,19 @@
 #pragma once
-#ifndef CHARACTER_MARTIAL_ARTS_H
-#define CHARACTER_MARTIAL_ARTS_H
+#ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
+#define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include "type_id.h"
-
+#include <algorithm>
+#include <string>
 #include <vector>
 
-class avatar;
-class Character;
-class effects_map;
-class item;
-class JsonOut;
-class JsonIn;
+#include "martialarts.h"
+#include "type_id.h"
 
-using itype_id = std::string;
+class Character;
+class JsonIn;
+class JsonOut;
+class avatar;
+class item;
 
 class character_martial_arts
 {
@@ -50,6 +50,7 @@ class character_martial_arts
         void learn_current_style_CQB( bool is_avatar );
         void learn_style( const matype_id &mastyle, bool is_avatar );
         void set_style( const matype_id &mastyle, bool force = false );
+        void clear_styles();
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 
@@ -102,4 +103,4 @@ class character_martial_arts
         std::string selected_style_name( const Character &owner ) const;
 };
 
-#endif // !CHARACTER_MARTIAL_ARTS_H
+#endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H

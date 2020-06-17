@@ -26,6 +26,26 @@
     "memorial_message": "Prepared the way into the galaxy."
   },
   {
+    "type": "mutation_category",
+    "id": "MASTODON",
+    "name": "Mastodon",
+    "threshold_mut": "THRESH_MASTODON",
+    "mutagen_message": "You feel a desire to trumpet and toot.",
+    "iv_message": "You heart races, and you glance around for poachers.",
+    "memorial_message": "Went extinct."
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_MASTODON",
+    "name": { "str": "Killophant" },
+    "points": 1,
+    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.",
+    "valid": false,
+    "profession": true,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
     "type": "mutation",
     "id": "MIGO_HEAT_RESIST",
     "name": "Mi-go acclimatization",
@@ -51,7 +71,7 @@
     "prereqs": [ "MOUTH_TENDRILS" ],
     "cancels": [ "MANDIBLES" ],
     "category": [ "MIGO" ],
-    "wet_protection": [ { "part": "MOUTH", "neutral": 4 } ]
+    "wet_protection": [ { "part": "mouth", "neutral": 4 } ]
   },
   {
     "type": "mutation",
@@ -204,7 +224,7 @@
     "name": "Eldritch",
     "points": 3,
     "description": "You have a sinister aspect to your demeanor, no longer part of this world.  You feel no sorrow at the deaths of humans and your brain now processes combat skills more efficiently as you mentally dissect your opponents.",
-    "social_modifiers": { "intimidate": 3 },
+    "social_modifiers": { "intimidate": 3, "persuade": -10, "lie": -12 },
     "purifiable": false,
     "flags": [ "PRED1" ],
     "prereqs": [ "THRESH_YUGGOTH" ],
@@ -244,7 +264,8 @@
     "points": 1,
     "description": "You are offputting to others.  You're mannerisms have changed as if human interaction is becoming foreign.",
     "category": [ "MIGO" ],
-    "social_modifiers": { "intimidate": 15 }
+    "social_modifiers": { "persuade": -15, "lie": -10 },
+    "ugliness": 2
   },
   {
     "type": "mutation",
@@ -272,5 +293,361 @@
     "description": "You can now breathe the gasses the mi-go thrive in.",
     "starting_trait": false,
     "category": [ "MIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHOUT1",
+    "copy-from": "SHOUT1",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "UPLIFTED",
+    "name": "Uplifted",
+    "points": 2,
+    "description": "You come from uplifted animal stock.  This decreases morale penalties for being wet.",
+    "valid": false,
+    "wet_protection": [
+      { "part": "head", "neutral": 9 },
+      { "part": "leg_l", "neutral": 11 },
+      { "part": "leg_r", "neutral": 11 },
+      { "part": "foot_l", "neutral": 5 },
+      { "part": "foot_r", "neutral": 5 },
+      { "part": "arm_l", "neutral": 11 },
+      { "part": "arm_r", "neutral": 11 },
+      { "part": "hand_l", "neutral": 16 },
+      { "part": "hand_r", "neutral": 16 },
+      { "part": "torso", "neutral": 14 }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH_FEET",
+    "copy-from": "TOUGH_FEET",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HAULER",
+    "name": "Hauler",
+    "points": 2,
+    "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 60%.",
+    "category": [ "MASTODON" ],
+    "cancels": [ "BADBACK" ],
+    "weight_capacity_modifier": 1.6
+  },
+  {
+    "type": "mutation",
+    "id": "BADKNEES",
+    "copy-from": "BADKNEES",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "VEGETARIAN",
+    "copy-from": "VEGETARIAN",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY",
+    "copy-from": "SMELLY",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "CLUMSY",
+    "copy-from": "CLUMSY",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SLOWRUNNER",
+    "copy-from": "SLOWRUNNER",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PATCHFUR",
+    "name": "Patched Fur",
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
+    "types": [ "SKIN" ],
+    "changes_to": [ "LIGHTFUR" ],
+    "category": [ "MASTODON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTFUR",
+    "copy-from": "LIGHTFUR",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FUR",
+    "copy-from": "FUR",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "URSINE_FUR",
+    "copy-from": "URSINE_FUR",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "CRUSHINGFEET",
+    "name": "Crushing Feet",
+    "points": -4,
+    "visibility": 2,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your feet have grown massive and ready to support huge weight.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear normal size shoes.  Reduces wet effects.",
+    "types": [ "LEGS" ],
+    "category": [ "MASTODON" ],
+    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
+    "destroys_gear": true,
+    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 2, "cut": 2 } ],
+    "attacks": {
+      "attack_text_u": "You kick %s with your massive feet",
+      "attack_text_npc": "%1$s kicks %2$s with their massive feet",
+      "chance": 20,
+      "strength_damage": { "damage_type": "bash", "amount": 5 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "RUMINANT",
+    "copy-from": "RUMINANT",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GRAZER",
+    "copy-from": "GRAZER",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FACEBUMPS",
+    "name": "Face Bumps",
+    "points": 0,
+    "visibility": 3,
+    "ugliness": 3,
+    "description": "You have a pair of bumps on your face above your mouth and beside your nose.",
+    "category": [ "MASTODON" ],
+    "changes_to": [ "TUSKS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TUSKS",
+    "name": "Tusks",
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 1,
+    "description": "You have a pair of small tusks on your face.  They allow you to make a weak piercing goring attack.",
+    "types": [ "HORNS" ],
+    "prereqs": [ "FACEBUMPS" ],
+    "changes_to": [ "TUSKS_POINTED" ],
+    "category": [ "MASTODON" ],
+    "attacks": {
+      "attack_text_u": "You gore %s with your tusks",
+      "attack_text_npc": "%1$s gores %2$s with their tusks",
+      "chance": 20,
+      "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "TUSKS_POINTED",
+    "name": "Pointed Tusks",
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "You have a pair of long, pointed tusks, like someone weaponized an elephant.  They allow you to make a strong piercing headbutt attack, but prevent wearing mouthgear that is not made of fabric.",
+    "types": [ "HORNS" ],
+    "prereqs": [ "HORNS" ],
+    "restricts_gear": [ "mouth" ],
+    "allow_soft_gear": true,
+    "category": [ "MASTODON" ],
+    "threshreq": [ "THRESH_MASTODON" ],
+    "attacks": {
+      "attack_text_u": "You stab %s with your pointed tusks",
+      "attack_text_npc": "%1$s stabs %2$s with their pointed tusks",
+      "chance": 22,
+      "base_damage": { "damage_type": "stab", "amount": 24 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "MUT_TOUGH",
+    "copy-from": "MUT_TOUGH",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUT_TOUGH2",
+    "copy-from": "MUT_TOUGH2",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUT_TOUGH3",
+    "copy-from": "MUT_TOUGH3",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LARGE",
+    "copy-from": "LARGE",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LARGE_OK",
+    "copy-from": "LARGE_OK",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HUGE",
+    "copy-from": "HUGE",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HUGE_OK",
+    "copy-from": "HUGE_OK",
+    "extend": { "category": [ "MASTODON" ], "threshreq": [ "THRESH_MASTODON" ] },
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY2",
+    "copy-from": "SMELLY2",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SNOUT",
+    "copy-from": "SNOUT",
+    "extend": { "category": [ "MASTODON" ], "changes_to": [ "TRUNK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TRUNK",
+    "name": { "str": "Elephant Trunk" },
+    "points": -4,
+    "visibility": 5,
+    "ugliness": 6,
+    "mixed_effect": true,
+    "description": "Your face resembles that of an elephant, with a significant trunk.  It looks fierce but prevents wearing mouthgear.  Prehensile and able to perform some fine detail work.",
+    "types": [ "MUZZLE" ],
+    "prereqs": [ "SNOUT" ],
+    "category": [ "MASTODON" ],
+    "restricts_gear": [ "mouth" ],
+    "social_modifiers": { "intimidate": 10 },
+    "craft_skill_bonus": [ [ "electronics", 1 ], [ "tailor", 1 ], [ "mechanics", 1 ], [ "cooking", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HUNGER",
+    "copy-from": "HUNGER",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MET_RAT",
+    "copy-from": "MET_RAT",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST",
+    "copy-from": "THIRST",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST2",
+    "copy-from": "THIRST2",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TRIPAWS",
+    "name": "Three Fingered",
+    "points": -3,
+    "visibility": 3,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your hands have fused into three fingered paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
+    "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
+    "types": [ "HANDS" ],
+    "cancels": [ "TALONS" ],
+    "category": [ "MASTODON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HERBIVORE",
+    "copy-from": "HERBIVORE",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PONDEROUS1",
+    "copy-from": "PONDEROUS1",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PONDEROUS2",
+    "copy-from": "PONDEROUS2",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TRUMPET",
+    "name": "Trumpeting Voice",
+    "points": -1,
+    "mixed_effect": true,
+    "description": "You have a trumpeting elephantine voice.  threatening NPCs will be easier, but lying will very hard.",
+    "changes_to": [ "SNARL" ],
+    "category": [ "MASTODON" ],
+    "social_modifiers": { "lie": -30, "intimidate": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_BRUTAL_STRENGTH",
+    "name": { "str": "Brutal Strength" },
+    "description": "Genetic tampering made your body incredibly strong.  Strength + 7.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "cancels": [ "STR_UP" ],
+    "profession": true,
+    "passive_mods": { "str_mod": 7 }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_CRYOADAPTATION",
+    "name": { "str": "Cryoadaptation" },
+    "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
+    "bodytemp_modifiers": [ 50, 100 ],
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
   }
 ]

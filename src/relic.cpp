@@ -1,13 +1,14 @@
 #include "relic.h"
 
-#include "creature.h"
-#include "magic_enchantment.h"
-#include "json.h"
-#include "point.h"
-#include "magic.h"
-#include "translations.h"
-
+#include <algorithm>
 #include <cmath>
+
+#include "creature.h"
+#include "json.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "translations.h"
+#include "type_id.h"
 
 void relic::add_active_effect( const fake_spell &sp )
 {
@@ -93,7 +94,7 @@ int relic::activate( Creature &caster, const tripoint &target ) const
     return charges_per_activation;
 }
 
-int relic::modify_value( const enchantment::mod value_type, const int value ) const
+int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
 {
     int add_modifier = 0;
     double multiply_modifier = 0.0;
@@ -104,9 +105,9 @@ int relic::modify_value( const enchantment::mod value_type, const int value ) co
     multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
     int modified_value;
     if( multiply_modifier < 1.0 ) {
-        modified_value = floor( multiply_modifier * value );
+        modified_value = std::floor( multiply_modifier * value );
     } else {
-        modified_value = ceil( multiply_modifier * value );
+        modified_value = std::ceil( multiply_modifier * value );
     }
     return modified_value + add_modifier;
 }

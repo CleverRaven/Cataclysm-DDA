@@ -56,7 +56,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460" ],
+    "id": [ "deagle_44", "m1911-460", "draco" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -114,7 +114,11 @@
       "kpf9",
       "walther_ppq_9mm",
       "hptc9",
-      "cz75"
+      "cz75",
+      "90two",
+      "px4",
+      "90two40",
+      "px4_40"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -141,7 +145,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "rm99_pistol", "m47a1" ],
+    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -204,16 +208,6 @@
     "replace": "rifle_lmg"
   },
   {
-    "id": [ "surv_carbine_223" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_carbine"
-  },
-  {
-    "id": [ "rifle_3006", "rifle_223", "rifle_308" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_rifle"
-  },
-  {
     "id": [
       "survivor_special_700",
       "m110a1",
@@ -246,6 +240,8 @@
       "ak47",
       "arx160",
       "mosin91_30",
+      "m249_semi",
+      "m60_semi",
       "ar15",
       "oa93",
       "ar_pistol",
@@ -257,7 +253,10 @@
       "fn_fal",
       "m1a",
       "sks",
-      "mosin44"
+      "mosin44",
+      "famas",
+      "aksemi",
+      "fs2000"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
@@ -278,7 +277,7 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },
@@ -292,6 +291,7 @@
       "shotgun_410",
       "browning_a5",
       "ksg",
+      "ksg-25",
       "m1014",
       "mossberg_500",
       "mossberg_500_security",

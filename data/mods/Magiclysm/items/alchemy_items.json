@@ -9,7 +9,7 @@
     "price": 0,
     "bashing": 9,
     "to_hit": -1,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
@@ -23,7 +23,7 @@
     "color": "light_gray",
     "name": "stone shell",
     "description": "The broken fragment of an owlbear egg.  With luck it might still contain some of its former power, though if nothing else it's still a bit sharp.",
-    "material": "stone",
+    "material": [ "stone" ],
     "weight": "250 g",
     "volume": "150 ml",
     "bashing": 5,
@@ -81,7 +81,7 @@
     "to_hit": 2,
     "bashing": 2,
     "cutting": 1,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 1 ] ],
@@ -93,6 +93,13 @@
     "type": "COMESTIBLE",
     "name": "potion starter",
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
+  },
+  {
+    "id": "potion_starter_superior",
+    "copy-from": "chem_ethanol",
+    "type": "COMESTIBLE",
+    "name": "superior potion starter",
+    "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
   {
     "id": "adrenal_gland_large",
@@ -110,7 +117,7 @@
     "color": "yellow",
     "name": "glow dust",
     "description": "The powdered remains of a will-o-wisps's phsyical form.  It seems to still possess an otherworldly glow.",
-    "material": "powder",
+    "material": [ "powder" ],
     "weight": "5 g",
     "volume": 1
   },
@@ -123,7 +130,7 @@
     "weight": "270 g",
     "volume": "250 ml",
     "price": 125000,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ",",
     "color": "light_blue",
     "use_action": {
@@ -143,7 +150,7 @@
     "weight": "270 g",
     "volume": "250 ml",
     "price": 125000,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ",",
     "color": "light_blue",
     "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
@@ -156,7 +163,7 @@
     "color": "light_gray",
     "name": "bulette plate",
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
-    "material": "arcane_skin",
+    "material": [ "arcane_skin" ],
     "weight": "30 kg",
     "volume": 12
   },
@@ -167,7 +174,7 @@
     "color": "red",
     "name": "bulette pearl",
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
-    "material": "stone",
+    "material": [ "stone" ],
     "weight": "120 g",
     "volume": 1
   },
@@ -210,7 +217,7 @@
     "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
     "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
     "price": 0,
-    "material": "demon_chitin",
+    "material": [ "demon_chitin" ],
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -225,7 +232,7 @@
     "color": "red",
     "name": "demon chitin plate",
     "price": 15225,
-    "material": "demon_chitin",
+    "material": [ "demon_chitin" ],
     "weight": "10 kg",
     "volume": "4 L",
     "bashing": 12,
@@ -252,7 +259,7 @@
     "id": "alumentum",
     "category": "spare_parts",
     "price": 900,
-    "name": { "str": "alumentum", "str_pl": "alumentum" },
+    "name": { "str_sp": "alumentum" },
     "symbol": "=",
     "color": "light_blue",
     "description": "Alumentum is magically processed coal or charcoal.  It burns as hot as magnesium, and for a significantly longer period of time.  One of the very few magical materials that is still produced in any quantity today due to its usefulness.",
@@ -263,5 +270,15 @@
     "count": 50,
     "stack_size": 10,
     "fuel": { "energy": 3 }
+  },
+  {
+    "id": "mana_dust",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "blue",
+    "name": "mana dust",
+    "description": "Crystallized mana in powdered form.  It faintly pulses with arcane energy.",
+    "material": [ "powder" ],
+    "volume": "100 ml"
   }
 ]

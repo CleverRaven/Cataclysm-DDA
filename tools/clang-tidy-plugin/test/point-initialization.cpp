@@ -10,13 +10,26 @@ struct non_point {
 
 point p0 = point_zero;
 // CHECK-MESSAGES: warning: Unnecessary initialization of 'p0'. 'point' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: point p0;
 point p1( 0, 0 );
 // CHECK-MESSAGES: warning: Unnecessary initialization of 'p1'. 'point' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: point p1;
+point p2( point_zero );
+// CHECK-MESSAGES: warning: Unnecessary initialization of 'p2'. 'point' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: point p2;
+const point p3 = point_zero;
+// CHECK-MESSAGES: warning: Unnecessary initialization of 'p3'. 'point' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: const point p3;
+static constexpr point p4 = point_zero;
+// CHECK-MESSAGES: warning: Unnecessary initialization of 'p4'. 'point' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: static constexpr point p4;
 
 tripoint t0 = tripoint_zero;
 // CHECK-MESSAGES: warning: Unnecessary initialization of 't0'. 'tripoint' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: tripoint t0;
 tripoint t1( 0, 0, 0 );
 // CHECK-MESSAGES: warning: Unnecessary initialization of 't1'. 'tripoint' is zero-initialized by default. [cata-point-initialization]
+// CHECK-FIXES: tripoint t1;
 
 // Verify that it doesn't trigger on only some zero args
 tripoint t1a( 0, 0, 1 );

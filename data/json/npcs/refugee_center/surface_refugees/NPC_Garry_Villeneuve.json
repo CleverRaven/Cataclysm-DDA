@@ -115,7 +115,7 @@
     "id": "TALK_REFUGEE_Garry_1_firstmeet",
     "dynamic_line": "Nice to meet you too.  Are you staying here, or something?",
     "responses": [
-      { "text": "No, I'm a traveller.  What's up with you?", "topic": "TALK_REFUGEE_Garry_2" },
+      { "text": "No, I'm a traveler.  What's up with you?", "topic": "TALK_REFUGEE_Garry_2" },
       { "text": "Nope, in fact I'm leaving right now.", "topic": "TALK_DONE" }
     ]
   },

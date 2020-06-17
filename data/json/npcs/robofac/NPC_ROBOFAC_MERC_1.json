@@ -4,6 +4,7 @@
     "id": "robofac_merc_1",
     "//": "Appears in the the surface of Hub 01, an external mercenary.",
     "name_suffix": "Hub Mercenary",
+    "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "NC_ROBOFAC_MERC_1",
     "attitude": 0,
     "mission": 7,
@@ -37,7 +38,7 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "modularvestkevlar", "contents-group": "army_mags_m4" },
+      { "item": "ballistic_vest_esapi" },
       { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
@@ -70,8 +71,21 @@
   {
     "id": "TALK_ROBOFAC_MERC_1",
     "type": "talk_topic",
-    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick…", "Hey.", "…", "Yes?", "What's up?", "Good to see you." ],
+    "dynamic_line": {
+      "npc_has_var": "temporal_follower",
+      "type": "general",
+      "context": "robofac_merc_1",
+      "value": "yes",
+      "yes": [ "Better keep our eyes on the road.", "…", "Better be careful around here.", "…", "Yes?", "What's up?" ],
+      "no": [ "Something to say?", "I charge hourly, so be quick…", "Hey.", "…", "Yes?", "What's up?", "Good to see you." ]
+    },
     "responses": [
+      { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "About those jobs…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_mission"
+      },
       {
         "text": "Who are you?",
         "condition": { "not": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
@@ -79,15 +93,34 @@
       },
       {
         "text": "Good to see you around.",
-        "condition": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            {
+              "not": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_MERC_1_MAIN"
       },
       {
         "text": "Want help with something else?",
-        "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+            {
+              "not": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "Never mind, I was about to leave.", "topic": "TALK_DONE" }
+      {
+        "text": "Lets set a combat strategy",
+        "condition": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_COMBAT_COMMANDS"
+      },
+      { "text": "Never mind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -142,6 +175,7 @@
         "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
       },
+      { "text": "Want help with something?", "topic": "TALK_MISSION_LIST" },
       { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
@@ -217,8 +251,77 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_buy_item": "RobofacCoin", "count": 8 },
-        { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+        { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
       ]
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_MERC_1_RADIO",
+    "type": "mission_definition",
+    "name": "Active Noise Control",
+    "description": "Investigate Hub 01's radio tower, discover the source of the interference, and fix the problem.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "effect": [
+        "follow_only",
+        { "npc_add_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+      ],
+      "assign_mission_target": { "om_terrain": "radio_tower_1", "om_special": "hub_01", "reveal_radius": 1, "random": true, "search_range": 10 },
+      "update_mapgen": [
+        { "place_monster": [ { "monster": "mon_leech_radio", "x": 12, "y": 10, "target": true } ] },
+        { "place_nested": [ { "chunks": [ "robofac_radio_leech" ], "x": 0, "y": 0 } ] }
+      ]
+    },
+    "end": { "effect": [ { "add_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "A few days ago, I installed a radio transmitter in the nearby tower, but it stopped working recently.  If you are willing to be my back up while I check it out, I'll owe you a favor.",
+      "accepted": "Alright, lets be off.  You don't mind taking point, right?",
+      "rejected": "Well thanks for offering, I guess.",
+      "advice": "I'm sure we'll figure it out once there.  In any case, make sure to shoot first.",
+      "inquire": "You think we killed the culprit?",
+      "success": "Sure seems like it.  Lets go back to the hub.",
+      "success_lie": "Sure, thanks for nothing.",
+      "failure": "Simply useless…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+    "type": "mission_definition",
+    "name": "Return to Hub 01",
+    "description": "Return to Hub 01.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "robofachq_surface_entrance",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 90, "z": 0 }
+    },
+    "end": {
+      "effect": [
+        "stop_following",
+        { "u_adjust_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "adjustment": 1 },
+        { "npc_lose_var": "temporal_follower", "type": "general", "context": "robofac_merc_1" },
+        { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "Lets go back to the Hub",
+      "accepted": "Alright, lets be off.  You don't mind taking point, right?",
+      "rejected": "Well…",
+      "advice": "You keep a map around don't you?  I do, and you probably should too.",
+      "inquire": "We there yet?",
+      "success": "Thanks for having my back.  As I said, I owe you one.",
+      "success_lie": "Are you lost or something?",
+      "failure": "Can't believe we got lost…"
     }
   }
 ]

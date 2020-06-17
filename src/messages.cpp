@@ -1,23 +1,24 @@
 #include "messages.h"
 
 #include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
+#include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "catacharset.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -25,9 +26,9 @@
 #include "options.h"
 #endif
 
+#include <algorithm>
 #include <deque>
 #include <iterator>
-#include <algorithm>
 #include <memory>
 
 // sidebar messages flow direction
@@ -407,7 +408,7 @@ class dialog
         dialog();
         void run();
     private:
-        void init();
+        void init( ui_adaptor &ui );
         void show();
         void input();
         void do_filter( const std::string &filter_str );
@@ -428,20 +429,27 @@ class dialog
         //        time_width       msg_width
         static constexpr int border_width = 1;
         static constexpr int padding_width = 1;
-        int time_width, msg_width;
+        int time_width = 0;
+        int msg_width = 0;
 
-        size_t max_lines; // Max number of lines the window can show at once
+        size_t max_lines = 0; // Max number of lines the window can show at once
 
-        int w_x, w_y, w_width, w_height; // Main window position
+        int w_x = 0;
+        int w_y = 0;
+        int w_width = 0;
+        int w_height = 0; // Main window position
         catacurses::window w; // Main window
 
-        int w_fh_x, w_fh_y, w_fh_width, w_fh_height; // Filter help window position
+        int w_fh_x = 0;
+        int w_fh_y = 0;
+        int w_fh_width = 0;
+        int w_fh_height = 0; // Filter help window position
         catacurses::window w_filter_help; // Filter help window
 
         std::vector<std::string> help_text; // Folded filter help text
 
         string_input_popup filter;
-        bool filtering;
+        bool filtering = false;
         std::string filter_str;
 
         input_context ctxt;
@@ -451,12 +459,14 @@ class dialog
         // Indices of filtered messages
         std::vector<size_t> folded_filtered;
 
-        size_t offset; // Index of the first printed message
+        size_t offset = 0; // Index of the first printed message
 
-        bool canceled;
-        bool errored;
+        bool canceled = false;
+        bool errored = false;
 
         cata::optional<ime_sentry> filter_sentry;
+
+        bool first_init = true;
 };
 } // namespace Messages
 
@@ -465,10 +475,9 @@ Messages::dialog::dialog()
       time_color( c_light_blue ), bracket_color( c_dark_gray ),
       filter_help_color( c_cyan )
 {
-    init();
 }
 
-void Messages::dialog::init()
+void Messages::dialog::init( ui_adaptor &ui )
 {
     w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
     w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
@@ -477,24 +486,25 @@ void Messages::dialog::init()
 
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
-    ctxt = input_context( "MESSAGE_LOG" );
-    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( first_init ) {
+        ctxt = input_context( "MESSAGE_LOG" );
+        ctxt.register_action( "UP", to_translation( "Scroll up" ) );
+        ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
+        ctxt.register_action( "FILTER" );
+        ctxt.register_action( "RESET_FILTER" );
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    // Calculate time string display width. The translated strings are expected to
-    // be aligned, so we choose an arbitrary duration here to calculate the width.
-    time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
+        // Calculate time string display width. The translated strings are expected to
+        // be aligned, so we choose an arbitrary duration here to calculate the width.
+        time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
+    }
 
     if( border_width * 2 + time_width + padding_width >= w_width ||
         border_width * 2 >= w_height ) {
 
-        debugmsg( "No enough space for the message window" );
         errored = true;
         return;
     }
@@ -510,8 +520,8 @@ void Messages::dialog::init()
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
     // Initialize filter input
-    filter.window( w_filter_help, border_width + 2, w_fh_height - 1, w_fh_width - border_width - 2 );
-    filtering = false;
+    filter.window( w_filter_help, point( border_width + 2, w_fh_height - 1 ),
+                   w_fh_width - border_width - 2 );
 
     // Initialize folded messages
     folded_all.clear();
@@ -527,15 +537,11 @@ void Messages::dialog::init()
         }
     }
 
-    // Initialize scrolling offset
-    if( log_from_top || max_lines > folded_filtered.size() ) {
-        offset = 0;
-    } else {
-        offset = folded_filtered.size() - max_lines;
-    }
+    do_filter( filter_str );
 
-    canceled = false;
-    errored = false;
+    ui.position_from_window( w );
+
+    first_init = false;
 }
 
 void Messages::dialog::show()
@@ -613,7 +619,7 @@ void Messages::dialog::show()
     }
 
     if( filtering ) {
-        wrefresh( w );
+        wnoutrefresh( w );
         // Print the help text
         werase( w_filter_help );
         draw_border( w_filter_help, border_color );
@@ -625,7 +631,7 @@ void Messages::dialog::show()
         mvwprintz( w_filter_help, point( border_width, w_fh_height - 1 ), border_color, "< " );
         mvwprintz( w_filter_help, point( w_fh_width - border_width - 2, w_fh_height - 1 ), border_color,
                    " >" );
-        wrefresh( w_filter_help );
+        wnoutrefresh( w_filter_help );
 
         // This line is preventing this method from being const
         filter.query( false, true ); // Draw only
@@ -638,7 +644,7 @@ void Messages::dialog::show()
             mvwprintz( w, point( border_width, w_height - 1 ), border_color, "< %s >", filter_str );
             mvwprintz( w, point( border_width + 2, w_height - 1 ), filter_color, "%s", filter_str );
         }
-        wrefresh( w );
+        wnoutrefresh( w );
     }
 }
 
@@ -742,11 +748,17 @@ void Messages::dialog::input()
 
 void Messages::dialog::run()
 {
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    ui_adaptor ui;
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        init( ui );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [this]( const ui_adaptor & ) {
+        show();
+    } );
 
     while( !errored && !canceled ) {
-        show();
+        ui_manager::redraw();
         input();
     }
 }

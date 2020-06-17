@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVITY_TYPE_H
-#define ACTIVITY_TYPE_H
+#ifndef CATA_SRC_ACTIVITY_TYPE_H
+#define CATA_SRC_ACTIVITY_TYPE_H
 
 #include <string>
 
@@ -32,6 +32,7 @@ class activity_type
         activity_id id_;
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
+        bool interruptable_ = true;
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
@@ -46,6 +47,9 @@ class activity_type
         }
         bool rooted() const {
             return rooted_;
+        }
+        bool interruptable() const {
+            return interruptable_;
         }
         bool suspendable() const {
             return suspendable_;
@@ -85,4 +89,4 @@ class activity_type
         static void reset();
 };
 
-#endif
+#endif // CATA_SRC_ACTIVITY_TYPE_H

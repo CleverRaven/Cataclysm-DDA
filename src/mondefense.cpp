@@ -1,10 +1,13 @@
 #include "mondefense.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
+#include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -13,20 +16,24 @@
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
+#include "enums.h"
+#include "gun_mode.h"
+#include "item.h"
+#include "line.h"
 #include "mattack_actors.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "player.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
+#include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
-#include "enums.h"
-#include "item.h"
-#include "point.h"
+#include "type_id.h"
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_rifle( "rifle" );
@@ -49,7 +56,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( const player *const foe = dynamic_cast<player *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
-            if( ( i.covers( bp_hand_l ) || i.covers( bp_hand_r ) ) &&
+            if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
                 !i.conductive() && i.get_coverage() >= 95 ) {
                 return;
             }
@@ -69,8 +76,8 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( g->u.sees( source->pos() ) ) {
-        const auto msg_type = source == &g->u ? m_bad : m_info;
+    if( get_avatar().sees( source->pos() ) ) {
+        const auto msg_type = source == &get_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }
@@ -78,8 +85,8 @@ void mdefense::zapback( monster &m, Creature *const source,
     const damage_instance shock {
         DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
-    source->deal_damage( &m, bp_arm_l, shock );
-    source->deal_damage( &m, bp_arm_r, shock );
+    source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
+    source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
 
     source->check_dead_state();
 }
@@ -110,7 +117,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
                 const damage_instance acid_burn{
                     DT_ACID, static_cast<float>( rng( 1, 5 ) )
                 };
-                source->deal_damage( &m, one_in( 2 ) ? bp_hand_l : bp_hand_r, acid_burn );
+                source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
+                                     acid_burn );
                 source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ), m.disp_name() );
             }
         }
@@ -131,7 +139,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( g->u.sees( m.pos() ) ) {
+    if( get_avatar().sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }
@@ -181,10 +189,10 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             // ...skills...
             for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
-                if( skill.first == "gun" ) {
+                if( skill.first == skill_gun ) {
                     tmp.set_skill_level( skill_gun, skill.second );
                 }
-                if( skill.first == "rifle" ) {
+                if( skill.first == skill_rifle ) {
                     tmp.set_skill_level( skill_rifle, skill.second );
                 }
             }

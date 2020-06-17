@@ -635,21 +635,9 @@
   },
   {
     "type": "start_location",
-    "ident": "shelter",
+    "id": "sloc_dks_shelter",
     "name": "Shelter",
-    "target": "dks_shelter"
-  },
-  {
-    "type": "start_location",
-    "ident": "shelter_1",
-    "name": "Shelter",
-    "target": "dks_shelter_1"
-  },
-  {
-    "type": "start_location",
-    "ident": "shelter_2",
-    "name": "Shelter",
-    "target": "dks_shelter_2"
+    "terrain": [ "dks_shelter", "dks_shelter_1", "dks_shelter_2" ]
   },
   {
     "type": "overmap_terrain",
@@ -668,7 +656,7 @@
   },
   {
     "type": "recipe_group",
-    "name": "all_faction_base_types",
+    "id": "all_faction_base_types",
     "building_type": "NONE",
     "recipes": [
       { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },

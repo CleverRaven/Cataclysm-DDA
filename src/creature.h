@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CREATURE_H
-#define CREATURE_H
+#ifndef CATA_SRC_CREATURE_H
+#define CATA_SRC_CREATURE_H
 
 #include <climits>
 #include <map>
@@ -10,7 +10,9 @@
 #include <string>
 #include <utility>
 
+#include "anatomy.h"
 #include "bodypart.h"
+#include "damage.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -49,18 +51,150 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum m_size : int {
-    MS_TINY = 1,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+enum class creature_size : int {
+    // Keep it starting at 1 - damage done to monsters depends on it
+    // Squirrel
+    tiny = 1,
+    // Dog
+    small,
+    // Human
+    medium,
+    // Cow
+    large,
+    // TAAAANK
+    huge
 };
 
-enum FacingDirection {
-    FD_NONE = 0,
-    FD_LEFT = 1,
-    FD_RIGHT = 2
+using I = std::underlying_type_t<creature_size>;
+constexpr I operator+( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) + static_cast<I>( rhs );
+}
+
+constexpr I operator+( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) + rhs;
+}
+
+constexpr I operator+( const I lhs, const creature_size rhs )
+{
+    return lhs + static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) - rhs;
+}
+
+constexpr I operator-( const I lhs, const creature_size rhs )
+{
+    return lhs - static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) * static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) * rhs;
+}
+
+constexpr I operator*( const I lhs, const creature_size rhs )
+{
+    return lhs * static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) / static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) / rhs;
+}
+
+constexpr bool operator<=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) <= rhs;
+}
+
+constexpr bool operator<=( const I lhs, const creature_size rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) < static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) < rhs;
+}
+
+constexpr bool operator<( const I lhs, const creature_size rhs )
+{
+    return lhs < static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) >= rhs;
+}
+
+constexpr bool operator>=( const I lhs, const creature_size rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) > static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) > rhs;
+}
+
+constexpr bool operator>( const I lhs, const creature_size rhs )
+{
+    return lhs > static_cast<I>( rhs );
+}
+
+constexpr bool operator==( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) == rhs;
+}
+
+constexpr bool operator==( const I lhs, const creature_size rhs )
+{
+    return lhs == static_cast<I>( rhs );
+}
+
+enum class FacingDirection : int {
+    NONE = 0,
+    LEFT = 1,
+    RIGHT = 2
 };
 
 class Creature
@@ -68,7 +202,7 @@ class Creature
     public:
         virtual ~Creature();
 
-        static const std::map<std::string, m_size> size_map;
+        static const std::map<std::string, creature_size> size_map;
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
@@ -109,7 +243,7 @@ class Creature
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
-        FacingDirection facing = FD_RIGHT;
+        FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -142,11 +276,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**
@@ -215,17 +349,18 @@ class Creature
         double ranged_target_size() const;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit( Creature *source, body_part &bp_hit,
+        virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
+        virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
         virtual void knock_back_to( const tripoint &to ) = 0;
 
+        int size_melee_penalty() const;
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
@@ -252,16 +387,18 @@ class Creature
          * @param bp The attacked body part
          * @param dam The damage dealt
          */
-        virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                 const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
-                                              body_part bp, int &damage, int &pain );
+                                              bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount,
+        virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
+
+        virtual void heal_bp( bodypart_id bp, int dam );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -272,7 +409,7 @@ class Creature
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
          */
-        virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
+        virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;
@@ -404,23 +541,26 @@ class Creature
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
 
-        virtual int get_env_resist( body_part bp ) const;
+        virtual int get_env_resist( bodypart_id bp ) const;
 
-        virtual int get_armor_bash( body_part bp ) const;
-        virtual int get_armor_cut( body_part bp ) const;
-        virtual int get_armor_bash_base( body_part bp ) const;
-        virtual int get_armor_cut_base( body_part bp ) const;
+        virtual int get_armor_bash( bodypart_id bp ) const;
+        virtual int get_armor_cut( bodypart_id bp ) const;
+        virtual int get_armor_bullet( bodypart_id bp ) const;
+        virtual int get_armor_bash_base( bodypart_id bp ) const;
+        virtual int get_armor_cut_base( bodypart_id bp ) const;
+        virtual int get_armor_bullet_base( bodypart_id bp ) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+        virtual int get_armor_bullet_bonus() const;
 
-        virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
+        virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
         virtual float get_melee() const = 0;
         virtual float get_hit() const;
 
         virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
+        virtual creature_size get_size() const = 0;
         virtual int get_hp( hp_part bp ) const = 0;
         virtual int get_hp() const = 0;
         virtual int get_hp_max( hp_part bp ) const = 0;
@@ -443,12 +583,16 @@ class Creature
             return false;
         }
 
-        virtual body_part get_random_body_part( bool main = false ) const = 0;
+        anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        anatomy_id get_anatomy() const;
+        void set_anatomy( const anatomy_id &anat );
+
+        bodypart_id get_random_body_part( bool main = false ) const;
         /**
          * Returns body parts in order in which they should be displayed.
          * @param only_main If true, only displays parts that can have hit points
          */
-        virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
+        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -479,6 +623,7 @@ class Creature
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
+        virtual void set_armor_bullet_bonus( int nbulletarm );
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
@@ -728,8 +873,11 @@ class Creature
 
         virtual std::string extended_description() const = 0;
 
+        /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
+        /** Creature symbol color */
         virtual nc_color basic_symbol_color() const = 0;
+        /** Creature symbol */
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
@@ -744,37 +892,41 @@ class Creature
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
+
+        std::vector<damage_over_time_data> damage_over_time_map;
+
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
 
-        int num_blocks; // base number of blocks/dodges per turn
-        int num_dodges;
-        int num_blocks_bonus; // bonus ""
-        int num_dodges_bonus;
+        int num_blocks = 0; // base number of blocks/dodges per turn
+        int num_dodges = 0;
+        int num_blocks_bonus = 0; // bonus ""
+        int num_dodges_bonus = 0;
 
-        int armor_bash_bonus;
-        int armor_cut_bonus;
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
+        int armor_bash_bonus = 0;
+        int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
+        int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
-        int speed_bonus;
-        float dodge_bonus;
-        int block_bonus;
-        float hit_bonus;
-        int bash_bonus;
-        int cut_bonus;
-        int size_bonus;
+        int speed_bonus = 0;
+        float dodge_bonus = 0.0f;
+        int block_bonus = 0;
+        float hit_bonus = 0.0f;
+        int bash_bonus = 0;
+        int cut_bonus = 0;
+        int size_bonus = 0;
 
-        float bash_mult;
-        float cut_mult;
-        bool melee_quiet;
+        float bash_mult = 0.0f;
+        float cut_mult = 0.0f;
+        bool melee_quiet = false;
 
-        int grab_resist;
-        int throw_resist;
+        int grab_resist = 0;
+        int throw_resist = 0;
 
-        bool fake;
+        bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;
@@ -784,10 +936,13 @@ class Creature
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
-        virtual void on_damage_of_type( int, damage_type, body_part ) {}
+        virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
+
+        void add_damage_over_time( const damage_over_time_data &DoT );
+        void process_damage_over_time();
 
         static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
@@ -834,4 +989,4 @@ class Creature
         int pain;
 };
 
-#endif
+#endif // CATA_SRC_CREATURE_H

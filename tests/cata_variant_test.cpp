@@ -1,10 +1,15 @@
-#include "catch/catch.hpp"
-
 #include <sstream>
+#include <string>
+#include <utility>
 
 #include "cata_variant.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "enum_conversions.h"
+#include "item.h"
 #include "json.h"
-#include "stringmaker.h"
+#include "string_id.h"
+#include "type_id.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
 {
@@ -32,6 +37,14 @@ TEST_CASE( "variant_construction", "[variant]" )
         CHECK( v2.type() == cata_variant_type::mtype_id );
         CHECK( v2.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
         CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
+    }
+    SECTION( "point" ) {
+        point p( 7, 63 );
+        cata_variant v = cata_variant::make<cata_variant_type::point>( p );
+        CHECK( v.type() == cata_variant_type::point );
+        CHECK( v.get<cata_variant_type::point>() == p );
+        CHECK( v.get<point>() == p );
+        CHECK( v.get_string() == p.to_string() );
     }
     SECTION( "construction_from_const_lvalue" ) {
         const character_id i;

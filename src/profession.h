@@ -1,32 +1,28 @@
 #pragma once
-#ifndef PROFESSION_H
-#define PROFESSION_H
+#ifndef CATA_SRC_PROFESSION_H
+#define CATA_SRC_PROFESSION_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
-#include "string_id.h"
 #include "pldata.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "veh_type.h"
 
 template<typename T>
 class generic_factory;
 
 using Group_tag = std::string;
 class item;
-
-using itype_id = std::string;
+class JsonObject;
 class avatar;
 class player;
-class JsonObject;
-
-enum add_type : int;
 
 class profession
 {
@@ -34,7 +30,7 @@ class profession
         using StartingSkill = std::pair<skill_id, int>;
         using StartingSkillList = std::vector<StartingSkill>;
         struct itypedec {
-            std::string type_id;
+            itype_id type_id;
             /** Snippet id, @see snippet_library. */
             snippet_id snip_id;
             // compatible with when this was just a std::string
@@ -134,4 +130,4 @@ class profession
         std::set<trait_id> get_forbidden_traits() const;
 };
 
-#endif
+#endif // CATA_SRC_PROFESSION_H

@@ -73,7 +73,7 @@
       { "item": "survivormap", "prob": 1 },
       { "item": "miner_hat", "prob": 10 },
       { "item": "honey_ant", "prob": 30 },
-      { "item": "tool_black_powder_charge", "prob": 1 }
+      { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
     ]
   },
   {
@@ -96,21 +96,9 @@
   },
   {
     "type": "item_group",
-    "id": "bees",
-    "subtype": "distribution",
-    "entries": [ { "item": "bee_sting", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
     "id": "fungal_sting",
     "subtype": "distribution",
     "entries": [ { "item": "fighter_sting", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "wasps",
-    "subtype": "distribution",
-    "entries": [ { "item": "wasp_sting", "prob": 5 } ]
   },
   {
     "type": "item_group",

@@ -1,8 +1,9 @@
 #include "dependency_tree.h"
 
 #include <algorithm>
-#include <set>
 #include <array>
+#include <ostream>
+#include <set>
 #include <utility>
 
 #include "debug.h"
@@ -17,7 +18,8 @@ dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false 
     availability = true;
 }
 
-dependency_node::dependency_node( mod_id _key ): index( -1 ), lowlink( -1 ), on_stack( false )
+dependency_node::dependency_node( const mod_id &_key ): index( -1 ), lowlink( -1 ),
+    on_stack( false )
 {
     key = _key;
     availability = true;
@@ -261,14 +263,14 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 
 dependency_tree::dependency_tree() = default;
 
-void dependency_tree::init( std::map<mod_id, std::vector<mod_id> > key_dependency_map )
+void dependency_tree::init( const std::map<mod_id, std::vector<mod_id> > &key_dependency_map )
 {
     build_node_map( key_dependency_map );
     build_connections( key_dependency_map );
 }
 
 void dependency_tree::build_node_map(
-    std::map<mod_id, std::vector<mod_id > > key_dependency_map )
+    const std::map<mod_id, std::vector<mod_id > > &key_dependency_map )
 {
     for( auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
@@ -279,7 +281,7 @@ void dependency_tree::build_node_map(
 }
 
 void dependency_tree::build_connections(
-    std::map<mod_id, std::vector<mod_id > > key_dependency_map )
+    const std::map<mod_id, std::vector<mod_id > > &key_dependency_map )
 {
     for( auto &elem : key_dependency_map ) {
         const auto iter = master_node_map.find( elem.first );
@@ -310,7 +312,7 @@ void dependency_tree::build_connections(
         elem.second.inherit_errors();
     }
 }
-std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id key )
+std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( const mod_id &key )
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -318,7 +320,7 @@ std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id ke
     }
     return std::vector<mod_id>();
 }
-std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( mod_id key )
+std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( const mod_id &key )
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -327,7 +329,7 @@ std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( 
     return std::vector<dependency_node *>();
 }
 
-std::vector<mod_id> dependency_tree::get_dependents_of_X_as_strings( mod_id key )
+std::vector<mod_id> dependency_tree::get_dependents_of_X_as_strings( const mod_id &key )
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -336,7 +338,7 @@ std::vector<mod_id> dependency_tree::get_dependents_of_X_as_strings( mod_id key 
     return std::vector<mod_id>();
 }
 
-std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mod_id key )
+std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( const mod_id &key )
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -345,7 +347,7 @@ std::vector<dependency_node *> dependency_tree::get_dependents_of_X_as_nodes( mo
     return std::vector<dependency_node *>();
 }
 
-bool dependency_tree::is_available( mod_id key )
+bool dependency_tree::is_available( const mod_id &key )
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {
@@ -360,7 +362,7 @@ void dependency_tree::clear()
     master_node_map.clear();
 }
 
-dependency_node *dependency_tree::get_node( mod_id key )
+dependency_node *dependency_tree::get_node( const mod_id &key )
 {
     const auto iter = master_node_map.find( key );
     if( iter != master_node_map.end() ) {

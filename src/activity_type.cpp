@@ -1,20 +1,22 @@
 #include "activity_type.h"
 
+#include <algorithm>
+#include <functional>
 #include <map>
 #include <unordered_map>
-#include <functional>
 #include <utility>
 
 #include "activity_actor.h"
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "json.h"
-#include "sounds.h"
-#include "translations.h"
 #include "player.h"
-#include "player_activity.h"
+#include "sounds.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -53,6 +55,7 @@ void activity_type::load( const JsonObject &jo )
     result.id_ = activity_id( jo.get_string( "id" ) );
     assign( jo, "rooted", result.rooted_, true );
     assign( jo, "verb", result.verb_, true );
+    assign( jo, "interruptable", result.interruptable_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "multi_activity", result.multi_activity_, false );

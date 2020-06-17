@@ -165,7 +165,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "trailhead",
+    "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
+    "copy-from": "trailhead",
+    "sym": "\u00F1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailhead_shack_z1", "trailhead_outhouse_z1" ],
     "copy-from": "trailhead",
     "sym": "\u00F1"
   },

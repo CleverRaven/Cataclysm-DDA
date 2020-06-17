@@ -5,7 +5,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "player.h"
 #include "weather.h"
 #include "bodypart.h"
@@ -16,7 +15,7 @@
 // core body temperature settles.
 static void temperature_check( player *p, const int ambient_temp, const int target_temp )
 {
-    g->weather.temperature = ambient_temp;
+    get_weather().temperature = ambient_temp;
     for( int i = 0 ; i < num_bp; i++ ) {
         p->temp_cur[i] = BODYTEMP_NORM;
     }
@@ -63,11 +62,11 @@ static void test_temperature_spread( player *p, const std::array<int, 7> &ambien
 TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]" )
 {
 
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     // Remove first worn item until there are none left.
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
 
     // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
     // As we aren't modeling metabolic rate, assume 2 METS when not sleeping.

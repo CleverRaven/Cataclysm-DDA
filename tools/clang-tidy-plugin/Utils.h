@@ -1,11 +1,26 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_UTILS_H
-#define CATA_TOOLS_CLANG_TIDY_UTILS_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_UTILS_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_UTILS_H
 
-#include <clang/Lex/Lexer.h>
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/ASTTypeTraits.h>
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclCXX.h>
+#include <clang/AST/ExprCXX.h>
 #include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/Basic/LLVM.h>
+#include <clang/Basic/SourceLocation.h>
+#include <clang/Lex/Lexer.h>
+#include <llvm/ADT/StringRef.h>
+#include <llvm/Support/Casting.h>
+#include <string>
 
 namespace clang
 {
+class Decl;
+class Stmt;
+
 namespace tidy
 {
 namespace cata
@@ -26,6 +41,18 @@ inline StringRef getText( const ast_matchers::MatchFinder::MatchResult &Result, 
         return getText( Result, Default->getExpr() );
     }
     return getText( Result, Node->getSourceRange() );
+}
+
+template<typename T, typename U>
+static const T *getParent( const ast_matchers::MatchFinder::MatchResult &Result, const U *Node )
+{
+    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+        if( const T *Candidate = parent.get<T>() ) {
+            return Candidate;
+        }
+    }
+
+    return nullptr;
 }
 
 template<typename T>
@@ -51,6 +78,15 @@ static const FunctionDecl *getContainingFunction(
     }
 
     return nullptr;
+}
+
+inline bool isPointType( const CXXRecordDecl *R )
+{
+    if( !R ) {
+        return false;
+    }
+    StringRef name = R->getName();
+    return name == "point" || name == "tripoint";
 }
 
 inline auto isPointType()
@@ -83,19 +119,53 @@ inline auto testWhetherConstructingTemporary()
            );
 }
 
+inline auto testWhetherParentIsVarDecl()
+{
+    using namespace clang::ast_matchers;
+    return expr(
+               anyOf(
+                   hasParent( varDecl().bind( "parentVarDecl" ) ),
+                   anything()
+               )
+           );
+}
+
+inline auto testWhetherGrandparentIsTranslationUnitDecl()
+{
+    using namespace clang::ast_matchers;
+    return expr(
+               anyOf(
+                   hasParent(
+                       varDecl(
+                           hasParent( translationUnitDecl().bind( "grandparentTranslationUnit" ) )
+                       )
+                   ),
+                   anything()
+               )
+           );
+}
+
 inline auto isXParam()
 {
     using namespace clang::ast_matchers;
     return matchesName( "[xX]" );
 }
 
-inline bool isPointType( const CXXRecordDecl *R )
+inline auto isYParam()
 {
-    if( !R ) {
-        return false;
+    using namespace clang::ast_matchers;
+    return matchesName( "[yY]" );
+}
+
+inline bool isPointMethod( const FunctionDecl *d )
+{
+    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
+        const CXXRecordDecl *Record = Method->getParent();
+        if( isPointType( Record ) ) {
+            return true;
+        }
     }
-    StringRef name = R->getName();
-    return name == "point" || name == "tripoint";
+    return false;
 }
 
 // Struct to help identify and construct names of associated points and
@@ -112,10 +182,14 @@ class NameConvention
             None
         };
 
-        MatchResult Match( StringRef name );
+        MatchResult Match( StringRef name ) const;
 
         bool operator!() const {
             return !valid;
+        }
+
+        const std::string &getRoot() const {
+            return root;
         }
     private:
         std::string root;
@@ -128,4 +202,4 @@ class NameConvention
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_UTILS_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_UTILS_H

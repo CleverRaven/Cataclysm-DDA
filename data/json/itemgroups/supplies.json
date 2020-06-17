@@ -32,6 +32,17 @@
     ]
   },
   {
+    "id": "tailoring_fabric",
+    "type": "item_group",
+    "//": "Fabric sheets used for tailoring.",
+    "items": [
+      { "item": "sheet_cotton", "prob": 200 },
+      { "item": "sheet_neoprene", "prob": 10 },
+      { "item": "tanned_hide", "prob": 50 },
+      { "item": "tanned_pelt", "prob": 50 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -384,6 +395,7 @@
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
       [ "steam_watts_small", 1 ],
+      { "item": "aero_engine_light", "prob": 1 },
       [ "1cyl_combustion_small", 10 ],
       [ "vehicle_controls", 3 ],
       [ "horn_car", 10 ],
@@ -497,6 +509,7 @@
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],
       [ "bat", 80 ],
+      [ "bat_nerf", 80 ],
       [ "football", 100 ],
       [ "football_armor", 20 ],
       [ "helmet_football", 20 ],

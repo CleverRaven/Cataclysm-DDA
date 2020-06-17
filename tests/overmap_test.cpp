@@ -1,18 +1,18 @@
+#include <algorithm>
 #include <memory>
-#include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
-#include "map.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "common_types.h"
-#include "omdata.h"
-#include "overmap_types.h"
-#include "type_id.h"
+#include "enums.h"
 #include "game_constants.h"
+#include "omdata.h"
+#include "overmap.h"
+#include "overmap_types.h"
+#include "overmapbuffer.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
@@ -57,7 +57,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
-    const point origin = point_zero;
+    const point origin{};
 
     overmap_special mandatory;
     overmap_special optional;
@@ -66,9 +66,9 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
     for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == "Cabin" ) {
+        if( elem.id == overmap_special_id( "Cabin" ) ) {
             optional = elem;
-        } else if( elem.id == "Lab" ) {
+        } else if( elem.id == overmap_special_id( "Lab" ) ) {
             mandatory = elem;
         }
     }

@@ -1,14 +1,23 @@
 #include "magic_enchantment.h"
 
+#include <cstdlib>
+#include <memory>
+#include <set>
+
 #include "character.h"
-#include "emit.h"
+#include "creature.h"
+#include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
+#include "enums.h"
 #include "generic_factory.h"
-#include "item.h"
 #include "json.h"
 #include "map.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 #include "units.h"
+
+template <typename E> struct enum_traits;
 
 template<>
 struct enum_traits<enchantment::has> {
@@ -21,8 +30,8 @@ struct enum_traits<enchantment::condition> {
 };
 
 template<>
-struct enum_traits<enchantment::mod> {
-    static constexpr enchantment::mod last = enchantment::mod::NUM_MOD;
+struct enum_traits<enchant_vals::mod> {
+    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
 };
 
 namespace io
@@ -55,75 +64,78 @@ namespace io
     }
 
     template<>
-    std::string enum_to_string<enchantment::mod>( enchantment::mod data )
+    std::string enum_to_string<enchant_vals::mod>( enchant_vals::mod data )
     {
         switch ( data ) {
-            case enchantment::mod::STRENGTH: return "STRENGTH";
-            case enchantment::mod::DEXTERITY: return "DEXTERITY";
-            case enchantment::mod::PERCEPTION: return "PERCEPTION";
-            case enchantment::mod::INTELLIGENCE: return "INTELLIGENCE";
-            case enchantment::mod::SPEED: return "SPEED";
-            case enchantment::mod::ATTACK_COST: return "ATTACK_COST";
-            case enchantment::mod::ATTACK_SPEED: return "ATTACK_SPEED";
-            case enchantment::mod::MOVE_COST: return "MOVE_COST";
-            case enchantment::mod::METABOLISM: return "METABOLISM";
-            case enchantment::mod::MAX_MANA: return "MAX_MANA";
-            case enchantment::mod::REGEN_MANA: return "REGEN_MANA";
-            case enchantment::mod::BIONIC_POWER: return "BIONIC_POWER";
-            case enchantment::mod::MAX_STAMINA: return "MAX_STAMINA";
-            case enchantment::mod::REGEN_STAMINA: return "REGEN_STAMINA";
-            case enchantment::mod::MAX_HP: return "MAX_HP";
-            case enchantment::mod::REGEN_HP: return "REGEN_HP";
-            case enchantment::mod::THIRST: return "THIRST";
-            case enchantment::mod::FATIGUE: return "FATIGUE";
-            case enchantment::mod::PAIN: return "PAIN";
-            case enchantment::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
-            case enchantment::mod::BONUS_BLOCK: return "BONUS_BLOCK";
-            case enchantment::mod::BONUS_DODGE: return "BONUS_DODGE";
-            case enchantment::mod::ATTACK_NOISE: return "ATTACK_NOISE";
-            case enchantment::mod::SPELL_NOISE: return "SPELL_NOISE";
-            case enchantment::mod::SHOUT_NOISE: return "SHOUT_NOISE";
-            case enchantment::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
-            case enchantment::mod::SIGHT_RANGE: return "SIGHT_RANGE";
-            case enchantment::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
-            case enchantment::mod::CARRY_VOLUME: return "CARRY_VOLUME";
-            case enchantment::mod::SOCIAL_LIE: return "SOCIAL_LIE";
-            case enchantment::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
-            case enchantment::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
-            case enchantment::mod::ARMOR_ACID: return "ARMOR_ACID";
-            case enchantment::mod::ARMOR_BASH: return "ARMOR_BASH";
-            case enchantment::mod::ARMOR_BIO: return "ARMOR_BIO";
-            case enchantment::mod::ARMOR_COLD: return "ARMOR_COLD";
-            case enchantment::mod::ARMOR_CUT: return "ARMOR_CUT";
-            case enchantment::mod::ARMOR_ELEC: return "ARMOR_ELEC";
-            case enchantment::mod::ARMOR_HEAT: return "ARMOR_HEAT";
-            case enchantment::mod::ARMOR_STAB: return "ARMOR_STAB";
-            case enchantment::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
-            case enchantment::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
-            case enchantment::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
-            case enchantment::mod::ITEM_DAMAGE_HEAT: return "ITEM_DAMAGE_HEAT";
-            case enchantment::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
-            case enchantment::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
-            case enchantment::mod::ITEM_DAMAGE_ACID: return "ITEM_DAMAGE_ACID";
-            case enchantment::mod::ITEM_DAMAGE_BIO: return "ITEM_DAMAGE_BIO";
-            case enchantment::mod::ITEM_DAMAGE_AP: return "ITEM_DAMAGE_AP";
-            case enchantment::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
-            case enchantment::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
-            case enchantment::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
-            case enchantment::mod::ITEM_ARMOR_HEAT: return "ITEM_ARMOR_HEAT";
-            case enchantment::mod::ITEM_ARMOR_COLD: return "ITEM_ARMOR_COLD";
-            case enchantment::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";
-            case enchantment::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
-            case enchantment::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
-            case enchantment::mod::ITEM_WEIGHT: return "ITEM_WEIGHT";
-            case enchantment::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
-            case enchantment::mod::ITEM_VOLUME: return "ITEM_VOLUME";
-            case enchantment::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
-            case enchantment::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
-            case enchantment::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
-            case enchantment::mod::NUM_MOD: break;
+            case enchant_vals::mod::STRENGTH: return "STRENGTH";
+            case enchant_vals::mod::DEXTERITY: return "DEXTERITY";
+            case enchant_vals::mod::PERCEPTION: return "PERCEPTION";
+            case enchant_vals::mod::INTELLIGENCE: return "INTELLIGENCE";
+            case enchant_vals::mod::SPEED: return "SPEED";
+            case enchant_vals::mod::ATTACK_COST: return "ATTACK_COST";
+            case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
+            case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
+            case enchant_vals::mod::METABOLISM: return "METABOLISM";
+            case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
+            case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
+            case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
+            case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
+            case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::MAX_HP: return "MAX_HP";
+            case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::THIRST: return "THIRST";
+            case enchant_vals::mod::FATIGUE: return "FATIGUE";
+            case enchant_vals::mod::PAIN: return "PAIN";
+            case enchant_vals::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
+            case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
+            case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
+            case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
+            case enchant_vals::mod::SPELL_NOISE: return "SPELL_NOISE";
+            case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
+            case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
+            case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
+            case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
+            case enchant_vals::mod::CARRY_VOLUME: return "CARRY_VOLUME";
+            case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
+            case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
+            case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
+            case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
+            case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
+            case enchant_vals::mod::ARMOR_COLD: return "ARMOR_COLD";
+            case enchant_vals::mod::ARMOR_CUT: return "ARMOR_CUT";
+            case enchant_vals::mod::ARMOR_ELEC: return "ARMOR_ELEC";
+            case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
+            case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
+            case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
+            case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
+            case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
+            case enchant_vals::mod::ITEM_DAMAGE_BULLET: return "ITEM_DAMAGE_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_HEAT: return "ITEM_DAMAGE_HEAT";
+            case enchant_vals::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
+            case enchant_vals::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
+            case enchant_vals::mod::ITEM_DAMAGE_ACID: return "ITEM_DAMAGE_ACID";
+            case enchant_vals::mod::ITEM_DAMAGE_BIO: return "ITEM_DAMAGE_BIO";
+            case enchant_vals::mod::ITEM_DAMAGE_AP: return "ITEM_DAMAGE_AP";
+            case enchant_vals::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
+            case enchant_vals::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
+            case enchant_vals::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
+            case enchant_vals::mod::ITEM_ARMOR_BULLET: return "ITEM_ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_ARMOR_HEAT: return "ITEM_ARMOR_HEAT";
+            case enchant_vals::mod::ITEM_ARMOR_COLD: return "ITEM_ARMOR_COLD";
+            case enchant_vals::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";
+            case enchant_vals::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
+            case enchant_vals::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
+            case enchant_vals::mod::ITEM_WEIGHT: return "ITEM_WEIGHT";
+            case enchant_vals::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
+            case enchant_vals::mod::ITEM_VOLUME: return "ITEM_VOLUME";
+            case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
+            case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
+            case enchant_vals::mod::NUM_MOD: break;
         }
-        debugmsg( "Invalid enchantment::mod" );
+        debugmsg( "Invalid enchant_vals::mod" );
         abort();
     }
     // *INDENT-ON*
@@ -183,7 +195,7 @@ bool enchantment::is_active( const Character &guy ) const
     }
 
     if( active_conditions.second == condition::UNDERWATER ) {
-        return g->m.is_divable( guy.pos() );
+        return get_map().is_divable( guy.pos() );
     }
     return false;
 }
@@ -230,9 +242,14 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
                                "ALWAYS" ) );
 
+    for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
+        ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
+    }
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            const enchantment::mod value = io::string_to_enum<mod>( value_obj.get_string( "value" ) );
+            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
+                                            ( value_obj.get_string( "value" ) );
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
             if( add != 0 ) {
@@ -286,13 +303,13 @@ void enchantment::serialize( JsonOut &jsout ) const
 
     jsout.member( "values" );
     jsout.start_array();
-    for( int value = 0; value < mod::NUM_MOD; value++ ) {
-        mod enum_value = static_cast<mod>( value );
+    for( int value = 0; value < static_cast<int>( enchant_vals::mod::NUM_MOD ); value++ ) {
+        enchant_vals::mod enum_value = static_cast<enchant_vals::mod>( value );
         if( get_value_add( enum_value ) == 0 && get_value_multiply( enum_value ) == 0.0 ) {
             continue;
         }
         jsout.start_object();
-        jsout.member( "value", io::enum_to_string<mod>( enum_value ) );
+        jsout.member( "value", io::enum_to_string<enchant_vals::mod>( enum_value ) );
         if( get_value_add( enum_value ) != 0 ) {
             jsout.member( "add", get_value_add( enum_value ) );
         }
@@ -322,10 +339,10 @@ bool enchantment::add( const enchantment &rhs )
 
 void enchantment::force_add( const enchantment &rhs )
 {
-    for( const std::pair<const mod, int> &pair_values : rhs.values_add ) {
+    for( const std::pair<const enchant_vals::mod, int> &pair_values : rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second;
     }
-    for( const std::pair<const mod, double> &pair_values : rhs.values_multiply ) {
+    for( const std::pair<const enchant_vals::mod, double> &pair_values : rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
         values_multiply[pair_values.first] += pair_values.second;
@@ -335,6 +352,12 @@ void enchantment::force_add( const enchantment &rhs )
 
     hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
 
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
@@ -343,7 +366,7 @@ void enchantment::force_add( const enchantment &rhs )
     }
 }
 
-int enchantment::get_value_add( const mod value ) const
+int enchantment::get_value_add( const enchant_vals::mod value ) const
 {
     const auto found = values_add.find( value );
     if( found == values_add.cend() ) {
@@ -352,7 +375,7 @@ int enchantment::get_value_add( const mod value ) const
     return found->second;
 }
 
-double enchantment::get_value_multiply( const mod value ) const
+double enchantment::get_value_multiply( const enchant_vals::mod value ) const
 {
     const auto found = values_multiply.find( value );
     if( found == values_multiply.cend() ) {
@@ -361,33 +384,36 @@ double enchantment::get_value_multiply( const mod value ) const
     return found->second;
 }
 
-int enchantment::mult_bonus( enchantment::mod value_type, int base_value ) const
+int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
 }
 
 void enchantment::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( get_value_add( mod::STRENGTH ) );
-    guy.mod_str_bonus( mult_bonus( mod::STRENGTH, guy.get_str_base() ) );
+    guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
+    guy.mod_str_bonus( mult_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base() ) );
 
-    guy.mod_dex_bonus( get_value_add( mod::DEXTERITY ) );
-    guy.mod_dex_bonus( mult_bonus( mod::DEXTERITY, guy.get_dex_base() ) );
+    guy.mod_dex_bonus( get_value_add( enchant_vals::mod::DEXTERITY ) );
+    guy.mod_dex_bonus( mult_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base() ) );
 
-    guy.mod_per_bonus( get_value_add( mod::PERCEPTION ) );
-    guy.mod_per_bonus( mult_bonus( mod::PERCEPTION, guy.get_per_base() ) );
+    guy.mod_per_bonus( get_value_add( enchant_vals::mod::PERCEPTION ) );
+    guy.mod_per_bonus( mult_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base() ) );
 
-    guy.mod_int_bonus( get_value_add( mod::INTELLIGENCE ) );
-    guy.mod_int_bonus( mult_bonus( mod::INTELLIGENCE, guy.get_int_base() ) );
+    guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
+    guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
 
-    guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
+    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
+    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
 
-    guy.mod_num_dodges_bonus( get_value_add( mod::BONUS_DODGE ) );
-    guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+    guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
+    guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 
     if( emitter ) {
-        g->m.emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos(), *emitter );
+    }
+    for( const std::pair<efftype_id, int> eff : ench_effects ) {
+        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {

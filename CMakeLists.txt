@@ -21,6 +21,7 @@ option(LOCALIZE     "Support for language localizations. Also enable UTF support
 option(LANGUAGES    "Compile localization files for specified languages."   "")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
+option(CATA_CCACHE  "Try to find and build with ccache" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -32,7 +33,7 @@ include(CTest)
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
+MESSAGE("\n * Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
 MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\     ")
@@ -54,7 +55,8 @@ ADD_DEFINITIONS(-DCMAKE)
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
-    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
+    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
+        "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
     ADD_DEFINITIONS(-DGIT_VERSION)
 ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
@@ -240,9 +242,10 @@ ELSE()
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()
+    SET(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} ${CATA_OTHER_FLAGS}")
     SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 
@@ -390,9 +393,9 @@ ADD_CUSTOM_TARGET(uninstall
 )
 
 find_program(CCACHE_FOUND ccache)
-if(CCACHE_FOUND)
+if(CCACHE_FOUND AND CATA_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-endif(CCACHE_FOUND)
+endif()
 
 # vim:noet

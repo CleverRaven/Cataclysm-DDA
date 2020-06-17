@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WORLDFACTORY_H
-#define WORLDFACTORY_H
+#ifndef CATA_SRC_WORLDFACTORY_H
+#define CATA_SRC_WORLDFACTORY_H
 
 #include <cstddef>
 #include <functional>
@@ -14,10 +14,11 @@
 #include "pimpl.h"
 #include "type_id.h"
 
+enum class special_game_type;
+
 class JsonIn;
 class JsonObject;
 
-enum special_game_id : int;
 namespace catacurses
 {
 class window;
@@ -92,7 +93,7 @@ class worldfactory
 
         // Generate a world
         WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
-        WORLDPTR make_new_world( special_game_id special_type );
+        WORLDPTR make_new_world( special_game_type special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
         WORLDPTR make_new_world( const std::vector<mod_id> &mods );
         /// Returns the *existing* world of given name.
@@ -165,4 +166,4 @@ void load_external_option( const JsonObject &jo );
 
 extern std::unique_ptr<worldfactory> world_generator;
 
-#endif
+#endif // CATA_SRC_WORLDFACTORY_H

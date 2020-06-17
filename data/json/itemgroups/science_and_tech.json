@@ -79,7 +79,6 @@
       [ "EMPbomb", 2 ],
       [ "pheromone", 1 ],
       [ "flux_comp_gen", 3 ],
-      [ "recipe_mininuke_launch", 4 ],
       [ "portal", 2 ],
       [ "bot_manhack", 1 ],
       [ "UPS_off", 5 ],
@@ -126,7 +125,18 @@
       [ "chem_muriatic_acid", 2 ],
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
-      [ "remotevehcontrol", 5 ]
+      [ "remotevehcontrol", 5 ],
+      { "item": "textbook_extraction", "prob": 10 },
+      { "item": "recovery_pump", "prob": 5 },
+      { "item": "vac_pump", "prob": 5 },
+      { "item": "closed_loop_extractor_large", "prob": 2 },
+      { "item": "closed_loop_extractor_small", "prob": 2 },
+      { "item": "filter_paper_qualitative", "prob": 10 },
+      { "item": "filter_paper_quantitative", "prob": 10 },
+      { "item": "gasket_plastic", "prob": 10 },
+      { "item": "butane_tank", "prob": 15 },
+      { "item": "vac_oven_small", "prob": 5 },
+      { "item": "butane_can", "prob": 2 }
     ]
   },
   {
@@ -175,7 +185,7 @@
       [ "salt_water", 20 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 10 },
-      [ "royal_jelly", 8 ],
+      [ "panacea", 8 ],
       [ "superglue", 30 ],
       [ "bottle_glass", 10 ],
       [ "syringe", 8 ],
@@ -362,7 +372,6 @@
       [ "recipe_lab_elec", 15 ],
       [ "software_electronics_reference", 2 ],
       [ "recipe_lab_cvd", 8 ],
-      [ "recipe_mininuke_launch", 5 ],
       [ "teleporter", 10 ],
       [ "antiparasitic", 5 ],
       [ "usb_drive", 5 ]
@@ -425,7 +434,7 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
-      [ "anesthetic_kit", 10 ]
+      { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },
   {

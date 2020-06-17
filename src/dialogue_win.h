@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DIALOGUE_WIN_H
-#define DIALOGUE_WIN_H
+#ifndef CATA_SRC_DIALOGUE_WIN_H
+#define CATA_SRC_DIALOGUE_WIN_H
 
 #include <cstddef>
 #include <vector>
@@ -12,18 +12,21 @@
 
 using talk_data = std::pair<nc_color, std::string>;
 
+class ui_adaptor;
+
 class dialogue_window
 {
     public:
         dialogue_window() = default;
         void open_dialogue( bool text_only = false );
+        void resize_dialogue( ui_adaptor &ui );
         void print_header( const std::string &name );
 
         bool text_only = false;
 
         void clear_window_texts();
-        void display_responses( int hilight_lines, const std::vector<talk_data> &responses,
-                                const int &ch );
+        void handle_scrolling( int ch );
+        void display_responses( int hilight_lines, const std::vector<talk_data> &responses );
         void refresh_response_display();
         /**
          * Folds and adds the folded text to @ref history. Returns the number of added lines.
@@ -50,5 +53,5 @@ class dialogue_window
 
         std::string npc_name;
 };
-#endif
+#endif // CATA_SRC_DIALOGUE_WIN_H
 

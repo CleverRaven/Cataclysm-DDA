@@ -1,8 +1,6 @@
 #pragma once
-#ifndef AVATAR_ACTION_H
-#define AVATAR_ACTION_H
-
-#include <climits>
+#ifndef CATA_SRC_AVATAR_ACTION_H
+#define CATA_SRC_AVATAR_ACTION_H
 
 #include "optional.h"
 #include "point.h"
@@ -13,25 +11,21 @@ class item;
 class item_location;
 class map;
 class turret_data;
-struct targeting_data;
+class aim_activity_actor;
 
 namespace avatar_action
 {
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you );
-void eat( avatar &you, item_location loc );
+void eat( avatar &you, const item_location &loc, bool open_consume_menu = false );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool move( avatar &you, map &m, int dx, int dy, int dz = 0 );
-inline bool move( avatar &you, map &m, const tripoint &d )
-{
-    return move( you, m, d.x, d.y, d.z );
-}
+bool move( avatar &you, map &m, const tripoint &d );
 inline bool move( avatar &you, map &m, const point &d )
 {
     return move( you, m, tripoint( d, 0 ) );
@@ -48,19 +42,20 @@ void autoattack( avatar &you, map &m );
 void mend( avatar &you, item_location loc );
 
 /**
- * Validates avatar's targeting_data, then handles interactive parts of gun firing
- * (target selection, aiming, etc.)
+ * Checks if the weapon is valid and if the player meets certain conditions for firing it.
+ * Used for validating ACT_AIM and turret weapon
+ * @return True if all conditions are true, otherwise false.
  */
-void aim_do_turn( avatar &you, map &m );
+bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
-void fire_wielded_weapon( avatar &you, map &m );
+void fire_wielded_weapon( avatar &you );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
-void fire_ranged_mutation( avatar &you, map &m, const item &fake_gun );
+void fire_ranged_mutation( avatar &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, units::energy cost_per_shot );
+void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)
@@ -80,4 +75,4 @@ void use_item( avatar &you, item_location &loc );
 void use_item( avatar &you );
 } // namespace avatar_action
 
-#endif // !AVATAR_MOVE_H
+#endif // CATA_SRC_AVATAR_ACTION_H

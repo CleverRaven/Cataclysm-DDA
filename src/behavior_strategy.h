@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BEHAVIOR_STRATEGY_H
-#define BEHAVIOR_STRATEGY_H
+#ifndef CATA_SRC_BEHAVIOR_STRATEGY_H
+#define CATA_SRC_BEHAVIOR_STRATEGY_H
 
 #include <unordered_map>
 #include <vector>
@@ -12,7 +12,7 @@ namespace behavior
 class node_t;
 class oracle_t;
 
-enum status_t : char;
+enum class status_t : char;
 struct behavior_return;
 
 class strategy_t
@@ -45,4 +45,4 @@ extern std::unordered_map<std::string, const strategy_t *> strategy_map;
 
 } // namespace behavior
 
-#endif
+#endif // CATA_SRC_BEHAVIOR_STRATEGY_H

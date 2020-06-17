@@ -1,6 +1,9 @@
 #pragma once
-#ifndef EVENT_BUS_H
-#define EVENT_BUS_H
+#ifndef CATA_SRC_EVENT_BUS_H
+#define CATA_SRC_EVENT_BUS_H
+
+#include <utility>
+#include <vector>
 
 #include "event.h"
 
@@ -40,4 +43,6 @@ class event_bus
         std::vector<event_subscriber *> subscribers;
 };
 
-#endif // EVENT_BUS_H
+event_bus &get_event_bus();
+
+#endif // CATA_SRC_EVENT_BUS_H

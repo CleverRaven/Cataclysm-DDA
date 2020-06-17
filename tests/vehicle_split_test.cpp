@@ -23,7 +23,6 @@ TEST_CASE( "vehicle_split_section" )
             veh_ptr = vehs_v.v;
             g->m.destroy_vehicle( veh_ptr );
         }
-        g->refresh_all();
         REQUIRE( g->m.get_vehicles().empty() );
         veh_ptr = g->m.add_vehicle( vproto_id( "cross_split_test" ), vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
@@ -37,10 +36,10 @@ TEST_CASE( "vehicle_split_section" )
         CHECK( vehs.size() == 4 );
         if( vehs.size() == 4 ) {
             // correct number of parts
-            CHECK( vehs[ 0 ].v->parts.size() == 12 );
-            CHECK( vehs[ 1 ].v->parts.size() == 12 );
-            CHECK( vehs[ 2 ].v->parts.size() == 2 );
-            CHECK( vehs[ 3 ].v->parts.size() == 3 );
+            CHECK( vehs[ 0 ].v->part_count() == 12 );
+            CHECK( vehs[ 1 ].v->part_count() == 12 );
+            CHECK( vehs[ 2 ].v->part_count() == 2 );
+            CHECK( vehs[ 3 ].v->part_count() == 3 );
             std::vector<std::set<tripoint>> all_points;
             for( int i = 0; i < 4; i++ ) {
                 std::set<tripoint> &veh_points = vehs[ i ].v->get_points( true );
@@ -65,7 +64,6 @@ TEST_CASE( "vehicle_split_section" )
             g->m.destroy_vehicle( vehs[ 1 ].v );
             g->m.destroy_vehicle( vehs[ 0 ].v );
         }
-        g->refresh_all();
         REQUIRE( g->m.get_vehicles().empty() );
         vehicle_origin = tripoint( 20, 20, 0 );
         veh_ptr = g->m.add_vehicle( vproto_id( "circle_split_test" ), vehicle_origin, dir, 0, 0 );
@@ -76,7 +74,7 @@ TEST_CASE( "vehicle_split_section" )
         vehs = g->m.get_vehicles();
         CHECK( vehs.size() == 1 );
         if( vehs.size() == 1 ) {
-            CHECK( vehs[ 0 ].v->parts.size() == 38 );
+            CHECK( vehs[ 0 ].v->part_count() == 38 );
         }
     }
 }

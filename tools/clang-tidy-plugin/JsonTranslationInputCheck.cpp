@@ -1,7 +1,11 @@
 #include "JsonTranslationInputCheck.h"
 
+#include <clang/AST/Decl.h>
+#include <clang/AST/Expr.h>
 #include <clang/ASTMatchers/ASTMatchFinder.h>
-#include <clang/Frontend/CompilerInstance.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/Basic/DiagnosticIDs.h>
 
 using namespace clang::ast_matchers;
 

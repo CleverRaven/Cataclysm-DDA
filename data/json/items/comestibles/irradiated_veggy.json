@@ -33,7 +33,7 @@
     "type": "COMESTIBLE",
     "id": "irradiated_broccoli",
     "copy-from": "broccoli",
-    "name": { "str": "irradiated broccoli", "str_pl": "irradiated broccoli" },
+    "name": { "str_sp": "irradiated broccoli" },
     "description": "An irradiated cluster of broccoli will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
@@ -73,7 +73,7 @@
     "type": "COMESTIBLE",
     "id": "irradiated_corn",
     "copy-from": "corn",
-    "name": { "str": "irradiated corn", "str_pl": "irradiated corn" },
+    "name": { "str_sp": "irradiated corn" },
     "description": "An irradiated ear of corn will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
@@ -113,7 +113,8 @@
     "calories": 95,
     "description": "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 320,
-    "material": "veggy",
+    "price_postapoc": 100,
+    "material": [ "veggy" ],
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "volume": "250 ml"
   },
@@ -130,7 +131,8 @@
     "calories": 43,
     "description": "An irradiated cluster of celery will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "price": 220,
-    "material": "veggy",
+    "price_postapoc": 50,
+    "material": [ "veggy" ],
     "volume": "250 ml"
   },
   {

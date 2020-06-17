@@ -1,27 +1,24 @@
 #pragma once
-#ifndef ADVANCED_INV_H
-#define ADVANCED_INV_H
+#ifndef CATA_SRC_ADVANCED_INV_H
+#define CATA_SRC_ADVANCED_INV_H
 
-#include <cctype>
-#include <cstddef>
 #include <array>
+#include <cctype>
 #include <functional>
 #include <string>
 
-#include "cursesdef.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
+#include "cursesdef.h"
 
-class uilist;
-class vehicle;
+class input_context;
 class item;
-
 struct advanced_inv_save_state;
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-    bool operator()( char x, char y ) const {
-        return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
+    bool operator()( char l, char r ) const {
+        return toupper( static_cast< unsigned char >( l ) ) < toupper( static_cast< unsigned char >( r ) );
     }
 };
 
@@ -60,10 +57,7 @@ class advanced_inventory
             right = 1,
             NUM_PANES = 2
         };
-        const int head_height = 0;
-        const int min_w_height = 0;
-        const int min_w_width = 0;
-        const int max_w_width = 0;
+        static constexpr int head_height = 5;
 
         // swap the panes and windows via std::swap()
         void swap_panes();
@@ -87,7 +81,6 @@ class advanced_inventory
         int colstart = 0;
 
         bool recalc = false;
-        bool redraw = false;
         /**
          * Which panels is active (item moved from there).
          */
@@ -114,6 +107,27 @@ class advanced_inventory
         bool exit = false;
 
         advanced_inv_save_state *save_state;
+
+        /**
+         * registers all the ctxt for display()
+         */
+        input_context register_ctxt() const;
+        /**
+         *  a smaller chunk of display()
+         */
+        void start_activity( aim_location destarea, aim_location srcarea,
+                             advanced_inv_listitem *sitem, int &amount_to_move,
+                             bool from_vehicle, bool to_vehicle ) const;
+
+        /**
+         * returns whether the display loop exits or not
+         */
+        bool action_move_item( advanced_inv_listitem *sitem,
+                               advanced_inventory_pane &dpane, const advanced_inventory_pane &spane,
+                               const std::string &action );
+
+        void action_examine( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );
+
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();
@@ -128,6 +142,7 @@ class advanced_inventory
         void print_items( const advanced_inventory_pane &pane, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
+        void redraw_sidebar();
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
@@ -141,6 +156,8 @@ class advanced_inventory
          * stored in ret), false otherwise.
          */
         bool get_square( const std::string &action, aim_location &ret );
+        void change_square( aim_location changeSquare, advanced_inventory_pane &dpane,
+                            advanced_inventory_pane &spane );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.
@@ -176,4 +193,4 @@ class advanced_inventory
                             const std::string &action, int &amount );
 };
 
-#endif
+#endif // CATA_SRC_ADVANCED_INV_H

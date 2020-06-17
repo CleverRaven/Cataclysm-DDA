@@ -19,12 +19,35 @@
     ]
   },
   {
+    "id": "bread_sandwich",
+    "type": "requirement",
+    "//": "Bread appropriate for sandwiches.",
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "biscuit", 1 ],
+        [ "brioche", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_peanutbutter",
+    "type": "requirement",
+    "//": "Peanut butter of all types and other peanut butter substitutes",
+    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
+  },
+  {
     "id": "eggs_bird",
     "type": "requirement",
     "//": "All of the different bird eggs",
     "components": [
       [
         [ "egg_bird", 1 ],
+        [ "egg_bird_unfert", 1 ],
         [ "egg_chicken", 1 ],
         [ "egg_grouse", 1 ],
         [ "egg_crow", 1 ],
@@ -285,6 +308,7 @@
         [ "veggy_any", 1, "LIST" ],
         [ "sauerkraut", 1 ],
         [ "can_corn", 1 ],
+        [ "hominy", 1 ],
         [ "dry_veggy", 1 ],
         [ "con_milk", 1 ],
         [ "flatbread", 1 ],
@@ -461,7 +485,6 @@
         [ "blackberries", 1 ],
         [ "blueberries", 1 ],
         [ "cherries", 1 ],
-        [ "cranberries", 1 ],
         [ "grapefruit", 1 ],
         [ "grapes", 1 ],
         [ "kiwi", 2 ],
@@ -474,6 +497,7 @@
         [ "pineapple", 1 ],
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
+        [ "pumpkin", 1 ],
         [ "raspberries", 1 ],
         [ "rose_hips", 1 ],
         [ "strawberries", 1 ],
@@ -496,7 +520,6 @@
         [ "irradiated_blackberries", 1 ],
         [ "irradiated_blueberries", 1 ],
         [ "irradiated_cherries", 1 ],
-        [ "irradiated_cranberries", 1 ],
         [ "irradiated_grapefruit", 1 ],
         [ "irradiated_grapes", 1 ],
         [ "irradiated_kiwi", 2 ],
@@ -505,6 +528,7 @@
         [ "irradiated_orange", 1 ],
         [ "irradiated_papaya", 1 ],
         [ "irradiated_peach", 1 ],
+        [ "irradiated_pumpkin", 1 ],
         [ "irradiated_pear", 1 ],
         [ "irradiated_pineapple", 1 ],
         [ "irradiated_plums", 1 ],
@@ -555,6 +579,7 @@
         [ "cattail_stalk", 1 ],
         [ "lettuce", 1 ],
         [ "irradiated_lettuce", 1 ],
+        [ "horseradish_greens", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
         [ "rehydrated_veggy", 1 ],

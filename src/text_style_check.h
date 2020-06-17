@@ -1,24 +1,24 @@
 #pragma once
-#ifndef TEXT_STYLE_CHECK_H
-#define TEXT_STYLE_CHECK_H
+#ifndef CATA_SRC_TEXT_STYLE_CHECK_H
+#define CATA_SRC_TEXT_STYLE_CHECK_H
 
 // This is used in both the game itself and the clang-tidy check,
 // so only system headers should be included here.
 #include <functional>
 #include <string>
 
-enum class text_style_fix {
+enum class text_style_fix : int {
     removal,
     insertion,
     replacement
 };
 
-enum class fix_end_of_string_spaces {
+enum class fix_end_of_string_spaces : int {
     no,
     yes
 };
 
-enum class escape_unicode {
+enum class escape_unicode : int {
     no,
     yes
 };
@@ -199,4 +199,4 @@ void text_style_check( Iter beg, Iter end,
     }
 }
 
-#endif // TEXT_STYLE_CHECK
+#endif // CATA_SRC_TEXT_STYLE_CHECK_H

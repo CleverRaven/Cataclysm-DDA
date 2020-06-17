@@ -9,12 +9,13 @@
     "weight": "8082 g",
     "volume": "3 L",
     "price": 2000000,
+    "price_postapoc": 5000,
     "to_hit": 1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_blue",
-    "ammo": "700nx",
+    "ammo": [ "700nx" ],
     "skill": "rifle",
     "dispersion": 90,
     "durability": 8,
@@ -32,6 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "700nx": 1 } } ]
   }
 ]

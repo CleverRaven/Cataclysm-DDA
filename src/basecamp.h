@@ -1,33 +1,35 @@
 #pragma once
-#ifndef BASECAMP_H
-#define BASECAMP_H
+#ifndef CATA_SRC_BASECAMP_H
+#define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
 #include <list>
-#include <memory>
-#include <vector>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
+#include "craft_command.h"
 #include "inventory.h"
+#include "map.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
+#include "requirements.h"
 #include "translations.h"
-#include "memory_fast.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
+class character_id;
 class npc;
 class time_duration;
 
-enum class farm_ops;
+enum class farm_ops : int;
 class item;
-class map;
 class mission_data;
 class recipe;
-class requirements_data;
-class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -42,7 +44,6 @@ struct expansion_data {
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
-using itype_id = std::string;
 
 namespace catacurses
 {
@@ -80,7 +81,7 @@ extern const std::map<point, direction_data> all_directions;
 
 point direction_from_id( const std::string &id );
 
-const point base_dir = point_zero;
+const point base_dir{};
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
@@ -232,7 +233,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result );
+        void place_results( const item &result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const point &dir,
@@ -378,4 +379,4 @@ class basecamp_action_components
         std::unique_ptr<tinymap> map_; // Used for by-radio crafting
 };
 
-#endif
+#endif // CATA_SRC_BASECAMP_H

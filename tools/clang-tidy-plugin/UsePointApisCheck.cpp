@@ -1,9 +1,28 @@
 #include "UsePointApisCheck.h"
 
+#include <algorithm>
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclBase.h>
+#include <clang/AST/DeclTemplate.h>
+#include <clang/AST/Expr.h>
+#include <clang/AST/ExprCXX.h>
+#include <clang/AST/Type.h>
 #include <clang/ASTMatchers/ASTMatchFinder.h>
-#include <clang/Frontend/CompilerInstance.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/Basic/Diagnostic.h>
+#include <clang/Basic/DiagnosticIDs.h>
+#include <clang/Basic/LLVM.h>
+#include <clang/Basic/SourceLocation.h>
+#include <clang/Lex/Lexer.h>
+#include <climits>
+#include <llvm/ADT/Twine.h>
+#include <llvm/Support/Casting.h>
+#include <string>
 
 #include "Utils.h"
+#include "clang/Basic/OperatorKinds.h"
 
 using namespace clang::ast_matchers;
 
@@ -20,10 +39,7 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
         callExpr(
             forEachArgumentWithParam(
                 expr().bind( "xarg" ),
-                parmVarDecl(
-                    anyOf( hasType( asString( "int" ) ), hasType( asString( "const int" ) ) ),
-                    isXParam()
-                ).bind( "xparam" )
+                parmVarDecl( hasType( isInteger() ), isXParam() ).bind( "xparam" )
             ),
             callee( functionDecl().bind( "callee" ) )
         ).bind( "call" ),
@@ -106,10 +122,12 @@ static void CheckCall( UsePointApisCheck &Check, const MatchFinder::MatchResult 
         return Call ? Call->getArg( Arg ) : ConstructorCall->getArg( Arg );
     };
 
-    // For operator() calls there is an extra 'this' argument that doesn't
+    // For operator() and operator= calls there is an extra 'this' argument that doesn't
     // correspond to any parameter, so we need to skip over it.
     unsigned int SkipArgs = 0;
-    if( Callee->getOverloadedOperator() == OO_Call ) {
+    if( Callee->getOverloadedOperator() == OO_Call ||
+        Callee->getOverloadedOperator() == OO_Subscript ||
+        Callee->getOverloadedOperator() == OO_Equal ) {
         SkipArgs = 1;
     }
 

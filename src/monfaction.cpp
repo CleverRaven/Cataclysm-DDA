@@ -1,14 +1,15 @@
 #include "monfaction.h"
 
 #include <cstddef>
-#include <queue>
-#include <vector>
 #include <map>
+#include <queue>
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
+#include "int_id.h"
 #include "json.h"
 #include "string_id.h"
 

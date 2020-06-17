@@ -205,16 +205,75 @@ TEST_CASE( "player_morale" )
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
 
-        WHEN( "in pain" ) {
+        WHEN( "in minimal pain" ) {
             m.on_stat_change( "perceived_pain", 10 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 4 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 10 );
+        }
+
+        WHEN( "in mind pain" ) {
+            m.on_stat_change( "perceived_pain", 20 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 20 );
         }
 
         WHEN( "in an insufferable pain" ) {
             m.on_stat_change( "perceived_pain", 120 );
             THEN( "there's a limit" ) {
-                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 25 );
+                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 20 );
             }
+        }
+    }
+
+    GIVEN( "masochist morale table" ) {
+        m.on_mutation_gain( trait_id( "MASOCHIST" ) );
+
+        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
+
+        WHEN( "in minimal pain" ) {
+            m.on_stat_change( "perceived_pain", 10 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == 10 );
+        }
+
+        WHEN( "in mind pain" ) {
+            m.on_stat_change( "perceived_pain", 20 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == 20 );
+        }
+
+        WHEN( "in moderate pain" ) {
+            m.on_stat_change( "perceived_pain", 30 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == 10 );
+        }
+
+        WHEN( "in distracting pain" ) {
+            m.on_stat_change( "perceived_pain", 40 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == 0 );
+        }
+
+        WHEN( "in distressing pain" ) {
+            m.on_stat_change( "perceived_pain", 50 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == -10 );
+        }
+
+        WHEN( "in unmanagable pain" ) {
+            m.on_stat_change( "perceived_pain", 60 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == -20 );
+        }
+
+        WHEN( "in intense pain" ) {
+            m.on_stat_change( "perceived_pain", 70 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == -30 );
+        }
+
+        WHEN( "in severe pain" ) {
+            m.on_stat_change( "perceived_pain", 80 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+                    20 : 0 ) == -40 );
         }
     }
 
@@ -227,13 +286,13 @@ TEST_CASE( "player_morale" )
             m.on_stat_change( "perceived_pain", 120 );
 
             THEN( "there's no limit" ) {
-                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 48 );
+                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 120 );
             }
 
             AND_WHEN( "took prozac" ) {
                 m.on_effect_int_change( effect_took_prozac, 1 );
                 THEN( "it spoils all fun" ) {
-                    CHECK( m.has( MORALE_PERM_MASOCHIST ) == 16 );
+                    CHECK( m.has( MORALE_PERM_MASOCHIST ) == 60 );
                 }
             }
         }

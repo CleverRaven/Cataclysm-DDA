@@ -4,10 +4,6 @@
     "regions": [ "all" ],
     "city": {
       "houses": {
-        "urban_3_house": 30,
-        "urban_4_house_basement": 30,
-        "urban_5_house": 30,
-        "urban_6_house": 30,
         "urban_7_house_garden": 30,
         "urban_8_house_brick_garden": 30,
         "urban_9_house_garage_loft": 30,
@@ -25,8 +21,6 @@
         "urban_40_house": 30
       },
       "shops": {
-        "urban_13_dense_house_apt_house": 300,
-        "urban_14_dense_house_mart_food": 200,
         "urban_23_dense_office_theater": 100,
         "urban_24_dense_bank_house": 200,
         "urban_25_dense_diner_apt": 200,

@@ -22,20 +22,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "mounted_heavy_rail_rifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted heavy rail rifle" },
-    "item": "heavy_rail_rifle",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "id": "mounted_emp_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -44,34 +30,6 @@
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "id": "mounted_rebar_rifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted ferromagnetic rail rifle" },
-    "item": "rebar_rifle",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "id": "mounted_coilgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted coilgun" },
-    "item": "coilgun",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -90,17 +48,6 @@
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
-  },
-  {
-    "id": "mounted_mininuke_launcher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted mininuke launcher" },
-    "item": "mininuke_launcher",
-    "color": "green",
-    "broken_color": "green",
-    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "flamethrower",
@@ -144,25 +91,22 @@
     }
   },
   {
-    "id": "laser_cannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted Cerberus laser cannon" },
-    "item": "laser_cannon",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "id": "m249",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M249" },
     "item": "m249",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 9 }, { "item": "steel_lump", "count": 3 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "m249_semi",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M249S" },
+    "item": "m249_semi",
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 9 }, { "item": "steel_lump", "count": 3 } ],
@@ -229,6 +173,17 @@
     "type": "vehicle_part",
     "name": { "str": "mounted M60" },
     "item": "m60",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_m60_semi",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M60 Semi Auto" },
+    "item": "m60_semi",
     "color": "cyan",
     "broken_color": "cyan",
     "breaks_into": [ { "item": "scrap", "count": 24 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],

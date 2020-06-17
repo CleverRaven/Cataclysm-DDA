@@ -2,22 +2,25 @@
 
 #include <algorithm>
 #include <map>
-#include <set>
 #include <sstream>
 #include <string>
-#include <vector>
 #include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <unordered_map>
+#include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "cata_io.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "hash_utils.h"
 #include "int_id.h"
-#include "cata_io.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -25,21 +28,20 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "popup.h"
-#include "scent_map.h"
-#include "translations.h"
-#include "hash_utils.h"
-#include "basecamp.h"
-#include "json.h"
-#include "omdata.h"
 #include "overmap_types.h"
+#include "popup.h"
 #include "regional_settings.h"
+#include "scent_map.h"
 #include "stats_tracker.h"
 #include "string_id.h"
+#include "translations.h"
 #include "ui_manager.h"
+
+class overmap_connection;
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -51,7 +53,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 27;
+const int savegame_version = 29;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -78,6 +80,7 @@ void game::serialize( std::ostream &fout )
     // basic game state information.
     json.member( "turn", calendar::turn );
     json.member( "calendar_start", calendar::start_of_cataclysm );
+    json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
@@ -101,6 +104,7 @@ void game::serialize( std::ostream &fout )
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
+    json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -161,11 +165,8 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    int levx = 0;
-    int levy = 0;
-    int levz = 0;
-    int comx = 0;
-    int comy = 0;
+    tripoint lev;
+    point com;
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
@@ -182,16 +183,20 @@ void game::unserialize( std::istream &fin )
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
-        data.read( "levx", levx );
-        data.read( "levy", levy );
-        data.read( "levz", levz );
-        data.read( "om_x", comx );
-        data.read( "om_y", comy );
+        data.read( "levx", lev.x );
+        data.read( "levy", lev.y );
+        data.read( "levz", lev.z );
+        data.read( "om_x", com.x );
+        data.read( "om_y", com.y );
 
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
 
-        load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
+        if( !data.read( "game_start", calendar::start_of_game ) ) {
+            calendar::start_of_game = calendar::start_of_cataclysm;
+        }
+
+        load_map( lev + point( com.x * OMAPX * 2, com.y * OMAPY * 2 ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -234,6 +239,7 @@ void game::unserialize( std::istream &fin )
 
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
+        data.read( "achievements_tracker", *achievements_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -277,7 +283,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
                 }
             }
         }
@@ -335,9 +341,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         const std::string old = convert.second;
 
         struct convert_nearby {
-            int xoffset;
+            point offset;
             std::string x_id;
-            int yoffset;
             std::string y_id;
             std::string new_id;
         };
@@ -345,510 +350,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         std::vector<convert_nearby> nearby;
         std::vector<std::pair<tripoint, std::string>> convert_unrelated_adjacent_tiles;
 
-        if( old == "apartments_con_tower_1_entrance" ||
-            old == "apartments_mod_tower_1_entrance" ) {
-            const std::string base = old.substr( 0, old.rfind( "1_entrance" ) );
-            const std::string other = base + "1";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
-
-        } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
-            const std::string base = old.substr( 0, old.rfind( '1' ) );
-            const std::string entr = base + "1_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
-
-        } else if( old == "subway_station" ) {
-            ter_set( pos, oter_id( "underground_sub_station" ) );
-        } else if( old == "bridge_ew" ) {
-            ter_set( pos, oter_id( "bridge_east" ) );
-        } else if( old == "bridge_ns" ) {
-            ter_set( pos, oter_id( "bridge_north" ) );
-        } else if( old == "public_works_entrance" ) {
-            const std::string base = "public_works_";
-            const std::string other = "public_works";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
-
-        } else if( old == "public_works" ) {
-            const std::string base = "public_works_";
-            const std::string entr = "public_works_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
-
-        } else if( old.compare( 0, 7, "school_" ) == 0 ) {
-            const std::string school = "school_";
-            const std::string school_1 = school + "1_";
-            if( old == school + "1" ) {
-                nearby.push_back( { -1, school + "2", 1, school + "4", school_1 + "1_north" } );
-                nearby.push_back( { -1, school + "4", -1, school + "2", school_1 + "1_east" } );
-                nearby.push_back( { 1, school + "2", -1, school + "4", school_1 + "1_south" } );
-                nearby.push_back( { 1, school + "4", 1, school + "2", school_1 + "1_west" } );
-            } else if( old == school + "2" ) {
-                nearby.push_back( { -1, school + "3", 1, school + "5", school_1 + "2_north" } );
-                nearby.push_back( { -1, school + "5", -1, school + "3", school_1 + "2_east" } );
-                nearby.push_back( { 1, school + "3", -1, school + "5", school_1 + "2_south" } );
-                nearby.push_back( { 1, school + "5", 1, school + "3", school_1 + "2_west" } );
-            } else if( old == school + "3" ) {
-                nearby.push_back( { 1, school + "2", 1, school + "6", school_1 + "3_north" } );
-                nearby.push_back( { -1, school + "6", 1, school + "2", school_1 + "3_east" } );
-                nearby.push_back( { -1, school + "2", -1, school + "6", school_1 + "3_south" } );
-                nearby.push_back( { 1, school + "6", -1, school + "2", school_1 + "3_west" } );
-            } else if( old == school + "4" ) {
-                nearby.push_back( { -1, school + "5", 1, school + "7", school_1 + "4_north" } );
-                nearby.push_back( { -1, school + "7", -1, school + "5", school_1 + "4_east" } );
-                nearby.push_back( { 1, school + "5", -1, school + "7", school_1 + "4_south" } );
-                nearby.push_back( { 1, school + "7", 1, school + "5", school_1 + "4_west" } );
-            } else if( old == school + "5" ) {
-                nearby.push_back( { -1, school + "6", 1, school + "8", school_1 + "5_north" } );
-                nearby.push_back( { -1, school + "8", -1, school + "6", school_1 + "5_east" } );
-                nearby.push_back( { 1, school + "6", -1, school + "8", school_1 + "5_south" } );
-                nearby.push_back( { 1, school + "8", 1, school + "6", school_1 + "5_west" } );
-            } else if( old == school + "6" ) {
-                nearby.push_back( { 1, school + "5", 1, school + "9", school_1 + "6_north" } );
-                nearby.push_back( { -1, school + "9", 1, school + "5", school_1 + "6_east" } );
-                nearby.push_back( { -1, school + "5", -1, school + "9", school_1 + "6_south" } );
-                nearby.push_back( { 1, school + "9", -1, school + "5", school_1 + "6_west" } );
-            } else if( old == school + "7" ) {
-                nearby.push_back( { -1, school + "8", -1, school + "4", school_1 + "7_north" } );
-                nearby.push_back( { 1, school + "4", -1, school + "8", school_1 + "7_east" } );
-                nearby.push_back( { 1, school + "8", 1, school + "4", school_1 + "7_south" } );
-                nearby.push_back( { -1, school + "4", 1, school + "8", school_1 + "7_west" } );
-            } else if( old == school + "8" ) {
-                nearby.push_back( { -1, school + "9", -1, school + "5", school_1 + "8_north" } );
-                nearby.push_back( { 1, school + "5", -1, school + "9", school_1 + "8_east" } );
-                nearby.push_back( { 1, school + "9", 1, school + "5", school_1 + "8_south" } );
-                nearby.push_back( { -1, school + "5", 1, school + "9", school_1 + "8_west" } );
-            } else if( old == school + "9" ) {
-                nearby.push_back( { 1, school + "8", -1, school + "6", school_1 + "9_north" } );
-                nearby.push_back( { 1, school + "6", 1, school + "8", school_1 + "9_east" } );
-                nearby.push_back( { -1, school + "8", 1, school + "6", school_1 + "9_south" } );
-                nearby.push_back( { -1, school + "6", -1, school + "8", school_1 + "9_west" } );
-            }
-
-        } else if( old.compare( 0, 7, "prison_" ) == 0 ) {
-            const std::string prison = "prison_";
-            const std::string prison_1 = prison + "1_";
-            if( old == "prison_b_entrance" ) {
-                ter_set( pos, oter_id( "prison_1_b_2_north" ) );
-            } else if( old == "prison_b" ) {
-                if( pos.z < 0 ) {
-                    nearby.push_back( { -1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_1_north" } );
-                    nearby.push_back( {  1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_3_north" } );
-                    nearby.push_back( { -2, "prison_b",           1, "prison_b",          "prison_1_b_4_north" } );
-                    nearby.push_back( {  0, "prison_b",          -1, "prison_b_entrance", "prison_1_b_5_north" } );
-                    nearby.push_back( {  2, "prison_b",           1, "prison_b",          "prison_1_b_6_north" } );
-                    nearby.push_back( { -2, "prison_b",          -2, "prison_b",          "prison_1_b_7_north" } );
-                    nearby.push_back( {  0, "prison_b",          -2, "prison_b_entrance", "prison_1_b_8_north" } );
-                    nearby.push_back( {  2, "prison_b",          -2, "prison_b",          "prison_1_b_9_north" } );
-                }
-            } else if( old == prison + "1" ) {
-                nearby.push_back( { -1, prison + "2", 1, prison + "4", prison_1 + "1_north" } );
-                nearby.push_back( { -1, prison + "4", -1, prison + "2", prison_1 + "1_east" } );
-                nearby.push_back( { 1, prison + "2", -1, prison + "4", prison_1 + "1_south" } );
-                nearby.push_back( { 1, prison + "4", 1, prison + "2", prison_1 + "1_west" } );
-            } else if( old == prison + "2" ) {
-                nearby.push_back( { -1, prison + "3", 1, prison + "5", prison_1 + "2_north" } );
-                nearby.push_back( { -1, prison + "5", -1, prison + "3", prison_1 + "2_east" } );
-                nearby.push_back( { 1, prison + "3", -1, prison + "5", prison_1 + "2_south" } );
-                nearby.push_back( { 1, prison + "5", 1, prison + "3", prison_1 + "2_west" } );
-            } else if( old == prison + "3" ) {
-                nearby.push_back( { 1, prison + "2", 1, prison + "6", prison_1 + "3_north" } );
-                nearby.push_back( { -1, prison + "6", 1, prison + "2", prison_1 + "3_east" } );
-                nearby.push_back( { -1, prison + "2", -1, prison + "6", prison_1 + "3_south" } );
-                nearby.push_back( { 1, prison + "6", -1, prison + "2", prison_1 + "3_west" } );
-            } else if( old == prison + "4" ) {
-                nearby.push_back( { -1, prison + "5", 1, prison + "7", prison_1 + "4_north" } );
-                nearby.push_back( { -1, prison + "7", -1, prison + "5", prison_1 + "4_east" } );
-                nearby.push_back( { 1, prison + "5", -1, prison + "7", prison_1 + "4_south" } );
-                nearby.push_back( { 1, prison + "7", 1, prison + "5", prison_1 + "4_west" } );
-            } else if( old == prison + "5" ) {
-                nearby.push_back( { -1, prison + "6", 1, prison + "8", prison_1 + "5_north" } );
-                nearby.push_back( { -1, prison + "8", -1, prison + "6", prison_1 + "5_east" } );
-                nearby.push_back( { 1, prison + "6", -1, prison + "8", prison_1 + "5_south" } );
-                nearby.push_back( { 1, prison + "8", 1, prison + "6", prison_1 + "5_west" } );
-            } else if( old == prison + "6" ) {
-                nearby.push_back( { 1, prison + "5", 1, prison + "9", prison_1 + "6_north" } );
-                nearby.push_back( { -1, prison + "9", 1, prison + "5", prison_1 + "6_east" } );
-                nearby.push_back( { -1, prison + "5", -1, prison + "9", prison_1 + "6_south" } );
-                nearby.push_back( { 1, prison + "9", -1, prison + "5", prison_1 + "6_west" } );
-            } else if( old == prison + "7" ) {
-                nearby.push_back( { -1, prison + "8", -1, prison + "4", prison_1 + "7_north" } );
-                nearby.push_back( { 1, prison + "4", -1, prison + "8", prison_1 + "7_east" } );
-                nearby.push_back( { 1, prison + "8", 1, prison + "4", prison_1 + "7_south" } );
-                nearby.push_back( { -1, prison + "4", 1, prison + "8", prison_1 + "7_west" } );
-            } else if( old == prison + "8" ) {
-                nearby.push_back( { -1, prison + "9", -1, prison + "5", prison_1 + "8_north" } );
-                nearby.push_back( { 1, prison + "5", -1, prison + "9", prison_1 + "8_east" } );
-                nearby.push_back( { 1, prison + "9", 1, prison + "5", prison_1 + "8_south" } );
-                nearby.push_back( { -1, prison + "5", 1, prison + "9", prison_1 + "8_west" } );
-            } else if( old == prison + "9" ) {
-                nearby.push_back( { 1, prison + "8", -1, prison + "6", prison_1 + "9_north" } );
-                nearby.push_back( { 1, prison + "6", 1, prison + "8", prison_1 + "9_east" } );
-                nearby.push_back( { -1, prison + "8", 1, prison + "6", prison_1 + "9_south" } );
-                nearby.push_back( { -1, prison + "6", -1, prison + "8", prison_1 + "9_west" } );
-            }
-
-        } else if( old.compare( 0, 8, "hospital" ) == 0 ) {
-            const std::string hospital = "hospital";
-            const std::string hospital_entrance = "hospital_entrance";
-            if( old == hospital_entrance ) {
-                ter_set( pos, oter_id( hospital + "_2_north" ) );
-            } else if( old == hospital ) {
-                nearby.push_back( { -1, hospital_entrance,  1, hospital,          hospital + "_1_north" } );
-                nearby.push_back( {  1, hospital_entrance,  1, hospital,          hospital + "_3_north" } );
-                nearby.push_back( { -2, hospital,           1, hospital,          hospital + "_4_north" } );
-                nearby.push_back( {  0, hospital,          -1, hospital_entrance, hospital + "_5_north" } );
-                nearby.push_back( {  2, hospital,           1, hospital,          hospital + "_6_north" } );
-                nearby.push_back( { -2, hospital,          -2, hospital,          hospital + "_7_north" } );
-                nearby.push_back( {  0, hospital,          -2, hospital_entrance, hospital + "_8_north" } );
-                nearby.push_back( {  2, hospital,          -2, hospital,          hospital + "_9_north" } );
-            }
-
-        } else if( old == "sewage_treatment" ) {
-            ter_set( pos, oter_id( "sewage_treatment_0_1_0_north" ) );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_north, "sewage_treatment_0_0_0_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_east, "sewage_treatment_1_1_0_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_north_east, "sewage_treatment_1_0_0_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_above, "sewage_treatment_0_1_roof_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_north + tripoint_above, "sewage_treatment_0_0_roof_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_east + tripoint_above, "sewage_treatment_1_1_roof_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint_north_east + tripoint_above, "sewage_treatment_1_0_roof_north" } );
-        } else if( old == "sewage_treatment_under" ) {
-            const std::string base = "sewage_treatment_under";
-            const std::string hub = "sewage_treatment_hub";
-            nearby.push_back( { -1, hub,   0, base, "sewage_treatment_1_1_-1_north" } );
-            nearby.push_back( { -1, base,  1, hub,  "sewage_treatment_0_0_-1_north" } );
-            nearby.push_back( { -1, base,  1, base, "sewage_treatment_1_0_-1_north" } );
-            // Fill empty space with something other than drivethrus.
-            nearby.push_back( { 1,  hub,   0, base, "empty_rock" } );
-            nearby.push_back( { 1,  base,  0, base, "empty_rock" } );
-            nearby.push_back( { -1, base, -1, base, "empty_rock" } );
-            nearby.push_back( { 0,  base, -1, base, "empty_rock" } );
-            nearby.push_back( { 1,  base, -1, base, "empty_rock" } );
-        } else if( old == "sewage_treatment_hub" ) {
-            ter_set( pos, oter_id( "sewage_treatment_0_1_-1_north" ) );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint( 2, 0, 0 ), "sewage_treatment_2_1_-1_north" } );
-            convert_unrelated_adjacent_tiles.push_back( { tripoint( 2, -1, 0 ), "sewage_treatment_2_0_-1_north" } );
-        } else if( old == "cathedral_1_entrance" ) {
-            const std::string base = "cathedral_1_";
-            const std::string other = "cathedral_1";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
-
-        } else if( old == "cathedral_1" ) {
-            const std::string base = "cathedral_1_";
-            const std::string entr = "cathedral_1_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
-
-        } else if( old == "cathedral_b_entrance" ) {
-            const std::string base = "cathedral_b_";
-            const std::string other = "cathedral_b";
-            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
-            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
-            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
-            nearby.push_back( { -1, other, -1, other, base + "SW_west" } );
-
-        } else if( old == "cathedral_b" ) {
-            const std::string base = "cathedral_b_";
-            const std::string entr = "cathedral_b_entrance";
-            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
-            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
-            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
-            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
-            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
-            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
-
-        } else if( old.compare( 0, 14, "hotel_tower_1_" ) == 0 ) {
-            const std::string hotel = "hotel_tower_1_";
-            if( old == hotel + "1" ) {
-                nearby.push_back( { -1, hotel + "2", 1, hotel + "4", hotel + "1_north" } );
-                nearby.push_back( { -1, hotel + "4", -1, hotel + "2", hotel + "1_east" } );
-                nearby.push_back( { 1, hotel + "2", -1, hotel + "4", hotel + "1_south" } );
-                nearby.push_back( { 1, hotel + "4", 1, hotel + "2", hotel + "1_west" } );
-            } else if( old == hotel + "2" ) {
-                nearby.push_back( { -1, hotel + "3", 1, hotel + "5", hotel + "2_north" } );
-                nearby.push_back( { -1, hotel + "5", -1, hotel + "3", hotel + "2_east" } );
-                nearby.push_back( { 1, hotel + "3", -1, hotel + "5", hotel + "2_south" } );
-                nearby.push_back( { 1, hotel + "5", 1, hotel + "3", hotel + "2_west" } );
-            } else if( old == hotel + "3" ) {
-                nearby.push_back( { 1, hotel + "2", 1, hotel + "6", hotel + "3_north" } );
-                nearby.push_back( { -1, hotel + "6", 1, hotel + "2", hotel + "3_east" } );
-                nearby.push_back( { -1, hotel + "2", -1, hotel + "6", hotel + "3_south" } );
-                nearby.push_back( { 1, hotel + "6", -1, hotel + "2", hotel + "3_west" } );
-            } else if( old == hotel + "4" ) {
-                nearby.push_back( { -1, hotel + "5", 1, hotel + "7", hotel + "4_north" } );
-                nearby.push_back( { -1, hotel + "7", -1, hotel + "5", hotel + "4_east" } );
-                nearby.push_back( { 1, hotel + "5", -1, hotel + "7", hotel + "4_south" } );
-                nearby.push_back( { 1, hotel + "7", 1, hotel + "5", hotel + "4_west" } );
-            } else if( old == hotel + "5" ) {
-                nearby.push_back( { -1, hotel + "6", 1, hotel + "8", hotel + "5_north" } );
-                nearby.push_back( { -1, hotel + "8", -1, hotel + "6", hotel + "5_east" } );
-                nearby.push_back( { 1, hotel + "6", -1, hotel + "8", hotel + "5_south" } );
-                nearby.push_back( { 1, hotel + "8", 1, hotel + "6", hotel + "5_west" } );
-            } else if( old == hotel + "6" ) {
-                nearby.push_back( { 1, hotel + "5", 1, hotel + "9", hotel + "6_north" } );
-                nearby.push_back( { -1, hotel + "9", 1, hotel + "5", hotel + "6_east" } );
-                nearby.push_back( { -1, hotel + "5", -1, hotel + "9", hotel + "6_south" } );
-                nearby.push_back( { 1, hotel + "9", -1, hotel + "5", hotel + "6_west" } );
-            } else if( old == hotel + "7" ) {
-                nearby.push_back( { -1, hotel + "8", -1, hotel + "4", hotel + "7_north" } );
-                nearby.push_back( { 1, hotel + "4", -1, hotel + "8", hotel + "7_east" } );
-                nearby.push_back( { 1, hotel + "8", 1, hotel + "4", hotel + "7_south" } );
-                nearby.push_back( { -1, hotel + "4", 1, hotel + "8", hotel + "7_west" } );
-            } else if( old == hotel + "8" ) {
-                nearby.push_back( { -1, hotel + "9", -1, hotel + "5", hotel + "8_north" } );
-                nearby.push_back( { 1, hotel + "5", -1, hotel + "9", hotel + "8_east" } );
-                nearby.push_back( { 1, hotel + "9", 1, hotel + "5", hotel + "8_south" } );
-                nearby.push_back( { -1, hotel + "5", 1, hotel + "9", hotel + "8_west" } );
-            } else if( old == hotel + "9" ) {
-                nearby.push_back( { 1, hotel + "8", -1, hotel + "6", hotel + "9_north" } );
-                nearby.push_back( { 1, hotel + "6", 1, hotel + "8", hotel + "9_east" } );
-                nearby.push_back( { -1, hotel + "8", 1, hotel + "6", hotel + "9_south" } );
-                nearby.push_back( { -1, hotel + "6", -1, hotel + "8", hotel + "9_west" } );
-            }
-
-        } else if( old.compare( 0, 14, "hotel_tower_b_" ) == 0 ) {
-            const std::string hotelb = "hotel_tower_b_";
-            if( old == hotelb + "1" ) {
-                nearby.push_back( { -1, hotelb + "2", 0, hotelb + "1", hotelb + "1_north" } );
-                nearby.push_back( { 0, hotelb + "1", -1, hotelb + "2", hotelb + "1_east" } );
-                nearby.push_back( { 1, hotelb + "2", 0, hotelb + "1", hotelb + "1_south" } );
-                nearby.push_back( { 0, hotelb + "1", 1, hotelb + "2", hotelb + "1_west" } );
-            } else if( old == hotelb + "2" ) {
-                nearby.push_back( { -1, hotelb + "3", 0, hotelb + "2", hotelb + "2_north" } );
-                nearby.push_back( { 0, hotelb + "2", -1, hotelb + "3", hotelb + "2_east" } );
-                nearby.push_back( { 1, hotelb + "3", 0, hotelb + "2", hotelb + "2_south" } );
-                nearby.push_back( { 0, hotelb + "2", 1, hotelb + "3", hotelb + "2_west" } );
-            } else if( old == hotelb + "3" ) {
-                nearby.push_back( { 1, hotelb + "2", 0, hotelb + "3", hotelb + "3_north" } );
-                nearby.push_back( { 0, hotelb + "3", 1, hotelb + "2", hotelb + "3_east" } );
-                nearby.push_back( { -1, hotelb + "2", 0, hotelb + "3", hotelb + "3_south" } );
-                nearby.push_back( { 0, hotelb + "3", -1, hotelb + "2", hotelb + "3_west" } );
-            }
-        } else if( old == "bunker" ) {
-            if( pos.z < 0 ) {
-                ter_set( pos, oter_id( "bunker_basement" ) );
-            } else if( is_ot_match( "road", ter( pos + point_east ), ot_match_type::type ) ) {
-                ter_set( pos, oter_id( "bunker_west" ) );
-            } else if( is_ot_match( "road", ter( pos + point_west ), ot_match_type::type ) ) {
-                ter_set( pos, oter_id( "bunker_east" ) );
-            } else if( is_ot_match( "road", ter( pos + point_south ), ot_match_type::type ) ) {
-                ter_set( pos, oter_id( "bunker_north" ) );
-            } else {
-                ter_set( pos, oter_id( "bunker_south" ) );
-            }
-
-        } else if( old == "farm" ) {
-            ter_set( pos, oter_id( "farm_2_north" ) );
-
-        } else if( old == "farm_field" ) {
-            nearby.push_back( { -1, "farm",        1, "farm_field", "farm_1_north" } );
-            nearby.push_back( {  1, "farm",        1, "farm_field", "farm_3_north" } );
-            nearby.push_back( { -2, "farm_field",  1, "farm_field", "farm_4_north" } );
-            nearby.push_back( {  0, "farm_field", -1, "farm",       "farm_5_north" } );
-            nearby.push_back( {  2, "farm_field",  1, "farm_field", "farm_6_north" } );
-            nearby.push_back( { -2, "farm_field", -2, "farm_field", "farm_7_north" } );
-            nearby.push_back( {  0, "farm_field", -2, "farm",       "farm_8_north" } );
-            nearby.push_back( {  2, "farm_field", -2, "farm_field", "farm_9_north" } );
-        } else if( old.compare( 0, 7, "mansion" ) == 0 ) {
-            if( old == "mansion_entrance" ) {
-                ter_set( pos, oter_id( "mansion_e1_north" ) );
-            } else if( old == "mansion" ) {
-                nearby.push_back( { -1, "mansion_entrance",  1, "mansion",          "mansion_c1_east" } );
-                nearby.push_back( {  1, "mansion_entrance",  1, "mansion",          "mansion_c3_north" } );
-                nearby.push_back( { -2, "mansion",           1, "mansion",          "mansion_t2_west" } );
-                nearby.push_back( {  0, "mansion",          -1, "mansion_entrance", "mansion_+4_north" } );
-                nearby.push_back( {  2, "mansion",           1, "mansion",          "mansion_t4_east" } );
-                nearby.push_back( { -2, "mansion",          -2, "mansion",          "mansion_c4_south" } );
-                nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
-                nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
-            }
-
-            // Migrate terrains with NO_ROTATE flag to rotatable
-        } else if( old.compare( 0, 4, "lmoe" ) == 0 ||
-                   old.compare( 0, 5, "cabin" ) == 0 ||
-                   old.compare( 0, 5, "pond_" ) == 0 ||
-                   old.compare( 0, 6, "bandit" ) == 0 ||
-                   old.compare( 0, 7, "shelter" ) == 0 ||
-                   old.compare( 0, 8, "campsite" ) == 0 ||
-                   old.compare( 0, 9, "pwr_large" ) == 0 ||
-                   old.compare( 0, 9, "shipwreck" ) == 0 ||
-                   old.compare( 0, 9, "robofachq" ) == 0 ||
-                   old.compare( 0, 10, "ranch_camp" ) == 0 ||
-                   old.compare( 0, 11, "hdwr_large_" ) == 0 ||
-                   old.compare( 0, 14, "loffice_tower_" ) == 0 ||
-                   old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
-            ter_set( pos, oter_id( old + "_north" ) );
-
-        } else if( old == "hunter_shack" ||
-                   old == "magic_basement" ||
-                   old == "basement_bionic" ||
-                   old == "outpost" ||
-                   old == "park" ||
-                   old == "pool" ||
-                   old == "pwr_sub_s" ||
-                   old == "radio_tower" ||
-                   old == "sai" ||
-                   old == "toxic_dump" ||
-                   old == "orchard_stall" ||
-                   old == "orchard_tree_apple" ||
-                   old == "orchard_processing" ||
-                   old == "dairy_farm_NW" ||
-                   old == "dairy_farm_NE" ||
-                   old == "dairy_farm_SW" ||
-                   old == "dairy_farm_SE" ) {
-            ter_set( pos, oter_id( old + "_north" ) );
-
-        } else if( old == "megastore_entrance" ) {
-            const std::string megastore = "megastore";
-            const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
-            const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
-            const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );
-            const auto ter_test_w = needs_conversion.find( pos + point( -2,  0 ) );
-            //North
-            if( ter_test_n != needs_conversion.end() && ter_test_n->second == megastore ) {
-                ter_set( pos + point_north + point_north_west, oter_id( megastore + "_0_0_0_north" ) );
-                ter_set( pos + point_north + point_north, oter_id( megastore + "_1_0_0_north" ) );
-                ter_set( pos + point_north + point_north_east, oter_id( megastore + "_2_0_0_north" ) );
-                ter_set( pos + point_north_west, oter_id( megastore + "_0_1_0_north" ) );
-                ter_set( pos + point_north, oter_id( megastore + "_1_1_0_north" ) );
-                ter_set( pos + point_north_east, oter_id( megastore + "_2_1_0_north" ) );
-                ter_set( pos + point_west, oter_id( megastore + "_0_2_0_north" ) );
-                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_north" ) );
-                ter_set( pos + point_east, oter_id( megastore + "_2_2_0_north" ) );
-            } else if( ter_test_s != needs_conversion.end() && ter_test_s->second == megastore ) {
-                ter_set( pos + point_west, oter_id( megastore + "_2_2_0_south" ) );
-                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_south" ) );
-                ter_set( pos + point_east, oter_id( megastore + "_0_2_0_south" ) );
-                ter_set( pos + point_south_west, oter_id( megastore + "_2_1_0_south" ) );
-                ter_set( pos + point_south, oter_id( megastore + "_1_1_0_south" ) );
-                ter_set( pos + point_south_east, oter_id( megastore + "_0_1_0_south" ) );
-                ter_set( pos + point_south + point_south_west, oter_id( megastore + "_2_0_0_south" ) );
-                ter_set( pos + point_south + point_south, oter_id( megastore + "_1_0_0_south" ) );
-                ter_set( pos + point_south + point_south_east, oter_id( megastore + "_0_0_0_south" ) );
-            } else if( ter_test_e != needs_conversion.end() && ter_test_e->second == megastore ) {
-                ter_set( pos + point_north, oter_id( megastore + "_0_2_0_east" ) );
-                ter_set( pos + point_north_east, oter_id( megastore + "_0_1_0_east" ) );
-                ter_set( pos + point_east + point_north_east, oter_id( megastore + "_0_0_0_east" ) );
-                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_east" ) );
-                ter_set( pos + point_east, oter_id( megastore + "_1_1_0_east" ) );
-                ter_set( pos + point_east + point_east, oter_id( megastore + "_1_0_0_east" ) );
-                ter_set( pos + point_south, oter_id( megastore + "_2_2_0_east" ) );
-                ter_set( pos + point_south_east, oter_id( megastore + "_2_1_0_east" ) );
-                ter_set( pos + point_east + point_south_east, oter_id( megastore + "_2_0_0_east" ) );
-            } else if( ter_test_w != needs_conversion.end() && ter_test_w->second == megastore ) {
-                ter_set( pos + point_west + point_north_west, oter_id( megastore + "_2_0_0_west" ) );
-                ter_set( pos + point_north_west, oter_id( megastore + "_2_1_0_west" ) );
-                ter_set( pos + point_north, oter_id( megastore + "_2_2_0_west" ) );
-                ter_set( pos + point_west + point_west, oter_id( megastore + "_1_0_0_west" ) );
-                ter_set( pos + point_west, oter_id( megastore + "_1_1_0_west" ) );
-                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_west" ) );
-                ter_set( pos + point_west + point_south_west, oter_id( megastore + "_0_0_0_west" ) );
-                ter_set( pos + point_south_west, oter_id( megastore + "_0_1_0_west" ) );
-                ter_set( pos + point_south, oter_id( megastore + "_0_2_0_west" ) );
-            } else {
-                debugmsg( "Malformed Megastore" );
-            }
-
-        } else if( old.compare( 0, 7, "haz_sar" ) == 0 ) {
-            if( old == "haz_sar_entrance" || old == "haz_sar_entrance_north" ) {
-                ter_set( pos, oter_id( "haz_sar_1_1_north" ) );
-                ter_set( pos + point_west, oter_id( "haz_sar_1_2_north" ) );
-                ter_set( pos + point_south, oter_id( "haz_sar_1_3_north" ) );
-                ter_set( pos + point_south_west, oter_id( "haz_sar_1_4_north" ) );
-            } else if( old == "haz_sar_entrance_south" ) {
-                ter_set( pos, oter_id( "haz_sar_1_1_south" ) );
-                ter_set( pos + point_north, oter_id( "haz_sar_1_2_south" ) );
-                ter_set( pos + point_west, oter_id( "haz_sar_1_3_south" ) );
-                ter_set( pos + point_north_west, oter_id( "haz_sar_1_4_south" ) );
-            } else if( old == "haz_sar_entrance_east" ) {
-                ter_set( pos, oter_id( "haz_sar_1_1_east" ) );
-                ter_set( pos + point_north, oter_id( "haz_sar_1_2_east" ) );
-                ter_set( pos + point_west, oter_id( "haz_sar_1_3_east" ) );
-                ter_set( pos + point_north_west, oter_id( "haz_sar_1_4_east" ) );
-            } else if( old == "haz_sar_entrance_west" ) {
-                ter_set( pos, oter_id( "haz_sar_1_1_west" ) );
-                ter_set( pos + point_south, oter_id( "haz_sar_1_2_west" ) );
-                ter_set( pos + point_east, oter_id( "haz_sar_1_3_west" ) );
-                ter_set( pos + point_south_east, oter_id( "haz_sar_1_4_west" ) );
-            }
-
-            if( old == "haz_sar_entrance_b1" || old == "haz_sar_entrance_b1_north" ) {
-                ter_set( pos, oter_id( "haz_sar_b_1_north" ) );
-                ter_set( pos + point_west, oter_id( "haz_sar_b_2_north" ) );
-                ter_set( pos + point_south, oter_id( "haz_sar_b_3_north" ) );
-                ter_set( pos + point_south_west, oter_id( "haz_sar_b_4_north" ) );
-            } else if( old == "haz_sar_entrance_b1_south" ) {
-                ter_set( pos, oter_id( "haz_sar_b_1_south" ) );
-                ter_set( pos + point_north, oter_id( "haz_sar_b_2_south" ) );
-                ter_set( pos + point_west, oter_id( "haz_sar_b_3_south" ) );
-                ter_set( pos + point_north_west, oter_id( "haz_sar_b_4_south" ) );
-            } else if( old == "haz_sar_entrance_b1_east" ) {
-                ter_set( pos, oter_id( "haz_sar_b_1_east" ) );
-                ter_set( pos + point_north, oter_id( "haz_sar_b_2_east" ) );
-                ter_set( pos + point_west, oter_id( "haz_sar_b_3_east" ) );
-                ter_set( pos + point_north_west, oter_id( "haz_sar_b_4_east" ) );
-            } else if( old == "haz_sar_entrance_b1_west" ) {
-                ter_set( pos, oter_id( "haz_sar_b_1_west" ) );
-                ter_set( pos + point_south, oter_id( "haz_sar_b_2_west" ) );
-                ter_set( pos + point_east, oter_id( "haz_sar_b_3_west" ) );
-                ter_set( pos + point_south_east, oter_id( "haz_sar_b_4_west" ) );
-            }
-
-        } else if( old == "house_base_north" || old == "house_north" ||
-                   old == "house_base" || old == "house" ) {
-            ter_set( pos, oter_id( "house_w_1_north" ) );
-        } else if( old == "house_base_south" || old == "house_south" ) {
-            ter_set( pos, oter_id( "house_w_1_south" ) );
-        } else if( old == "house_base_east" || old == "house_east" ) {
-            ter_set( pos, oter_id( "house_w_1_east" ) );
-        } else if( old == "house_base_west" || old == "house_west" ) {
-            ter_set( pos, oter_id( "house_w_1_west" ) );
-        } else if( old == "rural_house" || old == "rural_house_north" ) {
+        if( old == "rural_house" || old == "rural_house_north" ) {
             ter_set( pos, oter_id( "rural_house1_north" ) );
         } else if( old == "rural_house_south" ) {
             ter_set( pos, oter_id( "rural_house1_south" ) );
@@ -861,8 +363,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         }
 
         for( const auto &conv : nearby ) {
-            const auto x_it = needs_conversion.find( pos + point( conv.xoffset, 0 ) );
-            const auto y_it = needs_conversion.find( pos + point( 0, conv.yoffset ) );
+            const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
+            const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
                 ter_set( pos, oter_id( conv.new_id ) );
@@ -1015,7 +517,7 @@ void overmap::unserialize( std::istream &fin )
                         const std::string radio_name = jsin.get_string();
                         const auto mapping =
                             find_if( radio_type_names.begin(), radio_type_names.end(),
-                        [radio_name]( const std::pair<int, std::string> &p ) {
+                        [radio_name]( const std::pair<radio_type, std::string> &p ) {
                             return p.second == radio_name;
                         } );
                         if( mapping != radio_type_names.end() ) {

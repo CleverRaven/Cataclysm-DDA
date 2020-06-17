@@ -123,6 +123,7 @@ double rng_normal( double lo, double hi )
 
 cata_default_random_engine &rng_get_engine()
 {
+    // NOLINTNEXTLINE(cata-determinism)
     static cata_default_random_engine eng(
         std::chrono::high_resolution_clock::now().time_since_epoch().count() );
     return eng;

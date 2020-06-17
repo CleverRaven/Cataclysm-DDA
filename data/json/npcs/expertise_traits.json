@@ -1561,8 +1561,8 @@
   },
   {
     "//": "This group holds all the general non-science, non-engineering traits that professionals might have.",
-    "//": "NPCs getting this group still don't have a huge chance of getting any particular profession. This is just for random rolls of the dice.",
-    "//": "In the future, this might include some non-expertise 'job' flags that just enrich dialogue.",
+    "//2": "NPCs getting this group still don't have a huge chance of getting any particular profession. This is just for random rolls of the dice.",
+    "//3": "In the future, this might include some non-expertise 'job' flags that just enrich dialogue.",
     "type": "trait_group",
     "id": "Expertise_Professional_Random",
     "subtype": "collection",
@@ -1578,8 +1578,8 @@
   },
   {
     "//": "This group holds all the science traits. The chance of just running into a trained scientist at random is quite low.",
-    "//": "Note that many scientists have some instruction training or at least *think* they can teach, so the chances of running into a teacher or fake teacher are a bit higher.",
-    "//": "Medicine training is a bit more common than pure sciences, but it's also something people are more likely to try to fake to make themselves seem more valuable.",
+    "//2": "Note that many scientists have some instruction training or at least *think* they can teach, so the chances of running into a teacher or fake teacher are a bit higher.",
+    "//3": "Medicine training is a bit more common than pure sciences, but it's also something people are more likely to try to fake to make themselves seem more valuable.",
     "type": "trait_group",
     "id": "Expertise_Science_Random",
     "subtype": "collection",

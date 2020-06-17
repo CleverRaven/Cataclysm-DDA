@@ -131,6 +131,14 @@
     "chance": 50
   },
   {
+    "id": "emit_shadow_field",
+    "type": "emit",
+    "field": "fd_shadow",
+    "intensity": 1,
+    "qty": 10,
+    "chance": 100
+  },
+  {
     "id": "emit_shock_burst",
     "type": "emit",
     "//": "small cloud of lightning",
@@ -194,7 +202,7 @@
   {
     "id": "emit_heater_vehicle",
     "type": "emit",
-    "field": "fd_hot_air3",
+    "field": "fd_hot_air2",
     "intensity": 3,
     "qty": 3,
     "chance": 100
@@ -202,7 +210,7 @@
   {
     "id": "emit_cooler_vehicle",
     "type": "emit",
-    "field": "fd_cold_air3",
+    "field": "fd_cold_air2",
     "intensity": 3,
     "qty": 3,
     "chance": 100

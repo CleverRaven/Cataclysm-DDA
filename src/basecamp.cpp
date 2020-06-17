@@ -1,43 +1,45 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
-#include <vector>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "color.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
-#include "output.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "debug.h"
+#include "faction_camp.h"
+#include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "npc.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "npc.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
-#include "string_input_popup.h"
-#include "faction_camp.h"
-#include "calendar.h"
-#include "color.h"
-#include "compatibility.h"
+#include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "line.h"
 
-static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -219,7 +221,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         comp = comp + elem + "\n";
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
-                          making.description, making.required_skills_string(), comp );
+                          making.description, making.required_all_skills_string(), comp );
     if( !trunc ) {
         time_duration base_time = making.batch_duration();
         comp += string_format( _( "Risk: None\nTime: %s\n" ),
@@ -301,7 +303,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
         expansion_data &e_data = e->second;
         for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
             const recipe &recp = *recp_p;
-            const std::string &bldg = recp.result();
+            const std::string &bldg = recp.result().str();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
@@ -606,11 +608,11 @@ void basecamp::form_crafting_inventory( map &target_map )
     const tripoint &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
-    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+    if( get_map().check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    if( mgr.has_near( zone_type_camp_storage, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_camp_storage, dump_spot, 60 );
+    if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -623,7 +625,6 @@ void basecamp::form_crafting_inventory( map &target_map )
     fuels.clear();
     for( const itype_id &fuel_id : fuel_types ) {
         basecamp_fuel bcp_f;
-        bcp_f.available = 0;
         bcp_f.ammo_id = fuel_id;
         fuels.emplace_back( bcp_f );
     }
@@ -645,7 +646,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, 0 );
         camp_item.item_tags.insert( "PSEUDO" );
-        if( bcp_r.ammo_id != "NULL" ) {
+        if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
@@ -667,7 +668,7 @@ void basecamp::form_crafting_inventory()
         target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
         form_crafting_inventory( target_map );
     } else {
-        form_crafting_inventory( g->m );
+        form_crafting_inventory( get_map() );
     }
 }
 
@@ -723,7 +724,7 @@ bool basecamp_action_components::choose_components()
         comp_selection<item_comp> is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
-        if( is.use_from == cancel ) {
+        if( is.use_from == usage_from::cancel ) {
             return false;
         }
         item_selections_.push_back( is );
@@ -733,7 +734,7 @@ bool basecamp_action_components::choose_components()
         comp_selection<tool_comp> ts =
             g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
                                         !base_.by_radio );
-        if( ts.use_from == cancel ) {
+        if( ts.use_from == usage_from::cancel ) {
             return false;
         }
         tool_selections_.push_back( ts );
@@ -743,7 +744,7 @@ bool basecamp_action_components::choose_components()
 
 void basecamp_action_components::consume_components()
 {
-    map *target_map = &g->m;
+    map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
         map_->load( omt_to_sm_copy( base_.camp_omt_pos() ), false );

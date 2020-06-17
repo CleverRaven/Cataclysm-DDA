@@ -1,26 +1,24 @@
 #pragma once
-#ifndef MISSION_COMPANION_H
-#define MISSION_COMPANION_H
+#ifndef CATA_SRC_MISSION_COMPANION_H
+#define CATA_SRC_MISSION_COMPANION_H
 
 #include <map>
-#include <memory>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class npc;
 class item;
-struct tripoint;
-struct comp_rank;
+class monster;
+class npc;
 class npc_template;
+struct comp_rank;
 template<typename T>
 class string_id;
-class monster;
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
@@ -83,8 +81,6 @@ bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos
  * @param miss_id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
- * @param skill_tested is the main skill for the quest
- * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
 npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
@@ -152,4 +148,4 @@ void companion_return( npc &comp );
 void loot_building( const tripoint &site );
 
 } // namespace talk_function
-#endif
+#endif // CATA_SRC_MISSION_COMPANION_H

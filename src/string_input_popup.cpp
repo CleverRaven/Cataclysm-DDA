@@ -8,6 +8,7 @@
 #include "input.h"
 #include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -19,8 +20,8 @@
 #include "options.h"
 #endif
 
-#include <cstdlib>
 #include <algorithm>
+#include <cstdlib>
 #include <memory>
 #include <vector>
 
@@ -111,14 +112,21 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     if( !hmenu.entries.empty() ) {
         hmenu.selected = hmenu.entries.size() - 1;
 
-        // number of lines that make up the menu window: 2*border+entries
-        hmenu.w_height = 2 + hmenu.entries.size();
-        hmenu.w_y = getbegy( w ) - hmenu.w_height;
-        if( hmenu.w_y < 0 ) {
-            hmenu.w_y = 0;
-            hmenu.w_height = std::max( getbegy( w ), 4 );
-        }
-        hmenu.w_x = getbegx( w );
+        hmenu.w_height_setup = [&]() -> int {
+            // number of lines that make up the menu window: 2*border+entries
+            int height = 2 + hmenu.entries.size();
+            if( getbegy( w ) < height )
+            {
+                height = std::max( getbegy( w ), 4 );
+            }
+            return height;
+        };
+        hmenu.w_x_setup = [&]( int ) -> int {
+            return getbegx( w );
+        };
+        hmenu.w_y_setup = [&]( const int height ) -> int {
+            return std::max( getbegy( w ) - height, 0 );
+        };
 
         bool finished = false;
         do {
@@ -138,8 +146,6 @@ void string_input_popup::show_history( utf8_wrapper &ret )
                 finished = true;
             }
         } while( !finished );
-        werase( hmenu.window );
-        wrefresh( hmenu.window );
     }
 }
 
@@ -265,7 +271,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )
@@ -365,7 +371,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         const std::string action = ctxt->handle_input();
         const input_event ev = ctxt->get_raw_input();
-        ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        ch = ev.type == input_event_t::keyboard ? ev.get_first_input() : 0;
 
         if( callbacks[ch] ) {
             if( callbacks[ch]() ) {
@@ -466,7 +472,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     return _text;
 }
 
-string_input_popup &string_input_popup::window( const catacurses::window &w, int startx, int starty,
+string_input_popup &string_input_popup::window( const catacurses::window &w, const point &start,
         int endx )
 {
     if( !custom_window && this->w ) {
@@ -474,8 +480,8 @@ string_input_popup &string_input_popup::window( const catacurses::window &w, int
         return *this;
     }
     this->w = w;
-    _startx = startx;
-    _starty = starty;
+    _startx = start.x;
+    _starty = start.y;
     _endx = endx;
     custom_window = true;
     return *this;

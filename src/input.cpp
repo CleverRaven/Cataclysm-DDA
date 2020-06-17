@@ -33,6 +33,7 @@
 #include "ui_manager.h"
 #include "color.h"
 #include "point.h"
+#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -139,15 +140,15 @@ void input_manager::init()
     }
     t_actions &actions = action_contexts["DEFAULTMODE"];
     std::set<action_id> touched;
-    for( std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a ) {
-        const std::string action_id = action_ident( a->second );
+    for( const std::pair<const char, action_id> &a : keymap ) {
+        const std::string action_id = action_ident( a.second );
         // Put the binding from keymap either into the global context
         // (if an action with that ident already exists there - think movement keys)
         // or otherwise to the DEFAULTMODE context.
         std::string context = "DEFAULTMODE";
         if( action_contexts[default_context_id].count( action_id ) > 0 ) {
             context = default_context_id;
-        } else if( touched.count( a->second ) == 0 ) {
+        } else if( touched.count( a.second ) == 0 ) {
             // Note: movement keys are somehow special as the default in keymap
             // does not contain the arrow keys, so we don't clear existing keybindings
             // for them.
@@ -155,9 +156,9 @@ void input_manager::init()
             // previously (default!) existing bindings, to only keep the bindings,
             // the user is used to
             action_contexts[action_id].clear();
-            touched.insert( a->second );
+            touched.insert( a.second );
         }
-        add_input_for_action( action_id, context, input_event( a->first, CATA_INPUT_KEYBOARD ) );
+        add_input_for_action( action_id, context, input_event( a.first, input_event_t::keyboard ) );
     }
     // Unmap actions that are explicitly not mapped
     for( const auto &elem : unbound_keymap ) {
@@ -223,11 +224,11 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             std::string input_method = keybinding.get_string( "input_method" );
             input_event new_event;
             if( input_method == "keyboard" ) {
-                new_event.type = CATA_INPUT_KEYBOARD;
+                new_event.type = input_event_t::keyboard;
             } else if( input_method == "gamepad" ) {
-                new_event.type = CATA_INPUT_GAMEPAD;
+                new_event.type = input_event_t::gamepad;
             } else if( input_method == "mouse" ) {
-                new_event.type = CATA_INPUT_MOUSE;
+                new_event.type = input_event_t::mouse;
             }
 
             if( keybinding.has_array( "key" ) ) {
@@ -274,15 +275,14 @@ void input_manager::save()
         JsonOut jsout( data_file, true );
 
         jsout.start_array();
-        for( t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end();
-             ++a ) {
-            const t_actions &actions = a->second;
+        for( const auto &a : action_contexts ) {
+            const t_actions &actions = a.second;
             for( const auto &action : actions ) {
                 const t_input_event_list &events = action.second.input_events;
                 jsout.start_object();
 
                 jsout.member( "id", action.first );
-                jsout.member( "category", a->first );
+                jsout.member( "category", a.first );
                 bool is_user_created = action.second.is_user_created;
                 if( is_user_created ) {
                     jsout.member( "is_user_created", is_user_created );
@@ -293,13 +293,13 @@ void input_manager::save()
                 for( const auto &event : events ) {
                     jsout.start_object();
                     switch( event.type ) {
-                        case CATA_INPUT_KEYBOARD:
+                        case input_event_t::keyboard:
                             jsout.member( "input_method", "keyboard" );
                             break;
-                        case CATA_INPUT_GAMEPAD:
+                        case input_event_t::gamepad:
                             jsout.member( "input_method", "gamepad" );
                             break;
-                        case CATA_INPUT_MOUSE:
+                        case input_event_t::mouse:
                             jsout.member( "input_method", "mouse" );
                             break;
                         default:
@@ -410,7 +410,7 @@ int input_manager::get_keycode( const std::string &name ) const
 std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const
 {
     cata::optional<std::string> raw;
-    if( inp_type == CATA_INPUT_KEYBOARD ) {
+    if( inp_type == input_event_t::keyboard ) {
         const t_key_to_name_map::const_iterator a = keycode_to_keyname.find( ch );
         if( a != keycode_to_keyname.end() ) {
             if( IS_F_KEY( ch ) ) {
@@ -427,7 +427,7 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
             }
             raw = a->second;
         }
-    } else if( inp_type == CATA_INPUT_MOUSE ) {
+    } else if( inp_type == input_event_t::mouse ) {
         if( ch == MOUSE_BUTTON_LEFT ) {
             raw = translate_marker_context( "key name", "MOUSE_LEFT" );
         } else if( ch == MOUSE_BUTTON_RIGHT ) {
@@ -439,7 +439,7 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
         } else if( ch == MOUSE_MOVE ) {
             raw = translate_marker_context( "key name", "MOUSE_MOVE" );
         }
-    } else if( inp_type == CATA_INPUT_GAMEPAD ) {
+    } else if( inp_type == input_event_t::gamepad ) {
         const t_key_to_name_map::const_iterator a = gamepad_keycode_to_keyname.find( ch );
         if( a != gamepad_keycode_to_keyname.end() ) {
             raw = a->second;
@@ -604,11 +604,9 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     input_manager::t_actions &default_actions = inp_mngr.action_contexts[default_context_id];
     input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
 
-    for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
-        input_manager::t_actions::iterator default_action = default_actions.find( *registered_action );
-        input_manager::t_actions::iterator category_action = category_actions.find( *registered_action );
+    for( const auto &registered_action : registered_actions ) {
+        input_manager::t_actions::iterator default_action = default_actions.find( registered_action );
+        input_manager::t_actions::iterator category_action = category_actions.find( registered_action );
         if( default_action != default_actions.end() ) {
             std::vector<input_event> &events = default_action->second.input_events;
             events.erase( std::remove( events.begin(), events.end(), event ), events.end() );
@@ -696,7 +694,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
+        if( events_event.type == input_event_t::keyboard && events_event.sequence.size() == 1 ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
                                             isprint( events_event.sequence.front() ) ) ) {
                 result.push_back( static_cast<char>( events_event.sequence.front() ) );
@@ -715,15 +713,13 @@ std::string input_context::key_bound_to( const std::string &action_descriptor, c
 
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
-    for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
+    for( const auto &registered_action : registered_actions ) {
 
-        const std::vector<input_event> &events = inp_mngr.get_input_for_action( *registered_action,
+        const std::vector<input_event> &events = inp_mngr.get_input_for_action( registered_action,
                 category );
         for( const auto &events_event : events ) {
             // Only consider keyboard events without modifiers
-            if( events_event.type == CATA_INPUT_KEYBOARD && events_event.modifiers.empty() ) {
+            if( events_event.type == input_event_t::keyboard && events_event.modifiers.empty() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
                                                       ContainsPredicate<std::vector<int>, char>(
                                                               events_event.sequence ) ),
@@ -737,7 +733,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
 
 const input_context::input_event_filter input_context::disallow_lower_case =
 []( const input_event &evt ) -> bool {
-    return evt.type != CATA_INPUT_KEYBOARD ||
+    return evt.type != input_event_t::keyboard ||
     // std::lower from <cctype> is undefined outside unsigned char range
     // and std::lower from <locale> may throw bad_cast for some locales
     evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
@@ -770,7 +766,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
         if( evt_filter( event ) &&
             // Only display gamepad buttons if a gamepad is available.
-            ( gamepad_available() || event.type != CATA_INPUT_GAMEPAD ) ) {
+            ( gamepad_available() || event.type != input_event_t::gamepad ) ) {
 
             inputs_to_show.push_back( event );
         }
@@ -816,10 +812,10 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     for( const auto &evt : events ) {
         if( evt_filter( evt ) &&
             // Only display gamepad buttons if a gamepad is available.
-            ( gamepad_available() || evt.type != CATA_INPUT_GAMEPAD ) ) {
+            ( gamepad_available() || evt.type != input_event_t::gamepad ) ) {
 
             na = false;
-            if( evt.type == CATA_INPUT_KEYBOARD && evt.sequence.size() == 1 ) {
+            if( evt.type == input_event_t::keyboard && evt.sequence.size() == 1 ) {
                 const int ch = evt.get_first_input();
                 const std::string key = utf32_to_utf8( ch );
                 const auto pos = ci_find_substr( text, key );
@@ -857,11 +853,11 @@ const std::string &input_context::handle_input( const int timeout )
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );
     }
-    next_action.type = CATA_INPUT_ERROR;
+    next_action.type = input_event_t::error;
     const std::string *result = &CATA_ERROR;
     while( true ) {
         next_action = inp_mngr.get_input_event();
-        if( next_action.type == CATA_INPUT_TIMEOUT ) {
+        if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
             break;
         }
@@ -877,7 +873,7 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
-        if( next_action.type == CATA_INPUT_MOUSE ) {
+        if( next_action.type == input_event_t::mouse ) {
             if( !handling_coordinate_input && action == CATA_ERROR ) {
                 continue; // Ignore this mouse input.
             }
@@ -1023,9 +1019,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     size_t legwidth = 0;
     string_input_popup spopup;
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
+        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
         width = min( 80, maxwidth );
-        int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
+        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
         height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
         w_help = catacurses::newwin( height - 2, width - 2,
@@ -1034,7 +1030,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
         display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
         // width of the legend
         legwidth = width - 4 - BORDER_SPACE;
-        spopup.window( w_help, 4, 8, legwidth )
+        spopup.window( w_help, point( 4, 8 ), legwidth )
         .max_length( legwidth )
         .context( ctxt );
         ui.position_from_window( w_help );
@@ -1124,7 +1120,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
-        // spopup.query_string() will call wrefresh( w_help )
+        // spopup.query_string() will call wnoutrefresh( w_help )
         spopup.text( filter_phrase );
         spopup.query_string( false, true );
     };
@@ -1287,8 +1283,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     } else if( changed ) {
         inp_mngr.action_contexts.swap( old_action_contexts );
     }
-    werase( w_help );
-    wrefresh( w_help );
 
     return action_to_execute;
 }
@@ -1311,13 +1305,13 @@ void input_manager::wait_for_any_key()
     while( true ) {
         const input_event evt = inp_mngr.get_input_event();
         switch( evt.type ) {
-            case CATA_INPUT_KEYBOARD:
+            case input_event_t::keyboard:
                 if( !evt.sequence.empty() ) {
                     return;
                 }
                 break;
             // errors are accepted as well to avoid an infinite loop
-            case CATA_INPUT_ERROR:
+            case input_event_t::error:
                 return;
             default:
                 break;
@@ -1338,10 +1332,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
-    const point win_min( getbegx( capture_win ) - VIEW_OFFSET_X,
-                         getbegy( capture_win ) - VIEW_OFFSET_Y );
-    const rectangle win_bounds( win_min, win_min + view_size );
-    if( !win_bounds.contains_half_open( coordinate ) ) {
+    const point win_min( getbegx( capture_win ),
+                         getbegy( capture_win ) );
+    const half_open_rectangle win_bounds( win_min, win_min + view_size );
+    if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
 
@@ -1354,6 +1348,39 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     return tripoint( p, g->get_levz() );
 }
 #endif
+
+std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
+        &capture_win ) const
+{
+#if !defined( TILES )
+    ( void ) capture_win;
+    return std::make_pair( point(), false );
+#else
+    if( !coordinate_input_received ) {
+        return std::make_pair( point(), false );
+    }
+
+    const window_dimensions dim = get_window_dimensions( capture_win );
+
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
+    const point &win_min = dim.window_pos_pixel;
+    const point &win_size = dim.window_size_pixel;
+    const point win_max = win_min + win_size;
+
+    const half_open_rectangle win_bounds( win_min, win_max );
+
+    const point screen_pos = coordinate - win_min;
+    const point selected( divide_round_down( screen_pos.x, fw ),
+                          divide_round_down( screen_pos.y, fh ) );
+
+    if( !win_bounds.contains( coordinate ) ) {
+        return std::make_pair( selected, false );
+    }
+
+    return std::make_pair( selected, true );
+#endif
+}
 
 std::string input_context::get_action_name( const std::string &action_id ) const
 {

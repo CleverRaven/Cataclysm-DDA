@@ -4,11 +4,12 @@
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": { "str": "7.62x51mm ammo belt" },
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 500,
     "count": 100,
     "default_ammo": "762_51",
-    "linkage": "ammolink308"
+    "linkage": "ammolink308",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 500 } } ]
   },
   {
     "id": "falbigmag",
@@ -19,13 +20,14 @@
     "weight": "360 g",
     "volume": "750 ml",
     "price": 2100,
-    "material": "steel",
+    "price_postapoc": 500,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 30,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 30 } } ]
   },
   {
     "id": "falmag",
@@ -36,13 +38,14 @@
     "weight": "240 g",
     "volume": "500 ml",
     "price": 1200,
-    "material": "steel",
+    "price_postapoc": 250,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "fal_makeshiftmag",
@@ -53,14 +56,15 @@
     "weight": "80 g",
     "volume": "250 ml",
     "price": 1200,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 1,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "g3bigmag",
@@ -71,14 +75,15 @@
     "weight": "650 g",
     "volume": "1 L",
     "price": 7900,
-    "material": "steel",
+    "price_postapoc": 500,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
   },
   {
     "id": "g3mag",
@@ -89,13 +94,14 @@
     "weight": "120 g",
     "volume": "500 ml",
     "price": 1200,
-    "material": "aluminum",
+    "price_postapoc": 100,
+    "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "g3_makeshiftmag",
@@ -113,13 +119,14 @@
     "weight": "280 g",
     "volume": "500 ml",
     "price": 1700,
-    "material": "steel",
+    "price_postapoc": 250,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "m14smallmag",
@@ -130,19 +137,21 @@
     "weight": "60 g",
     "volume": "250 ml",
     "price": 2900,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 5,
-    "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "m14_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
+    "price_postapoc": 50,
     "name": { "str": "M14 makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 rifle."
   },
@@ -155,19 +164,21 @@
     "weight": "400 g",
     "volume": "1 L",
     "price": 8900,
-    "material": "steel",
+    "price_postapoc": 750,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 50 } } ]
   },
   {
     "id": "scarhmag_30rd",
     "copy-from": "falbigmag",
     "type": "MAGAZINE",
+    "price_postapoc": 250,
     "name": { "str": "FN SCAR-H 30-round magazine" },
     "description": "A 30-round steel box magazine for the FN SCAR-H rifle.  This one actually seems to be a modified FN FAL magazine."
   },
@@ -180,18 +191,20 @@
     "weight": "300 g",
     "volume": "500 ml",
     "price": 5600,
-    "material": "steel",
+    "price_postapoc": 250,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "scarh_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
+    "price_postapoc": 50,
     "name": { "str": "FN SCAR-H makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN SCAR-H rifle."
   },
@@ -204,13 +217,14 @@
     "weight": "160 g",
     "volume": "500 ml",
     "price": 5600,
-    "material": "steel",
+    "price_postapoc": 250,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "hk417mag_10rd",
@@ -221,18 +235,20 @@
     "weight": "110 g",
     "volume": "250 ml",
     "price": 5000,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 10,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 10 } } ]
   },
   {
     "id": "hk417_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
+    "price_postapoc": 50,
     "name": { "str": "HK417 makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with HK417 rifle."
   },
@@ -245,18 +261,20 @@
     "weight": "300 g",
     "volume": "500 ml",
     "price": 3000,
-    "material": "steel",
+    "price_postapoc": 250,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "308",
+    "ammo_type": [ "308" ],
     "capacity": 20,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 20 } } ]
   },
   {
     "id": "ar10_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
+    "price_postapoc": 50,
     "name": { "str": "AR-10 makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with AR-10 rifle."
   }

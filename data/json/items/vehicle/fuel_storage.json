@@ -7,14 +7,15 @@
     "symbol": "]",
     "color": "white",
     "looks_like": "cargo_rack",
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "veh_parts",
     "weight": "22000 g",
     "volume": "55 L",
     "capacity": 2000,
-    "reliability": 10,
     "//": "mods will need to expand",
-    "ammo_type": "charcoal",
-    "price": 3000
+    "ammo_type": [ "charcoal" ],
+    "price": 3000,
+    "price_postapoc": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ]
   }
 ]

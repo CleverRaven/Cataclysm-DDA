@@ -1,23 +1,25 @@
 #include "json.h"
 
+#include <algorithm>
+#include <bitset>
+#include <cmath> // pow
 #include <cstdint>
 #include <cstdio>
-#include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
+#include <exception>
+#include <iterator>
+#include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <bitset>
-#include <iterator>
-#include <algorithm>
-#include <exception>
 #include <utility>
-#include <limits>
+#include <vector>
 
 #include "cata_utility.h"
+#include "debug.h"
+#include "string_formatter.h"
 
 extern bool test_mode;
 
@@ -85,9 +87,7 @@ JsonObject::JsonObject( JsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        if( n != "//" && n != "comment" && positions.count( n ) > 0 ) {
-            // members with name "//" or "comment" are used for comments and
-            // should be ignored anyway.
+        if( positions.count( n ) > 0 ) {
             j.error( "duplicate entry in json object" );
         }
         positions[n] = p;
@@ -200,7 +200,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -209,7 +209,7 @@ void JsonObject::throw_error( std::string err, const std::string &name ) const
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err )
+void JsonArray::throw_error( const std::string &err )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -217,7 +217,7 @@ void JsonArray::throw_error( std::string err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -228,7 +228,7 @@ void JsonArray::throw_error( std::string err, int idx )
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err ) const
+void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -1241,7 +1241,6 @@ bool JsonIn::get_bool()
     }
     err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
-    throw JsonError( "warnings are silly" );
 }
 
 JsonObject JsonIn::get_object()

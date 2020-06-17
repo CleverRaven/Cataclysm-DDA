@@ -11,7 +11,6 @@
       { "group": "tobacco_products", "prob": 161 },
       { "item": "sponge", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
-      { "item": "rm99_pistol", "prob": 1 },
       { "item": "rm103a_pistol", "prob": 1 },
       { "item": "rm228", "prob": 2 },
       { "item": "vibrator", "prob": 3 },
@@ -97,6 +96,7 @@
       [ "pockknife", 15 ],
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],
+      [ "sandbox_kit", 5 ],
       [ "survival_kit", 5 ]
     ]
   },
@@ -236,6 +236,9 @@
       [ "sleeveless_duster", 5 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "sleeveless_duster_fur", 5 ],
+      [ "apron_cut_resistant", 2 ],
+      [ "chaps_cut_resistant", 5 ],
+      [ "balaclava_cut_resistant", 5 ],
       [ "gold_watch", 15 ],
       [ "silver_watch", 20 ],
       [ "sf_watch", 7 ],
@@ -666,6 +669,7 @@
       [ "flashlight", 40 ],
       [ "heavy_flashlight", 30 ],
       [ "survival_kit", 35 ],
+      [ "premium_survival_kit", 8 ],
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],
@@ -1147,7 +1151,7 @@
       [ "flour", 30 ],
       [ "milk_powder", 30 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird", 10 ],
+      [ "egg_bird_unfert", 10 ],
       [ "cooking_oil", 20 ],
       [ "irradiated_apple", 5 ],
       [ "irradiated_banana", 5 ],
@@ -1774,7 +1778,7 @@
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
       [ "vaccine_shot", 15 ],
-      [ "anesthetic_kit", 20 ]
+      { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },
   {
@@ -1824,7 +1828,8 @@
       [ "briefs", 30 ],
       [ "yoghurt", 12 ],
       [ "vitamins", 10 ],
-      [ "aspirin", 10 ]
+      [ "aspirin", 10 ],
+      [ "fitness_band", 10 ]
     ]
   },
   {
@@ -1853,11 +1858,14 @@
     "//": "spawn list for craft stores",
     "type": "item_group",
     "items": [
+      { "group": "tailoring_fabric", "prob": 30 },
       [ "awl_steel", 10 ],
+      { "item": "loom_frame", "prob": 2 },
       [ "sewing_kit", 1 ],
+      { "item": "shed_stick", "prob": 2 },
       [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
-      [ "kevlar_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
       [ "rag", 20 ],
       [ "needle_curved", 10 ],
@@ -1878,5 +1886,10 @@
       [ "recipe_fauxfur", 5 ],
       [ "textbook_tailor", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunshop_accessories",
+    "items": [ [ "powered_earmuffs", 50 ], [ "ear_plugs", 80 ] ]
   }
 ]

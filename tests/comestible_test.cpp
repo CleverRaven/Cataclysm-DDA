@@ -1,21 +1,21 @@
-#include <cstdio>
 #include <algorithm>
-#include <list>
-#include <map>
+#include <cstdio>
+#include <memory>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
+#include "character.h"
 #include "catch/catch.hpp"
-#include "game.h"
-#include "itype.h"
-#include "recipe_dictionary.h"
-#include "recipe.h"
-#include "requirements.h"
-#include "test_statistics.h"
 #include "item.h"
-#include "optional.h"
+#include "item_contents.h"
+#include "itype.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
+#include "stomach.h"
 #include "string_id.h"
+#include "test_statistics.h"
+#include "type_id.h"
 #include "value_ptr.h"
 
 struct all_stats {
@@ -26,9 +26,9 @@ struct all_stats {
 static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
-    for( item_comp it : components ) {
+    for( const item_comp &it : components ) {
         const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
-        if( temp && temp->cooks_like.empty() ) {
+        if( temp && temp->cooks_like.is_empty() ) {
             calories += temp->default_nutrition.kcal * it.count;
         } else if( temp ) {
             const itype *cooks_like = item::find_type( temp->cooks_like );
@@ -107,7 +107,8 @@ static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutati
 
 static item food_or_food_container( const item &it )
 {
-    return it.is_food_container() ? it.contents.front() : it;
+    // if it contains an item, it's a food container. it will also contain only one item.
+    return it.contents.num_item_stacks() > 0 ? it.contents.only_item() : it;
 }
 
 TEST_CASE( "recipe_permutations", "[recipe]" )
@@ -166,7 +167,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const item veggy_wild_cooked( "veggy_wild_cooked" );
     const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
-    const avatar &u = g->u;
+    const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
     std::pair<nutrients, nutrients> predicted_nutrition =

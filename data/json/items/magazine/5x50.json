@@ -8,14 +8,15 @@
     "weight": "360 g",
     "volume": "630ml",
     "price": 15000,
+    "price_postapoc": 750,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "5x50",
+    "ammo_type": [ "5x50" ],
     "capacity": 100,
-    "reliability": 10,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 100 } } ]
   },
   {
     "id": "5x50_50_mag",
@@ -26,13 +27,14 @@
     "weight": "240 g",
     "volume": "315ml",
     "price": 12500,
+    "price_postapoc": 500,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": "5x50",
+    "ammo_type": [ "5x50" ],
     "capacity": 50,
-    "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 50 } } ]
   }
 ]

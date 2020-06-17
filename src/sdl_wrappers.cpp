@@ -8,14 +8,13 @@
 #include <string>
 
 #include "debug.h"
+#include "point.h"
 
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL_image.h>
-#   else
-#       include <SDL_image.h>
-#   endif
-#endif // TILES
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#   include <SDL2/SDL_image.h>
+#else
+#   include <SDL_image.h>
+#endif
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -90,9 +89,9 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                   "SDL_SetRenderDrawColor failed" );
 }
 
-void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y )
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p )
 {
-    printErrorIf( SDL_RenderDrawPoint( renderer.get(), x, y ) != 0, "SDL_RenderDrawPoint failed" );
+    printErrorIf( SDL_RenderDrawPoint( renderer.get(), p.x, p.y ) != 0, "SDL_RenderDrawPoint failed" );
 }
 
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )

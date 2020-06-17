@@ -1,20 +1,21 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <array>
 #include <map>
 #include <memory>
 #include <set>
-#include <vector>
-#include <array>
 #include <stdexcept>
+#include <vector>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "json.h"
-#include "trait_group.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "trait_group.h"
+#include "translations.h"
 
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
@@ -209,7 +210,7 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
     jo.read( "hardcoded_effect", ret.hardcoded_effect );
 
     if( jo.has_string( "body_part" ) ) {
-        ret.bp = get_body_part_token( jo.get_string( "body_part" ) );
+        ret.bp = bodypart_str_id( jo.get_string( "body_part" ) );
     }
 
     jo.read( "chance", ret.chance );
@@ -259,6 +260,73 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
     trait_factory.load( jo, src );
 }
 
+mut_transform::mut_transform() = default;
+
+bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "target", target );
+    assign( j, "msg_transform", msg_transform );
+    assign( j, "active", active );
+    assign( j, "moves", moves );
+
+    return true;
+}
+
+namespace io
+{
+    // *INDENT-OFF*
+    template<>
+    std::string enum_to_string<trigger_type>(trigger_type trigger_num)
+    {
+        switch (trigger_num) {
+        case trigger_type::PAIN: return "PAIN";
+        case trigger_type::HUNGER: return "HUNGER";
+        case trigger_type::THRIST: return "THIRST";
+        case trigger_type::MOOD: return "MOOD";
+        case trigger_type::STAMINA: return "STAMINA";
+        case trigger_type::MOON: return "MOON";
+        case trigger_type::TIME: return "TIME";
+        case trigger_type::num_trigger: return "undefined trigger";
+        }
+        debugmsg("Invalid trigger_type %d", trigger_num);
+        abort();
+    }
+    // *INDENT-ON*
+} // namespace io
+
+void reflex_activation_data::load( const JsonObject &jsobj )
+{
+    std::string tmp;
+    mandatory( jsobj, was_loaded, "trigger_type", tmp );
+    trigger = io::string_to_enum<trigger_type>( tmp );
+
+    optional( jsobj, was_loaded, "threshold_low",  threshold_low, INT_MIN );
+    optional( jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX );
+
+    if( jsobj.has_object( "msg_on" ) ) {
+        JsonObject jo = jsobj.get_object( "msg_on" );
+        optional( jo, was_loaded, "text", msg_on.first );
+        std::string tmp_rating;
+        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
+        msg_on.second = io::string_to_enum<game_message_type>( tmp_rating );
+    }
+    if( jsobj.has_object( "msg_off" ) ) {
+        JsonObject jo = jsobj.get_object( "msg_off" );
+        optional( jo, was_loaded, "text", msg_off.first );
+        std::string tmp_rating;
+        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
+        msg_off.second = io::string_to_enum<game_message_type>( tmp_rating );
+    }
+}
+
+void reflex_activation_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -292,6 +360,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
     }
+    if( jo.has_object( "transform" ) ) {
+        transform = cata::make_value<mut_transform>();
+        transform->load( jo, "transform" );
+    }
+
+    optional( jo, was_loaded, "triggers", triger_list );
+
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
@@ -330,6 +405,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
     optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
+    optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
@@ -348,11 +424,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, 0.0f );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, 1.0f );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
@@ -365,6 +443,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
 
@@ -404,7 +484,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( get_body_part_token( s ) );
+        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
 
     optional( jo, was_loaded, "category", category, string_reader{} );
@@ -424,7 +504,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
-        const body_part bp = get_body_part_token( ja.next_string() );
+        const bodypart_str_id bp = bodypart_str_id( ja.next_string() );
         lumination.emplace( bp, static_cast<float>( ja.next_float() ) );
     }
 
@@ -435,46 +515,34 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonObject wp : jo.get_array( "wet_protection" ) ) {
-        std::string part_id = wp.get_string( "part" );
         int ignored = wp.get_int( "ignored", 0 );
         int neutral = wp.get_int( "neutral", 0 );
         int good = wp.get_int( "good", 0 );
         tripoint protect = tripoint( ignored, neutral, good );
-        protection[get_body_part_token( part_id )] = protect;
+        protection[bodypart_str_id( wp.get_string( "part" ) )] = protect;
     }
 
     for( JsonArray ea : jo.get_array( "encumbrance_always" ) ) {
-        std::string part_id = ea.next_string();
-        int enc = ea.next_int();
-        encumbrance_always[get_body_part_token( part_id )] = enc;
+        const bodypart_str_id bp = bodypart_str_id( ea.next_string() );
+        const int enc = ea.next_int();
+        encumbrance_always[bp] = enc;
     }
 
     for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
-        std::string part_id = ec.next_string();
+        const bodypart_str_id bp = bodypart_str_id( ec.next_string() );
         int enc = ec.next_int();
-        encumbrance_covered[get_body_part_token( part_id )] = enc;
+        encumbrance_covered[bp] = enc;
     }
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
-        restricts_gear.insert( get_body_part_token( line ) );
+        restricts_gear.insert( bodypart_str_id( line ) );
     }
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
-        auto parts = ao.get_tags( "parts" );
-        std::set<body_part> bps;
-        for( const std::string &part_string : parts ) {
-            if( part_string == "ALL" ) {
-                // Shorthand, since many mutations protect whole body
-                bps.insert( all_body_parts.begin(), all_body_parts.end() );
-            } else {
-                bps.insert( get_body_part_token( part_string ) );
-            }
-        }
+        const resistances res = load_resistances_instance( ao );
 
-        resistances res = load_resistances_instance( ao );
-
-        for( body_part bp : bps ) {
-            armor[ bp ] = res;
+        for( const std::string &part_string : ao.get_tags( "parts" ) ) {
+            armor[bodypart_str_id( part_string )] = res;
         }
     }
 
@@ -532,6 +600,12 @@ void mutation_branch::check_consistency()
         for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
+            }
+        }
+        if( mid->transform ) {
+            const trait_id tid = mid->transform->target;
+            if( !tid.is_valid() ) {
+                debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
             }
         }
         for( const std::pair<species_id, int> elem : an_id ) {
@@ -613,7 +687,14 @@ void dream::load( const JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return a->name() < b->name();
+    if( a->get_display_color() > b->get_display_color() ) {
+        return true;
+    }
+    if( a->get_display_color() < b->get_display_color() ) {
+        return false;
+    }
+
+    return localized_compare( a->name(), b->name() );
 }
 
 void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )

@@ -1,41 +1,44 @@
 #include "debug.h"
 
-#include <sys/stat.h>
-#include <cctype>
-#include <cmath>
-#include <cstdio>
 #include <algorithm>
 #include <cassert>
+#include <cctype>
+#include <cerrno>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <fstream>
 #include <iomanip>
-#include <cstdint>
 #include <iterator>
 #include <locale>
 #include <map>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <sys/stat.h>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "cata_utility.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
+#include "mod_manager.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "optional.h"
+#include "point.h"
 #include "translations.h"
-#include "worldfactory.h"
-#include "mod_manager.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "worldfactory.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -287,7 +290,7 @@ static time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
+                       static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
@@ -1258,7 +1261,7 @@ std::string game_info::mods_loaded()
     std::vector<std::string> mod_names;
     mod_names.reserve( mod_ids.size() );
     std::transform( mod_ids.begin(), mod_ids.end(),
-    std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
+    std::back_inserter( mod_names ), []( const mod_id & mod ) -> std::string {
         // e.g. "Dark Days Ahead [dda]".
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
@@ -1276,9 +1279,10 @@ std::string game_info::game_report()
 
     std::string lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
-    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
+    for( const options_manager::id_and_option &vItem : options_manager::get_lang_options() ) {
         if( vItem.first == lang ) {
             lang_translated = vItem.second.translated();
+            break;
         }
     }
 

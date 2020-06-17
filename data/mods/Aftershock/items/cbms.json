@@ -18,15 +18,6 @@
     "difficulty": 4
   },
   {
-    "id": "afs_bio_precision_solderers",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Precision Solderers CBM" },
-    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
-    "price": 20000,
-    "difficulty": 3
-  },
-  {
     "id": "afs_bio_missiles",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -53,6 +44,16 @@
     "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
     "price": 1000000,
     "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
+    "id": "afs_bio_cranialbomb",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Cranium Bomb" },
+    "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
+    "price": 0,
+    "price_postapoc": 0,
     "difficulty": 8
   }
 ]

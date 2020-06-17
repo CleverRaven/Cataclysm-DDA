@@ -4,8 +4,7 @@
 #include <utility>
 
 #include "calendar.h"
-#include "debug.h"
-#include "effect.h"
+#include "int_id.h"
 
 int field_entry::move_cost() const
 {
@@ -70,6 +69,11 @@ mongroup_id field_entry::monster_spawn_group() const
 float field_entry::light_emitted() const
 {
     return type.obj().get_light_emitted( intensity - 1 );
+}
+
+float field_entry::local_light_override() const
+{
+    return type.obj().get_local_light_override( intensity - 1 );
 }
 
 float field_entry::translucency() const

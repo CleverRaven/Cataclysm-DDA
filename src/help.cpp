@@ -9,19 +9,21 @@
 #include <vector>
 
 #include "action.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "input.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "debug.h"
-#include "string_formatter.h"
 
 help &get_help()
 {
@@ -115,7 +117,7 @@ void help::draw_menu( const catacurses::window &win )
                         c_white, c_light_blue, cat_name );
     }
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string help::get_note_colors()
@@ -158,7 +160,7 @@ void help::display_help()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
-        wrefresh( w_help_border );
+        wnoutrefresh( w_help_border );
         draw_menu( w_help );
     } );
 

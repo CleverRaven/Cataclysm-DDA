@@ -1,12 +1,16 @@
+#include <algorithm>
+#include <cmath>
 #include <string>
+#include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "compatibility.h"
 #include "json.h"
+#include "player.h"
+#include "rng.h"
 #include "stomach.h"
 #include "units.h"
-#include "game.h"
-#include "itype.h"
 #include "vitamin.h"
 
 static const trait_id trait_GIZZARD( "GIZZARD" );
@@ -114,7 +118,7 @@ stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
     last_ate = calendar::before_time_starts;
 }
 
-static std::string ml_to_string( units::volume vol )
+static std::string ml_to_string( const units::volume &vol )
 {
     return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
@@ -249,7 +253,7 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
         rates.water = 250_ml;
         rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
         rates.percent_kcal = 0.05f * metabolic_rates.hunger;
-        rates.min_vitamin = round( 100.0 / 24.0 * metabolic_rates.hunger );
+        rates.min_vitamin = std::round( 100.0 / 24.0 * metabolic_rates.hunger );
         rates.percent_vitamin = 0.05f * metabolic_rates.hunger;
     }
     return rates;
@@ -267,10 +271,10 @@ void stomach_contents::mod_calories( int cal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
-void stomach_contents::mod_water( units::volume h2o )
+void stomach_contents::mod_water( const units::volume &h2o )
 {
     if( h2o > 0_ml ) {
         water += h2o;
@@ -282,7 +286,7 @@ void stomach_contents::mod_quench( int quench )
     mod_water( 5_ml * quench );
 }
 
-void stomach_contents::mod_contents( units::volume vol )
+void stomach_contents::mod_contents( const units::volume &vol )
 {
     if( -vol >= contents ) {
         contents = 0_ml;

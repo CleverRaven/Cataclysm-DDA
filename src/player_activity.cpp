@@ -1,17 +1,38 @@
 #include "player_activity.h"
 
 #include <algorithm>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
-#include "map.h"
-#include "game.h"
-#include "player.h"
-#include "sounds.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "construction.h"
+#include "item.h"
 #include "itype.h"
+#include "map.h"
+#include "player.h"
+#include "rng.h"
 #include "skill.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
+#include "value_ptr.h"
+
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -20,13 +41,31 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min ), auto_resume( false )
+    placement( tripoint_min )
 {
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+    actor( actor.clone() )
 {
+}
+
+void player_activity::migrate_item_position( Character &guy )
+{
+    const bool simple_action_replace =
+        type == ACT_FIRSTAID || type == ACT_GAME ||
+        type == ACT_PICKAXE || type == ACT_START_FIRE ||
+        type == ACT_HAND_CRANK || type == ACT_VIBE ||
+        type == ACT_OXYTORCH || type == ACT_FISH ||
+        type == ACT_ATM;
+
+    if( simple_action_replace ) {
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+    } else if( type == ACT_GUNMOD_ADD ) {
+        // this activity has two indices; "position" = gun and "values[0]" = mod
+        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+    }
 }
 
 void player_activity::set_to_null()
@@ -116,7 +155,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
 
         if( type == activity_id( "ACT_BUILD" ) ) {
-            partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
+            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -129,6 +168,16 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
     return extra_info.empty() ? string_format( _( "%s…" ),
             get_verb().translated() ) : string_format( _( "%s: %s" ),
                     get_verb().translated(), extra_info );
+}
+
+void player_activity::start_or_resume( Character &who, bool resuming )
+{
+    if( actor && !resuming ) {
+        actor->start( *this, who );
+    }
+    if( rooted() ) {
+        who.rooted_message();
+    }
 }
 
 void player_activity::do_turn( player &p )
@@ -179,7 +228,7 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == "ACT_TRAVELLING";
+    const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );
@@ -193,7 +242,7 @@ void player_activity::do_turn( player &p )
     // it just sets a destination, clears the activity, then moves afterwards
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
-    // this is to ensure that resting will occur when travelling overburdened
+    // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
@@ -233,6 +282,13 @@ void player_activity::do_turn( player &p )
     }
 }
 
+void player_activity::canceled( Character &who )
+{
+    if( *this && actor ) {
+        actor->canceled( *this, who );
+    }
+}
+
 template <typename T>
 bool containers_equal( const T &left, const T &right )
 {
@@ -243,16 +299,19 @@ bool containers_equal( const T &left, const T &right )
     return std::equal( left.begin(), left.end(), right.begin() );
 }
 
-bool player_activity::can_resume_with( const player_activity &other, const Character & ) const
+bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
 {
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // TODO: Once activity_handler_actors exist, the less ugly method of using a
-    // pure virtual can_resume_with should be used
-
     if( !*this || !other || type->no_resume() ) {
         return false;
+    }
+
+    // if actor XOR other.actor then id() != other.id() so
+    // we will correctly return false based on final return statement
+    if( actor && other.actor ) {
+        return actor->can_resume_with( *other.actor, who );
     }
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
@@ -273,33 +332,21 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
-        // We must be digging in the same location.
-        if( placement != other.placement ) {
-            return false;
-        }
-
-        // And all our parameters must be the same.
-        if( !std::equal( values.begin(), values.end(), other.values.begin() ) ) {
-            return false;
-        }
-
-        if( !std::equal( str_values.begin(), str_values.end(), other.str_values.begin() ) ) {
-            return false;
-        }
-
-        if( !std::equal( coords.begin(), coords.end(), other.coords.begin() ) ) {
-            return false;
-        }
     }
 
     return !auto_resume && id() == other.id() && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
 
-bool player_activity::is_distraction_ignored( distraction_type type ) const
+bool player_activity::is_interruptible() const
 {
-    return ignored_distractions.find( type ) != ignored_distractions.end();
+    return ( type.is_null() || type->interruptable() ) && interruptable;
+}
+
+bool player_activity::is_distraction_ignored( distraction_type distraction ) const
+{
+    return !is_interruptible() ||
+           ignored_distractions.find( distraction ) != ignored_distractions.end();
 }
 
 void player_activity::ignore_distraction( distraction_type type )

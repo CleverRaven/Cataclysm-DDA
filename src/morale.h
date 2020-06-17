@@ -1,24 +1,22 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
-#include <algorithm>
-#include <array>
 #include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class item;
 class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class item;
 struct itype;
 struct morale_mult;
 
@@ -27,13 +25,13 @@ class player_morale
     public:
         player_morale();
 
-        player_morale( player_morale && ) = default;
+        player_morale( player_morale && ) noexcept = default;
         player_morale( const player_morale & ) = default;
         player_morale &operator =( player_morale && ) = default;
         player_morale &operator =( const player_morale & ) = default;
 
         /** Adds morale to existing or creates one */
-        void add( morale_type type, int bonus, int max_bonus = 0,
+        void add( const morale_type &type, int bonus, int max_bonus = 0,
                   const time_duration &duration = 6_minutes, const time_duration &decay_start = 3_minutes,
                   bool capped = false, const itype *item_type = nullptr );
         /** Sets the new level for the permanent morale, or creates one */
@@ -59,6 +57,9 @@ class player_morale
 
         int get_total_positive_value() const;
         int get_total_negative_value() const;
+
+        /** Returns percieved pain. Only used in morale_test.cpp*/
+        int get_percieved_pain() const;
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
@@ -111,7 +112,7 @@ class player_morale
                  *contribution should be bettween [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
-                double get_percent_contribution();
+                double get_percent_contribution() const;
             private:
                 morale_type type;
                 const itype *item_type;
@@ -173,18 +174,18 @@ class player_morale
                 hot( 0 ),
                 cold( 0 ) {}
         };
-        std::array<body_part_data, num_bp> body_parts;
+        std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
         using mutation_handler = std::function<void ( player_morale * )>;
         struct mutation_data {
             public:
                 mutation_data() = default;
-                mutation_data( mutation_handler on_gain_and_loss ) :
+                mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
                     on_loss( on_gain_and_loss ),
                     active( false ) {}
-                mutation_data( mutation_handler on_gain, mutation_handler on_loss ) :
+                mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :
                     on_gain( on_gain ),
                     on_loss( on_loss ),
                     active( false ) {}
@@ -198,7 +199,7 @@ class player_morale
         };
         std::map<trait_id, mutation_data> mutations;
 
-        std::map<std::string, int> super_fancy_items;
+        std::map<itype_id, int> super_fancy_items;
 
         // Mutability is required for lazy initialization
         mutable int level;
@@ -210,4 +211,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

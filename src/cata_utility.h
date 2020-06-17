@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_UTILITY_H
-#define CATA_UTILITY_H
+#ifndef CATA_SRC_CATA_UTILITY_H
+#define CATA_SRC_CATA_UTILITY_H
 
 #include <fstream>
 #include <functional>
@@ -83,6 +83,8 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
 {
     return divide_round_up( num.value(), den.value() );
 }
+
+int divide_round_down( int a, int b );
 
 /**
  * Determine whether a value is between two given boundaries.
@@ -233,6 +235,18 @@ double convert_velocity( int velocity, units_type vel_units );
 double convert_weight( const units::mass &weight );
 
 /**
+ * converts length to largest unit available
+ * 1000 mm = 1 meter for example
+ * assumed to be used in conjunction with unit string functions
+ * also works for imperial units
+ */
+int convert_length( const units::length &length );
+std::string length_units( const units::length &length );
+
+/** convert a mass unit to a string readable by a human */
+std::string weight_to_string( const units::mass &weight );
+
+/**
  * Convert volume from ml to units defined by user.
  */
 double convert_volume( int volume );
@@ -242,6 +256,9 @@ double convert_volume( int volume );
  * optionally returning the units preferred scale.
  */
 double convert_volume( int volume, int *out_scale );
+
+/** convert a volume unit to a string readable by a human */
+std::string vol_to_string( const units::volume &vol );
 
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
@@ -448,7 +465,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -529,4 +546,23 @@ class on_out_of_scope
         }
 };
 
-#endif // CAT_UTILITY_H
+template<typename T>
+class restore_on_out_of_scope
+{
+    private:
+        T &t;
+        T orig_t;
+        on_out_of_scope impl;
+    public:
+        // *INDENT-OFF*
+        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+
+        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+        // *INDENT-ON*
+};
+
+#endif // CATA_SRC_CATA_UTILITY_H

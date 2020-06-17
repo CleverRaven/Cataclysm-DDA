@@ -6,15 +6,20 @@ find_package(Clang REQUIRED CONFIG)
 add_library(
     CataAnalyzerPlugin MODULE
     CataTidyModule.cpp
+    CombineLocalsIntoPointCheck.cpp
+    DeterminismCheck.cpp
+    HeaderGuardCheck.cpp
     JsonTranslationInputCheck.cpp
     NoLongCheck.cpp
     NoStaticGettextCheck.cpp
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
+    StaticStringIdConstantsCheck.cpp
     StringLiteralIterator.cpp
     TestFilenameCheck.cpp
     TextStyleCheck.cpp
     TranslatorCommentsCheck.cpp
+    UseLocalizedSortingCheck.cpp
     UseNamedPointConstantsCheck.cpp
     UsePointApisCheck.cpp
     UsePointArithmeticCheck.cpp

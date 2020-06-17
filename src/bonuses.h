@@ -1,12 +1,12 @@
 #pragma once
-#ifndef BONUSES_H
-#define BONUSES_H
+#ifndef CATA_SRC_BONUSES_H
+#define CATA_SRC_BONUSES_H
 
 #include <map>
 #include <vector>
 #include <string>
 
-enum damage_type : int;
+#include "damage.h"
 
 class Character;
 class JsonObject;
@@ -21,17 +21,19 @@ enum scaling_stat : int {
     NUM_STATS
 };
 
-enum affected_stat : int {
-    AFFECTED_NULL = 0,
-    AFFECTED_HIT,
-    AFFECTED_DODGE,
-    AFFECTED_BLOCK,
-    AFFECTED_SPEED,
-    AFFECTED_MOVE_COST,
-    AFFECTED_DAMAGE,
-    AFFECTED_ARMOR,
-    AFFECTED_ARMOR_PENETRATION,
-    AFFECTED_TARGET_ARMOR_MULTIPLIER,
+enum class affected_stat : int {
+    NONE = 0,
+    HIT,
+    CRITICAL_HIT_CHANCE,
+    DODGE,
+    BLOCK,
+    BLOCK_EFFECTIVENESS,
+    SPEED,
+    MOVE_COST,
+    DAMAGE,
+    ARMOR,
+    ARMOR_PENETRATION,
+    TARGET_ARMOR_MULTIPLIER,
     NUM_AFFECTED
 };
 
@@ -52,8 +54,8 @@ struct affected_type {
         }
 
     private:
-        affected_stat stat = affected_stat::AFFECTED_NULL;
-        damage_type type;
+        affected_stat stat = affected_stat::NONE;
+        damage_type type = damage_type::DT_NULL;
 };
 
 // This is the bonus we are indexing
@@ -89,4 +91,4 @@ class bonus_container
         bonus_map bonuses_mult;
 };
 
-#endif
+#endif // CATA_SRC_BONUSES_H

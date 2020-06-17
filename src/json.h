@@ -1,20 +1,23 @@
 #pragma once
-#ifndef JSON_H
-#define JSON_H
+#ifndef CATA_SRC_JSON_H
+#define CATA_SRC_JSON_H
 
-#include <cstddef>
-#include <type_traits>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <bitset>
 #include <array>
+#include <bitset>
+#include <cstddef>
+#include <cstdint>
+#include <iostream>
 #include <map>
 #include <set>
 #include <stdexcept>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -30,10 +33,10 @@
  * Further documentation can be found below.
  */
 
-class JsonObject;
 class JsonArray;
-class JsonSerializer;
 class JsonDeserializer;
+class JsonObject;
+class JsonSerializer;
 class JsonValue;
 
 namespace cata
@@ -41,9 +44,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-
-template<typename T>
-class string_id;
 
 class JsonError : public std::runtime_error
 {
@@ -720,6 +720,10 @@ class JsonOut
             member( name );
             write( value );
         }
+        template <typename T> void member_as_string( const std::string &name, const T &value ) {
+            member( name );
+            write_as_string( value );
+        }
 };
 
 /* JsonObject
@@ -827,6 +831,7 @@ class JsonObject
         }
 
         class const_iterator;
+
         friend const_iterator;
 
         const_iterator begin() const;
@@ -839,8 +844,8 @@ class JsonObject
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
-        [[noreturn]] void throw_error( std::string err ) const;
-        [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err, const std::string &name ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1017,8 +1022,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        [[noreturn]] void throw_error( std::string err );
-        [[noreturn]] void throw_error( std::string err, int idx );
+        [[noreturn]] void throw_error( const std::string &err );
+        [[noreturn]] void throw_error( const std::string &err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1082,10 +1087,10 @@ class JsonArray
             return jsin->read( t );
         }
         // random-access read values by reference
-        template <typename T> bool read( size_t i, T &t ) const {
+        template <typename T> bool read( size_t i, T &t, bool throw_on_error = false ) const {
             verify_index( i );
             jsin->seek( positions[i] );
-            return jsin->read( t );
+            return jsin->read( t, throw_on_error );
         }
 };
 
@@ -1119,8 +1124,8 @@ class JsonValue
             return seek().get_array();
         }
         template<typename T>
-        bool read( T &t ) const {
-            return seek().read( t );
+        bool read( T &t, bool throw_on_error = false ) const {
+            return seek().read( t, throw_on_error );
         }
 
         bool test_string() const {
@@ -1407,8 +1412,8 @@ void deserialize( cata::optional<T> &obj, JsonIn &jsin )
         obj.reset();
     } else {
         obj.emplace();
-        jsin.read( *obj );
+        jsin.read( *obj, true );
     }
 }
 
-#endif
+#endif // CATA_SRC_JSON_H

@@ -1,11 +1,12 @@
 #include <memory>
 
 #include "catch/catch.hpp"
-#include "creature.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "creature_in_field", "[monster],[field]" )
 {
