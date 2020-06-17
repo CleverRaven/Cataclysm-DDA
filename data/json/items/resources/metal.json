@@ -33,7 +33,7 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "type": "GENERIC",
@@ -102,7 +102,7 @@
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "gold_small",
@@ -120,7 +120,7 @@
     "material": [ "gold" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "platinum_small",
@@ -138,7 +138,7 @@
     "material": [ "platinum" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "zinc_metal",
@@ -155,7 +155,7 @@
     "material": [ "zinc" ],
     "symbol": "/",
     "color": "blue",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "lead",
@@ -173,7 +173,7 @@
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "magnesium",
@@ -192,7 +192,7 @@
     "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "silver_small",
@@ -210,7 +210,7 @@
     "material": [ "silver" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "sheet_metal_small",
@@ -230,7 +230,7 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "id": "steel_chunk",
@@ -289,7 +289,7 @@
     "material": [ "steel" ],
     "symbol": "%",
     "color": "light_cyan",
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "type": "GENERIC",
@@ -321,7 +321,7 @@
     "volume": "50ml",
     "weight": "2 g",
     "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 100,
     "stack_size": 200
   },
@@ -339,7 +339,7 @@
     "volume": "50ml",
     "weight": "2 g",
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 200
   }
 ]
