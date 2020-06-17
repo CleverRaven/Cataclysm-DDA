@@ -277,7 +277,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( item &liquid, int qty = INT_MAX );
+        bool fill_with( item &liquid );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;

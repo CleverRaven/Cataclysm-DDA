@@ -385,13 +385,21 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     }
 }
 
-bool vehicle_part::fill_with( item &liquid, int qty )
+bool vehicle_part::fill_with( item &liquid )
 {
     if( !is_tank() || !can_reload( liquid ) ) {
         return false;
     }
 
-    liquid.charges -= base.fill_with( *liquid.type, qty );
+    int charges_max = base.ammo_capacity(item::find_type(base.ammo_current() )->ammo->type ) - base.ammo_remaining();
+    int qty = liquid.charges;
+
+    if (charges_max < liquid.charges) {
+        qty = liquid.charges - charges_max;
+    }
+
+    liquid.charges -= qty;
+    base.fill_with( *liquid.type, qty );
     return true;
 }
 
