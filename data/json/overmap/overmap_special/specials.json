@@ -979,7 +979,7 @@
       { "point": [ 1, 1, -1 ], "overmap": "prison_1_b_4_north" },
       { "point": [ -1, 2, -1 ], "overmap": "prison_1_b_9_hidden_north" },
       { "point": [ 0, 2, -1 ], "overmap": "prison_1_b_8_hidden_lab_stairs_north" },
-      { "point": [ 1, 2, -1 ], "overmap": "prison_1_b_7_hidden_north" }
+      { "point": [ 1, 2, -1 ], "overmap": "prison_1_b_7_hidden_north" },
       { "point": [ -1, 0, 1 ], "overmap": "prison_1_2f_3_north" },
       { "point": [ 0, 0, 1 ], "overmap": "prison_1_2f_2_north" },
       { "point": [ 1, 0, 1 ], "overmap": "prison_1_2f_1_north" },
