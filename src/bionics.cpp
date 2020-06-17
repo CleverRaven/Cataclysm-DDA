@@ -1289,6 +1289,7 @@ bool Character::burn_fuel( int b, bool start )
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
+                
             } else {
                 if( current_fuel_stock > 0 ) {
                     map &here = get_map();
@@ -2834,6 +2835,7 @@ void bionic::toggle_safe_fuel_mod()
         set_flag( flag_SAFE_FUEL_OFF );
         set_safe_fuel_thresh( 2.0 );
     } else {
+<<<<<<< HEAD
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
@@ -2880,13 +2882,13 @@ void bionic::toggle_auto_start_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        if( get_safe_fuel_thresh() > 0.25 ) {
+        if (get_safe_fuel_thresh() > 0.25){
             tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
         }
-        if( get_safe_fuel_thresh() > 0.50 ) {
+        if (get_safe_fuel_thresh() > 0.50){
             tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
         }
-        if( get_safe_fuel_thresh() > 0.75 ) {
+        if (get_safe_fuel_thresh() > 0.75){
             tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
         }
         tmenu.query();
