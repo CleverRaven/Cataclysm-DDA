@@ -2343,7 +2343,7 @@
     "volume": "97 L",
     "weight": "34500 g",
     "bashing": 8,
-    "ammo_type": [ "mininuke_mod" ],
+    "ammo_type": "mininuke_mod",
     "damage": { "damage_type": "stab", "amount": 14 },
     "stack_size": 2,
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ]
