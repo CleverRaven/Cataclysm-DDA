@@ -19,7 +19,6 @@ struct projectile {
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
         int speed;
         int range;
-        float critical_multiplier;
 
         std::set<std::string> proj_effects;
 

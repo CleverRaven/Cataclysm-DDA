@@ -17,7 +17,6 @@
     "dispersion": 250,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_2" ]
   },
   {
@@ -38,7 +37,6 @@
     "dispersion": 180,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_6" ]
   },
   {
@@ -81,7 +79,6 @@
     "loudness": 0,
     "count": 10,
     "show_stats": true,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_8" ]
   },
   {
@@ -102,7 +99,6 @@
     "dispersion": 110,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_25" ]
   },
   {
@@ -123,7 +119,6 @@
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_30" ]
   },
   {
@@ -165,7 +160,6 @@
     "loudness": 0,
     "count": 10,
     "show_stats": true,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_20" ]
   },
   {
@@ -187,7 +181,6 @@
     "dispersion": 70,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_35" ]
   },
   {
@@ -210,7 +203,6 @@
     "dispersion": 65,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_40" ]
   },
   {
@@ -233,7 +225,6 @@
     "dispersion": 70,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_45", "NOGIB" ]
   },
   {
@@ -257,7 +248,6 @@
     "loudness": 0,
     "count": 10,
     "stack_size": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_30" ]
   },
   {
@@ -326,7 +316,6 @@
     "color": "green",
     "name": { "str": "pistol crossbow" },
     "description": "A small concealable pistol-like crossbow.  It's weak due to its small size and draw, so it is best suited for hunting small game.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
-    "//": "27in Fiberglass pistol crossbow at 11in draw, 48J, 80 lbs draw, 0.3 Slugs with 30g bolt.",
     "price": 55000,
     "price_postapoc": 2500,
     "material": [ "steel", "plastic" ],
@@ -336,7 +325,7 @@
     "weight": "900 g",
     "volume": "500 ml",
     "bashing": 4,
-    "ranged_damage": { "damage_type": "stab", "amount": 3 },
+    "ranged_damage": { "damage_type": "stab", "amount": 20 },
     "range": 6,
     "dispersion": 400,
     "durability": 6,
@@ -362,7 +351,6 @@
     "color": "green",
     "name": { "str": "crossbow" },
     "description": "A slow-loading hand weapon that launches bolts.  Stronger people can reload it much faster.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
-    "//": "150lb @ 10in powerstroke, 34in wood limbs, 37.7J, 0.337 slugs with a 0.066lb bolt",
     "price": 6000,
     "price_postapoc": 3500,
     "material": [ "wood" ],
@@ -375,7 +363,7 @@
     "bashing": 11,
     "to_hit": 1,
     "loudness": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "stab", "amount": 30 },
     "range": 9,
     "dispersion": 375,
     "durability": 6,
@@ -392,7 +380,6 @@
     "name": { "str": "composite crossbow" },
     "reload_noise_volume": 4,
     "description": "A slightly larger, more powerful crossbow utilizing composite material limbs and somewhat more modern design practices.",
-    "//": "160lb draw, 16in powerstroke, 34in limbs, 51J, 0.394 slugs with 30 gram bolt",
     "price": 89000,
     "price_postapoc": 4000,
     "material": [ "wood", "bone" ],
@@ -404,7 +391,7 @@
     "volume": "1750 ml",
     "bashing": 11,
     "to_hit": 1,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "stab", "amount": 35 },
     "range": 16,
     "loudness": 8,
     "dispersion": 350,
@@ -432,7 +419,6 @@
     "name": { "str": "compound crossbow" },
     "reload_noise_volume": 4,
     "description": "A high-power crossbow with shaped cams and extra cables for high-power shots.  Takes less time to reload due to a modern string-pulling system.",
-    "//": "27in Carbon fiber compound crossbow at 17in draw with 20in, 197J, 175 lbs draw, 0.636 Slugs with 300grain quarrels.",
     "price": 200000,
     "material": [ "steel", "plastic" ],
     "flags": "PRIMITIVE_RANGED_WEAPON",
@@ -444,7 +430,7 @@
     "price_postapoc": 6000,
     "bashing": 11,
     "to_hit": 1,
-    "ranged_damage": { "damage_type": "stab", "amount": 13 },
+    "ranged_damage": { "damage_type": "stab", "amount": 33 },
     "range": 22,
     "loudness": 12,
     "dispersion": 325,
@@ -473,7 +459,6 @@
     "name": { "str": "heavy crossbow" },
     "description": "A HUGE medieval crossbow from Germany with a very slow, difficult reloading process not suited for unskilled users.  Its tension is so powerful that you feel it shake after firing.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
     "price": 32400,
-    "//": "800 lbs, 40in steel limbs, 0.41 Slugs with a 30g bolt, 2.0 slugs with a special 0.5 lb bolt",
     "material": [ "iron", "wood" ],
     "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
     "skill": "rifle",
@@ -483,7 +468,7 @@
     "price_postapoc": 4000,
     "bashing": 20,
     "to_hit": -1,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "stab", "amount": 50 },
     "range": 30,
     "dispersion": 300,
     "recoil": 30,
@@ -501,7 +486,6 @@
     "color": "green",
     "name": { "str": "repeating crossbow" },
     "description": "A custom-made crossbow with a clever mechanism that loads and fires bolts in a single motion, it has a wooden magazine that holds 10 bolts.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
-    "//": "Cho-ku-no style repeating crossbow, very short draw and very light pull. 30lb draw weight, 10 in draw distance. 0.25 Slugs",
     "price": 324000,
     "material": [ "steel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
@@ -512,7 +496,7 @@
     "price_postapoc": 6000,
     "bashing": 13,
     "to_hit": -1,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 8,
     "dispersion": 500,
     "recoil": 30,

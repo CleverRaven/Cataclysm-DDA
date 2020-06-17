@@ -1811,9 +1811,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.emplace_back( "AMMO", _( "Recoil: " ), "",
                                iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
-            info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
-        }
     }
 
     std::vector<std::string> fx;
@@ -1901,13 +1898,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
-
-    if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
-            info.push_back( iteminfo( "GUN", _( "Critical multiplier: " ), "<num>",
-                                      iteminfo::no_flags, curammo->ammo->critical_multiplier ) );
-        }
-    }
 
     int max_gun_range = loaded_mod->gun_range( &g->u );
     if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {

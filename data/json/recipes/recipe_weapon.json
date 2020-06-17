@@ -721,7 +721,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
+      { "id": "SAW_W", "level": 1 }
     ],
     "components": [
       [ [ "2x4", 2 ], [ "stick", 3 ] ],
@@ -748,7 +748,7 @@
       [ "scots_cookbook", 6 ],
       [ "textbook_armschina", 5 ]
     ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
@@ -767,7 +767,7 @@
       [ "scots_cookbook", 6 ],
       [ "textbook_armschina", 6 ]
     ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
@@ -781,7 +781,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 3 ], [ "book_archery", 2 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "cordage_superior", 3, "LIST" ] ], [ [ "leather", 1 ] ] ]
   },
   {

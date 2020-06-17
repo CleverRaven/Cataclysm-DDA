@@ -17,7 +17,6 @@
     "dispersion": 250,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_2" ]
   },
   {
@@ -39,7 +38,6 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_30" ]
   },
   {
@@ -104,7 +102,6 @@
     "dispersion": 110,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_25" ]
   },
   {
@@ -126,7 +123,6 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_6" ]
   },
   {
@@ -148,7 +144,6 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_35", "NOGIB" ]
   },
   {
@@ -172,7 +167,6 @@
     "loudness": 0,
     "count": 10,
     "show_stats": true,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_8" ]
   },
   {
@@ -195,7 +189,6 @@
     "loudness": 0,
     "count": 10,
     "show_stats": true,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_20" ]
   },
   {
@@ -219,7 +212,6 @@
     "dispersion": 75,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_35" ]
   },
   {
@@ -243,7 +235,6 @@
     "dispersion": 75,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_40" ]
   },
   {
@@ -267,7 +258,6 @@
     "dispersion": 75,
     "loudness": 0,
     "count": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_45", "NOGIB" ]
   },
   {
@@ -291,7 +281,6 @@
     "loudness": 0,
     "count": 10,
     "stack_size": 10,
-    "critical_multiplier": 10,
     "effects": [ "RECOVER_30" ]
   },
   {
@@ -350,7 +339,6 @@
     "dispersion": 285,
     "loudness": 0,
     "count": 5,
-    "critical_multiplier": 10,
     "effects": [ "IGNITE" ]
   },
   {
@@ -362,7 +350,6 @@
     "name": { "str": "self bow" },
     "description": "A primitive bow fashioned from a single piece of wood, made specifically for the person using it.  Weak and wildly inaccurate, it doesn't work that well, unfortunately…",
     "price": 150,
-    "//": "30 lb draw weight, 52in, 20in draw, 0.259 slugs of momentum with a 30g arrow.",
     "material": "wood",
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "reload_noise_volume": 3,
@@ -375,7 +362,7 @@
     "price_postapoc": 50,
     "bashing": 6,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "stab", "amount": 10 },
     "range": 8,
     "dispersion": 1250,
     "durability": 4,
@@ -390,7 +377,6 @@
     "name": { "str": "short bow" },
     "description": "Though not as powerful as the longbow, this bow is quicker and easier to draw, and can be used effectively by those of average strength.  Good for small game or the survivor on the go.",
     "price": 16000,
-    "//": "52in Elm Shortbow at 24in draw with 26in, 0.077 lb aspen arrow: 45J, 50 lbs draw, 0.35 slugs with 30g arrow.",
     "material": "wood",
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
@@ -403,7 +389,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "stab", "amount": 13 },
     "range": 10,
     "dispersion": 1000,
     "durability": 6,
@@ -419,7 +405,6 @@
     "name": { "str": "compound bow" },
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
     "price": 55000,
-    "//": "60 lb draw weight 24in draw, 100J, 0.55 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
@@ -432,7 +417,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 18,
     "dispersion": 850,
     "durability": 6,
@@ -452,9 +437,8 @@
     "type": "GUN",
     "name": { "str": "compound bow (high)", "str_pl": "compound bows (high)" },
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
-    "//": "80 lb draw weight, efficient, 0.62 slugs of momentum with a 30g arrow.",
     "min_strength": 11,
-    "ranged_damage": { "damage_type": "stab", "amount": 12 },
+    "ranged_damage": { "damage_type": "stab", "amount": 20 },
     "use_action": {
       "menu_text": "Loosen Limbs",
       "type": "transform",
@@ -469,9 +453,8 @@
     "type": "GUN",
     "name": { "str": "compound bow (low)", "str_pl": "compound bows (low)" },
     "description": "A high-power bow with shaped cams and extra cables for high velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
-    "//": "40 lb draw weight, efficient, 0.45 slugs of momentum with a 30g arrow.",
     "min_strength": 7,
-    "ranged_damage": { "damage_type": "stab", "amount": 7 },
+    "ranged_damage": { "damage_type": "stab", "amount": 14 },
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -489,7 +472,6 @@
     "name": { "str": "composite bow" },
     "description": "A bow made from multiple materials for increased energy efficiency.  Complicated to make, but stronger than an all-wood short bow.",
     "price": 32000,
-    "//": "90 lb draw weight, 28in draw, 70J, 0.464 slugs of momentum with a 0.066lb arrow.",
     "material": [ "wood", "bone" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
@@ -502,7 +484,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 8 },
+    "ranged_damage": { "damage_type": "stab", "amount": 22 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,
@@ -518,7 +500,6 @@
     "name": { "str": "recurve bow" },
     "description": "A modern bow that curves away from the archer at the tips for increased power, which can be used effectively by those of somewhat above-average strength.  Good and easy to use, but nothing special.",
     "price": 38000,
-    "//": "60in Fiberglass recurved bow at 26in draw, 80lb draw, 54J, 0.403 slugs with 30g arrow.",
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
@@ -531,7 +512,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "stab", "amount": 17 },
     "range": 14,
     "dispersion": 850,
     "durability": 6,
@@ -547,7 +528,6 @@
     "name": { "str": "reflex bow" },
     "description": "A bow with limbs that curve away from the archer near the riser for power.  Smaller than some bows, but decently powerful and quick.",
     "price": 42000,
-    "//": "60in fine wood (e.g. ossage orange) reflex bow, 60 lbs draw, 60J, 0.41 slugs with a 30g arrow.",
     "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
@@ -560,7 +540,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,
@@ -577,7 +557,6 @@
     "description": "A modernized, six-foot longbow that curves away from the archer at the tips for increased power.  It can be used effectively by those of somewhat above-average strength.  Designed for archers that appreciate the smoothness of a traditional longbow, but desire the superior power of a modern recurve.",
     "price": 38000,
     "material": [ "steel", "plastic", "wood" ],
-    "//": "60in Fiberglass bow at 28in draw with 29in, 52J, 80 lbs draw, 0.6 slugs. bullshit stats, but this is a nonsense bow.",
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 11,
@@ -589,7 +568,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "stab", "amount": 22 },
     "range": 14,
     "dispersion": 850,
     "durability": 6,
@@ -604,7 +583,6 @@
     "name": { "str": "longbow" },
     "description": "A six-foot wooden bow that takes a fair amount of strength to draw.  It can be used effectively by those of somewhat above-average strength.  Used mainly in medieval England in wartime, but pierces zombie hide just as well as chainmail.",
     "price": 50000,
-    "//": "70in Yew Longbow at 28in, 60 lbs draw, 45J, 0.37 slugs with 30g arrow",
     "material": "wood",
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
@@ -631,7 +609,6 @@
     "name": { "str": "wooden greatbow" },
     "description": "An extremely large and stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 150000,
-    "//": "78in Yew Longbow at 30in draw with 31in, 145 lbs draw, 0.51 slugs with 30g arrow.",
     "min_strength": 17,
     "weight": "3200 g",
     "volume": "6250 ml",
@@ -639,7 +616,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 7, "material_thickness": 2, "encumbrance": 25 },
     "durability": 8,
     "loudness": 16,
-    "ranged_damage": { "damage_type": "stab", "amount": 11 },
+    "ranged_damage": { "damage_type": "stab", "amount": 27 },
     "range": 20
   },
   {
@@ -651,7 +628,6 @@
     "name": { "str": "compound greatbow" },
     "description": "An extremely large and powerful compound bow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 160000,
-    "//": "120 lb draw weight, very efficient, 0.5 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT" ],
     "skill": "archery",
@@ -664,7 +640,7 @@
     "reload_noise_volume": 4,
     "loudness": 20,
     "durability": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 11 },
+    "ranged_damage": { "damage_type": "stab", "amount": 25 },
     "range": 22,
     "dispersion": 1000,
     "clip_size": 1,
@@ -679,7 +655,6 @@
     "name": { "str": "reflex recurve bow" },
     "description": "A modernized bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer, and reinforced with composite materials.  This dramatically increases the power and requires significant strength to draw the bow effectively, but can still be fired quickly.",
     "price": 72000,
-    "//": "50in wood reflex bow, 50 lbs draw, 0.4 slugs, this is a very inaccurate number but this bow should be deprecated.",
     "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
@@ -692,7 +667,7 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 3,
     "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "ranged_damage": { "damage_type": "stab", "amount": 13 },
     "range": 18,
     "dispersion": 950,
     "durability": 6,

@@ -2380,7 +2380,6 @@ static projectile make_gun_projectile( const item &gun )
         }
 
         const auto &ammo = gun.ammo_data()->ammo;
-        proj.critical_multiplier = ammo->critical_multiplier;
         if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {

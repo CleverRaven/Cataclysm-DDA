@@ -725,11 +725,6 @@ struct islot_ammo : common_ranged_data {
     bool special_cookoff = false;
 
     /**
-     * The damage multiplier to apply after a critical hit.
-     */
-    float critical_multiplier = 2.0;
-
-    /**
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */

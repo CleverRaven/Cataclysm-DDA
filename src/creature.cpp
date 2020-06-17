@@ -615,8 +615,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     body_part bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    // Headshots considered elsewhere
-    if( hit_value <= 0.4 || magic ) {
+    if( goodhit < accuracy_critical && hit_value <= 0.2 ) {
+        bp_hit = bp_head;
+    } else if( hit_value <= 0.4 || magic ) {
         bp_hit = bp_torso;
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
@@ -634,35 +635,20 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    const float crit_multiplier = proj.critical_multiplier;
-    const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot && max_damage * crit_multiplier > get_hp_max( hp_head ) ) {
-        message = _( "Headshot!" );
-        gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float( 0.95, 1.05 );
-        damage_mult *= crit_multiplier;
-        bp_hit = bp_head; // headshot hits the head, of course
-    } else if( goodhit < accuracy_critical && max_damage * crit_multiplier > get_hp_max( hp_torso ) ) {
+    } else if( goodhit < accuracy_critical ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
-        damage_mult *= rng_float( 0.75, 1.0 );
-        damage_mult *= crit_multiplier;
-    } else if( goodhit < accuracy_goodhit ) {
-        message = _( "Good hit!" );
-        gmtSCTcolor = m_good;
-        damage_mult *= rng_float( 0.5, 0.75 );
-        damage_mult *= std::sqrt( 2.0 * crit_multiplier );
+        damage_mult *= 1.5;
     } else if( goodhit < accuracy_standard ) {
-        damage_mult *= rng_float( 0.5, 1 );
-
+        damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_grazing ) {
         message = _( "Grazing hit." );
         gmtSCTcolor = m_grazing;
-        damage_mult *= rng_float( 0, .25 );
+        damage_mult *= 0.5;
     }
 
     if( print_messages && source != nullptr && !message.empty() && u_see_this ) {

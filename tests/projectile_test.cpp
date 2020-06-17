@@ -17,7 +17,6 @@ static tripoint projectile_end_point( const std::vector<tripoint> &range, const 
     test_proj.range = proj_range;
     test_proj.impact = gun.gun_damage();
     test_proj.proj_effects = gun.ammo_effects();
-    test_proj.critical_multiplier = gun.ammo_data()->ammo->critical_multiplier;
 
     dealt_projectile_attack attack;
 
