@@ -51,7 +51,7 @@
     "weight": "500 g",
     "//": "density is around 2g/cm3",
     "bashing": 1,
-    "ammo_type": [ "components" ]
+    "ammo_type": "components"
   },
   {
     "type": "AMMO",
