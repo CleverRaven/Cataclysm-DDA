@@ -67,7 +67,7 @@
     "volume": "250 ml",
     "weight": "20 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 50
   },
   {
@@ -84,7 +84,7 @@
     "volume": "250 ml",
     "weight": "14 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 50
   },
   {
@@ -101,7 +101,7 @@
     "volume": "250 ml",
     "weight": "15 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 50
   },
   {
@@ -118,7 +118,7 @@
     "volume": "250 ml",
     "weight": "8 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "count": 50
   },
   {
@@ -135,7 +135,7 @@
     "volume": "5L",
     "weight": "6500 g",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "stack_size": 1
   },
   {
