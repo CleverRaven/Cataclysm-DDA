@@ -6632,22 +6632,20 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( mut.second.powered ) {
-            float curr_lum = 0.0f;
-            for( const std::pair<bodypart_str_id, float> elem : mut.first->lumination ) {
-                int coverage = 0;
-                for( const item &i : worn ) {
-                    if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                        !i.has_flag( flag_SEMITANGIBLE ) &&
-                        !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                        coverage += i.get_coverage();
-                    }
+    for( const const trait_id &mut : get_mutations() ) {
+        float curr_lum = 0.0f;
+        for( const std::pair<bodypart_str_id, float> &elem : mut->lumination ) {
+            int coverage = 0;
+            for( const item &i : worn ) {
+                if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    !i.has_flag( flag_SEMITANGIBLE ) &&
+                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+                    coverage += i.get_coverage();
                 }
-                curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
             }
-            mut_lum += curr_lum;
+            curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
         }
+        mut_lum += curr_lum;
     }
 
     lumination = std::max( lumination, mut_lum );
