@@ -1708,8 +1708,10 @@ void inventory_selector::on_input( const inventory_input &input )
     } else if( input.action == "RIGHT" ) {
         toggle_active_column( scroll_direction::FORWARD );
     } else {
-        for( auto &elem : columns ) {
-            elem->on_input( input );
+        if( has_available_choices() ) {
+            for( inventory_column *elem : columns ) {
+                elem->on_input( input );
+            }
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
         if( input.action == "TOGGLE_FAVORITE" ) {
