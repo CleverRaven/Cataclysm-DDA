@@ -32,7 +32,7 @@
     "weight": "320 mg",
     "//": "Density: 2g/cm3.  NOTE: Weights for chemical powders are 1/100 mol.  Weights are given for ONE UNIT.  Volume is for all units.",
     "bashing": 1,
-    "ammo_type": [ "components" ],
+    "ammo_type": "components",
     "container": "bottle_plastic_small",
     "count": 100
   },
