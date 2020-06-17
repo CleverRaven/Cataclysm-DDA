@@ -1267,8 +1267,12 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel.str() ) );
             }
 
-            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ((get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency > get_max_power_level()) || ( ((get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency) > (get_max_power_level() * bio.get_safe_fuel_thresh())) 
-                ))){ 
+            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
+                ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency >
+                    get_max_power_level() ) ||
+                  ( ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency ) >
+                      ( get_max_power_level() * bio.get_safe_fuel_thresh() ) )
+                  ) ) ) {
                 if( is_metabolism_powered ) {
                     add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
                                            _( "<npcname>'s %s turns off to not waste calories." ),
@@ -1285,7 +1289,6 @@ bool Character::burn_fuel( int b, bool start )
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
-                
             } else {
                 if( current_fuel_stock > 0 ) {
                     map &here = get_map();
@@ -2831,7 +2834,6 @@ void bionic::toggle_safe_fuel_mod()
         set_flag( flag_SAFE_FUEL_OFF );
         set_safe_fuel_thresh( 2.0 );
     } else {
-        remove_flag( flag_SAFE_FUEL_OFF );
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
@@ -2848,19 +2850,22 @@ void bionic::toggle_safe_fuel_mod()
 
         switch( tmenu.ret ) {
             case 1:
+                remove_flag( flag_SAFE_FUEL_OFF );
                 set_safe_fuel_thresh( 1.0 );
                 break;
             case 2:
+                remove_flag( flag_SAFE_FUEL_OFF );
                 set_safe_fuel_thresh( 0.80 );
                 break;
             case 3:
+                remove_flag( flag_SAFE_FUEL_OFF );
                 set_safe_fuel_thresh( 0.55 );
                 break;
             case 4:
+                remove_flag( flag_SAFE_FUEL_OFF );
                 set_safe_fuel_thresh( 0.30 );
                 break;
             default:
-                set_safe_fuel_thresh( 1.0 );
                 break;
         }
     }
@@ -2875,13 +2880,13 @@ void bionic::toggle_auto_start_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        if (get_safe_fuel_thresh() > 0.25){
+        if( get_safe_fuel_thresh() > 0.25 ) {
             tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
         }
-        if (get_safe_fuel_thresh() > 0.50){
+        if( get_safe_fuel_thresh() > 0.50 ) {
             tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
         }
-        if (get_safe_fuel_thresh() > 0.75){
+        if( get_safe_fuel_thresh() > 0.75 ) {
             tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
         }
         tmenu.query();
