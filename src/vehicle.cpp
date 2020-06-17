@@ -3159,7 +3159,7 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 
 void vehicle::set_submap_moved( const tripoint &p )
 {
-    const point old_msp = g->m.getabs( global_pos3().xy() );
+    const point old_msp = get_map().getabs( global_pos3().xy() );
     sm_pos = p;
     if( !tracking_on ) {
         return;
@@ -6885,7 +6885,8 @@ void vehicle::force_erase_part( int part_num )
 }
 
 std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src,
-        const tripoint &dp, int ramp_offset )
+        const tripoint &dp, int ramp_offset, const bool adjust_pos,
+        std::set<int> parts_to_move )
 {
     map &here = get_map();
     std::set<int> smzs;
@@ -6909,9 +6910,23 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
     // parts that enter the translation portion of a ramp on the same displacement as the
     // pivot point stay at the same relative z to the pivot point, as the ramp_offset adjustments
     // cancel out.
+    // if a vehicle manages move partially up or down a ramp and then veers off course, it
+    // can get split across the z-levels and continue moving, enough though large parts of the
+    // vehicle are unsupported.  In that case, move the unsupported parts down until they are
+    // supported.
+    int index = -1;
     for( vehicle_part &prt : parts ) {
+        index += 1;
         here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
-        prt.precalc[0] = prt.precalc[1];
+        // no parts means this is a normal horizontal or vertical move
+        if( parts_to_move.empty() ) {
+            prt.precalc[0] = prt.precalc[1];
+            // partial part movement means we're zero-ing out after missing a ramp
+        } else if( adjust_pos && parts_to_move.find( index ) == parts_to_move.end() ) {
+            prt.precalc[0].z -= dp.z;
+        } else if( !adjust_pos &&  parts_to_move.find( index ) != parts_to_move.end() ) {
+            prt.precalc[0].z += dp.z;
+        }
         if( here.has_flag( TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
             prt.precalc[0].z += 1;
         } else if( here.has_flag( TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
@@ -6921,10 +6936,13 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
         prt.precalc[1].z = prt.precalc[0].z;
         smzs.insert( prt.precalc[0].z );
     }
-    pivot_anchor[0] = pivot_anchor[1];
-    pivot_rotation[0] = pivot_rotation[1];
-
-    pos = new_pos;
+    if( adjust_pos ) {
+        if( parts_to_move.empty() ) {
+            pivot_anchor[0] = pivot_anchor[1];
+            pivot_rotation[0] = pivot_rotation[1];
+        }
+        pos = new_pos;
+    }
     // Invalidate vehicle's point cache
     occupied_cache_time = calendar::before_time_starts;
     return smzs;
