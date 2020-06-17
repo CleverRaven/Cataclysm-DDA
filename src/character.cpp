@@ -6632,7 +6632,7 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations() ) {
         float curr_lum = 0.0f;
         for( const std::pair<bodypart_str_id, float> &elem : mut->lumination ) {
             int coverage = 0;
