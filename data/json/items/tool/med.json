@@ -60,7 +60,15 @@
     "symbol": "!",
     "color": "light_blue",
     "initial_charges": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "albuterol": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "albuterol": 100 }
+      }
+    ],
     "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
