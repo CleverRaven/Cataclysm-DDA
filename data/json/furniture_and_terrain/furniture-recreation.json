@@ -4,7 +4,7 @@
     "id": "f_exercise",
     "name": "exercise machine",
     "symbol": "T",
-    "description": "A heavy set of weightlifting equipment for strength training, with a pair of heavy weights affixed to opposite ends of a sturdy pipe.  You can adjusts the set by hand-picking the weights you wish to use.",
+    "description": "A heavy set of weightlifting equipment for strength training, with a pair of heavy weights affixed to opposite ends of a sturdy pipe.  You can adjust the set by hand-picking the weights you wish to use.",
     "color": "dark_gray",
     "move_cost_mod": 1,
     "coverage": 35,

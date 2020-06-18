@@ -1318,25 +1318,25 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = g->m.has_flag_furn( "WORKOUT_ARMS", location );
     bool leg_equipment = g->m.has_flag_furn( "WORKOUT_LEGS", location );
-    if( hand_equipment && ( who.is_limb_broken( who.bp_to_hp( bp_arm_l ) ) ||
-                            who.is_limb_broken( who.bp_to_hp( bp_arm_r ) ) ) ) {
+    if( hand_equipment && ( who.is_limb_broken( hp_arm_l ) ) ||
+        who.is_limb_broken( hp_arm_r ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( who.is_limb_broken( who.bp_to_hp( bp_leg_l ) ) ||
-                           who.is_limb_broken( who.bp_to_hp( bp_leg_r ) ) ) ) {
+    if( leg_equipment && ( who.is_limb_broken( hp_leg_l ) ) ||
+        who.is_limb_broken( hp_leg_r ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
     if( !hand_equipment && !leg_equipment &&
-        ( who.is_limb_broken( who.bp_to_hp( bp_arm_l ) ) ||
-          who.is_limb_broken( who.bp_to_hp( bp_arm_r ) ) ||
-          who.is_limb_broken( who.bp_to_hp( bp_leg_l ) ) ||
-          who.is_limb_broken( who.bp_to_hp( bp_leg_r ) ) ) ) {
+        ( who.is_limb_broken( hp_arm_l ) ||
+          who.is_limb_broken( hp_arm_r ) ||
+          who.is_limb_broken( hp_leg_l ) ||
+          who.is_limb_broken( hp_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train freely with a broken limb." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -1418,8 +1418,9 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         }
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
             //~ heavy breathing when excercising
-            sounds::sound( location + tripoint( 1, 0, 0 ), 2 * intensity_modifier, sounds::sound_t::speech,
-                           _( "yourself huffing and puffing!" ), true );
+            std::string huff = _( "yourself huffing and puffing!" );
+            sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
+                           true );
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
