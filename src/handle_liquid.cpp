@@ -334,7 +334,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     map &here = get_map();
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.assign_activity( player_activity( consume_activity_actor( liquid, false ) ) );
+            g->u.assign_activity( player_activity( consume_activity_actor( liquid ) ) );
             liquid.charges--;
             transfer_ok = true;
             break;

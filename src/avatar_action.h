@@ -18,7 +18,8 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you );
-void eat( avatar &you, const item_location &loc, bool open_consume_menu = false );
+void eat( avatar &you, const item_location &loc );
+void eat( avatar &you, const item_location &loc, std::vector<int> consume_menu_selections );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
