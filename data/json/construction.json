@@ -2444,6 +2444,7 @@
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "pre_flags": "RUG",
+    "post_flags": [ "keep_items" ],
     "post_terrain": "t_floor"
   },
   {
@@ -4058,5 +4059,29 @@
     "components": [ [ [ "glass_sheet", 2 ] ] ],
     "pre_terrain": "t_skylight_frame",
     "post_terrain": "t_glass_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet",
+    "description": "Remove Carpet From Concrete Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_flags": "RUG",
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet",
+    "description": "Remove Carpet From Concrete Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_flags": "RUG",
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_metal_floor"
   }
 ]
