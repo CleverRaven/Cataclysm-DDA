@@ -409,12 +409,196 @@
   },
   {
     "type": "terrain",
+    "id": "t_carpet_concrete_red",
+    "name": "industrial red carpet",
+    "description": "Firm, low-pile, high-durability carpet in a red color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "red",
+    "looks_like": "t_carpet_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_concrete_yellow",
+    "name": "industrial yellow carpet",
+    "description": "Firm, low-pile, high-durability carpet in a yellow color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_carpet_yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_concrete_green",
+    "name": "industrial green carpet",
+    "description": "Firm, low-pile, high-durability carpet in a green color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "green",
+    "looks_like": "t_carpet_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_concrete_purple",
+    "name": "industrial purple carpet",
+    "description": "Firm, low-pile, high-durability carpet in a purple color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "purple",
+    "looks_like": "t_carpet_purple",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_carpet_metal",
     "name": "bunker carpet",
     "description": "Firm, low-pile, totally non-flammable carpet in a neutral cream color, with an insulation layer beneath.",
     "symbol": ".",
     "color": "white",
     "looks_like": "t_carpet_yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_metal_red",
+    "name": "bunker red carpet",
+    "description": "Firm, low-pile, totally non-flammable carpet in a red color, with an insulation layer beneath.",
+    "symbol": ".",
+    "color": "white",
+    "looks_like": "t_carpet_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_metal_yellow",
+    "name": "bunker carpet",
+    "description": "Firm, low-pile, totally non-flammable carpet in a yellow color, with an insulation layer beneath.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_carpet_yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_metal_green",
+    "name": "bunker green carpet",
+    "description": "Firm, low-pile, totally non-flammable carpet in a green color, with an insulation layer beneath.",
+    "symbol": ".",
+    "color": "green",
+    "looks_like": "t_carpet_green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_metal_purple",
+    "name": "bunker carpet purple",
+    "description": "Firm, low-pile, totally non-flammable carpet in a purple color, with an insulation layer beneath.",
+    "symbol": ".",
+    "color": "purple",
+    "looks_like": "t_carpet_purple",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
