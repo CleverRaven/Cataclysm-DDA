@@ -100,9 +100,17 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 1000 } } ],
     "ammo": [ "charcoal" ],
     "max_charges": 1000,
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "kiln_pseudo",
+    "type": "TOOL",
+    "name": { "str": "Kiln" },
+    "copy-from": "brick_kiln",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
     "id": "carding_paddles",
