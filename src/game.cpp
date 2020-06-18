@@ -2186,6 +2186,7 @@ int game::inventory_item_menu( item_location locThisItem,
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
+            addentry( 'v', pgettext( "action", "pocket autopickup settings" ), hint_rating::good );
         }
 
         if( oThisItem.is_favorite ) {
@@ -2326,6 +2327,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
+                    break;
+                case 'v':
+                    if( oThisItem.has_pockets() ) {
+                        oThisItem.contents.favorite_settings_menu( oThisItem.tname( 1, false ) );
+                    }
                     break;
                 case 'i':
                     if( oThisItem.has_pockets() ) {
