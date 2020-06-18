@@ -406,7 +406,8 @@
         { "item": "scrap", "count": [ 5, 8 ] },
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -429,7 +430,8 @@
         { "item": "scrap", "count": [ 5, 8 ] },
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "y_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -452,7 +454,8 @@
         { "item": "scrap", "count": [ 5, 8 ] },
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "g_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -475,7 +478,8 @@
         { "item": "scrap", "count": [ 5, 8 ] },
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "p_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -498,7 +502,8 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -522,7 +527,8 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "y_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -545,7 +551,8 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "g_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -568,7 +575,8 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [ { "item": "carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
