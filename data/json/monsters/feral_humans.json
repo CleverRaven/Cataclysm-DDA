@@ -48,7 +48,6 @@
     "id": "mon_feral_human_crowbar",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
-    "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "special_attacks": [
@@ -63,8 +62,7 @@
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "They throw a loose brick at you!"
-      },
-      { "type": "crush", "cooldown": 7 }
+      }
     ]
   },
   {
