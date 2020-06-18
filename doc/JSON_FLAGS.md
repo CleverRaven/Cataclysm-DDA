@@ -791,6 +791,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_reed``` ... Extra water vegetation.
 
 
 ## Material Phases
