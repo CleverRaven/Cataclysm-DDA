@@ -20,7 +20,6 @@
     "effect": "target_attack",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL" ],
-    "effect": "target_attack",
     "min_damage": 10,
     "max_damage": 10,
     "message": "Your head snaps back from the force of the shot.",
