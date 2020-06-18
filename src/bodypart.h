@@ -69,6 +69,22 @@ struct body_part_type;
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
+struct stat_hp_mods {
+
+    float base_mod = 3.0f;
+
+    float str_mod = 1.0f;
+    float dex_mod = 0.0f;
+    float int_mod = 0.0f;
+    float per_mod = 0.0f;
+
+    float health_mod = 0.0f;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
+};
+
 struct body_part_type {
     public:
         bodypart_str_id id;
@@ -112,7 +128,8 @@ struct body_part_type {
         float stylish_bonus = 0;
         int squeamish_penalty = 0;
 
-        int max_hp = 0;
+        int base_hp = 60;
+        stat_hp_mods hp_mods;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -141,13 +158,14 @@ class bodypart
 
         int hp_cur = 0;
         int hp_max = 0;
+
         int healed_total = 0;
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
     public:
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_max( id->max_hp ), hp_cur( id->max_hp ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_max( id->base_hp ), hp_cur( id->base_hp ) {}
 
         bodypart_id get_id() const;
 

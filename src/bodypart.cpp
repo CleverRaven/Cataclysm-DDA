@@ -217,7 +217,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
-    mandatory( jo, was_loaded, "max_hp", max_hp );
+    mandatory( jo, was_loaded, "base_hp", base_hp );
+    optional( jo, was_loaded, "stat_hp_mods", hp_mods );
 
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
@@ -483,4 +484,22 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+}
+
+void stat_hp_mods::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "base_mod", base_mod, 3.0f );
+
+    optional( jo, was_loaded, "str_mod", str_mod, 3.0f );
+    optional( jo, was_loaded, "dex_mod", dex_mod, 0.0f );
+    optional( jo, was_loaded, "int_mod", int_mod, 0.0f );
+    optional( jo, was_loaded, "per_mod", str_mod, 0.0f );
+
+    optional( jo, was_loaded, "health_mod", health_mod, 0.0f );
+}
+
+void stat_hp_mods::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
 }
