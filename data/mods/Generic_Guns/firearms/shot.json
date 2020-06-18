@@ -48,5 +48,27 @@
     "type": "GUN",
     "name": { "str": "bionic shotgun" },
     "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "slam_shotgun",
+    "copy-from": "slam_shotgun",
+    "type": "GUN",
+    "name": { "str": "slam-fire shotgun" },
+    "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "weight": "3629 g",
+    "volume": "2264 ml",
+    "looks_like": "pipe",
+    "price": 8500,
+    "price_postapoc": 1000,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 960,
+    "durability": 4,
+    "clip_size": 1,
+    "modes": [ [ "DEFAULT", "single", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   }
 ]

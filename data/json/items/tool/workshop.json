@@ -189,7 +189,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE",
+    "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -263,7 +263,7 @@
     "initial_charges": 3500,
     "max_charges": 7000,
     "charges_per_use": 3500,
-    "use_action": "JACKHAMMER",
+    "use_action": [ "JACKHAMMER" ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -402,7 +402,7 @@
     "ammo": [ "gasoline" ],
     "max_charges": 400,
     "charges_per_use": 10,
-    "use_action": "JACKHAMMER",
+    "use_action": [ "JACKHAMMER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
@@ -487,7 +487,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER" ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
@@ -602,7 +602,7 @@
     "color": "red",
     "ammo": [ "weldgas" ],
     "charges_per_use": 4,
-    "use_action": "OXYTORCH",
+    "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -645,7 +645,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "use_action": "PICKAXE",
+    "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
@@ -732,7 +732,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER" ],
     "flags": [ "BELT_CLIP" ]
   },
   {

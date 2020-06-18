@@ -69,7 +69,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

@@ -572,5 +572,97 @@
       "zweihander_inferior",
       "zweihander_fake"
     ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_mma_tiger_claw",
+    "name": { "str": "Tiger Claw" },
+    "description": "The Tiger Claw discipline embraces a feral rage that lurks within the heart of its initiates.  In battle, such warriors growl like wild animals, attack with a furry similar to that of a barbarian, and rely on overwhelming, vicious assaults to defeat their enemies.",
+    "initiate": [ "You emit a low growl as you prepare for battle.", "%s hunkers down like a wild animal." ],
+    "learn_difficulty": 10,
+    "primary_skill": "cutting",
+    "static_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_static",
+        "name": "Improved Critical",
+        "description": "Always strike with full force.  Never hold back anything unless you want to die.\n\n+5% critical hit chance.",
+        "skill_requirements": [ { "name": "melee", "level": 5 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "crit_chance", "scale": 5.0 } ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_oncrit",
+        "name": "Blood In The Water",
+        "description": "The smell of blood drives you into a fury.  You want more. NOW!\n\n+1 Accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.15 },
+          { "stat": "damage", "type": "cut", "scale": 1.15 },
+          { "stat": "damage", "type": "stab", "scale": 1.15 }
+        ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_ongethit",
+        "name": "Cornered Predator",
+        "description": "A cornered animal is a terrifying and dangerous creature.  You are no different.\n\n-20% move cost.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 2 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_onkill",
+        "name": "Prey on the Weak",
+        "description": "You scythe through weaker foes like a mighty predator turned loose among a herd of prey.\n\n+30 Speed.\nLasts 2 turns.  Stacks 2 times",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "max_stacks": 2,
+        "flat_bonuses": [ { "stat": "speed", "scale": 30.0 } ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_buff_tiger_claw_onmove",
+        "name": "Pounching Charge",
+        "description": "With the roar of a wild beast, you throw yourself into the fray.  Strike first and strike hard.\n\n+2 Accuracy, +10% damage.\nLasts 1 turn.",
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ],
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
+      }
+    ],
+    "techniques": [ "mma_tec_tiger_claw_break" ],
+    "weapons": [
+      "bagh_nakha",
+      "battleaxe",
+      "battleaxe_inferior",
+      "battleaxe_fake",
+      "bio_claws_weapon",
+      "hand_axe",
+      "hatchet",
+      "kukri",
+      "makeshift_axe"
+    ]
   }
 ]

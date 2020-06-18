@@ -1166,7 +1166,7 @@
     "loudness": 0,
     "count": 7,
     "effects": [ "NEVER_MISFIRES" ],
-    "use_action": "RPGDIE"
+    "use_action": [ "RPGDIE" ]
   },
   {
     "type": "AMMO",
@@ -1188,7 +1188,7 @@
     "loudness": 0,
     "count": 7,
     "effects": [ "NEVER_MISFIRES" ],
-    "use_action": "RPGDIE"
+    "use_action": [ "RPGDIE" ]
   },
   {
     "id": "scrap_bronze",

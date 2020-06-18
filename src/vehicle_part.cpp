@@ -365,8 +365,6 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
     }
-    // crash fix on examine of vehicles with turrets (i.e. firetrucks with water cannons)
-
     if( base.is_gun() ) {
         return false;
     }
@@ -400,7 +398,15 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
+    int charges_max = ammo_capacity( item::find_type( ammo_current() )->ammo->type ) - ammo_remaining();
+    qty = qty < liquid.charges ? qty : liquid.charges;
+
+    if( charges_max < liquid.charges ) {
+        qty = charges_max;
+    }
+
     liquid.charges -= base.fill_with( *liquid.type, qty );
+
     return true;
 }
 

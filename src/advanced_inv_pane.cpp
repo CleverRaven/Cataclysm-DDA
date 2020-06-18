@@ -89,6 +89,9 @@ static std::list<std::list<item *>> item_list_to_stack( std::list<item *> item_l
             if( iter_outer == iter_inner ) {
                 ++iter_inner;
             } else if( ( *iter_outer )->display_stacked_with( **iter_inner ) ) {
+                if( item_stack.empty() ) {
+                    item_stack.push_back( *iter_outer );
+                }
                 item_stack.push_back( *iter_inner );
                 iter_inner = item_list.erase( iter_inner );
             } else {

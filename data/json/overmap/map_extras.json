@@ -391,5 +391,12 @@
     "name": { "str": "Zombie Trap" },
     "description": "Zombie trap.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_city_trap" }
+  },
+  {
+    "id": "mx_reed",
+    "type": "map_extra",
+    "name": { "str": "Reed" },
+    "description": "Water vegetation.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_reed" }
   }
 ]

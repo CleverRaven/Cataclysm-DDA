@@ -47,7 +47,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS",
+    "use_action": [ "BOLTCUTTERS" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -270,7 +270,21 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "sandpaper",
+    "type": "TOOL",
+    "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
+    "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
+    "weight": "10 g",
+    "volume": "500 ml",
+    "price": 1600,
+    "price_postapoc": 10,
+    "material": "paper",
+    "symbol": "`",
+    "color": "brown",
+    "qualities": [ [ "FILE", 1 ] ]
   }
 ]
