@@ -633,6 +633,10 @@ item &item_contents::first_ammo()
 
 const item &item_contents::first_ammo() const
 {
+    if( empty() ) {
+        debugmsg( "Error: Contents has no pockets" );
+        return null_item_reference();
+    }
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             return pocket.front().contents.first_ammo();
