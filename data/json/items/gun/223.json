@@ -193,6 +193,7 @@
     "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
     "weight": "3319 g",
     "volume": "7986 ml",
+    "longest_side": "740 mm",
     "price": 125000,
     "to_hit": -1,
     "bashing": 12,
