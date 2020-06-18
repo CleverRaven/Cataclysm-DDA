@@ -5752,11 +5752,11 @@ void game::peek()
 
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
-        vertical_move( p->z, false );
+        vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
             look_around();
-            vertical_move( p->z * -1, false );
+            vertical_move( p->z * -1, false, true );
             draw_ter();
         }
         wrefresh( w_terrain );
@@ -10133,7 +10133,7 @@ static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
     return cata::nullopt;
 }
 
-void game::vertical_move( int movez, bool force )
+void game::vertical_move( int movez, bool force, bool peeking )
 {
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
@@ -10298,7 +10298,7 @@ void game::vertical_move( int movez, bool force )
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
-        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
+        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
         }
@@ -10552,7 +10552,8 @@ void game::start_hauling( const tripoint &pos )
                                         ) ) );
 }
 
-cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking )
 {
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
@@ -10588,9 +10589,24 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( stairs.has_value() ) {
         if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
+            npc *guy = dynamic_cast<npc *>( blocking_creature );
+            monster *mon = dynamic_cast<monster *>( blocking_creature );
+            bool would_move = ( guy && !guy->is_enemy() ) || ( mon && mon->friendly == -1 );
             bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
-            if( !can_displace ) {
-                add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
+            std::string cr_name = blocking_creature->get_name();
+            std::string msg;
+            if( guy ) {
+                //~ %s is the name of hostile NPC
+                msg = string_format( _( "%s is in the way!" ), cr_name );
+            } else {
+                //~ %s is some monster
+                msg = string_format( _( "There's a %s in the way!" ), cr_name );
+            }
+
+            if( ( peeking && !would_move ) || !can_displace || ( !would_move && !query_yn(
+                        //~ %s is a warning about monster/hostile NPC in the way, e.g. "There's a zombie in the way!"
+                        _( "%s  Attempt to push past?  You may have to fight your way back up." ), msg ) ) ) {
+                add_msg( msg );
                 return cata::nullopt;
             }
         }
