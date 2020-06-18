@@ -4502,7 +4502,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
-        const auto &furn = this->furn( map_location ).obj();
+        const furn_t &furn = this->furn( map_location ).obj();
 
         if( furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
             // plants contain a seed item which must not be removed under any circumstances.
