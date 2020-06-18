@@ -16,6 +16,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 class JsonIn;
 class JsonObject;
