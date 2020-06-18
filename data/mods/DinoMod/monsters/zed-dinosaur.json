@@ -479,7 +479,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zutahraptor",
-    "name": { "str": "Utahraptor" },
+    "name": { "str": "Utahraptor zombie" },
     "copy-from": "mon_zeinonychus",
     "looks_like": "mon_utahraptor",
     "volume": "500 L",
