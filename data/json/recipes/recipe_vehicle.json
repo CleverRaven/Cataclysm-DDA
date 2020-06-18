@@ -454,18 +454,6 @@
   },
   {
     "type": "recipe",
-    "result": "wheel_mount_wood",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "30 m",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "nail", 50 ] ], [ [ "2x4", 5 ] ], [ [ "cordage_36", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "wheel_mount_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
