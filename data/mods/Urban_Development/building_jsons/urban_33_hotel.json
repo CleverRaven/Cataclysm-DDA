@@ -515,7 +515,7 @@
       ],
       "palettes": [ "acidia_commercial_palette" ],
       "terrain": { " ": "t_linoleum_white", "!": "t_linoleum_white", "2": "t_linoleum_white" },
-      "furniture": { "!": "f_ergometer", "2": "f_treadmill" },
+      "furniture": { "!": [ "f_ergometer", "f_ergometer_mechanical" ], "2": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "items": { " ": { "item": "traveler", "chance": 1 }, "3": { "item": "traveler", "chance": 1 } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 11 ], "y": [ 1, 18 ], "density": 0.4 } ]
     }

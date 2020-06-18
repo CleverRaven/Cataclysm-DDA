@@ -294,8 +294,8 @@
         "S": "f_table",
         "A": "f_canvas_wall",
         "%": "f_canvas_door",
-        "E": "f_ergometer",
-        "T": "f_treadmill",
+        "E": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "T": [ "f_treadmill", "f_treadmill_mechanical" ],
         "X": "f_exercise"
       },
       "sealed_item": {
@@ -415,8 +415,8 @@
         "%": "f_canvas_door",
         "H": "f_armchair",
         "M": "f_server",
-        "E": "f_ergometer",
-        "T": "f_treadmill",
+        "E": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "T": [ "f_treadmill", "f_treadmill_mechanical" ],
         "X": "f_exercise"
       },
       "items": {

@@ -986,7 +986,11 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { "%": "t_thconc_floor" },
-      "furniture": { "%": "f_treadmill", "5": [ "f_ergometer", "f_exercise" ], "`": "f_canvas_floor" },
+      "furniture": {
+        "%": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "5": [ "f_ergometer", "f_ergometer_mechanical", "f_exercise" ],
+        "`": "f_canvas_floor"
+      },
       "items": {
         ".": { "item": "clutter_gym", "chance": 3 },
         "l": { "item": "locker_gym", "chance": 30 },

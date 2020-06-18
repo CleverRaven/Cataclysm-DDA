@@ -573,10 +573,10 @@
         "5": "t_gutter_drop"
       },
       "furniture": {
-        "&": "f_ergometer",
+        "&": [ "f_ergometer", "f_ergometer_mechanical" ],
         ":": "f_exercise",
         "b": "f_bench",
-        "=": "f_treadmill",
+        "=": [ "f_treadmill", "f_treadmill_mechanical" ],
         "A": "f_bigmirror",
         "s": "f_shower",
         "S": "f_sink",

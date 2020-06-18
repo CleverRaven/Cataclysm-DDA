@@ -2760,7 +2760,13 @@
         "O": "t_carpet_purple",
         "=": "t_carpet_purple"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_N", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_N", 60 ] ] } }
     }
@@ -2791,7 +2797,13 @@
         "O": "t_carpet_green",
         "=": "t_carpet_green"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_S", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_S", 60 ] ] } }
     }
@@ -2822,7 +2834,13 @@
         "O": "t_carpet_yellow",
         "=": "t_carpet_yellow"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_E", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_E", 60 ] ] } }
     }
@@ -2853,7 +2871,13 @@
         "O": "t_carpet_red",
         "=": "t_carpet_red"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_W", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_W", 60 ] ] } }
     }

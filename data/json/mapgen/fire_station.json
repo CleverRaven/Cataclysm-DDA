@@ -195,7 +195,7 @@
       "furniture": {
         "#": "f_table",
         "&": "f_sink",
-        "5": "f_ergometer",
+        "5": [ "f_ergometer", "f_ergometer_mechanical" ],
         "B": "f_bookcase",
         "E": "f_exercise",
         "F": "f_fridge",

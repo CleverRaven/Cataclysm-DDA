@@ -47,10 +47,10 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "!": "f_ergometer",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "#": "f_counter",
         "*": "f_shower",
-        "@": "f_treadmill",
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "O": "f_locker",
         "V": "f_exercise",
         "a": "f_stool",
@@ -176,13 +176,13 @@
         "<": "t_stairs_up"
       },
       "furniture": {
-        "!": "f_ergometer",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "{": "f_bigmirror",
         "#": "f_counter",
         "H": "f_vending_c",
         "&": "f_counter",
         "*": "f_shower",
-        "@": "f_treadmill",
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "O": "f_locker",
         "V": "f_exercise",
         "C": "f_bench",

@@ -212,7 +212,7 @@
       "u": "t_thconc_floor",
       "X": "t_thconc_floor"
     },
-    "furniture": { "c": "f_exercise", "u": "f_ergometer", "X": "f_punching_bag" },
+    "furniture": { "c": "f_exercise", "u": [ "f_ergometer", "f_ergometer_mechanical" ], "X": "f_punching_bag" },
     "monsters": {
       "!": [ { "monster": "GROUP_ROACH", "chance": 70 }, { "monster": "GROUP_ZOMBIE", "chance": 100 } ],
       ".": [ { "monster": "GROUP_ROACH", "chance": 80 }, { "monster": "GROUP_ZOMBIE", "chance": 60 } ]
