@@ -1318,15 +1318,15 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = g->m.has_flag_furn( "WORKOUT_ARMS", location );
     bool leg_equipment = g->m.has_flag_furn( "WORKOUT_LEGS", location );
-    if( hand_equipment && ( who.is_limb_broken( hp_arm_l ) ) ||
-        who.is_limb_broken( hp_arm_r ) ) {
+    if( hand_equipment && ( ( who.is_limb_broken( hp_arm_l ) ) ||
+        who.is_limb_broken( hp_arm_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
         return;
     }
-    if( leg_equipment && ( who.is_limb_broken( hp_leg_l ) ) ||
-        who.is_limb_broken( hp_leg_r ) ) {
+    if( leg_equipment && ( ( who.is_limb_broken( hp_leg_l ) ) ||
+        who.is_limb_broken( hp_leg_r ) ) ) {
         who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
