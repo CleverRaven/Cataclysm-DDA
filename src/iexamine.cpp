@@ -3782,7 +3782,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     const furn_t &f = here.furn( examp ).obj();
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
-    if( type == nullptr || ammo == nullptr ) {
+    if( type == nullptr || ammo == nullptr || !ammo->ammo ) {
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
         return;
     }
@@ -3803,7 +3803,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         }
     }
 
-    const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
+    const int max_amount_in_furn = item( type ).ammo_capacity( ammo->ammo->type );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
