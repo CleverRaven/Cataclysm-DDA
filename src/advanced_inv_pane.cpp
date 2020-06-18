@@ -8,7 +8,6 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -42,7 +41,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     // determine the square's vehicle/map item presence
     bool has_veh_items = square.can_store_in_vehicle() ?
                          !square.veh->get_items( square.vstor ).empty() : false;
-    bool has_map_items = !g->m.i_at( square.pos ).empty();
+    bool has_map_items = !get_map().i_at( square.pos ).empty();
     // determine based on map items and settings to show cargo
     bool show_vehicle = is_re_enter ?
                         save_state->in_vehicle : has_veh_items ? true :
@@ -143,8 +142,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     if( !square.canputitems() ) {
         return;
     }
-    map &m = g->m;
-    avatar &u = g->u;
+    map &m = get_map();
+    avatar &u = get_avatar();
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {

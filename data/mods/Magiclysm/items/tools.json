@@ -17,7 +17,7 @@
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "cauldron_orichalcum",
@@ -35,7 +35,7 @@
     "color": "yellow",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "demon_forge",

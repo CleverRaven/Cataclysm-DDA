@@ -277,9 +277,9 @@ static creature_size volume_to_size( const units::volume &vol )
 struct monster_adjustment {
     species_id species;
     std::string stat;
-    float stat_adjust;
+    float stat_adjust = 0.0f;
     std::string flag;
-    bool flag_val;
+    bool flag_val = false;
     std::string special;
     void apply( mtype &mon );
 };

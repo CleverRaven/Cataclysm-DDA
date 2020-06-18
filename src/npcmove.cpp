@@ -1329,7 +1329,7 @@ npc_action npc::method_of_attack()
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
-                   ( ( danger <= ( m.qty == 1 ? 3.0 : 15.0 ) ) && !emergency() ) ||
+                   ( ( danger <= ( m.qty == 1 ? 0.0 : 15 ) ) && !emergency() ) ||
                    ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 
@@ -1395,7 +1395,7 @@ npc_action npc::method_of_attack()
     }
 
     if( dist == 1 && same_z ) {
-        add_msg( m_debug, "%s is trying a melle attack", disp_name() );
+        add_msg( m_debug, "%s is trying a melee attack", disp_name() );
         return npc_melee;
     }
 
@@ -3068,7 +3068,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 std::list<item> npc::pick_up_item_map( const tripoint &where )
 {
-    auto stack = g->m.i_at( where );
+    map_stack stack = g->m.i_at( where );
     return npc_pickup_from_stack( *this, stack );
 }
 
@@ -3212,7 +3212,7 @@ bool npc::find_corpse_to_pulp()
             return nullptr;
         }
 
-        const auto items = g->m.i_at( p );
+        const map_stack items = g->m.i_at( p );
         const item *found = nullptr;
         for( const item &it : items )
         {

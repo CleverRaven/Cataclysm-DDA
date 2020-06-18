@@ -149,6 +149,7 @@ struct quality_requirement {
               int = 0, craft_flags = craft_flags::none,
               const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
+    std::string to_colored_string() const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;

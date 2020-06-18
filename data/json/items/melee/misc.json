@@ -30,7 +30,7 @@
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
     "cutting": 10,
     "material": [ "leather", "steel" ],
-    "flags": [ "REACHATTACK", "WHIP", "NONCONDUCTIVE" ]
+    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
   },
   {
     "id": "lobotomizer",
@@ -69,7 +69,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

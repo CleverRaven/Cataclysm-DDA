@@ -106,7 +106,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_KI_STRIKE( "KI_STRIKE" );
-static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
@@ -709,6 +708,9 @@ inline double limit_probability( double unbounded_probability )
 
 double Character::crit_chance( float roll_hit, float target_dodge, const item &weap ) const
 {
+    // Martial arts buff bonuses
+    double ma_buff_crit_chance = mabuff_critical_hit_chance_bonus() / 100;
+
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
     if( weap.is_unarmed_weapon() ) {
@@ -769,12 +771,12 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
         // chance_triple and chance_double are mutually exclusive probabilities and can just
         // be added together.
         melee::melee_stats.double_crit_count += 1;
-        melee::melee_stats.double_crit_chance += chance_double + chance_triple;
-        return chance_triple + chance_double;
+        melee::melee_stats.double_crit_chance += chance_double + chance_triple + ma_buff_crit_chance;
+        return chance_triple + chance_double + ma_buff_crit_chance;
     }
     melee::melee_stats.crit_count += 1;
-    melee::melee_stats.crit_chance += chance_triple;
-    return chance_triple;
+    melee::melee_stats.crit_chance += chance_triple + ma_buff_crit_chance;
+    return chance_triple + ma_buff_crit_chance;
 }
 
 float player::get_dodge_base() const

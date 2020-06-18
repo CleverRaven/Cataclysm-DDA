@@ -643,7 +643,7 @@ void monster::move()
                      name() );
         }
         static const auto volume_per_hp = 250_ml;
-        for( auto &elem : g->m.i_at( pos() ) ) {
+        for( item &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             if( has_flag( MF_ABSORBS_SPLITS ) ) {
                 while( hp / 2 > type->hp ) {

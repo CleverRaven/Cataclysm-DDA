@@ -42,8 +42,8 @@
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
-#define LIGHTMAP_CACHE_X MAPSIZE_X
-#define LIGHTMAP_CACHE_Y MAPSIZE_Y
+static constexpr int LIGHTMAP_CACHE_X = MAPSIZE_X;
+static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 
 static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
@@ -356,7 +356,7 @@ void map::generate_lightmap( const int zlev )
                     }
 
                     if( cur_submap->get_lum( { sx, sy } ) && has_items( p ) ) {
-                        auto items = i_at( p );
+                        map_stack items = i_at( p );
                         add_light_from_items( p, items.begin(), items.end() );
                     }
 
@@ -1217,7 +1217,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             offsetDistance = rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                             veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
+                             veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 

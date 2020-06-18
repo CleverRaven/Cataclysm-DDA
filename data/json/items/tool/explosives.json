@@ -14,7 +14,7 @@
     "material": [ "glass" ],
     "symbol": "*",
     "color": "yellow",
-    "use_action": "ACIDBOMB_ACT",
+    "use_action": [ "ACIDBOMB_ACT" ],
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
@@ -80,7 +80,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "C4"
+    "use_action": [ "C4" ]
   },
   {
     "id": "c4armed",
@@ -406,7 +406,7 @@
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "FIRECRACKER"
+    "use_action": [ "FIRECRACKER" ]
   },
   {
     "id": "firecracker_act",
@@ -423,7 +423,7 @@
     "symbol": ";",
     "color": "red",
     "turns_per_charge": 1,
-    "use_action": "FIRECRACKER_ACT",
+    "use_action": [ "FIRECRACKER_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -443,7 +443,7 @@
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
-    "use_action": "FIRECRACKER_PACK"
+    "use_action": [ "FIRECRACKER_PACK" ]
   },
   {
     "id": "firecracker_pack_act",
@@ -459,7 +459,7 @@
     "symbol": "*",
     "color": "red",
     "turns_per_charge": 7,
-    "use_action": "FIRECRACKER_PACK_ACT",
+    "use_action": [ "FIRECRACKER_PACK_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -768,7 +768,7 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
-    "use_action": "GRENADE_INC_ACT",
+    "use_action": [ "GRENADE_INC_ACT" ],
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID" ]
   },
   {
@@ -1023,7 +1023,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_green",
-    "use_action": "MININUKE",
+    "use_action": [ "MININUKE" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
   {
@@ -1103,7 +1103,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "turns_per_charge": 1,
-    "use_action": "MOLOTOV_LIT",
+    "use_action": [ "MOLOTOV_LIT" ],
     "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ]
   },
   {

@@ -21,7 +21,7 @@
     "name": { "str": "blob glob" },
     "weight": "238 g",
     "color": "dark_gray",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 174,
@@ -37,7 +37,7 @@
     "name": "honey comb",
     "weight": "150 g",
     "color": "yellow",
-    "use_action": "HONEYCOMB",
+    "use_action": [ "HONEYCOMB" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 2,
@@ -91,7 +91,7 @@
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
-    "use_action": "MARLOSS",
+    "use_action": [ "MARLOSS" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 20,
@@ -114,7 +114,7 @@
     "weight": "177 g",
     "color": "yellow",
     "addiction_type": "marloss_y",
-    "use_action": "MARLOSS_GEL",
+    "use_action": [ "MARLOSS_GEL" ],
     "comestible_type": "FOOD",
     "symbol": "~",
     "quench": 5,
@@ -135,7 +135,7 @@
     "name": { "str": "mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
-    "use_action": "MYCUS",
+    "use_action": [ "MYCUS" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 80,
@@ -193,7 +193,7 @@
     "name": { "str_sp": "tainted bone meal" },
     "weight": "112 g",
     "color": "white",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "This is a grayish bone meal made from rotten bones.",
@@ -585,7 +585,7 @@
     "weight": "56 g",
     "color": "pink",
     "looks_like": "offal",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -20,
@@ -620,7 +620,7 @@
     "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
-    "use_action": "CATTLEFODDER"
+    "use_action": [ "CATTLEFODDER" ]
   },
   {
     "id": "birdfood",
@@ -641,7 +641,7 @@
     "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
-    "use_action": "BIRDFOOD"
+    "use_action": [ "BIRDFOOD" ]
   },
   {
     "id": "dogfood",
@@ -665,7 +665,7 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
-    "use_action": "DOGFOOD"
+    "use_action": [ "DOGFOOD" ]
   },
   {
     "id": "catfood",
@@ -689,7 +689,7 @@
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
-    "use_action": "CATFOOD"
+    "use_action": [ "CATFOOD" ]
   },
   {
     "type": "COMESTIBLE",

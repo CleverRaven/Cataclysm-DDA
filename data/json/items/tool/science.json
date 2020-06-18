@@ -13,7 +13,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "BAROMETER" ]
   },
   {
@@ -33,7 +33,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": "CAN_GOO"
+    "use_action": [ "CAN_GOO" ]
   },
   {
     "id": "chemistry_set",
@@ -53,7 +53,7 @@
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
+    "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -655,7 +655,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "HYGROMETER" ]
   },
   {
@@ -694,7 +694,7 @@
     "initial_charges": 300,
     "max_charges": 300,
     "charges_per_use": 10,
-    "use_action": "OXYGEN_BOTTLE"
+    "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
     "id": "platinum_grille",
@@ -730,7 +730,7 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 5,
-    "use_action": "PORTAL"
+    "use_action": [ "PORTAL" ]
   },
   {
     "id": "telepad",
@@ -766,7 +766,7 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "use_action": "TELEPORT"
+    "use_action": [ "TELEPORT" ]
   },
   {
     "id": "weather_reader",
@@ -785,7 +785,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
     "pocket_data": [
       {

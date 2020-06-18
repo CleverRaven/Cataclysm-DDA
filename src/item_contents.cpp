@@ -5,7 +5,6 @@
 
 #include "character.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -401,7 +400,7 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
                 if( mag.has_flag( "MAG_DESTROY" ) ) {
                     pocket.remove_item( mag );
                 } else if( mag.has_flag( "MAG_EJECT" ) ) {
-                    g->m.add_item( pos, mag );
+                    get_map().add_item( pos, mag );
                     pocket.remove_item( mag );
                 }
             }

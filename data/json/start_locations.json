@@ -217,6 +217,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_desert_island",
+    "name": "Desert Island",
+    "terrain": [ "island_sand", "island_forest", "island_forest_thick", "island_forest_water", "island_field" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_lab_escape_cells",
     "name": "Experiment Cell",
     "terrain": [ "lab_escape_cells" ]

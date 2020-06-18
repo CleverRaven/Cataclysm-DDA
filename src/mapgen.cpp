@@ -97,7 +97,7 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-#define MON_RADIUS 3
+static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 static void build_mine_room( room_type type, const point &p1, const point &p2, mapgendata &dat );
@@ -5691,7 +5691,7 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 {
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
-        auto items = i_at( p.xy() );
+        map_stack items = i_at( p.xy() );
         for( item &elem : items ) {
             elem.set_owner( id );
         }
@@ -5930,15 +5930,15 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
 
-            for( auto &part : veh->parts ) {
-                const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
+            for( const vpart_reference &vpr : veh->get_all_parts() ) {
+                const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), part );
+                wreckage->install_part( part_pos.xy(), vpr.part() );
             }
 
-            for( auto &part : other_veh->parts ) {
-                const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
-                wreckage->install_part( part_pos.xy(), part );
+            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
+                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
+                wreckage->install_part( part_pos.xy(), vpr.part() );
 
             }
 

@@ -13,7 +13,7 @@
     "volume": "750 ml",
     "material": [ "plastic" ],
     "looks_like": "mre_beef_box",
-    "use_action": "DISASSEMBLE"
+    "use_action": [ "DISASSEMBLE" ]
   },
   {
     "abstract": "mre_smallbox",
@@ -29,7 +29,7 @@
     "volume": "250 ml",
     "material": [ "plastic" ],
     "looks_like": "mre_beef_box",
-    "use_action": "DISASSEMBLE"
+    "use_action": [ "DISASSEMBLE" ]
   },
   {
     "abstract": "mre_entree",

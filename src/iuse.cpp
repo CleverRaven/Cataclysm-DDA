@@ -372,7 +372,8 @@ static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
-#define RADIO_PER_TURN 25 // how many characters per turn of radio
+// how many characters per turn of radio
+static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
@@ -2597,8 +2598,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+            if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
+                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                      p->global_sm_location() );
             }
         }
@@ -4783,7 +4784,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
-    for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
@@ -4839,7 +4840,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.typeId() == itype_rmi2_corpse &&
             query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
                       map_it.color_in_inventory() ) ) ) {
@@ -4895,7 +4896,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     // Check if player is standing on any lumber
-    for( auto &i : g->m.i_at( p->pos() ) ) {
+    for( item &i : g->m.i_at( p->pos() ) ) {
         if( i.typeId() == itype_log ) {
             g->m.i_rem( p->pos(), &i );
             cut_log_into_planks( *p );
@@ -5292,7 +5293,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
             vehicle *const veh = &vp->vehicle();
             std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
             for( int elem : parts_here ) {
-                if( veh->parts[elem].blood > 0 ) {
+                if( veh->part( elem ).blood > 0 ) {
                     return true;
                 }
                 vehicle_stack items = veh->get_items( elem );
@@ -5525,7 +5526,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->timed_events.add( TIMED_EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                g->timed_events.add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5604,7 +5605,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->timed_events.add( TIMED_EVENT_DIM, calendar::turn + 5_minutes );
+                g->timed_events.add( timed_event_type::DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:
@@ -6948,7 +6949,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 }
 
 struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
+    int quality = 0;
     std::string name;
     std::string description;
 
