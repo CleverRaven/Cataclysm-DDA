@@ -1436,7 +1436,7 @@ void Creature::set_anatomy( const anatomy_id &anat )
 
 void Creature::set_body()
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
+    for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
         body.emplace( bp, bodypart( bp.id() ) );
     }
 }
@@ -1470,7 +1470,11 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 {
     // TODO: Remove broken parts, parts removed by mutations etc.
 
-    const std::vector<bodypart_id> all_bps = get_anatomy()->get_bodyparts();
+    std::vector<bodypart_id> all_bps;
+    for( const std::pair<bodypart_id, bodypart> &elem : body ) {
+        all_bps.push_back( elem.first );
+    }
+
     std::vector<bodypart_id> main_bps;
 
     for( const bodypart_id bp : all_bps ) {

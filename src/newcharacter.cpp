@@ -367,6 +367,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
         loops++;
     }
+    set_body();
 }
 
 void avatar::add_profession_items()
@@ -541,7 +542,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
-    for( auto &e : prof->skills() ) {
+    for( const profession::StartingSkill &e : prof->skills() ) {
         mod_skill_level( e.first, e.second );
     }
 
@@ -584,7 +585,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         addictions.push_back( iter );
     }
 
-    for( auto &bio : prof->CBMs() ) {
+    for( const bionic_id &bio : prof->CBMs() ) {
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
@@ -616,7 +617,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
-
+    set_body();
     return true;
 }
 

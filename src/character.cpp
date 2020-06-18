@@ -434,7 +434,6 @@ Character::Character() :
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     set_anatomy( anatomy_id("human_anatomy") );
-    set_body();
     update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
@@ -3465,6 +3464,7 @@ void Character::normalize()
     martial_arts_data.reset_style();
     weapon   = item( "null", 0 );
 
+    set_body();
     recalc_hp();
 }
 
