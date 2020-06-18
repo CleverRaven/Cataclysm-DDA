@@ -1,6 +1,36 @@
 [
   {
     "type": "vehicle_part",
+    "id": "wheel_mount_wood",
+    "name": { "str": "wooden wheel mount" },
+    "symbol": "-",
+    "color": "brown",
+    "location": "axle",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 40,
+    "folded_volume": 1,
+    "durability": 80,
+    "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
+    "item": "wheel_mount_wood",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING", "FOLDABLE" ],
+    "breaks_into": [ { "item": "2x4", "count": [ 2, 5 ] } ],
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "id": "wheel_mount_wood_steerable",
+    "copy-from": "wheel_mount_wood",
+    "type": "vehicle_part",
+    "name": { "str": "wooden wheel mount (steerable)" },
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "type": "vehicle_part",
     "id": "wheel_mount_light",
     "name": { "str": "light wheel mount" },
     "symbol": "-",
