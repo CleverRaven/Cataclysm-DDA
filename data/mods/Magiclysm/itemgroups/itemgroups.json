@@ -830,7 +830,8 @@
           { "item": "spell_scroll_quantum_tunnel_lesser", "prob": 50 },
           { "item": "spell_scroll_holy_blade", "prob": 50 },
           { "item": "spell_scroll_spirit_armor", "prob": 50 },
-          { "item": "spell_scroll_synaptic_stimulation", "prob": 50 }
+          { "item": "spell_scroll_synaptic_stimulation", "prob": 50 },
+          { "item": "spell_scroll_knock", "prob": 50 }
         ],
         "prob": 35
       },
@@ -840,7 +841,8 @@
           { "item": "spell_scroll_holographic_transposition", "prob": 10 },
           { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
           { "item": "spell_scroll_animated_blade", "prob": 50 },
-          { "item": "spell_scroll_mirror_image", "prob": 50 }
+          { "item": "spell_scroll_mirror_image", "prob": 50 },
+          { "item": "spell_scroll_improved_knock", "prob": 50 }
         ],
         "prob": 10
       },
