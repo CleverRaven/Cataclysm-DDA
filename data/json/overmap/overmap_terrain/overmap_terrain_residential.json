@@ -32,18 +32,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house",
-    "copy-from": "generic_residential_medium",
-    "name": "house",
-    "sym": "^",
-    "color": "light_green",
-    "see_cost": 2,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_wooded",
     "copy-from": "generic_city_building",
     "name": "house",

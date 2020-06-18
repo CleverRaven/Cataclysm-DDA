@@ -11,7 +11,8 @@
 #include "monstergenerator.h"
 #include "translations.h"
 #include "mapdata.h"
-#include "cata_string_consts.h"
+
+static const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {

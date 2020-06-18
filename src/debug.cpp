@@ -1260,11 +1260,21 @@ std::string game_info::game_report()
         os_version = "<unknown>";
     }
     std::stringstream report;
+
+    std::string lang = get_option<std::string>( "USE_LANG" );
+    std::string lang_translated;
+    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
+        if( vItem.first == lang ) {
+            lang_translated = vItem.second.translated();
+        }
+    }
+
     report <<
            "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
            "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
+           "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 
     return report.str();

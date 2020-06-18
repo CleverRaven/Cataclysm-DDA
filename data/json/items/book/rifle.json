@@ -20,7 +20,7 @@
   {
     "id": "manual_rifle",
     "type": "BOOK",
-    "name": "FM 23-16 Army marksmanship manual",
+    "name": { "str": "FM 23-16 Army marksmanship manual" },
     "description": "A hefty military field manual about automatic rifle usage and techniques which improve marksmanship and proper weapons-handling.",
     "weight": "454 g",
     "volume": "250 ml",

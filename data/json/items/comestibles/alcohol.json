@@ -1161,7 +1161,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_beeknees",
-    "name": "bee's knees",
+    "name": { "str": "bee's knees" },
     "weight": "248 g",
     "color": "yellow",
     "addiction_type": "alcohol",

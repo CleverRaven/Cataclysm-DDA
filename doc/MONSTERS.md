@@ -234,6 +234,12 @@ An item group that is used to spawn items when the monster dies. This can be an 
 
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
 
+## "emit_field"
+(array of objects of emit_id and time_duration, optional)
+"emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
+
+What field the monster emits and how often it does so. Time duration can use strings: "1 h", "60 m", "3600 s" etc...
+
 ## "regenerates"
 (integer, optional)
 
@@ -249,35 +255,35 @@ Monster regenerates very quickly in poorly lit tiles.
 
 Will stop fleeing if at max hp, and regen anger and morale.
 
-## "special_attack"
+## "special_attacks"
 (array of special attack definitions, optional)
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
 The old style array should contain 2 elements: the id of the attack (see JSON_FLAGS.md for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
 ```JSON
-"special_attack": [ [ "GRAB", 10 ] ]
+"special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
 The new style object should contain at least a "type" member (string) and "cooldown" member (integer). It may contain additional members as required by the specific type. Possible types are listed below. Example:
 ```JSON
-"special_attack": [
+"special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-"special_attack" may contain any mixture of old and new style entries:
+"special_attacks" may contain any mixture of old and new style entries:
 ```JSON
-"special_attack": [
+"special_attacks": [
     [ "GRAB", 10 ],
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-One can add entries with "add:death_function", which takes the same content as the "special_attack" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
+One can add entries with "add:death_function", which takes the same content as the "special_attacks" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
 ```JSON
-"remove:special_attack": [ "GRAB" ],
-"add:special_attack": [ [ "SHRIEK", 20 ] ]
+"remove:special_attacks": [ "GRAB" ],
+"add:special_attacks": [ [ "SHRIEK", 20 ] ]
 ```
 
 ## "flags"
@@ -440,7 +446,7 @@ Modifying a type overrides the properties with the new values, this example sets
     "type": "MONSTER",
     "edit-mode": "modify",
     "id": "mon_zombie",
-    "special_attack": [ [ "SHRIEK", 20 ] ]
+    "special_attacks": [ [ "SHRIEK", 20 ] ]
 }
 ```
 Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
@@ -448,7 +454,7 @@ Some properties allow adding and removing entries, as documented above, usually 
 
 
 # Monster special attack types
-The listed attack types can be as monster special attacks (see "special_attack").
+The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "leap"
 Makes the monster leap a few tiles. It supports the following additional properties:

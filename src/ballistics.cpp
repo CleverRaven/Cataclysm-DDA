@@ -33,7 +33,10 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_bounced( "bounced" );
+
+static const std::string flag_LIQUID( "LIQUID" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {

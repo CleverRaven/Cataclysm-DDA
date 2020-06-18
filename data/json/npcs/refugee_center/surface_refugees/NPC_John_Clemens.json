@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_John",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "John is a pseudonym.  This guy probably lived in a city before the Cataclysm, but now he either thinks or pretends to be a cowboy..",

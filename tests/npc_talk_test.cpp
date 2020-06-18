@@ -29,10 +29,11 @@
 #include "type_id.h"
 #include "point.h"
 
-const efftype_id effect_gave_quest_item( "gave_quest_item" );
-const efftype_id effect_currently_busy( "currently_busy" );
-const efftype_id effect_infection( "infection" );
-const efftype_id effect_infected( "infected" );
+static const efftype_id effect_gave_quest_item( "gave_quest_item" );
+static const efftype_id effect_currently_busy( "currently_busy" );
+static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_infected( "infected" );
+
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 

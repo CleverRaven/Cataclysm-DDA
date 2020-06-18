@@ -2,7 +2,7 @@
   {
     "id": "digging_stick",
     "type": "GENERIC",
-    "name": "digging stick",
+    "name": { "str": "digging stick" },
     "category": "tools",
     "description": "This is a large stick, with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
     "weight": "1133 g",
@@ -18,7 +18,7 @@
   {
     "id": "g_shovel",
     "type": "TOOL",
-    "name": "trowel",
+    "name": { "str": "trowel" },
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "weight": "280 g",
     "volume": "500 ml",
@@ -34,7 +34,7 @@
   {
     "id": "hoe",
     "type": "TOOL",
-    "name": "hoe",
+    "name": { "str": "hoe" },
     "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
     "volume": "3500 ml",
@@ -52,7 +52,7 @@
   {
     "id": "primitive_shovel",
     "type": "TOOL",
-    "name": "stone shovel",
+    "name": { "str": "stone shovel" },
     "description": "This is a flattened stone affixed to a stick.  It works passably well as a shovel but really can't compare to a real shovel.",
     "weight": "1581 g",
     "volume": "4 L",
@@ -67,7 +67,7 @@
   {
     "id": "scythe",
     "type": "TOOL",
-    "name": "scythe",
+    "name": { "str": "scythe" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "3013 g",
     "volume": "3250 ml",
@@ -85,7 +85,7 @@
   {
     "id": "shovel",
     "type": "TOOL",
-    "name": "shovel",
+    "name": { "str": "shovel" },
     "description": "This is a digging tool.  Use it to dig pits adjacent to your location.",
     "weight": "1315 g",
     "volume": "3500 ml",
@@ -103,7 +103,7 @@
   {
     "id": "sickle",
     "type": "TOOL",
-    "name": "sickle",
+    "name": { "str": "sickle" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "1432 g",
     "volume": "1250 ml",

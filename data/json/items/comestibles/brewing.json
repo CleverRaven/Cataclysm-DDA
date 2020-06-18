@@ -281,7 +281,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_hb_beer",
-    "name": "beer wort",
+    "name": { "str": "beer wort" },
     "description": "Unfermented homebrew beer.  A boiled and chilled mash of malted barley, spiced with some fine hops.",
     "weight": "249 g",
     "color": "brown",

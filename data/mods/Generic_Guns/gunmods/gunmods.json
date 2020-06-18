@@ -33,7 +33,7 @@
     "id": "shotgun_under_mod",
     "copy-from": "masterkey_mod",
     "type": "GUNMOD",
-    "name": "modified underbarrel shotgun",
+    "name": { "str": "modified underbarrel shotgun" },
     "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 }
   },
   {

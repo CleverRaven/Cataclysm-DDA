@@ -790,6 +790,11 @@
     "replace": "10mm_fmj"
   },
   {
+    "id": "reloaded_10mm",
+    "type": "MIGRATION",
+    "replace": "reloaded_10mm_fmj"
+  },
+  {
     "id": "locket",
     "type": "MIGRATION",
     "replace": "silver_locket"
@@ -988,5 +993,165 @@
     "id": "40mm_casing",
     "type": "MIGRATION",
     "replace": "40x46mm_m118_casing"
+  },
+  {
+    "id": [ "360_200_mag", "360_400_mag" ],
+    "type": "MIGRATION",
+    "replace": "a180mag"
+  },
+  {
+    "id": "rm360_carbine",
+    "type": "MIGRATION",
+    "replace": "american_180"
+  },
+  {
+    "id": "lead_stabilizer",
+    "type": "MIGRATION",
+    "replace": "stabilizer"
+  },
+  {
+    "id": "lead_barrel_small",
+    "type": "MIGRATION",
+    "replace": "barrel_small"
+  },
+  {
+    "id": "lead_red_dot_sight",
+    "type": "MIGRATION",
+    "replace": "red_dot_sight"
+  },
+  {
+    "id": "lead_rifle_scope",
+    "type": "MIGRATION",
+    "replace": "rifle_scope"
+  },
+  {
+    "id": "lead_acog_scope",
+    "type": "MIGRATION",
+    "replace": "acog_scope"
+  },
+  {
+    "id": "lead_holo_sight",
+    "type": "MIGRATION",
+    "replace": "holo_sight"
+  },
+  {
+    "id": "lead_laser_sight",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
+  },
+  {
+    "id": "lead_grip",
+    "type": "MIGRATION",
+    "replace": "offset_sight_rail"
+  },
+  {
+    "id": "lead_bipod",
+    "type": "MIGRATION",
+    "replace": "bipod"
+  },
+  {
+    "id": "lead_u_shotgun",
+    "type": "MIGRATION",
+    "replace": "masterkey"
+  },
+  {
+    "id": "lead_glm",
+    "type": "MIGRATION",
+    "replace": "m320_mod"
+  },
+  {
+    "id": "l_sp_9mm",
+    "type": "MIGRATION",
+    "replace": "glock_17"
+  },
+  {
+    "id": "l_mp_9mm",
+    "type": "MIGRATION",
+    "replace": "glock_18c"
+  },
+  {
+    "id": "lw21mag",
+    "type": "MIGRATION",
+    "replace": "glockbigmag"
+  },
+  {
+    "id": "l_lookout_9mm",
+    "type": "MIGRATION",
+    "replace": "sw_619"
+  },
+  {
+    "id": "9mm_speedloader7",
+    "type": "MIGRATION",
+    "replace": "38_speedloader"
+  },
+  {
+    "id": [ "l_HFPack", "l_long_45" ],
+    "type": "MIGRATION",
+    "replace": "colt_lightning"
+  },
+  {
+    "id": [ "l_sp_45", "l_mp_45" ],
+    "type": "MIGRATION",
+    "replace": "m1911-460"
+  },
+  {
+    "id": "l_enforcer_45",
+    "type": "MIGRATION",
+    "replace": "sw629"
+  },
+  {
+    "id": "460_speedloader6",
+    "type": "MIGRATION",
+    "replace": "44_speedloader6"
+  },
+  {
+    "id": "l_enforcer_45",
+    "type": "MIGRATION",
+    "replace": "sw629"
+  },
+  {
+    "id": [ "mosin91_30_ebr", "mn_ebr_kit", "mn_classic_kit" ],
+    "type": "MIGRATION",
+    "replace": "mosin91_30"
+  },
+  {
+    "id": "mosin44_ebr",
+    "type": "MIGRATION",
+    "replace": "mosin44"
+  },
+  {
+    "id": [ "l_base_223", "l_car_223", "l_car_223_kit", "l_mbr_223", "l_mbr_223_kit" ],
+    "type": "MIGRATION",
+    "replace": "h&k416a5"
+  },
+  {
+    "id": [ "l_lmg_223", "l_lmg_223_kit" ],
+    "type": "MIGRATION",
+    "replace": "m249"
+  },
+  {
+    "id": [ "l_dsr_223", "l_dsr_223_kit" ],
+    "type": "MIGRATION",
+    "replace": "m16a4"
+  },
+  {
+    "id": "lw223bigmag",
+    "type": "MIGRATION",
+    "replace": "stanag50"
+  },
+  {
+    "id": "lw223mag",
+    "type": "MIGRATION",
+    "replace": "stanag30"
+  },
+  {
+    "id": "lw12mag",
+    "type": "MIGRATION",
+    "replace": "m1911mag"
+  },
+  {
+    "id": "bio_solar",
+    "type": "MIGRATION",
+    "replace": "potato"
   }
 ]

@@ -16,7 +16,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_2",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
@@ -242,7 +242,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",
     "type": "mission_definition",
-    "name": "Bring 40 small cardboard boxes",
+    "name": { "str": "Bring 40 small cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -265,7 +265,7 @@
   {
     "id": "MISSION_BEGGAR_2_DUCT_TAPE",
     "type": "mission_definition",
-    "name": "Bring a roll of duct tape",
+    "name": { "str": "Bring a roll of duct tape" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -287,7 +287,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "type": "mission_definition",
-    "name": "Bring 10 medium-sized cardboard boxes",
+    "name": { "str": "Bring 10 medium-sized cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -310,7 +310,7 @@
   {
     "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "type": "mission_definition",
-    "name": "Bring 10 large plastic sheets",
+    "name": { "str": "Bring 10 large plastic sheets" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -333,7 +333,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_LARGE",
     "type": "mission_definition",
-    "name": "Bring 5 large cardboard boxes",
+    "name": { "str": "Bring 5 large cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

@@ -1882,6 +1882,7 @@
     "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
     "max_intensity": 5,
     "int_dur_factor": "5 seconds",
+    "max_duration": "30 s",
     "rating": "bad",
     "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
     "harmful_cough": false,

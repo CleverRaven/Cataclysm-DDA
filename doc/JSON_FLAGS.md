@@ -80,7 +80,7 @@
 
 ## Inheritance
 
-When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, specify the member delete_flags, which is an array of strings. Flags specified there will be removed from the resultant item upon crafting. This will override flag inheritance, but will not delete flags that are part of the item type itself.
 
 
 ## TODO
@@ -907,6 +907,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```CHITIN``` May produce chitin when butchered.
 - ```CLIMBS``` Can climb.
+- ```COLDROOF``` Immune to cold damage.
 - ```CURRENT``` this water is flowing.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
@@ -933,7 +934,9 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
+- ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
+- ```ID_CARD_DESPAWN``` Despawns when a science ID card is used on a nearby console
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
@@ -1188,6 +1191,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
+- ```UNCRAFT_BY_QUANTITY``` Supresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.

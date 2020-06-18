@@ -20,7 +20,7 @@
   {
     "id": "afs_textbook_shotguns",
     "type": "BOOK",
-    "name": "USMC M1014 technical manual",
+    "name": { "str": "USMC M1014 technical manual" },
     "description": "A pocket-sized book printed in 2000 by the United States Marine Corps for official use.  It describes the operation, repair, and cleaning of the Benilli M1014 shotgun.  Though specific to the M4, it can provide a wealth of information to the trained eye.",
     "weight": "600 g",
     "volume": "250 ml",
@@ -112,24 +112,21 @@
   {
     "id": "schematics_chickenbot",
     "type": "BOOK",
-    "name": "chicken walker schematics",
-    "name_plural": "chicken walker schematics",
+    "name": { "str": "chicken walker schematics", "str_pl": "chicken walker schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_tankbot",
     "type": "BOOK",
-    "name": "tank drone schematics",
-    "name_plural": "tank drone schematics",
+    "name": { "str": "tank drone schematics", "str_pl": "tank drone schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the tank drone.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_tripod",
     "type": "BOOK",
-    "name": "tripod schematics",
-    "name_plural": "tripod schematics",
+    "name": { "str": "tripod schematics", "str_pl": "tripod schematics" },
     "description": "Bearing the logo of Honda, those are assembly plans, design specs, and technical drawings for the tripod.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   }

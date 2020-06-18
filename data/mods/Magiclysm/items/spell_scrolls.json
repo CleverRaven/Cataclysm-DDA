@@ -1,7 +1,7 @@
 [
   {
     "abstract": "spell_scroll",
-    "name": "Spell Scroll",
+    "name": { "str": "Spell Scroll" },
     "type": "GENERIC",
     "weight": "475 g",
     "volume": "500 ml",

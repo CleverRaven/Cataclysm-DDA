@@ -23,8 +23,7 @@
     "id": "chunk_rubber",
     "category": "spare_parts",
     "price": 75,
-    "name": "chunk of rubber",
-    "name_plural": "chunks of rubber",
+    "name": { "str": "chunk of rubber", "str_pl": "chunks of rubber" },
     "symbol": "*",
     "color": "dark_gray",
     "description": "A chunk of useful rubber, can be molded easily.",
@@ -32,6 +31,6 @@
     "volume": "250 ml",
     "weight": "38 g",
     "ammo_type": "components",
-    "flags": "NO_SALVAGE"
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

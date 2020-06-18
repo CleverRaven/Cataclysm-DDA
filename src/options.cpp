@@ -2,6 +2,7 @@
 
 #include <climits>
 #include <type_traits>
+#include <cfloat>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -52,6 +53,26 @@ bool tile_iso;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+std::vector<options_manager::id_and_option> options_manager::lang_options = {
+    { "", translate_marker( "System language" ) },
+    // Note: language names are in their own language and are *not* translated at all.
+    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+    // http://en.wikipedia.org/wiki/List_of_language_names
+    { "en", no_translation( R"(English)" ) },
+    { "de", no_translation( R"(Deutsch)" ) },
+    { "es_AR", no_translation( R"(Español (Argentina))" ) },
+    { "es_ES", no_translation( R"(Español (España))" ) },
+    { "fr", no_translation( R"(Français)" ) },
+    { "hu", no_translation( R"(Magyar)" ) },
+    { "ja", no_translation( R"(日本語)" ) },
+    { "ko", no_translation( R"(한국어)" ) },
+    { "pl", no_translation( R"(Polski)" ) },
+    { "pt_BR", no_translation( R"(Português (Brasil))" )},
+    { "ru", no_translation( R"(Русский)" ) },
+    { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+    { "zh_TW", no_translation( R"(中文 (台灣))" ) },
+};
 
 options_manager &get_options()
 {
@@ -198,8 +219,8 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = INT_MIN;
-            thisOpt.fMax = INT_MAX;
+            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -1307,24 +1328,7 @@ void options_manager::add_options_interface()
 
     // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-    translate_marker( "Switch Language." ), {
-        { "", translate_marker( "System language" ) },
-        // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-        // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", no_translation( R"(English)" ) },
-        { "de", no_translation( R"(Deutsch)" ) },
-        { "es_AR", no_translation( R"(Español (Argentina))" ) },
-        { "es_ES", no_translation( R"(Español (España))" ) },
-        { "fr", no_translation( R"(Français)" ) },
-        { "hu", no_translation( R"(Magyar)" ) },
-        { "ja", no_translation( R"(日本語)" ) },
-        { "ko", no_translation( R"(한국어)" ) },
-        { "pl", no_translation( R"(Polski)" ) },
-        { "ru", no_translation( R"(Русский)" ) },
-        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-    }, "" );
+         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
 
     add_empty_line();
 

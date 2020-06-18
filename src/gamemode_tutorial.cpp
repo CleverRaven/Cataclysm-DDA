@@ -31,7 +31,13 @@
 #include "type_id.h"
 #include "point.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+
+static const trait_id trait_QUICK( "QUICK" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static std::vector<translation> tut_text;
 

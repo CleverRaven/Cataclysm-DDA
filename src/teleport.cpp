@@ -8,7 +8,9 @@
 #include "map.h"
 #include "messages.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_teleglow( "teleglow" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )

@@ -116,7 +116,7 @@
   {
     "id": "family_cookbook",
     "type": "BOOK",
-    "name": "family cookbook",
+    "name": { "str": "family cookbook" },
     "description": "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
     "weight": "1887 g",
     "volume": "1250 ml",
@@ -266,7 +266,7 @@
   {
     "id": "recipe_elfa",
     "type": "BOOK",
-    "name": "standpipe maintenance log",
+    "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
     "weight": "400 g",
     "volume": "750 ml",
@@ -425,7 +425,7 @@
   {
     "id": "textbook_chemistry",
     "type": "BOOK",
-    "name": "chemistry textbook",
+    "name": { "str": "chemistry textbook" },
     "description": "A college textbook on chemistry.",
     "weight": "1587 g",
     "volume": "2 L",

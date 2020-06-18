@@ -3,8 +3,7 @@
     "id": "manual_crt_cqb",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T CQB manual",
-    "name_plural": "C.R.I.T CQB manuals",
+    "name": { "str": "C.R.I.T CQB manual" },
     "description": "An advanced military manual on C.R.I.T general CQB.",
     "book_data": { "martial_art": "style_crt_cqb" }
   },

@@ -240,12 +240,12 @@ class weather_manager
         // Updates the temperature and weather patten
         void update_weather();
         // The air temperature
-        int temperature;
-        bool lightning_active;
+        int temperature = 0;
+        bool lightning_active = false;
         // Weather pattern
-        weather_type weather;
-        int winddirection;
-        int windspeed;
+        weather_type weather = weather_type::WEATHER_NULL;
+        int winddirection = 0;
+        int windspeed = 0;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;

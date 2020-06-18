@@ -87,7 +87,7 @@ struct field_effect {
 };
 
 struct field_intensity_level {
-    std::string name;
+    translation name;
     uint32_t symbol = PERCENT_SIGN_UNICODE;
     nc_color color = c_white;
     bool dangerous = false;
@@ -97,7 +97,7 @@ struct field_intensity_level {
     int extra_radiation_max = 0;
     int radiation_hurt_damage_min = 0;
     int radiation_hurt_damage_max = 0;
-    std::string radiation_hurt_message;
+    translation radiation_hurt_message;
     int intensity_upgrade_chance = 0;
     time_duration intensity_upgrade_duration = 0_turns;
     int monster_spawn_chance = 0;
@@ -142,7 +142,7 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
-        description_affix desc_affix;
+        description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
@@ -163,7 +163,7 @@ struct field_type {
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;
         std::string get_name( int level = 0 ) const {
-            return _( get_intensity_level( level ).name );
+            return get_intensity_level( level ).name.translated();
         }
         uint32_t get_codepoint( int level = 0 ) const {
             return get_intensity_level( level ).symbol;
@@ -190,31 +190,31 @@ struct field_type {
             return get_intensity_level( level ).extra_radiation_max;
         }
         int get_radiation_hurt_damage_min( int level = 0 ) const {
-            return intensity_levels[level].radiation_hurt_damage_min;
+            return get_intensity_level( level ).radiation_hurt_damage_min;
         }
         int get_radiation_hurt_damage_max( int level = 0 ) const {
-            return intensity_levels[level].radiation_hurt_damage_max;
+            return get_intensity_level( level ).radiation_hurt_damage_max;
         }
         std::string get_radiation_hurt_message( int level = 0 ) const {
-            return _( intensity_levels[level].radiation_hurt_message );
+            return get_intensity_level( level ).radiation_hurt_message.translated();
         }
         int get_intensity_upgrade_chance( int level = 0 ) const {
-            return intensity_levels[level].intensity_upgrade_chance;
+            return get_intensity_level( level ).intensity_upgrade_chance;
         }
         time_duration get_intensity_upgrade_duration( int level = 0 ) const {
-            return intensity_levels[level].intensity_upgrade_duration;
+            return get_intensity_level( level ).intensity_upgrade_duration;
         }
         int get_monster_spawn_chance( int level = 0 ) const {
-            return intensity_levels[level].monster_spawn_chance;
+            return get_intensity_level( level ).monster_spawn_chance;
         }
         int get_monster_spawn_count( int level = 0 ) const {
-            return intensity_levels[level].monster_spawn_count;
+            return get_intensity_level( level ).monster_spawn_count;
         }
         int get_monster_spawn_radius( int level = 0 ) const {
-            return intensity_levels[level].monster_spawn_radius;
+            return get_intensity_level( level ).monster_spawn_radius;
         }
         mongroup_id get_monster_spawn_group( int level = 0 ) const {
-            return intensity_levels[level].monster_spawn_group;
+            return get_intensity_level( level ).monster_spawn_group;
         }
         float get_light_emitted( int level = 0 ) const {
             return get_intensity_level( level ).light_emitted;

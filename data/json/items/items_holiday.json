@@ -2,7 +2,7 @@
   {
     "id": "plastic_jack_o_lantern",
     "type": "TOOL",
-    "name": "jack o'lantern",
+    "name": { "str": "jack o'lantern" },
     "description": "This is a plastic lantern that is painted to look like a pumpkin with a face.  It has a candle inside it, that can be replaced when burnt down.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
     "weight": "113 g",
     "volume": "3964 ml",
@@ -52,7 +52,7 @@
   {
     "id": "decorative_wreath",
     "type": "TOOL",
-    "name": "yule wreath",
+    "name": { "str": "yule wreath" },
     "description": "This decorative wreath can be deployed as furniture to decorate for the winter holidays.",
     "weight": "1814 g",
     "volume": "4 L",
@@ -61,7 +61,7 @@
     "material": "wood",
     "symbol": "0",
     "color": "green",
-    "looks_like": "plate",
+    "looks_like": "steel_plate",
     "use_action": { "type": "deploy_furn", "furn_type": "f_winter_wreath" }
   }
 ]

@@ -75,7 +75,60 @@
 #include "flat_set.h"
 #include "point.h"
 #include "clothing_mod.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_playing_instrument( "playing_instrument" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const bionic_id bio_syringe( "bio_syringe" );
+
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_SMALL2( "SMALL2" );
+
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_UNDERSIZE( "UNDERSIZE" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 class npc;
 
@@ -282,6 +335,57 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( explosion_use != nullptr ) {
         explosion_use->get_actor_ptr()->info( it, dump );
     }
+}
+
+std::unique_ptr<iuse_actor> unpack_actor::clone() const
+{
+    return std::make_unique<unpack_actor>( *this );
+}
+
+void unpack_actor::load( const JsonObject &obj )
+{
+    obj.read( "group", unpack_group );
+    obj.read( "items_fit", items_fit );
+    assign( obj, "filthy_volume_threshold", filthy_vol_threshold );
+}
+
+int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    std::vector<item> items = item_group::items_from( unpack_group, calendar::turn );
+    item last_armor;
+
+    p.add_msg_if_player( _( "You unpack the %s." ), it.tname() );
+
+    for( item &content : items ) {
+        if( content.is_armor() ) {
+            if( items_fit ) {
+                content.set_flag( "FIT" );
+            } else if( content.typeId() == last_armor.typeId() ) {
+                if( last_armor.has_flag( "FIT" ) ) {
+                    content.set_flag( "FIT" );
+                } else if( !last_armor.has_flag( "FIT" ) ) {
+                    content.unset_flag( "FIT" );
+                }
+            }
+            last_armor = content;
+        }
+
+        if( content.get_storage() >= filthy_vol_threshold && it.has_flag( "FILTHY" ) ) {
+            content.set_flag( "FILTHY" );
+        }
+
+        g->m.add_item_or_charges( p.pos(), content );
+    }
+
+    p.i_rem( &it );
+
+    return 0;
+}
+
+void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       _( "This item could be unpacked to receive something." ) );
 }
 
 std::unique_ptr<iuse_actor> countdown_actor::clone() const
@@ -2634,7 +2738,7 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        convert_volume( max_volume.value() ) );
 
     if( max_weight > 0_gram ) {
-        dump.emplace_back( "TOOL", "Max item weight: ",
+        dump.emplace_back( "TOOL", _( "Max item weight: " ),
                            string_format( _( "<num> %s" ), weight_units() ),
                            iteminfo::is_decimal,
                            convert_weight( max_weight ) );

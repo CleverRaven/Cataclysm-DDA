@@ -59,7 +59,35 @@
 #include "scent_block.h"
 #include "mongroup.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
+
+static const bionic_id bio_heatsink( "bio_heatsink" );
+
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_webbed( "webbed" );
+
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_GAS_PROOF( "GAS_PROOF" );
+
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_M_SKIN2( "M_SKIN2" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
@@ -1717,6 +1745,10 @@ void map::monster_in_field( monster &z )
 {
     if( z.digging() ) {
         // Digging monsters are immune to fields
+        return;
+    }
+    if( veh_at( z.pos() ) ) {
+        // FIXME: Immune when in a vehicle for now.
         return;
     }
     field &curfield = get_field( z.pos() );

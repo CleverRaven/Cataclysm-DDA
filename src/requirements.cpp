@@ -27,7 +27,8 @@
 #include "item.h"
 #include "visitable.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static std::map<requirement_id, requirement_data> requirements_all;
 

@@ -3,6 +3,7 @@
   * [Tools](#tools)
   * [Dependencies](#dependencies)
   * [Make flags](#make-flags)
+  * [Compiling localization files](#compiling-localization-files)
 * [Debian](#debian)
   * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
   * [Linux (native) SDL builds](#linux-native-sdl-builds)
@@ -105,6 +106,16 @@ The above will build a debug-enabled curses version for the architecture you are
 
 **Note on debug**:
 You should probably always build with `RELEASE=1` unless you experience segfaults and are willing to provide stack traces.
+
+## Compiling localization files
+
+If you want to compile localization files for specific languages, you can add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
+
+    make LANGUAGES="zh_CN zh_TW"
+
+You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` only may not tell `make` to compile those localization files for you.
+
+Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 
 # Debian
 
@@ -506,14 +517,6 @@ Build a release SDL version using Clang, link to libraries in the OS X Framework
 Build a release curses version with gettext supplied by Macports:
 
     make NATIVE=osx OSX_MIN=10.12 RELEASE=1 LOCALIZE=1 MACPORTS=1 CLANG=1
-
-### Compiling localization files
-
-If you just want to compile localization files for specified languages, you can add `LANGUAGES="<lang_id_1>[lang_id_2][...]"` option to make command:
-
-    make LANGUAGES="zh_CN zh_TW"
-
-You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` may not tell `make` to compile those localization files for you.
 
 ### Running
 

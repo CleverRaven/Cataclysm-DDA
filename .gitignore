@@ -87,6 +87,9 @@ Thumbs.db
 cscope.*
 tags
 
+# Generated translation source
+/lang/po/en.po
+
 # Compiled binary translations
 /lang/mo/
 

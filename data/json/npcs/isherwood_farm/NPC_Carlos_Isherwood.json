@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_CARLOS",
-    "name": "Carlos Isherwood",
+    "name": { "str": "Carlos Isherwood" },
     "job_description": "I'm Jesse's husband, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -172,7 +172,7 @@
   {
     "id": "MISSION_ISHERWOOD_CARLOS_1",
     "type": "mission_definition",
-    "name": "Find an anvil",
+    "name": { "str": "Find an anvil" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -201,7 +201,7 @@
   {
     "id": "MISSION_ISHERWOOD_CARLOS_2",
     "type": "mission_definition",
-    "name": "Find Chris Isherwood",
+    "name": { "str": "Find Chris Isherwood" },
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 3,
     "value": 20000,

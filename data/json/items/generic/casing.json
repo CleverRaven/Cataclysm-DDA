@@ -27,7 +27,7 @@
     "name": { "str": ".22 LR casing" },
     "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
     "weight": "2 g",
-    "volume": "3ml"
+    "volume": "3 ml"
   },
   {
     "id": "22_casing_new",
@@ -39,7 +39,7 @@
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
     "material": [ "powder", "brass" ],
-    "volume": "250 ml",
+    "volume": "3 ml",
     "weight": "1 g"
   },
   {
@@ -428,7 +428,7 @@
     "id": "shot_hull",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "shotgun hull",
+    "name": { "str": "shotgun hull" },
     "description": "An empty hull from a shotgun shell.",
     "weight": "8 g",
     "volume": "12ml",

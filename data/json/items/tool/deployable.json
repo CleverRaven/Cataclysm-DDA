@@ -2,7 +2,7 @@
   {
     "id": "brazier",
     "type": "TOOL",
-    "name": "brazier",
+    "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "5000 g",
     "volume": "2500 ml",
@@ -50,7 +50,7 @@
   {
     "id": "camp_chair",
     "type": "TOOL",
-    "name": "camp chair",
+    "name": { "str": "camp chair" },
     "description": "Folded camp chair, deploy to sit down.",
     "weight": "1000 g",
     "volume": "2500 ml",
@@ -66,7 +66,7 @@
   {
     "id": "cot",
     "type": "TOOL",
-    "name": "cot",
+    "name": { "str": "cot" },
     "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "6164 g",
     "volume": "2 L",
@@ -88,7 +88,7 @@
   {
     "id": "folding_bicycle",
     "type": "TOOL",
-    "name": "folding bicycle",
+    "name": { "str": "folding bicycle" },
     "description": "This is a bicycle folded into a relatively portable package.",
     "weight": "9071 g",
     "volume": "21500 ml",
@@ -108,9 +108,9 @@
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "name": "seeing this is a bug",
+    "name": { "str": "seeing this is a bug", "str_pl": "seeing this is a bug" },
     "description": "seeing this is a bug",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "symbol": "/",
     "color": "light_gray",
@@ -119,7 +119,7 @@
   {
     "id": "metal_butcher_rack",
     "type": "TOOL",
-    "name": "metal butchering rack",
+    "name": { "str": "metal butchering rack" },
     "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5000 g",
     "volume": "10 L",
@@ -136,7 +136,7 @@
     "type": "TOOL",
     "symbol": "0",
     "color": "light_gray",
-    "name": "inflatable boat",
+    "name": { "str": "inflatable boat" },
     "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
     "price": 350000,
     "material": "plastic",
@@ -155,7 +155,7 @@
   {
     "id": "metal_smoking_rack",
     "type": "TOOL",
-    "name": "metal smoking rack",
+    "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5000 g",
     "volume": "25 L",
@@ -170,7 +170,7 @@
   {
     "id": "tourist_table",
     "type": "TOOL",
-    "name": "tourist table",
+    "name": { "str": "tourist table" },
     "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
     "weight": "6000 g",
     "volume": "25 L",
@@ -185,7 +185,7 @@
   {
     "id": "leather_tarp",
     "type": "TOOL",
-    "name": "leather tarp",
+    "name": { "str": "leather tarp" },
     "description": "A large sheet of sewn leather that can be deployed instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.  It's rolled and ready for carrying.",
     "weight": "2000 g",
     "volume": "2500 ml",
@@ -200,7 +200,7 @@
   {
     "id": "fiber_mat",
     "type": "TOOL",
-    "name": "fiber mat",
+    "name": { "str": "fiber mat" },
     "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be used as a comfortable sleeping place.  It's rolled and ready for carrying.",
     "weight": "1000 g",
     "volume": "2500 ml",
@@ -215,7 +215,7 @@
   {
     "id": "churn",
     "type": "TOOL",
-    "name": "folded butter churn",
+    "name": { "str": "folded butter churn" },
     "description": "A large wooden container used to turn raw milk into butter and buttermilk.  This model uses a foot crank and holds three gallons of raw milk.",
     "weight": "6464 g",
     "volume": "11356 ml",
@@ -233,7 +233,7 @@
   {
     "id": "water_mill",
     "type": "TOOL",
-    "name": "water mill",
+    "name": { "str": "water mill" },
     "description": "A small water-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
@@ -248,7 +248,7 @@
   {
     "id": "wind_mill",
     "type": "TOOL",
-    "name": "wind mill",
+    "name": { "str": "wind mill" },
     "description": "A small wind-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",

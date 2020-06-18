@@ -241,7 +241,7 @@
     "price": 175,
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
   },
@@ -261,7 +261,7 @@
     "price": 175,
     "material": [ "wheat", "honey" ],
     "primary_material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
   },
@@ -280,7 +280,7 @@
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
     "price": 175,
     "material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
   },
@@ -323,7 +323,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blt",
-    "name": "BLT",
+    "name": { "str": "BLT" },
     "weight": "220 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",

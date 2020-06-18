@@ -34,7 +34,8 @@
 #include "player.h"
 #include "vpart_position.h"
 #include "faction.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_FIREWOOD( "FIREWOOD" );
 
 zone_manager::zone_manager()
 {
@@ -241,7 +242,17 @@ plot_options::query_seed_result plot_options::query_seed()
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
-
+    auto &mgr = zone_manager::get_manager();
+    const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
+            g->m.getabs( p.pos() ), 60 );
+    for( const tripoint &elem : zone_src_set ) {
+        tripoint elem_loc = g->m.getlocal( elem );
+        for( item &it : g->m.i_at( elem_loc ) ) {
+            if( it.is_seed() ) {
+                seed_inv.push_back( &it );
+            }
+        }
+    }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
@@ -594,9 +605,8 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
-        int radius, bool npc_search, const faction_id &fac ) const
+        int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
-    ( void )fac;
     std::unordered_set<tripoint> res;
     for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
@@ -695,7 +705,7 @@ bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) cons
     if( !zone || !it ) {
         return false;
     }
-    const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
+    const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
     std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
 
@@ -784,8 +794,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     const item_category &cat = it.get_category();
 
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
-            ( void )elem;
+        if( !get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ).empty() ) {
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }

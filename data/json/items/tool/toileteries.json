@@ -2,7 +2,7 @@
   {
     "id": "bathroom_scale",
     "type": "TOOL",
-    "name": "bathroom scale",
+    "name": { "str": "bathroom scale" },
     "symbol": "■",
     "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
@@ -33,7 +33,7 @@
   {
     "id": "elec_hairtrimmer",
     "type": "TOOL",
-    "name": "electric hair trimmer",
+    "name": { "str": "electric hair trimmer" },
     "description": "This is a pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 10 batteries per use.",
     "weight": "138 g",
     "volume": "250 ml",
@@ -52,7 +52,7 @@
   {
     "id": "mop",
     "type": "TOOL",
-    "name": "mop",
+    "name": { "str": "mop" },
     "description": "This is an unwieldy mop.  Good for cleaning up spills.  Use to mop up any 'mess' you may have made.",
     "weight": "929 g",
     "volume": "1750 ml",
@@ -69,7 +69,7 @@
     "id": "rag",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "rag",
+    "name": { "str": "rag" },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -85,7 +85,7 @@
     "id": "razor_blade",
     "symbol": ",",
     "color": "light_cyan",
-    "name": "razor blade",
+    "name": { "str": "razor blade" },
     "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,
@@ -96,7 +96,7 @@
   {
     "id": "shavingkit",
     "type": "TOOL",
-    "name": "shaving kit",
+    "name": { "str": "shaving kit" },
     "description": "This is a compact and lightweight shaving kit made for travelers.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -114,7 +114,7 @@
   {
     "id": "sponge",
     "type": "TOOL",
-    "name": "sponge",
+    "name": { "str": "sponge" },
     "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -128,7 +128,7 @@
   {
     "id": "survivor_hairtrimmer",
     "type": "TOOL",
-    "name": "makeshift haircut kit",
+    "name": { "str": "makeshift haircut kit" },
     "description": "This is a kit with tools for cutting hair.",
     "weight": "642 g",
     "volume": "1 L",
@@ -143,7 +143,7 @@
   {
     "id": "survivor_shavingkit",
     "type": "TOOL",
-    "name": "makeshift shaving kit",
+    "name": { "str": "makeshift shaving kit" },
     "description": "This is a makeshift shaving kit.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
     "weight": "540 g",
     "volume": "750 ml",
@@ -161,7 +161,7 @@
   {
     "id": "washboard",
     "type": "TOOL",
-    "name": "washboard",
+    "name": { "str": "washboard" },
     "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -176,7 +176,7 @@
   {
     "id": "wash_kit",
     "type": "TOOL",
-    "name": "washing kit",
+    "name": { "str": "washing kit" },
     "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
     "weight": "80 g",
     "volume": "250 ml",

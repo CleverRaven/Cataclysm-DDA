@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "flaregun",
+    "name": { "str": "flaregun" },
     "description": "A plastic single shot pistol that can be loaded with signal flares.",
     "weight": "213 g",
     "volume": "500 ml",

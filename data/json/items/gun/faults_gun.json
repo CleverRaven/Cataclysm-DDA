@@ -2,7 +2,7 @@
   {
     "id": "fault_gun_blackpowder",
     "type": "fault",
-    "name": "Blackpowder fouling",
+    "name": { "str": "Blackpowder fouling" },
     "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust.  It fouls the gun much faster than the use of modern smokeless powder cartridges.  Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly.",
     "mending_methods": [
       {
@@ -62,7 +62,7 @@
   {
     "id": "fault_gun_chamber_spent",
     "type": "fault",
-    "name": "Spent casing in chamber",
+    "name": { "str": "Spent casing in chamber" },
     "description": "This gun currently has an empty casing chambered.  It will have to be removed before firing.",
     "mending_methods": [
       {
@@ -78,7 +78,7 @@
   {
     "id": "fault_gun_unlubricated",
     "type": "fault",
-    "name": "Unlubricated",
+    "name": { "str": "Unlubricated" },
     "description": "Either this gun is brand new and came without lubrication or it was recently cleaned with a solvent without oiling afterwards.  Either way, it's not lubricated and will not cycle properly, and can even be damaged.",
     "mending_methods": [
       {
@@ -101,7 +101,7 @@
   {
     "id": "fault_gun_dirt",
     "type": "fault",
-    "name": "Fouling",
+    "name": { "str": "Fouling" },
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun.  Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm.",
     "mending_methods": [
       {

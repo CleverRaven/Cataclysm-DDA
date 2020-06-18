@@ -19,6 +19,12 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
+enum requirement_check_result : int {
+    SKIP_LOCATION = 0,
+    CAN_DO_LOCATION,
+    RETURN_EARLY       //another activity like a fetch activity has been started.
+};
+
 enum butcher_type : int {
     BUTCHER,        // quick butchery
     BUTCHER_FULL,   // full workshop butchery
@@ -90,7 +96,8 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type 
 void activity_on_turn_drop();
 void activity_on_turn_move_items( player_activity &act, player &p );
 void activity_on_turn_move_loot( player_activity &act, player &p );
-void generic_multi_activity_handler( player_activity &act, player &p );
+//return true if there is an activity that can be done potentially, return false if no work can be found.
+bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
@@ -169,6 +176,7 @@ void fish_do_turn( player_activity *act, player *p );
 void cracking_do_turn( player_activity *act, player *p );
 void repair_item_do_turn( player_activity *act, player *p );
 void butcher_do_turn( player_activity *act, player *p );
+void pry_nails_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
@@ -210,6 +218,7 @@ void milk_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
 void churn_finish( player_activity *act, player *p );
+void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player * );
@@ -236,6 +245,7 @@ void aim_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );
+void pry_nails_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void chop_planks_finish( player_activity *act, player *p );

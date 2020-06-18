@@ -743,7 +743,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         } else if( old == "megastore_entrance" ) {
             const std::string megastore = "megastore";
-            const std::string megastore_entrance = "megastore_entrance";
             const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
             const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
             const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );
@@ -838,14 +837,15 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 ter_set( pos + point_south_east, oter_id( "haz_sar_b_4_west" ) );
             }
 
-        } else if( old == "house_base_north" ) {
-            ter_set( pos, oter_id( "house_north" ) );
-        } else if( old == "house_base_south" ) {
-            ter_set( pos, oter_id( "house_south" ) );
-        } else if( old == "house_base_east" ) {
-            ter_set( pos, oter_id( "house_east" ) );
-        } else if( old == "house_base_west" ) {
-            ter_set( pos, oter_id( "house_west" ) );
+        } else if( old == "house_base_north" || old == "house_north" ||
+                   old == "house_base" || old == "house" ) {
+            ter_set( pos, oter_id( "house_w_1_north" ) );
+        } else if( old == "house_base_south" || old == "house_south" ) {
+            ter_set( pos, oter_id( "house_w_1_south" ) );
+        } else if( old == "house_base_east" || old == "house_east" ) {
+            ter_set( pos, oter_id( "house_w_1_east" ) );
+        } else if( old == "house_base_west" || old == "house_west" ) {
+            ter_set( pos, oter_id( "house_w_1_west" ) );
         }
 
         for( const auto &conv : nearby ) {

@@ -19,7 +19,9 @@
 #include "trap.h"
 #include "assign.h"
 #include "json.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 namespace
 {
@@ -183,9 +185,9 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
+static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
-    for( const std::string line : ja ) {
+    for( const std::string &line : ja ) {
         centers.emplace_back( line );
     }
 }

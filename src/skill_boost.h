@@ -32,8 +32,8 @@ class skill_boost
         string_id<skill_boost> id;
         bool was_loaded = false;
         std::vector<std::string> _skills;
-        int _offset;
-        float _power;
+        int _offset = 0;
+        float _power = 0.0f;
 
         void load( const JsonObject &jo, const std::string &src );
 };

@@ -22,9 +22,8 @@ inline bool init_sound()
     return false;
 }
 inline void shutdown_sound() { }
-inline void play_music( const std::string &playlist )
+inline void play_music( const std::string &/*playlist*/ )
 {
-    ( void )playlist;
 }
 inline void update_music_volume() { }
 inline void load_soundset() { }

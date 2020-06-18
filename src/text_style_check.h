@@ -38,7 +38,7 @@ void text_style_check( Iter beg, Iter end,
         std::u32string symbol;
         std::u32string follow;
         struct {
-            bool check;
+            bool check = false;
             size_t min_string_length = 0;
             size_t min_word_length = 0;
             size_t fix_spaces_min = 0;
@@ -56,7 +56,7 @@ void text_style_check( Iter beg, Iter end,
             size_t fix_before_max = 0;
         } spaces;
         struct {
-            bool yes;
+            bool yes = false;
             std::string str {};
             std::string escaped {};
             std::string sym_desc {};

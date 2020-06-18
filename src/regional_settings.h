@@ -234,7 +234,7 @@ struct region_terrain_and_furniture_settings {
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-    double river_scale;
+    double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 

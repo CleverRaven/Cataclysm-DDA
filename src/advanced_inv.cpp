@@ -2,7 +2,6 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cata_string_consts.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -63,6 +62,14 @@
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 void create_advanced_inv()
 {

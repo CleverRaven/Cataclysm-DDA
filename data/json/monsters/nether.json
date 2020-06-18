@@ -2,7 +2,7 @@
   {
     "id": "mon_albino_penguin",
     "type": "MONSTER",
-    "name": "albino penguin",
+    "name": { "str": "albino penguin" },
     "description": "Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked.",
     "default_faction": "nether",
     "bodytype": "bear",
@@ -35,7 +35,7 @@
   {
     "id": "mon_amigara_horror",
     "type": "MONSTER",
-    "name": "amigara horror",
+    "name": { "str": "amigara horror" },
     "description": "A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
     "default_faction": "mutant",
     "bodytype": "human",
@@ -90,7 +90,7 @@
   {
     "id": "mon_blood_sacrifice",
     "type": "MONSTER",
-    "name": "blood sacrifice",
+    "name": { "str": "blood sacrifice" },
     "description": "A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
     "default_faction": "cult",
     "bodytype": "human",
@@ -116,7 +116,7 @@
   {
     "id": "mon_breather",
     "type": "MONSTER",
-    "name": "breather",
+    "name": { "str": "breather" },
     "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernible exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -136,7 +136,7 @@
   {
     "id": "mon_breather_hub",
     "type": "MONSTER",
-    "name": "breather",
+    "name": { "str": "breather" },
     "description": "A weird mass of immobile pink goo.  It seems to breathe.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -156,7 +156,7 @@
   {
     "id": "mon_darkman",
     "type": "MONSTER",
-    "name": "wraith",
+    "name": { "str": "wraith" },
     "description": "A gigantic shadow, chaotically changing in shape and volume.  Two piercing orbs of light dominate what can only be described as its head.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -187,7 +187,7 @@
   {
     "id": "mon_dementia",
     "type": "MONSTER",
-    "name": "dementia",
+    "name": { "str": "dementia" },
     "description": "A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
     "default_faction": "cult",
     "bodytype": "human",
@@ -215,7 +215,7 @@
   {
     "id": "mon_dog_thing",
     "type": "MONSTER",
-    "name": "dog",
+    "name": { "str": "dog" },
     "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
     "default_faction": "mutant",
     "bodytype": "dog",
@@ -242,7 +242,7 @@
   {
     "id": "mon_flaming_eye",
     "type": "MONSTER",
-    "name": "flaming eye",
+    "name": { "str": "flaming eye" },
     "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat and trails a set of flailing black tendrils as it slowly drifts about; its unearthly presence filling you with dread at the prospect of falling under its baleful gaze.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -261,7 +261,7 @@
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
-    "harvest": "meatslug",
+    "harvest": "zombie_meatslug",
     "special_attacks": [ [ "STARE", 12 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
@@ -269,7 +269,7 @@
   {
     "id": "mon_flesh_angel",
     "type": "MONSTER",
-    "name": "flesh angel",
+    "name": { "str": "flesh angel" },
     "description": "A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
     "default_faction": "cult",
     "bodytype": "angel",
@@ -298,7 +298,7 @@
   {
     "id": "mon_flying_polyp",
     "type": "MONSTER",
-    "name": "flying polyp",
+    "name": { "str": "flying polyp" },
     "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which send cold shivers of primal terror down your spine.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -338,7 +338,7 @@
   {
     "id": "mon_gozu",
     "type": "MONSTER",
-    "name": "gozu",
+    "name": { "str": "gozu" },
     "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
     "default_faction": "nether",
     "bodytype": "human",
@@ -378,7 +378,7 @@
   {
     "id": "mon_gracke",
     "type": "MONSTER",
-    "name": "gracken",
+    "name": { "str": "gracken" },
     "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily, skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  Gazing upon its disturbing form fills you with an unspeakable terror.",
     "default_faction": "nether",
     "bodytype": "human",
@@ -404,7 +404,7 @@
   {
     "id": "mon_headless_dog_thing",
     "type": "MONSTER",
-    "name": "tentacle dog",
+    "name": { "str": "tentacle dog" },
     "description": "A dog's body with a mass of ropey, black tentacles reaching out from its head.",
     "default_faction": "mutant",
     "bodytype": "dog",
@@ -483,7 +483,7 @@
     "vision_night": 50,
     "harvest": "exempt",
     "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ] ],
-    "emit_fields": [ "emit_tindalos_gas_leak" ],
+    "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
     "flags": [
@@ -526,7 +526,7 @@
     "vision_night": 50,
     "harvest": "exempt",
     "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ], [ "DISAPPEAR", 25 ] ],
-    "emit_fields": [ "emit_tindalos_gas_leak" ],
+    "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
     "flags": [
@@ -545,7 +545,7 @@
   {
     "id": "mon_human_snail",
     "type": "MONSTER",
-    "name": "human snail",
+    "name": { "str": "human snail" },
     "description": "An enormous fleshy snail, with an oddly human face.  Eyestalks protrude from where the eyes should be.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
@@ -573,7 +573,7 @@
   {
     "id": "mon_hunting_horror",
     "type": "MONSTER",
-    "name": "hunting horror",
+    "name": { "str": "hunting horror" },
     "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black rubbery wings of monstrous dimensions.  Its form writhes and changes before your eyes, filling you with unnameable horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -610,7 +610,7 @@
   {
     "id": "mon_kreck",
     "type": "MONSTER",
-    "name": "kreck",
+    "name": { "str": "kreck" },
     "description": "This is some form of otherworldly hound.  Lean and hungry looking, its twisted red flesh is stretched tightly across its misshapen, angular frame.  Loping grotesquely along, its unusually long neck stretches forward, its skull-like head near the ground as it sniffs out its prey.  Its foulness partially veiled by some arcane force, it seems to almost flicker in and out of your perceptions in a fashion that awakens ancient nameless terrors in the back of your mind",
     "default_faction": "nether",
     "bodytype": "dog",
@@ -639,7 +639,7 @@
   {
     "id": "mon_shadow",
     "type": "MONSTER",
-    "name": "shadow",
+    "name": { "str": "shadow" },
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -684,7 +684,7 @@
   {
     "id": "mon_shadow_snake",
     "type": "MONSTER",
-    "name": "shadow snake",
+    "name": { "str": "shadow snake" },
     "description": "This is an animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
     "default_faction": "nether",
     "bodytype": "snake",
@@ -711,7 +711,7 @@
   {
     "id": "mon_shoggoth",
     "type": "MONSTER",
-    "name": "shoggoth",
+    "name": { "str": "shoggoth" },
     "description": "A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -742,7 +742,7 @@
   {
     "id": "mon_thing",
     "type": "MONSTER",
-    "name": "thing",
+    "name": { "str": "thing" },
     "description": "An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
     "default_faction": "mutant",
     "bodytype": "blob",
@@ -796,7 +796,7 @@
   {
     "id": "mon_yugg",
     "type": "MONSTER",
-    "name": "yugg",
+    "name": { "str": "yugg" },
     "description": "This is a huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.  The mere sight of its putrid whitish visage is enough to loose prehistoric terrors within the darkest recesses of your mind.",
     "default_faction": "nether",
     "bodytype": "snake",

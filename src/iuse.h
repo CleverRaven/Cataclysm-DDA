@@ -207,8 +207,6 @@ class iuse
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
-        int gobag_normal( player *, item *, bool, const tripoint & );
-        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

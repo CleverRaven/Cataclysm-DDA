@@ -98,6 +98,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FIREPROOF: return "FIREPROOF";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
+        case MF_COLDPROOF: return "COLDPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
@@ -108,7 +109,9 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CBM_CIV: return "CBM_CIV";
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";
+        case MF_CONSOLE_DESPAWN: return "CONSOLE_DESPAWN";
         case MF_IMMOBILE: return "IMMOBILE";
+        case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
         case MF_RIDEABLE_MECH: return "RIDEABLE_MECH";
         case MF_MILITARY_MECH: return "MILITARY_MECH";
         case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
@@ -760,7 +763,20 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         dies.push_back( mdeath::normal );
     }
 
-    assign( jo, "emit_fields", emit_fields );
+    if( jo.has_array( "emit_fields" ) ) {
+        JsonArray jar = jo.get_array( "emit_fields" );
+        if( jar.has_string( 0 ) ) { // TEMPORARY until 0.F
+            for( const std::string id : jar ) {
+                emit_fields.emplace( emit_id( id ), 1_seconds );
+            }
+        } else {
+            while( jar.has_more() ) {
+                JsonObject obj = jar.next_object();
+                emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
+                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+            }
+        }
+    }
 
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
@@ -1103,6 +1119,17 @@ void MonsterGenerator::check_monster_definitions() const
         if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
+        if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
+            debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
+        }
+        if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
+            !item( itype_id( mon.starting_ammo.begin()->first ) ).made_of( LIQUID ) ) {
+            debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
+                      mon.id.c_str(), mon.starting_ammo.begin()->first );
+        }
+        if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
+            debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
+        }
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );
@@ -1150,9 +1177,10 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const auto &e : mon.emit_fields ) {
-            if( !e.is_valid() ) {
-                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
+        for( const std::pair<emit_id, time_duration> &e : mon.emit_fields ) {
+            const emit_id emid = e.first;
+            if( !emid.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );
             }
         }
 

@@ -2,7 +2,7 @@
   {
     "id": "sheet",
     "type": "ARMOR",
-    "name": "sheet",
+    "name": { "str": "sheet" },
     "description": "A large fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
     "weight": "771 g",
     "volume": "5 L",
@@ -22,7 +22,7 @@
   {
     "id": "blanket",
     "type": "ARMOR",
-    "name": "blanket",
+    "name": { "str": "blanket" },
     "description": "Hiding under here will not protect you from the monsters.",
     "weight": "1123 g",
     "volume": "15 L",
@@ -43,7 +43,7 @@
   {
     "id": "down_blanket",
     "type": "ARMOR",
-    "name": "down-filled blanket",
+    "name": { "str": "down-filled blanket" },
     "description": "Hiding under here will not protect you from the monsters, but it'll keep you warm.",
     "weight": "3500 g",
     "volume": "31 L",
@@ -64,7 +64,7 @@
   {
     "id": "fur_blanket",
     "type": "ARMOR",
-    "name": "fur blanket",
+    "name": { "str": "fur blanket" },
     "description": "A heavy fur blanket that covers most of your body.",
     "weight": "3500 g",
     "volume": "31 L",
@@ -85,7 +85,7 @@
   {
     "id": "sleeping_bag",
     "type": "ARMOR",
-    "name": "sleeping bag",
+    "name": { "str": "sleeping bag" },
     "description": "A large sleeping bag that covers you head to toe.  This one is medium weight.",
     "weight": "1600 g",
     "volume": "14 L",

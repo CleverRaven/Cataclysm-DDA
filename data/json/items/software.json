@@ -2,7 +2,7 @@
   {
     "id": "software",
     "type": "GENERIC",
-    "name": "software",
+    "name": { "str": "software", "str_pl": "software" },
     "symbol": "#",
     "container": "usb_drive",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",

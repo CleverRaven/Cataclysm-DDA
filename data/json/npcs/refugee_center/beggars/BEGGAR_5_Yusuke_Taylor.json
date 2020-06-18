@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_5",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "This is the only beggar with some skills, sort of the leader.",

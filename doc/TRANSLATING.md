@@ -325,6 +325,8 @@ issues reported by the `translation` class.
 | Monster names (plural supported) and descriptions
 | Snippets
 | Bodypart names
+| Keybinding action names
+| Field level names
 
 ### Recommendations
 

@@ -26,7 +26,6 @@
 #include "mtype.h"
 #include "stomach.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -38,6 +37,78 @@
 
 #include <functional>
 #include <algorithm>
+
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disabled( "disabled" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_motor_seizure( "motor_seizure" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_rat( "rat" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_toxin_buildup( "toxin_buildup" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+const vitamin_id vitamin_iron( "iron" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+
+static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+
+static const bionic_id bio_watch( "bio_watch" );
+
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static void eff_fun_onfire( player &u, effect &it )
 {
@@ -517,7 +588,7 @@ void player::hardcoded_effects( effect &it )
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                 }
@@ -617,7 +688,7 @@ void player::hardcoded_effects( effect &it )
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
-                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }

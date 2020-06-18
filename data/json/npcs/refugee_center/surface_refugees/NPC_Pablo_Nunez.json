@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Pablo",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Pablo is a young professional who survived with his wife, but she was pregnant and lost the baby.",

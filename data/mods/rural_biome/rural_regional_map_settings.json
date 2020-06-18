@@ -10,6 +10,9 @@
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
+        "t_region_grass": { "t_grass": 1 },
+        "t_region_soil": { "t_dirt": 1 },
         "t_region_shrub": {
           "t_underbrush": 60,
           "t_shrub": 15,
@@ -448,11 +451,9 @@
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
-        "house": 50,
         "house_prepper": 20,
         "house_prepper2": 10,
         "house_fortified": 20,
-        "house_base": 333,
         "house_w_2": 50,
         "house_w_3": 50,
         "house_w_4": 50,

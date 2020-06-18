@@ -2,7 +2,7 @@
   {
     "id": "mon_charred_nightmare",
     "type": "MONSTER",
-    "name": "charred nightmare",
+    "name": { "str": "charred nightmare" },
     "description": "Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -34,7 +34,7 @@
   {
     "id": "mon_irradiated_wanderer_1",
     "type": "MONSTER",
-    "name": "irradiated wanderer",
+    "name": { "str": "irradiated wanderer" },
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -66,7 +66,7 @@
   {
     "id": "mon_irradiated_wanderer_2",
     "type": "MONSTER",
-    "name": "irradiated wanderer",
+    "name": { "str": "irradiated wanderer" },
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -99,7 +99,7 @@
   {
     "id": "mon_irradiated_wanderer_3",
     "type": "MONSTER",
-    "name": "irradiated wanderer",
+    "name": { "str": "irradiated wanderer" },
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -132,7 +132,7 @@
   {
     "id": "mon_irradiated_wanderer_4",
     "type": "MONSTER",
-    "name": "irradiated wanderer",
+    "name": { "str": "irradiated wanderer" },
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "default_faction": "zombie",
     "bodytype": "human",

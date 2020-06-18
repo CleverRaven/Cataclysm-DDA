@@ -4,7 +4,7 @@
     "id": "paintball",
     "price": 1000,
     "price_postapoc": 500,
-    "name": "paintball",
+    "name": { "str": "paintball" },
     "symbol": "=",
     "color": "red",
     "description": "A tube of small paintballs.  They deal virtually no damage.",

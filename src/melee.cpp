@@ -295,11 +295,6 @@ float player::hit_roll() const
 {
     // Dexterity, skills, weapon and martial arts
     float hit = get_hit();
-    // Drunken master makes us hit better
-    if( has_trait( trait_DRUNKEN ) ) {
-        hit += to_turns<float>( get_effect_dur( effect_drunk ) ) / ( used_weapon().is_null() ? 300.0f :
-                400.0f );
-    }
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
@@ -845,11 +840,11 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
         int maxdrunk = 0;
         const time_duration drunk_dur = get_effect_dur( effect_drunk );
         if( unarmed ) {
-            mindrunk = drunk_dur / 600_turns;
-            maxdrunk = drunk_dur / 250_turns;
+            mindrunk = drunk_dur / 1_hours;
+            maxdrunk = drunk_dur / 25_minutes;
         } else {
-            mindrunk = drunk_dur / 900_turns;
-            maxdrunk = drunk_dur / 400_turns;
+            mindrunk = drunk_dur / 90_minutes;
+            maxdrunk = drunk_dur / 40_minutes;
         }
 
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
@@ -994,10 +989,9 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     di.add_damage( DT_CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
-void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
+void player::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
                                const item &weap ) const
 {
-    ( void )average; // No random rolls in stab damage
     float cut_dam = mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
 
     int unarmed_skill = get_skill_level( skill_unarmed );

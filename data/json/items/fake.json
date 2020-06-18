@@ -2,7 +2,7 @@
   {
     "abstract": "fake_item",
     "type": "GENERIC",
-    "name": "fake item",
+    "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
     "symbol": "@",
     "color": "red"
@@ -11,7 +11,7 @@
     "id": "arcfurnace",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "arc furnace"
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_burrowing",
@@ -26,8 +26,8 @@
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "integrated toolset",
-    "flags": "TRADER_AVOID",
+    "name": { "str": "integrated toolset" },
+    "flags": [ "TRADER_AVOID" ],
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
@@ -65,7 +65,7 @@
     "id": "fake_razor",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic razor",
+    "name": { "str": "bionic razor" },
     "qualities": [ [ "BUTCHER", 8 ] ]
   },
   {
@@ -73,7 +73,7 @@
     "type": "TOOL",
     "symbol": "v",
     "color": "red",
-    "name": "clairvoyance rod",
+    "name": { "str": "clairvoyance rod" },
     "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
     "price": 5000,
     "material": [ "steel" ],
@@ -124,7 +124,7 @@
     "id": "boulder_anvil",
     "type": "TOOL",
     "copy-from": "fake_item",
-    "name": "boulder anvil",
+    "name": { "str": "boulder anvil" },
     "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
@@ -148,7 +148,7 @@
     "id": "fake_firestarter",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic firestarter",
+    "name": { "str": "bionic firestarter" },
     "flags": [ "FIRESTARTER" ]
   },
   {

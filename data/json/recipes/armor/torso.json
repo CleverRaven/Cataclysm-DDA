@@ -291,7 +291,7 @@
     "using": [ [ "sewing_standard", 135 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ] ],
+      [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 16 ] ],
       [ [ "rag", 19 ] ],
       [
@@ -776,7 +776,7 @@
     "using": [ [ "sewing_standard", 115 ] ],
     "components": [
       [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
+      [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 13 ] ],
       [ [ "rag", 14 ] ],
       [

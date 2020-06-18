@@ -240,7 +240,7 @@
   {
     "id": "summon_scroll_smudged",
     "type": "GENERIC",
-    "name": "Smudged Scroll",
+    "name": { "str": "Smudged Scroll" },
     "description": "This looks like someone was designing a new spell, but spilled a mug of coffee on it and crumpled it up in anger.  You can tell that it will definitely cast something, but you can't be sure that it will work very well.",
     "weight": "129 g",
     "volume": "100 ml",

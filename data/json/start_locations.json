@@ -27,7 +27,7 @@
     "type": "start_location",
     "ident": "boarded_house",
     "name": "Boarded up house",
-    "target": "house",
+    "target": "house_w_1",
     "flags": [ "BOARDED" ]
   },
   {

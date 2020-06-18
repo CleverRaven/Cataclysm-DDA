@@ -25,7 +25,18 @@
 #include "pimpl.h"
 #include "colony.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+
+static const trait_id trait_CLAWS( "CLAWS" );
+static const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
+static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
+static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
+static const trait_id trait_MANDIBLES( "MANDIBLES" );
+static const trait_id trait_TALONS( "TALONS" );
+
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_ups( "bio_ups" );
 
 /** @relates visitable */
 template <typename T>

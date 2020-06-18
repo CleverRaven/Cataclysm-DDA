@@ -7,7 +7,7 @@
     "valid_targets": [ "self", "ally" ],
     "min_damage": -5,
     "max_damage": -20,
-    "damage_increment": -1,
+    "damage_increment": -1.0,
     "max_level": 10,
     "min_range": 0,
     "max_range": 4,
@@ -79,7 +79,7 @@
   {
     "id": "bio_acidicspray",
     "type": "SPELL",
-    "name": "Acidic Spray",
+    "name": { "str": "Acidic Spray" },
     "description": "When cast, the mage opens his mouth and sprays acid in a wide cone to dissolve his foes into goo.  Just imagine what he'll do with the goo.",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "cone_attack",
@@ -92,7 +92,7 @@
     "max_level": 20,
     "min_damage": 8,
     "max_damage": 65,
-    "damage_increment": 4,
+    "damage_increment": 4.0,
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
@@ -100,7 +100,7 @@
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5
+    "aoe_increment": 5.0
   },
   {
     "id": "bio_fleshpouch",
@@ -147,7 +147,7 @@
   {
     "id": "create_rune_biomancer",
     "type": "SPELL",
-    "name": "Biomancer Rune",
+    "name": { "str": "Biomancer Rune" },
     "description": "This ritual creates a small pebble attuned to Biomancers.  You can use the rune as a catalyst for recipes.",
     "valid_targets": [ "self" ],
     "min_damage": 1,

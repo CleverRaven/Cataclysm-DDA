@@ -3,7 +3,7 @@
     "id": "ppkmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Walther PPK magazine",
+    "name": { "str": "Walther PPK magazine" },
     "description": "A standard 8-round steel box magazine for the Walther PPK.",
     "weight": "80 g",
     "volume": "250 ml",

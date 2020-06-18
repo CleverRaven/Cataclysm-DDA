@@ -2,7 +2,7 @@
   {
     "id": "mon_alpha_razorclaw",
     "type": "MONSTER",
-    "name": "alpha razorclaw",
+    "name": { "str": "alpha razorclaw" },
     "description": "A blood red, gigantic razorclaw.  Its sword like pincers serve as the keepers of the nest.",
     "default_faction": "razorclaw",
     "bodytype": "crab",
@@ -631,7 +631,7 @@
   {
     "id": "mon_razorclaw",
     "type": "MONSTER",
-    "name": "razorclaw",
+    "name": { "str": "razorclaw" },
     "description": "A man-sized crustacean clad in an iron-like chitin, capable of emitting the most horrible of shrieks.  Often spotted near shipwrecks or other dark damp places, which it uses as nesting grounds.",
     "default_faction": "razorclaw",
     "bodytype": "crab",

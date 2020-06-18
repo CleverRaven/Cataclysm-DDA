@@ -314,6 +314,12 @@ struct vehicle_part {
         /** Is this part a reactor? */
         bool is_reactor() const;
 
+        /** is this part currently unable to retain to fluid/charge?
+         *  this doesn't take into account whether or not the part has any contents
+         *  remaining to leak
+         */
+        bool is_leaking() const;
+
         /** Can this part function as a turret? */
         bool is_turret() const;
 
@@ -476,6 +482,12 @@ class turret_data
         int range() const;
 
         /**
+         * Check if target is in range of this turret (considers current ammo)
+         * Assumes this turret's status is 'ready'
+         */
+        bool in_range( const tripoint &target ) const;
+
+        /**
          * Prepare the turret for firing, called by firing function.
          * This sets up vehicle tanks, recoil adjustments, vehicle rooftop status,
          * and performs any other actions that must be done before firing a turret.
@@ -513,7 +525,7 @@ class turret_data
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
-        double cached_recoil;
+        double cached_recoil = 0;
 
     protected:
         vehicle *veh = nullptr;
@@ -670,11 +682,6 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
-        /*
-         * Fire turret at automatically acquired targets
-         * @return number of shots actually fired (which may be zero)
-         */
-        int automatic_fire_turret( vehicle_part &pt );
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -1243,6 +1250,12 @@ class vehicle
         double coeff_water_drag() const;
 
         /**
+         * watertight hull height in meters measures distance from bottom of vehicle
+         * to the point where the vehicle will start taking on water
+         */
+        double water_hull_height() const;
+
+        /**
          * water draft in meters - how much of the vehicle's body is under water
          * must be less than the hull height or the boat will sink
          * at some point, also add boats with deep draft running around
@@ -1430,32 +1443,46 @@ class vehicle
         /** Set firing mode for specific turrets */
         void turrets_set_mode();
 
-        /*
-         * Set specific target for automatic turret fire
-         * @param manual if true, allows target assignment for manually controlled turrets.
-         * @param automatic if true, allows target assignment for automatically controlled turrets.
-         * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
-         * @returns whether a valid target was selected.
-         */
-        bool turrets_aim( bool manual = true, bool automatic = false,
-                          vehicle_part *tur_part = nullptr );
+        /** Select a single ready turret, aim it using the aiming UI and fire. */
+        void turrets_aim_and_fire_single();
 
         /*
-         * Call turrets_aim and then fire turrets if we get a valid target.
-         * @param manual if true, allows targeting and firing for manual turrets.
-         * @param automatic if true, allows targeting and firing for automatic turrets.
-         * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
-         * @return the number of shots fired.
+         * Find all ready turrets that are set to manual mode, aim them using the aiming UI and fire.
+         * @param show_msg Show 'no such turrets found' message. Does not affect returned value.
+         * @return False if there are no such turrets
          */
-        int turrets_aim_and_fire( bool manual = true, bool automatic = false,
-                                  vehicle_part *tur_part = nullptr );
+        bool turrets_aim_and_fire_all_manual( bool show_msg = false );
+
+        /** Set target for automatic turrets using the aiming UI */
+        void turrets_override_automatic_aim();
 
         /*
-         * Call turrets_aim and then fire a selected single turret if we have a valid target.
-         * @param tur_part if not null, this turret is aimed instead of bringing up the selection menu.
-         * @return the number of shots fired.
+         * Fire turret at automatically acquired target
+         * @return number of shots actually fired (which may be zero)
          */
-        int turrets_aim_single( vehicle_part *tur_part = nullptr );
+        int automatic_fire_turret( vehicle_part &pt );
+
+    private:
+        /*
+         * Find all turrets that are ready to fire.
+         * @param manual Include turrets set to 'manual' targeting mode
+         * @param automatic Include turrets set to 'automatic' targeting mode
+         */
+        std::vector<vehicle_part *> find_all_ready_turrets( bool manual, bool automatic );
+
+        /*
+         * Select target using the aiming UI and set turrets to aim at it.
+         * Assumes all turrets are ready to fire.
+         * @return False if target selection was aborted / no target was found
+         */
+        bool turrets_aim( std::vector<vehicle_part *> &turrets );
+
+        /*
+         * Select target using the aiming UI, set turrets to aim at it and fire them.
+         * Assumes all turrets are ready to fire.
+         * @return Number of shots fired by all turrets (which may be zero)
+         */
+        int turrets_aim_and_fire( std::vector<vehicle_part *> &turrets );
 
         /*
          * @param pt the vehicle part containing the turret we're trying to target.
@@ -1464,6 +1491,7 @@ class vehicle
         npc get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
+    public:
         /**
          *  Try to assign a crew member (who must be a player ally) to a specific seat
          *  @note enforces NPC's being assigned to only one seat (per-vehicle) at once

@@ -2,7 +2,7 @@
   {
     "type": "martial_art",
     "id": "style_mma_panzer",
-    "name": "Panzer Kunst",
+    "name": { "str": "Panzer Kunst" },
     "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
     "initiate": [ "You adopt a panzer kunst stance.", "%s adopts a panzer kunst stance." ],
     "learn_difficulty": 10,

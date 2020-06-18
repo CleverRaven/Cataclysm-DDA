@@ -1,7 +1,7 @@
 [
   {
     "abstract": "spell_wand",
-    "name": "Magic Wand",
+    "name": { "str": "Magic Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
@@ -19,7 +19,7 @@
   },
   {
     "abstract": "disp_wand",
-    "name": "Disposable Wand",
+    "name": { "str": "Disposable Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
@@ -37,8 +37,7 @@
   {
     "type": "TOOL",
     "id": "wand_magic_missile_minor",
-    "name": "minor wand of magic missile",
-    "name_plural": "minor wands of magic missile",
+    "name": { "str": "minor wand of magic missile", "str_pl": "minor wands of magic missile" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 5, "need_wielding": true }
@@ -46,8 +45,7 @@
   {
     "type": "TOOL",
     "id": "wand_magic_missile_lesser",
-    "name": "lesser wand of magic missile",
-    "name_plural": "lesser wands of magic missile",
+    "name": { "str": "lesser wand of magic missile", "str_pl": "lesser wands of magic missile" },
     "copy-from": "spell_wand",
     "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
@@ -56,8 +54,7 @@
   {
     "type": "TOOL",
     "id": "wand_magic_missile_greater",
-    "name": "greater wand of magic missile",
-    "name_plural": "greater wands of magic missile",
+    "name": { "str": "greater wand of magic missile", "str_pl": "greater wands of magic missile" },
     "copy-from": "spell_wand",
     "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
@@ -66,8 +63,7 @@
   {
     "type": "TOOL",
     "id": "wand_fireball_minor",
-    "name": "minor wand of fireball",
-    "name_plural": "minor wands of fireball",
+    "name": { "str": "minor wand of fireball", "str_pl": "minor wands of fireball" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true }
@@ -75,8 +71,7 @@
   {
     "type": "TOOL",
     "id": "wand_fireball_lesser",
-    "name": "lesser wand of fireball",
-    "name_plural": "lesser wands of fireball",
+    "name": { "str": "lesser wand of fireball", "str_pl": "lesser wands of fireball" },
     "copy-from": "spell_wand",
     "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
@@ -85,8 +80,7 @@
   {
     "type": "TOOL",
     "id": "wand_fireball_greater",
-    "name": "greater wand of fireball",
-    "name_plural": "greater wands of fireball",
+    "name": { "str": "greater wand of fireball", "str_pl": "greater wands of fireball" },
     "copy-from": "spell_wand",
     "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
@@ -95,8 +89,7 @@
   {
     "type": "TOOL",
     "id": "wand_mana_beam_minor",
-    "name": "minor wand of mana beam",
-    "name_plural": "minor wands of mana beam",
+    "name": { "str": "minor wand of mana beam", "str_pl": "minor wands of mana beam" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 5, "need_wielding": true }
@@ -104,8 +97,7 @@
   {
     "type": "TOOL",
     "id": "wand_mana_beam_lesser",
-    "name": "lesser wand of mana beam",
-    "name_plural": "lesser wands of mana beam",
+    "name": { "str": "lesser wand of mana beam", "str_pl": "lesser wands of mana beam" },
     "copy-from": "spell_wand",
     "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
@@ -114,8 +106,7 @@
   {
     "type": "TOOL",
     "id": "wand_mana_beam_greater",
-    "name": "greater wand of mana beam",
-    "name_plural": "greater wands of mana beam",
+    "name": { "str": "greater wand of mana beam", "str_pl": "greater wands of mana beam" },
     "copy-from": "spell_wand",
     "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
@@ -124,8 +115,7 @@
   {
     "type": "TOOL",
     "id": "wand_point_flare_minor",
-    "name": "minor wand of point flare",
-    "name_plural": "minor wands of point flare",
+    "name": { "str": "minor wand of point flare", "str_pl": "minor wands of point flare" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
     "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 5, "need_wielding": true }
@@ -133,8 +123,7 @@
   {
     "type": "TOOL",
     "id": "wand_point_flare_lesser",
-    "name": "lesser wand of point flare",
-    "name_plural": "lesser wands of point flare",
+    "name": { "str": "lesser wand of point flare", "str_pl": "lesser wands of point flare" },
     "copy-from": "spell_wand",
     "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
@@ -143,8 +132,7 @@
   {
     "type": "TOOL",
     "id": "wand_point_flare_greater",
-    "name": "greater wand of point flare",
-    "name_plural": "greater wands of point flare",
+    "name": { "str": "greater wand of point flare", "str_pl": "greater wands of point flare" },
     "copy-from": "spell_wand",
     "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
@@ -153,8 +141,7 @@
   {
     "type": "TOOL",
     "id": "wand_hoaryblast_minor",
-    "name": "minor wand of hoary blast",
-    "name_plural": "minor wands of hoary blast",
+    "name": { "str": "minor wand of hoary blast", "str_pl": "minor wands of hoary blast" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 5, "need_wielding": true }
@@ -162,8 +149,7 @@
   {
     "type": "TOOL",
     "id": "wand_hoaryblast_lesser",
-    "name": "lesser wand of hoary blast",
-    "name_plural": "lesser wands of hoary blast",
+    "name": { "str": "lesser wand of hoary blast", "str_pl": "lesser wands of hoary blast" },
     "copy-from": "spell_wand",
     "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
@@ -172,8 +158,7 @@
   {
     "type": "TOOL",
     "id": "wand_hoaryblast_greater",
-    "name": "greater wand of hoary blast",
-    "name_plural": "greater wands of hoary blast",
+    "name": { "str": "greater wand of hoary blast", "str_pl": "greater wands of hoary blast" },
     "copy-from": "spell_wand",
     "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
@@ -182,8 +167,7 @@
   {
     "type": "TOOL",
     "id": "wand_cone_cold_minor",
-    "name": "minor wand of cone of cold",
-    "name_plural": "minor wands of cone of cold",
+    "name": { "str": "minor wand of cone of cold", "str_pl": "minor wands of cone of cold" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 5, "need_wielding": true }
@@ -191,8 +175,7 @@
   {
     "type": "TOOL",
     "id": "wand_cone_cold_lesser",
-    "name": "lesser wand of cone of cold",
-    "name_plural": "lesser wands of cone of cold",
+    "name": { "str": "lesser wand of cone of cold", "str_pl": "lesser wands of cone of cold" },
     "copy-from": "spell_wand",
     "price": 20000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
@@ -201,8 +184,7 @@
   {
     "type": "TOOL",
     "id": "wand_cone_cold_greater",
-    "name": "greater wand of cone of cold",
-    "name_plural": "greater wands of cone of cold",
+    "name": { "str": "greater wand of cone of cold", "str_pl": "greater wands of cone of cold" },
     "copy-from": "spell_wand",
     "price": 30000,
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
@@ -211,8 +193,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_magic_missile_minor",
-    "name": "disposable minor wand of magic missile",
-    "name_plural": "disposable minor wands of magic missile",
+    "name": { "str": "disposable minor wand of magic missile", "str_pl": "disposable minor wands of magic missile" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts magic missile.",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 5, "need_wielding": true }
@@ -220,8 +201,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_magic_missile_lesser",
-    "name": "disposable lesser wand of magic missile",
-    "name_plural": "disposable lesser wands of magic missile",
+    "name": { "str": "disposable lesser wand of magic missile", "str_pl": "disposable lesser wands of magic missile" },
     "copy-from": "disp_wand",
     "price": 20000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts magic missile.",
@@ -230,8 +210,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_magic_missile_greater",
-    "name": "disposable greater wand of magic missile",
-    "name_plural": "disposable greater wands of magic missile",
+    "name": { "str": "disposable greater wand of magic missile", "str_pl": "disposable greater wands of magic missile" },
     "copy-from": "disp_wand",
     "price": 30000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts magic missile.",
@@ -240,8 +219,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_fireball_minor",
-    "name": "disposable minor wand of fireball",
-    "name_plural": "disposable minor wands of fireball",
+    "name": { "str": "disposable minor wand of fireball", "str_pl": "disposable minor wands of fireball" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts fireball.",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true }
@@ -249,8 +227,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_fireball_lesser",
-    "name": "disposable lesser wand of fireball",
-    "name_plural": "disposable lesser wands of fireball",
+    "name": { "str": "disposable lesser wand of fireball", "str_pl": "disposable lesser wands of fireball" },
     "copy-from": "disp_wand",
     "price": 20000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts fireball.",
@@ -259,8 +236,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_fireball_greater",
-    "name": "disposable greater wand of fireball",
-    "name_plural": "disposable greater wands of fireball",
+    "name": { "str": "disposable greater wand of fireball", "str_pl": "disposable greater wands of fireball" },
     "copy-from": "disp_wand",
     "price": 30000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts fireball.",
@@ -269,8 +245,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_mana_beam_minor",
-    "name": "disposable minor wand of mana beam",
-    "name_plural": "disposable minor wands of mana beam",
+    "name": { "str": "disposable minor wand of mana beam", "str_pl": "disposable minor wands of mana beam" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts mana beam.",
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 5, "need_wielding": true }
@@ -278,8 +253,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_mana_beam_lesser",
-    "name": "disposable lesser wand of mana beam",
-    "name_plural": "disposable lesser wands of mana beam",
+    "name": { "str": "disposable lesser wand of mana beam", "str_pl": "disposable lesser wands of mana beam" },
     "copy-from": "disp_wand",
     "price": 20000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts mana beam.",
@@ -288,8 +262,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_mana_beam_greater",
-    "name": "disposable greater wand of mana beam",
-    "name_plural": "disposable greater wands of mana beam",
+    "name": { "str": "disposable greater wand of mana beam", "str_pl": "disposable greater wands of mana beam" },
     "copy-from": "disp_wand",
     "price": 30000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts mana beam.",
@@ -298,8 +271,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_point_flare_minor",
-    "name": "disposable minor wand of point flare",
-    "name_plural": "disposable minor wands of point flare",
+    "name": { "str": "disposable minor wand of point flare", "str_pl": "disposable minor wands of point flare" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts point flare.",
     "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 5, "need_wielding": true }
@@ -307,8 +279,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_point_flare_lesser",
-    "name": "disposable lesser wand of point flare",
-    "name_plural": "disposable lesser wands of point flare",
+    "name": { "str": "disposable lesser wand of point flare", "str_pl": "disposable lesser wands of point flare" },
     "copy-from": "disp_wand",
     "price": 20000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts point flare.",
@@ -317,8 +288,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_point_flare_greater",
-    "name": "disposable greater wand of point flare",
-    "name_plural": "disposable greater wands of point flare",
+    "name": { "str": "disposable greater wand of point flare", "str_pl": "disposable greater wands of point flare" },
     "copy-from": "disp_wand",
     "price": 30000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts point flare.",
@@ -327,8 +297,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_hoaryblast_minor",
-    "name": "disposable minor wand of hoary blast",
-    "name_plural": "disposable minor wands of hoary blast",
+    "name": { "str": "disposable minor wand of hoary blast", "str_pl": "disposable minor wands of hoary blast" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts hoary blast.",
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 5, "need_wielding": true }
@@ -336,8 +305,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_hoaryblast_lesser",
-    "name": "disposable lesser wand of hoary blast",
-    "name_plural": "disposable lesser wands of hoary blast",
+    "name": { "str": "disposable lesser wand of hoary blast", "str_pl": "disposable lesser wands of hoary blast" },
     "copy-from": "disp_wand",
     "price": 20000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts hoary blast.",
@@ -346,8 +314,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_hoaryblast_greater",
-    "name": "disposable greater wand of hoary blast",
-    "name_plural": "disposable greater wands of hoary blast",
+    "name": { "str": "disposable greater wand of hoary blast", "str_pl": "disposable greater wands of hoary blast" },
     "copy-from": "disp_wand",
     "price": 30000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts hoary blast.",
@@ -356,8 +323,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_cone_cold_minor",
-    "name": "disposable minor wand of cone of cold",
-    "name_plural": "disposable minor wands of cone of cold",
+    "name": { "str": "disposable minor wand of cone of cold", "str_pl": "disposable minor wands of cone of cold" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts cone of cold.",
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 5, "need_wielding": true }
@@ -365,8 +331,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_cone_cold_lesser",
-    "name": "disposable lesser wand of cone of cold",
-    "name_plural": "disposable lesser wands of cone of cold",
+    "name": { "str": "disposable lesser wand of cone of cold", "str_pl": "disposable lesser wands of cone of cold" },
     "copy-from": "disp_wand",
     "price": 20000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts cone of cold.",
@@ -375,8 +340,7 @@
   {
     "type": "TOOL",
     "id": "wand_disp_cone_cold_greater",
-    "name": "disposable greater wand of cone of cold",
-    "name_plural": "disposable greater wands of cone of cold",
+    "name": { "str": "disposable greater wand of cone of cold", "str_pl": "disposable greater wands of cone of cold" },
     "copy-from": "disp_wand",
     "price": 30000,
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts cone of cold.",

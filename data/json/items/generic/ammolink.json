@@ -3,7 +3,7 @@
     "abstract": "ammolink",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "ammo belt linkage",
+    "name": { "str": "ammo belt linkage" },
     "description": "A small metal linkage from a disintegrating ammo belt.",
     "weight": "2 g",
     "volume": "2ml",

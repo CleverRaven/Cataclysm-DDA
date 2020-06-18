@@ -36,10 +36,122 @@
 #include "string_id.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "cata_string_consts.h"
+
+static const std::string comesttype_DRINK( "DRINK" );
+static const std::string comesttype_FOOD( "FOOD" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+
+static const mtype_id mon_player_blob( "mon_player_blob" );
+
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_visuals( "visuals" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
+static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
+static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_EATDEAD( "EATDEAD" );
+static const trait_id trait_EATHEALTH( "EATHEALTH" );
+static const trait_id trait_EATPOISON( "EATPOISON" );
+static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
+static const trait_id trait_GIZZARD( "GIZZARD" );
+static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_HERBIVORE( "HERBIVORE" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_MANDIBLES( "MANDIBLES" );
+static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_PROJUNK( "PROJUNK" );
+static const trait_id trait_PROJUNK2( "PROJUNK2" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
+static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
+static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
+static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
+static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
+static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
+static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+
+static const std::string flag_EATEN_COLD( "EATEN_COLD" );
+static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
+static const std::string flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
+static const std::string flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
+static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
+static const std::string flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
+static const std::string flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
+static const std::string flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
+static const std::string flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+static const std::string flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
+static const std::string flag_BIRD( "BIRD" );
+static const std::string flag_BYPRODUCT( "BYPRODUCT" );
+static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
+static const std::string flag_CATTLE( "CATTLE" );
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_COOKED( "COOKED" );
+static const std::string flag_CORPSE( "CORPSE" );
+static const std::string flag_EATEN_HOT( "EATEN_HOT" );
+static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
+static const std::string flag_FELINE( "FELINE" );
+static const std::string flag_FERTILIZER( "FERTILIZER" );
+static const std::string flag_FROZEN( "FROZEN" );
+static const std::string flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
+static const std::string flag_HOT( "HOT" );
+static const std::string flag_INEDIBLE( "INEDIBLE" );
+static const std::string flag_LUPINE( "LUPINE" );
+static const std::string flag_MELTS( "MELTS" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_MYCUS_OK( "MYCUS_OK" );
+static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
+static const std::string flag_NO_PARASITES( "NO_PARASITES" );
+static const std::string flag_NO_RELOAD( "NO_RELOAD" );
+static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
+static const std::string flag_RAW( "RAW" );
+static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 const std::vector<std::string> carnivore_blacklist {{
-        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT,
+        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
 };
 // This ugly temp array is here because otherwise it goes
@@ -457,8 +569,10 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
 
 float Character::metabolic_rate_base() const
 {
-    float hunger_rate = get_option< float >( "PLAYER_HUNGER_RATE" );
-    return hunger_rate * ( 1.0f + mutation_value( "metabolism_modifier" ) );
+    static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
+    float hunger_rate = get_option< float >( hunger_rate_string );
+    static const std::string metabolism_modifier( "metabolism_modifier" );
+    return hunger_rate * ( 1.0f + mutation_value( metabolism_modifier ) );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -977,8 +1091,9 @@ void Character::modify_morale( item &food, const int nutr )
                     food.type );
     }
 
-    // Morale bonus for eating unspoiled food with char/table nearby
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) ) {
+    // Morale bonus for eating unspoiled food with chair/table nearby
+    // Does not apply to non-ingested consumables like bandages or drugs
+    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) ) {
         if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
@@ -1041,32 +1156,33 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    // Allergy check
-    const auto allergy = allergy_type( food );
-    if( allergy != MORALE_NULL ) {
-        add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
-        add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
-    }
-    if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
-        if( has_trait( trait_PROJUNK ) ) {
-            add_msg_if_player( m_good, _( "Mmm, junk food." ) );
-            add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+    // Allergy check for food that is ingested (not gum)
+    if( !food.has_flag( "NO_INGEST" ) ) {
+        const auto allergy = allergy_type( food );
+        if( allergy != MORALE_NULL ) {
+            add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
+            add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
         }
-        if( has_trait( trait_PROJUNK2 ) ) {
-            if( !one_in( 100 ) ) {
-                add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
-            } else {
-                add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+        if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
+            if( has_trait( trait_PROJUNK ) ) {
+                add_msg_if_player( m_good, _( "Mmm, junk food." ) );
+                add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
             }
-            add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+            if( has_trait( trait_PROJUNK2 ) ) {
+                if( !one_in( 100 ) ) {
+                    add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
+                } else {
+                    add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+                }
+                add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+            }
+            // Carnivores CAN eat junk food, but they won't like it much.
+            // Pizza-scraping happens in consume_effects.
+            if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+                add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
+                add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
+            }
         }
-    }
-    // Carnivores CAN eat junk food, but they won't like it much.
-    // Pizza-scraping happens in consume_effects.
-    if( has_trait( trait_CARNIVORE ) && food.has_flag( flag_ALLERGEN_JUNK ) &&
-        !food.has_flag( flag_CARNIVORE_OK ) ) {
-        add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-        add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
     }
     const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
                       food.has_flag( flag_USE_EAT_VERB );
@@ -1472,7 +1588,12 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_consume_for_bionic( it );
+}
+
+bool Character::can_consume_for_bionic( const item &it ) const
+{
+    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool Character::can_consume( const item &it ) const

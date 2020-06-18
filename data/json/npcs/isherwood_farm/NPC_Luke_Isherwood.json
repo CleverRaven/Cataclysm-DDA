@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_LUKE",
-    "name": "Luke Isherwood",
+    "name": { "str": "Luke Isherwood" },
     "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -155,7 +155,7 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_1",
     "type": "mission_definition",
-    "name": "Find The Art of Glassblowing book",
+    "name": { "str": "Find The Art of Glassblowing book" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -178,7 +178,7 @@
   {
     "id": "MISSION_ISHERWOOD_LUKE_2",
     "type": "mission_definition",
-    "name": "Find a copy of DIY Compendium",
+    "name": { "str": "Find a copy of DIY Compendium" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

@@ -24,7 +24,9 @@
 #include "color.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "cata_string_consts.h"
+
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_none( "null" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -103,6 +105,10 @@ std::string vehicle_part::name( bool with_prefix ) const
 
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
+
+    if( is_leaking() ) {
+        res += _( " (draining)" );
     }
 
     if( with_prefix ) {
@@ -479,6 +485,11 @@ bool vehicle_part::is_battery() const
 bool vehicle_part::is_reactor() const
 {
     return info().has_flag( VPFLAG_REACTOR );
+}
+
+bool vehicle_part::is_leaking() const
+{
+    return  health_percent() <= 0.5 && ( is_tank() || is_battery() || is_reactor() );
 }
 
 bool vehicle_part::is_turret() const

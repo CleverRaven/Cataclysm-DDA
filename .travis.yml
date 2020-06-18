@@ -57,7 +57,7 @@ jobs:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: Test
       # Clang is consistently the fastest to build, so use it for the initial test.
-      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
       name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
       compiler: clang
       addons: &clang38
@@ -75,7 +75,7 @@ jobs:
           packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
           sources: [*apt_sources]
 
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency"
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency"
       name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
       dist: bionic
       compiler: gcc
@@ -94,7 +94,7 @@ jobs:
 
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
-      env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
       name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
       compiler: gcc
       addons: &gcc

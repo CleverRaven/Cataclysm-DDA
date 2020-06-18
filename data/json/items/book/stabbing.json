@@ -2,7 +2,7 @@
   {
     "id": "mag_stabbing",
     "type": "BOOK",
-    "name": "Duelist's Annual",
+    "name": { "str": "Duelist's Annual" },
     "description": "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -20,7 +20,7 @@
   {
     "id": "manual_stabbing",
     "type": "BOOK",
-    "name": "FM 23-25 Army bayonet manual",
+    "name": { "str": "FM 23-25 Army bayonet manual" },
     "description": "A hefty military field manual about bayonet usage and combat theory.",
     "weight": "454 g",
     "volume": "250 ml",

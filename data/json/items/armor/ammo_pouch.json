@@ -74,7 +74,7 @@
   {
     "id": "ammo_satchel",
     "type": "ARMOR",
-    "name": "ammo satchel",
+    "name": { "str": "ammo satchel" },
     "description": "A fabric ammo bag worn at the waist which is capable of holding a single large magazine close at hand.",
     "weight": "180 g",
     "volume": "500 ml",
@@ -443,7 +443,7 @@
   {
     "id": "quiver",
     "type": "ARMOR",
-    "name": "quiver",
+    "name": { "str": "quiver" },
     "description": "A leather quiver worn at the waist that can hold 20 arrows.  Activate to store arrows.",
     "weight": "260 g",
     "volume": "500 ml",
@@ -463,7 +463,7 @@
   {
     "id": "quiver_birchbark",
     "type": "ARMOR",
-    "name": "birchbark quiver",
+    "name": { "str": "birchbark quiver" },
     "description": "A quiver woven from strips of birch bark, worn at the waist, that can hold 20 arrows.  Activate to store arrows.",
     "weight": "490 g",
     "volume": "500 ml",
@@ -483,7 +483,7 @@
   {
     "id": "quiver_large",
     "type": "ARMOR",
-    "name": "large quiver",
+    "name": { "str": "large quiver" },
     "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Activate to store arrows.",
     "weight": "920 g",
     "volume": "1500 ml",
@@ -503,7 +503,7 @@
   {
     "id": "quiver_large_birchbark",
     "type": "ARMOR",
-    "name": "large birchbark quiver",
+    "name": { "str": "large birchbark quiver" },
     "description": "A large quiver woven from strips of birchbark, worn on the back, that can hold 60 arrows.  Activate to store arrows.",
     "weight": "1380 g",
     "volume": "1500 ml",
@@ -523,7 +523,7 @@
   {
     "id": "tacvest",
     "type": "ARMOR",
-    "name": "tac vest",
+    "name": { "str": "tac vest" },
     "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating kevlar.  Lightweight and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "weight": "600 g",
     "volume": "1250 ml",
@@ -555,7 +555,7 @@
     "id": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
-    "name": "XL kevlar vest",
+    "name": { "str": "XL kevlar vest" },
     "description": "A massive, hand-built kevlar vest based on the design of existing bullet resistant vests.  It has four pouches capable of carrying magazines.",
     "looks_like": "modularvest",
     "weight": "5148 g",

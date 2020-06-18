@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "abstract": "robot_module_abstract",
-    "name": "module template",
+    "name": { "str": "module template" },
     "description": "This is a template for robot module.  If found in a game it is a bug.",
     "symbol": "%",
     "color": "cyan",
@@ -15,35 +15,35 @@
   {
     "type": "GENERIC",
     "id": "targeting_module",
-    "name": "targeting module",
+    "name": { "str": "targeting module" },
     "description": "This module integrates visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
     "copy-from": "robot_module_abstract"
   },
   {
     "type": "GENERIC",
     "id": "identification_module",
-    "name": "identification module",
+    "name": { "str": "identification module" },
     "description": "This module continuously runs image recognition algorithms to identify friends from foe.",
     "copy-from": "robot_module_abstract"
   },
   {
     "type": "GENERIC",
     "id": "pathfinding_module",
-    "name": "pathfinding module",
+    "name": { "str": "pathfinding module" },
     "description": "This module uses a combination of vector integration and egocentric mapping to find the best path available.",
     "copy-from": "robot_module_abstract"
   },
   {
     "type": "GENERIC",
     "id": "memory_module",
-    "name": "memory banks module",
+    "name": { "str": "memory banks module" },
     "description": "Allows for storage and recovery of information.",
     "copy-from": "robot_module_abstract"
   },
   {
     "type": "GENERIC",
     "id": "sensor_module",
-    "name": "sensor array",
+    "name": { "str": "sensor array" },
     "description": "A wide range of sensors meant to give the ability to perceive the surrounding world.",
     "copy-from": "robot_module_abstract"
   },
@@ -64,7 +64,7 @@
   {
     "type": "GENERIC",
     "id": "ai_module_basic",
-    "name": "basic AI core",
+    "name": { "str": "basic AI core" },
     "description": "A very basic AI core with minimal cognitive abilities.",
     "weight": "125 g",
     "copy-from": "ai_module"
@@ -72,14 +72,14 @@
   {
     "type": "GENERIC",
     "id": "ai_module_advanced",
-    "name": "advanced AI core",
+    "name": { "str": "advanced AI core" },
     "description": "An advanced AI core with impressive cognitive abilities.",
     "copy-from": "ai_module"
   },
   {
     "type": "GENERIC",
     "id": "gun_module",
-    "name": "gun operating system",
+    "name": { "str": "gun operating system" },
     "description": "This system can operate most conventional weapons.",
     "copy-from": "robot_module_abstract"
   },
@@ -203,7 +203,7 @@
   {
     "type": "GENERIC",
     "id": "android_chassis",
-    "name": "android skeleton",
+    "name": { "str": "android skeleton" },
     "description": "What's left when you strip an android body from its components.",
     "symbol": "c",
     "color": "light_gray",

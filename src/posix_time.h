@@ -7,7 +7,7 @@
 
 #include <ctime> // IWYU pragma: keep
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(__CYGWIN__) && !defined(WINPTHREAD_API)
 /* Windows platforms.  */
 
 /* Windows lacks the nanosleep() function. The following code was stuffed

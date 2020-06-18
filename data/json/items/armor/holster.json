@@ -2,7 +2,7 @@
   {
     "id": "back_holster",
     "type": "ARMOR",
-    "name": "back holster",
+    "name": { "str": "back holster" },
     "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome it becomes much easier to use with practice.  Activate to holster/draw a gun.",
     "weight": "240 g",
     "volume": "1250 ml",
@@ -28,7 +28,7 @@
   {
     "id": "bootstrap",
     "type": "ARMOR",
-    "name": "ankle holster",
+    "name": { "str": "ankle holster" },
     "description": "A small concealed holster worn on the ankle.  It is awkward to use without practice.  Activate to holster/draw a small pistol.",
     "weight": "200 g",
     "volume": "250 ml",
@@ -75,7 +75,7 @@
   {
     "id": "holster",
     "type": "ARMOR",
-    "name": "holster",
+    "name": { "str": "holster" },
     "description": "A leather strap worn on the hip for holding pistol sized guns.  Activate to holster/draw a gun.",
     "weight": "220 g",
     "volume": "500 ml",
@@ -83,7 +83,7 @@
     "price_postapoc": 9000,
     "material": "leather",
     "symbol": "[",
-    "looks_like": "SHEATH_KNIFE",
+    "looks_like": "sheath",
     "color": "light_gray",
     "covers": [ "LEG_EITHER" ],
     "coverage": 5,
@@ -96,7 +96,7 @@
     "id": "sholster",
     "copy-from": "holster",
     "type": "ARMOR",
-    "name": "fast draw holster",
+    "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "encumbrance": 2,
     "use_action": { "type": "holster", "max_volume": "400 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
@@ -105,7 +105,7 @@
     "id": "bholster",
     "copy-from": "holster",
     "type": "ARMOR",
-    "name": "deep concealment holster",
+    "name": { "str": "deep concealment holster" },
     "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body.  It is awkward to use without practice.  Activate to holster/draw a gun.",
     "weight": "120 g",
     "volume": "250 ml",
@@ -148,7 +148,7 @@
   {
     "id": "XL_holster",
     "type": "ARMOR",
-    "name": "XL holster",
+    "name": { "str": "XL holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg, Activate to holster/draw a gun.",
     "weight": "320 g",
     "volume": "250 ml",

@@ -63,7 +63,7 @@ class uistatedata
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
 
-        bool debug_ranged;
+        bool debug_ranged = false;
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;

@@ -19,6 +19,7 @@
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
 #include "timed_event.h"
 #include "field.h"
@@ -71,7 +72,109 @@
 #include "material.h"
 #include "point.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_raising( "raising" );
+static const efftype_id effect_rat( "rat" );
+static const efftype_id effect_shrieking( "shrieking" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_under_op( "under_operation" );
+
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id LEECH_PLANT( "LEECH_PLANT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PROF_CYBERCO( "PROF_CYBERCO" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
+static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_biollante( "mon_biollante" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
+static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
+static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
+static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
+static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
+static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
+static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
+static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
+static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
+static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
+static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_triffid( "mon_triffid" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
+static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
+
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
@@ -427,8 +530,7 @@ bool mattack::rattle( monster *z )
     const int min_dist = z->friendly != 0 ? 1 : 4;
     Creature *target = &g->u;
     // Can't use attack_target - the snake has no target
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > min_dist ||
+    if( rl_dist( z->pos(), target->pos() ) > min_dist ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -1373,8 +1475,8 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    // Attempt to fill all 8 surrounding tiles.
-    for( int i = 0; i < 8; ++i ) {
+    // Attempt to fill up to 8 surrounding tiles.
+    for( int i = 0; i < rng( 1, 8 ); ++i ) {
         if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.
@@ -2220,7 +2322,7 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
+        if( z->get_speed_base() > 40 && othermon.type->in_species( species_BLOB ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
@@ -2278,7 +2380,7 @@ bool mattack::callblobs( monster *z )
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( BLOB ) && candidate.type->id != mon_blob_brain ) {
+        if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( &candidate );
@@ -2602,11 +2704,10 @@ bool mattack::grab( monster *z )
 
 bool mattack::grab_drag( monster *z )
 {
-    if( !z->can_act() ) {
+    if( !z || !z->can_act() ) {
         return false;
     }
     Creature *target = z->attack_target();
-    monster *zz = dynamic_cast<monster *>( target );
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return false;
     }
@@ -2618,17 +2719,17 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
-
     // First, grab the target
     grab( z );
 
     if( !target->has_effect( effect_grabbed ) ) { //Can't drag if isn't grabbed, otherwise try and move
         return false;
     }
-    tripoint target_square = z->pos() - ( target->pos() - z->pos() );
+    const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
+        player *foe = dynamic_cast<player *>( target );
+        monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something

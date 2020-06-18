@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_bird",
-    "name": "bird litter",
+    "name": { "str": "bird litter", "str_pl": "bird litter" },
     "category": "chems",
     "weight": "40 g",
     "color": "brown",
@@ -57,7 +57,7 @@
     "id": "fetid_goop",
     "symbol": "~",
     "color": "white",
-    "name": "fetid goop",
+    "name": { "str": "fetid goop" },
     "weight": "750 g",
     "volume": "1 L",
     "description": "A foul smelling goop.  It has a disgusting texture and a powerful smell that overrides every other smell around it.",

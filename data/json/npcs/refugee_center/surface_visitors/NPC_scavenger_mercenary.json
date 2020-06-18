@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_SCAVENGER_MERC",
-    "name": "Mercenary",
+    "name": { "str": "Mercenary" },
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
     "traits": [

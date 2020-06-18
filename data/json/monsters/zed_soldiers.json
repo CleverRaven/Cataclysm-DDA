@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_soldier",
     "type": "MONSTER",
-    "name": "zombie soldier",
+    "name": { "str": "zombie soldier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -50,7 +50,7 @@
   {
     "id": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
-    "name": "black-ops zombie",
+    "name": { "str": "black-ops zombie" },
     "description": "This soldier zombie's skin radiates a sort of shadowy smoke that obscures its outline, making its camouflage even harder to see against the background.  In the darkness it would be nigh invisible.",
     "looks_like": "mon_zombie_soldier",
     "default_faction": "zombie",
@@ -104,7 +104,7 @@
   {
     "id": "mon_zombie_soldier_blackops_2",
     "type": "MONSTER",
-    "name": "hunter-killer zombie",
+    "name": { "str": "hunter-killer zombie" },
     "description": "Fragments of visible uniform hint that this monstrosity was once a soldier.  Anything human is invisible, hidden inside a sheath of living shadow.  It moves with preternatural fluidity and grace.",
     "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",
@@ -125,7 +125,7 @@
   {
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
-    "name": "acid-sniper zombie",
+    "name": { "str": "acid-sniper zombie" },
     "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask comes some sort of hardened fleshy proboscis, with steaming corrosive fluid leaking from the end.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
@@ -155,7 +155,7 @@
   {
     "id": "mon_zombie_soldier_acid_2",
     "type": "MONSTER",
-    "name": "acid-support zombie",
+    "name": { "str": "acid-support zombie" },
     "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange mutated tubes that pulse and drip with acid.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
@@ -186,7 +186,7 @@
   {
     "id": "mon_zombie_kevlar_1",
     "type": "MONSTER",
-    "name": "kevlar zombie",
+    "name": { "str": "kevlar zombie" },
     "description": "This zombie was once wearing some kind of uniform with heavy, bulletproof materials sewn in.  At this point it's impossible to tell what kind of uniform it was: the monster's skin has grown over the fabric, splitting and tearing it to shreds, turning the remaining kevlar and other bits of armor material into part of its hide.  Its hands, similarly, have fused into large leathery cudgels.",
     "looks_like": "mon_zombie_brute",
     "default_faction": "zombie",
@@ -237,7 +237,7 @@
   {
     "id": "mon_zombie_kevlar_2",
     "type": "MONSTER",
-    "name": "kevlar hulk",
+    "name": { "str": "kevlar hulk" },
     "description": "This zombie was once wearing some kind of now long-shredded uniform with heavy, bulletproof materials sewn in.  It has grown into a hulking, leatherbacked beast, its mutated skin taking on a strange texture similar to the kevlar bits embedded in it.  Its arms have twisted into enormous clubs of misshapen bone that it drags on the ground behind it.",
     "looks_like": "mon_zombie_hulk",
     "default_faction": "zombie",
@@ -288,7 +288,7 @@
   {
     "id": "mon_zombie_military_pilot",
     "type": "MONSTER",
-    "name": "zombie military pilot",
+    "name": { "str": "zombie military pilot" },
     "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy looking helmet.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -336,7 +336,7 @@
   {
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
-    "name": "zombie burner",
+    "name": { "str": "zombie burner" },
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -385,7 +385,7 @@
   {
     "id": "mon_zombie_armored",
     "type": "MONSTER",
-    "name": "armored zombie",
+    "name": { "str": "armored zombie" },
     "description": "Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -419,7 +419,7 @@
   {
     "id": "mon_zombie_bio_op",
     "type": "MONSTER",
-    "name": "zombie bio-operator",
+    "name": { "str": "zombie bio-operator" },
     "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
     "default_faction": "zombie",
     "bodytype": "human",

@@ -21,7 +21,7 @@
   {
     "id": "army_top",
     "type": "ARMOR",
-    "name": "camo tank top",
+    "name": { "str": "camo tank top" },
     "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
     "weight": "78 g",
     "volume": "250 ml",
@@ -38,7 +38,7 @@
   {
     "id": "bikini_bottom",
     "type": "ARMOR",
-    "name": "bikini bottom",
+    "name": { "str": "bikini bottom" },
     "description": "A simple bikini bottom.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -56,7 +56,7 @@
   {
     "id": "bikini_top",
     "type": "ARMOR",
-    "name": "bikini top",
+    "name": { "str": "bikini top" },
     "description": "A simple bikini top.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -73,7 +73,7 @@
   {
     "id": "bikini_top_fur",
     "type": "ARMOR",
-    "name": "fur bikini top",
+    "name": { "str": "fur bikini top" },
     "description": "A simple fur bikini top.",
     "weight": "44 g",
     "volume": "250 ml",
@@ -91,7 +91,7 @@
   {
     "id": "bikini_top_leather",
     "type": "ARMOR",
-    "name": "leather bikini top",
+    "name": { "str": "leather bikini top" },
     "description": "A simple leather bikini top.",
     "weight": "38 g",
     "volume": "250 ml",
@@ -163,7 +163,7 @@
   {
     "id": "bra",
     "type": "ARMOR",
-    "name": "bra",
+    "name": { "str": "bra" },
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -199,7 +199,7 @@
   {
     "id": "camisole",
     "type": "ARMOR",
-    "name": "camisole",
+    "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, they are light and easy to wear.",
     "weight": "42 g",
     "volume": "500 ml",
@@ -217,7 +217,7 @@
   {
     "id": "chestwrap",
     "type": "ARMOR",
-    "name": "chestwrap",
+    "name": { "str": "chestwrap" },
     "description": "Rags wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
@@ -235,7 +235,7 @@
   {
     "id": "chestwrap_fur",
     "type": "ARMOR",
-    "name": "fur chestwrap",
+    "name": { "str": "fur chestwrap" },
     "description": "Fur pelts wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "154 g",
     "volume": "750 ml",
@@ -254,7 +254,7 @@
   {
     "id": "chestwrap_leather",
     "type": "ARMOR",
-    "name": "leather chestwrap",
+    "name": { "str": "leather chestwrap" },
     "description": "Leather patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "137 g",
     "volume": "750 ml",
@@ -273,7 +273,7 @@
   {
     "id": "chestwrap_wool",
     "type": "ARMOR",
-    "name": "wool chestwrap",
+    "name": { "str": "wool chestwrap" },
     "description": "Felt patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
@@ -292,7 +292,7 @@
   {
     "id": "corset",
     "type": "ARMOR",
-    "name": "leather corset",
+    "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.",
     "weight": "640 g",
     "volume": "1250 ml",
@@ -370,7 +370,7 @@
   {
     "id": "long_underpants",
     "type": "ARMOR",
-    "name": "long underwear bottom",
+    "name": { "str": "long underwear bottom" },
     "description": "A pair of long underwear that help to maintain body temperature.",
     "weight": "88 g",
     "volume": "500 ml",
@@ -389,7 +389,7 @@
   {
     "id": "long_undertop",
     "type": "ARMOR",
-    "name": "long underwear top",
+    "name": { "str": "long underwear top" },
     "description": "A long underwear top that helps to maintain body temperature.",
     "weight": "96 g",
     "volume": "500 ml",
@@ -408,7 +408,7 @@
   {
     "id": "long_undertop_sleeveless",
     "type": "ARMOR",
-    "name": "sleeveless underwear top",
+    "name": { "str": "sleeveless underwear top" },
     "description": "A sleeveless underwear top that helps to maintain body temperature.",
     "weight": "80 g",
     "volume": "400 ml",
@@ -445,7 +445,7 @@
   {
     "id": "thermal_shirt",
     "type": "ARMOR",
-    "name": "thermal shirt",
+    "name": { "str": "thermal shirt" },
     "description": "A lightweight, form-fitting long-sleeved spandex undershirt that helps maintains body temperature.",
     "weight": "92 g",
     "volume": "250 ml",
@@ -462,7 +462,7 @@
   {
     "id": "sports_bra",
     "type": "ARMOR",
-    "name": "sports bra",
+    "name": { "str": "sports bra" },
     "description": "A sturdy nylon bra to provide additional support during physical movement.  Typically worn when exercising, it clings to the skin and is easy to wear.",
     "weight": "92 g",
     "volume": "500 ml",
@@ -480,7 +480,7 @@
   {
     "id": "tank_top",
     "type": "ARMOR",
-    "name": "tank top",
+    "name": { "str": "tank top" },
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
     "weight": "78 g",
     "volume": "250 ml",
@@ -516,7 +516,7 @@
   {
     "id": "under_armor",
     "type": "ARMOR",
-    "name": "compression top",
+    "name": { "str": "compression top" },
     "description": "Nylon sportswear that clings to your chest and maintains body temperature.",
     "weight": "92 g",
     "volume": "250 ml",
@@ -552,7 +552,7 @@
   {
     "id": "undershirt",
     "type": "ARMOR",
-    "name": "undershirt",
+    "name": { "str": "undershirt" },
     "description": "A simple white undershirt.  Worn beneath your regular clothes, it provides a little extra warmth.",
     "weight": "64 g",
     "volume": "250 ml",
@@ -570,7 +570,7 @@
   {
     "id": "unitard",
     "type": "ARMOR",
-    "name": "unitard",
+    "name": { "str": "unitard" },
     "description": "A skin-tight spandex garment resembling a crew necked leotard combined with leggings.  Commonly used by gymnasts, dancers and equestrian vaulters, the unitard provides overall coverage with great flexibility.",
     "weight": "110 g",
     "volume": "250 ml",

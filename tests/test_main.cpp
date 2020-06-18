@@ -78,6 +78,9 @@ static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg
             ret.emplace_back( mod_name );
         }
     }
+    // Always load test data mod
+    ret.emplace_back( "test_data" );
+
     return ret;
 }
 

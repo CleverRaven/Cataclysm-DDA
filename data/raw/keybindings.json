@@ -2171,8 +2171,7 @@
     "type": "keybinding",
     "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
-    "id": "cycle_move",
-    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+    "id": "cycle_move"
   },
   {
     "type": "keybinding",
@@ -2196,7 +2195,8 @@
     "type": "keybinding",
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
-    "id": "open_movement"
+    "id": "open_movement",
+    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
   },
   {
     "type": "keybinding",
@@ -2268,7 +2268,7 @@
     "type": "keybinding",
     "id": "fire",
     "category": "LIST_MONSTERS",
-    "name": "fire",
+    "name": { "ctxt": "verb", "str": "fire" },
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {

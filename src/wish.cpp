@@ -319,11 +319,8 @@ class wish_monster_callback: public uilist_callback
             wrefresh( w_info );
         }
 
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            // Unused
-            ( void )entnum;
-            // Unused
-            ( void )menu;
+        bool key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'f' ) {
                 friendly = !friendly;
                 // Force tmp monster regen
@@ -372,9 +369,7 @@ class wish_monster_callback: public uilist_callback
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 
-        void refresh( uilist *menu ) override {
-            // Unused
-            ( void )menu;
+        void refresh( uilist * /*menu*/ ) override {
             wrefresh( w_info );
         }
 

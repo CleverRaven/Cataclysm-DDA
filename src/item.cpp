@@ -85,7 +85,157 @@
 #include "faction.h"
 #include "magic.h"
 #include "clothing_mod.h"
-#include "cata_string_consts.h"
+
+static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
+
+static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_plutonium( "plutonium" );
+
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_weapon( "weapon" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+static const species_id ROBOT( "ROBOT" );
+
+static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_scent_vision( "bio_scent_vision" );
+
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_JITTERY( "JITTERY" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
+
+static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
+static const std::string flag_AURA( "AURA" );
+static const std::string flag_BELTED( "BELTED" );
+static const std::string flag_BIPOD( "BIPOD" );
+static const std::string flag_BYPRODUCT( "BYPRODUCT" );
+static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
+static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_CASING( "CASING" );
+static const std::string flag_CHARGEDIM( "CHARGEDIM" );
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
+static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
+static const std::string flag_CONSUMABLE( "CONSUMABLE" );
+static const std::string flag_CORPSE( "CORPSE" );
+static const std::string flag_DANGEROUS( "DANGEROUS" );
+static const std::string flag_DEEP_WATER( "DEEP_WATER" );
+static const std::string flag_DIAMOND( "DIAMOND" );
+static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
+static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
+static const std::string flag_FAKE_MILL( "FAKE_MILL" );
+static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
+static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
+static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_FIRE_100( "FIRE_100" );
+static const std::string flag_FIRE_20( "FIRE_20" );
+static const std::string flag_FIRE_50( "FIRE_50" );
+static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_FLAMMABLE( "FLAMMABLE" );
+static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
+static const std::string flag_FREEZERBURN( "FREEZERBURN" );
+static const std::string flag_FROZEN( "FROZEN" );
+static const std::string flag_GIBBED( "GIBBED" );
+static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
+static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
+static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
+static const std::string flag_HOT( "HOT" );
+static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
+static const std::string flag_IS_ARMOR( "IS_ARMOR" );
+static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
+static const std::string flag_IS_UPS( "IS_UPS" );
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_LIQUID( "LIQUID" );
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_LITCIG( "LITCIG" );
+static const std::string flag_MAG_BELT( "MAG_BELT" );
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
+static const std::string flag_MAG_EJECT( "MAG_EJECT" );
+static const std::string flag_MELTS( "MELTS" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
+static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
+static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
+static const std::string flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
+static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+static const std::string flag_NO_DROP( "NO_DROP" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_PARASITES( "NO_PARASITES" );
+static const std::string flag_NO_RELOAD( "NO_RELOAD" );
+static const std::string flag_NO_REPAIR( "NO_REPAIR" );
+static const std::string flag_NO_SALVAGE( "NO_SALVAGE" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
+static const std::string flag_OUTER( "OUTER" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_PROCESSING( "PROCESSING" );
+static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
+static const std::string flag_PULPED( "PULPED" );
+static const std::string flag_PUMP_ACTION( "PUMP_ACTION" );
+static const std::string flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
+static const std::string flag_QUARTERED( "QUARTERED" );
+static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
+static const std::string flag_RADIOSIGNAL_1( "RADIOSIGNAL_1" );
+static const std::string flag_RADIOSIGNAL_2( "RADIOSIGNAL_2" );
+static const std::string flag_RADIOSIGNAL_3( "RADIOSIGNAL_3" );
+static const std::string flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
+static const std::string flag_RADIO_INVOKE_PROC( "RADIO_INVOKE_PROC" );
+static const std::string flag_RADIO_MOD( "RADIO_MOD" );
+static const std::string flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const std::string flag_REACH3( "REACH3" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_RECHARGE( "RECHARGE" );
+static const std::string flag_REDUCED_BASHING( "REDUCED_BASHING" );
+static const std::string flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RELOAD_EJECT( "RELOAD_EJECT" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
+static const std::string flag_REVIVE_SPECIAL( "REVIVE_SPECIAL" );
+static const std::string flag_SILENT( "SILENT" );
+static const std::string flag_SKINNED( "SKINNED" );
+static const std::string flag_SKINTIGHT( "SKINTIGHT" );
+static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
+static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_STR_DRAW( "STR_DRAW" );
+static const std::string flag_TOBACCO( "TOBACCO" );
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+static const std::string flag_UNDERSIZE( "UNDERSIZE" );
+static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+static const std::string flag_USE_UPS( "USE_UPS" );
+static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_VEHICLE( "VEHICLE" );
+static const std::string flag_WAIST( "WAIST" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
+static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
+static const std::string flag_WET( "WET" );
+static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
 class npc_class;
 
@@ -231,7 +381,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
     // item always has any relic properties from itype.
     if( type->relic_data ) {
-        relic_data = *type->relic_data;
+        relic_data = type->relic_data;
     }
 }
 
@@ -301,6 +451,12 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 }
+
+item::item( const item & ) = default;
+item::item( item && ) = default;
+item::~item() = default;
+item &item::operator=( const item & ) = default;
+item &item::operator=( item && ) = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )
@@ -1036,7 +1192,7 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
     // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
     // in other scenarios we actaully really want to check for id == id, even for no_faction
-    if( owner.is_null() ) {
+    if( get_owner().is_null() ) {
         return available_to_take;
     }
     if( !c.get_faction() ) {
@@ -1048,7 +1204,7 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
 
 bool item::is_old_owner( const Character &c, bool available_to_take ) const
 {
-    if( old_owner.is_null() ) {
+    if( get_old_owner().is_null() ) {
         return available_to_take;
     }
     if( !c.get_faction() ) {
@@ -1060,11 +1216,11 @@ bool item::is_old_owner( const Character &c, bool available_to_take ) const
 
 std::string item::get_owner_name() const
 {
-    if( !g->faction_manager_ptr->get( owner ) ) {
+    if( !g->faction_manager_ptr->get( get_owner() ) ) {
         debugmsg( "item::get_owner_name() item %s has no valid nor null faction id ", tname() );
         return "no owner";
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return g->faction_manager_ptr->get( get_owner() )->name;
 }
 
 void item::set_owner( const Character &c )
@@ -1078,12 +1234,24 @@ void item::set_owner( const Character &c )
 
 faction_id item::get_owner() const
 {
+    validate_ownership();
     return owner;
 }
 
 faction_id item::get_old_owner() const
 {
+    validate_ownership();
     return old_owner;
+}
+
+void item::validate_ownership() const
+{
+    if( !old_owner.is_null() && !g->faction_manager_ptr->get( old_owner, false ) ) {
+        remove_old_owner();
+    }
+    if( !owner.is_null() && !g->faction_manager_ptr->get( owner, false ) ) {
+        remove_owner();
+    }
 }
 
 static void insert_separation_line( std::vector<iteminfo> &info )
@@ -4037,7 +4205,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 }
 
 std::string item::display_money( unsigned int quantity, unsigned int total,
-                                 cata::optional<unsigned int> selected ) const
+                                 const cata::optional<unsigned int> &selected ) const
 {
     if( selected ) {
         //~ This is a string to display the selected and total amount of money in a stack of cash cards.
@@ -4432,7 +4600,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
+    int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
@@ -4740,13 +4908,19 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
+bool item::goes_bad_after_opening() const
+{
+    return goes_bad() || ( type->container && type->container->preserves &&
+                           !contents.empty() && contents.front().goes_bad() );
+}
+
 time_duration item::get_shelf_life() const
 {
     if( goes_bad() ) {
         if( is_food() ) {
             return get_comestible()->spoils;
         } else if( is_corpse() ) {
-            return CORPSE_ROT_TIME;
+            return 24_hours;
         }
     }
     return 0_turns;
@@ -8908,8 +9082,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !( carrier->is_wearing( "solarpack_on" ) ||
-                                              carrier->is_wearing( "q_solarpack_on" ) ) ) {
+        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier );
             return false;
@@ -8936,7 +9109,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
 
     if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
-        if( carrier != nullptr && carrier->has_item( *this ) ) {
+        if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
         reset_cable( carrier );
@@ -8948,7 +9121,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     charges = max_charges - distance;
 
     if( charges < 1 ) {
-        if( carrier != nullptr && carrier->has_item( *this ) ) {
+        if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
         reset_cable( carrier );
@@ -9419,7 +9592,7 @@ bool item::has_infinite_charges() const
 skill_id item::contextualize_skill( const skill_id &id ) const
 {
     if( id->is_contextual_skill() ) {
-        if( id == weapon_skill ) {
+        if( id == skill_weapon ) {
             if( is_gun() ) {
                 return gun_skill();
             } else if( is_melee() ) {

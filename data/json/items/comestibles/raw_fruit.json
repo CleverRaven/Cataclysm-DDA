@@ -23,7 +23,7 @@
   {
     "type": "COMESTIBLE",
     "id": "banana",
-    "name": "banana",
+    "name": { "str": "banana" },
     "weight": "118 g",
     "color": "yellow",
     "spoils_in": "5 days",

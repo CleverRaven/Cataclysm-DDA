@@ -2,7 +2,7 @@
   {
     "abstract": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "abstract mutagen flavor",
+    "name": { "str": "abstract mutagen flavor" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
     "price": 100000,
     "//": "Not commercially traded, in case there was any question.",
@@ -17,7 +17,7 @@
     "healthy": -2,
     "addiction_potential": 2,
     "addiction_type": "mutagen",
-    "flags": "NUTRIENT_OVERRIDE",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
     "material": "water",
     "freezing_point": 17
@@ -27,7 +27,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "abstract iv mutagen flavor",
+    "name": { "str": "abstract iv mutagen flavor" },
     "description": "A super-concentrated mutagen.  You need a syringe to inject it… if you really want to?",
     "price": 200000,
     "weight": "10 g",
@@ -55,7 +55,7 @@
     "id": "iv_mutagen_alpha",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "alpha serum",
+    "name": { "str": "alpha serum", "str_pl": "alpha serum" },
     "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it… if you really want to?",
     "price": 1000000,
     "color": "red",
@@ -66,7 +66,7 @@
     "id": "iv_mutagen_beast",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "beast serum",
+    "name": { "str": "beast serum" },
     "description": "A super-concentrated mutagen as red as a matador's cape.  You need a syringe to inject it… if you really want to?",
     "color": "red",
     "use_action": { "type": "mutagen_iv", "mutation_category": "BEAST" }
@@ -75,7 +75,7 @@
     "id": "iv_mutagen_bird",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "bird serum",
+    "name": { "str": "bird serum" },
     "description": "A super-concentrated mutagen the color of the pre-Cataclysmic skies.  You need a syringe to inject it… if you really want to?",
     "color": "cyan",
     "use_action": { "type": "mutagen_iv", "mutation_category": "BIRD" }
@@ -274,7 +274,7 @@
     "id": "mutagen_alpha",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "alpha mutagen",
+    "name": { "str": "alpha mutagen", "str_pl": "alpha mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 500000,
     "//": "*May* have gotten a dose smuggled out.",
@@ -284,14 +284,14 @@
     "id": "mutagen_beast",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "beast mutagen",
+    "name": { "str": "beast mutagen" },
     "use_action": { "type": "mutagen", "mutation_category": "BEAST" }
   },
   {
     "id": "mutagen_bird",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "bird mutagen",
+    "name": { "str": "bird mutagen" },
     "use_action": { "type": "mutagen", "mutation_category": "BIRD" }
   },
   {
