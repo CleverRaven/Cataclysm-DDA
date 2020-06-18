@@ -4502,6 +4502,13 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
+        const furn_t &furn = this->furn( map_location ).obj();
+
+        if( furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
+            // plants contain a seed item which must not be removed under any circumstances.
+            // Lets not process it at all.
+            continue;
+        }
         // root cellars are special
         temperature_flag flag = temperature_flag::NORMAL;
         if( ter( map_location ) == t_rootcellar ) {
@@ -6733,27 +6740,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     abs_sub.z = old_abs_z;
 }
 
-template <typename Container>
-void map::remove_rotten_items( Container &items, const tripoint &pnt )
-{
-    temperature_flag flag;
-    if( ter( pnt ) == t_rootcellar ) {
-        flag = temperature_flag::ROOT_CELLAR;
-    } else {
-        flag = temperature_flag::NORMAL;
-    }
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( pnt, 1, flag ) ) {
-            if( it->is_comestible() ) {
-                rotten_item_spawn( *it, pnt );
-            }
-            it = i_rem( pnt, it );
-        } else {
-            ++it;
-        }
-    }
-}
-
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
 {
     if( g->critter_at( pnt ) != nullptr ) {
@@ -7067,6 +7053,7 @@ void map::actualize( const tripoint &grid )
     const bool do_funnels = ( grid.z >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
+    process_items_in_submap( *tmpsub, grid );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
@@ -7074,10 +7061,6 @@ void map::actualize( const tripoint &grid )
             const auto &furn = this->furn( pnt ).obj();
             if( furn.has_flag( "EMITTER" ) ) {
                 field_furn_locs.push_back( pnt );
-            }
-            // plants contain a seed item which must not be removed under any circumstances
-            if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
-                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
             }
 
             const auto trap_here = tmpsub->get_trap( p );
