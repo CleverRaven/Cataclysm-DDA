@@ -135,7 +135,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
 }
 
-TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
+TEST_CASE( "grenade_lethality", "[.],[grenade],[explosion],[balance],[slow]" )
 {
     check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
     check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );
