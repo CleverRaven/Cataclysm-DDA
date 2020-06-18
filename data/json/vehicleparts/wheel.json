@@ -14,9 +14,9 @@
     "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
     "item": "wheel_mount_wood",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING", "FOLDABLE" ],
     "breaks_into": [ { "item": "2x4", "count": [ 2, 5 ] } ],
