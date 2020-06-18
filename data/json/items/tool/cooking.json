@@ -81,7 +81,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CARVER_OFF",
+    "use_action": [ "CARVER_OFF" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "pocket_data": [
       {
@@ -105,7 +105,7 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "use_action": "CARVER_ON",
+    "use_action": [ "CARVER_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
@@ -125,7 +125,7 @@
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -165,7 +165,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "clay_pot",
@@ -183,7 +183,7 @@
     "color": "brown",
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -235,7 +235,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
+    "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -389,7 +389,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "heatpack",
@@ -406,7 +406,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "HEATPACK"
+    "use_action": [ "HEATPACK" ]
   },
   {
     "id": "heatpack_used",
@@ -442,7 +442,7 @@
     "ammo": [ "tinder" ],
     "max_charges": 100,
     "charges_per_use": 25,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "hotplate",
@@ -460,7 +460,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "HOTPLATE",
+    "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -611,7 +611,7 @@
     "symbol": ")",
     "color": "light_gray",
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "milk_cream_jar",
@@ -625,7 +625,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "%",
     "color": "white"
   },
@@ -640,7 +640,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "%",
     "looks_like": "jar_sauerkraut_pickled",
     "color": "white",
@@ -693,7 +693,7 @@
     "price_postapoc": 10,
     "to_hit": -4,
     "bashing": 3,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -714,7 +714,7 @@
     "ammo": [ "battery" ],
     "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER",
+    "use_action": [ "MULTICOOKER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -752,7 +752,7 @@
     "initial_charges": 800,
     "max_charges": 800,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "pastaextruder",
@@ -813,7 +813,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "pressure_cooker",
@@ -833,7 +833,7 @@
     "looks_like": "pot_canning",
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -847,7 +847,7 @@
     "price_postapoc": 0,
     "to_hit": -4,
     "bashing": 5,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray"
   },
@@ -1019,7 +1019,7 @@
     "color": "light_blue",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {

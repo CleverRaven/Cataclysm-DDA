@@ -185,7 +185,7 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const Character::stat &stat_name );
+        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
@@ -264,6 +264,8 @@ class avatar : public player
 
         monster_visible_info mon_visible;
 };
+
+avatar &get_avatar();
 
 struct points_left {
     int stat_points;

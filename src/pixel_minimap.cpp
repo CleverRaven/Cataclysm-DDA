@@ -163,16 +163,16 @@ struct pixel_minimap::submap_cache {
     //the color stored for each submap tile
     std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
     //checks if the submap has been looked at by the minimap routine
-    bool touched;
+    bool touched = false;
     //the texture updates are drawn to
     SDL_Texture_Ptr chunk_tex;
     //the submap being handled
-    size_t texture_index;
+    size_t texture_index = 0;
     //the list of updates to apply to the texture
     //reduces render target switching to once per submap
     std::vector<point> update_list;
     //flag used to indicate that the texture needs to be cleared before first use
-    bool ready;
+    bool ready = false;
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
@@ -387,19 +387,18 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
 
     } else {
-        const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
-        const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+        const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
 
         main_tex_clip_rect = SDL_Rect{
-            std::max( dx, 0 ),
-            std::max( dy, 0 ),
-            size_on_screen.x - 2 * std::max( dx, 0 ),
-            size_on_screen.y - 2 * std::max( dy, 0 )
+            std::max( d.x, 0 ),
+            std::max( d.y, 0 ),
+            size_on_screen.x - 2 * std::max( d.x, 0 ),
+            size_on_screen.y - 2 * std::max( d.y, 0 )
         };
 
         screen_clip_rect = SDL_Rect{
-            screen_rect.x - std::min( dx, 0 ),
-            screen_rect.y - std::min( dy, 0 ),
+            screen_rect.x - std::min( d.x, 0 ),
+            screen_rect.y - std::min( d.y, 0 ),
             main_tex_clip_rect.w,
             main_tex_clip_rect.h
         };

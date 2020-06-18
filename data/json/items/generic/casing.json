@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": { "str": "Casing from ammunition cartridge" },
     "stackable": true,
-    "material": "brass",
+    "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow",
     "damage_states": [ 0, 0 ]

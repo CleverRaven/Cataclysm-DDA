@@ -31,7 +31,7 @@
     "material": [ "steel" ],
     "symbol": "A",
     "color": "yellow",
-    "use_action": "AUTOCLAVE",
+    "use_action": [ "AUTOCLAVE" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
     "looks_like": "microwave",
@@ -60,11 +60,19 @@
     "symbol": "!",
     "color": "light_blue",
     "initial_charges": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "albuterol": 100 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "albuterol": 100 }
+      }
+    ],
     "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": "INHALER"
+    "use_action": [ "INHALER" ]
   },
   {
     "id": "rx12_injector",
@@ -82,7 +90,7 @@
     "initial_charges": 2,
     "max_charges": 2,
     "charges_per_use": 1,
-    "use_action": "JET_INJECTOR"
+    "use_action": [ "JET_INJECTOR" ]
   },
   {
     "id": "scalpel",
@@ -119,7 +127,7 @@
     "initial_charges": 12,
     "max_charges": 12,
     "charges_per_use": 1,
-    "use_action": "OXYGEN_BOTTLE"
+    "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
     "id": "syringe",
@@ -148,7 +156,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "THERMOMETER" ]
   },
   {
@@ -169,7 +177,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "oxygen": 24 } } ],
     "max_charges": 24,
     "charges_per_use": 1,
-    "use_action": "OXYGEN_BOTTLE"
+    "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
     "id": "vacutainer",
@@ -186,7 +194,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_cyan",
-    "use_action": "BLOOD_DRAW",
+    "use_action": [ "BLOOD_DRAW" ],
     "flags": [ "SPEAR" ],
     "pocket_data": [
       {

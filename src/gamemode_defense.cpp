@@ -47,8 +47,10 @@ static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-#define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
-#define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
+// One in X chance of single-flavor wave
+static constexpr int SPECIAL_WAVE_CHANCE = 5;
+// Don't use a special wave with < X monsters
+static constexpr int SPECIAL_WAVE_MIN = 5;
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
 #define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
@@ -875,9 +877,9 @@ void defense_game::caravan()
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const int width = FULL_SCREEN_WIDTH;
         const int height = FULL_SCREEN_HEIGHT;
-        const int offsetx = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-        const int offsety = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 2;
-        w = catacurses::newwin( height, width, point( offsetx, offsety ) );
+        const point offset( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2, std::max( 0,
+                            TERMY - FULL_SCREEN_HEIGHT ) / 2 );
+        w = catacurses::newwin( height, width, offset );
         ui.position_from_window( w );
     } );
     ui.mark_resize();
@@ -1059,7 +1061,7 @@ void defense_game::caravan()
                     g->u.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges( g->u.pos(), tmp );
+                    get_map().add_item_or_charges( g->u.pos(), tmp );
                 }
             }
         }

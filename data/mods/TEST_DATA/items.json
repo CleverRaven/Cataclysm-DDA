@@ -7,7 +7,7 @@
     "name": "TEST rock",
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
-    "material": "stone",
+    "material": [ "stone" ],
     "ammo_type": "rock",
     "flags": [ "TRADER_AVOID" ],
     "weight": "657 g",
@@ -202,7 +202,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": "CROWBAR"
+    "use_action": [ "CROWBAR" ]
   },
   {
     "id": "test_screwdriver",
@@ -238,7 +238,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH", 1 ], [ "PRY", 2 ], [ "LOCKPICK", 30 ] ],
-    "use_action": "PICK_LOCK",
+    "use_action": [ "PICK_LOCK" ],
     "flags": [ "SPEAR", "BELT_CLIP" ],
     "min_skills": [ [ "electronics", 3 ], [ "lockpick", 2 ] ],
     "min_intelligence": 9,
@@ -922,7 +922,7 @@
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 25,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": "[",
     "color": "brown",
     "pocket_data": [
@@ -1018,7 +1018,7 @@
     "weight": "36 g",
     "color": "light_red",
     "addiction_type": "alcohol",
-    "use_action": "ALCOHOL_WEAK",
+    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -1075,7 +1075,7 @@
     "quench": 50,
     "addiction_potential": 10,
     "flags": [ "NO_INGEST" ],
-    "use_action": "CHEW"
+    "use_action": [ "CHEW" ]
   },
   {
     "id": "test_cmdline_book",
@@ -1185,7 +1185,7 @@
     "volume": "10 ml",
     "price": 10,
     "price_postapoc": 50,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ",",
     "color": "blue",
     "initial_charges": 20,

@@ -20,6 +20,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "5 kg"
       }
     ],
@@ -250,7 +251,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 2,
-    "material": "glass",
+    "material": [ "glass" ],
     "ascii_picture": "glass_bottle",
     "symbol": ")",
     "color": "cyan",
@@ -260,6 +261,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
       }
@@ -280,6 +282,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
@@ -306,6 +309,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
         "sealed_data": { "spoil_multiplier": 0.0 },
@@ -333,6 +337,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
         "moves": 400
@@ -359,6 +364,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
@@ -430,7 +436,7 @@
     "volume": "253 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "250 ml", "max_contains_weight": "3 kg" } ]
@@ -446,7 +452,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -470,7 +476,7 @@
         "magazine_well": "2 L"
       }
     ],
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -485,7 +491,7 @@
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 10,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -545,6 +551,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
       }
     ],
@@ -573,6 +580,7 @@
         "watertight": true,
         "open_container": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
@@ -733,6 +741,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "3 kg"
       }
     ],
@@ -938,7 +947,7 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -964,7 +973,7 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
     "pocket_data": [
@@ -1026,6 +1035,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg"
       }
     ],
@@ -1045,7 +1055,7 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 5,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1088,7 +1098,7 @@
     "volume": "502 ml",
     "price": 0,
     "bashing": 4,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1141,6 +1151,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "10 L",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
     ]
@@ -1166,6 +1177,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "20 L",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "25 kg"
       }
     ],
@@ -1216,6 +1228,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3750 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "8 kg"
       }
     ]
@@ -1241,6 +1254,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "50 L",
+        "max_item_volume": "50 ml",
         "max_contains_weight": "100 kg"
       }
     ],
@@ -1267,6 +1281,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "50 L",
+        "max_item_volume": "50 ml",
         "max_contains_weight": "120 kg"
       }
     ],
@@ -1284,10 +1299,18 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "gutskin",
+    "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ]
   },
   {
     "id": "metal_tank",
@@ -1361,6 +1384,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
     ],
@@ -1379,10 +1403,18 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "gutskin",
+    "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ]
   },
   {
     "id": "waterskin",
@@ -1396,10 +1428,18 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ],
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -1415,10 +1455,18 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 2,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -1434,10 +1482,18 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 3,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "5 L", "max_contains_weight": "10 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "5 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "10 kg"
+      }
+    ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1470,7 +1526,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
@@ -1626,7 +1682,7 @@
     "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]

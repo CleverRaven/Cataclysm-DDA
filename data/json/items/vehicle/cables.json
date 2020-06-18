@@ -16,7 +16,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": "CABLE_ATTACH",
+    "use_action": [ "CABLE_ATTACH" ],
     "flags": [ "CABLE_SPOOL" ]
   },
   {
@@ -36,7 +36,7 @@
     "price_postapoc": 500,
     "max_charges": 6,
     "initial_charges": 6,
-    "use_action": "TOW_ATTACH",
+    "use_action": [ "TOW_ATTACH" ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE" ]
   },
   {

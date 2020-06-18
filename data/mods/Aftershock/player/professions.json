@@ -95,13 +95,22 @@
     "type": "profession",
     "ident": "afs_cbm_engineer",
     "name": "CBM Engineer",
-    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  Armed with the solderers in your hands, and aided by precise machines, you earned great pay.",
+    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  The final evacuation order caught you in the middle of your 16 hour extended shift, and you barely managed to escape the building, tools in hand.",
     "points": 2,
     "skills": [ { "level": 4, "name": "electronics" } ],
-    "CBMs": [ "afs_bio_precision_solderers", "bio_power_storage", "bio_batteries" ],
     "items": {
       "both": {
-        "items": [ "coat_lab", "gloves_medical", "mask_dust", "longshirt", "socks", "boots", "backpack", "jeans" ],
+        "items": [
+          "coat_lab",
+          "gloves_medical",
+          "mask_dust",
+          "longshirt",
+          "afs_complete_bionic_toolkit",
+          "socks",
+          "boots",
+          "backpack",
+          "jeans"
+        ],
         "entries": [ { "item": "cash_card", "charges": 50000 } ]
       },
       "male": [ "briefs" ],

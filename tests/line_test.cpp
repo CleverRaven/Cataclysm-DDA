@@ -16,61 +16,57 @@
 static std::vector <point> canonical_line_to( const point &p1, const point &p2, int t )
 {
     std::vector<point> ret;
-    const int dx = p2.x - p1.x;
-    const int dy = p2.y - p1.y;
-    const int ax = std::abs( dx ) << 1;
-    const int ay = std::abs( dy ) << 1;
-    int sx = SGN( dx );
-    int sy = SGN( dy );
-    if( dy == 0 ) {
-        sy = 0;
+    const point d( -p1 + p2 );
+    const point a( std::abs( d.x ) << 1, std::abs( d.y ) << 1 );
+    point s( SGN( d.x ), SGN( d.y ) );
+    if( d.y == 0 ) {
+        s.y = 0;
     }
-    if( dx == 0 ) {
-        sx = 0;
+    if( d.x == 0 ) {
+        s.x = 0;
     }
     point cur;
     cur.x = p1.x;
     cur.y = p1.y;
 
-    int xmin = std::min( p1.x, p2.x );
-    int ymin = std::min( p1.y, p2.y );
+    point min( std::min( p1.x, p2.x ), std::min( p1.y, p2.y ) );
     int xmax = std::max( p1.x, p2.x );
     int ymax = std::max( p1.y, p2.y );
 
-    xmin -= std::abs( dx );
-    ymin -= std::abs( dy );
-    xmax += std::abs( dx );
-    ymax += std::abs( dy );
+    min.x -= std::abs( d.x );
+    min.y -= std::abs( d.y );
+    xmax += std::abs( d.x );
+    ymax += std::abs( d.y );
 
-    if( ax == ay ) {
+    if( a.x == a.y ) {
         do {
-            cur.y += sy;
-            cur.x += sx;
+            cur.y += s.y;
+            cur.x += s.x;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
-    } else if( ax > ay ) {
+                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
+    } else if( a.x > a.y ) {
         do {
             if( t > 0 ) {
-                cur.y += sy;
-                t -= ax;
+                cur.y += s.y;
+                t -= a.x;
             }
-            cur.x += sx;
-            t += ay;
+            cur.x += s.x;
+            t += a.y;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
+                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else {
         do {
             if( t > 0 ) {
-                cur.x += sx;
-                t -= ay;
+                cur.x += s.x;
+                t -= a.y;
             }
-            cur.y += sy;
-            t += ax;
+            cur.y += s.y;
+            t += a.x;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
+                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     }
     return ret;
 }
@@ -351,8 +347,8 @@ TEST_CASE( "squares_closer_to_test", "[line]" )
     CHECK( actual == expected );
 }
 
-#define RANDOM_TEST_NUM 1000
-#define COORDINATE_RANGE 99
+static constexpr int RANDOM_TEST_NUM = 1000;
+static constexpr int COORDINATE_RANGE = 99;
 
 static void line_to_comparison( const int iterations )
 {
@@ -363,35 +359,35 @@ static void line_to_comparison( const int iterations )
     std::srand( seed );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
-        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const point p1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                        COORDINATE_RANGE ) );
+        const point p2( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                        COORDINATE_RANGE ) );
         int t1 = 0;
         int t2 = 0;
-        REQUIRE( line_to( point( x1, y1 ), point( x2, y2 ), t1 ) == canonical_line_to( point( x1, y1 ),
-                 point( x2, y2 ),
+        REQUIRE( line_to( p1, p2, t1 ) == canonical_line_to( p1,
+                 p2,
                  t2 ) );
     }
 
     {
-        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const point p12( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                         COORDINATE_RANGE ) );
+        const point p22( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                         COORDINATE_RANGE ) );
         const int t1 = 0;
         const int t2 = 0;
         int count1 = 0;
         const auto start1 = std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
-            line_to( point( x1, y1 ), point( x2, y2 ), t1 );
+            line_to( p12, p22, t1 );
             count1++;
         }
         const auto end1 = std::chrono::high_resolution_clock::now();
         int count2 = 0;
         const auto start2 = std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
-            canonical_line_to( point( x1, y1 ), point( x2, y2 ), t2 );
+            canonical_line_to( p12, p22, t2 );
             count2++;
         }
         const auto end2 = std::chrono::high_resolution_clock::now();
@@ -415,10 +411,9 @@ TEST_CASE( "line_to_boundaries", "[line]" )
 {
     for( int i = -60; i < 60; ++i ) {
         for( int j = -60; j < 60; ++j ) {
-            const int ax = std::abs( i ) * 2;
-            const int ay = std::abs( j ) * 2;
-            const int dominant = std::max( ax, ay );
-            const int minor = std::min( ax, ay );
+            const point a( std::abs( i ) * 2, std::abs( j ) * 2 );
+            const int dominant = std::max( a.x, a.y );
+            const int minor = std::min( a.x, a.y );
             const int ideal_start_offset = minor - ( dominant / 2 );
             // get the sign of the start offset.
             const int st( ( ideal_start_offset > 0 ) - ( ideal_start_offset < 0 ) );

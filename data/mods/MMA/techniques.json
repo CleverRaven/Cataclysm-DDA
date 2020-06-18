@@ -360,5 +360,62 @@
     "melee_allowed": true,
     "crit_ok": true,
     "aoe": "wide"
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_stone_dragon_hammer",
+    "name": "Mountain Hammer",
+    "messages": [
+      "You crush %s with the weight of your Mountain Hammer",
+      "<npcname> crushes %s with the weight of their Mountain Hammer"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_stone_dragon_strike",
+    "name": "Irrestistible Mountain Strike",
+    "messages": [ "You smash down on %s with a Mountain Strike", "<npcname> smashes down on %s with a Mountain Strike" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_stone_dragon_colossus",
+    "name": "Colossus Strike",
+    "messages": [ "You completely shatter %s with a Colossus Strike", "<npcname> completely shatters %s with a Colossus Strike" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "knockback_dist": 2,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_tiger_claw_break",
+    "name": "Wolverine Stance",
+    "messages": [
+      "The %s tries to grab you, but you thrash your way to freedom!",
+      "The %s tries to grab <npcname>, but they thrash their way to freedom!"
+    ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
   }
 ]

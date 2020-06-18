@@ -56,7 +56,7 @@
     "color": "yellow",
     "price": 1200,
     "price_postapoc": 0,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
@@ -71,7 +71,7 @@
     "color": "cyan",
     "price": 1400,
     "price_postapoc": 0,
-    "material": "glass",
+    "material": [ "glass" ],
     "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
@@ -86,7 +86,7 @@
     "color": "light_gray",
     "price": 400,
     "price_postapoc": 0,
-    "material": "tin",
+    "material": [ "tin" ],
     "weight": "262 g",
     "volume": "250 ml",
     "bashing": 2,
@@ -116,7 +116,7 @@
     "to_hit": 1,
     "price": 4500,
     "price_postapoc": 10,
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -767,7 +767,7 @@
     "name": { "str": "casserole" },
     "description": "A ceramic pot made for both cooking and serving, particularly one-pot dinners.",
     "copy-from": "base_cookpot",
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "color": "white",
     "weight": "650 g",
     "volume": "2 L",
@@ -828,7 +828,7 @@
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -933,7 +933,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -960,7 +960,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "type": "GENERIC",

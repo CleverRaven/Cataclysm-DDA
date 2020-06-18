@@ -242,12 +242,11 @@
       [ [ "water_purifier", 1 ] ],
       [ [ "food_processor", 1 ] ],
       [ [ "press", 1 ] ],
-      [ [ "cable", 5 ] ],
+      [ [ "cable", 15 ] ],
       [ [ "hotplate", 1 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
       [ [ "pan", 1 ] ],
       [ [ "water_faucet", 2 ] ],
-      [ [ "cable", 10 ] ],
       [ [ "chemistry_set", 1 ] ]
     ]
   },

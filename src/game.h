@@ -36,7 +36,7 @@ class Creature_tracker;
 class item;
 class spell_events;
 
-#define DEFAULT_TILESET_ZOOM 16
+static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 static const std::string SAVE_MASTER( "master.gsav" );
 static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
@@ -608,7 +608,7 @@ class game
                                       const std::string &none_message = "" );
 
         bool has_gametype() const;
-        special_game_id gametype() const;
+        special_game_type gametype() const;
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
@@ -1043,7 +1043,7 @@ class game
         std::chrono::seconds time_played_at_last_load;
         std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0;
-        time_t last_save_timestamp;
+        time_t last_save_timestamp = 0;
 
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache

@@ -47,7 +47,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS",
+    "use_action": [ "BOLTCUTTERS" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -115,7 +115,7 @@
     "price_postapoc": 750,
     "to_hit": -2,
     "bashing": 10,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -270,7 +270,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   }
 ]

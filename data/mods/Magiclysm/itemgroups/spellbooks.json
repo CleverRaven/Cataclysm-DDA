@@ -68,7 +68,8 @@
       [ "spell_scroll_crystallize_mana", 50 ],
       [ "spell_scroll_earthshaper_stoneskin", 30 ],
       [ "spell_scroll_earthshaper_pillar", 35 ],
-      [ "spell_scroll_biomancer_coagulant_weave", 30 ]
+      [ "spell_scroll_biomancer_coagulant_weave", 30 ],
+      [ "spell_scroll_repelling_arc", 30 ]
     ]
   },
   {

@@ -7,24 +7,24 @@
 #include "calendar.h"
 #include "point.h"
 
-enum timed_event_type : int {
-    TIMED_EVENT_NULL,
-    TIMED_EVENT_HELP,
-    TIMED_EVENT_WANTED,
-    TIMED_EVENT_ROBOT_ATTACK,
-    TIMED_EVENT_SPAWN_WYRMS,
-    TIMED_EVENT_AMIGARA,
-    TIMED_EVENT_ROOTS_DIE,
-    TIMED_EVENT_TEMPLE_OPEN,
-    TIMED_EVENT_TEMPLE_FLOOD,
-    TIMED_EVENT_TEMPLE_SPAWN,
-    TIMED_EVENT_DIM,
-    TIMED_EVENT_ARTIFACT_LIGHT,
+enum class timed_event_type : int {
+    NONE,
+    HELP,
+    WANTED,
+    ROBOT_ATTACK,
+    SPAWN_WYRMS,
+    AMIGARA,
+    ROOTS_DIE,
+    TEMPLE_OPEN,
+    TEMPLE_FLOOD,
+    TEMPLE_SPAWN,
+    DIM,
+    ARTIFACT_LIGHT,
     NUM_TIMED_EVENT_TYPES
 };
 
 struct timed_event {
-    timed_event_type type = TIMED_EVENT_NULL;
+    timed_event_type type = timed_event_type::NONE;
     /** On which turn event should be happening. */
     time_point when = calendar::turn_zero;
     /** Which faction is responsible for handling this event. */
