@@ -69,7 +69,6 @@
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
-    "melee_skill": 2,
     "melee_dice": 3,
     "melee_dice_sides": 8
   },
@@ -77,7 +76,6 @@
     "id": "mon_feral_human_archer",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
-    "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "starting_ammo": { "arrow_fire_hardened_fletched": 8 },

@@ -81,7 +81,7 @@
       "NO_AMMO"
     ],
     "skill": "thrown",
-    "ranged_damage": { "damage_type": "bashing", "amount": 1 },
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
     "weight": "540 g",
     "volume": "750ml",
     "bashing": 2,

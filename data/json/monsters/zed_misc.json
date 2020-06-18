@@ -1,4 +1,4 @@
-[
+zombie[
   {
     "id": "mon_zombie_biter",
     "type": "MONSTER",
@@ -478,7 +478,7 @@
   {
     "id": "mon_zombie_hunter",
     "type": "MONSTER",
-    "name": { "str": "feral hunter" },
+    "name": { "str": "zombie hunter" },
     "description": "This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -719,7 +719,7 @@
   {
     "id": "mon_zombie_runner",
     "type": "MONSTER",
-    "name": { "str": "feral runner" },
+    "name": { "str": "zombie runner" },
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "default_faction": "zombie",
     "bodytype": "human",
