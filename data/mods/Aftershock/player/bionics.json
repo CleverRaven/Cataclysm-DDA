@@ -58,6 +58,7 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "enchantments": [ "cranial_explosion" ]
   },
+  {
     "type": "bionic",
     "name": { "str": "Skullgun CBM" },
     "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
