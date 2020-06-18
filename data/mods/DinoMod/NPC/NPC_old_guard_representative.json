@@ -33,14 +33,8 @@
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
-        "place_groups": [
-          { "monster": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "target": true },
-          { "item": "military", "x": [ 9, 15 ], "y": [ 9, 15 ] },
-          { "item": "military", "x": [ 9, 16 ], "y": [ 9, 15 ] },
-          { "item": "military", "x": [ 9, 17 ], "y": [ 9, 15 ] },
-          { "item": "military", "x": [ 9, 16 ], "y": [ 7, 15 ] },
-          { "item": "military", "x": [ 9, 16 ], "y": [ 7, 15 ] }
-        ]
+        "place_monster": [ { "group": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "target": true } ],
+        "place_item": [ { "item": "military", "x": [ 9, 15 ], "y": [ 9, 15 ], "chance": 50 } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
