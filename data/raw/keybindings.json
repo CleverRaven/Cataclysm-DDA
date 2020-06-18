@@ -1843,6 +1843,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Workout",
+    "category": "DEFAULTMODE",
+    "id": "workout",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Control Vehicle",
     "category": "DEFAULTMODE",
     "id": "control_vehicle",

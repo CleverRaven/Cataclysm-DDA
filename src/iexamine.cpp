@@ -5878,6 +5878,15 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     }
 }
 
+void iexamine::workout( player &p, const tripoint &examp )
+{
+    if( !query_yn( _( "Use the %s to exercise?" ), get_map().furnname( examp ) ) ) {
+        none( p, examp );
+        return;
+    }
+    p.assign_activity( player_activity( workout_activity_actor( examp ) ) );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -5964,7 +5973,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
-            { "workbench", &iexamine::workbench }
+            { "workbench", &iexamine::workbench },
+            { "workout", &iexamine::workout }
         }
     };
 

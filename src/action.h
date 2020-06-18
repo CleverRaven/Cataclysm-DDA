@@ -219,6 +219,8 @@ enum action_id : int {
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
     ACTION_WHITELIST_ENEMY,
+    /** Open workout menu */
+    ACTION_WORKOUT,
     /** Save the game and quit */
     ACTION_SAVE,
     /** Quicksave the game */

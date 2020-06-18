@@ -79,6 +79,9 @@ class activity_type
         bool valid_auto_needs() const {
             return auto_needs;
         }
+        float get_activity_level() const {
+            return activity_level;
+        }
         void call_do_turn( player_activity *, player * ) const;
         /** Returns whether it had a finish function or not */
         bool call_finish( player_activity *, player * ) const;
