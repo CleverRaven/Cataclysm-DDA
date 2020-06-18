@@ -1,4 +1,4 @@
-zombie[
+[
   {
     "id": "mon_zombie_biter",
     "type": "MONSTER",
@@ -758,7 +758,7 @@ zombie[
   {
     "id": "mon_zombie_predator",
     "type": "MONSTER",
-    "name": { "str": "feral predator" },
+    "name": { "str": "zombie predator" },
     "description": "With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "default_faction": "zombie",
     "bodytype": "human",
