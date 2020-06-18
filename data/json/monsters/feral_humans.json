@@ -39,7 +39,7 @@
         "description": "They throw a loose brick at you!"
       }
     ],
-    "death_drops": "feral_human_death_drops",
+    "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_2" ]
