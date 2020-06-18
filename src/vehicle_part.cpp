@@ -366,7 +366,8 @@ bool vehicle_part::can_reload( const item &obj ) const
         }
     }
     // crash fix on examine of vehicles with turrets (i.e. firetrucks with water cannons)
-    return  ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    return  !ammo_current().is_null() &&
+            ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -390,10 +391,10 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
-    int charges_max = ammo_capacity(item::find_type(ammo_current() )->ammo->type ) - ammo_remaining();
-    qty = qty < liquid.charges ? qty: liquid.charges;
+    int charges_max = ammo_capacity( item::find_type( ammo_current() )->ammo->type ) - ammo_remaining();
+    qty = qty < liquid.charges ? qty : liquid.charges;
 
-    if (charges_max < liquid.charges) {
+    if( charges_max < liquid.charges ) {
         qty = charges_max;
     }
 
