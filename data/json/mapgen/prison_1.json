@@ -69,7 +69,7 @@
         " |    |bb,,B,,,,B,,,T| ss |,b,b,b,,m|,,,,,,,,| ss |bb,,B,,,,B,,,T|    | ",
         " |    |----|,,,,|----| ss R,b,b,b,,m|D,D,D,D,R ss |----|,,,,|----|    | ",
         " |    |T,,,B,,,,B,,bb| ss |---------|--------| ss |T,,,B,,,,B,,bb|    | ",
-        " |    R,,,,G,,,,Z,,,,R ss |,,,,,,,,C|o,,ooo,,| ss R,,,,Z,,,,Z,,,,R    | ",
+        " |    R,,,,G,,,,Z,,,,R ss |,LLLLLL,C|o,,ooo,,| ss R,,,,Z,,,,Z,,,,R    | ",
         " |    |bb,,B,,,,B,,,T| sss+,,,,,,,,C|o,,,,,,,+sss |bb,,B,,,,B,,,T|    | ",
         " |    |----|,,,,|----|    |,,,CC,,hC|,,,,,,,,|    |----|,,,,|----|    | ",
         " |    |T,,,B,,,,B,,bb|    R,,,CC,,,C|th,,,,htR    |T,,,B,,,,B,,bb|    | ",
@@ -170,7 +170,7 @@
         "Y": "t_pavement_y",
         "Z": "t_door_bar_o"
       },
-      "furniture": { "X": "f_exercise", "C": "f_counter", "P": "f_rack", "2": "f_home_furnace", "4": "f_water_heater" },
+      "furniture": { "X": "f_exercise", "C": "f_counter", "P": "f_rack", "2": "f_home_furnace", "4": "f_water_heater", "L": "f_locker" },
       "items": {
         "l": [
           { "item": "prison_weapons", "chance": 30 },
@@ -179,7 +179,8 @@
           { "item": "cop_pants", "chance": 20 },
           { "item": "cop_shoes", "chance": 20 }
         ],
-        "C": [ { "item": "hand_tools", "chance": 50 } ],
+        "C": [ { "item": "hand_tools", "chance": 40 } ],
+        "L": [ { "item": "hand_tools", "chance": 40 } ],
         "P": [ { "item": "tools_plumbing", "chance": 100, "repeat": [ 1, 3 ] } ]
       },
       "liquids": { "4": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
