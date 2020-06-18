@@ -1845,8 +1845,7 @@
     "type": "keybinding",
     "name": "Workout",
     "category": "DEFAULTMODE",
-    "id": "workout",
-    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+    "id": "workout"
   },
   {
     "type": "keybinding",
