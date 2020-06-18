@@ -571,7 +571,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_firestation1_anvil",
-    "description": "Let's an an anvil and crucible to increase our crafting options.",
+    "description": "Let's an anvil and crucible to increase our crafting options.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
