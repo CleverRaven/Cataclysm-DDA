@@ -1,0 +1,53 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_rep",
+    "mission_offered": [ "MISSION_OLD_GUARD_REP_1", "MISSION_OLD_GUARD_REP_DINO_1" ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW_DOING",
+    "type": "talk_topic",
+    "dynamic_line": "I ensure that the citizens here have what they need to survive and protect themselves from raiders and dinosaurs.  Keeping some form of law is going to be the most important element in rebuilding the world.  We do what we can to keep the 'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.",
+    "responses": [ { "text": "Dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.",
+    "responses": [ { "text": "Kill all dinosaurs, got it...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_DINO_1",
+    "type": "mission_definition",
+    "name": { "str": "Secure Area" },
+    "description": "We lost another trade caravan.  Whatever did the damage is still out there.  - investigate the trade route and eliminate the threat.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "update_mapgen": {
+        "place_groups": [
+          { "monster": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "target": true },
+          { "item": "military", "x": [ 9, 15 ], "y": [ 9, 15 ] },
+          { "item": "military", "x": [ 9, 16 ], "y": [ 9, 15 ] },
+          { "item": "military", "x": [ 9, 17 ], "y": [ 9, 15 ] },
+          { "item": "military", "x": [ 9, 16 ], "y": [ 7, 15 ] },
+          { "item": "military", "x": [ 9, 16 ], "y": [ 7, 15 ] }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "There is another monster troubling the merchants but this time it isn't human… at least I don't think.  Lost a grain shipment, you're welcome to it if you can haul it back.  Check out the area and report anything you find.",
+      "accepted": "Thanks, keeping the people safe is what we try and do.",
+      "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
+      "advice": "Search the bushes for any trace?  I'm not an expert tracker but you should be able to find something.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  }
+]
