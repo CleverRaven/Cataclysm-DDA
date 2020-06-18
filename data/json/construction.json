@@ -4062,7 +4062,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
+    "id": "constr_revert_carpet_concrete",
     "description": "Remove Carpet From Concrete Floor",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -4074,8 +4074,8 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
-    "description": "Remove Carpet From Concrete Floor",
+    "id": "constr_revert_carpet_metal",
+    "description": "Remove Carpet From Metal Floor",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
