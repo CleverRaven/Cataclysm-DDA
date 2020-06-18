@@ -6634,7 +6634,7 @@ float Character::active_light() const
     float mut_lum = 0.0f;
     for( const trait_id &mut : get_mutations() ) {
         float curr_lum = 0.0f;
-        for( const std::pair<bodypart_str_id, float> &elem : mut->lumination ) {
+        for( const std::pair<const bodypart_str_id, float> &elem : mut->lumination ) {
             int coverage = 0;
             for( const item &i : worn ) {
                 if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&

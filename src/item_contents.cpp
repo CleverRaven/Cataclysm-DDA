@@ -142,7 +142,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         std::vector<std::string> itype_initializer;
-        for( const std::pair<std::string, const itype *> &name : nearby_itypes ) {
+        for( const std::pair<const std::string, const itype *> &name : nearby_itypes ) {
             itype_initializer.emplace_back( name.first );
         }
         std::sort( itype_initializer.begin(), itype_initializer.end(), localized_compare );
