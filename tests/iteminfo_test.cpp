@@ -281,15 +281,13 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 
     SECTION( "weapon damage including floating-point multiplier" ) {
         iteminfo_query q = q_vec( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
-                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE,
-                                    iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER
+                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE
                                   } );
         test_info_equals(
             item( "test_compbow" ), q,
             "--\n"
             "<color_c_white>Ranged damage</color>:"
             " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n"
-            "Critical multiplier: <color_c_yellow>10</color>\n"
             "Armor-pierce: <color_c_yellow>0</color>\n" );
     }
 
@@ -333,7 +331,7 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     iteminfo_query q = q_vec( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
                                 iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
                                 iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
-                                iteminfo_parts::AMMO_DAMAGE_RECOIL, iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER
+                                iteminfo_parts::AMMO_DAMAGE_RECOIL
                               } );
 
     SECTION( "simple item with ammo damage" ) {
@@ -343,7 +341,7 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
             "<color_c_white>Ammunition type</color>: rocks\n"
             "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
             "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-            "Recoil: <color_c_yellow>0</color>  Critical multiplier: <color_c_yellow>2</color>\n" );
+            "Recoil: <color_c_yellow>0</color>" );
     }
 }
 
