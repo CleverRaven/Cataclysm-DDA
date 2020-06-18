@@ -31,7 +31,7 @@
         "cooldown": 5,
         "move_cost": 150,
         "gun_type": "feral_human_thrown_rock",
-        "fake_skills": [ [ "gun", 2 ], [ "thrown", 2 ] ],
+        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
