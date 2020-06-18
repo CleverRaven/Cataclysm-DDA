@@ -660,7 +660,8 @@
           { "item": "spell_scroll_jolt", "prob": 50 },
           { "item": "spell_scroll_lightning_bolt", "prob": 50 },
           { "item": "spell_scroll_windstrike", "prob": 50 },
-          { "item": "spell_scroll_windrun", "prob": 50 }
+          { "item": "spell_scroll_windrun", "prob": 50 },
+          { "item": "spell_scroll_repelling_arc", "prob": 50 }
         ],
         "prob": 40
       },
