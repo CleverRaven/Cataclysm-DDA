@@ -1069,6 +1069,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     const auto set_filter = [&]() {
         fpopup = std::make_unique<string_input_popup>();
         fpopup->max_length( 256 );
+        // current_filter is modified by apply_filter(), we have to copy the value
+        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
         const std::string old_filter = current_filter;
         fpopup->text( current_filter );
 
