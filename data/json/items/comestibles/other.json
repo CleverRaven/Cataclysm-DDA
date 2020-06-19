@@ -760,7 +760,6 @@
   {
     "id": "tea_green_bag",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
     "name": { "str": "green tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with tea leaves inside.  Put it into boiling water to make a cup of green tea."
@@ -768,7 +767,6 @@
   {
     "id": "tea_fruit_bag",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
     "name": { "str": "fruit tea bag" },
     "copy-from": "tea_bag",
     "description": "A paper sachet with leaves and fruit parts inside.  Put it into boiling water to make a cup of fruit tea."
