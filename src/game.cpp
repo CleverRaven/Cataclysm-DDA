@@ -833,6 +833,10 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
         } else if( veh.can_float() ) {
             search_types.push_back( "river" );
             search_types.push_back( "lake" );
+        } else {
+            // some default locations
+            search_types.push_back( "road" );
+            search_types.push_back( "field" );
         }
     }
     for( const std::string &search_type : search_types ) {
