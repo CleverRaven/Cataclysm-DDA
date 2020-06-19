@@ -120,7 +120,7 @@
       "P": "f_piano",
       "W": "f_wardrobe",
       "Y": "f_statue",
-      "Z": [ [ "f_treadmill", "f_treadmill_mechanical" ], "f_exercise" ]
+      "Z": [ "f_treadmill", "f_treadmill_mechanical", "f_exercise" ]
     },
     "items": {
       "$": { "item": "art", "chance": 75 },
