@@ -24,6 +24,7 @@
 #include "pimpl.h"
 #include "units.h"
 #include "item_category.h"
+#include "ui.h"
 
 class Character;
 class item;
