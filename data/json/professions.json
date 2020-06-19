@@ -2823,7 +2823,7 @@
     "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
     "points": 8,
     "traits": [ "PROF_MA_BLACK" ],
-    "skills": [ { "level": 8, "name": "melee" }, { "level": 8, "name": "unarmed" }, { "level": 8, "name": "dodge" } ],
+    "skills": [ { "level": 5, "name": "melee" }, { "level": 5, "name": "unarmed" }, { "level": 5, "name": "dodge" } ],
     "items": {
       "both": [ "karate_gi", "judo_belt_black", "mouthpiece", "geta" ],
       "male": [ "boxer_shorts" ],

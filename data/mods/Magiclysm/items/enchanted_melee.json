@@ -827,7 +827,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "TRADER_AVOID", "MAGIC_FOCUS", "THERMOMETER" ]
   },
   {
@@ -847,7 +847,7 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ] ],
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
   },
   {

@@ -266,6 +266,7 @@ static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
+static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -387,6 +388,12 @@ std::string enum_to_string<blood_type>( blood_type data )
 }
 
 } // namespace io
+
+Character &get_player_character()
+{
+    return g->u;
+}
+
 
 // *INDENT-OFF*
 Character::Character() :
@@ -751,7 +758,7 @@ int Character::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
     int range = static_cast<int>( -std::log( get_vision_threshold( static_cast<int>
-                                  ( g->m.ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
+                                  ( get_map().ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
                                   ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
     // Clamp to [1, sight_max].
@@ -849,17 +856,19 @@ bool Character::sight_impaired() const
 
 bool Character::has_alarm_clock() const
 {
+    map &here = get_map();
     return ( has_item_with_flag( "ALARMCLOCK", true ) ||
-             ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+             ( here.veh_at( pos() ) &&
+               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
              has_bionic( bio_watch ) );
 }
 
 bool Character::has_watch() const
 {
+    map &here = get_map();
     return ( has_item_with_flag( "WATCH", true ) ||
-             ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+             ( here.veh_at( pos() ) &&
+               !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
              has_bionic( bio_watch ) );
 }
 
@@ -1006,9 +1015,10 @@ void Character::assign_stashed_activity()
 
 bool Character::check_outbounds_activity( const player_activity &act, bool check_only )
 {
+    map &here = get_map();
     if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
-          !g->m.inbounds( g->m.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !g->m.inbounds( g->m.getlocal( act.coords.back() ) ) ) ) {
+          !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -1099,7 +1109,7 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         for( const monster &critter : g->all_monsters() ) {
             Attitude att = critter.attitude_to( *this );
-            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
+            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
                 rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
                 add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
                 return false;
@@ -1129,7 +1139,7 @@ bool Character::check_mount_is_spooked()
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
-            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 10 ) {
+            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 10 ) {
                 chance += 10 - rl_dist( pos(), critter.pos() );
                 if( critter.get_size() >= mount_size ) {
                     chance *= 2;
@@ -1172,7 +1182,7 @@ void Character::forced_dismount()
         mon->mounted_player = nullptr;
     }
     std::vector<tripoint> valid;
-    for( const tripoint &jk : g->m.points_in_radius( pos(), 1 ) ) {
+    for( const tripoint &jk : get_map().points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( jk ) ) {
             valid.push_back( jk );
         }
@@ -1343,146 +1353,237 @@ bool Character::can_run() const
     return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
 
+void Character::try_remove_downed()
+{
+
+    /** @EFFECT_DEX increases chance to stand up when knocked down */
+
+    /** @EFFECT_STR increases chance to stand up when knocked down, slightly */
+    if( rng( 0, 40 ) > get_dex() + get_str() / 2 ) {
+        add_msg_if_player( _( "You struggle to stand." ) );
+    } else {
+        add_msg_player_or_npc( m_good, _( "You stand up." ),
+                               _( "<npcname> stands up." ) );
+        remove_effect( effect_downed );
+    }
+}
+
+void Character::try_remove_bear_trap()
+{
+    /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
+       allow normal players two options: removal of the limb or removal of the trap from the ground
+       (at which point the player could later remove it from the leg with the right tools).
+       As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
+    */
+    /** @EFFECT_STR increases chance to escape bear trap */
+    // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
+    map &here = get_map();
+    if( is_player() && is_mounted() ) {
+        auto mon = mounted_creature.get();
+        if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
+                mon->remove_effect( effect_beartrap );
+                remove_effect( effect_beartrap );
+                here.spawn_item( pos(), itype_beartrap );
+                add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "Your %s tries to free itself from the bear trap, but can't get loose!" ), mon->get_name() );
+            }
+        }
+    } else {
+        if( x_in_y( get_str(), 100 ) ) {
+            remove_effect( effect_beartrap );
+            add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
+                                   _( "<npcname> frees themselves from the bear trap!" ) );
+            item beartrap( "beartrap", calendar::turn );
+            here.add_item_or_charges( pos(), beartrap );
+        } else {
+            add_msg_if_player( m_bad,
+                               _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+        }
+    }
+}
+
+void Character::try_remove_lightsnare()
+{
+    map &here = get_map();
+    if( is_mounted() ) {
+        auto mon = mounted_creature.get();
+        if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
+            mon->remove_effect( effect_lightsnare );
+            remove_effect( effect_lightsnare );
+            here.spawn_item( pos(), itype_string_36 );
+            here.spawn_item( pos(), itype_snare_trigger );
+            add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
+        }
+    } else {
+        /** @EFFECT_STR increases chance to escape light snare */
+
+        /** @EFFECT_DEX increases chance to escape light snare */
+        if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
+            remove_effect( effect_lightsnare );
+            add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
+                                   _( "<npcname> frees themselves from the light snare!" ) );
+            item string( "string_36", calendar::turn );
+            item snare( "snare_trigger", calendar::turn );
+            here.add_item_or_charges( pos(), string );
+            here.add_item_or_charges( pos(), snare );
+        } else {
+            add_msg_if_player( m_bad,
+                               _( "You try to free yourself from the light snare, but can't get loose!" ) );
+        }
+    }
+}
+
+void Character::try_remove_heavysnare()
+{
+    map &here = get_map();
+    if( is_mounted() ) {
+        auto mon = mounted_creature.get();
+        if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
+                mon->remove_effect( effect_heavysnare );
+                remove_effect( effect_heavysnare );
+                here.spawn_item( pos(), itype_rope_6 );
+                here.spawn_item( pos(), itype_snare_trigger );
+                add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
+            }
+        }
+    } else {
+        /** @EFFECT_STR increases chance to escape heavy snare, slightly */
+
+        /** @EFFECT_DEX increases chance to escape light snare */
+        if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
+            remove_effect( effect_heavysnare );
+            add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
+                                   _( "<npcname> frees themselves from the heavy snare!" ) );
+            item rope( "rope_6", calendar::turn );
+            item snare( "snare_trigger", calendar::turn );
+            here.add_item_or_charges( pos(), rope );
+            here.add_item_or_charges( pos(), snare );
+        } else {
+            add_msg_if_player( m_bad,
+                               _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
+        }
+    }
+}
+
+void Character::try_remove_crushed()
+{
+    /** @EFFECT_STR increases chance to escape crushing rubble */
+
+    /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
+    if( x_in_y( get_str() + get_dex() / 4.0, 100 ) ) {
+        remove_effect( effect_crushed );
+        add_msg_player_or_npc( m_good, _( "You free yourself from the rubble!" ),
+                               _( "<npcname> frees themselves from the rubble!" ) );
+    } else {
+        add_msg_if_player( m_bad, _( "You try to free yourself from the rubble, but can't get loose!" ) );
+    }
+}
+
+bool Character::try_remove_grab()
+{
+    int zed_number = 0;
+    if( is_mounted() ) {
+        auto mon = mounted_creature.get();
+        if( mon->has_effect( effect_grabbed ) ) {
+            if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
+                        3 ) < get_effect_int( effect_grabbed ) ) ||
+                !one_in( 4 ) ) {
+                add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
+                return false;
+            } else {
+                add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
+                remove_effect( effect_grabbed );
+                mon->remove_effect( effect_grabbed );
+            }
+        } else {
+            if( one_in( 4 ) ) {
+                add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
+                remove_effect( effect_grabbed );
+                forced_dismount();
+            }
+        }
+    } else {
+        map &here = get_map();
+        for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && mon->has_effect( effect_grabbing ) ) {
+                zed_number += mon->get_grab_strength();
+            }
+        }
+        if( zed_number == 0 ) {
+            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                   _( "<npcname> finds themselves no longer grabbed." ) );
+            remove_effect( effect_grabbed );
+
+            /** @EFFECT_STR increases chance to escape grab */
+        } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
+            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
+            return false;
+        } else {
+            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                   _( "<npcname> breaks out of the grab!" ) );
+            remove_effect( effect_grabbed );
+            for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+                monster *mon = g->critter_at<monster>( dest );
+                if( mon && mon->has_effect( effect_grabbing ) ) {
+                    mon->remove_effect( effect_grabbing );
+                }
+            }
+        }
+    }
+    return true;
+}
+
+void Character::try_remove_webs()
+{
+    if( is_mounted() ) {
+        auto mon = mounted_creature.get();
+        if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
+                    6 * get_effect_int( effect_webbed ) ) ) {
+            add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
+            mon->remove_effect( effect_webbed );
+            remove_effect( effect_webbed );
+        }
+        /** @EFFECT_STR increases chance to escape webs */
+    } else if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
+        add_msg_player_or_npc( m_good, _( "You free yourself from the webs!" ),
+                               _( "<npcname> frees themselves from the webs!" ) );
+        remove_effect( effect_webbed );
+    } else {
+        add_msg_if_player( _( "You try to free yourself from the webs, but can't get loose!" ) );
+    }
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
-        /** @EFFECT_DEX increases chance to stand up when knocked down */
-
-        /** @EFFECT_STR increases chance to stand up when knocked down, slightly */
-        if( rng( 0, 40 ) > get_dex() + get_str() / 2 ) {
-            add_msg_if_player( _( "You struggle to stand." ) );
-        } else {
-            add_msg_player_or_npc( m_good, _( "You stand up." ),
-                                   _( "<npcname> stands up." ) );
-            remove_effect( effect_downed );
-        }
+        try_remove_downed();
         return false;
     }
     if( has_effect( effect_webbed ) ) {
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
-                        6 * get_effect_int( effect_webbed ) ) ) {
-                add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
-                mon->remove_effect( effect_webbed );
-                remove_effect( effect_webbed );
-            }
-            /** @EFFECT_STR increases chance to escape webs */
-        } else if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
-            add_msg_player_or_npc( m_good, _( "You free yourself from the webs!" ),
-                                   _( "<npcname> frees themselves from the webs!" ) );
-            remove_effect( effect_webbed );
-        } else {
-            add_msg_if_player( _( "You try to free yourself from the webs, but can't get loose!" ) );
-        }
+        try_remove_webs();
         return false;
     }
     if( has_effect( effect_lightsnare ) ) {
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
-                mon->remove_effect( effect_lightsnare );
-                remove_effect( effect_lightsnare );
-                g->m.spawn_item( pos(), itype_string_36 );
-                g->m.spawn_item( pos(), itype_snare_trigger );
-                add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
-            }
-        } else {
-            /** @EFFECT_STR increases chance to escape light snare */
+        try_remove_lightsnare();
+        return false;
 
-            /** @EFFECT_DEX increases chance to escape light snare */
-            if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
-                remove_effect( effect_lightsnare );
-                add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
-                                       _( "<npcname> frees themselves from the light snare!" ) );
-                item string( "string_36", calendar::turn );
-                item snare( "snare_trigger", calendar::turn );
-                g->m.add_item_or_charges( pos(), string );
-                g->m.add_item_or_charges( pos(), snare );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to free yourself from the light snare, but can't get loose!" ) );
-            }
-            return false;
-        }
     }
     if( has_effect( effect_heavysnare ) ) {
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
-                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
-                    mon->remove_effect( effect_heavysnare );
-                    remove_effect( effect_heavysnare );
-                    g->m.spawn_item( pos(), itype_rope_6 );
-                    g->m.spawn_item( pos(), itype_snare_trigger );
-                    add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
-                }
-            }
-        } else {
-            /** @EFFECT_STR increases chance to escape heavy snare, slightly */
-
-            /** @EFFECT_DEX increases chance to escape light snare */
-            if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
-                remove_effect( effect_heavysnare );
-                add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
-                                       _( "<npcname> frees themselves from the heavy snare!" ) );
-                item rope( "rope_6", calendar::turn );
-                item snare( "snare_trigger", calendar::turn );
-                g->m.add_item_or_charges( pos(), rope );
-                g->m.add_item_or_charges( pos(), snare );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
-            }
-        }
+        try_remove_heavysnare();
         return false;
     }
     if( has_effect( effect_beartrap ) ) {
-        /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
-           allow normal players two options: removal of the limb or removal of the trap from the ground
-           (at which point the player could later remove it from the leg with the right tools).
-           As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
-        */
-        /** @EFFECT_STR increases chance to escape bear trap */
-        // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
-        if( is_player() && is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
-                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
-                    mon->remove_effect( effect_beartrap );
-                    remove_effect( effect_beartrap );
-                    g->m.spawn_item( pos(), itype_beartrap );
-                    add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
-                } else {
-                    add_msg_if_player( m_bad,
-                                       _( "Your %s tries to free itself from the bear trap, but can't get loose!" ), mon->get_name() );
-                }
-            }
-        } else {
-            if( x_in_y( get_str(), 100 ) ) {
-                remove_effect( effect_beartrap );
-                add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
-                                       _( "<npcname> frees themselves from the bear trap!" ) );
-                item beartrap( "beartrap", calendar::turn );
-                g->m.add_item_or_charges( pos(), beartrap );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to free yourself from the bear trap, but can't get loose!" ) );
-            }
-        }
+        try_remove_bear_trap();
         return false;
     }
     if( has_effect( effect_crushed ) ) {
-        /** @EFFECT_STR increases chance to escape crushing rubble */
-
-        /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
-        if( x_in_y( get_str() + get_dex() / 4.0, 100 ) ) {
-            remove_effect( effect_crushed );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the rubble!" ),
-                                   _( "<npcname> frees themselves from the rubble!" ) );
-        } else {
-            add_msg_if_player( m_bad, _( "You try to free yourself from the rubble, but can't get loose!" ) );
-        }
+        try_remove_crushed();
         return false;
     }
     // Below this point are things that allow for movement if they succeed
@@ -1502,59 +1603,34 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) && !attacking ) {
-        int zed_number = 0;
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( mon->has_effect( effect_grabbed ) ) {
-                if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
-                            3 ) < get_effect_int( effect_grabbed ) ) ||
-                    !one_in( 4 ) ) {
-                    add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
-                    return false;
-                } else {
-                    add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
-                    remove_effect( effect_grabbed );
-                    mon->remove_effect( effect_grabbed );
-                }
-            } else {
-                if( one_in( 4 ) ) {
-                    add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
-                    remove_effect( effect_grabbed );
-                    forced_dismount();
-                }
-            }
-        } else {
-            for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-                const monster *const mon = g->critter_at<monster>( dest );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
-                    zed_number += mon->get_grab_strength();
-                }
-            }
-            if( zed_number == 0 ) {
-                add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
-                                       _( "<npcname> finds themselves no longer grabbed." ) );
-                remove_effect( effect_grabbed );
+    return !has_effect( effect_grabbed ) || attacking || try_remove_grab();
+}
 
-                /** @EFFECT_STR increases chance to escape grab */
-            } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
-                add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
-                                       _( "<npcname> tries to break out of the grab, but fails!" ) );
-                return false;
-            } else {
-                add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
-                                       _( "<npcname> breaks out of the grab!" ) );
-                remove_effect( effect_grabbed );
-                for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-                    monster *mon = g->critter_at<monster>( dest );
-                    if( mon && mon->has_effect( effect_grabbing ) ) {
-                        mon->remove_effect( effect_grabbing );
-                    }
-                }
-            }
-        }
+void Character::wait_effects( bool attacking )
+{
+    if( has_effect( effect_downed ) ) {
+        try_remove_downed();
+        return;
     }
-    return true;
+    if( has_effect( effect_beartrap ) ) {
+        try_remove_bear_trap();
+        return;
+    }
+    if( has_effect( effect_lightsnare ) ) {
+        try_remove_lightsnare();
+        return;
+    }
+    if( has_effect( effect_heavysnare ) ) {
+        try_remove_heavysnare();
+        return;
+    }
+    if( has_effect( effect_webbed ) ) {
+        try_remove_webs();
+        return;
+    }
+    if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab() ) {
+        return;
+    }
 }
 
 move_mode_id Character::current_movement_mode() const
@@ -1624,6 +1700,10 @@ void Character::process_turn()
                 add_msg_if_player( m_bad, _( "Your %s bionic comes back online." ), i.info().name );
             }
         }
+    }
+
+    for( const trait_id &mut : get_mutations() ) {
+        mutation_reflex_trigger( mut );
     }
 
     Creature::process_turn();
@@ -2094,7 +2174,7 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
-int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
+int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 {
     int ret = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2321,7 +2401,7 @@ item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
     item *added = try_add( it, avoid );
     if( added == nullptr ) {
         if( !wield( it ) ) {
-            return g->m.add_item_or_charges( pos(), it );
+            return get_map().add_item_or_charges( pos(), it );
         } else {
             return weapon;
         }
@@ -2489,10 +2569,11 @@ bool Character::i_add_or_drop( item &it, int qty )
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
+    map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
-            retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
+            retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
             i_add( it );
         }
@@ -2542,7 +2623,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    if( rl_dist( pos(), target ) > 1 || !( stash || g->m.can_put_items( target ) ) ) {
+    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
         return;
@@ -2749,12 +2830,12 @@ units::mass Character::weight_carried() const
     return weight_carried_with_tweaks( item_tweaks() );
 }
 
-int Character::best_nearby_lifting_assist() const
+units::mass Character::best_nearby_lifting_assist() const
 {
     return best_nearby_lifting_assist( this->pos() );
 }
 
-int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
     const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
@@ -2764,10 +2845,11 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
-                     } );
+    int lift_quality = std::max( { this->max_quality( LIFT ), mech_lift,
+                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                                   vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                                 } );
+    return lifting_quality_to_mass( lift_quality );
 }
 
 units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
@@ -2819,9 +2901,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
     // Exclude wielded item if using lifting tool
     if( weaponweight + ret > weight_capacity() ) {
-        const float liftrequirement = std::ceil( units::to_gram<float>( weaponweight ) /
-                                      units::to_gram<float>( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+        if( g->new_game || best_nearby_lifting_assist() < weaponweight ) {
             ret += weaponweight;
         }
     } else {
@@ -3108,7 +3188,7 @@ void Character::drop_invalid_inventory()
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            g->m.add_item_or_charges( pos(), it );
+            get_map().add_item_or_charges( pos(), it );
             // must be last
             i_rem( &it );
         }
@@ -3472,10 +3552,10 @@ void Character::reset_stats()
         mod_str_bonus( 20 );
     }
 
-    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
-    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
-    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
-    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
+    mod_str_bonus( get_mod_stat_from_bionic( character_stat::STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( character_stat::DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( character_stat::PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( character_stat::INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -3727,7 +3807,8 @@ bool Character::in_climate_control()
     if( has_active_bionic( bio_climate ) ) {
         return true;
     }
-    if( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() ) &&
+    map &here = get_map();
+    if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( flag_FUNGUS, pos() ) &&
         in_sleep_state() ) {
         return true;
     }
@@ -3742,7 +3823,7 @@ bool Character::in_climate_control()
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
                                  vp->is_inside() &&  // Already checks for opened doors
@@ -4137,17 +4218,17 @@ void Character::print_health() const
 namespace io
 {
 template<>
-std::string enum_to_string<Character::stat>( Character::stat data )
+std::string enum_to_string<character_stat>( character_stat data )
 {
     switch( data ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return "STR";
-    case Character::stat::DEXTERITY:    return "DEX";
-    case Character::stat::INTELLIGENCE: return "INT";
-    case Character::stat::PERCEPTION:   return "PER";
+    case character_stat::STRENGTH:     return "STR";
+    case character_stat::DEXTERITY:    return "DEX";
+    case character_stat::INTELLIGENCE: return "INT";
+    case character_stat::PERCEPTION:   return "PER";
 
         // *INDENT-ON*
-        case Character::stat::DUMMY_STAT:
+        case character_stat::DUMMY_STAT:
             break;
     }
     abort();
@@ -4434,7 +4515,7 @@ bool Character::is_deaf() const
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
            has_trait( trait_DEAF ) ||
            ( has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) ) ||
-           ( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() )
+           ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( flag_FUNGUS, pos() )
              && in_sleep_state() );
 }
 
@@ -4924,7 +5005,7 @@ void Character::update_needs( int rate_multiplier )
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && ( ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) )
         && !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
-        vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
+        vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
         if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this->as_player() ) ) ) {
             add_msg_if_player( m_bad,
@@ -5330,7 +5411,8 @@ void Character::update_bodytemp()
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( pos() );
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
@@ -5348,7 +5430,7 @@ void Character::update_bodytemp()
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
-    const furn_id furn_at_pos = g->m.furn( pos() );
+    const furn_id furn_at_pos = here.furn( pos() );
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Temperature norms
     // Ambient normal temperature is lower while asleep
@@ -5425,8 +5507,8 @@ void Character::update_bodytemp()
             bodypart_id( "leg_l" ),
             bodypart_id( "leg_r" )
         };
-        if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
-            ( g->m.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && lowers.count( bp ) ) ) {
+        if( here.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
+            ( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && lowers.count( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -5849,13 +5931,14 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     bool in_shell = has_active_mutation( trait_SHELL2 );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
-    const optional_vpart_position vp = g->m.veh_at( p );
-    const maptile tile = g->m.maptile_at( p );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    const maptile tile = here.maptile_at( p );
     const trap &trap_at_pos = tile.get_trap_t();
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = g->m.get_field_intensity( p, fd_web );
+    int web = here.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -5879,7 +5962,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             if( board ) {
                 comfort += board->info().comfort;
             } else {
-                comfort -= g->m.move_cost( p );
+                comfort -= here.move_cost( p );
             }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
@@ -5899,11 +5982,11 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 0 + trap_at_pos.comfort;
         } else {
             // Not a comfortable sleeping spot
-            comfort -= g->m.move_cost( p );
+            comfort -= here.move_cost( p );
         }
 
         if( comfort_response.aid == nullptr ) {
-            const map_stack items = g->m.i_at( p );
+            const map_stack items = here.i_at( p );
             for( const item &items_it : items ) {
                 if( items_it.has_flag( "SLEEP_AID" ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
@@ -5913,9 +5996,9 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
             }
         }
-        if( fungaloid_cosplay && g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() ) ) {
+        if( fungaloid_cosplay && here.has_flag_ter_or_furn( flag_FUNGUS, pos() ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else if( watersleep && g->m.has_flag_ter( flag_SWIMMABLE, pos() ) ) {
+        } else if( watersleep && here.has_flag_ter( flag_SWIMMABLE, pos() ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -6279,7 +6362,7 @@ nc_color Character::symbol_color() const
         return cyan_background( basic );
     }
 
-    const auto &fields = g->m.field_at( pos() );
+    const auto &fields = get_map().field_at( pos() );
 
     // Priority: electricity, fire, acid, gases
     bool has_elec = false;
@@ -6485,7 +6568,7 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
 
 tripoint Character::global_square_location() const
 {
-    return g->m.getabs( position );
+    return get_map().getabs( position );
 }
 
 tripoint Character::global_sm_location() const
@@ -6549,22 +6632,20 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( mut.second.powered ) {
-            float curr_lum = 0.0f;
-            for( const std::pair<bodypart_str_id, float> elem : mut.first->lumination ) {
-                int coverage = 0;
-                for( const item &i : worn ) {
-                    if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                        !i.has_flag( flag_SEMITANGIBLE ) &&
-                        !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                        coverage += i.get_coverage();
-                    }
+    for( const trait_id &mut : get_mutations() ) {
+        float curr_lum = 0.0f;
+        for( const std::pair<const bodypart_str_id, float> &elem : mut->lumination ) {
+            int coverage = 0;
+            for( const item &i : worn ) {
+                if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    !i.has_flag( flag_SEMITANGIBLE ) &&
+                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+                    coverage += i.get_coverage();
                 }
-                curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
             }
-            mut_lum += curr_lum;
+            curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
         }
+        mut_lum += curr_lum;
     }
 
     lumination = std::max( lumination, mut_lum );
@@ -8049,7 +8130,7 @@ void Character::vomit()
 
     if( stomach.contains() != 0_ml ) {
         stomach.empty();
-        g->m.add_field( adjacent_tile(), fd_bile, 1 );
+        get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
 
@@ -8084,17 +8165,18 @@ tripoint Character::adjacent_tile() const
 {
     std::vector<tripoint> ret;
     int dangerous_fields = 0;
-    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
         if( p == pos() ) {
             // Don't consider player position
             continue;
         }
-        const trap &curtrap = g->m.tr_at( p );
-        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
+        const trap &curtrap = here.tr_at( p );
+        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
             ( curtrap.is_null() || curtrap.is_benign() ) ) {
             // Only consider tile if unoccupied, passable and has no traps
             dangerous_fields = 0;
-            auto &tmpfld = g->m.field_at( p );
+            auto &tmpfld = here.field_at( p );
             for( auto &fld : tmpfld ) {
                 const field_entry &cur = fld.second;
                 if( cur.is_dangerous() ) {
@@ -8121,14 +8203,14 @@ void Character::set_fac_id( const std::string &my_fac_id )
     fac_id = faction_id( my_fac_id );
 }
 
-std::string get_stat_name( Character::stat Stat )
+std::string get_stat_name( character_stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return pgettext( "strength stat", "STR" );
-    case Character::stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
-    case Character::stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
-    case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
+    case character_stat::STRENGTH:     return pgettext( "strength stat", "STR" );
+    case character_stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
+    case character_stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
+    case character_stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
         // *INDENT-ON*
         default:
             break;
@@ -8488,8 +8570,9 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
 
         elem.amount = std::max( elem.amount, 0.0f );
     }
+    map &here = get_map();
     for( item &remain : worn_remains ) {
-        g->m.add_item_or_charges( pos(), remain );
+        here.add_item_or_charges( pos(), remain );
     }
     if( armor_destroyed ) {
         drop_invalid_inventory();
@@ -8757,8 +8840,11 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed */
 
+            int reflex_mod = has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
+            const bool dodged_grab = rng( 0, reflex_mod * get_dex() ) > rng( 0, 10 );
+
             if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                ( rng( 0, get_dex() )  > rng( 0, 10 ) ) ) {
+                dodged_grab ) {
                 if( has_effect( effect_grabbed ) ) {
                     add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        source->disp_name() );
@@ -9023,10 +9109,11 @@ void Character::restore_scent()
 
 void Character::spores()
 {
-    fungal_effects fe( *g, g->m );
+    map &here = get_map();
+    fungal_effects fe( *g, here );
     //~spore-release sound
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
-    for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
+    for( const tripoint &sporep : here.points_in_radius( pos(), 1 ) ) {
         if( sporep == pos() ) {
             continue;
         }
@@ -9038,8 +9125,9 @@ void Character::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
-    for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
-        g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
+    map &here = get_map();
+    for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
+        here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
 
@@ -9079,7 +9167,7 @@ void Character::rooted_message() const
 {
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        g->m.has_flag( flag_PLOWABLE, pos() ) &&
+        get_map().has_flag( flag_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
     }
@@ -9090,7 +9178,7 @@ void Character::rooted()
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        g->m.has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
+        get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
             vitamin_mod( vitamin_id( "iron" ), 1, true );
             vitamin_mod( vitamin_id( "calcium" ), 1, true );
@@ -9253,15 +9341,17 @@ void Character::update_morale()
 units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.remaining_container_capacity();
+    volume_capacity += weapon.get_total_capacity();
     for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity += it->contents.remaining_container_capacity();
+        volume_capacity -= it->volume();
     }
+    volume_capacity += weapon.check_for_free_space( &weapon );
     for( const item &w : worn ) {
-        volume_capacity += w.contents.remaining_container_capacity();
+        volume_capacity += w.get_total_capacity();
         for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity += it->contents.remaining_container_capacity();
+            volume_capacity -= it->volume();
         }
+        volume_capacity += w.check_for_free_space( &w );
     }
     return volume_capacity;
 }
@@ -9270,32 +9360,15 @@ units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.contents.total_container_capacity();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity += it->contents.total_container_capacity();
-    }
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity += it->contents.total_container_capacity();
-        }
     }
     return volume_capacity;
 }
 
 units::volume Character::volume_carried() const
 {
-    units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.total_contained_volume();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity += it->contents.total_contained_volume();
-    }
-    for( const item &w : worn ) {
-        volume_capacity += w.contents.total_contained_volume();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity += it->contents.total_contained_volume();
-        }
-    }
-    return volume_capacity;
+    return volume_capacity() - free_space();
 }
 
 void Character::hoarder_morale_penalty()
@@ -9617,11 +9690,12 @@ void Character::migrate_items_to_storage( bool disintegrate )
 
 std::string Character::is_snuggling() const
 {
-    auto begin = g->m.i_at( pos() ).begin();
-    auto end = g->m.i_at( pos() ).end();
+    map &here = get_map();
+    auto begin = here.i_at( pos() ).begin();
+    auto end = here.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
+        if( const cata::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
                 false ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = vp->part_index();
@@ -9742,12 +9816,13 @@ bool Character::can_use_floor_warmth() const
 
 int Character::floor_bedding_warmth( const tripoint &pos )
 {
-    const trap &trap_at_pos = g->m.tr_at( pos );
-    const ter_id ter_at_pos = g->m.ter( pos );
-    const furn_id furn_at_pos = g->m.furn( pos );
+    map &here = get_map();
+    const trap &trap_at_pos = here.tr_at( pos );
+    const ter_id ter_at_pos = here.ter( pos );
+    const furn_id furn_at_pos = here.furn( pos );
     int floor_bedding_warmth = 0;
 
-    const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = here.veh_at( pos );
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
@@ -9767,13 +9842,14 @@ int Character::floor_bedding_warmth( const tripoint &pos )
 
 int Character::floor_item_warmth( const tripoint &pos )
 {
-    if( !g->m.has_items( pos ) ) {
+    map &here = get_map();
+    if( !here.has_items( pos ) ) {
         return 0;
     }
 
     int item_warmth = 0;
     // Search the floor for items
-    const auto floor_item = g->m.i_at( pos );
+    const map_stack floor_item = here.i_at( pos );
     for( const item &elem : floor_item ) {
         if( !elem.is_armor() ) {
             continue;
@@ -9988,7 +10064,7 @@ bool Character::has_fire( const int quantity ) const
 {
     // TODO: Replace this with a "tool produces fire" flag.
 
-    if( g->m.has_nearby_fire( pos() ) ) {
+    if( get_map().has_nearby_fire( pos() ) ) {
         return true;
     } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
@@ -10047,7 +10123,7 @@ void Character::use_fire( const int quantity )
     // (home made, military), hotplate, welder in that order.
     // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
-    if( g->m.has_nearby_fire( pos() ) ) {
+    if( get_map().has_nearby_fire( pos() ) ) {
         return;
     } else if( has_item_with_flag( "FIRE" ) ) {
         return;
@@ -10297,7 +10373,7 @@ bool Character::crush_frozen_liquid( item_location loc )
                 add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                    hammering_item.tname() );
                 int smashskill = str_cur + hammering_item.damage_melee( DT_BASH );
-                g->m.bash( loc.position(), smashskill );
+                get_map().bash( loc.position(), smashskill );
             }
             add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
             return true;
@@ -10365,9 +10441,10 @@ int Character::run_cost( int base_cost, bool diag ) const
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
     const bool flatground = movecost < 105;
+    map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
-    const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
+    const bool on_road = flatground && here.has_flag( "ROAD", pos() );
+    const bool on_fungus = here.has_flag_ter_or_furn( "FUNGUS", pos() );
 
     if( !is_mounted() ) {
         if( movecost > 100 ) {
@@ -10454,7 +10531,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
+        if( has_trait( trait_ROOTS3 ) && here.has_flag( "DIGGABLE", pos() ) ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -10478,8 +10555,9 @@ void Character::place_corpse()
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     body.set_item_temperature( 310.15 );
+    map &here = get_map();
     for( auto itm : tmp ) {
-        g->m.add_item_or_charges( pos(), *itm );
+        here.add_item_or_charges( pos(), *itm );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -10500,15 +10578,14 @@ void Character::place_corpse()
     for( int i = 0; i < storage_modules.second; ++i ) {
         body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
     }
-    g->m.add_item_or_charges( pos(), body );
+    here.add_item_or_charges( pos(), body );
 }
 
 void Character::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
-    int finX = rng( 1, SEEX * 2 - 2 );
-    int finY = rng( 1, SEEX * 2 - 2 );
+    point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
@@ -10516,11 +10593,11 @@ void Character::place_corpse( const tripoint &om_target )
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // Q: Why use furn_str_id instead of f_null?
     // TODO: fix it, see above.
-    if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
+    if( bay.furn( fin ) != furn_str_id( "f_null" ) ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
-                finX = p.x;
-                finY = p.y;
+                fin.x = p.x;
+                fin.y = p.y;
             }
         }
     }
@@ -10528,7 +10605,7 @@ void Character::place_corpse( const tripoint &om_target )
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
-        bay.add_item_or_charges( point( finX, finY ), *itm );
+        bay.add_item_or_charges( fin, *itm );
     }
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
@@ -10544,7 +10621,7 @@ void Character::place_corpse( const tripoint &om_target )
     for( int i = 0; i < storage_modules.second; ++i ) {
         body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
     }
-    bay.add_item_or_charges( point( finX, finY ), body );
+    bay.add_item_or_charges( fin, body );
 }
 
 bool Character::sees_with_infrared( const Creature &critter ) const
@@ -10553,14 +10630,15 @@ bool Character::sees_with_infrared( const Creature &critter ) const
         return false;
     }
 
+    map &here = get_map();
     if( is_player() || critter.is_player() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return g->m.pl_line_of_sight( critter.pos(),
+        return here.pl_line_of_sight( critter.pos(),
                                       sight_range( current_daylight_level( calendar::turn ) ) );
     }
 
-    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
+    return here.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -10578,17 +10656,18 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
 
 std::vector<Creature *> Character::get_targetable_creatures( const int range, bool melee ) const
 {
-    return g->get_creatures_if( [this, range, melee]( const Creature & critter ) -> bool {
+    map &here = get_map();
+    return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && g->m.sees( pos(), critter.pos(), 100 ) );
+        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos(), critter.pos(), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
-            std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
+            std::vector<tripoint> path = here.find_clear_path( pos(), critter.pos() );
             for( const tripoint &point : path ) {
-                if( g->m.impassable( point ) &&
+                if( here.impassable( point ) &&
                     !( weapon.has_flag( "SPEAR" ) && // Fences etc. Spears can stab through those
-                       g->m.has_flag( "THIN_OBSTACLE", point ) ) ) { //this mirrors melee.cpp function reach_attack
+                       here.has_flag( "THIN_OBSTACLE", point ) ) ) { //this mirrors melee.cpp function reach_attack
                     can_see = false;
                     break;
                 }
@@ -10596,7 +10675,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         }
         bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
         // TODO: get rid of fake npcs (pos() check)
-        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
+        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
         return valid_target && in_range && can_see;
     } );
 }
@@ -10607,20 +10686,20 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
         // Fixes circular distance range for ranged attacks
         float dist_to_creature = std::round( rl_dist_exact( pos(), critter.pos() ) );
         return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
-        dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
+        dist_to_creature <= range && critter.attitude_to( *this ) == Creature::Attitude::HOSTILE
         && sees( critter );
     } );
 }
 
 bool Character::knows_trap( const tripoint &pos ) const
 {
-    const tripoint p = g->m.getabs( pos );
+    const tripoint p = get_map().getabs( pos );
     return known_traps.count( p ) > 0;
 }
 
 void Character::add_known_trap( const tripoint &pos, const trap &t )
 {
-    const tripoint p = g->m.getabs( pos );
+    const tripoint p = get_map().getabs( pos );
     if( t.is_null() ) {
         known_traps.erase( p );
     } else {
@@ -10721,6 +10800,18 @@ int Character::get_hp() const
     return get_hp( num_hp_parts );
 }
 
+int Character::get_lowest_hp() const
+{
+    // Set lowest_hp to an arbitrarily large number.
+    int lowest_hp = 999;
+    for( int cur_hp : this->hp_cur ) {
+        if( cur_hp < lowest_hp ) {
+            lowest_hp = cur_hp;
+        }
+    }
+    return lowest_hp;
+}
+
 int Character::get_hp( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
@@ -10755,7 +10846,7 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
     const auto m = dynamic_cast<const monster *>( &other );
     if( m != nullptr ) {
         if( m->friendly != 0 ) {
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         }
         switch( m->attitude( const_cast<Character *>( this ) ) ) {
             // player probably does not want to harm them, but doesn't care much at all.
@@ -10763,40 +10854,40 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
             case MATT_FPASSIVE:
             case MATT_IGNORE:
             case MATT_FLEE:
-                return A_NEUTRAL;
+                return Attitude::NEUTRAL;
             // player does not want to harm those.
             case MATT_FRIEND:
-                return A_FRIENDLY;
+                return Attitude::FRIENDLY;
             case MATT_ATTACK:
-                return A_HOSTILE;
+                return Attitude::HOSTILE;
             case MATT_NULL:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
 
-        return A_NEUTRAL;
+        return Attitude::NEUTRAL;
     }
 
     const auto p = dynamic_cast<const npc *>( &other );
     if( p != nullptr ) {
         if( p->is_enemy() ) {
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         } else if( p->is_player_ally() ) {
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         } else {
-            return A_NEUTRAL;
+            return Attitude::NEUTRAL;
         }
     } else if( &other == this ) {
-        return A_FRIENDLY;
+        return Attitude::FRIENDLY;
     }
 
-    return A_NEUTRAL;
+    return Attitude::NEUTRAL;
 }
 
 bool Character::sees( const tripoint &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
+    bool can_see = is_player() ? get_map().pl_sees( t, wanted_range ) :
                    Creature::sees( t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
@@ -10849,7 +10940,7 @@ void Character::set_destination( const std::vector<tripoint> &route,
 {
     auto_move_route = route;
     set_destination_activity( new_destination_activity );
-    destination_point.emplace( g->m.getabs( route.back() ) );
+    destination_point.emplace( get_map().getabs( route.back() ) );
 }
 
 void Character::clear_destination()
@@ -10879,7 +10970,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           position == g->m.getlocal( *destination_point );
+           position == get_map().getlocal( *destination_point );
 }
 
 void Character::start_destination_activity()

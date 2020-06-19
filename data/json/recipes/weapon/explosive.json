@@ -124,7 +124,7 @@
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "oxy_powder", 75 ] ],
       [ [ "incendiary", 50 ] ]
     ]
@@ -145,7 +145,7 @@
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -165,7 +165,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -185,7 +185,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "insecticide", 50 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -206,7 +206,7 @@
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
@@ -226,7 +226,7 @@
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
@@ -246,7 +246,7 @@
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
@@ -336,7 +336,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "candy", 1 ], [ "cola", 1 ] ],
       [ [ "vitamins", 10 ], [ "aspirin", 8 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "clay_canister", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -376,7 +376,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "volatile_explosive", 5 ] ],
-    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
+    "components": [ [ [ "can_food", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "tool_small_bootleg_fragmentation_device",

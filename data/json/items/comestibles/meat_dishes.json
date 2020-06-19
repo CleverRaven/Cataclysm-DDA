@@ -1271,7 +1271,7 @@
     "weight": "85 g",
     "color": "red",
     "spoils_in": "360 days",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "quench": -3,
     "description": "Pieces of poisonous meat that have been dried to prevent them from rotting away.  It will still poison you if you eat this.",
     "price": 0,

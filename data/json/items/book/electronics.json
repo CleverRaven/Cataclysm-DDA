@@ -219,7 +219,7 @@
     "price": 100000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "material": "paper",
+    "material": [ "paper" ],
     "skill": "electronics",
     "required_level": 7,
     "max_level": 7,

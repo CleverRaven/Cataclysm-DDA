@@ -431,7 +431,7 @@ void npc::assess_danger()
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
+        } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -445,11 +445,11 @@ void npc::assess_danger()
 
     for( const monster &critter : g->all_monsters() ) {
         auto att = critter.attitude_to( *this );
-        if( att == A_FRIENDLY ) {
+        if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
         }
-        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+        if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
             continue;
         }
         if( !sees( critter ) ) {
@@ -1329,7 +1329,7 @@ npc_action npc::method_of_attack()
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
-                   ( ( danger <= ( m.qty == 1 ? 3.0 : 15.0 ) ) && !emergency() ) ||
+                   ( ( danger <= ( m.qty == 1 ? 0.0 : 15 ) ) && !emergency() ) ||
                    ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 
@@ -1395,7 +1395,7 @@ npc_action npc::method_of_attack()
     }
 
     if( dist == 1 && same_z ) {
-        add_msg( m_debug, "%s is trying a melle attack", disp_name() );
+        add_msg( m_debug, "%s is trying a melee attack", disp_name() );
         return npc_melee;
     }
 
@@ -2247,7 +2247,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             return;
         }
         const auto att = attitude_to( *critter );
-        if( att == A_HOSTILE ) {
+        if( att == Attitude::HOSTILE ) {
             if( !no_bashing ) {
                 warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );
@@ -2375,9 +2375,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const tripoint old_pos = pos();
         setpos( p );
         if( old_pos.x - p.x < 0 ) {
-            facing = FD_RIGHT;
+            facing = FacingDirection::RIGHT;
         } else {
-            facing = FD_LEFT;
+            facing = FacingDirection::LEFT;
         }
         if( is_mounted() ) {
             if( mounted_creature->pos() != pos() ) {
@@ -3068,7 +3068,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 std::list<item> npc::pick_up_item_map( const tripoint &where )
 {
-    auto stack = g->m.i_at( where );
+    map_stack stack = g->m.i_at( where );
     return npc_pickup_from_stack( *this, stack );
 }
 
@@ -3212,7 +3212,7 @@ bool npc::find_corpse_to_pulp()
             return nullptr;
         }
 
-        const auto items = g->m.i_at( p );
+        const map_stack items = g->m.i_at( p );
         const item *found = nullptr;
         for( const item &it : items )
         {

@@ -151,64 +151,63 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    int new_dx = dest_loc.x - you.posx();
-    int new_dy = dest_loc.y - you.posy();
+    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
     if( !tile_iso ) {
-        if( new_dx > 0 ) {
-            you.facing = FD_RIGHT;
+        if( new_d.x > 0 ) {
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_RIGHT;
+                you.mounted_creature->facing = FacingDirection::RIGHT;
             }
-        } else if( new_dx < 0 ) {
-            you.facing = FD_LEFT;
+        } else if( new_d.x < 0 ) {
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
-                you.mounted_creature->facing = FD_LEFT;
+                you.mounted_creature->facing = FacingDirection::LEFT;
             }
         }
     } else {
         //
         // iso:
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // left key             =>  -x +y       FD_LEFT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // left key             =>  -x +y       FacingDirection::LEFT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         //
-        // right key            =>  +x -y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ -y       FD_RIGHT
+        // right key            =>  +x -y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ -y       FacingDirection::RIGHT
         // up key               =>  +x +y       ______
         // down key             =>  -x -y       ______
-        // left key             =>  -x +y       FD_LEFT
-        // y: left-up key       =>  __ +y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
+        // left key             =>  -x +y       FacingDirection::LEFT
+        // y: left-up key       =>  __ +y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
         //
-        // right key            =>  +x +y       FD_RIGHT
-        // u: right-up key      =>  +x __       FD_RIGHT
-        // n: right-down key    =>  __ +y       FD_RIGHT
+        // right key            =>  +x +y       FacingDirection::RIGHT
+        // u: right-up key      =>  +x __       FacingDirection::RIGHT
+        // n: right-down key    =>  __ +y       FacingDirection::RIGHT
         // up key               =>  +x -y       ______
-        // left key             =>  -x -y       FD_LEFT
-        // b: left-down key     =>  -x __       FD_LEFT
-        // y: left-up key       =>  __ -y       FD_LEFT
+        // left key             =>  -x -y       FacingDirection::LEFT
+        // b: left-down key     =>  -x __       FacingDirection::LEFT
+        // y: left-up key       =>  __ -y       FacingDirection::LEFT
         // down key             =>  -x +y       ______
         //
-        if( new_dx >= 0 && new_dy >= 0 ) {
-            you.facing = FD_RIGHT;
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
+            you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_RIGHT;
+                mons->facing = FacingDirection::RIGHT;
             }
         }
-        if( new_dy <= 0 && new_dx <= 0 ) {
-            you.facing = FD_LEFT;
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
+            you.facing = FacingDirection::LEFT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
-                mons->facing = FD_LEFT;
+                mons->facing = FacingDirection::LEFT;
             }
         }
     }
@@ -330,7 +329,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     bool outside_vehicle = ( veh0 == nullptr || veh0 != veh1 );
     if( veh1 != nullptr ) {
         dpart = veh1->next_part_to_open( vp1->part_index(), outside_vehicle );
-        veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
+        veh_closed_door = dpart >= 0 && !veh1->part( dpart ).open;
     }
 
     if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {
@@ -378,7 +377,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( g->m, g->u, dest_loc );
+            avatar_action::swim( get_map(), g->u, dest_loc );
         }
 
         g->on_move_effects();
@@ -883,46 +882,47 @@ void avatar_action::mend( avatar &you, item_location loc )
 
 bool avatar_action::eat_here( avatar &you )
 {
+    map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
+        ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
         if( you.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
+            add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
-            g->m.ter_set( you.pos(), t_grass );
+            here.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
+            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             return true;
         }
     }
-    if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
-            g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
+    if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
+            here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
         if( you.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
             add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food, false ) ) );
-            if( g->m.ter( you.pos() ) == t_grass_tall ) {
-                g->m.ter_set( you.pos(), t_grass_long );
-            } else if( g->m.ter( you.pos() ) == t_grass_long ) {
-                g->m.ter_set( you.pos(), t_grass );
+            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            if( here.ter( you.pos() ) == t_grass_tall ) {
+                here.ter_set( you.pos(), t_grass_long );
+            } else if( here.ter( you.pos() ) == t_grass_long ) {
+                here.ter_set( you.pos(), t_grass );
             } else {
-                g->m.ter_set( you.pos(), t_dirt );
+                here.ter_set( you.pos(), t_dirt );
             }
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        if( g->m.ter( you.pos() ) == t_grass_golf ) {
+        if( here.ter( you.pos() ) == t_grass_golf ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
-        } else if( g->m.ter( you.pos() ) == t_grass_dead ) {
+        } else if( here.ter( you.pos() ) == t_grass_dead ) {
             add_msg( _( "This grass is dead and too mangled for you to graze." ) );
             return true;
-        } else if( g->m.ter( you.pos() ) == t_grass_white ) {
+        } else if( here.ter( you.pos() ) == t_grass_white ) {
             add_msg( _( "This grass is tainted with paint and thus inedible." ) );
             return true;
         }
@@ -933,17 +933,23 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc, true );
+    avatar_action::eat( you, loc, you.activity.values );
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc, bool open_consume_menu )
+void avatar_action::eat( avatar &you, const item_location &loc )
+{
+    avatar_action::eat( you, loc, std::vector<int>() );
+}
+
+void avatar_action::eat( avatar &you, const item_location &loc,
+                         std::vector<int> consume_menu_selections )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, open_consume_menu ) ) );
+    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -1051,12 +1057,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
 static void make_active( item_location loc )
 {
+    map &here = get_map();
     switch( loc.where() ) {
         case item_location::type::map:
-            g->m.make_active( loc );
+            here.make_active( loc );
             break;
         case item_location::type::vehicle:
-            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            here.veh_at( loc.position() )->vehicle().make_active( loc );
             break;
         default:
             break;
@@ -1067,7 +1074,7 @@ static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
         case item_location::type::map:
-            g->m.update_lum( loc, add );
+            get_map().update_lum( loc, add );
             break;
         default:
             break;

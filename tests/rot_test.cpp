@@ -3,15 +3,14 @@
 
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "point.h"
 #include "weather.h"
 
 static void set_map_temperature( int new_temperature )
 {
-    g->weather.temperature = new_temperature;
-    g->weather.clear_temp_cache();
+    get_weather().temperature = new_temperature;
+    get_weather().clear_temp_cache();
 }
 
 TEST_CASE( "Rate of rotting" )

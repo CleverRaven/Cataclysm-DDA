@@ -1,6 +1,7 @@
 [
   {
     "id": "eclipse_glasses",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of eclipse glasses", "str_pl": "pairs of eclipse glasses" },
     "description": "A pair of cardboard-framed glasses with UV and IR-filtered lenses topped with a layer of aluminum coating.  They allow safe viewing of extremely bright and harmful sources of light, like the sun during a solar eclipse.",
@@ -23,6 +24,7 @@
   },
   {
     "id": "fancy_sunglasses",
+    "repairs_like": "sunglasses",
     "type": "ARMOR",
     "name": { "str": "pair of stylish sunglasses", "str_pl": "pairs of stylish sunglasses" },
     "description": "A pair of stylish sunglasses.  Look good while keeping the glare out of your eyes.",
@@ -45,6 +47,7 @@
   },
   {
     "id": "fitover_sunglasses",
+    "repairs_like": "sunglasses",
     "type": "ARMOR",
     "name": { "str": "pair of fit-over sunglasses", "str_pl": "pairs of fit-over sunglasses" },
     "description": "A pair of fit-over sunglasses designed to be worn over a pair of corrective glasses.  Good for keeping the glare out of your eyes.",
@@ -67,6 +70,7 @@
   },
   {
     "id": "glasses_bal",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of ballistic glasses", "str_pl": "pairs of ballistic glasses" },
@@ -91,6 +95,7 @@
   },
   {
     "id": "glasses_bifocal",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of bifocal glasses", "str_pl": "pairs of bifocal glasses" },
     "description": "A pair of bifocal glasses for those who are both near-sighted and far-sighted.  You can use them to focus sunlight.",
@@ -112,6 +117,7 @@
   },
   {
     "id": "glasses_eye",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of eyeglasses", "str_pl": "pairs of eyeglasses" },
     "description": "A pair of glasses for the near-sighted.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
@@ -132,6 +138,7 @@
   },
   {
     "id": "glasses_monocle",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "monocle" },
     "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
@@ -153,6 +160,7 @@
   },
   {
     "id": "glasses_reading",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of reading glasses", "str_pl": "pairs of reading glasses" },
     "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  You can use them to focus sunlight.",
@@ -221,6 +229,7 @@
   },
   {
     "id": "goggles_welding",
+    "repairs_like": "survivor_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of welding goggles", "str_pl": "pairs of welding goggles" },
     "description": "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
@@ -244,6 +253,7 @@
   },
   {
     "id": "iggaak",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "pair of snow goggles", "str_pl": "pairs of snow goggles" },
     "description": "Eyewear carved from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
@@ -266,6 +276,7 @@
   },
   {
     "id": "sunglasses",
+    "repairs_like": "goggles_swim",
     "type": "ARMOR",
     "name": { "str": "pair of sunglasses", "str_pl": "pairs of sunglasses" },
     "description": "A pair of sunglasses, good for keeping the glare out of your eyes.",

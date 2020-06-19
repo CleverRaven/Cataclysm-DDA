@@ -4902,6 +4902,8 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 3,
+    "time": "25 m",
+    "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "baking_book", 3 ], [ "cookbook_daintydishes", 5 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],

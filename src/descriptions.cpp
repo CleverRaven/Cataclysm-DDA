@@ -60,7 +60,7 @@ void game::extended_description( const tripoint &p )
     description_target cur_target = description_target::terrain;
     if( seen_critter( *this, p ) != nullptr ) {
         cur_target = description_target::creature;
-    } else if( g->m.has_furn( p ) ) {
+    } else if( get_map().has_furn( p ) ) {
         cur_target = description_target::furniture;
     }
 
@@ -155,7 +155,7 @@ std::string map_data_common_t::extended_description() const
 
     if( has_any_harvest ) {
         ss << "--" << std::endl;
-        int player_skill = g->u.get_skill_level( skill_survival );
+        int player_skill = get_avatar().get_skill_level( skill_survival );
         ss << _( "You could harvest the following things from it:" ) << std::endl;
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons

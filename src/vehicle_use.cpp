@@ -2071,7 +2071,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         case DRINK: {
             item water( "water_clean", 0 );
             if( g->u.can_consume( water ) ) {
-                g->u.assign_activity( player_activity( consume_activity_actor( water, false ) ) );
+                g->u.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }
             return;

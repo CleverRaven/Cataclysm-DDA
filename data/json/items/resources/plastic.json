@@ -24,7 +24,7 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "nylon",
+    "material": [ "nylon" ],
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -39,7 +39,7 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "lycra",
+    "material": [ "lycra" ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -63,7 +63,7 @@
     "id": "rigid_plastic_sheet",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "plastic sheet",
+    "name": "rigid plastic sheet",
     "description": "A large, rigid sheet of translucent plastic, useful for all manner of things; from construction to art, or even junior snowboarding.",
     "weight": "14875 g",
     "volume": "12500 ml",

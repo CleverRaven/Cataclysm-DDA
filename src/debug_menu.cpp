@@ -440,7 +440,8 @@ void spawn_nested_mapgen()
             return;
         }
 
-        const tripoint abs_ms = g->m.getabs( *where );
+        map &here = get_map();
+        const tripoint abs_ms = here.getabs( *where );
         const tripoint abs_omt = ms_to_omt_copy( abs_ms );
         const tripoint abs_sub = ms_to_sm_copy( abs_ms );
 
@@ -455,7 +456,7 @@ void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
-        g->m.invalidate_map_cache( g->get_levz() );
+        here.invalidate_map_cache( g->get_levz() );
     }
 }
 
@@ -629,8 +630,11 @@ void character_edit_menu()
             smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
+            smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
             smenu.query();
             int *bp_ptr = nullptr;
+            bool all_select = false;
+
             switch( smenu.ret ) {
                 case 0:
                     bp_ptr = &p.hp_cur[hp_torso];
@@ -650,6 +654,9 @@ void character_edit_menu()
                 case 5:
                     bp_ptr = &p.hp_cur[hp_leg_r];
                     break;
+                case 6:
+                    all_select = true;
+                    break;
                 default:
                     break;
             }
@@ -658,6 +665,15 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
+                    p.reset_stats();
+                }
+            } else if( all_select ) {
+                int value;
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
+                    value >= 0 ) {
+                    for( int &cur_hp : p.hp_cur ) {
+                        cur_hp = value;
+                    }
                     p.reset_stats();
                 }
             }
@@ -1172,7 +1188,7 @@ void debug()
     g->events().send<event_type::uses_debug_menu>( *action );
 
     avatar &u = g->u;
-    map &m = g->m;
+    map &here = get_map();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &u );
@@ -1288,7 +1304,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_VEHICLE:
-            if( m.veh_at( u.pos() ) ) {
+            if( here.veh_at( u.pos() ) ) {
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
             } else {
@@ -1316,9 +1332,9 @@ void debug()
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
                     // TODO: Allow picking this when add_vehicle has 3d argument
                     tripoint dest = u.pos();
-                    vehicle *veh = m.add_vehicle( selected_opt, dest, -90, 100, 0 );
+                    vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, 0 );
                     if( veh != nullptr ) {
-                        m.board_vehicle( dest, &u );
+                        here.board_vehicle( dest, &u );
                     }
                 }
             }
@@ -1358,8 +1374,8 @@ void debug()
             if( const cata::optional<tripoint> center = g->look_around() ) {
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
-                m.create_anomaly( *center, prop );
-                m.spawn_natural_artifact( *center, prop );
+                here.create_anomaly( *center, prop );
+                here.spawn_natural_artifact( *center, prop );
             }
             break;
 
@@ -1615,7 +1631,7 @@ void debug()
                 break;
             }
 
-            auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto rt = here.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
             if( !rt.empty() ) {
                 u.set_destination( rt );
             } else {
@@ -1681,7 +1697,7 @@ void debug()
                     mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
-                    g->m.invalidate_map_cache( g->get_levz() );
+                    here.invalidate_map_cache( g->get_levz() );
                 }
             }
             break;
@@ -1843,7 +1859,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    m.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( g->get_levz() );
 }
 
 } // namespace debug_menu
