@@ -1205,8 +1205,7 @@ void debug()
                      units::to_milliliter( u.guts.capacity( u ) ), u.guts.get_calories(),
                      units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
                      u.get_healthy_kcal() );
-            add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
-            add_msg( m_info, _( "Player activity level: %s" ), u.activity_level_str() );
+            add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.bmi(), u.bmr() );
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
             }

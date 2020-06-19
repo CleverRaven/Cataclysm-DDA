@@ -38,7 +38,6 @@ class activity_type
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
-        float activity_level = NO_EXERCISE;
 
     public:
         const activity_id &id() const {

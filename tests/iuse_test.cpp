@@ -298,14 +298,13 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_stim() == 0 );
     REQUIRE( dummy.get_rad() == 0 );
 
-    SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
+    SECTION( "coffee reduces fatigue" ) {
         item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
         dummy.consume_item( coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
-        CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
-    SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
+    SECTION( "atomic caffeine greatly reduces fatigue" ) {
         item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
         dummy.consume_item( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
@@ -569,4 +568,3 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
         CHECK( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
     }
 }
-

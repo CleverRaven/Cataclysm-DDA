@@ -159,7 +159,7 @@ units::volume stomach_contents::capacity( const Character &owner ) const
 {
     float max_mod = 1;
     if( owner.has_trait( trait_GIZZARD ) ) {
-        max_mod *= 0.9;
+        max_mod *= 0.02;
     }
     if( owner.has_active_mutation( trait_HIBERNATE ) ) {
         max_mod *= 3;
@@ -268,17 +268,16 @@ void stomach_contents::mod_calories( int cal )
     nutr.kcal += cal;
 }
 
-void stomach_contents::mod_nutr( int nutr )
-{
-    // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
-}
-
 void stomach_contents::mod_water( units::volume h2o )
 {
     if( h2o > 0_ml ) {
         water += h2o;
     }
+}
+
+void stomach_contents::mod_nutr( int nutr )
+{
+    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_quench( int quench )
@@ -318,9 +317,6 @@ time_duration stomach_contents::time_since_ate() const
 // sets default stomach contents when starting the game
 void Character::initialize_stomach_contents()
 {
-    stomach = stomach_contents( 2500_ml, true );
-    guts = stomach_contents( 24_liter, false );
-    guts.mod_calories( 300 );
-    stomach.mod_calories( 800 );
-    stomach.mod_contents( 475_ml );
+    stomach = stomach_contents( 100_liter, true );
+    guts = stomach_contents( 100_liter, false );
 }

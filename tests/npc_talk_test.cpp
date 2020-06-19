@@ -365,7 +365,7 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.set_thirst( 90 );
-    talker_npc.set_hunger( 90 );
+    talker_npc.set_stored_kcal( 100 );
     talker_npc.set_fatigue( EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );

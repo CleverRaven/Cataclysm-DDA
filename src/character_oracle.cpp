@@ -46,7 +46,7 @@ status_t character_oracle_t::needs_water_badly() const
 status_t character_oracle_t::needs_food_badly() const
 {
     // Check hunger threshold.
-    if( subject->get_hunger() >= 300 && subject->get_starvation() > 2500 ) {
+    if( subject->get_kcal_percent() < 0.5f ) {
         return running;
     }
     return success;

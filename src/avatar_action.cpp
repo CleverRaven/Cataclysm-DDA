@@ -141,17 +141,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
     }
 
-    // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( !is_riding ) {
-        if( you.movement_mode_is( CMM_WALK ) ) {
-            you.increase_activity_level( LIGHT_EXERCISE );
-        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-            you.increase_activity_level( MODERATE_EXERCISE );
-        } else {
-            you.increase_activity_level( ACTIVE_EXERCISE );
-        }
-    }
-
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
     int new_dx = dest_loc.x - you.posx();
     int new_dy = dest_loc.y - you.posy();
@@ -274,8 +263,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 you.clear_destination();
                 return false;
             } else {
-                // fighting is hard work!
-                you.increase_activity_level( EXTRA_EXERCISE );
             }
             if( you.has_effect( effect_relax_gas ) ) {
                 if( one_in( 8 ) ) {
@@ -315,8 +302,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
 
         you.melee_attack( np, true );
-        // fighting is hard work!
-        you.increase_activity_level( EXTRA_EXERCISE );
         np.make_angry();
         return false;
     }
@@ -856,9 +841,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
 
     int reload_time = 0;
     gun_mode gun = weapon->gun_current_mode();
-
-    // TODO: use MODERATE_EXERCISE if firing a bow
-    you.increase_activity_level( LIGHT_EXERCISE );
 
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {

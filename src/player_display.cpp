@@ -348,16 +348,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                 string_format( _( "Aiming penalty: <color_white>%+d</color>" ), -you.ranged_per_mod() ) );
         }
     } else if( line == 4 ) {
-        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Weight:" ) );
-        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), h_light_gray,
-                   you.get_weight_string() );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
-                                          _( "Your weight is a general indicator of how much fat your body has stored up,"
-                                             " which in turn shows how prepared you are to survive for a time without food."
-                                             "  Having too much, or too little, can be unhealthy." ) );
-        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.get_weight_description() );
+        // TODO: Get rid of this block
     } else if( line == 5 ) {
         mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Height:" ) );
         mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), h_light_gray,
@@ -1075,11 +1066,9 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = std::abs( you.kcal_speed_penalty() );
-        const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
-                                      _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
-                   left_justify( inanition, 20 ), pen );
+                   left_justify( _( "Starving" ), 20 ), pen );
         line++;
     }
     if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
@@ -1165,7 +1154,7 @@ void player::disp_info()
         effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
     }
 
-    const float bmi = get_bmi();
+    const float bmi = this->bmi();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;

@@ -5444,8 +5444,6 @@ bool game::npc_menu( npc &who )
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );
-            // fighting is hard work!
-            u.increase_activity_level( EXTRA_EXERCISE );
             who.on_attacked( u );
         }
     } else if( choice == disarm ) {
@@ -9721,9 +9719,6 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
-    if( canmove ) {
-        u.increase_activity_level( ACTIVE_EXERCISE );
-    }
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );

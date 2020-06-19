@@ -1200,11 +1200,18 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
-    const float bmi = get_bmi();
-    if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+    if( get_kcal_percent() < 0.95f ) {
+        // kcal->percentage of base str
+        static const std::vector<std::pair<float, float>> starv_thresholds = { {
+                std::make_pair( 0.0f, 0.5f ),
+                std::make_pair( 0.8f, 0.1f ),
+                std::make_pair( 0.95f, 0.0f )
+            }
+        };
+
+        const int str_penalty = std::floor( multi_lerp( starv_thresholds, get_kcal_percent() ) );
         add_miss_reason( _( "You're weak from hunger." ),
-                         static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
+                         static_cast<unsigned>( str_penalty / 2 ) );
         mod_str_bonus( -str_penalty );
         mod_dex_bonus( -( str_penalty / 2 ) );
         mod_int_bonus( -( str_penalty / 2 ) );

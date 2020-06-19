@@ -177,6 +177,7 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
@@ -392,7 +393,6 @@ Character::Character() :
     int_bonus = 0;
     healthy = 0;
     healthy_mod = 0;
-    hunger = 0;
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
@@ -405,9 +405,7 @@ Character::Character() :
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
-    // 45 days to starve to death
-    healthy_calories = 55000;
-    stored_calories = healthy_calories;
+    stored_calories = max_stored_calories() - 100;
     initialize_stomach_contents();
     healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
@@ -513,16 +511,6 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else {
         Creature::mod_stat( stat, modifier );
     }
-}
-
-int Character::get_fat_to_hp() const
-{
-    float mut_fat_hp = 0;
-    for( const trait_id &mut : get_mutations() ) {
-        mut_fat_hp += mut.obj().fat_to_max_hp;
-    }
-
-    return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
 m_size Character::get_size() const
@@ -1600,7 +1588,7 @@ void Character::recalc_hp()
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
-        elem = 60 + str_max * 3 + hp_adjustment + get_fat_to_hp();
+        elem = 60 + str_max * 3 + hp_adjustment;
         elem *= hp_mod;
     }
     if( has_trait( trait_GLASSJAW ) ) {
@@ -4095,55 +4083,46 @@ void Character::mod_stored_nutr( int nnutr )
 void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
-        stored_calories = kcal;
+        stored_calories = std::min( kcal, max_stored_calories() );
 
-        //some mutant change their max_hp according to their bmi
-        recalc_hp();
+        if( kcal > max_stored_calories() && has_trait( trait_EATHEALTH ) ) {
+            healall( roll_remainder( ( kcal - max_stored_calories() ) / 50.0f ) );
+        }
     }
+}
+
+int Character::max_stored_calories() const
+{
+    return 2500 * 7;
 }
 
 int Character::get_healthy_kcal() const
 {
-    return healthy_calories;
+    return max_stored_calories();
 }
 
 float Character::get_kcal_percent() const
 {
-    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( get_healthy_kcal() );
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_calories() );
 }
 
-int Character::get_hunger() const
+float Character::get_hunger() const
 {
-    return hunger;
+    return ( max_stored_calories() - get_stored_kcal() ) / ( 2500.0f / ( 12 * 24 ) );
 }
 
-void Character::mod_hunger( int nhunger )
+void Character::mod_hunger( float nhunger )
 {
-    set_hunger( hunger + nhunger );
+    set_hunger( get_hunger() + nhunger );
 }
 
-void Character::set_hunger( int nhunger )
+void Character::set_hunger( float nhunger )
 {
-    if( hunger != nhunger ) {
-        // cap hunger at 300, just below famished
-        hunger = std::min( 300, nhunger );
-        on_stat_change( "hunger", hunger );
+    if( get_hunger() != nhunger ) {
+        int hunger_in_kcal = nhunger * ( 2500.0f / ( 12 * 24 ) );
+        int new_kcal = max_stored_calories() - hunger_in_kcal;
+        set_stored_kcal( new_kcal );
     }
-}
-
-// this is a translation from a legacy value
-int Character::get_starvation() const
-{
-    static const std::vector<std::pair<float, float>> starv_thresholds = { {
-            std::make_pair( 0.0f, 6000.0f ),
-            std::make_pair( 0.8f, 300.0f ),
-            std::make_pair( 0.95f, 100.0f )
-        }
-    };
-    if( get_kcal_percent() < 0.95f ) {
-        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
-    }
-    return 0;
 }
 
 int Character::get_thirst() const
@@ -4153,7 +4132,6 @@ int Character::get_thirst() const
 
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
-    // some delay from water in stomach is desired, but there needs to be some visceral response
     int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( stomach.get_water() ) / 10,
                                             0 ) );
     std::string hydration_string;
@@ -4185,65 +4163,30 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
-    const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity( *this );
+    int total_kcal = stored_calories + stomach.get_calories();
+    int max_kcal = max_stored_calories();
+    float days_left = static_cast<float>( total_kcal ) / bmr();
+    float days_max = static_cast<float>( max_kcal ) / bmr();
     std::string hunger_string;
     nc_color hunger_color = c_white;
-    // i ate just now!
-    const bool just_ate = stomach.time_since_ate() < 15_minutes;
-    // i ate a meal recently enough that i shouldn't need another meal
-    const bool recently_ate = stomach.time_since_ate() < 3_hours;
-    if( calorie_deficit ) {
-        if( contains >= cap ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( just_ate && contains > cap / 2 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( just_ate ) {
-            hunger_string = _( "Hungry" );
-            hunger_color = c_yellow;
-        } else if( recently_ate ) {
-            hunger_string = _( "Very Hungry" );
-            hunger_color = c_yellow;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
-            hunger_string = _( "Starving!" );
-            hunger_color = c_red;
-        } else if( get_bmi() < character_weight_category::underweight ) {
-            hunger_string = _( "Near starving" );
-            hunger_color = c_red;
-        } else {
-            hunger_string = _( "Famished" );
-            hunger_color = c_light_red;
-        }
+    if( days_left >= days_max ) {
+        hunger_string = _( "Engorged" );
+        hunger_color = c_green;
+    } else if( days_max - days_left < 0.5f ) {
+        hunger_string = _( "Sated" );
+        hunger_color = c_green;
+    } else if( days_max - days_left < 1.0f ) {
+        hunger_string = _( "Hungry" );
+        hunger_color = c_yellow;
+    } else if( days_max / days_left < 2.0f ) {
+        hunger_string = _( "Very Hungry" );
+        hunger_color = c_yellow;
+    } else if( days_left > 1 ) {
+        hunger_string = _( "Famished" );
+        hunger_color = c_light_red;
     } else {
-        if( contains >= cap * 5 / 6 ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 11 / 20 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( recently_ate && contains >= cap * 3 / 8 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
-                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
-            hunger_string = _( "Peckish" );
-            hunger_color = c_dark_gray;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string.clear();
-        } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_string = _( "Hungry" );
-            } else {
-                hunger_string = _( "Very Hungry" );
-            }
-            hunger_color = c_yellow;
-        }
+        hunger_string = _( "Starving" );
+        hunger_color = c_red;
     }
 
     return std::make_pair( hunger_string, hunger_color );
@@ -4388,11 +4331,16 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
+std::string Character::get_weight_string() const
+{
+    double weight = convert_weight( bodyweight() );
+    int display_weight = static_cast<int>( std::round( weight ) );
+    return to_string( display_weight ) + " " + weight_units();
+}
+
 int Character::get_max_healthy() const
 {
-    const float bmi = get_bmi();
-    return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
-                                    ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
+    return 200;
 }
 
 void Character::regen( int rate_multiplier )
@@ -4541,9 +4489,6 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
-        if( activity.is_null() ) {
-            reset_activity_level();
-        }
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
@@ -4593,10 +4538,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const bool foodless = debug_ls || npc_no_food;
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
-    const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
+    const float kcal_per_time = bmr() / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
     const int half_hours = ticks_between( from, to, 30_minutes );
-    const units::volume stomach_capacity = stomach.capacity( *this );
 
     if( five_mins > 0 ) {
         // Digest nutrients in stomach, they are destined for the guts (except water)
@@ -4612,49 +4556,8 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
         if( !foodless && rates.hunger > 0.0f ) {
-            mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
             mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
-        }
-    }
-    if( stomach.time_since_ate() > 10_minutes ) {
-        if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
-            // you're engorged! your stomach is full to bursting!
-            set_hunger( -61 );
-        } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -21 ) {
-            // sated
-            set_hunger( -21 );
-        } else if( stomach.contains() >= stomach_capacity / 8 && get_hunger() > -1 ) {
-            // that's really all the food you need to feel full
-            set_hunger( -1 );
-        } else if( stomach.contains() == 0_ml ) {
-            if( guts.get_calories() == 0 && get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
-                // there's no food except what you have stored in fat
-                set_hunger( 300 );
-            } else if( get_hunger() < 100 && ( ( guts.get_calories() == 0 &&
-                                                 get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) ) {
-                set_hunger( 100 );
-            } else if( get_hunger() < 0 ) {
-                set_hunger( 0 );
-            }
-        }
-    } else
-        // you fill up when you eat fast, but less so than if you eat slow
-        // if you just ate but your stomach is still empty it will still
-        // delay your filling up (drugs?)
-    {
-        if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
-            // you're engorged! your stomach is full to bursting!
-            set_hunger( -61 );
-        } else if( stomach.contains() >= stomach_capacity * 3 / 4 && get_hunger() > -21 ) {
-            // sated
-            set_hunger( -21 );
-        } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -1 ) {
-            // that's really all the food you need to feel full
-            set_hunger( -1 );
-        } else if( stomach.contains() > 0_ml && get_kcal_percent() > 0.95 ) {
-            // usually eating something cools your hunger
-            set_hunger( 0 );
         }
     }
 
@@ -5948,16 +5851,6 @@ hp_part Character::body_window( const std::string &menu_header,
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
-        } else if( has_trait( trait_NOPAIN ) ) {
-            if( current_hp < maximal_hp * 0.25 ) {
-                hp_str = colorize( _( "Very Bad" ), c_red );
-            } else if( current_hp < maximal_hp * 0.5 ) {
-                hp_str = colorize( _( "Bad" ), c_light_red );
-            } else if( current_hp < maximal_hp * 0.75 ) {
-                hp_str = colorize( _( "Okay" ), c_light_green );
-            } else {
-                hp_str = colorize( _( "Good" ), c_green );
-            }
         } else if( precise ) {
             hp_str = string_format( "%d", current_hp );
         } else {
@@ -6859,82 +6752,14 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     return rate_medicine;
 }
 
-float Character::get_bmi() const
+float Character::bmi() const
 {
-    return 12 * get_kcal_percent() + 13;
-}
-
-std::string Character::get_weight_string() const
-{
-    const float bmi = get_bmi();
-    if( get_option<bool>( "CRAZY" ) ) {
-        if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
-            return _( "AW HELL NAH" );
-        } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
-            return _( "DAYUM" );
-        } else if( bmi > character_weight_category::morbidly_obese ) {
-            return _( "Fluffy" );
-        } else if( bmi > character_weight_category::very_obese ) {
-            return _( "Husky" );
-        } else if( bmi > character_weight_category::obese ) {
-            return _( "Healthy" );
-        } else if( bmi > character_weight_category::overweight ) {
-            return _( "Big" );
-        } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
-        } else if( bmi > character_weight_category::underweight ) {
-            return _( "Bean Pole" );
-        } else if( bmi > character_weight_category::emaciated ) {
-            return _( "Emaciated" );
-        } else {
-            return _( "Spooky Scary Skeleton" );
-        }
-    } else {
-        if( bmi > character_weight_category::morbidly_obese ) {
-            return _( "Morbidly Obese" );
-        } else if( bmi > character_weight_category::very_obese ) {
-            return _( "Very Obese" );
-        } else if( bmi > character_weight_category::obese ) {
-            return _( "Obese" );
-        } else if( bmi > character_weight_category::overweight ) {
-            return _( "Overweight" );
-        } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
-        } else if( bmi > character_weight_category::underweight ) {
-            return _( "Underweight" );
-        } else if( bmi > character_weight_category::emaciated ) {
-            return _( "Emaciated" );
-        } else {
-            return _( "Skeletal" );
-        }
-    }
-}
-
-std::string Character::get_weight_description() const
-{
-    const float bmi = get_bmi();
-    if( bmi > character_weight_category::morbidly_obese ) {
-        return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
-    } else if( bmi > character_weight_category::very_obese ) {
-        return _( "You have too much fat.  It impacts your day to day health and wellness." );
-    } else if( bmi > character_weight_category::obese ) {
-        return _( "You've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
-    } else if( bmi > character_weight_category::overweight ) {
-        return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
-    } else if( bmi > character_weight_category::normal ) {
-        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
-    } else if( bmi > character_weight_category::underweight ) {
-        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
-    } else if( bmi > character_weight_category::emaciated ) {
-        return _( "You are very unhealthily underweight, nearing starvation." );
-    } else {
-        return _( "You have very little meat left on your bones.  You appear to be starving." );
-    }
+    return 25;
 }
 
 units::mass Character::bodyweight() const
 {
-    return units::from_kilogram( get_bmi() * std::pow( height() / 100.0f, 2 ) );
+    return units::from_kilogram( bmi() * std::pow( height() / 100.0f, 2 ) );
 }
 
 units::mass Character::bionics_weight() const
@@ -7032,48 +6857,9 @@ int Character::height() const
     abort();
 }
 
-int Character::get_bmr() const
+int Character::bmr() const
 {
-    /**
-    Values are for males, and average!
-    */
-    const int equation_constant = 5;
-    return std::ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
-                      ( bodyweight() / 100.0 ) +
-                      ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
-}
-
-void Character::increase_activity_level( float new_level )
-{
-    if( activity_level < new_level ) {
-        activity_level = new_level;
-    }
-}
-
-void Character::decrease_activity_level( float new_level )
-{
-    if( activity_level > new_level ) {
-        activity_level = new_level;
-    }
-}
-void Character::reset_activity_level()
-{
-    activity_level = NO_EXERCISE;
-}
-
-std::string Character::activity_level_str() const
-{
-    if( activity_level <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( activity_level <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( activity_level <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( activity_level <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
-    }
+    return metabolic_rate_base() * 2500;
 }
 
 int Character::get_armor_bash( bodypart_id bp ) const
@@ -9732,114 +9518,6 @@ void Character::use_fire( const int quantity )
         mod_power_level( -quantity * 5_kJ );
         return;
     }
-}
-
-int Character::heartrate_bpm() const
-{
-    //Dead have no heartbeat usually and no heartbeat in omnicell
-    if( is_dead_state() || has_trait( trait_SLIMESPAWNER ) ) {
-        return 0;
-    }
-    //This function returns heartrate in BPM basing of health, physical state, tiredness,
-    //moral effects, stimulators and anything that should fit here.
-    //Some values are picked to make sense from math point of view
-    //and seem correct but effects may vary in real life.
-    //This needs more attention from experienced contributors to work more smooth.
-    //Average healthy bpm is 60-80. That's a simple imitation of normal distribution.
-    //Must a better way to do that. Possibly this value should be generated with player creation.
-    int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 );
-    //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
-    if( has_trait( trait_CHEMIMBALANCE ) ) {
-        average_heartbeat += rng( -15, 15 );
-    }
-    //Quick also raises basic BPM
-    if( has_trait( trait_QUICK ) ) {
-        average_heartbeat *= 1.1;
-    }
-    //Badtemper makes your BPM raise from anger
-    if( has_trait( trait_BADTEMPER ) ) {
-        average_heartbeat *= 1.1;
-    }
-    //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
-    const int player_local_temp = g->weather.get_temperature( pos() );
-    float temperature_modifier = 0;
-    if( has_trait( trait_COLDBLOOD ) ) {
-        temperature_modifier = 0.002;
-    }
-    if( has_trait( trait_COLDBLOOD2 ) ) {
-        temperature_modifier = 0.00333;
-    }
-    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
-        temperature_modifier = 0.005;
-    }
-    average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
-    //Limit avg from below with 20, arbitary
-    average_heartbeat = std::max( 20, average_heartbeat );
-    const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
-    float stamina_effect = 0;
-    if( stamina_level >= 0.9 ) {
-        stamina_effect = 0;
-    } else if( stamina_level >= 0.8 ) {
-        stamina_effect = 0.2;
-    } else if( stamina_level >= 0.6 ) {
-        stamina_effect = 0.5;
-    } else if( stamina_level >= 0.4 ) {
-        stamina_effect = 1;
-    } else if( stamina_level >= 0.2 ) {
-        stamina_effect = 1.5;
-    } else {
-        stamina_effect = 2;
-    }
-    //can triple heartrate
-    int heartbeat = average_heartbeat * ( 1 + stamina_effect );
-    const int stim_level = get_stim();
-    int stim_modifer = 0;
-    if( stim_level > 0 ) {
-        //that's asymptotical function that is equal to 1 at around 30 stim level
-        //and slows down all the time almost reaching 2.
-        //Tweaking x*x multiplier will accordingly change effect accumulation
-        stim_modifer = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
-    }
-    heartbeat += average_heartbeat * stim_modifer;
-    if( get_effect_dur( effect_cig ) > 0_turns ) {
-        //Nicotine-induced tachycardia
-        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
-            heartbeat += average_heartbeat * 0.4;
-        } else {
-            heartbeat += average_heartbeat * 0.1;
-        }
-    }
-    //health effect that can make things better or worse is applied in the end.
-    //Based on get_max_healthy that already has bmi factored
-    const int healthy = get_max_healthy();
-    //a bit arbitary formula that can use some love
-    float healthy_modifier = -0.05f * std::round( healthy / 20.0f );
-    heartbeat += average_heartbeat * healthy_modifier;
-    //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
-    const int cur_pain = get_perceived_pain();
-    float pain_modifier = 0;
-    if( cur_pain > 5 ) {
-        pain_modifier = 0.02 * ( cur_pain - 5 );
-    }
-    heartbeat += average_heartbeat * pain_modifier;
-    //if BPM raised at least by 20% for a player with ADRENALINE, it adds 20% of avg to result
-    if( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
-        heartbeat += average_heartbeat * 0.2;
-    }
-    //Happy get it bit faster and miserable some more.
-    //Morale effects might need more consideration
-    const int morale_level = get_morale_level();
-    if( morale_level >= 20 ) {
-        heartbeat += average_heartbeat * 0.1;
-    }
-    if( morale_level <= -20 ) {
-        heartbeat += average_heartbeat * 0.2;
-    }
-    //add fear?
-    //A single clamp in the end should be enough
-    const int max_heartbeat = average_heartbeat * 3.5;
-    heartbeat = clamp( heartbeat, average_heartbeat, max_heartbeat );
-    return heartbeat;
 }
 
 void Character::on_worn_item_washed( const item &it )

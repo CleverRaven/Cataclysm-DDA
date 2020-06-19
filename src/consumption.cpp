@@ -74,7 +74,6 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
@@ -166,24 +165,6 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-int Character::stomach_capacity() const
-{
-    if( has_trait( trait_GIZZARD ) ) {
-        return 0;
-    }
-
-    if( has_active_mutation( trait_HIBERNATE ) ) {
-        return -620;
-    }
-
-    if( has_trait( trait_GOURMAND ) || has_trait( trait_HIBERNATE ) ) {
-        return -60;
-    }
-
-    return -20;
-}
-
-// TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<std::string> &extra_flags = {} )
 {
@@ -572,8 +553,7 @@ float Character::metabolic_rate() const
 
     // Penalize fast survivors
     // TODO: Have cold temperature increase, not decrease, metabolism
-    const float effective_hunger = ( get_hunger() + get_starvation() ) * 100.0f / std::max( 50,
-                                   get_speed() );
+    const float effective_hunger = get_hunger() * 100.0f / std::max( 50, get_speed() );
     const float modifier = multi_lerp( thresholds, effective_hunger );
 
     return modifier * metabolic_rate_base();
@@ -738,13 +718,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( food.charges > 0 && stomach.stomach_remaining( *this ) < food.volume() / food.charges &&
-        !food.has_infinite_charges() ) {
-        if( edible ) {
-            add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
-        } else {
-            add_consequence( _( "You're full already and will be forcing yourself to drink." ), TOO_FULL );
-        }
+    int food_kcal = compute_effective_nutrients( food ).kcal;
+    if( !food.has_infinite_charges() && food_kcal > 0 &&
+        get_stored_kcal() + stomach.get_calories() + guts.get_calories() + food_kcal
+        > max_stored_calories() ) {
+        add_consequence( _( "You're full already and the excess food will be wasted." ), TOO_FULL );
     }
 
     if( !consequences.empty() ) {
@@ -898,25 +876,11 @@ bool player::eat( item &food, bool force )
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                food.tname() );
     } else if( drinkable ) {
-        if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
-
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-            add_msg( _( "You drink your %s (rotten)." ), food.tname() );
-        } else {
-            add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                                   food.tname() );
-        }
+        add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
+                               food.tname() );
     } else if( chew ) {
-        if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
-
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
-            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
-        } else {
-            add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                                   food.tname() );
-        }
+        add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                               food.tname() );
     }
 
     if( item::find_type( food.get_comestible()->tool )->tool ) {
@@ -952,9 +916,7 @@ bool player::eat( item &food, bool force )
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
-                    if( !has_trait( trait_EATHEALTH ) ) {
-                        add_effect( effect_tapeworm, 1_turns, num_bp, true );
-                    }
+                    add_effect( effect_tapeworm, 1_turns, num_bp, true );
                     break;
                 case 1:
                     if( !has_trait( trait_ACIDBLOOD ) ) {
@@ -1257,12 +1219,11 @@ bool Character::consume_effects( item &food )
             mod_fatigue( nutr );
         }
     }
-    // TODO: remove this
-    int capacity = stomach_capacity();
+
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-        ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
+        ( max_stored_calories() < get_stored_kcal() + 4000 &&
           get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
@@ -1278,24 +1239,6 @@ bool Character::consume_effects( item &food )
         //~ slimespawns have *small voices* which may be the Nice equivalent
         //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
         add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
-    }
-
-    // Last thing that happens before capping hunger
-    if( get_hunger() < capacity && has_trait( trait_EATHEALTH ) ) {
-        int excess_food = capacity - get_hunger();
-        add_msg_player_or_npc( _( "You feel the %s filling you out." ),
-                               _( "<npcname> looks better after eating the %s." ),
-                               food.tname() );
-        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
-        if( excess_food <= 5 ) {
-            healall( 1 );
-        } else {
-            // Straight conversion, except it's divided amongst all your body parts.
-            healall( excess_food /= 5 );
-        }
-
-        // Note: We want this here to prevent "you can't finish this" messages
-        set_hunger( capacity );
     }
 
     // Set up food for ingestion

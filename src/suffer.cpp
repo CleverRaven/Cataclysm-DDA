@@ -206,7 +206,7 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         if( mdata.hunger ) {
             // does not directly modify hunger, but burns kcal
             mod_stored_nutr( mdata.cost );
-            if( get_bmi() < character_weight_category::underweight ) {
+            if( bmi() < character_weight_category::underweight ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too malnourished to keep your %s going." ),
                                    mdata.name() );

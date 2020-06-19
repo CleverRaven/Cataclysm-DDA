@@ -179,8 +179,6 @@ struct mutation_branch {
         /**Map of glowing body parts and their glow intensity*/
         std::map<body_part, float> lumination;
 
-        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
-        float fat_to_max_hp = 0.0f;
         /**How fast does healthy tends toward healthy_mod*/
         float healthy_rate = 1.0f;
 

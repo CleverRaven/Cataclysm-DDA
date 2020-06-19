@@ -4226,7 +4226,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
-                p.increase_activity_level( LIGHT_EXERCISE );
                 p.setpos( dest );
             }
             break;
@@ -4265,7 +4264,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 return;
             } else if( height == 1 ) {
                 std::string query;
-                p.increase_activity_level( MODERATE_EXERCISE );
                 if( climb_cost <= 0 && fall_mod > 0.8 ) {
                     query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
                 } else if( climb_cost <= 0 ) {

@@ -4476,7 +4476,6 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
     }
     // we want this to update the activity level whenever the engine is running
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
-        g->u.increase_activity_level( ACTIVE_EXERCISE );
         //do this as a function of current load
         // But only if the player is actually there!
         int eff_load = load / 10;
@@ -4504,6 +4503,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {
+            g->u.mod_hunger( 1 );
             g->u.mod_thirst( 1 );
             g->u.mod_fatigue( 1 );
         }

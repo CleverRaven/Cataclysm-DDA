@@ -320,25 +320,6 @@
     "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
-    "type": "TOOL_ARMOR",
-    "id": "fitness_band",
-    "name": "fitness band",
-    "category": "clothing",
-    "volume": "100 ml",
-    "description": "A fitness band that can track your heartbeat, exercise level and also has a clock.  Activate to see your metrics.",
-    "weight": "30 g",
-    "to_hit": -1,
-    "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
-    "price": 5000,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "coverage": 15,
-    "symbol": "[",
-    "use_action": "FITNESS_CHECK"
-  },
-  {
     "id": "holo_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "hologram cloak" },

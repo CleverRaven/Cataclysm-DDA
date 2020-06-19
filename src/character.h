@@ -360,14 +360,14 @@ class Character : public Creature, public visitable<Character>
         virtual void set_healthy_mod( int nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
-        virtual int get_stored_kcal() const;
-        virtual int get_healthy_kcal() const;
-        virtual float get_kcal_percent() const;
-        virtual int get_hunger() const;
-        virtual int get_starvation() const;
+        int get_stored_kcal() const;
+        int get_healthy_kcal() const;
+        // Maximum stored calories, excluding stomach.
+        // If more would be digested, it is instead wasted.
+        int max_stored_calories() const;
+        float get_kcal_percent() const;
+        float get_hunger() const;
         virtual int get_thirst() const;
-        /** Gets character's minimum hunger and thirst */
-        int stomach_capacity() const;
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;
@@ -379,22 +379,19 @@ class Character : public Creature, public visitable<Character>
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );
         virtual void mod_stored_nutr( int nnutr );
-        virtual void mod_hunger( int nhunger );
+        virtual void mod_hunger( float nhunger );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
         virtual void set_stored_kcal( int kcal );
-        virtual void set_hunger( int nhunger );
+        virtual void set_hunger( float nhunger );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;
-
-        /**Get bonus to max_hp from excess stored fat*/
-        int get_fat_to_hp() const;
 
         /** Get size class of character **/
         m_size get_size() const override;
@@ -1681,16 +1678,14 @@ class Character : public Creature, public visitable<Character>
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
-        // gets the max value healthy you can be, related to your weight
-        int get_max_healthy() const;
-        // gets the string that describes your weight
+        // Your mass + "kg/lbs"
         std::string get_weight_string() const;
-        // gets the description, printed in player_display, related to your current bmi
-        std::string get_weight_description() const;
+        // gets the max value healthy you can be
+        int get_max_healthy() const;
         // calculates the BMI
-        float get_bmi() const;
+        float bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
-        int get_bmr() const;
+        int bmr() const;
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation
@@ -1711,16 +1706,6 @@ class Character : public Creature, public visitable<Character>
         units::mass bodyweight() const;
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
-        // increases the activity level to the next level
-        // does not decrease activity level
-        void increase_activity_level( float new_level );
-        // decreases the activity level to the previous level
-        // does not increase activity level
-        void decrease_activity_level( float new_level );
-        // sets activity level to NO_EXERCISE
-        void reset_activity_level();
-        // outputs player activity level to a printable string
-        std::string activity_level_str() const;
 
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( bodypart_id bp ) const override;
@@ -2066,7 +2051,6 @@ class Character : public Creature, public visitable<Character>
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
         void apply_wetness_morale( int temperature );
-        int heartrate_bpm() const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -2150,9 +2134,6 @@ class Character : public Creature, public visitable<Character>
         int init_height = 175;
         /** Size class of character. */
         m_size size_class = MS_MEDIUM;
-
-        // the player's activity level for metabolism calculations
-        float activity_level = NO_EXERCISE;
 
         trap_map known_traps;
         std::array<encumbrance_data, num_bp> encumbrance_cache;
@@ -2252,9 +2233,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int stored_calories;
-        int healthy_calories;
 
-        int hunger;
         int thirst;
         int stamina;
 

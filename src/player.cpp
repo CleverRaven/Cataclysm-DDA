@@ -466,15 +466,15 @@ int player::kcal_speed_penalty()
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
-            std::make_pair( character_weight_category::emaciated, -50.f ),
-            std::make_pair( character_weight_category::underweight, -25.0f ),
-            std::make_pair( character_weight_category::normal, 0.0f )
+            std::make_pair( 0.1f, -50.f ),
+            std::make_pair( 0.3, -25.0f ),
+            std::make_pair( 0.5f, 0.0f )
         }
     };
     if( get_kcal_percent() > 0.95f ) {
         return 0;
     } else {
-        return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
+        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
 }
 

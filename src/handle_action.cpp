@@ -782,7 +782,6 @@ static void smash()
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
-            u.increase_activity_level( MODERATE_EXERCISE );
             u.handle_melee_wear( u.weapon );
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;

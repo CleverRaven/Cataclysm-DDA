@@ -3804,7 +3804,7 @@ bool npc::consume_food()
 {
     float best_weight = 0.0f;
     int index = -1;
-    int want_hunger = std::max( 0, get_hunger() );
+    int want_hunger = std::max<int>( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {

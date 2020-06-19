@@ -44,26 +44,12 @@ static void set_all_vitamins( int target, player &p )
     p.vitamin_set( vitamin_id( "calcium" ), target );
 }
 
-// time (in minutes) it takes for the player to feel hungry
-// passes time on the calendar
-static time_duration time_until_hungry( player &p )
-{
-    unsigned int thirty_minutes = 0;
-    do {
-        p.set_sleep_deprivation( 0 );
-        p.set_fatigue( 0 );
-        pass_time( p, 30_minutes );
-        thirty_minutes++;
-    } while( p.get_hunger() < 40 ); // hungry
-    return thirty_minutes * 30_minutes;
-}
-
 static void print_stomach_contents( player &p, const bool print )
 {
     if( !print ) {
         return;
     }
-    printf( "stomach: %d guts: %d player: %d/%d hunger: %d\n", p.stomach.get_calories(),
+    printf( "stomach: %d guts: %d player: %d/%d hunger: %0.1f\n", p.stomach.get_calories(),
             p.guts.get_calories(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
     printf( "stomach: %d mL/ %d mL guts %d mL/ %d mL\n",
             units::to_milliliter<int>( p.stomach.contains() ),
@@ -92,20 +78,15 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     clear_stomach( dummy );
 
     CAPTURE( dummy.metabolic_rate_base() );
-    CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
     CAPTURE( dummy.get_size() );
     CAPTURE( dummy.height() );
-    CAPTURE( dummy.get_bmi() );
+    CAPTURE( dummy.bmi() );
     CAPTURE( dummy.bodyweight() );
     CAPTURE( dummy.age() );
-    CAPTURE( dummy.get_bmr() );
+    CAPTURE( dummy.bmr() );
 
-    // A specific BMR isn't the real target of this test, the number of days
-    // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 2087 );
-
-    constexpr int expected_day = 30;
+    constexpr int expected_day = 8;
     int day = 0;
     std::vector<std::string> results;
 
@@ -134,13 +115,12 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     clear_stomach( dummy );
 
     CAPTURE( dummy.metabolic_rate_base() );
-    CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
     CAPTURE( dummy.height() );
-    CAPTURE( dummy.get_bmi() );
+    CAPTURE( dummy.bmi() );
     CAPTURE( dummy.bodyweight() );
     CAPTURE( dummy.age() );
-    CAPTURE( dummy.get_bmr() );
+    CAPTURE( dummy.bmr() );
 
     std::vector<std::string> results;
     unsigned int day = 0;
@@ -155,8 +135,8 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     } while( dummy.get_stored_kcal() > 0 );
 
     CAPTURE( results );
-    CHECK( day <= 11 );
-    CHECK( day >= 10 );
+    CHECK( day <= 3 );
+    CHECK( day >= 2 );
 }
 
 // does eating enough food per day keep you alive
@@ -191,7 +171,7 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
         print_stomach_contents( dummy, print_tests );
         printf( "\n" );
     }
-    CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
+    CHECK( dummy.get_stored_kcal() < dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
     // close to 0 which is the max value for some vitamins
     CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
@@ -218,92 +198,4 @@ TEST_CASE( "tape_worm_halves_nutrients" )
     int tapeworm_kcal = dummy.stomach.get_calories();
 
     CHECK( tapeworm_kcal == regular_kcal / 2 );
-}
-
-// reasonable length of time to pass before hunger sets in
-TEST_CASE( "hunger" )
-{
-    // change this bool when editing the test
-    const bool print_tests = false;
-    player &dummy = g->u;
-    reset_time();
-    clear_stomach( dummy );
-    dummy.initialize_stomach_contents();
-    dummy.clear_effects();
-
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
-    print_stomach_contents( dummy, print_tests );
-    int hunger_time = to_minutes<int>( time_until_hungry( dummy ) );
-    if( print_tests ) {
-        printf( "%d minutes til hunger sets in\n", hunger_time );
-        print_stomach_contents( dummy, print_tests );
-        printf( "eat 2 cooked meat\n" );
-    }
-    CHECK( hunger_time <= 270 );
-    CHECK( hunger_time >= 240 );
-    item f( "meat_cooked" );
-    dummy.eat( f );
-    f = item( "meat_cooked" );
-    dummy.eat( f );
-    dummy.set_thirst( 0 );
-    dummy.update_body();
-    print_stomach_contents( dummy, print_tests );
-    hunger_time = to_minutes<int>( time_until_hungry( dummy ) );
-    if( print_tests ) {
-        printf( "%d minutes til hunger sets in\n", hunger_time );
-        print_stomach_contents( dummy, print_tests );
-        printf( "eat 2 beansnrice\n" );
-    }
-    CHECK( hunger_time <= 240 );
-    CHECK( hunger_time >= 210 );
-    f = item( "beansnrice" );
-    dummy.eat( f );
-    f = item( "beansnrice" );
-    dummy.eat( f );
-    dummy.update_body();
-    print_stomach_contents( dummy, print_tests );
-    hunger_time = to_minutes<int>( time_until_hungry( dummy ) );
-    if( print_tests ) {
-        printf( "%d minutes til hunger sets in\n", hunger_time );
-    }
-    CHECK( hunger_time <= 240 );
-    CHECK( hunger_time >= 210 );
-    if( print_tests ) {
-        print_stomach_contents( dummy, print_tests );
-        printf( "eat 16 veggy\n" );
-    }
-    for( int i = 0; i < 16; i++ ) {
-        f = item( "veggy" );
-        dummy.eat( f );
-    }
-    dummy.update_body();
-    print_stomach_contents( dummy, print_tests );
-    hunger_time = to_minutes<int>( time_until_hungry( dummy ) );
-    if( print_tests ) {
-        printf( "%d minutes til hunger sets in\n", hunger_time );
-        print_stomach_contents( dummy, print_tests );
-    }
-    CHECK( hunger_time <= 390 );
-    CHECK( hunger_time >= 360 );
-    if( print_tests ) {
-        printf( "eat 16 veggy with extreme metabolism\n" );
-    }
-    while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
-        dummy.mutate_towards( trait_id( "HUNGER3" ) );
-    }
-    for( int i = 0; i < 16; i++ ) {
-        f = item( "veggy" );
-        dummy.eat( f );
-    }
-    dummy.update_body();
-    print_stomach_contents( dummy, print_tests );
-    hunger_time = to_minutes<int>( time_until_hungry( dummy ) );
-    if( print_tests ) {
-        printf( "%d minutes til hunger sets in\n", hunger_time );
-        print_stomach_contents( dummy, print_tests );
-    }
-    CHECK( hunger_time <= 240 );
-    CHECK( hunger_time >= 210 );
 }

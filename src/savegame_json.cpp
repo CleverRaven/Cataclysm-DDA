@@ -401,7 +401,6 @@ void Character::load( const JsonObject &data )
 
     // needs
     data.read( "thirst", thirst );
-    data.read( "hunger", hunger );
     data.read( "fatigue", fatigue );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
@@ -438,15 +437,7 @@ void Character::load( const JsonObject &data )
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
-    // Changed from a single element to a list, handle either.
-    // Can deprecate once we stop handling pre-0.B saves.
-    if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
-    } else {
-        player_activity temp;
-        data.read( "backlog", temp );
-        backlog.push_front( temp );
-    }
+    data.read( "backlog", backlog );
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
             activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
                     destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
@@ -585,7 +576,7 @@ void Character::load( const JsonObject &data )
     }
 
     on_stat_change( "thirst", thirst );
-    on_stat_change( "hunger", hunger );
+    on_stat_change( "stored_calories", stored_calories );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
     on_stat_change( "pkill", pkill );
@@ -672,7 +663,6 @@ void Character::store( JsonOut &json ) const
 
     // needs
     json.member( "thirst", thirst );
-    json.member( "hunger", hunger );
     json.member( "fatigue", fatigue );
     json.member( "sleep_deprivation", sleep_deprivation );
     json.member( "stored_calories", stored_calories );

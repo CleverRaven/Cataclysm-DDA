@@ -41,9 +41,16 @@ static void expect_will_eat( avatar &dummy, item &food, std::string expect_conse
     CHECK( rate_will.value() == expect_rating );
 }
 
-TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
+static avatar prepare_avatar()
 {
     avatar dummy;
+    dummy.set_stored_kcal( 100 );
+    return dummy;
+}
+
+TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
+{
+    avatar dummy = prepare_avatar();
     GIVEN( "something not edible" ) {
         item rag( "rag" );
 
@@ -53,24 +60,9 @@ TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonf
     }
 }
 
-TEST_CASE( "cannot eat dirty food", "[can_eat][edible_rating][dirty]" )
-{
-    avatar dummy;
-
-    GIVEN( "food that is dirty" ) {
-        item chocolate( "chocolate" );
-        chocolate.item_tags.insert( "DIRTY" );
-        REQUIRE( chocolate.item_tags.count( "DIRTY" ) );
-
-        THEN( "they cannot eat it" ) {
-            expect_cannot_eat( dummy, chocolate, "This is full of dirt after being on the ground." );
-        }
-    }
-}
-
 TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
     item sushi( "sushi_fishroll" );
     item water( "water_clean" );
 
@@ -110,7 +102,7 @@ TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]
 
 TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     // Note: There are similar conditions for INEDIBLE food with FELINE or LUPINE flags, but
     // "birdfood" and "cattlefodder" are the only INEDIBLE items that exist in the game.
@@ -162,7 +154,7 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
 
 TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     GIVEN( "character is an herbivore" ) {
         dummy.toggle_trait( trait_id( "HERBIVORE" ) );
@@ -188,7 +180,7 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 
 TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     GIVEN( "character is a carnivore" ) {
         dummy.toggle_trait( trait_id( "CARNIVORE" ) );
@@ -236,7 +228,7 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 
 TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating][mycus]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     GIVEN( "character is mycus-dependent" ) {
         dummy.toggle_trait( trait_id( "M_DEPENDENT" ) );
@@ -260,7 +252,7 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
 
 TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][proboscis]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     GIVEN( "character has a proboscis" ) {
         dummy.toggle_trait( trait_id( "PROBOSCIS" ) );
@@ -311,7 +303,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
 
 TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
     item toastem( "toastem" );
     const efftype_id effect_nausea( "nausea" );
 
@@ -329,7 +321,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 
 TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
     item fruit( "apple" );
     REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
 
@@ -346,7 +338,7 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 
 TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     GIVEN( "food just barely rotten" ) {
         item toastem_rotten = item( "toastem" );
@@ -396,7 +388,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 
 TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
 {
-    avatar dummy;
+    avatar dummy = prepare_avatar();
 
     GIVEN( "some human flesh" ) {
         item flesh( "human_flesh" );

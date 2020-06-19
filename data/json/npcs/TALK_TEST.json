@@ -212,7 +212,7 @@
       {
         "text": "This is a npc hunger test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_need": "hunger", "amount": 75 }
+        "condition": { "npc_need": "hunger", "amount": 300 }
       },
       {
         "text": "This is a npc fatigue test response.",
