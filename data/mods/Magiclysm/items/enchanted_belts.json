@@ -53,10 +53,34 @@
     "encumbrance": 4,
     "max_encumbrance": 10,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5
+      }
     ]
   },
   {
@@ -69,10 +93,34 @@
     "encumbrance": 6,
     "max_encumbrance": 8,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3
+      }
     ]
   },
   {
