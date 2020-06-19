@@ -225,6 +225,7 @@
     "encumbrance": 2,
     "material_thickness": 2,
     "pocket_data": [
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "min_item_volume": "50 ml",
@@ -269,8 +270,7 @@
         "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
-      },
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 }
+      }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
