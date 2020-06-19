@@ -58,28 +58,32 @@
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
         "moves": 90,
-        "weight_multiplier": 0.5
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
         "moves": 90,
-        "weight_multiplier": 0.5
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
         "moves": 90,
-        "weight_multiplier": 0.5
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3 L",
         "max_contains_weight": "9 kg",
         "moves": 90,
-        "weight_multiplier": 0.5
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
       }
     ]
   },
@@ -98,28 +102,32 @@
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
         "moves": 80,
-        "weight_multiplier": 0.3
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
         "moves": 80,
-        "weight_multiplier": 0.3
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
         "moves": 80,
-        "weight_multiplier": 0.3
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "5 L",
         "max_contains_weight": "12 kg",
         "moves": 80,
-        "weight_multiplier": 0.3
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
       }
     ]
   },
