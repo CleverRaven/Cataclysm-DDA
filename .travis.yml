@@ -202,7 +202,7 @@ before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
   - CXX="$COMPILER"
-  - export VERSION="${TRAVIS_BUILD_NUMBER}-${OSNAME}"
+  - export VERSION="${TRAVIS_BUILD_NUMBER}-${BUILD_NAME}"
   - source build-scripts/requirements.sh
 
 script:
