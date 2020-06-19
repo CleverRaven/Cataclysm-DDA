@@ -4,7 +4,7 @@
     "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
     "description": "generic item template",
     "type": "TOOL",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray"
   },

@@ -497,10 +497,8 @@ class player : public Character
 
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
-        /** Get the formatted name of the currently wielded item (if any)
-         *  truncated to a number of characters. 0 means it is not truncated
-         */
-        std::string weapname( unsigned int truncate = 0 ) const;
+        /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
+        std::string weapname() const;
 
         void process_items();
         /**

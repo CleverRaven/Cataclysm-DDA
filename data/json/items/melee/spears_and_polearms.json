@@ -25,7 +25,7 @@
     "color": "brown",
     "name": { "str": "pointy stick" },
     "description": "A simple wood pole with one end sharpened.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "1250 ml",
     "weight": "900 g",
     "bashing": 5,

@@ -12,7 +12,7 @@
     "price_postapoc": 50,
     "to_hit": -2,
     "bashing": 6,
-    "material": "steel",
+    "material": [ "steel" ],
     "use_action": { "type": "weigh_self", "max_weight": 150000 },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -27,10 +27,10 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "WASH_HARD_ITEMS"
+    "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
     "id": "elec_hairtrimmer",
@@ -48,7 +48,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": "HAIRKIT",
+    "use_action": [ "HAIRKIT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -70,11 +70,11 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 6,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "MOP"
+    "use_action": [ "MOP" ]
   },
   {
     "id": "rag",
@@ -101,7 +101,7 @@
     "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "10 g",
     "cutting": 1
   },
@@ -115,14 +115,14 @@
     "price": 1000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "soap" ],
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": [ "SHAVEKIT" ]
   },
   {
     "id": "sponge",
@@ -133,10 +133,10 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "s",
     "color": "yellow",
-    "use_action": "WASH_HARD_ITEMS",
+    "use_action": [ "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -153,7 +153,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": "HAIRKIT"
+    "use_action": [ "HAIRKIT" ]
   },
   {
     "id": "survivor_shavingkit",
@@ -172,7 +172,7 @@
     "ammo": [ "soap" ],
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": [ "SHAVEKIT" ]
   },
   {
     "id": "washboard",
@@ -184,10 +184,10 @@
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "white",
-    "use_action": "WASH_SOFT_ITEMS",
+    "use_action": [ "WASH_SOFT_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -202,7 +202,7 @@
     "material": [ "wood", "plastic" ],
     "symbol": "%",
     "color": "yellow",
-    "use_action": "WASH_ALL_ITEMS",
+    "use_action": [ "WASH_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
   }
 ]

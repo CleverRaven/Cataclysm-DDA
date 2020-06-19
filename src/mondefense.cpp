@@ -17,7 +17,6 @@
 #include "damage.h"
 #include "dispersion.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "line.h"
@@ -77,8 +76,8 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( g->u.sees( source->pos() ) ) {
-        const auto msg_type = source == &g->u ? m_bad : m_info;
+    if( get_avatar().sees( source->pos() ) ) {
+        const auto msg_type = source == &get_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }
@@ -140,7 +139,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( g->u.sees( m.pos() ) ) {
+    if( get_avatar().sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }

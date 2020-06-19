@@ -69,12 +69,6 @@ void create_advanced_inv()
     advinv.display();
 }
 
-enum aim_exit {
-    exit_none = 0,
-    exit_okay,
-    exit_re_entry
-};
-
 // *INDENT-OFF*
 advanced_inventory::advanced_inventory()
     : recalc( true )
@@ -108,8 +102,8 @@ advanced_inventory::advanced_inventory()
 advanced_inventory::~advanced_inventory()
 {
     save_settings( false );
-    if( save_state->exit_code != exit_re_entry ) {
-        save_state->exit_code = exit_okay;
+    if( save_state->exit_code != aim_exit::re_entry ) {
+        save_state->exit_code = aim_exit::okay;
     }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
@@ -130,9 +124,9 @@ void advanced_inventory::save_settings( bool only_panes )
 void advanced_inventory::load_settings()
 {
     aim_exit aim_code = static_cast<aim_exit>( save_state->exit_code );
-    panes[left].load_settings( save_state->saved_area, squares, aim_code == exit_re_entry );
-    panes[right].load_settings( save_state->saved_area_right, squares, aim_code == exit_re_entry );
-    save_state->exit_code = exit_none;
+    panes[left].load_settings( save_state->saved_area, squares, aim_code == aim_exit::re_entry );
+    panes[right].load_settings( save_state->saved_area_right, squares, aim_code == aim_exit::re_entry );
+    save_state->exit_code = aim_exit::none;
 }
 
 std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
@@ -251,7 +245,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
-                maxvolume = g->m.max_volume( s.pos );
+                maxvolume = get_map().max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( s.weight ),
@@ -541,9 +535,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         }
 
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
-        const int x = squares[i].hscreen.x + ofs;
-        const int y = squares[i].hscreen.y;
-        mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
+        const point p( squares[i].hscreen + point( ofs, 0 ) );
+        mvwprintz( window, p, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
@@ -691,14 +684,6 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
-// be explicit with the values
-enum aim_entry {
-    ENTRY_START     = 0,
-    ENTRY_VEHICLE   = 1,
-    ENTRY_MAP       = 2,
-    ENTRY_RESET     = 3
-};
-
 bool advanced_inventory::move_all_items( bool nested_call )
 {
     advanced_inventory_pane &spane = panes[src];
@@ -734,13 +719,14 @@ bool advanced_inventory::move_all_items( bool nested_call )
         // put all items in the proper destination area, with minimal fuss
         int &loc = save_state->aim_all_location;
         // re-entry nonsense
-        int &entry = save_state->re_enter_move_all;
+        aim_entry &entry = save_state->re_enter_move_all;
         // if we are just starting out, set entry to initial value
-        switch( static_cast<aim_entry>( entry++ ) ) {
-            case ENTRY_START:
+        entry = entry + 1;
+        switch( entry ) {
+            case aim_entry::START:
                 ++entry;
             /* fallthrough */
-            case ENTRY_VEHICLE:
+            case aim_entry::VEHICLE:
                 if( squares[loc].can_store_in_vehicle() ) {
                     // either do the inverse of the pane (if it is the one we are transferring to),
                     // or just transfer the contents (if it is not the one we are transferring to)
@@ -751,23 +737,23 @@ bool advanced_inventory::move_all_items( bool nested_call )
                     move_all_items( true );
                 }
                 break;
-            case ENTRY_MAP:
+            case aim_entry::MAP:
                 spane.set_area( squares[loc++], false );
                 recalc_pane( src );
                 move_all_items( true );
                 break;
-            case ENTRY_RESET:
+            case aim_entry::RESET:
                 if( loc > AIM_AROUND_END ) {
                     loc = AIM_AROUND_BEGIN;
-                    entry = ENTRY_START;
+                    entry = aim_entry::START;
                     done = true;
                 } else {
-                    entry = ENTRY_VEHICLE;
+                    entry = aim_entry::VEHICLE;
                 }
                 break;
             default:
                 debugmsg( "Invalid `aim_entry' [%d] reached!", entry - 1 );
-                entry = ENTRY_START;
+                entry = aim_entry::START;
                 loc = AIM_AROUND_BEGIN;
                 return false;
         }
@@ -831,6 +817,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         do_return_entry();
     }
 
+    map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
@@ -891,7 +878,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -948,7 +935,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -1121,7 +1108,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             } else {
                 // check item stacks in vehicle and map at said square
                 auto sq = squares[changeSquare];
-                auto map_stack = g->m.i_at( sq.pos );
+                map_stack map_stack = get_map().i_at( sq.pos );
                 auto veh_stack = sq.veh->get_items( sq.vstor );
                 // auto switch to vehicle storage if vehicle items are there, or neither are there
                 if( !veh_stack.empty() || map_stack.empty() ) {
@@ -1627,9 +1614,8 @@ void query_destination_callback::draw_squares( const uilist *menu )
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        const int x = square.hscreen.x + ofs;
-        const int y = square.hscreen.y + 5;
-        mvwprintz( menu->window, point( x, y ), bcolor, "%c", bracket[0] );
+        const point p( square.hscreen + point( ofs, 5 ) );
+        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
         wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
@@ -1858,7 +1844,7 @@ void advanced_inventory::draw_minimap()
     // get the center of the window
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     // draw the 3x3 tiles centered around player
-    g->m.draw( minimap, g->u.pos() );
+    get_map().draw( minimap, g->u.pos() );
     for( auto s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {
@@ -1933,15 +1919,15 @@ void advanced_inventory::do_return_entry()
     save_settings( true );
     g->u.assign_activity( ACT_ADV_INVENTORY );
     g->u.activity.auto_resume = true;
-    save_state->exit_code = exit_re_entry;
+    save_state->exit_code = aim_exit::re_entry;
 }
 
 bool advanced_inventory::is_processing() const
 {
-    return save_state->re_enter_move_all != ENTRY_START;
+    return save_state->re_enter_move_all != aim_entry::START;
 }
 
 void cancel_aim_processing()
 {
-    uistate.transfer_save.re_enter_move_all = ENTRY_START;
+    uistate.transfer_save.re_enter_move_all = aim_entry::START;
 }

@@ -2312,8 +2312,10 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     if( def.magazines.empty() && !( def.gun || def.magazine || def.tool ) ) {
         return;
     }
-    if( def.pockets.empty() && def.tool && def.tool->max_charges == 0 ) {
-        // if a tool has no max charges, it doesn't need an ammo
+    if( def.pockets.empty() && def.tool &&
+        ( def.tool->max_charges == 0 || def.tool->ammo_id.empty() ) ) {
+        // If a tool has no max charges, it doesn't need an ammo.
+        // Likewise, if tool has charges, but no ammo type it needs no magazine.
         return;
     }
 

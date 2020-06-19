@@ -25,7 +25,7 @@
     "name": { "str": "desiccated corpse" },
     "description": "A dead body, badly mangled and desiccated.  It seems whatever killed him did so with a gigantic claw.",
     "category": "other",
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "price": 0,
     "volume": "7500 ml",
     "flags": [ "TRADER_AVOID" ]
@@ -36,7 +36,7 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead human body.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -45,7 +45,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body of a middle-aged man.",
     "looks_like": "corpse",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -56,7 +56,7 @@
     "looks_like": "corpse",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -67,7 +67,7 @@
     "looks_like": "corpse",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -78,7 +78,7 @@
     "looks_like": "corpse",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -89,7 +89,7 @@
     "looks_like": "corpse",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -100,7 +100,7 @@
     "looks_like": "corpse",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -112,7 +112,7 @@
     "looks_like": "corpse",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -121,7 +121,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body, coated in congealed blood.",
     "looks_like": "corpse",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -130,7 +130,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body with a frightful grimace.  He appears to have been horribly mangled prior to his death.",
     "looks_like": "corpse",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -139,7 +139,7 @@
     "name": { "str": "corpse" },
     "description": "An awful, almost unidentifiable mass of charred flesh.",
     "looks_like": "corpse",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -148,7 +148,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body with a gaping stab wound in its back.",
     "looks_like": "corpse",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -159,7 +159,7 @@
     "looks_like": "corpse",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -170,7 +170,7 @@
     "looks_like": "corpse",
     "volume": "30 L",
     "weight": "40 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -181,6 +181,6 @@
     "looks_like": "corpse",
     "volume": "57 L",
     "weight": "78 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   }
 ]

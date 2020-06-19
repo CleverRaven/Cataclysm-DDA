@@ -67,7 +67,7 @@ static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 static float pit_effectiveness( const tripoint &p )
 {
     units::volume corpse_volume = 0_ml;
-    for( auto &pit_content : g->m.i_at( p ) ) {
+    for( item &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();
         }
@@ -1237,7 +1237,7 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
                 }
             }
         }
-        g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD, calendar::turn + 3_turns );
+        g->timed_events.add( timed_event_type::TEMPLE_FLOOD, calendar::turn + 3_turns );
         return true;
     }
     return false;

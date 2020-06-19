@@ -17,7 +17,6 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-
 // ITEM INFO
 // =========
 //
@@ -52,7 +51,6 @@
 //      tests/cata_test [iteminfo]
 //
 // Other tags: [book], [food], [pocket], [quality], [weapon], [volume], [weight], and many others
-
 
 // Call the info() function on an item with given flags, and return the formatted string.
 static std::string item_info_str( const item &it, const std::vector<iteminfo_parts> &part_flags )
@@ -1867,13 +1865,18 @@ TEST_CASE( "disassembly time and yield", "[iteminfo][disassembly]" )
 
     CHECK( item_info_str( iron, disassemble ) ==
            "--\n"
-           "<color_c_white>Disassembly</color> takes about 20 minutes and might yield:"
-           " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
+           "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
+           " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
+           " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
+           " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+           " wire (5).\n" );
+
 
     CHECK( item_info_str( metal, disassemble ) ==
            "--\n"
-           "<color_c_white>Disassembly</color> takes about 2 minutes and might yield:"
-           " TEST small metal sheet (24).\n" );
+           "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
+           " with <color_c_cyan>metal sawing of 2</color> or more and <color_c_white>might"
+           " yield</color>: TEST small metal sheet (24).\n" );
 }
 
 // Related JSON fields:

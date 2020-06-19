@@ -506,8 +506,8 @@ void monexamine::push( monster &z )
         return;
     }
 
-    int deltax = z.posx() - g->u.posx(), deltay = z.posy() - g->u.posy();
-    z.move_to( tripoint( z.posx() + deltax, z.posy() + deltay, z.posz() ) );
+    point delta( z.posx() - g->u.posx(), z.posy() - g->u.posy() );
+    z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
 }
 
 void monexamine::rename_pet( monster &z )

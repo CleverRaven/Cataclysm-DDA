@@ -23,7 +23,6 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -43,6 +42,7 @@ class gunmod_location;
 class item;
 class iteminfo_query;
 class material_type;
+class monster;
 class nc_color;
 class player;
 class recipe;
@@ -53,6 +53,11 @@ struct mtype;
 struct tripoint;
 template<typename T>
 class ret_val;
+
+namespace enchant_vals
+{
+enum class mod : int;
+} // namespace enchant_vals
 
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
@@ -486,7 +491,7 @@ class item : public visitable<item>
         /**
          * Reload item using ammo from location returning true if successful
          * @param u Player doing the reloading
-         * @param loc Location of ammo to be reloaded
+         * @param ammo Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
         bool reload( player &u, item_location ammo, int qty );
@@ -716,6 +721,9 @@ class item : public visitable<item>
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+
+        // recusive function that checks pockets for remaining free space
+        units::volume check_for_free_space( const item *it ) const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious
@@ -766,7 +774,8 @@ class item : public visitable<item>
          * used for rot calculation.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f );
+        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f,
+                              temperature_flag flag = temperature_flag::NORMAL );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -789,7 +798,6 @@ class item : public visitable<item>
          * Update rot for things that perish
          * All items that rot also have temperature
          * @param insulation Amount of insulation item has from surroundings
-         * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
@@ -2089,10 +2097,10 @@ class item : public visitable<item>
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
         std::vector<enchantment> get_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchantment::mod value,
+        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
                                          bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify, enchantment::mod value,
+        double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
                                                bool round_value = false ) const;
 
     private:
@@ -2196,8 +2204,8 @@ class item : public visitable<item>
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
     public:
-        int charges;
-        units::energy energy;      // Amount of energy currently stored in a battery
+        int charges = 0;
+        units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
         int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt
@@ -2281,6 +2289,14 @@ enum class hint_rating {
     /** Item does not permit this action */
     cant
 };
+
+// Weight per level of LIFT/JACK tool quality
+static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
+
+inline units::mass lifting_quality_to_mass( int quality_level )
+{
+    return TOOL_LIFT_FACTOR * quality_level;
+}
 
 /**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid

@@ -26,7 +26,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 5,
     "proportional": { "weight": 0.21, "volume": 0.25, "price": 0.2 },
-    "use_action": "RADIOCONTROL",
+    "use_action": [ "RADIOCONTROL" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -55,7 +55,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
-    "use_action": "RADIOCAR",
+    "use_action": [ "RADIOCAR" ],
     "flags": [ "RADIO_CONTAINER" ],
     "pocket_data": [
       {
@@ -74,7 +74,7 @@
     "name": { "str": "RC car (on)", "str_pl": "RC cars (on)" },
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
-    "use_action": "RADIOCARON",
+    "use_action": [ "RADIOCARON" ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID" ]
   },
   {
@@ -88,10 +88,10 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": "RADIO_MOD"
+    "use_action": [ "RADIO_MOD" ]
   },
   {
     "id": "radio",
@@ -109,7 +109,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "RADIO_OFF",
+    "use_action": [ "RADIO_OFF" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -136,7 +136,7 @@
     "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
     "power_draw": 500,
     "revert_to": "radio",
-    "use_action": "RADIO_ON",
+    "use_action": [ "RADIO_ON" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -183,13 +183,13 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 10,
-    "use_action": "REMOTEVEH",
+    "use_action": [ "REMOTEVEH" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

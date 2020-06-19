@@ -17,13 +17,14 @@
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 class player;
 class vpart_info;
 struct requirement_data;
 
 /** Represents possible return values from the cant_do function. */
-enum task_reason {
+enum class task_reason : int {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
     INVALID_TARGET, //No valid target i.e. can't "change tire" if no tire present
@@ -76,7 +77,7 @@ class veh_interact
         const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;
-        int page_size;
+        int page_size = 0;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
         // height of the stats window
         const int stats_h = 8;
@@ -104,10 +105,10 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
-        // maximum level of available lifting equipment (if any)
-        int max_lift;
-        // maximum level of available jacking equipment (if any)
-        int max_jack;
+        // maximum weight capacity of available lifting equipment (if any)
+        units::mass max_lift;
+        // maximum weight_capacity of available jacking equipment (if any)
+        units::mass max_jack;
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 

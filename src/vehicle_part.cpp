@@ -365,8 +365,16 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
     }
+    if( base.is_gun() ) {
+        return false;
+    }
 
-    return ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    if( is_reactor() ) {
+        return false;
+    }
+
+    return base.is_reloadable() &&
+           ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -390,7 +398,15 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         return false;
     }
 
+    int charges_max = ammo_capacity( item::find_type( ammo_current() )->ammo->type ) - ammo_remaining();
+    qty = qty < liquid.charges ? qty : liquid.charges;
+
+    if( charges_max < liquid.charges ) {
+        qty = charges_max;
+    }
+
     liquid.charges -= base.fill_with( *liquid.type, qty );
+
     return true;
 }
 

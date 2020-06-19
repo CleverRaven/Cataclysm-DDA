@@ -64,6 +64,42 @@ class item_pocket
             ERR_AMMO
         };
 
+        class favorite_settings
+        {
+            public:
+                void clear();
+
+                void set_priority( int priority );
+                int priority() const {
+                    return priority_rating;
+                }
+
+                // have these settings been modified by the player?
+                bool is_null() const;
+
+                void whitelist_item( const itype_id &id );
+                void blacklist_item( const itype_id &id );
+                void clear_item( const itype_id &id );
+
+                void whitelist_category( const item_category_id &id );
+                void blacklist_category( const item_category_id &id );
+                void clear_category( const item_category_id &id );
+
+                // essentially operator> but needs extra input. checks if *this is better
+                bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+
+                void info( std::vector<iteminfo> &info ) const;
+
+                void serialize( JsonOut &json ) const;
+                void deserialize( JsonIn &jsin );
+            private:
+                int priority_rating = 0;
+                cata::flat_set<itype_id> item_whitelist;
+                cata::flat_set<itype_id> item_blacklist;
+                cata::flat_set<item_category_id> category_whitelist;
+                cata::flat_set<item_category_id> category_blacklist;
+        };
+
         item_pocket() = default;
         item_pocket( const pocket_data *data ) : data( data ) {}
 
@@ -225,6 +261,7 @@ class item_pocket
 
         void general_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
         void contents_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
+        void favorite_info( std::vector<iteminfo> &info );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -235,10 +272,12 @@ class item_pocket
         /** same as above, except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
-
+        // returns true if @rhs is a better pocket than this
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
+
+        favorite_settings settings;
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST;
