@@ -672,6 +672,14 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::cuts_tree: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                add( pgettext( "memorial_male", "Fell a tree." ),
+                     pgettext( "memorial_female", "Fell a tree." ) );
+            }
+            break;
+        }
         case event_type::dermatik_eggs_hatch: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
