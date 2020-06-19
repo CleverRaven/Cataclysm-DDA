@@ -4144,7 +4144,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_terrain": "t_carpet_meral_red",
+    "pre_terrain": "t_carpet_metal_red",
     "post_terrain": "t_metal_floor"
   },
   {
@@ -4155,8 +4155,8 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_terrain": "t_carpet_meral_yellow",
-    "post_terrain": "t_metal_floor
+    "pre_terrain": "t_carpet_metal_yellow",
+    "post_terrain": "t_metal_floor"
   },
   {
     "type": "construction",
@@ -4166,7 +4166,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_terrain": "t_carpet_meral_green",
+    "pre_terrain": "t_carpet_metal_green",
     "post_terrain": "t_metal_floor"
   },
   {
@@ -4177,7 +4177,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_terrain": "t_carpet_meral_purple",
+    "pre_terrain": "t_carpet_metal_purple",
     "post_terrain": "t_metal_floor"
   }
 ]
