@@ -218,7 +218,7 @@
     "id": "achievement_exhume_10_graves",
     "type": "achievement",
     "name": "Grave Robber",
-    "description": "Hey, what if they turned down there?  You've gotta check.",
+    "description": "Hey, what if they turned down there? You've gotta check.",
     "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 10 } ],
     "hidden_by": [ "achievement_exhume_1_grave" ]
   },
