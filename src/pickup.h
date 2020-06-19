@@ -44,19 +44,8 @@ int cost_to_move_item( const Character &who, const item &it );
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
 
-struct pickup_drawn_info {
-    int text_x_start;
-    int text_x_end;
-    int y;
+struct pickup_drawn_info : entry_drawn_info {
     int cur_it;
-    bool include_point( point p )const {
-        if( text_x_start <= p.x &&
-            p.x <= text_x_end &&
-            y == p.y ) {
-            return true;
-        }
-        return false;
-    }
     static std::vector<pickup_drawn_info> list;
     static pickup_drawn_info *find_by_coordinate( point p );
 };
