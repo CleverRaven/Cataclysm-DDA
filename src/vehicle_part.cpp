@@ -365,9 +365,16 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
     }
-    // crash fix on examine of vehicles with turrets (i.e. firetrucks with water cannons)
-    return  !ammo_current().is_null() &&
-            ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    if( base.is_gun() ) {
+        return false;
+    }
+
+    if( is_reactor() ) {
+        return true;
+    }
+
+    return is_tank() &&
+           ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -387,7 +394,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 
 bool vehicle_part::fill_with( item &liquid, int qty )
 {
-    if( !is_tank() || !can_reload( liquid ) ) {
+    if( ( is_tank() && !liquid.made_of( phase_id::LIQUID ) ) || !can_reload( liquid ) ) {
         return false;
     }
 
