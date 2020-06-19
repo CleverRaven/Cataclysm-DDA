@@ -14,7 +14,7 @@
     "components": [
       [ [ "flour", 4 ] ],
       [ [ "salt", 12 ] ],
-      [ [ "sugar", 24 ] ],
+      [ [ "sugar", 24 ], [ "artificial_sweetener", 24 ] ],
       [ [ "chocolate", 3 ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
@@ -33,7 +33,12 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
-    "components": [ [ [ "flour", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "salt", 1 ] ], [ [ "sugar", 5 ] ] ]
+    "components": [
+      [ [ "flour", 10 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -485,7 +490,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "dry_rice", 1 ] ],
       [ [ "vinegar", 1 ] ],
-      [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+      [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "artificial_sweetener", 1 ] ]
     ]
   },
   {
@@ -599,6 +604,7 @@
         [ "beet_syrup", 1 ],
         [ "syrup", 1 ],
         [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ],
         [ "molasses", 1 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ]
@@ -1782,7 +1788,11 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar", 10 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1833,7 +1843,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
-      [ [ "sugar", 6 ] ],
+      [ [ "sugar", 6 ], [ "artificial_sweetener", 6 ] ],
       [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
       [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
       [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ] ]
@@ -2222,7 +2232,13 @@
       [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ]
   },
@@ -2236,7 +2252,13 @@
       [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "weed", 5 ] ]
     ]
@@ -2251,7 +2273,13 @@
       [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ]
@@ -2266,7 +2294,13 @@
       [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "weed", 5 ] ]
@@ -2561,7 +2595,8 @@
         [ "molasses", 1 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 1 ],
+        [ "artificial_sweetener", 10 ]
       ]
     ]
   },
@@ -2586,7 +2621,8 @@
         [ "molasses", 1 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 1 ],
+        [ "artificial_sweetener", 10 ]
       ]
     ]
   },
@@ -2787,6 +2823,7 @@
       [ [ "oatmeal", 1 ] ],
       [
         [ "sugar", 4 ],
+        [ "artificial_sweetener", 4 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],
         [ "molasses", 1 ],
@@ -3033,6 +3070,7 @@
         [ "honey_bottled", 6 ],
         [ "honey_glassed", 3 ],
         [ "sugar", 20 ],
+        [ "artificial_sweetener", 20 ],
         [ "syrup", 8 ],
         [ "beet_syrup", 8 ]
       ],
@@ -3058,6 +3096,7 @@
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
         [ "syrup", 3 ],
         [ "beet_syrup", 3 ]
       ],
@@ -3299,7 +3338,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -3319,7 +3358,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
@@ -3341,7 +3380,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
@@ -3362,6 +3401,7 @@
       [ [ "sweet_fruit", 1, "LIST" ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
@@ -3386,6 +3426,7 @@
       [ [ "flour", 8 ], [ "oatmeal", 8 ], [ "dry_rice", 2 ] ],
       [
         [ "sugar", 16 ],
+        [ "artificial_sweetener", 16 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],
         [ "molasses", 1 ],
@@ -3442,6 +3483,7 @@
       [ [ "salt", 50 ] ],
       [
         [ "sugar", 20 ],
+        [ "artificial_sweetener", 20 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
@@ -3495,7 +3537,7 @@
     "components": [
       [ [ "flour", 30 ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
-      [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ] ],
+      [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -4912,7 +4954,7 @@
       [ [ "yeast", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -4962,6 +5004,7 @@
       ],
       [
         [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ],
         [ "mustard", 1 ],
         [ "mayonnaise", 1 ],
         [ "seasoning_salt", 1 ],
@@ -4998,6 +5041,7 @@
       [ [ "water_clean", 1 ] ],
       [
         [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -5277,7 +5321,13 @@
       [ [ "tea_raw", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "pepper", 10 ] ],
       [ [ "cinnamon", 10 ] ]
     ]
@@ -5503,6 +5553,7 @@
       [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
         [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],
         [ "molasses", 1 ],
@@ -5554,7 +5605,7 @@
     "components": [
       [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "sugar", 4 ] ],
+      [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "con_milk", 1 ] ],
       [ [ "cinnamon", 2 ] ]
     ]
@@ -5574,7 +5625,7 @@
     "components": [
       [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "sugar", 4 ] ],
+      [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "con_milk", 1 ] ],
       [ [ "hard_liquor_chem", 1, "LIST" ] ],
       [ [ "cinnamon", 2 ] ]
@@ -5596,7 +5647,7 @@
       [ [ "chocolate", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sugar", 5 ] ]
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
   {
@@ -5615,7 +5666,7 @@
       [ [ "chocolate", 2 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ] ],
-      [ [ "sugar", 5 ] ],
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ],
       [ [ "chilly-p", 1 ] ],
       [ [ "cinnamon", 1 ] ],
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
@@ -6042,7 +6093,10 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
-    "components": [ [ [ "peanut_unshelled", 3 ] ], [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ] ] ]
+    "components": [
+      [ [ "peanut_unshelled", 3 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -6070,7 +6124,14 @@
         [ "walnut_unshelled", 5 ],
         [ "acorns", 5 ]
       ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ]
+      [
+        [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
+        [ "honeycomb", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ]
+      ]
     ]
   },
   {
@@ -6513,6 +6574,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -6537,6 +6599,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -6559,6 +6622,7 @@
       [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -6583,6 +6647,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -6605,6 +6670,7 @@
       [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
