@@ -139,8 +139,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    const nc_color cColor2 = c_light_blue;
-
     switch( current_holiday ) {
         case holiday::new_year:
             break;
