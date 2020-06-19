@@ -518,6 +518,7 @@ static int alcohol( player &p, const item &it, const int strength )
         duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
+    g->events().send<event_type::consumes_alcohol>( p.getID() );
     return it.type->charges_to_use();
 }
 

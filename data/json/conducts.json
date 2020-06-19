@@ -25,5 +25,11 @@
     "type": "conduct",
     "name": "The Elven Path",
     "requirements": [ { "event_statistic": "num_cuts_tree", "is": "<=", "target": 0, "description": "Cut no trees" } ]
+  },
+  {
+    "id": "conduct_no_alcohol",
+    "type": "conduct",
+    "name": "Sober For Life",
+    "requirements": [ { "event_statistic": "num_consumes_alcohol", "is": "<=", "target": 0, "description": "Drink no alcohol" } ]
   }
 ]

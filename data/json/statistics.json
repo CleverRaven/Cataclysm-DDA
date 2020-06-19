@@ -379,5 +379,19 @@
     "stat_type": "count",
     "event_transformation": "statistic_buries_corpse",
     "description": { "str": "corpse buried", "str_pl": "corpses buried" }
+  },
+  {
+    "id": "statistic_consumes_alcohol",
+    "type": "event_transformation",
+    "event_type": "consumes_alcohol",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_consumes_alcohol",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_consumes_alcohol",
+    "description": { "str": "alcohol portion consumed", "str_pl": "alcohol portions consumed" }
   }
 ]
