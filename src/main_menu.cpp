@@ -141,7 +141,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     const nc_color cColor1 = c_light_cyan;
     const nc_color cColor2 = c_light_blue;
-    const nc_color cColor3 = c_light_blue;
 
     switch( current_holiday ) {
         case holiday::new_year:
@@ -174,7 +173,8 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     iLine++;
-    center_print( w_open, iLine, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
+    center_print( w_open, iLine, c_light_blue, string_format( _( "Version: %s" ),
+                  getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
