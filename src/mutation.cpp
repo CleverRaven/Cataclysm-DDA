@@ -184,12 +184,11 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
 
 bool Character::can_power_mutation( const trait_id &mut )
 {
-    if( ( mut->hunger && get_kcal_percent() < 0.5f ) || ( mut->thirst &&
-            get_thirst() >= 260 ) ||
-        ( mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED ) ) {
-        return false;
-    }
-    return  true;
+    bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
+    bool thirst = mut->thirst && get_thirst() >= 260;
+    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+
+    return hunger && fatigue && thirst;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
