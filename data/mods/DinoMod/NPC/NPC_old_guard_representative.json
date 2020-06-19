@@ -14,7 +14,12 @@
     "id": "TALK_OLD_GUARD_REP_NEW_DOING",
     "type": "talk_topic",
     "dynamic_line": "I ensure that the citizens here have what they need to survive and protect themselves from raiders and dinosaurs.  Keeping some form of law is going to be the most important element in rebuilding the world.  We do what we can to keep the 'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.",
-    "responses": [ { "text": "Dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" } ]
+    "responses": [
+      { "text": "Dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" },
+      { "text": "Is there a catch?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
+      { "text": "Anything more to it?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
+      { "text": "Never mind…", "topic": "TALK_OLD_GUARD_REP" }
+    ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_DINOSAURS",
