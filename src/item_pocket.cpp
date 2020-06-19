@@ -772,7 +772,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            string_format(
                                _( "This pocket expands at <neutral>%.0f%%</neutral> of the rate of volume of items inside." ),
-                               data->weight_multiplier * 100 ) );
+                               data->volume_multiplier * 100 ) );
     }
 }
 
