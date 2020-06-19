@@ -12,6 +12,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "flat_set.h"
+#include "magic.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
