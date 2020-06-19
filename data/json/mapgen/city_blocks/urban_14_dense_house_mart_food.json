@@ -208,7 +208,7 @@
       "terrain": {
         "=": "t_open_air",
         "~": "t_carpet_yellow",
-        "!": "t_carpet_cyellow",
+        "!": "t_carpet_yellow",
         "}": "t_ladder_up",
         "{": "t_ladder_down",
         "%": "t_metal_railing",
