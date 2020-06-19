@@ -34,7 +34,7 @@
       "i": "t_ladder_up",
       "!": "t_ladder_down",
       "z": "t_flat_roof",
-      "_": "t_carpet_red",
+      "_": "t_carpet_concrete_red",
       "3": "t_concrete",
       "L": "t_thconc_floor",
       "R": "t_thconc_floor",

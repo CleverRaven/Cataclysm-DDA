@@ -420,7 +420,7 @@
         "########################"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "@": "t_carpet_red", "R": "t_carpet_red" },
+      "terrain": { "@": "t_carpet_concrete_red", "R": "t_carpet_concrete_red" },
       "furniture": { "$": [ "f_shackle", "f_null" ], "@": "f_mannequin" },
       "items": {
         ".": { "item": "clutter_basement" },

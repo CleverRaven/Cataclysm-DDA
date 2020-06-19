@@ -543,13 +543,13 @@
         "dHH  "
       ],
       "terrain": {
-        " ": "t_carpet_red",
-        "f": "t_carpet_red",
-        "r": "t_carpet_red",
-        "H": "t_carpet_red",
-        "d": "t_carpet_red",
-        "c": "t_carpet_red",
-        "B": "t_carpet_red"
+        " ": "t_carpet_concrete_red",
+        "f": "t_carpet_concrete_red",
+        "r": "t_carpet_concrete_red",
+        "H": "t_carpet_concrete_red",
+        "d": "t_carpet_concrete_red",
+        "c": "t_carpet_concrete_red",
+        "B": "t_carpet_concrete_red"
       },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
@@ -1072,7 +1072,7 @@
         "  dc dc dc ",
         "           "
       ],
-      "terrain": { "%": "t_carpet_yellow" },
+      "terrain": { "%": "t_carpet_concrete_yellow" },
       "items": { "d": { "item": "office", "chance": 8 } },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -1098,7 +1098,7 @@
         " cxxc cxxc ",
         "           "
       ],
-      "terrain": { "%": "t_carpet_yellow" },
+      "terrain": { "%": "t_carpet_concrete_yellow" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -1123,7 +1123,7 @@
         " cccc cccc ",
         "           "
       ],
-      "terrain": { " ": "t_carpet_red", "c": "t_carpet_red", "%": "t_floor", "r": "t_floor", "s": "t_floor", "C": "t_floor" },
+      "terrain": { " ": "t_carpet_concrete_red", "c": "t_carpet_concrete_red", "%": "t_floor", "r": "t_floor", "s": "t_floor", "C": "t_floor" },
       "items": { "c": { "item": "office", "chance": 10 }, "C": { "item": "office", "chance": 45 } },
       "palettes": [ "lab_surface_palette" ]
     }
