@@ -99,7 +99,7 @@
     "speed": 160,
     "symbol": "e",
     "morale": 20,
-	"agression": -30,
+    "agression": -30,
     "hp": 125,
     "color": "light_gray",
     "melee_skill": 8,
