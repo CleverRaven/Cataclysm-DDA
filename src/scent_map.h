@@ -80,9 +80,7 @@ class scent_map
         scenttype_id get_type( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;
-        bool inbounds( const point &p ) const {
-            return inbounds( tripoint( p, 0 ) );
-        }
+        bool inbounds( const point &p ) const;
 };
 
 #endif // CATA_SRC_SCENT_MAP_H
