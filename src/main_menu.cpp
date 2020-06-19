@@ -139,7 +139,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    const nc_color cColor1 = c_light_cyan;
     const nc_color cColor2 = c_light_blue;
 
     switch( current_holiday ) {
@@ -169,7 +168,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
             print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, mmenu_title[i] );
         }
     } else {
-        center_print( w_open, iLine++, cColor1, mmenu_title[0] );
+        center_print( w_open, iLine++, c_light_cyan, mmenu_title[0] );
     }
 
     iLine++;
