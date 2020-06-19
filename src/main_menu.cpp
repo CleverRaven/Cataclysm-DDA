@@ -139,10 +139,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    const nc_color cColor1 = c_light_cyan;
-    const nc_color cColor2 = c_light_blue;
-    const nc_color cColor3 = c_light_blue;
-
     switch( current_holiday ) {
         case holiday::new_year:
             break;
@@ -165,43 +161,17 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
-            switch( current_holiday ) {
-                case holiday::halloween: {
-                    static const std::string marker = "█";
-                    const utf8_wrapper text( mmenu_title[i] );
-                    for( size_t j = 0; j < text.size(); j++ ) {
-                        std::string temp = text.substr_display( j, 1 ).str();
-                        if( temp != " " ) {
-                            mvwprintz( w_open, point( iOffsetX + j, iLine ),
-                                       ( temp != marker ) ? c_red : ( i < 9 ? cColor1 : cColor2 ),
-                                       "%s", ( temp == marker ) ? "▓" : temp );
-                        }
-                    }
-                    iLine++;
-                }
-                break;
-                case holiday::thanksgiving:
-                case holiday::new_year:
-                case holiday::easter:
-                case holiday::christmas: {
-                    nc_color cur_color = c_white;
-                    nc_color base_color = c_white;
-                    print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, mmenu_title[i] );
-                }
-                break;
-                case holiday::none:
-                case holiday::num_holiday:
-                default:
-                    mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
-                    break;
-            }
+            nc_color cur_color = c_white;
+            nc_color base_color = c_white;
+            print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, mmenu_title[i] );
         }
     } else {
-        center_print( w_open, iLine++, cColor1, mmenu_title[0] );
+        center_print( w_open, iLine++, c_light_cyan, mmenu_title[0] );
     }
 
     iLine++;
-    center_print( w_open, iLine, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
+    center_print( w_open, iLine, c_light_blue, string_format( _( "Version: %s" ),
+                  getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
