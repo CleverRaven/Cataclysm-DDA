@@ -20,13 +20,13 @@
     "id": "TALK_OLD_GUARD_REP_DINOSAURS",
     "type": "talk_topic",
     "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.",
-    "responses": [ { "text": "Kill all dinosaurs, got it...", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [ { "text": "Kill all dinosaurs, got it…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_DINO_1",
     "type": "mission_definition",
     "name": { "str": "Secure Area" },
-    "description": "We lost another trade caravan.  Whatever did the damage is still out there.  - investigate the trade route and eliminate the threat.",
+    "description": "We lost another trade caravan.  Whatever did the damage is still out there.  Investigate the trade route and eliminate the threat.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 100000,
