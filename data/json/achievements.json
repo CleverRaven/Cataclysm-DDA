@@ -210,7 +210,7 @@
     "id": "achievement_exhume_1_grave",
     "type": "achievement",
     "name": "Grave Digger",
-    "description": "Thats exactly what we need: more dead bodies.",
+    "description": "That's exactly what we need: more dead bodies.",
     "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_exhume_1_grave" ]
   },
@@ -226,7 +226,7 @@
     "id": "achievement_bury_1_corpse",
     "type": "achievement",
     "name": "Funeral",
-    "description": "It's a priviledge to be buried when bilions will be not.",
+    "description": "It's a privilege to be buried when billions will not be.",
     "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_bury_1_corpse" ]
   },
