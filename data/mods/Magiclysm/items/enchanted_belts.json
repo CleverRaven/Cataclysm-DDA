@@ -48,15 +48,15 @@
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_lesser",
     "name": { "str": "Lesser Girdle of Pockets", "str_pl": "Lesser Girdles of Pockets" },
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
+    "description": "A wide girdle that fits around your waist, covered in numerous small pouches that hold a lot more than they should, and the weight of their contents is reduced.",
     "coverage": 10,
     "encumbrance": 4,
-    "weight_capacity_bonus": "5 kg",
+    "max_encumbrance": 10,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 90, "weight_multiplier": 0.5 }
     ]
   },
   {
@@ -64,15 +64,15 @@
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_greater",
     "name": { "str": "Greater Girdle of Pockets", "str_pl": "Greater Girdles of Pockets" },
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
+    "description": "A wide girdle that fits around your waist, covered in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
     "coverage": 10,
     "encumbrance": 6,
-    "weight_capacity_bonus": "10 kg",
+    "max_encumbrance": 8,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 }
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80, "weight_multiplier": 0.3 }
     ]
   },
   {
