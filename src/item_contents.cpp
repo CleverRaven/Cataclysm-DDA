@@ -147,8 +147,8 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
         std::sort( itype_initializer.begin(), itype_initializer.end(), localized_compare );
 
-        for( const std::pair<std::string, const itype *> it : nearby_itypes ) {
-            selector_menu.addentry( it.first );
+        for( const std::string it : itype_initializer ) {
+            selector_menu.addentry( it );
         }
         selector_menu.query();
 
