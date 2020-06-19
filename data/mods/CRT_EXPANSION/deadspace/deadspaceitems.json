@@ -41,7 +41,7 @@
     "storage": 50,
     "material_thickness": 3,
     "environmental_protection": 18,
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF", "CLIMATE_CONTROL" ]
   }
 ]

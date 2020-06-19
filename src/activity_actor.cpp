@@ -58,6 +58,8 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+
 template<>
 struct enum_traits<aim_activity_actor::WeaponSource> {
     static constexpr aim_activity_actor::WeaponSource last =
@@ -1129,7 +1131,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     if( consume_location ) {
         const auto ret = g->u.will_eat( *consume_location, true );
         if( !ret.success() ) {
-            open_consume_menu = false;
+            consume_menu_selections = std::vector<int>();
             return;
         } else {
             force = true;
@@ -1138,7 +1140,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     } else if( !consume_item.is_null() ) {
         const auto ret = g->u.will_eat( consume_item, true );
         if( !ret.success() ) {
-            open_consume_menu = false;
+            consume_menu_selections = std::vector<int>();
             return;
         } else {
             force = true;
@@ -1161,22 +1163,21 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     act.interruptable = false;
 
     if( consume_location ) {
-        if( consume_location.where() == item_location::type::character ) {
-            g->u.consume( consume_location, force );
-        } else if( g->u.consume( *consume_location, force ) ) {
-            consume_location.remove_item();
-        }
-        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-        }
+        g->u.consume( consume_location, force );
     } else if( !consume_item.is_null() ) {
         g->u.consume( consume_item, force );
     } else {
         debugmsg( "Item location/name to be consumed should not be null." );
     }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+    //setting act to null clears these so back them up
+    std::vector<int> temp_selections = consume_menu_selections;
     act.set_to_null();
-    if( open_consume_menu ) {
-        avatar_action::eat( g->u );
+    if( !temp_selections.empty() ) {
+        g->u.assign_activity( ACT_EAT_MENU );
+        g->u.activity.values = temp_selections;
     }
 }
 
@@ -1186,7 +1187,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "open_consume_menu", open_consume_menu );
+    jsout.member( "consume_menu_selections", consume_menu_selections );
     jsout.member( "force", force );
 
     jsout.end_object();
@@ -1201,7 +1202,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "open_consume_menu", actor.open_consume_menu );
+    data.read( "consume_menu_selections", actor.consume_menu_selections );
     data.read( "force", actor.force );
 
     return actor.clone();

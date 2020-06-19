@@ -732,7 +732,7 @@ static void smash()
 
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-            maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+            maybe_corpse.can_revive() ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
             u.activity.placement = here.getabs( smashp );

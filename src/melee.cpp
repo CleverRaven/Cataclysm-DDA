@@ -112,6 +112,8 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+
 static const efftype_id effect_amigara( "amigara" );
 
 static const species_id species_HUMAN( "HUMAN" );
@@ -421,17 +423,39 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             return;
         }
     }
-    item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
+    item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
 
-    if( cur_weapon.attack_time() > attack_speed( cur_weapon ) * 20 ) {
+    // If no weapon is selected, use highest layer of gloves instead.
+    bool unarmed_flag_set = false;
+    if( cur_weapon->is_null() ) {
+        bool found_glove = false;
+        for( item &worn_item : worn ) {
+            // Uses enum layer_level to make distinction for top layer.
+            if( ( worn_item.covers( bodypart_id( bp_hand_l ) ) &&
+                  worn_item.covers( bodypart_id( bp_hand_r ) ) ) ) {
+                if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
+                    cur_weapon = &worn_item;
+                    found_glove = true;
+                }
+            }
+        }
+
+        // Treat all gloves as unarmed weapons.
+        if( found_glove ) {
+            cur_weapon->set_flag( flag_UNARMED_WEAPON );
+            unarmed_flag_set = true;
+        }
+    }
+
+    if( cur_weapon->attack_time() > attack_speed( *cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return;
     }
 
-    int move_cost = attack_speed( cur_weapon );
+    int move_cost = attack_speed( *cur_weapon );
 
     if( hit_spread < 0 ) {
-        int stumble_pen = stumble( *this, cur_weapon );
+        int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
 
@@ -442,8 +466,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 }
             }
 
-            if( can_miss_recovery( cur_weapon ) ) {
-                ma_technique tec = martial_arts_data.get_miss_recovery_tec( cur_weapon );
+            if( can_miss_recovery( *cur_weapon ) ) {
+                ma_technique tec = martial_arts_data.get_miss_recovery_tec( *cur_weapon );
                 add_msg( _( tec.avatar_message ), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
@@ -464,12 +488,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
-            melee_train( *this, 2, 5, cur_weapon );
+            melee_train( *this, 2, 5, *cur_weapon );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
-        if( martial_arts_data.has_miss_recovery_tec( cur_weapon ) ) {
+        if( martial_arts_data.has_miss_recovery_tec( *cur_weapon ) ) {
             move_cost /= 2;
         }
 
@@ -480,19 +504,19 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         // Remember if we see the monster at start - it may change
         const bool seen = g->u.sees( t );
         // Start of attacks.
-        const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
+        const bool critical_hit = scored_crit( t.dodge_roll(), *cur_weapon );
         if( critical_hit ) {
             melee::melee_stats.actual_crit_count += 1;
         }
         damage_instance d;
-        roll_all_damage( critical_hit, d, false, cur_weapon );
+        roll_all_damage( critical_hit, d, false, *cur_weapon );
 
         const bool has_force_technique = !force_technique.str().empty();
 
         // Pick one or more special attacks
         matec_id technique_id;
         if( allow_special && !has_force_technique ) {
-            technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
+            technique_id = pick_technique( t, *cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
             technique_id = force_technique;
         } else {
@@ -506,8 +530,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             d.mult_damage( 0.1 );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
-        if( cur_weapon.reach_range( *this ) > 1 && !reach_attacking &&
-            cur_weapon.has_flag( "POLEARM" ) ) {
+        if( cur_weapon->reach_range( *this ) > 1 && !reach_attacking &&
+            cur_weapon->has_flag( "POLEARM" ) ) {
             d.mult_damage( 0.7 );
         }
 
@@ -521,7 +545,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         // Proceed with melee attack.
         if( !t.is_dead_state() ) {
             // Handles speed penalties to monster & us, etc
-            std::string specialmsg = melee_special_effects( t, d, cur_weapon );
+            std::string specialmsg = melee_special_effects( t, d, *cur_weapon );
 
             // gets overwritten with the dealt damage values
             dealt_damage_instance dealt_dam;
@@ -532,8 +556,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
             if( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
                 dealt_special_dam.type_damage( DT_STAB ) > 0 ||
-                ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
-                                            dealt_dam.type_damage( DT_STAB ) > 0 ) ) ) {
+                ( cur_weapon->is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
+                                             dealt_dam.type_damage( DT_STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
                     add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
                     t.add_effect( effect_poison, 6_turns );
@@ -562,7 +586,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) ) {
-                melee_train( *this, 5, 10, cur_weapon );
+                melee_train( *this, 5, 10, *cur_weapon );
             }
 
             if( dam >= 5 && has_artifact_with( AEP_SAP_LIFE ) ) {
@@ -595,6 +619,10 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             // trigger martial arts on-kill effects
             martial_arts_data.ma_onkill_effects( *this );
         }
+    }
+
+    if( unarmed_flag_set ) {
+        cur_weapon->unset_flag( flag_UNARMED_WEAPON );
     }
 
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */

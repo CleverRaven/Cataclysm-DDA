@@ -1142,7 +1142,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 100,
     "price_postapoc": 1250,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
@@ -1165,7 +1165,7 @@
     "ammo": [ "battery" ],
     "price_postapoc": 1250,
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
@@ -1188,7 +1188,7 @@
     "ammo": [ "battery" ],
     "price_postapoc": 1250,
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
@@ -1614,7 +1614,7 @@
     "max_charges": 800,
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "use_action": "CS_LAJATANG_OFF",
+    "use_action": [ "CS_LAJATANG_OFF" ],
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1627,7 +1627,7 @@
     "cutting": 140,
     "to_hit": -4,
     "revert_to": "cs_lajatang_off",
-    "use_action": "CS_LAJATANG_ON",
+    "use_action": [ "CS_LAJATANG_ON" ],
     "turns_per_charge": 1,
     "charges_per_use": 0,
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
@@ -1651,7 +1651,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "use_action": "ECS_LAJATANG_OFF",
+    "use_action": [ "ECS_LAJATANG_OFF" ],
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
@@ -1675,7 +1675,7 @@
     "power_draw": 4000000,
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
-    "use_action": "ECS_LAJATANG_ON",
+    "use_action": [ "ECS_LAJATANG_ON" ],
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1738,7 +1738,7 @@
     "ammo": [ "gasoline" ],
     "charges_per_use": 5,
     "max_charges": 450,
-    "use_action": "COMBATSAW_OFF",
+    "use_action": [ "COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND" ]
   },
@@ -1754,7 +1754,7 @@
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
-    "use_action": "COMBATSAW_ON",
+    "use_action": [ "COMBATSAW_ON" ],
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1775,7 +1775,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "E_COMBATSAW_OFF",
+    "use_action": [ "E_COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND" ],
     "pocket_data": [
@@ -1800,7 +1800,7 @@
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": "E_COMBATSAW_ON",
+    "use_action": [ "E_COMBATSAW_ON" ],
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   }
 ]

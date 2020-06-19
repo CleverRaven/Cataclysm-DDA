@@ -229,7 +229,7 @@
     "material": [ "hardsteel" ],
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "bandana_wet",

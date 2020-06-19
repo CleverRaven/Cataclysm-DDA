@@ -2186,6 +2186,7 @@ int game::inventory_item_menu( item_location locThisItem,
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
+            addentry( 'v', pgettext( "action", "pocket autopickup settings" ), hint_rating::good );
         }
 
         if( oThisItem.is_favorite ) {
@@ -2326,6 +2327,11 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
+                    break;
+                case 'v':
+                    if( oThisItem.has_pockets() ) {
+                        oThisItem.contents.favorite_settings_menu( oThisItem.tname( 1, false ) );
+                    }
                     break;
                 case 'i':
                     if( oThisItem.has_pockets() ) {
@@ -5243,6 +5249,9 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
                                           ( it.get_mtype()->id );
+    if( it.has_var( "zombie_form" ) ) { // if the monster can reanimate has a zombie
+        newmon_ptr = make_shared_fast<monster>( mtype_id( it.get_var( "zombie_form" ) ) );
+    }
     monster &critter = *newmon_ptr;
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
@@ -5964,11 +5973,11 @@ void game::peek()
 
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
-        vertical_move( p->z, false );
+        vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
             look_around();
-            vertical_move( p->z * -1, false );
+            vertical_move( p->z * -1, false, true );
         }
         return;
     }
@@ -8968,12 +8977,11 @@ void game::wield( item_location loc )
         }
     }
     if( !loc ) {
-        std::string name = loc->tname();
         /**
           * If we lost the location here, that means the thing we're
           * trying to wield was inside a wielded item.
           */
-        add_msg( m_info, "You need to put the bag away before trying to wield %s.", name );
+        add_msg( m_info, "You need to put the bag away before trying to wield something from it." );
         return;
     }
 
@@ -9763,11 +9771,19 @@ point game::place_player( const tripoint &dest_loc )
                     u.activity.targets.emplace_back( map_cursor( u.pos() ), it );
                 }
             }
-        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
+        } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
+                   pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
+
+                        if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                            if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+                                continue;
+                            }
+                        }
+
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = m.getabs( pos );
                         u.activity.auto_resume = true;
@@ -9777,8 +9793,8 @@ point game::place_player( const tripoint &dest_loc )
                 }
             };
 
-            if( pulp_butcher == "pulp_adjacent" ) {
-                for( auto &elem : adjacentDir ) {
+            if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+                for( const direction &elem : adjacentDir ) {
                     pulp( u.pos() + direction_XY( elem ) );
                 }
             } else {
@@ -10442,7 +10458,7 @@ static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
     return cata::nullopt;
 }
 
-void game::vertical_move( int movez, bool force )
+void game::vertical_move( int movez, bool force, bool peeking )
 {
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
@@ -10614,7 +10630,7 @@ void game::vertical_move( int movez, bool force )
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
-        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
+        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
         }
@@ -10861,7 +10877,8 @@ void game::start_hauling( const tripoint &pos )
                                         ) ) );
 }
 
-cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking )
 {
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
@@ -10897,9 +10914,24 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( stairs.has_value() ) {
         if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
+            npc *guy = dynamic_cast<npc *>( blocking_creature );
+            monster *mon = dynamic_cast<monster *>( blocking_creature );
+            bool would_move = ( guy && !guy->is_enemy() ) || ( mon && mon->friendly == -1 );
             bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
-            if( !can_displace ) {
-                add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
+            std::string cr_name = blocking_creature->get_name();
+            std::string msg;
+            if( guy ) {
+                //~ %s is the name of hostile NPC
+                msg = string_format( _( "%s is in the way!" ), cr_name );
+            } else {
+                //~ %s is some monster
+                msg = string_format( _( "There's a %s in the way!" ), cr_name );
+            }
+
+            if( ( peeking && !would_move ) || !can_displace || ( !would_move && !query_yn(
+                        //~ %s is a warning about monster/hostile NPC in the way, e.g. "There's a zombie in the way!"
+                        _( "%s  Attempt to push past?  You may have to fight your way back up." ), msg ) ) ) {
+                add_msg( msg );
                 return cata::nullopt;
             }
         }

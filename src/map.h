@@ -1503,14 +1503,6 @@ class map
          */
         void add_roofs( const tripoint &grid );
         /**
-         * Go through the list of items, update their rotten status and remove items
-         * that have rotten away completely.
-         * @param items items to remove
-         * @param p The point on this map where the items are, used for rot calculation.
-         */
-        template <typename Container>
-        void remove_rotten_items( Container &items, const tripoint &p );
-        /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
          */

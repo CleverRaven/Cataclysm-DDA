@@ -28,17 +28,36 @@
         {
           "trigger_type": "MOOD",
           "threshold_low": 20,
-          "msg_on": { "text": "You're so happy you're glowing!", "rating": "mixed" },
-          "msg_off": { "text": "Your glow fades." }
+          "msg_on": { "text": "You're so happy you're glowing!", "rating": "mixed" }
         },
         {
           "trigger_type": "HUNGER",
           "threshold_low": 110,
-          "msg_on": { "text": "You're feeling hungry, time to lure some preys!", "rating": "mixed" },
-          "msg_off": { "text": "Your glow fades." }
+          "msg_on": { "text": "You're feeling hungry, time to lure some preys!", "rating": "mixed" }
         }
       ]
     ],
+    "transform": { "target": "BIOLUM0_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM0_active",
+    "name": { "str": "Reflex Photophore (on)" },
+    "points": -1,
+    "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
+    "copy-from": "BIOLUM0",
+    "valid": false,
+    "triggers": [
+      [
+        { "trigger_type": "MOOD", "threshold_low": 20, "msg_off": { "text": "Your glow fades.", "rating": "mixed" } },
+        {
+          "trigger_type": "HUNGER",
+          "threshold_low": 110,
+          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
+        }
+      ]
+    ],
+    "transform": { "target": "BIOLUM0", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
     "lumination": [ [ "head", 8 ] ]
   },
   {
@@ -54,7 +73,17 @@
     "encumbrance_covered": [ [ "head", 5 ] ],
     "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
-    "category": [ "ELFA", "INSECT", "FISH" ],
+    "transform": { "target": "BIOLUM1_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 },
+    "category": [ "ELFA", "INSECT", "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM1_active",
+    "name": { "str": "Weak Photophore (on)" },
+    "description": "Your photophore is glowing softly.",
+    "copy-from": "BIOLUM1",
+    "valid": false,
+    "transform": { "target": "BIOLUM1", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
     "lumination": [ [ "head", 8 ] ]
   },
   {
@@ -62,7 +91,7 @@
     "id": "BIOLUM2",
     "name": { "str": "Photophore" },
     "points": 2,
-    "description": "Your can make your photophore glow brightly.",
+    "description": "You can make your photophore glow brightly.",
     "active": true,
     "cost": 1,
     "time": 405000,
@@ -70,6 +99,16 @@
     "encumbrance_covered": [ [ "head", 5 ] ],
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
+    "transform": { "target": "BIOLUM2_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM2_active",
+    "name": { "str": "Photophore (on)" },
+    "description": "You photophore is glowing brightly.",
+    "copy-from": "BIOLUM2",
+    "valid": false,
+    "transform": { "target": "BIOLUM2", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
     "lumination": [ [ "head", 20 ] ]
   },
   {

@@ -83,7 +83,7 @@
     "material": [ "brass", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": "BELL"
+    "use_action": [ "BELL" ]
   },
   {
     "type": "TOOL",
@@ -203,7 +203,7 @@
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "use_action": "ARROW_FLAMABLE"
+    "use_action": [ "ARROW_FLAMABLE" ]
   },
   {
     "id": "fur_rollmat",
@@ -423,7 +423,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "id": "makeshift_halberd",
@@ -455,7 +455,7 @@
     "material": [ "plastic" ],
     "price": 12500,
     "price_postapoc": 500,
-    "use_action": "MIND_SPLICER",
+    "use_action": [ "MIND_SPLICER" ],
     "volume": "1 L",
     "weight": "600 g",
     "flags": [ "TRADER_AVOID" ]
@@ -511,7 +511,7 @@
     "initial_charges": 3,
     "max_charges": 3,
     "charges_per_use": 1,
-    "use_action": "PHEROMONE"
+    "use_action": [ "PHEROMONE" ]
   },
   {
     "id": "pocketwatch",
@@ -645,7 +645,7 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN",
+    "use_action": [ "SPRAY_CAN" ],
     "flags": [ "WRITE_MESSAGE" ]
   },
   {
@@ -662,7 +662,7 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": "LADDER"
+    "use_action": [ "LADDER" ]
   },
   {
     "id": "survival_marker",
@@ -787,7 +787,7 @@
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": "CALL_OF_TINDALOS"
+    "use_action": [ "CALL_OF_TINDALOS" ]
   },
   {
     "id": "umbrella",
@@ -824,7 +824,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": "VORTEX"
+    "use_action": [ "VORTEX" ]
   },
   {
     "id": "sandbox_kit",
