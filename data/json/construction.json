@@ -2437,14 +2437,46 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
+    "id": "constr_revert_carpet_red",
     "description": "Remove Carpet",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_flags": [ "keep_items" ],
+    "pre_terrain": "t_carpet_red",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_yellow",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_yellow",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_green",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_green",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_purple",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_purple",
     "post_terrain": "t_floor"
   },
   {
@@ -4062,26 +4094,90 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet_concrete",
-    "description": "Remove Carpet From Concrete Floor",
+    "id": "constr_revert_carpet_concrete_red",
+    "description": "Remove Carpet",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_flags": [ "keep_items" ],
+    "pre_terrain": "t_carpet_concrete_red",
     "post_terrain": "t_thconc_floor"
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet_metal",
-    "description": "Remove Carpet From Metal Floor",
+    "id": "constr_revert_carpet_concrete_yellow",
+    "description": "Remove Carpet",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_flags": [ "keep_items" ],
+    "pre_terrain": "t_carpet_concrete_yellow",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_concrete_green",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_concrete_green",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_concrete_purple",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_concrete_purple",
+    "post_terrain": "t_thconc_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_metal_red",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_meral_red",
+    "post_terrain": "t_metal_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_metal_yellow",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_meral_yellow",
+    "post_terrain": "t_metal_floor
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_metal_green",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_meral_green",
+    "post_terrain": "t_metal_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_carpet_metal_purple",
+    "description": "Remove Carpet",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "pre_terrain": "t_carpet_meral_purple",
     "post_terrain": "t_metal_floor"
   }
 ]
