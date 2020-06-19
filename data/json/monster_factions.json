@@ -73,6 +73,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "exodii",
+    "base_faction": "bot",
+    "neutral": [ "animal", "nether", "cult", "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "science",
     "base_faction": "zombie",
     "neutral": [ "bot" ]
