@@ -1456,6 +1456,7 @@ bool game::do_turn()
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
+                mon_info_update();
                 // Process any new sounds the player caused during their turn.
                 for( npc &guy : all_npcs() ) {
                     if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
@@ -1496,6 +1497,8 @@ bool game::do_turn()
                 handle_key_blocking_activity();
                 start = now;
             }
+
+            mon_info_update();
 
             // If player is performing a task and a monster is dangerously close, warn them
             // regardless of previous safemode warnings
