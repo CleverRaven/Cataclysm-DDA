@@ -1714,7 +1714,6 @@ void Character::process_turn()
 
 void Character::recalc_hp()
 {
-    int new_max_hp[num_hp_parts];
     int str_boost_val = 0;
     cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
     if( str_boost ) {
@@ -1727,27 +1726,22 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    for( auto &elem : new_max_hp ) {
-        /** @EFFECT_STR_MAX increases base hp */
-        elem = 60 + str_max * 3 + hp_adjustment + get_fat_to_hp();
-        elem *= hp_mod;
-    }
-    if( has_trait( trait_GLASSJAW ) ) {
-        new_max_hp[hp_head] *= 0.8;
-    }
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        // Only recalculate when max changes,
-        // otherwise we end up walking all over due to rounding errors.
-        if( new_max_hp[i] == hp_max[i] ) {
-            continue;
+    for( std::pair<const bodypart_id, bodypart> &part : get_body() ) {
+        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
+                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
+                        part.first->hp_mods.per_mod + get_fat_to_hp() + hp_adjustment ) * hp_mod;
+
+        if( has_trait( trait_GLASSJAW ) && part.first == bodypart_id( "head" ) ) {
+            new_max *= 0.8;
         }
-        // hp_max must be positive to avoiud undefined behavior.
-        hp_max[i] = std::max( hp_max[i], 1 );
-        float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
-                             static_cast<float>( hp_max[i] );
-        hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
-        hp_cur[i] = std::max( std::min( hp_cur[i], new_max_hp[i] ), 1 );
-        hp_max[i] = new_max_hp[i];
+
+        float max_hp_ratio = static_cast<float>( new_max ) /
+                             static_cast<float>( part.second.get_hp_max() );
+
+        int new_cur = ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+
+        part.second.set_hp_max( std::max( new_max, 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
     }
 }
 
@@ -4613,12 +4607,12 @@ void Character::regen( int rate_multiplier )
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp->token ) && ( hp_cur[i] == hp_max[i] ) ) {
+        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
             damage_bandaged[i] = 0;
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp->token ) && ( hp_cur[i] == hp_max[i] ) ) {
+        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
             damage_disinfected[i] = 0;
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
@@ -6049,21 +6043,19 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
 
 int Character::blood_loss( const bodypart_id &bp ) const
 {
-    int hp_cur_sum = 1;
-    int hp_max_sum = 1;
+    int hp_cur_sum = get_part( bp ).get_hp_cur();
+    int hp_max_sum = get_part( bp ).get_hp_max();
 
     if( bp == bodypart_id( "leg_l" ) || bp == bodypart_id( "leg_r" ) ) {
-        hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
-        hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
+        hp_cur_sum = get_part( bodypart_id( "leg_l" ) ).get_hp_cur() + get_part(
+                         bodypart_id( "leg_r" ) ).get_hp_cur();
+        hp_max_sum = get_part( bodypart_id( "leg_l" ) ).get_hp_max() + get_part(
+                         bodypart_id( "leg_r" ) ).get_hp_max();
     } else if( bp == bodypart_id( "arm_l" ) || bp == bodypart_id( "arm_r" ) ) {
-        hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
-        hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
-    } else if( bp == bodypart_id( "torso" ) ) {
-        hp_cur_sum = hp_cur[hp_torso];
-        hp_max_sum = hp_max[hp_torso];
-    } else if( bp == bodypart_id( "head" ) ) {
-        hp_cur_sum = hp_cur[hp_head];
-        hp_max_sum = hp_max[hp_head];
+        hp_cur_sum = get_part( bodypart_id( "arm_l" ) ).get_hp_cur() + get_part(
+                         bodypart_id( "arm_r" ) ).get_hp_cur();
+        hp_max_sum = get_part( bodypart_id( "arm_l" ) ).get_hp_max() + get_part(
+                         bodypart_id( "arm_r" ) ).get_hp_max();
     }
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
@@ -6126,9 +6118,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const auto &e = parts[i];
         const bodypart_id &bp = e.bp;
         const body_part bp_token = bp->token;
-        const hp_part hp = e.hp;
-        const int maximal_hp = hp_max[hp];
-        const int current_hp = hp_cur[hp];
+        const int maximal_hp = get_part( bp ).get_hp_max();
+        const int current_hp = get_part( bp ).get_hp_cur();
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
@@ -6953,15 +6944,13 @@ std::string Character::extended_description() const
 
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
-    for( const bodypart_id bp : bps ) {
+    for( const bodypart_id &bp : bps ) {
         const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
-        hp_part hp = bp_to_hp( bp->token );
 
-        const int maximal_hp = hp_max[hp];
-        const int current_hp = hp_cur[hp];
         const nc_color state_col = limb_color( bp, true, true, true );
         nc_color name_color = state_col;
-        auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
+        std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part( bp ).get_hp_cur(),
+                get_part( bp ).get_hp_max(), false );
 
         ss += colorize( left_justify( bp_heading, longest ), name_color );
         ss += colorize( hp_bar.first, hp_bar.second );
@@ -10415,11 +10404,13 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
+        const bodypart &leg_l = get_part( bodypart_id( "leg_l" ) );
+        const bodypart &leg_r = get_part( bodypart_id( "leg_r" ) );
         // Linearly increase move cost relative to individual leg hp.
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_l] ) /
-                                          static_cast<float>( hp_max[hp_leg_l] ) ) );
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_r] ) /
-                                          static_cast<float>( hp_max[hp_leg_r] ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( leg_l.get_hp_cur() ) /
+                                          static_cast<float>( leg_l.get_hp_max() ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( leg_r.get_hp_cur() ) /
+                                          static_cast<float>( leg_r.get_hp_max() ) ) );
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {

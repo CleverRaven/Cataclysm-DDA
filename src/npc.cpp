@@ -185,15 +185,16 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
+    set_body();
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
+    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+        elem.second.set_hp_to_max();
     }
-    for( auto &e : Skill::skills ) {
+    for( const Skill &e : Skill::skills ) {
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
-    for( const auto &e : clothing ) {
+    for( const std::string &e : clothing ) {
         wear_item( item( e ), false );
     }
 
@@ -417,9 +418,10 @@ void npc::randomize( const npc_class_id &type )
     //players will vastly outclass npcs in trade without a little help.
     mod_skill_level( skill_barter, rng( 2, 4 ) );
 
+    set_body();
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
+    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+        elem.second.set_hp_to_max();
     }
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
@@ -1240,11 +1242,13 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( u.hp_cur[i] <= u.hp_max[i] / 2 ) {
+    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
+        if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
-        if( hp_cur[i] <= hp_max[i] / 2 ) {
+        if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
     }
@@ -1305,8 +1309,8 @@ void npc::form_opinion( const player &u )
 
     // VALUE
     op_of_u.value = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( hp_cur[i] < hp_max[i] * 0.8f ) {
+    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
             op_of_u.value++;
         }
     }

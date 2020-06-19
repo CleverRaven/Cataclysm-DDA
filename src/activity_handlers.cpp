@@ -4392,26 +4392,24 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
 
 static void blood_magic( player *p, int cost )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-    int max_hp_part = 0;
     std::vector<uilist_entry> uile;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        uilist_entry entry( i, p->hp_cur[i] > cost, i + 49, body_part_hp_bar_ui_text( part[i] ) );
-        if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
-            max_hp_part = i;
-        }
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
+    std::vector<bodypart_id> parts;
+    int i = 0;
+    for( const std::pair<bodypart_id, bodypart> &part : p->get_body() ) {
+        const int hp_cur = part.second.get_hp_cur();
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( part.first ) );
+
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, part.second.get_hp_max() );
         entry.ctxt = colorize( hp.first, hp.second );
         uile.emplace_back( entry );
+        parts.push_back( part.first );
+        i++;
     }
     int action = -1;
     while( action < 0 ) {
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
-    p->hp_cur[action] -= cost;
+    p->get_part( parts[action] ).mod_hp_cur( -cost );
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 

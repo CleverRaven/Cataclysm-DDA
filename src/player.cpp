@@ -1336,14 +1336,16 @@ void player::knock_back_to( const tripoint &to )
 
 int player::hp_percentage() const
 {
+    const bodypart &head = get_part( bodypart_id( "head" ) );
+    const bodypart &torso = get_part( bodypart_id( "torso" ) );
     int total_cur = 0;
     int total_max = 0;
     // Head and torso HP are weighted 3x and 2x, respectively
-    total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_torso] * 2;
-    total_max = hp_max[hp_head] * 3 + hp_max[hp_torso] * 2;
-    for( int i = hp_arm_l; i < num_hp_parts; i++ ) {
-        total_cur += hp_cur[i];
-        total_max += hp_max[i];
+    total_cur = head.get_hp_cur() * 3 + torso.get_hp_cur() * 2;
+    total_max = head.get_hp_max() * 3 + torso.get_hp_max() * 2;
+    for( const std::pair< bodypart_id, bodypart> &elem : get_body() ) {
+        total_cur += elem.second.get_hp_cur();
+        total_max += elem.second.get_hp_max();
     }
 
     return ( 100 * total_cur ) / total_max;
@@ -3989,8 +3991,8 @@ void player::environmental_revert_effect()
     addictions.clear();
     morale->clear();
 
-    for( int part = 0; part < num_hp_parts; part++ ) {
-        hp_cur[part] = hp_max[part];
+    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+        elem.second.set_hp_to_max();
     }
     set_hunger( 0 );
     set_thirst( 0 );

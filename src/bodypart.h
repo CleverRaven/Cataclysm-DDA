@@ -71,8 +71,6 @@ using bodypart_id = int_id<body_part_type>;
 
 struct stat_hp_mods {
 
-    float base_mod = 3.0f;
-
     float str_mod = 1.0f;
     float dex_mod = 0.0f;
     float int_mod = 0.0f;
@@ -168,6 +166,9 @@ class bodypart
         bodypart( bodypart_str_id id ): id( id ), hp_max( id->base_hp ), hp_cur( id->base_hp ) {}
 
         bodypart_id get_id() const;
+
+        void set_hp_to_max();
+        bool is_at_max_hp() const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

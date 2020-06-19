@@ -526,9 +526,11 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     save_template( _( "Last Character" ), points );
 
+    set_body();
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
+    //TODO: check if this loop is necessary
+    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+        elem.second.set_hp_to_max();
     }
 
     if( has_trait( trait_SMELLY ) ) {
@@ -617,7 +619,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
-    set_body();
+
     return true;
 }
 
@@ -851,7 +853,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                                _( "Increasing Str further costs 2 points." ) );
                 }
                 u.recalc_hp();
-                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ), u.hp_max[0] );
+                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
+                           u.get_part( bodypart_id( "head" ) ).get_hp_max() );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
                            convert_weight( u.weight_capacity() ), weight_units() );

@@ -390,6 +390,16 @@ bodypart_id bodypart::get_id() const
     return id;
 }
 
+void bodypart::set_hp_to_max()
+{
+    hp_cur = hp_max;
+}
+
+bool bodypart::is_at_max_hp() const
+{
+    return hp_cur == hp_max;
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;
@@ -488,8 +498,6 @@ void bodypart::deserialize( JsonIn &jsin )
 
 void stat_hp_mods::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "base_mod", base_mod, 3.0f );
-
     optional( jo, was_loaded, "str_mod", str_mod, 3.0f );
     optional( jo, was_loaded, "dex_mod", dex_mod, 0.0f );
     optional( jo, was_loaded, "int_mod", int_mod, 0.0f );

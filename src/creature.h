@@ -599,6 +599,8 @@ class Creature
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
+        std::map<bodypart_id, bodypart> get_body();
+        std::map<bodypart_id, bodypart> get_body() const;
         void set_body();
         bodypart get_part( const bodypart_id &id );
         bodypart get_part( const bodypart_id &id ) const;

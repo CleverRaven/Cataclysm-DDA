@@ -3760,10 +3760,12 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per buff */
                         buff_stat( g->u.per_max, rng( 0, g->u.per_max / 2 ) );
                         g->u.recalc_hp();
-                        for( int part = 0; part < num_hp_parts; part++ ) {
-                            g->u.hp_cur[part] *= 1 + rng( 0, 20 ) * .1;
-                            if( g->u.hp_cur[part] > g->u.hp_max[part] ) {
-                                g->u.hp_cur[part] = g->u.hp_max[part];
+                        for( std::pair<const bodypart_id, bodypart> &elem : g->u.get_body() ) {
+                            bodypart &part = elem.second;
+                            part.set_hp_cur( part.get_hp_cur() * rng_float( 1, 1.2 ) );
+                            const int hp_max = part.get_hp_max();
+                            if( part.get_hp_cur() > hp_max ) {
+                                part.set_hp_cur( hp_max );
                             }
                         }
                     }

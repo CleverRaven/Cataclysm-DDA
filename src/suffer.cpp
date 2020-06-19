@@ -179,20 +179,20 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        const float wetness_percentage = static_cast<float>( body_wetness[bp->token] ) /
-                                         drench_capacity[bp->token];
+    for( const std::pair< bodypart_id, bodypart> &elem : get_body() ) {
+        const float wetness_percentage = static_cast<float>( body_wetness[elem.first->token] ) /
+                                         drench_capacity[elem.first->token];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr,  bp, dmg );
+            apply_damage( nullptr, elem.first, dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
-                                   body_part_name( bp ) );
-        } else if( dmg < 0 && hp_cur[bp_to_hp( bp->token )] != hp_max[bp_to_hp( bp->token )] ) {
-            heal( bp, std::abs( dmg ) );
+                                   body_part_name( elem.first ) );
+        } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
+            heal( elem.first, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
-                                   body_part_name( bp ) );
+                                   body_part_name( elem.first ) );
         }
     }
 }

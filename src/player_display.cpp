@@ -384,7 +384,8 @@ static void draw_stats_info( const catacurses::window &w_info,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Base HP: <color_white>%d</color>" ), you.hp_max[1] ) );
+                            string_format( _( "Base HP: <color_white>%d</color>" ),
+                                           you.get_part( bodypart_id( "torso" ) ).get_hp_max() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
