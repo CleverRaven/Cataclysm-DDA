@@ -581,7 +581,7 @@
     "color": "magenta",
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "deconstruct": { "items": [ { "item": "carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "p_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
