@@ -48,18 +48,7 @@ struct inventory_input;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
-struct inventory_entry_drawn_info {
-    int text_x_start;
-    int text_x_end;
-    int y;
-    bool include_point( point p )const {
-        if( text_x_start <= p.x &&
-            p.x <= text_x_end &&
-            y == p.y ) {
-            return true;
-        }
-        return false;
-    }
+struct inventory_entry_drawn_info : entry_drawn_info {
 };
 
 class inventory_entry

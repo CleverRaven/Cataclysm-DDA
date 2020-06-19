@@ -50,7 +50,7 @@ struct mvwzstr {
     int sym = 0;
 };
 
-struct uilist_entry_drawn_info {
+struct entry_drawn_info {
     int text_x_start;
     int text_x_end;
     int y;
@@ -62,6 +62,9 @@ struct uilist_entry_drawn_info {
         }
         return false;
     }
+};
+
+struct uilist_entry_drawn_info : entry_drawn_info {
 };
 
 /**
