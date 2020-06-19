@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "point.h"
+#include "ui.h"
 
 class item;
 class item_location;
