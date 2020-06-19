@@ -984,7 +984,7 @@
     "time": "7 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1026,7 +1026,7 @@
     "decomp_learn": 1,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ], [ [ "pipe_fittings", 4 ] ]  ]
   },
   {
     "type": "recipe",
@@ -1039,7 +1039,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ], [ [ "chain", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ], [ [ "chain", 1 ] ], [ [ "pipe_fittings", 2 ] ]  ]
   },
   {
     "type": "recipe",
@@ -1053,7 +1053,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal_small", 5 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal_small", 5 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1066,7 +1066,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1083,6 +1083,7 @@
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
       [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
+      [ [ "pipe_fittings", 4 ] ],
       [ [ "rag", 8 ] ]
     ]
   },
@@ -1192,7 +1193,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 3 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 6 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "pipe", 6 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -2135,7 +2136,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ], [ "pipe_fittings", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2660,7 +2661,8 @@
       [ [ "pilot_light", 1 ] ],
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
       [ [ "metal_tank_little", 1 ] ],
-      [ [ "pipe", 3 ] ]
+      [ [ "pipe", 3 ] ],
+      [ [ "pipe_fittings", 2 ] ],
     ]
   },
   {
@@ -2753,7 +2755,8 @@
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
-      [ [ "pipe", 8 ] ]
+      [ [ "pipe", 8 ] ],
+      [ [ "pipe_fittings", 4 ] ],
     ]
   },
   {
@@ -2814,7 +2817,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "welder", 150 ], [ "welder_crude", 225 ], [ "toolset", 225 ], [ "soldering_iron", 225 ], [ "oxy_torch", 30 ] ] ],
-    "components": [ [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "pipe", 6 ] ] ]
+    "components": [ [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 4 ] ], ]
   },
   {
     "type": "recipe",
@@ -4153,7 +4156,7 @@
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "steel_plate", 2 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ], [ [ "motor", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "steel_plate", 2 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ], [ [ "motor", 1 ] ],[ [ "pipe_fittings", 2 ] ], ]
   },
   {
     "type": "recipe",
@@ -4319,7 +4322,8 @@
       [ [ "nail", 12 ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
-      [ [ "spike", 2 ] ]
+      [ [ "spike", 2 ] ],
+      [ [ "pipe_fittings", 24 ] ],
     ]
   },
   {
@@ -4345,6 +4349,7 @@
       [ [ "nail", 12 ] ],
       [ [ "wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ]
+      [ [ "pipe_fittings", 30 ] ],
     ]
   },
   {
@@ -4358,7 +4363,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ], [ [ "pipe_fittings", 6 ] ], ]
   },
   {
     "type": "recipe",
