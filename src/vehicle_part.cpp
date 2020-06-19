@@ -373,7 +373,7 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
-    return is_tank () &&
+    return is_tank() &&
            ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
