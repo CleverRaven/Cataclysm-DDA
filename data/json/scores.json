@@ -63,5 +63,20 @@
     "id": "score_max_move_z",
     "type": "score",
     "statistic": "max_move_z"
+  },
+  {
+    "id": "score_cut_trees",
+    "type": "score",
+    "statistic": "num_cuts_tree"
+  },
+  {
+    "id": "score_buried_corpses",
+    "type": "score",
+    "statistic": "num_buried_corpses"
+  },
+  {
+    "id": "score_exhumed_graves",
+    "type": "score",
+    "statistic": "num_exhumed_graves"
   }
 ]

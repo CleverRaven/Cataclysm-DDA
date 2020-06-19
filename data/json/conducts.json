@@ -19,5 +19,11 @@
     "name": "Merciful",
     "hidden_by": [ "conduct_zero_kills" ],
     "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": "<=", "target": 0, "description": "Kill no characters" } ]
+  },
+  {
+    "id": "conduct_zero_cut_trees",
+    "type": "conduct",
+    "name": "The Elven Path",
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": "<=", "target": 0, "description": "Cut no trees" } ]
   }
 ]

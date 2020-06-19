@@ -3930,6 +3930,9 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
+    if( !p->is_npc() ) {
+        g->events().send<event_type::cuts_tree>( p->getID() );
+    }
     act->set_to_null();
     resume_for_multi_activities( *p );
 }

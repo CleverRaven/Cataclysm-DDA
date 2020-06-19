@@ -181,5 +181,69 @@
         "description": "Return to the location you started the game"
       }
     ]
+  },
+  {
+    "id": "achievement_cut_1_tree",
+    "type": "achievement",
+    "name": "Timber",
+    "description": "If a tree falls in a forest and no one is around to hear it, does it make a sound?",
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_cut_1_tree" ]
+  },
+  {
+    "id": "achievement_cut_100_trees",
+    "type": "achievement",
+    "name": "Lumberjack",
+    "description": "What is a forest for a man with an axe?",
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 100 } ],
+    "hidden_by": [ "achievement_cut_1_tree" ]
+  },
+  {
+    "id": "achievement_cut_1000_trees",
+    "type": "achievement",
+    "name": "Deforestation",
+    "description": "If you cut down the trees you will find the wolf.",
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 1000 } ],
+    "hidden_by": [ "achievement_cut_100_trees" ]
+  },
+  {
+    "id": "achievement_exhume_1_grave",
+    "type": "achievement",
+    "name": "Grave Digger",
+    "description": "Thats exactly what we need: more dead bodies.",
+    "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_exhume_1_grave" ]
+  },
+  {
+    "id": "achievement_exhume_10_graves",
+    "type": "achievement",
+    "name": "Grave Robber",
+    "description": "Hey, what if they turned down there? You've gotta check.",
+    "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 10 } ],
+    "hidden_by": [ "achievement_exhume_1_grave" ]
+  },
+  {
+    "id": "achievement_bury_1_corpse",
+    "type": "achievement",
+    "name": "Funeral",
+    "description": "It's a priviledge to be buried when bilions will be not.",
+    "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_bury_1_corpse" ]
+  },
+  {
+    "id": "achievement_bury_10_corpses",
+    "type": "achievement",
+    "name": "Undertaker",
+    "description": "Leave no one to rot among the living dead.",
+    "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 10 } ],
+    "hidden_by": [ "achievement_bury_1_corpse" ]
+  },
+  {
+    "id": "achievement_bury_100_corpses",
+    "type": "achievement",
+    "name": "Funeral House",
+    "description": "You cannot bury the whole world, can you?",
+    "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 100 } ],
+    "hidden_by": [ "achievement_bury_10_corpses" ]
   }
 ]

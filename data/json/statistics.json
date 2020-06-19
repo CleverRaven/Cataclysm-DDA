@@ -337,5 +337,47 @@
     "stat_type": "last_value",
     "event_transformation": "avatar_enters_oter_type",
     "field": "oter_type_id"
+  },
+  {
+    "id": "statistic_cuts_tree",
+    "type": "event_transformation",
+    "event_type": "cuts_tree",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_cuts_tree",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_cuts_tree",
+    "description": { "str": "tree cut down", "str_pl": "trees cut down" }
+  },
+  {
+    "id": "statistic_exhumes_grave",
+    "type": "event_transformation",
+    "event_type": "exhumes_grave",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_exhumed_graves",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_exhumes_grave",
+    "description": { "str": "grave exhumed", "str_pl": "graves exhumed" }
+  },
+  {
+    "id": "statistic_buries_corpse",
+    "type": "event_transformation",
+    "event_type": "buries_corpse",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "corpse_type", "corpse_name" ]
+  },
+  {
+    "id": "num_buried_corpses",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_buries_corpse",
+    "description": { "str": "corpse buried", "str_pl": "corpses buried" }
   }
 ]
