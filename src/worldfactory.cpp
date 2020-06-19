@@ -30,6 +30,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -843,6 +844,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
     ctxt.register_action( "VIEW_MOD_DESCRIPTION" );
+    ctxt.register_action( "FILTER" );
+
+    point filter_pos;
+    int filter_view_len = 0;
+    std::string current_filter;
+    std::unique_ptr<string_input_popup> fpopup;
 
     catacurses::window w_header1;
     catacurses::window w_header2;
@@ -875,6 +882,14 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         header_windows.push_back( w_header1 );
         header_windows.push_back( w_header2 );
 
+        // Specify where the popup's string would be printed
+        filter_pos = point( 2, TERMY - 8 );
+        filter_view_len = iMinScreenWidth / 2 - 11;
+        if( fpopup ) {
+            point inner_pos = filter_pos + point( 2, 0 );
+            fpopup->window( win, inner_pos, inner_pos.x + filter_view_len );
+        }
+
         ui.position_from_window( win );
     };
     init_windows( ui );
@@ -893,12 +908,14 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     struct mod_tab {
         std::string id;
         std::vector<mod_id> mods;
+        std::vector<mod_id> mods_unfiltered;
     };
     std::vector<mod_tab> all_tabs;
 
     for( const std::pair<std::string, std::string> &tab : get_mod_list_tabs() ) {
         all_tabs.push_back( {
             tab.first,
+            std::vector<mod_id>(),
             std::vector<mod_id>()
         } );
     }
@@ -916,7 +933,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
         for( mod_tab &tab : all_tabs ) {
             if( tab.id == dest_tab ) {
-                tab.mods.push_back( mod );
+                tab.mods_unfiltered.push_back( mod );
                 break;
             }
         }
@@ -937,6 +954,39 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
         return nullptr;
     };
+
+    // Helper function for applying filter to mod tabs
+    const auto apply_filter = [&]( const std::string & filter_str ) {
+        const MOD_INFORMATION *selected_mod = nullptr;
+        if( active_header == 0 ) {
+            selected_mod = get_selected_mod();
+        }
+        for( mod_tab &tab : all_tabs ) {
+            if( filter_str.empty() ) {
+                tab.mods = tab.mods_unfiltered;
+            } else {
+                tab.mods.clear();
+                for( const mod_id &mod : tab.mods_unfiltered ) {
+                    std::string name = ( *mod ).name();
+                    if( lcmatch( name, filter_str ) ) {
+                        tab.mods.push_back( mod );
+                    }
+                }
+            }
+        }
+        startsel[0] = 0;
+        cursel[0] = 0;
+        // Try to restore cursor position
+        const std::vector<mod_id> &curr_tab = all_tabs[iCurrentTab].mods;
+        for( size_t i = 0; i < curr_tab.size(); i++ ) {
+            if( &*curr_tab[i] == selected_mod ) {
+                cursel[0] = i;
+                break;
+            }
+        }
+        current_filter = filter_str;
+    };
+    apply_filter( "" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 0 );
@@ -987,18 +1037,62 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             wputch( win, BORDER_COLOR, LINE_OXOX );
         }
 
+        // Draw filter
+        if( fpopup ) {
+            mvwprintz( win, filter_pos, c_cyan, "< " );
+            mvwprintz( win, filter_pos + point( filter_view_len + 2, 0 ), c_cyan, " >" );
+            // This call makes popup draw its string at position specified on popup initialization
+            std::string rendered_string = fpopup->query_string( /*loop=*/false, /*draw_only=*/true );
+        } else {
+            mvwprintz( win, filter_pos, c_light_gray, "< " );
+            const char *help = current_filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " );
+            wprintz( win, c_light_gray, help, ctxt.get_desc( "FILTER" ) );
+            wprintz( win, c_white, current_filter );
+            wprintz( win, c_light_gray, " >" );
+        }
+
         wnoutrefresh( w_description );
         wnoutrefresh( win );
 
         // Draw selected tab
-        const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
-        draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0,
-                       _( "--NO AVAILABLE MODS--" ), catacurses::window() );
+        const mod_tab &current_tab = all_tabs[iCurrentTab];
+        const char *msg = current_tab.mods_unfiltered.empty() ?
+                          _( "--NO AVAILABLE MODS--" ) : _( "--NO RESULTS FOUND--" );
+        draw_mod_list( w_list, startsel[0], cursel[0], current_tab.mods, active_header == 0,
+                       msg, catacurses::window() );
 
         // Draw active mods
         draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1,
                        _( "--NO ACTIVE MODS--" ), w_shift );
     } );
+
+    const auto set_filter = [&]() {
+        fpopup = std::make_unique<string_input_popup>();
+        fpopup->max_length( 256 );
+        const std::string old_filter = current_filter;
+        fpopup->text( current_filter );
+
+        ime_sentry sentry;
+
+        // On next redraw, call resize callback which will configure how popup is rendered
+        ui.mark_resize();
+
+        for( ;; ) {
+            ui_manager::redraw();
+            fpopup->query_string( /*loop=*/false );
+
+            if( fpopup->canceled() ) {
+                apply_filter( old_filter );
+                break;
+            } else if( fpopup->confirmed() ) {
+                break;
+            } else {
+                apply_filter( fpopup->text() );
+            }
+        };
+
+        fpopup.reset();
+    };
 
     int tab_output = 0;
     while( tab_output == 0 ) {
@@ -1087,6 +1181,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
         } else if( action == "QUIT" && ( !on_quit || on_quit() ) ) {
             tab_output = -999;
+        } else if( action == "FILTER" ) {
+            set_filter();
         }
         // RESOLVE INPUTS
         if( last_selection != selection ) {
