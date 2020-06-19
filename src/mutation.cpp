@@ -188,7 +188,7 @@ bool Character::can_power_mutation( const trait_id &mut )
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
 
-    return hunger && fatigue && thirst;
+    return !hunger && !fatigue && !thirst;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
