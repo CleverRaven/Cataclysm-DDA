@@ -1056,6 +1056,7 @@
       [ "tall_tales", 1 ],
       [ "tazer", 5 ],
       [ "tea_raw", 8 ],
+      [ "tea_green_raw", 4 ],
       [ "teapot", 8 ],
       [ "teleumbrella", 4 ],
       [ "tent_kit", 6 ],

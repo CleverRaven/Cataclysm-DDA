@@ -456,6 +456,7 @@
       { "item": "granola", "prob": 10 },
       { "item": "cookies", "prob": 80 },
       { "item": "tea_raw", "prob": 10 },
+      { "item": "tea_green_raw", "prob": 5 },
       { "item": "coffee_raw", "prob": 15 },
       { "item": "choco_coffee_beans", "prob": 10 },
       { "item": "salt", "prob": 10 },
@@ -798,6 +799,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_fruit_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_green_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }
