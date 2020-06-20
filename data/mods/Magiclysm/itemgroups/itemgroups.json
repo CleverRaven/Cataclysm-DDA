@@ -1132,5 +1132,26 @@
     "//": "the things that would be on the same tile as a cookpot, such as fuel and one pot.",
     "subtype": "collection",
     "items": [ { "group": "cookpot", "prob": 100 }, { "group": "wood_fuel", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_smith",
+    "//": "the things that would be on the same tile as a magicians anvil, such as tools and one product.",
+    "subtype": "collection",
+    "items": [ { "group": "enchanted_combat_items", "prob": 100 }, { "group": "tools_anvil", "prob": 80, "repeat": 3 } ]
+  },
+  {
+    "id": "tools_anvil",
+    "type": "item_group",
+    "//": "Tools commonly used by blacksmiths on top of an anvil",
+    "items": [
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ],
+      [ "hammer", 90 ],
+      [ "sandpaper", 90 ],
+      [ "small_mana_crystal", 180 ]
+    ]
   }
 ]
