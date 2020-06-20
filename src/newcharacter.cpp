@@ -451,7 +451,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                              "Saving will override the already existing character.\n\n"
                              "Continue anyways?" ), name );
     };
-
+    set_body();
     const bool allow_reroll = type == character_type::RANDOM;
     tab_direction result = tab_direction::QUIT;
     do {
@@ -526,7 +526,6 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     save_template( _( "Last Character" ), points );
 
-    set_body();
     recalc_hp();
 
     if( has_trait( trait_SMELLY ) ) {

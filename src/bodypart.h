@@ -71,7 +71,7 @@ using bodypart_id = int_id<body_part_type>;
 
 struct stat_hp_mods {
 
-    float str_mod = 1.0f;
+    float str_mod = 3.0f;
     float dex_mod = 0.0f;
     float int_mod = 0.0f;
     float per_mod = 0.0f;
