@@ -3358,8 +3358,8 @@ static hp_part pick_part_to_heal(
 
             continue;
         }
-        const bodypart &part = patient.get_part( bp );
-        if( force || part.get_hp_cur() < part.get_hp_max() ) {
+
+        if( force || patient.get_part_hp_cur( bp ) < patient.get_part_hp_max( bp ) ) {
             return healed_part;
         }
     }

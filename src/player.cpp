@@ -883,8 +883,8 @@ void player::search_surroundings()
 
 bool player::is_dead_state() const
 {
-    return get_part( bodypart_id( "head" ) ).get_hp_cur() <= 0 ||
-           get_part( bodypart_id( "torso" ) ).get_hp_cur() <= 0;
+    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
+           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
 }
 
 void player::on_dodge( Creature *source, float difficulty )
@@ -1337,13 +1337,13 @@ void player::knock_back_to( const tripoint &to )
 
 int player::hp_percentage() const
 {
-    const bodypart &head = get_part( bodypart_id( "head" ) );
-    const bodypart &torso = get_part( bodypart_id( "torso" ) );
+    const bodypart_id head_id = bodypart_id( "head" );
+    const bodypart_id torso_id = bodypart_id( "torso" );
     int total_cur = 0;
     int total_max = 0;
     // Head and torso HP are weighted 3x and 2x, respectively
-    total_cur = head.get_hp_cur() * 3 + torso.get_hp_cur() * 2;
-    total_max = head.get_hp_max() * 3 + torso.get_hp_max() * 2;
+    total_cur = get_part_hp_cur( head_id ) * 3 + get_part_hp_cur( torso_id ) * 2;
+    total_max = get_part_hp_max( head_id ) * 3 + get_part_hp_max( torso_id ) * 2;
     for( const std::pair< bodypart_str_id, bodypart> &elem : get_body() ) {
         total_cur += elem.second.get_hp_cur();
         total_max += elem.second.get_hp_max();

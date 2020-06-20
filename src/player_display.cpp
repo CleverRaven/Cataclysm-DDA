@@ -385,7 +385,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                             string_format( _( "Base HP: <color_white>%d</color>" ),
-                                           you.get_part( bodypart_id( "torso" ) ).get_hp_max() ) );
+                                           you.get_part_hp_max( bodypart_id( "torso" ) ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );

@@ -1455,6 +1455,10 @@ void Creature::set_body()
 
 bodypart *Creature::get_part( const bodypart_id &id )
 {
+    if( body.find( id.id() ) == body.end() ) {
+        debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+        return nullptr;
+    }
     return &body[id.id()];
 }
 
@@ -1529,7 +1533,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_id( "num_bp" ) ) {
-        return get_part( bp ).get_hp_cur();
+        return get_part_hp_cur( bp );
     }
     int hp_total = 0;
     for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
@@ -1546,7 +1550,7 @@ int Creature::get_hp() const
 int Creature::get_hp_max( const bodypart_id &bp ) const
 {
     if( bp != bodypart_id( "num_bp" ) ) {
-        return get_part( bp ).get_hp_max();
+        return get_part_hp_max( bp );
     }
     int hp_total = 0;
     for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {

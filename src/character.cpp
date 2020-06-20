@@ -1336,15 +1336,14 @@ int Character::get_working_leg_count() const
 
 bool Character::is_limb_disabled( const bodypart_id &limb ) const
 {
-    const bodypart &part = get_part( limb );
-    return part.get_hp_cur() <= part.get_hp_max() * .125;
+    return get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * .125;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
 // if a limb is broken should point here to make any future changes to breaking easier
 bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return get_part( limb ).get_hp_cur() == 0;
+    return get_part_hp_cur( limb ) == 0;
 }
 
 bool Character::can_run() const
@@ -6040,19 +6039,15 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
 
 int Character::blood_loss( const bodypart_id &bp ) const
 {
-    int hp_cur_sum = get_part( bp ).get_hp_cur();
-    int hp_max_sum = get_part( bp ).get_hp_max();
+    int hp_cur_sum = get_part_hp_cur( bp );
+    int hp_max_sum = get_part_hp_max( bp );
 
     if( bp == bodypart_id( "leg_l" ) || bp == bodypart_id( "leg_r" ) ) {
-        hp_cur_sum = get_part( bodypart_id( "leg_l" ) ).get_hp_cur() + get_part(
-                         bodypart_id( "leg_r" ) ).get_hp_cur();
-        hp_max_sum = get_part( bodypart_id( "leg_l" ) ).get_hp_max() + get_part(
-                         bodypart_id( "leg_r" ) ).get_hp_max();
+        hp_cur_sum = get_part_hp_cur( bodypart_id( "leg_l" ) ) + get_part_hp_cur( bodypart_id( "leg_r" ) );
+        hp_max_sum = get_part_hp_max( bodypart_id( "leg_l" ) ) + get_part_hp_max( bodypart_id( "leg_r" ) );
     } else if( bp == bodypart_id( "arm_l" ) || bp == bodypart_id( "arm_r" ) ) {
-        hp_cur_sum = get_part( bodypart_id( "arm_l" ) ).get_hp_cur() + get_part(
-                         bodypart_id( "arm_r" ) ).get_hp_cur();
-        hp_max_sum = get_part( bodypart_id( "arm_l" ) ).get_hp_max() + get_part(
-                         bodypart_id( "arm_r" ) ).get_hp_max();
+        hp_cur_sum = get_part_hp_cur( bodypart_id( "arm_l" ) ) + get_part_hp_cur( bodypart_id( "arm_r" ) );
+        hp_max_sum = get_part_hp_max( bodypart_id( "arm_l" ) ) + get_part_hp_max( bodypart_id( "arm_r" ) );
     }
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
@@ -6115,8 +6110,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const auto &e = parts[i];
         const bodypart_id &bp = e.bp;
         const body_part bp_token = bp->token;
-        const int maximal_hp = get_part( bp ).get_hp_max();
-        const int current_hp = get_part( bp ).get_hp_cur();
+        const int maximal_hp = get_part_hp_max( bp );
+        const int current_hp = get_part_hp_cur( bp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
@@ -6946,8 +6941,8 @@ std::string Character::extended_description() const
 
         const nc_color state_col = limb_color( bp, true, true, true );
         nc_color name_color = state_col;
-        std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part( bp ).get_hp_cur(),
-                get_part( bp ).get_hp_max(), false );
+        std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
+                false );
 
         ss += colorize( left_justify( bp_heading, longest ), name_color );
         ss += colorize( hp_bar.first, hp_bar.second );
@@ -10400,13 +10395,11 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        const bodypart &leg_l = get_part( bodypart_id( "leg_l" ) );
-        const bodypart &leg_r = get_part( bodypart_id( "leg_r" ) );
         // Linearly increase move cost relative to individual leg hp.
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( leg_l.get_hp_cur() ) /
-                                          static_cast<float>( leg_l.get_hp_max() ) ) );
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( leg_r.get_hp_cur() ) /
-                                          static_cast<float>( leg_r.get_hp_max() ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( get_part_hp_cur( bodypart_id( "leg_l" ) ) ) /
+                                          static_cast<float>( get_part_hp_max( bodypart_id( "leg_l" ) ) ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( get_part_hp_cur( bodypart_id( "leg_r" ) ) ) /
+                                          static_cast<float>( get_part_hp_max( bodypart_id( "leg_r" ) ) ) ) );
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
