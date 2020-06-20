@@ -518,8 +518,6 @@ void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
                     const tripoint &epicenter );
-void target_attack( const spell &sp, Creature &caster,
-                    const tripoint &epicenter );
 void targeted_polymorph( const spell &sp, Creature &caster, const tripoint &target );
 
 void projectile_attack( const spell &sp, Creature &caster,
