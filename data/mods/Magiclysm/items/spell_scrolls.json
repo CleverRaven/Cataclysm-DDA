@@ -85,6 +85,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_baleful_polymorph",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Baleful Polymorph", "str_pl": "Scrolls of Baleful Polymorph" },
+    "description": "Transform your enemies into frogs.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_baleful_polymorph" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_zombie",
     "//": "Animist spell",
     "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
