@@ -72,29 +72,6 @@ std::vector<item_reference> active_item_cache::get()
     return all_cached_items;
 }
 
-std::vector<item_reference> active_item_cache::get_for_processing()
-{
-    std::vector<item_reference> items_to_process;
-    for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
-        // Rely on iteration logic to make sure the number is sane.
-        int num_to_process = kv.second.size() / kv.first;
-        std::list<item_reference>::iterator it = kv.second.begin();
-        for( ; it != kv.second.end() && num_to_process >= 0; ) {
-            if( it->item_ref ) {
-                items_to_process.push_back( *it );
-                --num_to_process;
-                ++it;
-            } else {
-                // The item has been destroyed, so remove the reference from the cache
-                it = kv.second.erase( it );
-            }
-        }
-        // Rotate the returned items to the end of their list so that the items that weren't
-        // returned this time will be first in line on the next call
-        kv.second.splice( kv.second.end(), kv.second, kv.second.begin(), it );
-    }
-    return items_to_process;
-}
 
 std::vector<item_reference> active_item_cache::get_special( special_item_type type )
 {

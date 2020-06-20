@@ -4493,7 +4493,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     // Get a COPY of the active item list for this submap.
     // If more are added as a side effect of processing, they are ignored this turn.
     // If they are destroyed before processing, they don't get processed.
-    std::vector<item_reference> active_items = current_submap.active_items.get_for_processing();
+    std::vector<item_reference> active_items = current_submap.active_items.get();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
     for( item_reference &active_item_ref : active_items ) {
         if( !active_item_ref.item_ref ) {
@@ -4552,7 +4552,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         process_vehicle_items( cur_veh, vp.part_index() );
     }
 
-    for( item_reference &active_item_ref : cur_veh.active_items.get_for_processing() ) {
+    for( item_reference &active_item_ref : cur_veh.active_items.get() ) {
         if( empty( cargo_parts ) ) {
             return;
         } else if( !active_item_ref.item_ref ) {

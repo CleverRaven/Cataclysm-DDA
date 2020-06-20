@@ -66,16 +66,6 @@ class active_item_cache
         std::vector<item_reference> get();
 
         /**
-         * Returns the first size() / processing_speed() elements of each list, rounded up.
-         * Items returned are rotated to the back of their respective lists, otherwise only the
-         * first n items will ever be processed.
-         * Broken references encountered when collecting the items to be processed are removed from
-         * the cache.
-         * Relies on the fact that item::processing_speed() is a constant.
-         */
-        std::vector<item_reference> get_for_processing();
-
-        /**
          * Returns the currently tracked list of special active items.
          */
         std::vector<item_reference> get_special( special_item_type type );
