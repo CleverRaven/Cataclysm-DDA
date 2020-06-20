@@ -41,6 +41,8 @@ enum class spell_flag : int {
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
+    POLYMORPH_GROUP, // polymorph spell chooses a monster from a group
+    FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
@@ -516,6 +518,10 @@ void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
                     const tripoint &epicenter );
+void target_attack( const spell &sp, Creature &caster,
+                    const tripoint &epicenter );
+void targeted_polymorph( const spell &sp, Creature &caster, const tripoint &target );
+
 void projectile_attack( const spell &sp, Creature &caster,
                         const tripoint &target );
 void cone_attack( const spell &sp, Creature &caster,
