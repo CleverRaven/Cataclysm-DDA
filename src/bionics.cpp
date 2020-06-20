@@ -1690,8 +1690,8 @@ void Character::process_bionic( int b )
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
-                    int hp_percent = static_cast<float>( get_part( part_to_heal ).get_hp_cur() ) / get_part(
-                                         part_to_heal ).get_hp_max() * 100;
+                    int hp_percent = static_cast<float>( get_part_hp_cur( part_to_heal ) ) / get_part_hp_max(
+                                         part_to_heal ) * 100;
                     if( has_effect( effect_bleed, part_to_heal->token ) && rng( 0, 100 ) < hp_percent ) {
                         remove_effect( effect_bleed, part_to_heal->token );
                         try_to_heal_bleeding = false;
@@ -1769,10 +1769,8 @@ void Character::process_bionic( int b )
 
 void Character::roll_critical_bionics_failure( body_part bp )
 {
-    bodypart &limb = get_part( convert_bp( bp ).id() );
-
-    if( one_in( limb.get_hp_cur() / 4 ) ) {
-        limb.set_hp_cur( 0 );
+    if( one_in( get_part_hp_cur( convert_bp( bp ).id() ) / 4 ) ) {
+        set_part_hp_cur( convert_bp( bp ).id(), 0 );
     }
 }
 

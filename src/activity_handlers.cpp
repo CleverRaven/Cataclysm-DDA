@@ -4409,7 +4409,7 @@ static void blood_magic( player *p, int cost )
     while( action < 0 ) {
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
-    p->get_part( parts[action] ).mod_hp_cur( -cost );
+    p->mod_part_hp_cur( parts[action], - cost );
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 

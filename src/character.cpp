@@ -4529,7 +4529,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
-                const int bp_hp = get_part( bp ).get_hp_cur();
+                const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
                     if( i.incapacitated_time == 0_turns ) {
@@ -4605,12 +4605,12 @@ void Character::regen( int rate_multiplier )
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
+        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
             damage_bandaged[i] = 0;
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
+        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
             damage_disinfected[i] = 0;
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
@@ -4624,12 +4624,11 @@ void Character::regen( int rate_multiplier )
 
 void Character::enforce_minimum_healing()
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        bodypart &part = get_part( bp );
-        if( part.get_healed_total() <= 0 ) {
-            heal( bp, 1 );
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_healed_total() <= 0 ) {
+            heal( elem.first.id(), 1 );
         }
-        part.set_healed_total( 0 );
+        elem.second.set_healed_total( 0 );
     }
 }
 
@@ -5105,13 +5104,13 @@ void Character::check_needs_extremes()
                                _( "You have a sudden heart attack!" ),
                                _( "<npcname> has a sudden heart attack!" ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing stops completely." ),
                                _( "<npcname>'s breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
             add_msg_player_or_npc( m_bad,
@@ -5122,19 +5121,19 @@ void Character::check_needs_extremes()
                                    _( "<npcname>'s heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
-        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your heart spasms and stops." ),
                                _( "<npcname>'s heart spasms and stops." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
-        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing slows down to a stop." ),
                                _( "<npcname>'s breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
-        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     }
 
     // check if we've starved
@@ -5142,7 +5141,7 @@ void Character::check_needs_extremes()
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             g->events().send<event_type::dies_of_starvation>( getID() );
-            get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         } else {
             if( calendar::once_every( 12_hours ) ) {
                 std::string category;
@@ -5182,7 +5181,7 @@ void Character::check_needs_extremes()
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
-            get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -8688,7 +8687,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         // Or if we're debugging and don't want to die
         return;
     }
-    bodypart &part = get_part( hurt );
+
     body_part enum_bp = hurt->token;
     hp_part hurtpart = bp_to_hp( enum_bp );
     if( hurtpart == num_hp_parts ) {
@@ -8698,9 +8697,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 
     mod_pain( dam / 2 );
 
-    const int dam_to_bodypart = std::min( dam, part.get_hp_cur() );
+    const int dam_to_bodypart = std::min( dam, get_part_hp_cur( hurt ) );
 
-    part.mod_hp_max( - dam_to_bodypart );
+    mod_part_hp_max( hurt, - dam_to_bodypart );
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
@@ -8914,19 +8913,18 @@ void Character::heal_bp( bodypart_id bp, int dam )
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    bodypart part_toheal = get_part( healed );
     if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, part_toheal.get_hp_max() - part_toheal.get_hp_cur() );
-        part_toheal.mod_hp_cur( effective_heal );
+        int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
+        mod_part_hp_cur( healed, effective_heal );
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
 }
 
 void Character::healall( int dam )
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        heal( bp, dam );
-        get_part( bp ).mod_healed_total( dam );
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        heal( elem.first.id(), dam );
+        elem.second.mod_healed_total( dam );
     }
 }
 
@@ -8964,8 +8962,8 @@ int Character::hitall( int dam, int vary, Creature *source )
 void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        ( get_part( bodypart_id( "head" ) ).get_hp_cur() < 25 ||
-          get_part( bodypart_id( "torso" ) ).get_hp_cur() < 15 ) ) {
+        ( get_part_hp_cur( bodypart_id( "head" ) ) < 25 ||
+          get_part_hp_cur( bodypart_id( "torso" ) ) < 15 ) ) {
         add_effect( effect_adrenaline, 20_minutes );
     }
 

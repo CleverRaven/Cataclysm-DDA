@@ -625,26 +625,20 @@ void Character::load( const JsonObject &data )
     }
 
     //legacy: remove post 0.F
-    std::array<int, 6> hp_cur;
-    data.read( "hp_cur", hp_cur );
-    std::array<int, 6> hp_max;
-    data.read( "hp_max", hp_max );
-    get_part( bodypart_id( "head" ) ).set_hp_cur( hp_cur[0] );
-    get_part( bodypart_id( "head" ) ).set_hp_max( hp_max[0] );
-    get_part( bodypart_id( "eyes" ) ).set_hp_cur( hp_cur[0] );
-    get_part( bodypart_id( "eyes" ) ).set_hp_max( hp_max[0] );
-    get_part( bodypart_id( "mouth" ) ).set_hp_cur( hp_cur[0] );
-    get_part( bodypart_id( "mouth" ) ).set_hp_max( hp_max[0] );
-    get_part( bodypart_id( "torso" ) ).set_hp_cur( hp_cur[1] );
-    get_part( bodypart_id( "torso" ) ).set_hp_max( hp_max[1] );
-    get_part( bodypart_id( "arm_l" ) ).set_hp_cur( hp_cur[2] );
-    get_part( bodypart_id( "arm_r" ) ).set_hp_max( hp_max[2] );
-    get_part( bodypart_id( "hand_l" ) ).set_hp_cur( hp_cur[2] );
-    get_part( bodypart_id( "hand_r" ) ).set_hp_max( hp_max[2] );
-    get_part( bodypart_id( "leg_l" ) ).set_hp_cur( hp_cur[3] );
-    get_part( bodypart_id( "leg_r" ) ).set_hp_max( hp_max[3] );
-    get_part( bodypart_id( "foot_l" ) ).set_hp_cur( hp_cur[3] );
-    get_part( bodypart_id( "foot_r" ) ).set_hp_max( hp_max[3] );
+    if( data.has_object( "hp_cur" ) ) {
+        std::array<int, 6> hp_cur;
+        data.read( "hp_cur", hp_cur );
+        std::array<int, 6> hp_max;
+        data.read( "hp_max", hp_max );
+        set_part_hp_cur( bodypart_id( "head" ), hp_cur[0] );
+        set_part_hp_max( bodypart_id( "head" ), hp_max[0] );
+        set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
+        set_part_hp_max( bodypart_id( "torso" ), hp_max[1] );
+        set_part_hp_cur( bodypart_id( "arm_l" ), hp_cur[2] );
+        set_part_hp_max( bodypart_id( "arm_r" ), hp_max[3] );
+        set_part_hp_cur( bodypart_id( "leg_l" ), hp_cur[4] );
+        set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
+    }
 
 
     inv.clear();

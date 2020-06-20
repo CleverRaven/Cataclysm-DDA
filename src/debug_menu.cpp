@@ -623,12 +623,12 @@ void character_edit_menu()
         }
         break;
         case D_HP: {
-            const int torso_hp = p.get_part( bodypart_id( "torso" ) ).get_hp_cur();
-            const int head_hp = p.get_part( bodypart_id( "head" ) ).get_hp_cur();
-            const int arm_l_hp = p.get_part( bodypart_id( "arm_l" ) ).get_hp_cur();
-            const int arm_r_hp = p.get_part( bodypart_id( "arm_r" ) ).get_hp_cur();
-            const int leg_l_hp = p.get_part( bodypart_id( "leg_l" ) ).get_hp_cur();
-            const int leg_r_hp = p.get_part( bodypart_id( "leg_r" ) ).get_hp_cur();
+            const int torso_hp = p.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = p.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = p.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = p.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = p.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = p.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
             smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
             smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
@@ -677,7 +677,7 @@ void character_edit_menu()
             if( !bp.id().is_empty() ) {
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
-                    p.get_part( bp ).set_hp_cur( value );
+                    p.set_part_hp_cur( bp, value );
                     p.reset_stats();
                 }
             } else if( all_select ) {
@@ -1308,7 +1308,7 @@ void debug()
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );
-                guy.get_part( bodypart_id( "head" ) ).set_hp_cur( 0 );
+                guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;
 
@@ -1483,12 +1483,12 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
-            const int torso_hp = u.get_part( bodypart_id( "torso" ) ).get_hp_cur();
-            const int head_hp = u.get_part( bodypart_id( "head" ) ).get_hp_cur();
-            const int arm_l_hp = u.get_part( bodypart_id( "arm_l" ) ).get_hp_cur();
-            const int arm_r_hp = u.get_part( bodypart_id( "arm_r" ) ).get_hp_cur();
-            const int leg_l_hp = u.get_part( bodypart_id( "leg_l" ) ).get_hp_cur();
-            const int leg_r_hp = u.get_part( bodypart_id( "leg_r" ) ).get_hp_cur();
+            const int torso_hp = u.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = u.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = u.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = u.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = u.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = u.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
             smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
             smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );

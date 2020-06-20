@@ -1453,9 +1453,9 @@ void Creature::set_body()
 }
 
 
-bodypart Creature::get_part( const bodypart_id &id )
+bodypart *Creature::get_part( const bodypart_id &id )
 {
-    return body[id.id()];
+    return &body[id.id()];
 }
 
 bodypart Creature::get_part( const bodypart_id &id ) const
@@ -1467,6 +1467,36 @@ bodypart Creature::get_part( const bodypart_id &id ) const
     }
     debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
     return bodypart();
+}
+
+int Creature::get_part_hp_cur( const bodypart_id &id ) const
+{
+    return get_part( id ).get_hp_cur();
+}
+
+int Creature::get_part_hp_max( const bodypart_id &id ) const
+{
+    return get_part( id ).get_hp_max();
+}
+
+void Creature::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    get_part( id )->set_hp_cur( set );
+}
+
+void Creature::set_part_hp_max( const bodypart_id &id, int set )
+{
+    get_part( id )->set_hp_max( set );
+}
+
+void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_hp_cur( mod );
+}
+
+void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_hp_max( mod );
 }
 
 

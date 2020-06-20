@@ -792,8 +792,7 @@ static void smash()
 
             if( !u.has_weapon() && hard_target ) {
                 int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
-                if( u.get_part( bodypart_id( "arm_r" ) ).get_hp_cur() > u.get_part(
-                        bodypart_id( "arm_l" ) ).get_hp_cur() ) {
+                if( u.get_part_hp_cur( bodypart_id( "arm_r" ) ) > u.get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
                     u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_BASH, dam ) );
                 } else {
                     u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_BASH, dam ) );

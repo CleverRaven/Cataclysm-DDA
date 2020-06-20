@@ -1647,7 +1647,7 @@ void Character::mend( int rate_multiplier )
         eff.set_duration( eff.get_duration() + dur_inc );
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
-            get_part( bp ).set_hp_cur( 1 );
+            set_part_hp_cur( bp, 1 );
             remove_effect( effect_mending, bp->token );
             g->events().send<event_type::broken_bone_mends>( getID(), bp->token );
             //~ %s is bodypart

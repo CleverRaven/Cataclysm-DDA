@@ -900,9 +900,9 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         wprintz( w, color, limb );
         return;
     }
-    const bodypart &part = u.get_part( bp );
-    const int hp_cur = part.get_hp_cur();
-    const int hp_max = part.get_hp_max();
+
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
     std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {

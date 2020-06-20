@@ -205,7 +205,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     const auto limb_hp =
     [&file, &indent, &u]( const std::string & desc, const bodypart_id bp ) {
         file << indent <<
-             string_format( desc, u.get_part( bp ).get_hp_cur(), u.get_part( bp ).get_hp_max() ) << eol;
+             string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
 
     file << _( "Final HP:" ) << eol;

@@ -602,8 +602,16 @@ class Creature
         std::map<bodypart_str_id, bodypart> get_body();
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
-        bodypart get_part( const bodypart_id &id );
+        bodypart *get_part( const bodypart_id &id );
         bodypart get_part( const bodypart_id &id ) const;
+
+        int get_part_hp_cur( const bodypart_id &id ) const;
+        int get_part_hp_max( const bodypart_id &id ) const;
+
+        void set_part_hp_cur( const bodypart_id &id, int set );
+        void set_part_hp_max( const bodypart_id &id, int set );
+        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        void mod_part_hp_max( const bodypart_id &id, int mod );
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

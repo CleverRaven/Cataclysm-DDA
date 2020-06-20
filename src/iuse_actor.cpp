@@ -3206,7 +3206,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     const int dam = get_heal_value( healer, healed );
 
     const bodypart_id bp = convert_bp( Character::hp_to_bp( healed ) ).id();
-    const int cur_hp = patient.get_part( bp ).get_hp_cur();
+    const int cur_hp = patient.get_part_hp_cur( bp );
 
     if( ( cur_hp >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
         patient.heal( bp, dam );
@@ -3295,21 +3295,19 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
 
     // apply healing over time effects
     if( bandages_power > 0 ) {
-        bodypart &part_healed = patient.get_part( bp );
         int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
-        patient.damage_bandaged[healed] = part_healed.get_hp_max() - part_healed.get_hp_cur();
+        patient.damage_bandaged[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
-        bodypart &part_healed = patient.get_part( bp );
         int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-        patient.damage_disinfected[healed] = part_healed.get_hp_max() - part_healed.get_hp_cur();
+        patient.damage_disinfected[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
         practice_amount += 2 * disinfectant_intensity;
     }
     practice_amount = std::max( 9.0f, practice_amount );
