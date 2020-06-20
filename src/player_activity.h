@@ -39,6 +39,10 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
+        /** Controls whether this activity can be cancelled at all */
+        bool interruptable = true;
+        /** Controls whether this activity can be cancelled with 'pause' action */
+        bool interruptable_with_kb = true;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -74,7 +78,7 @@ class player_activity
          */
         player_activity( const activity_actor &actor );
 
-        player_activity( player_activity && ) = default;
+        player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
         player_activity &operator=( const player_activity & ) = default;
@@ -125,10 +129,11 @@ class player_activity
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
         /**
-         * Preform necessary initialization to start the activity. Must be
+         * Preform necessary initialization to start or resume the activity. Must be
          * called whenever a Character starts a new activity.
+         * When resuming an activity, do not call activity_actor::start
          */
-        void start( Character &who );
+        void start_or_resume( Character &who, bool resuming );
 
         /**
          * Performs the activity for a single turn. If the activity is complete
@@ -138,13 +143,19 @@ class player_activity
         void do_turn( player &p );
 
         /**
+         * Performs activity-specific cleanup when Character::cancel_activity() is called
+         */
+        void canceled( Character &who );
+
+        /**
          * Returns true if activities are similar enough that this activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
-        bool is_distraction_ignored( distraction_type type ) const;
-        void ignore_distraction( distraction_type type );
+        bool is_interruptible() const;
+        bool is_distraction_ignored( distraction_type ) const;
+        void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
 };

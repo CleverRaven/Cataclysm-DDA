@@ -1188,5 +1188,50 @@
     "id": "akmbigmag",
     "type": "MIGRATION",
     "replace": "akmag40"
+  },
+  {
+    "id": "rm99_pistol",
+    "type": "MIGRATION",
+    "replace": "rm103a_pistol"
+  },
+  {
+    "id": "8x40_speedloader5",
+    "type": "MIGRATION",
+    "replace": "8x40_10_mag"
+  },
+  {
+    "id": "kevlar_plate",
+    "type": "MIGRATION",
+    "replace": "sheet_kevlar_layered"
+  },
+  {
+    "id": "can_drink_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_drink"
+  },
+  {
+    "id": "can_food_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_food"
+  },
+  {
+    "id": "can_food_big_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_food_big"
+  },
+  {
+    "id": "cup_plastic_unsealed",
+    "type": "MIGRATION",
+    "replace": "cup_plastic"
+  },
+  {
+    "id": "can_medium_unsealed",
+    "type": "MIGRATION",
+    "replace": "can_medium"
+  },
+  {
+    "id": "carton_unsealed",
+    "type": "MIGRATION",
+    "replace": "carton_sealed"
   }
 ]

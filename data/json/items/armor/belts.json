@@ -14,11 +14,13 @@
     "looks_like": "holster",
     "color": "yellow",
     "covers": [ "TORSO" ],
+    "coverage": 5,
     "encumbrance": 4,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
         "max_contains_weight": "4 kg",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ],
         "holster": true
@@ -121,7 +123,8 @@
       {
         "holster": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "400 g",
+        "max_contains_weight": "600 g",
+        "max_item_length": "70 cm",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ]
       }
@@ -164,6 +167,7 @@
         "holster": true,
         "max_contains_volume": "2250 ml",
         "max_contains_weight": "3600 g",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ]
       }
@@ -194,6 +198,7 @@
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
@@ -225,6 +230,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -233,6 +239,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -241,6 +248,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -249,6 +257,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -257,6 +266,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },

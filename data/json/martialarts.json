@@ -33,6 +33,8 @@
         "name": "Aikido Stance",
         "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity.",
         "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
       },
       {
@@ -40,6 +42,8 @@
         "name": "Intermediate Aikido",
         "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\nBlocked Damage reduced by 100% of Dexterity.\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1,
@@ -50,6 +54,8 @@
         "name": "Advanced Aikido",
         "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1
@@ -114,7 +120,17 @@
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "autolearn": [ [ "melee", "1" ] ],
     "arm_block": 1,
-    "leg_block": 7,
+    "static_buffs": [
+      {
+        "id": "buff_brawling_block",
+        "name": "Enhanced Blocking",
+        "description": "Combat experience has led to you being able to block multiple attacks at a time.\n\n+1 Block attempts.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 7 } ],
+        "bonus_blocks": 1
+      }
+    ],
     "allow_melee": true,
     "techniques": [
       "tec_brawl_disarm_unarmed",
@@ -299,6 +315,7 @@
       "bagh_nakha",
       "baton-extended",
       "bee_sting",
+      "bone_knife",
       "bowling_pin",
       "butterfly_swords",
       "cane",
@@ -309,6 +326,7 @@
       "fighter_sting",
       "glass_shiv",
       "hammer",
+      "knife_baselard",
       "knife_combat",
       "knife_hunting",
       "knife_trench",
@@ -316,6 +334,7 @@
       "knife_rambo",
       "knife_rm42",
       "machete",
+      "machete_gimmick",
       "makeshift_knife",
       "makeshift_machete",
       "pipe",
@@ -415,7 +434,10 @@
       "shillelagh_fake",
       "shillelagh_weighted",
       "sword_cane",
-      "umbrella"
+      "umbrella",
+      "estoc",
+      "estoc_inferior",
+      "estoc_fake"
     ]
   },
   {
@@ -584,11 +606,13 @@
     ],
     "weapons": [
       "baton-extended",
+      "bone_knife",
       "butterfly_swords",
       "copper_knife",
       "cudgel",
       "diveknife",
       "honey_scraper",
+      "knife_baselard",
       "knife_combat",
       "knife_combat_mod",
       "knife_folding",
@@ -905,6 +929,7 @@
       "bokken",
       "bokken_inferior",
       "bokken_fake",
+      "bone_knife",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -925,6 +950,7 @@
       "katana_inferior",
       "katana_fake",
       "kirpan",
+      "knife_baselard",
       "knife_combat",
       "knife_hunting",
       "knife_rambo",
@@ -940,6 +966,7 @@
       "l-stick",
       "l-stick_on",
       "machete",
+      "machete_gimmick",
       "makeshift_machete",
       "makeshift_knife",
       "nodachi",
@@ -1140,6 +1167,7 @@
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
     "weapons": [
       "baton-extended",
+      "bone_knife",
       "bowling_pin",
       "butterfly_swords",
       "cudgel",
@@ -1151,12 +1179,14 @@
       "javelin",
       "javelin_iron",
       "knife_combat",
+      "knife_baselard",
       "copper_knife",
       "knife_hunting",
       "knife_trench",
       "kris",
       "kris_fake",
       "machete",
+      "machete_gimmick",
       "makeshift_halberd",
       "makeshift_knife",
       "makeshift_machete",

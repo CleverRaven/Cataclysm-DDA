@@ -542,7 +542,7 @@
         "7": "t_console",
         "r": "t_floor_blue"
       },
-      "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11 } ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11, "ammo": 100 } ],
       "mapping": {
         "r": {
           "items": [

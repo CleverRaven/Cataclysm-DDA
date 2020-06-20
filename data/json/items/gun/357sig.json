@@ -8,6 +8,7 @@
     "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
     "weight": "964 g",
     "volume": "549 ml",
+    "longest_side": "232 mm",
     "price": 50000,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -15,10 +16,18 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "357sig",
+    "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 7,
-    "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p226mag_12rd_357sig" ]
+      }
+    ]
   },
   {
     "id": "glock_31",
@@ -28,9 +37,18 @@
     "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
     "weight": "660 g",
     "volume": "443 ml",
+    "longest_side": "234 mm",
     "price_postapoc": 2250,
     "ammo": [ "357sig" ],
-    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glock40mag", "glock40bigmag" ]
+      }
+    ]
   },
   {
     "id": "p320_357sig",
@@ -41,15 +59,24 @@
     "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
     "weight": "731 g",
     "volume": "462 ml",
+    "longest_side": "217 mm",
     "price": 69000,
     "price_postapoc": 2250,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
-    "ammo": "357sig",
+    "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 6,
-    "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p320mag_13rd_357sig" ]
+      }
+    ]
   }
 ]

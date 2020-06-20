@@ -61,6 +61,9 @@
 #  make AUTO_BUILD_PREFIX=1
 # Install to system directories.
 #  make install
+# Install to $DIR ($DIR will contain bin and share directories).
+#  make PREFIX=$DIR
+#  make PREFIX=$DIR install
 # Use user's XDG base directories for save files and configs.
 #  make USE_XDG_DIR=1
 # Use user's home directory for save files.
@@ -174,6 +177,11 @@ ifdef MSYSTEM
   MSYS2 = 1
 endif
 
+# Default to disabling clang
+ifndef CLANG
+  CLANG = 0
+endif
+
 # Determine JSON formatter binary name
 JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 ifeq ($(MSYS2), 1)
@@ -226,7 +234,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 # This sets CXX and so must be up here
-ifdef CLANG
+ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
@@ -306,7 +314,7 @@ ifeq ($(RELEASE), 1)
   endif
 
   ifeq ($(LTO), 1)
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       # LLVM's LTO will complain if the optimization level isn't between O0 and
       # O3 (inclusive)
       OPTLEVEL = -O3
@@ -316,14 +324,14 @@ ifeq ($(RELEASE), 1)
 
   ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
-      ifdef CLANG
+      ifneq ($(CLANG), 0)
         LTOFLAGS += -flto=full
       endif
     else
       LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
     endif
 
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       LTOFLAGS += -flto
     else
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
@@ -423,7 +431,7 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifdef CLANG
+  ifneq ($(CLANG), 0)
     OSX_MIN = 10.7
   else
     OSX_MIN = 10.5
@@ -814,7 +822,7 @@ ifeq ($(LTO), 1)
   LDFLAGS += $(CXXFLAGS)
 
   # If GCC or CLANG, use a wrapper for AR (if it exists) else test fails to build
-  ifndef CLANG
+  ifeq ($(CLANG), 0)
     GCCAR := $(shell command -v gcc-ar 2> /dev/null)
     ifdef GCCAR
       ifneq (,$(findstring gcc version,$(shell $(CXX) -v </dev/null 2>&1)))
@@ -1094,22 +1102,18 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
-JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
-
-style-json: $(JSON_WHITELIST)
-
-$(JSON_WHITELIST): json_blacklist json_formatter
+style-json: json_blacklist $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	@$(JSON_FORMATTER_BIN) $@
+	find data -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
+	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
-style-all-json: json_formatter
+style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
-json_formatter: $(JSON_FORMATTER_SOURCES)
+$(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 

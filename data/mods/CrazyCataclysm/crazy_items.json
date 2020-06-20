@@ -13,7 +13,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": "GRANADE"
+    "use_action": [ "GRANADE" ]
   },
   {
     "id": "granade_act",
@@ -32,7 +32,7 @@
     "initial_charges": 5,
     "max_charges": 5,
     "turns_per_charge": 1,
-    "use_action": "GRANADE_ACT",
+    "use_action": [ "GRANADE_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -49,7 +49,7 @@
     "id": "bio_chest_gun",
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
     "act_cost": 500,
     "fake_item": "bio_ion_gun",
     "flags": [ "BIONIC_GUN" ]
@@ -91,10 +91,18 @@
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
-    "ammo": "9mm",
+    "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 7,
-    "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
+      }
+    ]
   },
   {
     "id": "firekatana_off",
@@ -107,10 +115,10 @@
     "price": 98000,
     "bashing": 4,
     "cutting": 31,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -136,10 +144,10 @@
     "price": 98000,
     "bashing": 4,
     "cutting": 31,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
@@ -169,10 +177,10 @@
     "price": 160000,
     "bashing": 17,
     "cutting": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
@@ -199,10 +207,10 @@
     "price": 160000,
     "bashing": 17,
     "cutting": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",

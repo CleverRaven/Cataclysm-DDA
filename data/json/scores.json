@@ -2,7 +2,7 @@
   {
     "id": "score_kills",
     "type": "score",
-    "statistic": "num_avatar_kills"
+    "statistic": "num_avatar_monster_kills"
   },
   {
     "id": "score_moves",

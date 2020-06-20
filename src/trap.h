@@ -15,11 +15,11 @@
 #include "type_id.h"
 #include "units.h"
 
+class Character;
 class Creature;
 class JsonObject;
 class item;
 class map;
-class player;
 struct tripoint;
 
 namespace trapfunc
@@ -66,8 +66,6 @@ bool cast_spell( const tripoint &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
-    using itype_id = std::string;
-
     bool remove_trap = false;
     bool do_explosion = false;
     bool is_falling = false;
@@ -86,7 +84,6 @@ struct vehicle_handle_trap_data {
 using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
 
 struct trap {
-        using itype_id = std::string;
         trap_str_id id;
         trap_id loadid;
 
@@ -115,7 +112,7 @@ struct trap {
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
         // For disassembly?
-        std::vector<std::tuple<std::string, int, int>> components;
+        std::vector<std::tuple<itype_id, int, int>> components;
     public:
         // data required for trapfunc::spell()
         fake_spell spell_data;
@@ -164,12 +161,12 @@ struct trap {
         }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
-        bool detect_trap( const tripoint &pos, const player &p ) const;
+        bool detect_trap( const tripoint &pos, const Character &p ) const;
         /**
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
-        bool can_see( const tripoint &pos, const player &p ) const;
+        bool can_see( const tripoint &pos, const Character &p ) const;
         /**
          * Trigger trap effects.
          * @param creature The creature that triggered the trap, it does not necessarily have to

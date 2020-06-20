@@ -37,7 +37,6 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-using itype_id = std::string;
 
 class gun_modifier_data
 {
@@ -97,7 +96,7 @@ struct islot_tool {
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
-    std::string subtype;
+    itype_id subtype;
 
     int max_charges = 0;
     int def_charges = 0;
@@ -117,7 +116,7 @@ struct islot_comestible {
         std::string comesttype;
 
         /** tool needed to consume (e.g. lighter for cigarettes) */
-        std::string tool = "null";
+        itype_id tool = itype_id::NULL_ID();
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
         int def_charges = 1;
@@ -197,7 +196,7 @@ struct islot_comestible {
 
 struct islot_brewable {
     /** What are the results of fermenting this item? */
-    std::vector<std::string> results;
+    std::vector<itype_id> results;
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
@@ -259,6 +258,11 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_pet_armor {
@@ -294,6 +298,11 @@ struct islot_pet_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_book {
@@ -359,6 +368,11 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_mod {
@@ -545,7 +559,7 @@ namespace std
 
 template<>
 struct hash<gun_type_type> {
-    size_t operator()( const gun_type_type &t ) const {
+    size_t operator()( const gun_type_type &t ) const noexcept {
         return hash<std::string>()( t.name_ );
     }
 };
@@ -622,22 +636,13 @@ struct islot_magazine {
     int count = 0;
 
     /** Default type of ammo contained by a magazine (often set for ammo belts) */
-    itype_id default_ammo = "NULL";
-
-    /**
-     * How reliable this magazine on a range of 0 to 10?
-     * @see doc/GAME_BALANCE.md
-     */
-    int reliability = 0;
+    itype_id default_ammo = itype_id::NULL_ID();
 
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
-
-    /** If false, ammo will cook off if this mag is affected by fire */
-    bool protects_contents = false;
 };
 
 struct islot_battery {
@@ -658,7 +663,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Control chance for and state of any items dropped at ranged target
      *@{*/
-    itype_id drop = "null";
+    itype_id drop = itype_id::NULL_ID();
 
     float drop_chance = 1.0;
 
@@ -708,7 +713,7 @@ struct islot_ammo : common_ranged_data {
      */
     cata::optional<bool> force_stat_display;
 
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
@@ -730,6 +735,12 @@ struct islot_bionic {
 };
 
 struct islot_seed {
+    // Generic factory stuff
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
@@ -745,7 +756,7 @@ struct islot_seed {
     /**
      * Type id of the fruit item.
      */
-    std::string fruit_id;
+    itype_id fruit_id;
     /**
      * Whether to spawn seed items additionally to the fruit items.
      */
@@ -753,7 +764,7 @@ struct islot_seed {
     /**
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
-    std::vector<std::string> byproducts;
+    std::vector<itype_id> byproducts;
 
     islot_seed() = default;
 };
@@ -793,6 +804,13 @@ struct conditional_name {
     translation name;
 };
 
+class islot_milling
+{
+    public:
+        itype_id into_;
+        double conversion_rate_;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -820,43 +838,11 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
-    private:
-        /** Can item be combined with other identical items? */
-        bool stackable_ = false;
-
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
-        /// @}
-
-    protected:
-        std::string id = "null"; /** unique string identifier for this type */
-
-        // private because is should only be accessed through itype::nname!
-        // nname() is used for display purposes
-        translation name = no_translation( "none" );
-
-    public:
-        itype() {
-            melee.fill( 0 );
-        }
-
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
-        int damage_max() const {
-            return count_by_charges() ? 0 : damage_max_;
-        }
-
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
-        std::string looks_like;
+        itype_id looks_like;
 
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
@@ -897,7 +883,7 @@ struct itype {
         int min_int = 0;
         int min_per = 0;
 
-        phase_id phase      = SOLID; // e.g. solid, liquid, gas
+        phase_id phase      = phase_id::SOLID; // e.g. solid, liquid, gas
 
         // How should the item explode
         explosion_data explosion;
@@ -935,6 +921,11 @@ struct itype {
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
         units::volume integral_volume = -1_ml;
+
+        /**
+         * How long the longest side of this item is. If undefined, calculated from volume instead.
+         */
+        units::length longest_side = -1_mm;
 
         /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
@@ -979,7 +970,7 @@ struct itype {
         // information related to being able to store things inside the item.
         std::vector<pocket_data> pockets;
 
-        layer_level layer = layer_level::MAX_CLOTHING_LAYER;
+        layer_level layer = layer_level::NUM_LAYER_LEVELS;
 
         /**
          * How much insulation this item provides, either as a container, or as
@@ -992,6 +983,39 @@ struct itype {
          * Efficiency of solar energy conversion for solarpacks.
          */
         float solar_efficiency = 0;
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // TODO: create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        /// @}
+
+    protected:
+        itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
+
+        // private because is should only be accessed through itype::nname!
+        // nname() is used for display purposes
+        translation name = no_translation( "none" );
+
+    public:
+        itype() {
+            melee.fill( 0 );
+        }
+
+        int damage_min() const {
+            return count_by_charges() ? 0 : damage_min_;
+        }
+        int damage_max() const {
+            return count_by_charges() ? 0 : damage_max_;
+        }
 
         std::string get_item_type_string() const {
             if( tool ) {

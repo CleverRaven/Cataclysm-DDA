@@ -18,31 +18,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "mon_zombie_grenadier",
-    "entries": [
-      { "item": "tacvest", "damage": [ 1, 4 ] },
-      { "item": "bot_grenade_hack", "count": [ 0, 3 ] },
-      { "item": "bot_flashbang_hack", "prob": 50 },
-      { "item": "bot_gasbomb_hack", "prob": 50 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "mon_zombie_grenadier_elite",
-    "entries": [
-      { "item": "tacvest", "damage": [ 1, 4 ] },
-      { "item": "molle_pack", "damage": [ 1, 4 ] },
-      { "item": "bot_grenade_hack", "count": [ 0, 4 ] },
-      { "item": "bot_flashbang_hack", "count": [ 1, 2 ], "prob": 50 },
-      { "item": "bot_gasbomb_hack", "count": [ 1, 2 ], "prob": 50 },
-      { "item": "bot_c4_hack", "count": [ 1, 2 ], "prob": 20 },
-      { "item": "bot_mininuke_hack", "prob": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "mon_zombie_hazmat_death_drops",
     "entries": [
       {

@@ -9,17 +9,20 @@
     "price": 2000,
     "price_postapoc": 0,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "DOLLCHAT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_disposable_cell",
           "light_disposable_cell",
           "light_minus_battery_cell",
@@ -28,7 +31,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -41,17 +44,20 @@
     "price": 2000,
     "price_postapoc": 0,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "DOLLCHAT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_minus_disposable_cell",
           "light_disposable_cell",
           "light_minus_battery_cell",
@@ -60,7 +66,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -88,7 +94,7 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "-",
     "color": "white"
   },
@@ -102,7 +108,7 @@
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "*",
     "color": "white",
     "bashing": 5,
@@ -118,7 +124,7 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "weight": "170 g",
     "volume": "250 ml",
     "bashing": 8,
@@ -134,7 +140,7 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 10,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "weight": "2000 g",
     "volume": "2500 ml",
     "bashing": 16,
@@ -150,7 +156,7 @@
     "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "leather",
+    "material": [ "leather" ],
     "weight": "150 g",
     "volume": "250 ml",
     "bashing": 6,
@@ -166,7 +172,7 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "leather",
+    "material": [ "leather" ],
     "weight": "400 g",
     "volume": "750 ml",
     "bashing": 4,
@@ -182,7 +188,7 @@
     "description": "A high-quality indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "price_postapoc": 10,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
     "bashing": 6,
@@ -198,7 +204,7 @@
     "description": "A standard regulation volleyball.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
     "bashing": 4,
@@ -214,7 +220,7 @@
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
     "price": 1200,
     "price_postapoc": 10,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "280 g",
     "volume": "1 L",
     "bashing": 4,
@@ -230,7 +236,7 @@
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "rubber",
+    "material": [ "rubber" ],
     "weight": "170 g",
     "volume": "250 ml",
     "bashing": 7,

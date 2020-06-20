@@ -419,7 +419,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
-            for( const tripoint &rotor_point : g->m.points_in_radius( dsp, info.rotor_diameter() ) ) {
+            size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
+            for( const tripoint &rotor_point : g->m.points_in_radius( dsp, radius ) ) {
                 veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
@@ -1653,7 +1654,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     float traction_wheel_area = 0.0f;
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
-        const int wheel_area = veh.parts[ p ].wheel_area();
+        const int wheel_area = veh.cpart( p ).wheel_area();
 
         const auto &tr = ter( pp ).obj();
         // Deep water and air
@@ -1711,7 +1712,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
                       part_pos.x, part_pos.y, part_pos.z );
-            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
+            veh.part( ps ).remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 

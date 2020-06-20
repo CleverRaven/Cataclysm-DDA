@@ -16,10 +16,9 @@
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_50", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "launcher",
-    "ammo": "chemical_spray",
+    "ammo": [ "chemical_spray" ],
     "dispersion": 300,
     "durability": 6,
-    "magazines": [ [ "chemical_spray", [ "pressurized_tank_chem" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -28,6 +27,15 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "pressurized_tank_chem" ]
+      }
     ]
   }
 ]

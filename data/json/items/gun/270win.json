@@ -8,18 +8,20 @@
     "description": "A classic bolt action rifle chambered for .270 Winchester, very popular among hunters.  This is a CDL SF model with a forged, fluted, 416 stainless steel barrel threaded into the receiver and a recessed bolt face.  It has checkered walnut furniture and a recoil pad to reduce perceived recoil.",
     "weight": "3410 g",
     "volume": "2202 ml",
+    "longest_side": "1135 mm",
     "price": 112600,
     "price_postapoc": 2750,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "270win",
+    "ammo": [ "270win" ],
     "dispersion": 70,
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "270win": 4 } } ]
   }
 ]

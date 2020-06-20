@@ -11,7 +11,7 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -20,6 +20,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "5 kg"
       }
     ],
@@ -38,7 +39,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "0",
     "color": "light_blue",
     "pocket_data": [
@@ -64,7 +65,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
     "pocket_data": [
@@ -90,7 +91,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
     "pocket_data": [
@@ -115,7 +116,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -131,7 +132,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -156,7 +157,7 @@
         "moves": 400
       }
     ],
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "TRADER_AVOID" ]
@@ -172,7 +173,7 @@
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -198,7 +199,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
       {
@@ -224,7 +225,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -250,7 +251,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 2,
-    "material": "glass",
+    "material": [ "glass" ],
     "ascii_picture": "glass_bottle",
     "symbol": ")",
     "color": "cyan",
@@ -260,6 +261,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
       }
@@ -280,6 +282,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
@@ -287,7 +290,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan"
@@ -306,6 +309,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
         "sealed_data": { "spoil_multiplier": 0.0 },
@@ -315,7 +319,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -333,6 +337,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
         "moves": 400
@@ -341,7 +346,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -359,6 +364,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
@@ -366,7 +372,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white"
   },
@@ -380,7 +386,7 @@
     "volume": "2003 ml",
     "price": 25,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "cyan",
     "pocket_data": [
@@ -389,6 +395,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "2 L",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
       }
@@ -405,7 +412,7 @@
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -429,7 +436,7 @@
     "volume": "253 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "250 ml", "max_contains_weight": "3 kg" } ]
@@ -442,10 +449,10 @@
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
     "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": false, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -463,13 +470,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "2990 ml",
         "max_contains_weight": "20 kg",
         "magazine_well": "2 L"
       }
     ],
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -484,13 +491,13 @@
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 10,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "4990 ml",
         "max_contains_weight": "50 kg",
         "magazine_well": "3 L"
@@ -508,7 +515,7 @@
     "volume": "5 L",
     "price": 300,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -544,6 +551,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
       }
     ],
@@ -562,7 +570,7 @@
     "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 2,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
     "pocket_data": [
@@ -572,27 +580,18 @@
         "watertight": true,
         "open_container": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
   },
   {
-    "id": "can_drink_unsealed",
-    "copy-from": "can_drink",
-    "type": "GENERIC",
-    "name": { "str": "opened aluminum can" },
-    "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "carton_sealed",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "paper carton" },
-    "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  It has a threaded cap for easy resealing.",
+    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap for easy resealing.",
     "weight": "28 g",
     "volume": "2003 ml",
     "price": 0,
@@ -613,16 +612,6 @@
     ]
   },
   {
-    "id": "carton_unsealed",
-    "copy-from": "carton_sealed",
-    "type": "GENERIC",
-    "name": { "str": "opened paper carton" },
-    "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  This one is open and its contents will spoil.",
-    "symbol": ")",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
     "id": "plastic_bag_vac",
     "type": "GENERIC",
     "category": "container",
@@ -632,7 +621,7 @@
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "%",
     "color": "red",
     "pocket_data": [
@@ -656,7 +645,7 @@
     "volume": "253 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
     "pocket_data": [
@@ -670,16 +659,6 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
-  },
-  {
-    "id": "can_food_unsealed",
-    "copy-from": "can_food",
-    "type": "GENERIC",
-    "name": { "str": "small opened tin can" },
-    "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "can_medium",
@@ -704,15 +683,6 @@
     "volume": "503 ml"
   },
   {
-    "id": "can_medium_unsealed",
-    "copy-from": "can_medium",
-    "type": "GENERIC",
-    "name": { "str": "medium opened tin can" },
-    "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
-    "looks_like": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "canteen",
     "type": "GENERIC",
     "category": "container",
@@ -723,7 +693,7 @@
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -732,6 +702,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "3 kg"
       }
     ],
@@ -748,7 +719,7 @@
     "price": 1595,
     "price_postapoc": 100,
     "volume": "1250 ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "I",
     "color": "green",
     "pocket_data": [
@@ -773,7 +744,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": "*",
     "color": "brown",
     "pocket_data": [
@@ -799,7 +770,7 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -824,7 +795,7 @@
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -849,7 +820,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -863,16 +834,6 @@
         "max_contains_weight": "1 kg"
       }
     ]
-  },
-  {
-    "id": "cup_plastic_unsealed",
-    "copy-from": "cup_plastic",
-    "type": "GENERIC",
-    "name": { "str": "opened plastic cup" },
-    "description": "A small, vacuum formed cup, essentially trash.",
-    "symbol": ")",
-    "color": "light_cyan",
-    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "flask_glass",
@@ -937,7 +898,7 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -963,7 +924,7 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
     "pocket_data": [
@@ -990,7 +951,7 @@
     "price": 10,
     "price_postapoc": 5,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "v",
     "color": "light_cyan",
     "pocket_data": [
@@ -1016,7 +977,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -1025,6 +986,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg"
       }
     ],
@@ -1044,7 +1006,7 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 5,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1087,7 +1049,7 @@
     "volume": "502 ml",
     "price": 0,
     "bashing": 4,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1131,7 +1093,7 @@
     "price": 1250,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -1140,6 +1102,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "10 L",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
     ]
@@ -1156,7 +1119,7 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -1165,6 +1128,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "20 L",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "25 kg"
       }
     ],
@@ -1181,7 +1145,7 @@
     "price": 100,
     "price_postapoc": 10,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -1206,7 +1170,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1215,6 +1179,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3750 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "8 kg"
       }
     ]
@@ -1231,7 +1196,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1239,8 +1204,9 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_volume": "50 L",
+        "max_item_volume": "50 ml",
+        "max_contains_weight": "100 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1257,7 +1223,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1265,8 +1231,9 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
+        "max_contains_volume": "50 L",
+        "max_item_volume": "50 ml",
+        "max_contains_weight": "120 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -1283,10 +1250,18 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "gutskin",
+    "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ]
   },
   {
     "id": "metal_tank",
@@ -1326,7 +1301,7 @@
     "price_postapoc": 50,
     "to_hit": -4,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
     "pocket_data": [
@@ -1351,7 +1326,7 @@
     "price": 800,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -1360,6 +1335,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
     ],
@@ -1378,10 +1354,18 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "gutskin",
+    "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ]
   },
   {
     "id": "waterskin",
@@ -1395,10 +1379,18 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ],
     "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -1414,10 +1406,18 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 2,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -1433,10 +1433,18 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 3,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "5 L", "max_contains_weight": "10 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "5 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "10 kg"
+      }
+    ],
     "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -1469,11 +1477,20 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "wrapper_pr",
+    "type": "GENERIC",
+    "name": { "str": "wrapper" },
+    "//desc": "Daizu is Japanese for soy, hence DaiZoom",
+    "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
+    "copy-from": "wrapper",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
   },
   {
     "id": "styrofoam_cup",
@@ -1485,7 +1502,7 @@
     "volume": "501 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -1508,7 +1525,7 @@
     "volume": "4500 ml",
     "price": 10,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -1533,7 +1550,7 @@
     "price": 0,
     "price_postapoc": 25,
     "to_hit": -5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
@@ -1558,7 +1575,7 @@
     "volume": "3003 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
     "pocket_data": [
@@ -1573,16 +1590,6 @@
     ]
   },
   {
-    "id": "can_food_big_unsealed",
-    "copy-from": "can_food_big",
-    "type": "GENERIC",
-    "name": { "str": "large opened tin can" },
-    "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "survival_kit_box",
     "type": "GENERIC",
     "category": "container",
@@ -1592,7 +1599,7 @@
     "volume": "1002 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": "!",
     "color": "light_cyan",
     "pocket_data": [
@@ -1616,7 +1623,7 @@
     "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]

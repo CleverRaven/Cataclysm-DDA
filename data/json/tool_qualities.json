@@ -9,7 +9,7 @@
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -178,6 +178,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOSE",
+    "name": { "str": "siphoning" },
+    "usages": [ [ 1, [ "SIPHON" ] ] ]
+  },
+  {
+    "type": "tool_quality",
     "id": "CHISEL",
     "name": { "str": "chiseling" }
   },
@@ -206,36 +212,36 @@
     "id": "ANALYSIS",
     "name": { "str": "analysis" },
     "//": "A category meant to include various ways of identifying that the chemical you have is the chemical you want.",
-    "//": "analysis 1 is very basic stuff, eg. melting point determination or spectrophotometry.",
-    "//": "analysis 2 and 3 imply increasing degrees of precision."
+    "//2": "analysis 1 is very basic stuff, eg. melting point determination or spectrophotometry.",
+    "//3": "analysis 2 and 3 imply increasing degrees of precision."
   },
   {
     "type": "tool_quality",
     "id": "CONCENTRATE",
     "name": { "str": "concentration" },
     "//": "Meant to represent a wide range of chemical functions to increase the concentration of a substance without changing state or solvent.",
-    "//": "Good examples might be rotary evaporation or centrifugation"
+    "//2": "Good examples might be rotary evaporation or centrifugation"
   },
   {
     "type": "tool_quality",
     "id": "SEPARATE",
     "name": { "str": "separation" },
     "//": "This is to represent separating things that aren't separated by distillation or chromatography.",
-    "//": "Good example: a separation funnel which separates hydrophilic/phobic chemicals."
+    "//2": "Good example: a separation funnel which separates hydrophilic/phobic chemicals."
   },
   {
     "type": "tool_quality",
     "id": "FINE_DISTILL",
     "name": { "str": "fine distillation" },
     "//": "Fine distillation is about precisely separating specific components.",
-    "//": "This is in contrast to high level normal distillation which is more about high output."
+    "//2": "This is in contrast to high level normal distillation which is more about high output."
   },
   {
     "type": "tool_quality",
     "id": "CHROMATOGRAPHY",
     "name": { "str": "chromatography" },
     "//": "Think of this as 'fine separating'. Chromatography represents a number of precise separation techniques",
-    "//": "useful in both analysis and purification."
+    "//2": "useful in both analysis and purification."
   },
   {
     "type": "tool_quality",

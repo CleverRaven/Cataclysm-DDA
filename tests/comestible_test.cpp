@@ -4,9 +4,8 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
+#include "character.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -27,9 +26,9 @@ struct all_stats {
 static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
-    for( item_comp it : components ) {
+    for( const item_comp &it : components ) {
         const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
-        if( temp && temp->cooks_like.empty() ) {
+        if( temp && temp->cooks_like.is_empty() ) {
             calories += temp->default_nutrition.kcal * it.count;
         } else if( temp ) {
             const itype *cooks_like = item::find_type( temp->cooks_like );
@@ -168,7 +167,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const item veggy_wild_cooked( "veggy_wild_cooked" );
     const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
-    const avatar &u = g->u;
+    const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
     std::pair<nutrients, nutrients> predicted_nutrition =

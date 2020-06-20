@@ -18,7 +18,7 @@
 #include "type_id.h"
 
 // TODO: Redefine?
-#define MAX_FAC_NAME_SIZE 40
+static constexpr int MAX_FAC_NAME_SIZE = 40;
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
@@ -85,7 +85,7 @@ class faction_template
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
-        std::string currency; // itype_id of the faction currency
+        itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;

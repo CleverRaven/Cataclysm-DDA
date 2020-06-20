@@ -57,7 +57,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
-    const point origin = point_zero;
+    const point origin{};
 
     overmap_special mandatory;
     overmap_special optional;
@@ -66,9 +66,9 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
     for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == "Cabin" ) {
+        if( elem.id == overmap_special_id( "Cabin" ) ) {
             optional = elem;
-        } else if( elem.id == "Lab" ) {
+        } else if( elem.id == overmap_special_id( "Lab" ) ) {
             mandatory = elem;
         }
     }

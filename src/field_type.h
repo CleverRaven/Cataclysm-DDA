@@ -25,9 +25,6 @@
 class JsonObject;
 template <typename E> struct enum_traits;
 
-enum phase_id : int;
-enum body_part : int;
-
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
     DESCRIPTION_AFFIX_COVERED_IN,
@@ -109,6 +106,7 @@ struct field_intensity_level {
     int monster_spawn_radius = 0;
     mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
+    float local_light_override = -1.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
@@ -158,7 +156,7 @@ struct field_type {
 
         int priority = 0;
         time_duration half_life = 0_turns;
-        phase_id phase = PNULL;
+        phase_id phase = phase_id::PNULL;
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
@@ -223,6 +221,9 @@ struct field_type {
         }
         float get_light_emitted( int level = 0 ) const {
             return get_intensity_level( level ).light_emitted;
+        }
+        float get_local_light_override( int level = 0 )const {
+            return get_intensity_level( level ).local_light_override;
         }
         float get_translucency( int level = 0 ) const {
             return get_intensity_level( level ).translucency;

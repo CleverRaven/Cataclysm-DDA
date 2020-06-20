@@ -44,6 +44,19 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
+int divide_round_down( int a, int b )
+{
+    if( b < 0 ) {
+        a = -a;
+        b = -b;
+    }
+    if( a >= 0 ) {
+        return a / b;
+    } else {
+        return -( ( -a + b - 1 ) / b );
+    }
+}
+
 int modulo( int v, int m )
 {
     // C++11: negative v and positive m result in negative v%m (or 0),
@@ -253,6 +266,78 @@ double convert_weight( const units::mass &weight )
         ret /= 453.6;
     }
     return ret;
+}
+
+int convert_length( const units::length &length )
+{
+    int ret = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( ret % 1'000'000 == 0 ) {
+            // kilometers
+            ret /= 1'000'000;
+        } else if( ret % 1'000 == 0 ) {
+            // meters
+            ret /= 1'000;
+        } else if( ret % 10 == 0 ) {
+            // centimeters
+            ret /= 10;
+        }
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        ret /= 25.4;
+        if( ret % 63360 == 0 ) {
+            ret /= 63360;
+        } else if( ret % 36 == 0 ) {
+            ret /= 36;
+        } else if( ret % 12 == 0 ) {
+            ret /= 12;
+        }
+    }
+    return ret;
+}
+
+std::string length_units( const units::length &length )
+{
+    int length_mm = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( length_mm % 1'000'000 == 0 ) {
+            //~ kilometers
+            return _( "km" );
+        } else if( length_mm % 1'000 == 0 ) {
+            //~ meters
+            return _( "m" );
+        } else if( length_mm % 10 == 0 ) {
+            //~ centimeters
+            return _( "cm" );
+        } else {
+            //~ millimeters
+            return _( "mm" );
+        }
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        length_mm /= 25.4;
+        if( length_mm == 0 ) {
+            //~ inches
+            return _( "in." );
+        }
+        if( length_mm % 63360 == 0 ) {
+            //~ miles
+            return _( "mi" );
+        } else if( length_mm % 36 == 0 ) {
+            //~ yards (length)
+            return _( "yd" );
+        } else if( length_mm % 12 == 0 ) {
+            //~ feet (length)
+            return _( "ft" );
+        } else {
+            //~ inches
+            return _( "in." );
+        }
+    }
 }
 
 std::string weight_to_string( const units::mass &weight )
@@ -492,7 +577,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );

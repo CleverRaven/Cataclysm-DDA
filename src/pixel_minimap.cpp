@@ -163,16 +163,16 @@ struct pixel_minimap::submap_cache {
     //the color stored for each submap tile
     std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
     //checks if the submap has been looked at by the minimap routine
-    bool touched;
+    bool touched = false;
     //the texture updates are drawn to
     SDL_Texture_Ptr chunk_tex;
     //the submap being handled
-    size_t texture_index;
+    size_t texture_index = 0;
     //the list of updates to apply to the texture
     //reduces render target switching to once per submap
     std::vector<point> update_list;
     //flag used to indicate that the texture needs to be cleared before first use
-    bool ready;
+    bool ready = false;
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
@@ -310,7 +310,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             SDL_Color color;
 
-            if( lighting == LL_BLANK || lighting == LL_DARK ) {
+            if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
                 color = { 0x00, 0x00, 0x00, 0xFF };
             } else {
@@ -318,12 +318,12 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
                 //color terrain according to lighting conditions
                 if( nv_goggle ) {
-                    if( lighting == LL_LOW ) {
+                    if( lighting == lit_level::LOW ) {
                         color = color_pixel_nightvision( color );
-                    } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
+                    } else if( lighting != lit_level::DARK && lighting != lit_level::BLANK ) {
                         color = color_pixel_overexposed( color );
                     }
-                } else if( lighting == LL_LOW ) {
+                } else if( lighting == lit_level::LOW ) {
                     color = color_pixel_grayscale( color );
                 }
 
@@ -387,19 +387,18 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
 
     } else {
-        const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
-        const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+        const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
 
         main_tex_clip_rect = SDL_Rect{
-            std::max( dx, 0 ),
-            std::max( dy, 0 ),
-            size_on_screen.x - 2 * std::max( dx, 0 ),
-            size_on_screen.y - 2 * std::max( dy, 0 )
+            std::max( d.x, 0 ),
+            std::max( d.y, 0 ),
+            size_on_screen.x - 2 * std::max( d.x, 0 ),
+            size_on_screen.y - 2 * std::max( d.y, 0 )
         };
 
         screen_clip_rect = SDL_Rect{
-            screen_rect.x - std::min( dx, 0 ),
-            screen_rect.y - std::min( dy, 0 ),
+            screen_rect.x - std::min( d.x, 0 ),
+            screen_rect.y - std::min( d.y, 0 ),
             main_tex_clip_rect.w,
             main_tex_clip_rect.h
         };
@@ -509,7 +508,7 @@ void pixel_minimap::render_critters( const tripoint &center )
             const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
-            if( lighting == LL_DARK || lighting == LL_BLANK ) {
+            if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
                 continue;
             }
 

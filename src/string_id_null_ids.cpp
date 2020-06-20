@@ -18,6 +18,7 @@ MAKE_NULL_ID( material_type, "null", 0 )
 MAKE_NULL_ID( overmap_land_use_code, "", 0 )
 MAKE_NULL_ID( overmap_special, "", 0 )
 MAKE_NULL_ID( overmap_connection, "", 0 )
+MAKE_NULL_ID( profession, "null", 0 )
 MAKE_NULL_ID( map_extra, "", 0 )
 MAKE_NULL_ID( Skill, "none" )
 MAKE_NULL_ID( SkillDisplayType, "none" )
@@ -38,6 +39,7 @@ MAKE_NULL_ID( translation, "null" )
         return id; \
     }
 
+MAKE_NULL_ID2( itype, "null" )
 MAKE_NULL_ID2( mtype, "mon_null" )
 MAKE_NULL_ID2( oter_t, "", 0 )
 MAKE_NULL_ID2( oter_type_t, "", 0 )

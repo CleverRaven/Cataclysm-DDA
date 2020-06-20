@@ -59,7 +59,7 @@
     "initial_charges": 30,
     "max_charges": 30,
     "charges_per_use": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "EXPLOSIVE", "EXPLODES" ],
     "explosion": {
       "power": 4503,
@@ -83,7 +83,7 @@
     "material": [ "brass", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": "BELL"
+    "use_action": [ "BELL" ]
   },
   {
     "type": "TOOL",
@@ -97,14 +97,8 @@
     "volume": "100 ml",
     "price": 2500,
     "price_postapoc": 100,
-    "material": "plastic",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
+    "material": [ "plastic" ],
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
@@ -114,7 +108,16 @@
       "need_charges": 1,
       "need_charges_msg": "The dab pen's batteries need more charge.",
       "type": "transform"
-    }
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      }
+    ]
   },
   {
     "type": "TOOL",
@@ -128,16 +131,10 @@
     "volume": "100 ml",
     "price": 2500,
     "price_postapoc": 100,
-    "material": "plastic",
-    "ammo": "battery",
+    "material": [ "plastic" ],
+    "ammo": [ "battery" ],
     "power_draw": 9000,
     "revert_to": "dab_pen",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
@@ -147,7 +144,16 @@
       "need_charges": 0,
       "need_charges_msg": "The dab pen's batteries need more charge.",
       "type": "transform"
-    }
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "e_tool",
@@ -160,7 +166,7 @@
     "price_postapoc": 500,
     "bashing": 10,
     "cutting": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
@@ -176,7 +182,7 @@
     "price": 300000,
     "price_postapoc": 10,
     "bashing": 6,
-    "material": "bone",
+    "material": [ "bone" ],
     "symbol": ";",
     "color": "white"
   },
@@ -191,13 +197,13 @@
     "price": 3500,
     "price_postapoc": 10,
     "bashing": 2,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "=",
     "color": "brown",
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "use_action": "ARROW_FLAMABLE"
+    "use_action": [ "ARROW_FLAMABLE" ]
   },
   {
     "id": "fur_rollmat",
@@ -209,7 +215,7 @@
     "price": 4000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "material": "fur",
+    "material": [ "fur" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -220,6 +226,23 @@
       "practice": 0,
       "done_message": "You unroll the fur mat and lay it on the ground."
     }
+  },
+  {
+    "id": "hose_garden",
+    "looks_like": "hose",
+    "type": "TOOL",
+    "name": { "str": "garden hose" },
+    "description": "This is a flexible garden hose.  If you cut it in smaller pieces, it could be used for crafting, or siphoning fuel from a vehicle.",
+    "weight": "1632 g",
+    "volume": "1500 ml",
+    "longest_side": "30 cm",
+    "price": 600,
+    "price_postapoc": 300,
+    "bashing": 5,
+    "material": [ "rubber" ],
+    "symbol": ",",
+    "color": "green",
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "grapnel",
@@ -336,21 +359,6 @@
     "color": "light_gray"
   },
   {
-    "id": "kevlar_plate",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Kevlar plate" },
-    "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "300 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 25,
-    "material": "kevlar",
-    "symbol": ",",
-    "color": "green",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "large_space_heater",
     "type": "TOOL",
     "name": { "str": "large space heater" },
@@ -361,10 +369,10 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 12,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "large_space_heater_on",
@@ -375,8 +383,14 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
     ]
   },
   {
@@ -409,14 +423,14 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "id": "makeshift_halberd",
     "type": "GENERIC",
     "name": { "str": "makeshift glaive" },
     "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a long stick.  It could do a considerable amount of damage.",
+    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
     "weight": "1800 g",
     "volume": "3 L",
     "price": 5000,
@@ -427,7 +441,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": "WBLOCK_1",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
@@ -438,10 +452,10 @@
     "color": "white",
     "name": { "str": "mind splicer kit" },
     "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "price": 12500,
     "price_postapoc": 500,
-    "use_action": "MIND_SPLICER",
+    "use_action": [ "MIND_SPLICER" ],
     "volume": "1 L",
     "weight": "600 g",
     "flags": [ "TRADER_AVOID" ]
@@ -461,7 +475,7 @@
     "price_postapoc": 50,
     "to_hit": 10,
     "bashing": 1,
-    "material": "plastic"
+    "material": [ "plastic" ]
   },
   {
     "id": "permanent_marker",
@@ -472,7 +486,7 @@
     "volume": "50 ml",
     "price": 500,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
     "initial_charges": 500,
@@ -491,13 +505,13 @@
     "price": 4000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": "*",
     "color": "red",
     "initial_charges": 3,
     "max_charges": 3,
     "charges_per_use": 1,
-    "use_action": "PHEROMONE"
+    "use_action": [ "PHEROMONE" ]
   },
   {
     "id": "pocketwatch",
@@ -524,7 +538,7 @@
     "price": 4000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
     "use_action": {
@@ -548,7 +562,7 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -565,7 +579,7 @@
     "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 1,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ";",
     "color": "white"
   },
@@ -580,10 +594,10 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "small_space_heater_on",
@@ -594,11 +608,14 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -622,13 +639,13 @@
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN",
+    "use_action": [ "SPRAY_CAN" ],
     "flags": [ "WRITE_MESSAGE" ]
   },
   {
@@ -642,10 +659,10 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 12,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": "LADDER"
+    "use_action": [ "LADDER" ]
   },
   {
     "id": "survival_marker",
@@ -656,7 +673,7 @@
     "volume": "15 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
     "initial_charges": 100,
@@ -752,7 +769,7 @@
     "to_hit": 100,
     "bashing": 1,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_3", "WIDE" ],
@@ -767,10 +784,10 @@
     "volume": 0,
     "price": 10000,
     "price_postapoc": 1000,
-    "material": "superalloy",
+    "material": [ "superalloy" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": "CALL_OF_TINDALOS"
+    "use_action": [ "CALL_OF_TINDALOS" ]
   },
   {
     "id": "umbrella",
@@ -801,13 +818,35 @@
     "price": 300000,
     "price_postapoc": 2000,
     "bashing": 6,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": "VORTEX"
+    "use_action": [ "VORTEX" ]
+  },
+  {
+    "id": "sandbox_kit",
+    "type": "TOOL",
+    "name": { "str": "sandbox kit" },
+    "description": "A plastic bucket holding a small spade and rake, perfect to build sand castles!",
+    "weight": "250 g",
+    "volume": "1 L",
+    "price": 300,
+    "price_postapoc": 3,
+    "material": [ "plastic" ],
+    "symbol": "u",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg"
+      }
+    ]
   },
   {
     "id": "whistle_multitool",
@@ -820,7 +859,7 @@
     "price": 200,
     "price_postapoc": 250,
     "to_hit": -3,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": [

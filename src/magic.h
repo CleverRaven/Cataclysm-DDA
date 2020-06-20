@@ -35,7 +35,7 @@ class event;
 }  // namespace cata
 template <typename E> struct enum_traits;
 
-enum spell_flag {
+enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     IGNORE_WALLS, // spell's aoe goes through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
@@ -57,33 +57,34 @@ enum spell_flag {
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     WITH_CONTAINER, // items spawned with container
+    SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     LAST
 };
 
-enum energy_type {
-    hp_energy,
-    mana_energy,
-    stamina_energy,
-    bionic_energy,
-    fatigue_energy,
-    none_energy
+enum class magic_energy_type : int {
+    hp,
+    mana,
+    stamina,
+    bionic,
+    fatigue,
+    none
 };
 
-enum valid_target {
-    target_ally,
-    target_hostile,
-    target_self,
-    target_ground,
-    target_none,
-    target_item,
-    target_fd_fire,
-    target_fd_blood,
-    _LAST
+enum class spell_target : int {
+    ally,
+    hostile,
+    self,
+    ground,
+    none,
+    item,
+    fire,
+    blood,
+    num_spell_targets
 };
 
 template<>
-struct enum_traits<valid_target> {
-    static constexpr auto last = valid_target::_LAST;
+struct enum_traits<spell_target> {
+    static constexpr auto last = spell_target::num_spell_targets;
 };
 
 template<>
@@ -250,15 +251,15 @@ class spell_type
         std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
-        energy_type energy_source = energy_type::none_energy;
+        magic_energy_type energy_source = magic_energy_type::none;
 
         damage_type dmg_type = damage_type::DT_NULL;
 
         // list of valid targets to be affected by the area of effect.
-        enum_bitset<valid_target> effect_targets;
+        enum_bitset<spell_target> effect_targets;
 
         // list of valid targets enum
-        enum_bitset<valid_target> valid_targets;
+        enum_bitset<spell_target> valid_targets;
 
         std::set<mtype_id> targeted_monster_ids;
 
@@ -295,6 +296,7 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage() const;
+        int min_leveled_dot() const;
         // minimum aoe including levels
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
@@ -334,6 +336,8 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        int damage_dot() const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
         // how big is the spell's radius
@@ -401,8 +405,8 @@ class spell
         std::string aoe_string() const;
         std::string duration_string() const;
 
-        // energy source enum
-        energy_type energy_source() const;
+        // magic energy source enum
+        magic_energy_type energy_source() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
         std::string damage_type_string() const;
@@ -430,8 +434,8 @@ class spell
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
-        bool is_valid_target( valid_target t ) const;
-        bool is_valid_effect_target( valid_target t ) const;
+        bool is_valid_target( spell_target t ) const;
+        bool is_valid_effect_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area

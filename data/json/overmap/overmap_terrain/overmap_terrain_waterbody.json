@@ -17,14 +17,13 @@
     "color": "light_blue",
     "delete": { "flags": [ "LAKE" ] },
     "extend": { "flags": [ "LAKE_SHORE" ] },
+    "extras": "lake_shore",
     "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
   },
   {
     "type": "overmap_terrain",
     "id": "lake_surface",
-    "copy-from": "generic_lake",
-    "delete": { "flags": [ "LAKE" ] },
-    "extend": { "flags": [ "LAKE_SHORE" ] }
+    "copy-from": "generic_lake"
   },
   {
     "type": "overmap_terrain",

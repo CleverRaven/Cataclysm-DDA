@@ -93,6 +93,26 @@
     "time": "30 m"
   },
   {
+    "id": "book_nonf_soft_mechnic_hotrod",
+    "type": "BOOK",
+    "name": { "str": "Hot Rod Chassis & Suspension Handbook", "str_pl": "copies of Hot Rod Handbook" },
+    "description": "By learning the fundamentals of chassis building and suspension design you will gain the critical knowledge needed to hot rod properly.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 3100,
+    "price_postapoc": 24000,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "mechanics",
+    "required_level": 7,
+    "max_level": 8,
+    "intelligence": 9,
+    "time": "30 m",
+    "fun": -1
+  },
+  {
     "id": "textbook_mechanics",
     "type": "BOOK",
     "name": { "str": "Mechanical Mastery", "str_pl": "copies of Mechanical Mastery" },

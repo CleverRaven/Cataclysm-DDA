@@ -242,7 +242,8 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 10,
+    "encumbrance": 5,
+    "max_encumbrance": 10,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
     "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
@@ -338,7 +339,7 @@
     "color": "white",
     "initial_charges": 15,
     "max_charges": 15,
-    "use_action": "WATER_PURIFIER"
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "id": "obfuscating_aura",
@@ -463,5 +464,17 @@
     "environmental_protection": 15,
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "thorns_electric",
+    "type": "ARMOR",
+    "name": "aura of repelling arc",
+    "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   }
 ]

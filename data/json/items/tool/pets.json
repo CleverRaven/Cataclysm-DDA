@@ -13,8 +13,8 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "monster_size_capacity", "TINY" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -26,10 +26,10 @@
     "volume": "5 ml",
     "price": 1000,
     "price_postapoc": 100,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": "DOG_WHISTLE"
+    "use_action": [ "DOG_WHISTLE" ]
   },
   {
     "id": "shears",
@@ -63,7 +63,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 25
@@ -98,8 +98,8 @@
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -126,10 +126,10 @@
     "volume": "20 ml",
     "price": 800,
     "price_postapoc": 100,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "yellow",
     "looks_like": "dog_whistle",
-    "use_action": "DOG_WHISTLE"
+    "use_action": [ "DOG_WHISTLE" ]
   }
 ]

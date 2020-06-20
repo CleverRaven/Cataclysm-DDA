@@ -29,6 +29,7 @@
 #include "item.h"
 #include "line.h"
 #include "magic.h"
+#include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
@@ -351,12 +352,12 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
-static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
-        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
-        aoe_func, const Creature &caster, bool ignore_walls = false )
+std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint &target,
+        const std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
+        &aoe_func, const Creature &caster, bool ignore_walls )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 ) {
+    if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
         return targets;
     }
 
@@ -370,6 +371,17 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
             ++it;
         }
     }
+
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
+        const std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
+        &aoe_func, const Creature &caster, bool ignore_walls = false )
+{
+    // calculate spell's effect area
+    std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster,
+                                 ignore_walls );
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
@@ -437,6 +449,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
+        // TODO: randomize hit location
+        cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id( "torso" ) } ) );
     }
 }
 
@@ -583,16 +597,17 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Moving creatures
-    bool can_target_creature = sp.is_valid_effect_target( target_self ) ||
-                               sp.is_valid_effect_target( target_ally ) ||
-                               sp.is_valid_effect_target( target_hostile );
+    bool can_target_creature = sp.is_valid_effect_target( spell_target::self ) ||
+                               sp.is_valid_effect_target( spell_target::ally ) ||
+                               sp.is_valid_effect_target( spell_target::hostile );
 
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
-            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
-            valid |= victim == &caster && sp.is_valid_effect_target( target_self );
+            bool valid = cr_att != Creature::Attitude::FRIENDLY &&
+                         sp.is_valid_effect_target( spell_target::hostile );
+            valid |= cr_att == Creature::Attitude::FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
+            valid |= victim == &caster && sp.is_valid_effect_target( spell_target::self );
             if( valid ) {
                 victim->knock_back_to( to );
             }
@@ -600,9 +615,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Moving items
-    if( sp.is_valid_effect_target( target_item ) ) {
-        auto src_items = g->m.i_at( from );
-        auto dst_items = g->m.i_at( to );
+    if( sp.is_valid_effect_target( spell_target::item ) ) {
+        map_stack src_items = g->m.i_at( from );
+        map_stack dst_items = g->m.i_at( to );
         for( const item &item : src_items ) {
             dst_items.insert( item );
         }
@@ -610,7 +625,7 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Helper function to move particular field type if corresponding target flag is enabled.
-    auto move_field = [&sp, from, to]( valid_target target, field_type_id fid ) {
+    auto move_field = [&sp, from, to]( spell_target target, field_type_id fid ) {
         if( !sp.is_valid_effect_target( target ) ) {
             return;
         }
@@ -622,9 +637,9 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
     };
     // Moving fields.
-    move_field( target_fd_fire, fd_fire );
-    move_field( target_fd_blood, fd_blood );
-    move_field( target_fd_blood, fd_gibs_flesh );
+    move_field( spell_target::fire, fd_fire );
+    move_field( spell_target::blood, fd_blood );
+    move_field( spell_target::blood, fd_gibs_flesh );
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
@@ -679,8 +694,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else if( !g->u.is_armed() ) {
-        g->u.weapon = granted;
+    } else if( !g->u.is_armed() && g->u.wield( granted, 0 ) ) {
+        // nothing to do
     } else {
         g->u.i_add( granted );
     }
@@ -719,7 +734,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
-        if( sp.has_flag( PAIN_NORESIST ) ) {
+        if( sp.has_flag( spell_flag::PAIN_NORESIST ) ) {
             p->mod_pain_noresist( -healing );
         } else {
             p->mod_pain( -healing );
@@ -735,20 +750,20 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
 void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoint & )
 {
     const std::map<std::string, timed_event_type> timed_event_map{
-        { "help", timed_event_type::TIMED_EVENT_HELP },
-        { "wanted", timed_event_type::TIMED_EVENT_WANTED },
-        { "robot_attack", timed_event_type::TIMED_EVENT_ROBOT_ATTACK },
-        { "spawn_wyrms", timed_event_type::TIMED_EVENT_SPAWN_WYRMS },
-        { "amigara", timed_event_type::TIMED_EVENT_AMIGARA },
-        { "roots_die", timed_event_type::TIMED_EVENT_ROOTS_DIE },
-        { "temple_open", timed_event_type::TIMED_EVENT_TEMPLE_OPEN },
-        { "temple_flood", timed_event_type::TIMED_EVENT_TEMPLE_FLOOD },
-        { "temple_spawn", timed_event_type::TIMED_EVENT_TEMPLE_SPAWN },
-        { "dim", timed_event_type::TIMED_EVENT_DIM },
-        { "artifact_light", timed_event_type::TIMED_EVENT_ARTIFACT_LIGHT }
+        { "help", timed_event_type::HELP },
+        { "wanted", timed_event_type::WANTED },
+        { "robot_attack", timed_event_type::ROBOT_ATTACK },
+        { "spawn_wyrms", timed_event_type::SPAWN_WYRMS },
+        { "amigara", timed_event_type::AMIGARA },
+        { "roots_die", timed_event_type::ROOTS_DIE },
+        { "temple_open", timed_event_type::TEMPLE_OPEN },
+        { "temple_flood", timed_event_type::TEMPLE_FLOOD },
+        { "temple_spawn", timed_event_type::TEMPLE_SPAWN },
+        { "dim", timed_event_type::DIM },
+        { "artifact_light", timed_event_type::ARTIFACT_LIGHT }
     };
 
-    timed_event_type spell_event = timed_event_type::TIMED_EVENT_NULL;
+    timed_event_type spell_event = timed_event_type::NONE;
 
     const auto iter = timed_event_map.find( sp.effect_data() );
     if( iter != timed_event_map.cend() ) {
@@ -769,10 +784,19 @@ static bool is_summon_friendly( const spell &sp )
     return friendly;
 }
 
-static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
-                              const spell &sp )
+static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp )
 {
-    monster *const mon_ptr = g->place_critter_at( id, pos );
+    std::string monster_id = sp.effect_data();
+
+    // Spawn a monster from a group, or a specific monster ID
+    if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
+        const mongroup_id group_id( sp.effect_data() );
+        monster_id = MonsterGroupManager::GetRandomMonsterFromGroup( group_id ).str();
+    }
+
+    const mtype_id mon_id( monster_id );
+    monster *const mon_ptr = g->place_critter_at( mon_id, pos );
+
     if( !mon_ptr ) {
         return false;
     }
@@ -793,7 +817,6 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
 void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         const tripoint &target )
 {
-    const mtype_id mon_id( sp.effect_data() );
     std::set<tripoint> area = spell_effect_area( sp, target, spell_effect_blast, caster );
     // this should never be negative, but this'll keep problems from happening
     size_t num_mons = std::abs( sp.damage() );
@@ -802,7 +825,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
         std::advance( iter, mon_spot );
-        if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
+        if( add_summoned_mon( *iter, summon_time, sp ) ) {
             num_mons--;
             sp.make_sound( *iter );
         } else {
@@ -822,9 +845,8 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
     }
     if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
         veh->magic = true;
-        const time_duration summon_time = sp.duration_turns();
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
-            veh->summon_time_limit = summon_time;
+            veh->summon_time_limit = sp.duration_turns();
         }
         if( caster.as_character() ) {
             veh->set_owner( *caster.as_character() );
@@ -888,7 +910,7 @@ void spell_effect::explosion( const spell &sp, Creature &, const tripoint &targe
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
 {
     explosion_handler::flashbang( target, caster.is_avatar() &&
-                                  !sp.is_valid_target( valid_target::target_self ) );
+                                  !sp.is_valid_target( spell_target::self ) );
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )

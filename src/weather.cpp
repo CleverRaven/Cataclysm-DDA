@@ -42,6 +42,10 @@ static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_acid( "water_acid" );
+static const itype_id itype_water_acid_weak( "water_acid_weak" );
+
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
@@ -52,13 +56,18 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
+weather_manager &get_weather()
+{
+    return g->weather;
+}
+
 static bool is_player_outside()
 {
     return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
 }
 
-#define THUNDER_CHANCE 50
-#define LIGHTNING_CHANCE 600
+static constexpr int THUNDER_CHANCE = 50;
+static constexpr int LIGHTNING_CHANCE = 600;
 
 /**
  * Glare.
@@ -216,10 +225,10 @@ void item::add_rain_to_container( bool acid, int charges )
         }
         put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
-        static const std::set<std::string> allowed_liquid_types{
-            "water",
-            "water_acid",
-            "water_acid_weak"
+        static const std::set<itype_id> allowed_liquid_types{
+            itype_water,
+            itype_water_acid,
+            itype_water_acid_weak
         };
         item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
             return allowed_liquid_types.count( liquid.typeId() );
@@ -236,7 +245,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == "water_acid_weak" ) {
+        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -253,7 +262,7 @@ void item::add_rain_to_container( bool acid, int charges )
 
             if( transmute ) {
                 liq = item( "water_acid_weak", calendar::turn, liq.charges );
-            } else if( liq.typeId() == "water" ) {
+            } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
@@ -384,7 +393,8 @@ static void wet_player( int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    const int warmth_delay = g->u.warmth( bodypart_id( "torso" ) ) * 4 / 5 + g->u.warmth(
+                                 bodypart_id( "head" ) ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
@@ -392,10 +402,10 @@ static void wet_player( int amount )
 
     const auto &wet = g->u.body_wetness;
     const auto &capacity = g->u.drench_capacity;
-    body_part_set drenched_parts{ { bp_torso, bp_arm_l, bp_arm_r, bp_head } };
+    body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
     if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts |= { { bp_leg_l, bp_leg_r } };
+        drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
     }
 
     g->u.drench( amount, drenched_parts, false );
@@ -406,27 +416,27 @@ double precip_mm_per_hour( precip_class const p )
 // the precipitation were rain (rather than snow).
 {
     return
-        p == PRECIP_VERY_LIGHT ? 0.5 :
-        p == PRECIP_LIGHT ? 1.5 :
-        p == PRECIP_HEAVY ? 3   :
+        p == precip_class::VERY_LIGHT ? 0.5 :
+        p == precip_class::LIGHT ? 1.5 :
+        p == precip_class::HEAVY ? 3   :
         0;
 }
 
 void do_rain( weather_type const w )
 {
-    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+    if( !weather::rains( w ) || weather::precip( w ) == precip_class::NONE ) {
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
     int wetness = 0;
     time_duration decay_time = 60_turns;
-    if( weather::precip( w ) == PRECIP_VERY_LIGHT ) {
+    if( weather::precip( w ) == precip_class::VERY_LIGHT ) {
         wetness = 5;
         decay_time = 5_turns;
-    } else if( weather::precip( w ) == PRECIP_LIGHT ) {
+    } else if( weather::precip( w ) == precip_class::LIGHT ) {
         wetness = 30;
         decay_time = 15_turns;
-    } else if( weather::precip( w ) == PRECIP_HEAVY ) {
+    } else if( weather::precip( w ) == precip_class::HEAVY ) {
         decay_time = 45_turns;
         wetness = 60;
     }

@@ -15,7 +15,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "300blk",
+    "ammo": [ "300blk" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
     "durability": 8,
@@ -23,10 +23,13 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [
-        "300blk",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -41,7 +44,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -60,7 +63,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "300blk",
+    "ammo": [ "300blk" ],
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1700,
@@ -79,10 +82,13 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [
-        "300blk",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -97,7 +103,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {

@@ -6,8 +6,9 @@
     "reload_noise_volume": 10,
     "name": { "str": "H&K MP7A2" },
     "description": "Designed as a personal defense weapon, the MP7 fires the high-powered 4.6x30mm round while being lightweight, compact in size, and practically recoil free.",
-    "weight": "1800 g",
-    "volume": "2034 ml",
+    "weight": "1960 g",
+    "volume": "2083 ml",
+    "longest_side": "42 cm",
     "price": 175000,
     "price_postapoc": 3000,
     "to_hit": -2,
@@ -15,7 +16,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "46",
+    "ammo": [ "46" ],
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
@@ -36,6 +37,14 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hk46mag", "hk46bigmag" ]
+      }
+    ]
   }
 ]

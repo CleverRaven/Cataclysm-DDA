@@ -693,14 +693,13 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 {
     std::vector<tripoint> path;
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
-    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+    static const point O( RADIUS * OMAPX, RADIUS * OMAPY );   // half-height of the area to search in
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return path;
     }
 
     // Local source - center of the local area
-    const point start( OX, OY );
+    const point start( O );
     // To convert local coordinates to global ones
     const tripoint base = src - start;
     // Local destination - relative to base
@@ -710,10 +709,13 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         return ter( base + p );
     };
     const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+        const tripoint convert_result = base + tripoint( cur.pos, 0 );
+        if( ptype.only_known_by_player && !seen( convert_result ) ) {
+            return pf::rejected;
+        }
         int res = 0;
         const oter_id oter = get_ter_at( cur.pos );
         int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        tripoint convert_result = base + tripoint( cur.pos, 0 );
         if( ptype.avoid_danger && is_marked_dangerous( convert_result ) ) {
             return pf::rejected;
         }
@@ -757,8 +759,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 
         return res;
     };
-    pf::path route = pf::find_path( start, finish, 2 * OX,
-                                    2 * OY, estimate );
+    pf::path route = pf::find_path( start, finish, point( 2 * O.x, 2 * O.y ), estimate );
     for( auto node : route.nodes ) {
         tripoint convert_result = base + tripoint( node.pos, 0 );
         convert_result.z = base.z;
@@ -771,15 +772,14 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
                                   bool road_only )
 {
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
-    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+    static const point O( RADIUS * OMAPX, RADIUS * OMAPY );   // half-height of the area to search in
 
     if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return false;
     }
 
     // Local source - center of the local area
-    const point start( OX, OY );
+    const point start( O );
     // To convert local coordinates to global ones
     const tripoint base = source - start;
     // Local destination - relative to base
@@ -819,8 +819,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
         return res;
     };
 
-    const auto path = pf::find_path( start, finish, 2 * OX,
-                                     2 * OY, estimate );
+    const auto path = pf::find_path( start, finish, point( 2 * O.x, 2 * O.y ), estimate );
 
     for( const auto &node : path.nodes ) {
         reveal( base + node.pos, radius );
@@ -1041,10 +1040,9 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
 cata::optional<basecamp *> overmapbuffer::find_camp( const point &p )
 {
     for( auto &it : overmaps ) {
-        const int x = p.x;
-        const int y = p.y;
-        for( int x2 = x - 3; x2 < x + 3; x2++ ) {
-            for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+        const point p2( p );
+        for( int x2 = p2.x - 3; x2 < p2.x + 3; x2++ ) {
+            for( int y2 = p2.y - 3; y2 < p2.y + 3; y2++ ) {
                 if( cata::optional<basecamp *> camp = it.second->find_camp( point( x2, y2 ) ) ) {
                     return camp;
                 }
@@ -1400,8 +1398,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     t_notes_vector result;
     for( auto &it : overmaps ) {
         const overmap &om = *it.second;
-        const int offset_x = om.pos().x * OMAPX;
-        const int offset_y = om.pos().y * OMAPY;
+        const point offset( om.pos().x * OMAPX, om.pos().y * OMAPY );
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
                 const std::string &note = om.note( { i, j, z } );
@@ -1413,7 +1410,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                     continue;
                 }
                 result.push_back( t_point_with_note(
-                                      point( offset_x + i, offset_y + j ),
+                                      offset + point( i, j ),
                                       om.note( { i, j, z } )
                                   ) );
             }

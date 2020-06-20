@@ -115,7 +115,6 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
-    "achievement",
     "activity_type",
     "AMMO",
     "ammunition_type",
@@ -205,10 +204,14 @@ def gender_options(subject):
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
 
-def extract_harvest(item):
-    outfile = get_outfile("harvest")
-    if "message" in item:
-        writestr(outfile, item["message"])
+def extract_achievement(a):
+    outfile = get_outfile(a["type"])
+    for f in ("name", "description"):
+        if f in a:
+            writestr(outfile, a[f])
+    for req in a.get("requirements", ()):
+        if "description" in req:
+            writestr(outfile, req["description"])
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -235,6 +238,11 @@ def extract_construction(item):
     writestr(outfile, item["description"])
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
 
 def extract_material(item):
     outfile = get_outfile("material")
@@ -272,7 +280,15 @@ def extract_martial_art(item):
     static_buffs = item.get("static_buffs", list())
     onmove_buffs = item.get("onmove_buffs", list())
     ondodge_buffs = item.get("ondodge_buffs", list())
-    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs
+    onattack_buffs = item.get("onattack_buffs", list())
+    onpause_buffs = item.get("onpause_buffs", list())
+    onblock_buffs = item.get("onblock_buffs", list())
+    ongethit_buffs = item.get("ongethit_buffs", list())
+    onmiss_buffs = item.get("onmiss_buffs", list())
+    oncrit_buffs = item.get("oncrit_buffs", list())
+    onkill_buffs = item.get("onkill_buffs", list())
+        
+    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs + onattack_buffs + onpause_buffs + onblock_buffs + ongethit_buffs + onmiss_buffs + oncrit_buffs + onkill_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
         if buff["name"] == item["name"]:
@@ -280,6 +296,39 @@ def extract_martial_art(item):
         else:
             c="Description of buff '{}' for martial art '{}'".format(buff["name"], name)
         writestr(outfile, buff["description"], comment=c)
+
+def extract_move_mode(item):
+    outfile = get_outfile("move_modes")
+    # Move mode name
+    name = item["name"]
+    writestr(outfile, name, comment="Move mode name")
+    # The character in the move menu
+    character = item["character"]
+    writestr(outfile, character, comment="Move mode character in move mode menu")
+    # The character in the panels
+    pchar = item["panel_char"]
+    writestr(outfile, pchar, comment="movement-type")
+    # Successful change message
+    change_good_none = item["change_good_none"]
+    writestr(outfile, change_good_none, comment="Successfully switch to this move mode, no steed")
+    # Successful change message (animal steed)
+    change_good_animal = item["change_good_animal"]
+    writestr(outfile, change_good_animal, comment="Successfully switch to this move mode, animal steed")
+    # Successful change message (mech steed)
+    change_good_mech = item["change_good_mech"]
+    writestr(outfile, change_good_mech, comment="Successfully switch to this move mode, mech steed")
+    if "change_bad_none" in item:
+    # Failed change message
+        change_bad_none = item["change_bad_none"]
+        writestr(outfile, change_bad_none, comment="Failure to switch to this move mode, no steed")
+    if "change_bad_animal" in item:
+    # Failed change message (animal steed)
+        change_bad_animal = item["change_bad_animal"]
+        writestr(outfile, change_bad_animal, comment="Failure to switch to this move mode, animal steed")
+    if "change_bad_mech" in item:
+    # Failed change message (mech steed)
+        change_bad_mech = item["change_bad_mech"]
+        writestr(outfile, change_bad_mech, comment="Failure to switch to this move mode, mech steed")
 
 def extract_effect_type(item):
     # writestr will not write string if it is None.
@@ -786,19 +835,22 @@ def extract_snippets(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
-    "harvest" : extract_harvest,
+    "achievement": extract_achievement,
     "body_part": extract_bodypart,
     "clothing_mod": extract_clothing_mod,
+    "conduct": extract_achievement,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
     "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
+    "harvest": extract_harvest,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,
     "mission_definition": extract_missiondef,
     "monster_attack": extract_monster_attack,
+    "movement_mode": extract_move_mode,
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
     "profession": extract_professions,

@@ -17,8 +17,8 @@ class item;
 struct advanced_inv_save_state;
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-    bool operator()( char x, char y ) const {
-        return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
+    bool operator()( char l, char r ) const {
+        return toupper( static_cast< unsigned char >( l ) ) < toupper( static_cast< unsigned char >( r ) );
     }
 };
 
@@ -57,10 +57,7 @@ class advanced_inventory
             right = 1,
             NUM_PANES = 2
         };
-        const int head_height = 0;
-        const int min_w_height = 0;
-        const int min_w_width = 0;
-        const int max_w_width = 0;
+        static constexpr int head_height = 5;
 
         // swap the panes and windows via std::swap()
         void swap_panes();
@@ -76,7 +73,7 @@ class advanced_inventory
 
         bool inCategoryMode = false;
 
-        int itemsPerPage = 0;
+        int linesPerPage = 0;
         int w_height = 0;
         int w_width = 0;
 
@@ -84,7 +81,6 @@ class advanced_inventory
         int colstart = 0;
 
         bool recalc = false;
-        bool redraw = false;
         /**
          * Which panels is active (item moved from there).
          */

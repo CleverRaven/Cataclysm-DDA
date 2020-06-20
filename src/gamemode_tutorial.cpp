@@ -34,6 +34,12 @@
 #include "units.h"
 #include "weather.h"
 
+static const itype_id itype_cig( "cig" );
+static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_grenade_act( "grenade_act" );
+static const itype_id itype_water( "water" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 
@@ -161,7 +167,7 @@ void tutorial_game::per_turn()
     add_message( tut_lesson::LESSON_LOOK );
 
     if( g->light_level( g->u.posz() ) == 1 ) {
-        if( g->u.has_amount( "flashlight", 1 ) ) {
+        if( g->u.has_amount( itype_flashlight, 1 ) ) {
             add_message( tut_lesson::LESSON_DARK );
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
@@ -176,8 +182,9 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_RECOIL );
     }
 
+    map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : g->m.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+        for( const item &it : here.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -185,29 +192,29 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.ter( p ) == t_door_o ) {
+    for( const tripoint &p : here.points_in_radius( g->u.pos(), 1 ) ) {
+        if( here.ter( p ) == t_door_o ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( g->m.ter( p ) == t_door_c ) {
+        } else if( here.ter( p ) == t_door_c ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( g->m.ter( p ) == t_window ) {
+        } else if( here.ter( p ) == t_window ) {
             add_message( tut_lesson::LESSON_SMASH );
             break;
-        } else if( g->m.furn( p ) == f_rack && !g->m.i_at( p ).empty() ) {
+        } else if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( g->m.ter( p ) == t_stairs_down ) {
+        } else if( here.ter( p ) == t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( g->m.ter( p ) == t_water_sh ) {
+        } else if( here.ter( p ) == t_water_sh ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         }
     }
 
-    if( !g->m.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
+    if( !here.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 }
@@ -246,23 +253,25 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_SMASH );
             break;
 
-        case ACTION_USE:
-            if( g->u.has_amount( "grenade_act", 1 ) ) {
+        case ACTION_USE: {
+            if( g->u.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-                if( g->m.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
+            map &here = get_map();
+            for( const tripoint &dest : here.points_in_radius( g->u.pos(), 1 ) ) {
+                if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
                     add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
                 }
             }
-            break;
+        }
+        break;
 
         case ACTION_EAT:
-            if( g->u.last_item == "codeine" ) {
+            if( g->u.last_item == itype_codeine ) {
                 add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
-            } else if( g->u.last_item == "cig" ) {
+            } else if( g->u.last_item == itype_cig ) {
                 add_message( tut_lesson::LESSON_TOOK_CIG );
-            } else if( g->u.last_item == "water" ) {
+            } else if( g->u.last_item == itype_water ) {
                 add_message( tut_lesson::LESSON_DRANK_WATER );
             }
             break;
@@ -321,7 +330,7 @@ void tutorial_game::add_message( tut_lesson lesson )
         return;
     }
     tutorials_seen[lesson] = true;
+    g->invalidate_main_ui_adaptor();
     popup( SNIPPET.get_snippet_by_id( snippet_id( io::enum_to_string<tut_lesson>( lesson ) ) ).value_or(
                translation() ).translated(), PF_ON_TOP );
-    g->refresh_all();
 }

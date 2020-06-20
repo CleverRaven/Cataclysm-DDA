@@ -26,7 +26,7 @@
   },
   {
     "type": "item_action",
-    "id": "picklock",
+    "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
   },
   {
@@ -153,11 +153,6 @@
     "type": "item_action",
     "id": "cauterize",
     "name": { "str": "Cauterize a wound" }
-  },
-  {
-    "type": "item_action",
-    "id": "enzlave",
-    "name": { "str": "Create a zombie slave" }
   },
   {
     "type": "item_action",

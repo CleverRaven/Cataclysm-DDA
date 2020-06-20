@@ -11,7 +11,7 @@
     "price": 310000,
     "bashing": 17,
     "cutting": 40,
-    "material": "superalloy",
+    "material": [ "superalloy" ],
     "symbol": "/",
     "color": "light_gray",
     "charges_per_use": 1,
@@ -29,7 +29,7 @@
     "name": { "str": "salvaged knight's sword" },
     "description": "A well built sword made from dense alien metal, in service of the knights of the New Order.  The runes that adorn it no longer glow, but its cutting edge is perfectly servicable.",
     "price": 100000,
-    "material": "superalloy",
+    "material": [ "superalloy" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "3360 g",
     "volume": "2 L",
@@ -59,7 +59,8 @@
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET", "HEAD" ],
     "coverage": 95,
-    "encumbrance": 40,
+    "encumbrance": 24,
+    "max_encumbrance": 40,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 }

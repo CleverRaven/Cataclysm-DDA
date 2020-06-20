@@ -67,7 +67,7 @@ using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
-                 const itype_id &item_type = "null" );
+                 const itype_id &item_type = itype_id::NULL_ID() );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -168,7 +168,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
-            for( std::pair<activity_id, int> elem : pairs ) {
+            for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
             return ret;
@@ -346,7 +346,7 @@ const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
     }
 };
 
-enum class ally_rule {
+enum class ally_rule : int {
     DEFAULT = 0,
     use_guns = 1,
     use_grenades = 2,
@@ -819,7 +819,7 @@ class npc : public player
         faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
-         * @param m global submap coordinates.
+         * @param p global submap coordinates.
          */
         void spawn_at_sm( const tripoint &p );
         /**
@@ -956,7 +956,7 @@ class npc : public player
         bool took_painkiller() const;
         void use_painkiller();
         void activate_item( int item_index );
-        bool has_identified( const std::string & ) const override {
+        bool has_identified( const itype_id & ) const override {
             return true;
         }
         bool has_artifact_with( const art_effect_passive ) const override {
@@ -1045,7 +1045,7 @@ class npc : public player
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "" );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
@@ -1147,7 +1147,7 @@ class npc : public player
         // Same as if the player pressed '.'
         void move_pause();
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
@@ -1162,7 +1162,8 @@ class npc : public player
         // Move to, or grab, our targeted item
         void pick_up_item();
         // Drop wgt and vol, including all items with less value than min_val
-        void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
+        void drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
+                         int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1299,7 +1300,7 @@ class npc : public player
          */
         tripoint global_square_location() const override;
         cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
-        int last_seen_player_turn; // Timeout to forgetting
+        int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
         tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
@@ -1310,16 +1311,16 @@ class npc : public player
          */
         tripoint goal;
         tripoint wander_pos = no_goal_point;
-        int wander_time;
+        int wander_time = 0;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
         cata::optional<tripoint> pulp_location;
         time_point restock;
-        bool fetching_item;
-        bool has_new_items; // If true, we have something new and should re-equip
-        int  worst_item_value; // The value of our least-wanted item
+        bool fetching_item = false;
+        bool has_new_items = false; // If true, we have something new and should re-equip
+        int  worst_item_value = 0; // The value of our least-wanted item
 
         std::vector<tripoint> path; // Our movement plans
 
@@ -1336,11 +1337,11 @@ class npc : public player
         npc_personality personality;
         npc_opinion op_of_u;
         npc_chatbin chatbin;
-        int patience; // Used when we expect the player to leave the area
+        int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
-        bool marked_for_death; // If true, we die as soon as we respawn!
-        bool hit_by_player;
-        bool hallucination; // If true, NPC is an hallucination
+        bool marked_for_death = false; // If true, we die as soon as we respawn!
+        bool hit_by_player = false;
+        bool hallucination = false; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
@@ -1403,7 +1404,7 @@ class standard_npc : public npc
     public:
         standard_npc( const std::string &name = "",
                       const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                      const std::vector<itype_id> &clothing = {},
+                      const std::vector<std::string> &clothing = {},
                       int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
@@ -1416,7 +1417,7 @@ class npc_template
         npc guy;
         translation name_unique;
         translation name_suffix;
-        enum class gender {
+        enum class gender : int {
             random,
             male,
             female

@@ -8,6 +8,7 @@
     "description": "The Saiga-410 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
     "weight": "3400 g",
     "volume": "5762 ml",
+    "longest_side": "1171 mm",
     "price": 189000,
     "price_postapoc": 7000,
     "to_hit": -1,
@@ -16,9 +17,17 @@
     "dispersion": 395,
     "durability": 7,
     "barrel_length": "750 ml",
-    "ammo": "410shot",
-    "magazines": [ [ "410shot", [ "saiga410mag_10rd", "saiga410mag_30rd" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "ammo": [ "410shot" ],
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ]
+      }
+    ]
   },
   {
     "id": "shotgun_410",
@@ -29,8 +38,9 @@
     "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
     "weight": "2948 g",
     "volume": "1748 ml",
+    "longest_side": "1152 mm",
     "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
-    "ammo": "410shot"
+    "ammo": [ "410shot" ]
   }
 ]

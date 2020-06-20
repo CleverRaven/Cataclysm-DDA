@@ -22,7 +22,7 @@ namespace auto_pickup
  * The currently-active set of auto-pickup rules, in a form that allows quick
  * lookup. When this is filled (by @ref auto_pickup::create_rule()), every
  * item existing in the game that matches a rule (either white- or blacklist)
- * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
+ * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
  */
 class cache : public std::unordered_map<std::string, rule_state>
 {

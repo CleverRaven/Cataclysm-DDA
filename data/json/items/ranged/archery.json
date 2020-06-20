@@ -7,7 +7,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A crude pointed wooden shaft with a notch at the back.  Stands a very low chance of remaining intact once fired.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 50,
     "weight": "30 g",
@@ -72,7 +72,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A simple fletched wooden arrow shaft with a blunted tip.  Useful for hunting small woodland creatures without splattering them all over the ground.  Stands a low chance of remaining intact once fired.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 50,
     "weight": "30 g",
@@ -116,7 +116,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A simple fletched wooden arrow shaft with a fire-hardened and sharpened tip.  Stands a low chance of remaining intact once fired.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 50,
     "weight": "30 g",
@@ -160,7 +160,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A simple fletched wooden arrow shaft with a makeshift arrowhead.  Stands a low chance of remaining intact once fired.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "price_postapoc": 100,
     "weight": "30 g",
@@ -184,7 +184,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A simple fletched steel arrow shaft with a flattened and sharpened tip.  Stands a somewhat low chance of remaining intact once fired.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "250 ml",
     "price_postapoc": 250,
     "weight": "30 g",
@@ -325,7 +325,7 @@
     "description": "This simple IED is designed to be attached to an arrow and detonate on impact.",
     "price": 2000,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "562 g",
     "volume": "250 ml",
     "bashing": 10,
@@ -340,7 +340,7 @@
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "This arrow has a flaming rag wrapped around the shaft near the head.  You should shoot it soon before it burns your bow.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "500 ml",
     "price_postapoc": 250,
     "weight": "30 g",
@@ -363,13 +363,13 @@
     "description": "A primitive bow fashioned from a single piece of wood, made specifically for the person using it.  Weak and wildly inaccurate, it doesn't work that well, unfortunately…",
     "price": 150,
     "//": "30 lb draw weight, 52in, 20in draw, 0.259 slugs of momentum with a 30g arrow.",
-    "material": "wood",
+    "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "reload_noise_volume": 3,
     "loudness": 8,
     "skill": "archery",
     "min_strength": 6,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "1360 g",
     "volume": "2500 ml",
     "price_postapoc": 50,
@@ -379,7 +379,8 @@
     "range": 8,
     "dispersion": 1250,
     "durability": 4,
-    "clip_size": 1
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "shortbow",
@@ -391,11 +392,11 @@
     "description": "Though not as powerful as the longbow, this bow is quicker and easier to draw, and can be used effectively by those of average strength.  Good for small game or the survivor on the go.",
     "price": 16000,
     "//": "52in Elm Shortbow at 24in draw with 26in, 0.077 lb aspen arrow: 45J, 50 lbs draw, 0.35 slugs with 30g arrow.",
-    "material": "wood",
+    "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
     "price_postapoc": 500,
@@ -408,7 +409,8 @@
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow",
@@ -424,7 +426,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "907 g",
     "volume": "1500 ml",
     "price_postapoc": 3500,
@@ -444,7 +446,8 @@
       "target": "compbow_high",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "compbow_high",
@@ -494,7 +497,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 12,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "400 g",
     "volume": "1750 ml",
     "price_postapoc": 3000,
@@ -507,7 +510,8 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "recurbow",
@@ -523,7 +527,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "540 g",
     "volume": "2500 ml",
     "price_postapoc": 2000,
@@ -536,7 +540,8 @@
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexbow",
@@ -551,7 +556,7 @@
     "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "min_strength": 9,
     "weight": "400 g",
     "volume": "1500 ml",
@@ -565,7 +570,8 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "hybridbow",
@@ -581,7 +587,7 @@
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 11,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "600 g",
     "volume": "3500 ml",
     "price_postapoc": 5000,
@@ -594,7 +600,8 @@
     "dispersion": 850,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "longbow",
@@ -605,11 +612,11 @@
     "description": "A six-foot wooden bow that takes a fair amount of strength to draw.  It can be used effectively by those of somewhat above-average strength.  Used mainly in medieval England in wartime, but pierces zombie hide just as well as chainmail.",
     "price": 50000,
     "//": "70in Yew Longbow at 28in, 60 lbs draw, 45J, 0.37 slugs with 30g arrow",
-    "material": "wood",
+    "material": [ "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 9,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "680 g",
     "volume": "3500 ml",
     "price_postapoc": 3000,
@@ -622,7 +629,8 @@
     "dispersion": 1000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "woodgreatbow",
@@ -656,7 +664,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT" ],
     "skill": "archery",
     "min_strength": 15,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "2000 g",
     "volume": "4 L",
     "price_postapoc": 3000,
@@ -668,7 +676,8 @@
     "range": 22,
     "dispersion": 1000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "reflexrecurvebow",
@@ -684,7 +693,7 @@
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 8,
-    "ammo": "arrow",
+    "ammo": [ "arrow" ],
     "weight": "450 g",
     "volume": "2 L",
     "price_postapoc": 6000,
@@ -697,6 +706,7 @@
     "dispersion": 950,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

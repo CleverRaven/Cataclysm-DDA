@@ -13,7 +13,7 @@
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
-    "use_action": "MEDITATE"
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "bead_ear",
@@ -43,7 +43,7 @@
     "flags": [ "FANCY" ],
     "symbol": "u",
     "color": "brown",
-    "use_action": "MEDITATE"
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "bracelet_friendship",
@@ -237,7 +237,7 @@
     "color": "light_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "use_action": "WEATHER_TOOL",
+    "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
@@ -296,7 +296,7 @@
     "symbol": "[",
     "looks_like": "tieclip",
     "color": "brown",
-    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -796,7 +796,7 @@
     "symbol": "[",
     "color": "yellow",
     "flags": [ "FANCY" ],
-    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -959,7 +959,7 @@
     "material": [ "bone", "silver" ],
     "symbol": "[",
     "color": "white",
-    "use_action": "MEDITATE",
+    "use_action": [ "MEDITATE" ],
     "flags": [ "FANCY" ]
   },
   {
@@ -974,7 +974,7 @@
     "material": [ "gold" ],
     "symbol": ",",
     "color": "yellow",
-    "use_action": "MEDITATE",
+    "use_action": [ "MEDITATE" ],
     "flags": [ "FANCY" ]
   },
   {
@@ -989,7 +989,7 @@
     "material": [ "wood", "cotton" ],
     "symbol": ",",
     "color": "brown",
-    "use_action": "MEDITATE"
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "jade_brooch",
@@ -1095,7 +1095,7 @@
     "symbol": "[",
     "color": "white",
     "flags": [ "FANCY" ],
-    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -1223,7 +1223,7 @@
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY" ],
-    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {

@@ -116,6 +116,7 @@ TEST_CASE( "starting_items", "[slow]" )
         trait_id( "LACTOSE" ),
         //trait_id( "LEG_TENTACLES" ),
         trait_id( "MEATARIAN" ),
+        trait_id( "ASTHMA" ),
         //trait_id( "RAP_TALONS" ),
         //trait_id( "TAIL_FLUFFY" ),
         //trait_id( "TAIL_LONG" ),
@@ -183,7 +184,7 @@ TEST_CASE( "starting_items", "[slow]" )
     std::stringstream failure_messages;
     for( const failure &f : failures ) {
         failure_messages << f.prof.c_str() << " " << f.mut <<
-                         " " << f.item_name << ": " << f.reason << "\n";
+                         " " << f.item_name.str() << ": " << f.reason << "\n";
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );

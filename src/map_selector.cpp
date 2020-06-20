@@ -15,7 +15,7 @@
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
     for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
-        if( !accessible || g->m.clear_path( pos, e, radius, 1, 100 ) ) {
+        if( !accessible || get_map().clear_path( pos, e, radius, 1, 100 ) ) {
             data.emplace_back( e );
         }
     }
@@ -58,4 +58,11 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
         return {};
     }
     return random_entry( suitable );
+}
+
+map_cursor::map_cursor( const tripoint &pos ) : pos_( g ? get_map().getabs( pos ) : pos ) { }
+
+map_cursor::operator tripoint() const
+{
+    return g ? get_map().getlocal( pos_ ) : pos_;
 }

@@ -73,8 +73,8 @@ void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     std::string ter;
-    ot_match_type ter_match_type = ot_match_type::type;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        ot_match_type ter_match_type = ot_match_type::type;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
@@ -175,7 +175,7 @@ static void board_up( map &m, const tripoint_range &range )
         const tripoint bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, f_null );
-        auto destination_items = m.i_at( bp );
+        map_stack destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.insert( moved_item );
         }
@@ -246,12 +246,12 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
-        if( checked[x][y] >= attempt ) {
+    const auto maybe_add = [&]( const point & add_p, const tripoint & from ) {
+        if( checked[add_p.x][add_p.y] >= attempt ) {
             return;
         }
 
-        const tripoint pt( x, y, p.z );
+        const tripoint pt( add_p, p.z );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
@@ -272,14 +272,14 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
             return INT_MAX;
         }
 
-        maybe_add( cur.x - 1, cur.y, cur );
-        maybe_add( cur.x, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y, cur );
-        maybe_add( cur.x, cur.y + 1, cur );
-        maybe_add( cur.x - 1, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y - 1, cur );
-        maybe_add( cur.x - 1, cur.y + 1, cur );
-        maybe_add( cur.x + 1, cur.y + 1, cur );
+        maybe_add( cur.xy() + point_west, cur );
+        maybe_add( cur.xy() + point_north, cur );
+        maybe_add( cur.xy() + point_east, cur );
+        maybe_add( cur.xy() + point_south, cur );
+        maybe_add( cur.xy() + point_north_west, cur );
+        maybe_add( cur.xy() + point_north_east, cur );
+        maybe_add( cur.xy() + point_south_west, cur );
+        maybe_add( cur.xy() + point_south_east, cur );
     }
 
     return area;
@@ -355,14 +355,13 @@ void start_location::burn( const tripoint &omtstart, const size_t count, const i
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const int ux = g->u.posx() % HALF_MAPSIZE_X;
-    const int uy = g->u.posy() % HALF_MAPSIZE_Y;
+    const point u( g->u.posx() % HALF_MAPSIZE_X, g->u.posy() % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( "DOOR", p ) ||
                m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                m.is_outside( p ) ||
-               ( p.x >= ux - rad && p.x <= ux + rad && p.y >= uy - rad && p.y <= uy + rad ) ) ) {
+               ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
             if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
                 valid.push_back( p );
             }
@@ -396,7 +395,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp_part, 6_minutes );
+                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
             /* fallthrough */
             case 3:
             case 4:

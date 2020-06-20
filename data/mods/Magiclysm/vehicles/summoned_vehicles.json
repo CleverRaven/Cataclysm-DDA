@@ -69,7 +69,7 @@
     "volume": "10 ml",
     "bashing": 1,
     "phase": "solid",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 500 },
     "symbol": "?",

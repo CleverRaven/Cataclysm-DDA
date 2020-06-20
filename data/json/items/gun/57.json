@@ -8,6 +8,7 @@
     "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
     "weight": "600 g",
     "volume": "551 ml",
+    "longest_side": "164 mm",
     "price": 124900,
     "price_postapoc": 2750,
     "to_hit": -2,
@@ -15,7 +16,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "57",
+    "ammo": [ "57" ],
     "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
@@ -34,7 +35,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "57", [ "fn57mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "fn57mag" ]
+      }
+    ]
   },
   {
     "id": "fn_p90",
@@ -45,6 +54,7 @@
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",
     "weight": "2640 g",
     "volume": "3817 ml",
+    "longest_side": "511 mm",
     "price": 350000,
     "price_postapoc": 3500,
     "to_hit": -2,
@@ -52,7 +62,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "57",
+    "ammo": [ "57" ],
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
@@ -72,6 +82,14 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "57", [ "fnp90mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "fnp90mag" ]
+      }
+    ]
   }
 ]

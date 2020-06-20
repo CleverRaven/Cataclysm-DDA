@@ -16,7 +16,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "20x66mm",
+    "ammo": [ "20x66mm" ],
     "skill": "shotgun",
     "range": 6,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -35,7 +35,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ]
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 5 } } ]
   },
   {
     "id": "rm20",
@@ -53,7 +54,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "20x66mm",
+    "ammo": [ "20x66mm" ],
     "skill": "shotgun",
     "dispersion": 335,
     "durability": 9,
@@ -69,8 +70,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "20x66mm", [ "20x66_20_mag", "20x66_40_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "20x66_20_mag", "20x66_40_mag" ]
+      }
+    ]
   },
   {
     "id": "rm228",
@@ -88,7 +97,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "20x66mm",
+    "ammo": [ "20x66mm" ],
     "skill": "pistol",
     "dispersion": 400,
     "durability": 9,
@@ -102,7 +111,15 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "20x66_10_mag" ]
+      }
+    ]
   }
 ]

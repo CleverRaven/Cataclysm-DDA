@@ -41,6 +41,35 @@
     ]
   },
   {
+    "name": "GROUP_STRAY_CATS",
+    "type": "monstergroup",
+    "default": "mon_cat",
+    "monsters": [
+      { "monster": "mon_cat", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_calico", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_calico_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_maine_coon", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_maine_coon_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_bengal", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_bengal_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_devon_rex", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_devon_rex_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_sphynx", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_sphynx_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker_kitten", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "name": "GROUP_PETS",
     "type": "monstergroup",
     "default": "mon_dog",

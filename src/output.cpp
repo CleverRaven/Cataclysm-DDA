@@ -336,19 +336,11 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
     return textformatted.size();
 }
 
-void scrollable_text( const catacurses::window &w, const std::string &title,
-                      const std::string &text )
-{
-    scrollable_text( [&w]() {
-        return w;
-    }, title, text );
-}
-
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text )
 {
-    constexpr int text_x = 1;
-    constexpr int text_y = 1;
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    constexpr point text2( 1, 1 );
 
     input_context ctxt( "SCROLLABLE_TEXT" );
     ctxt.register_action( "UP" );
@@ -387,14 +379,14 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_black_white );
-        for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
+        for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
-            print_colored_text( w, point( text_x, pos_y ), dummy, dummy, lines[line] );
+            print_colored_text( w, point( text2.x, pos_y ), dummy, dummy, lines[line] );
         }
-        scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
+        scrollbar().offset_x( width - 1 ).offset_y( text2.y ).content_size( lines.size() )
         .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     std::string action;
@@ -520,7 +512,7 @@ void draw_custom_border(
     const catacurses::window &w, const catacurses::chtype ls, const catacurses::chtype rs,
     const catacurses::chtype ts, const catacurses::chtype bs, const catacurses::chtype tl,
     const catacurses::chtype tr, const catacurses::chtype bl, const catacurses::chtype br,
-    const nc_color FG, const point &pos, int height, int width )
+    const nc_color &FG, const point &pos, int height, int width )
 {
     wattron( w, FG );
 
@@ -594,6 +586,102 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
     mvwputch( w, point( width - 1, height - 1 ), border_color, LINE_XOOX ); // _|
 }
 
+border_helper::border_info::border_info( border_helper &helper )
+    : helper( helper )
+{
+}
+
+void border_helper::border_info::set( const point &pos, const point &size )
+{
+    this->pos = pos;
+    this->size = size;
+    helper.get().border_connection_map.reset();
+}
+
+border_helper::border_info &border_helper::add_border()
+{
+    border_info_list.emplace_front( border_info( *this ) );
+    return border_info_list.front();
+}
+
+void border_helper::draw_border( const catacurses::window &win )
+{
+    if( !border_connection_map.has_value() ) {
+        border_connection_map.emplace();
+        for( const border_info &info : border_info_list ) {
+            const point beg = info.pos;
+            const point end = info.pos + info.size;
+            for( int x = beg.x; x < end.x; ++x ) {
+                const point ptop( x, beg.y );
+                const point pbottom( x, end.y - 1 );
+                if( x > beg.x ) {
+                    border_connection_map.value()[ptop].left =
+                        border_connection_map.value()[pbottom].left = true;
+                }
+                if( x < end.x - 1 ) {
+                    border_connection_map.value()[ptop].right =
+                        border_connection_map.value()[pbottom].right = true;
+                }
+            }
+            for( int y = beg.y; y < end.y; ++y ) {
+                const point pleft( beg.x, y );
+                const point pright( end.x - 1, y );
+                if( y > beg.y ) {
+                    border_connection_map.value()[pleft].top =
+                        border_connection_map.value()[pright].top = true;
+                }
+                if( y < end.y - 1 ) {
+                    border_connection_map.value()[pleft].bottom =
+                        border_connection_map.value()[pright].bottom = true;
+                }
+            }
+        }
+    }
+    const point win_beg( getbegx( win ), getbegy( win ) );
+    const point win_end = win_beg + point( getmaxx( win ), getmaxy( win ) );
+    for( const std::pair<const point, border_connection> &conn : border_connection_map.value() ) {
+        if( conn.first.x >= win_beg.x && conn.first.x < win_end.x &&
+            conn.first.y >= win_beg.y && conn.first.y < win_end.y ) {
+            mvwputch( win, conn.first - win_beg, BORDER_COLOR, conn.second.as_curses_line() );
+        }
+    }
+}
+
+int border_helper::border_connection::as_curses_line() const
+{
+    constexpr int t = 0x8;
+    constexpr int r = 0x4;
+    constexpr int b = 0x2;
+    constexpr int l = 0x1;
+    const int conn = ( top ? t : 0 ) | ( right ? r : 0 ) | ( bottom ? b : 0 ) | ( left ? l : 0 );
+    switch( conn ) {
+        default:
+            return '?';
+        case 0x3:
+            return LINE_OOXX;
+        case 0x5:
+            return LINE_OXOX;
+        case 0x6:
+            return LINE_OXXO;
+        case 0x7:
+            return LINE_OXXX;
+        case 0x9:
+            return LINE_XOOX;
+        case 0xA:
+            return LINE_XOXO;
+        case 0xB:
+            return LINE_XOXX;
+        case 0xC:
+            return LINE_XXOO;
+        case 0xD:
+            return LINE_XXOX;
+        case 0xE:
+            return LINE_XXXO;
+        case 0xF:
+            return LINE_XXXX;
+    }
+}
+
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -663,7 +751,7 @@ int popup( const std::string &text, PopupFlags flags )
 
     pop.context( "POPUP_WAIT" );
     const auto &res = pop.query();
-    if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+    if( res.evt.type == input_event_t::keyboard ) {
         return res.evt.get_first_input();
     } else {
         return UNKNOWN_UNICODE;
@@ -685,7 +773,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     clear_window_area( win );
 #endif // TILES
     wclear( win );
-    wrefresh( win );
+    wnoutrefresh( win );
 
     const input_event result = draw_item_info( win, data );
     return result;
@@ -773,7 +861,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
@@ -917,7 +1005,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
         }
-        wrefresh( win );
+        wnoutrefresh( win );
     };
 
     if( data.without_getch ) {
@@ -944,10 +1032,13 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
+    if( data.any_input ) {
+        ctxt.register_action( "ANY_INPUT" );
+    }
 
     std::string action;
-    do {
+    bool exit = false;
+    while( !exit ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -959,8 +1050,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
+            exit = true;
+        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
+            exit = true;
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+    }
 
     return ctxt.get_raw_input();
 }
@@ -1424,7 +1519,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
                             text_[line_num + offset_] );
     }
 
-    wrefresh( w_ );
+    wnoutrefresh( w_ );
 }
 
 int scrolling_text_view::text_width()
@@ -1461,25 +1556,6 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
             iStartPos = 1 + iCurrentLine - iContentHeight;
         }
     }
-}
-
-catacurses::window w_hit_animation;
-void hit_animation( const point &p, nc_color cColor, const std::string &cTile )
-{
-    catacurses::window w_hit =
-        catacurses::newwin( 1, 1, p );
-    if( !w_hit ) {
-        return; //we passed in negative values (semi-expected), so let's not segfault
-    }
-    w_hit_animation = w_hit;
-
-    mvwprintz( w_hit, point_zero, cColor, cTile );
-    wrefresh( w_hit );
-
-    inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
-    // Skip input (if any), because holding down a key with nanosleep can get yourself killed
-    inp_mngr.get_input_event();
-    inp_mngr.reset_timeout();
 }
 
 #if defined(_MSC_VER)
@@ -1654,19 +1730,19 @@ void replace_name_tags( std::string &input )
 {
     // these need to replace each tag with a new randomly generated name
     while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
+        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
                            false );
     }
     while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
+        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
                            false );
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
                            false );
     }
     while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
+        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
                            false );
     }
 }
@@ -1822,6 +1898,71 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
 }
 
+/**
+ * Inserts a table into a window, with data right-aligned.
+ * @param pad Reduce table width by padding left side.
+ * @param line Line to insert table.
+ * @param columns Number of columns. Can be 1.
+ * @param FG Default color of table text.
+ * @param divider To insert a character separating table entries. Can be blank.
+ * @param r_align true for right aligned, false for left aligned.
+ * @param data Text data to fill.
+ * Make sure each entry of the data vector fits into one cell, including divider if any.
+ */
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data )
+{
+    const int width = getmaxx( w );
+    const int rows = getmaxy( w );
+    const int col_width = ( ( width - pad ) / columns );
+    int indent = 1;  // 1 for right window border
+    if( r_align ) {
+        indent = ( col_width * columns ) + 1;
+    }
+    int div = columns - 1;
+    int offset = 0;
+
+#if defined(__ANDROID__)
+    input_context ctxt( "INSERT_TABLE" );
+#endif
+    wattron( w, FG );
+    for( int i = 0; i < rows * columns; i++ ) {
+        if( i + offset * columns >= static_cast<int>( data.size() ) ) {
+            break;
+        }
+        int y = line + ( i / columns );
+        if( r_align ) {
+            indent -= col_width;
+        }
+        if( div != 0 ) {
+            if( r_align ) {
+                right_print( w, y, indent - utf8_width( divider ), FG, divider );
+            } else {
+                fold_and_print_from( w, point( indent + col_width - utf8_width( divider ), y ),
+                                     utf8_width( divider ), 0, FG, divider );
+            }
+            div--;
+        } else {
+            div = columns - 1;
+        }
+
+        if( r_align ) {
+            right_print( w, y, indent, c_white, data[i + offset * columns] );
+            if( indent == 1 ) {
+                indent = ( col_width * columns ) + 1;
+            }
+        } else {
+            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + offset * columns] );
+            indent += col_width;
+            if( indent == ( col_width * columns ) + 1 ) {
+                indent = 1;
+            }
+        }
+    }
+    wattroff( w, FG );
+}
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
@@ -1832,9 +1973,10 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     oDir = p_oDir;
 
     // translate from player relative to screen relative direction
-    iso_mode = false;
 #if defined(TILES)
     iso_mode = tile_iso && use_tiles;
+#else
+    iso_mode = false;
 #endif
     oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
     oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
@@ -2247,10 +2389,6 @@ int get_terminal_height()
 bool is_draw_tiles_mode()
 {
     return false;
-}
-
-void refresh_display()
-{
 }
 #endif
 

@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "flashlight",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "menu_text": "Activate",
@@ -23,11 +23,14 @@
       "need_charges_msg": "The energy saber is out of charge.",
       "active": true
     },
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -36,7 +39,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -51,7 +54,7 @@
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
     "color": "light_blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "turns_per_charge": 10,
     "cutting": 40,
     "to_hit": 2,
@@ -149,12 +152,13 @@
     "looks_like": "bio_int_enhancer",
     "color": "magenta",
     "skill": "launcher",
-    "ammo": "40x46mm",
+    "ammo": [ "40x46mm" ],
     "dispersion": 290,
     "durability": 6,
     "clip_size": 1,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "laser_rifle_cheap",
@@ -170,7 +174,7 @@
     "symbol": "(",
     "looks_like": "american_180",
     "color": "magenta",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "skill": "rifle",
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 10 },
@@ -180,10 +184,16 @@
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "TANK",
@@ -194,9 +204,9 @@
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
-    "material": "steel",
+    "material": [ "steel" ],
     "skill": "launcher",
-    "ammo": "120mm",
+    "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
     "bashing": 6,
@@ -204,7 +214,8 @@
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
-    "loudness": 300
+    "loudness": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {
     "type": "GENERIC",

@@ -76,43 +76,6 @@
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
   },
   {
-    "id": "mon_laserturret",
-    "type": "MONSTER",
-    "name": { "str": "laser turret" },
-    "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
-    "default_faction": "military",
-    "species": [ "ROBOT" ],
-    "diff": 20,
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "hp": 30,
-    "speed": 100,
-    "material": [ "steel" ],
-    "symbol": "2",
-    "color": "white",
-    "aggression": 100,
-    "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "vision_day": 50,
-    "revert_to_itype": "bot_laserturret",
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "gun_type": "laser_cannon",
-        "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
-        "require_sunlight": true
-      }
-    ],
-    "special_when_hit": [ "RETURN_FIRE", 100 ],
-    "death_drops": {  },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
-  },
-  {
     "id": "mon_turret_bmg",
     "type": "MONSTER",
     "name": { "str": "M2HB autonomous CROWS II" },
@@ -339,5 +302,34 @@
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+  },
+  {
+    "id": "mon_turret_speaker",
+    "type": "MONSTER",
+    "name": "loudspeaker",
+    "description": "High-powered loudspeaker, repeating loud messages over and over again.",
+    "default_faction": "military",
+    "species": [ "ROBOT" ],
+    "diff": 2,
+    "volume": "50500 ml",
+    "weight": "100 kg",
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_cut": 0,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "armor_bullet": 14,
+    "vision_day": 50,
+    "vision_night": 50,
+    "revert_to_itype": "bot_turret_speaker",
+    "special_attacks": [ [ "SPEAKER", 10 ] ],
+    "death_function": [ "BROKEN" ],
+    "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   }
 ]

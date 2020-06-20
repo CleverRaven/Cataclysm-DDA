@@ -15,7 +15,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "5x50",
+    "ammo": [ "5x50" ],
     "skill": "smg",
     "range": 10,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
@@ -36,8 +36,16 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "5x50", [ "5x50_100_mag", "5x50_50_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "5x50_100_mag", "5x50_50_mag" ]
+      }
+    ]
   },
   {
     "id": "needlepistol",
@@ -55,7 +63,7 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "5x50",
+    "ammo": [ "5x50" ],
     "skill": "pistol",
     "dispersion": 280,
     "durability": 9,
@@ -71,7 +79,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "5x50", [ "5x50_50_mag", "5x50_100_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "5x50_50_mag", "5x50_100_mag" ]
+      }
+    ]
   }
 ]

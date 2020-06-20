@@ -16,6 +16,16 @@
     "description": "A combustion engine.  Burns fuel from a tank in the vehicle."
   },
   {
+    "abstract": "aero_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "avgas",
+    "fuel_options": [ "avgas", "gasoline" ],
+    "m2c": 60,
+    "//": "30% energy efficiency",
+    "description": "A combustion engine for use on aircraft.  Burns gasoline or avgas fuel from a tank in the vehicle."
+  },
+  {
     "abstract": "diesel_engine",
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
@@ -180,6 +190,27 @@
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
+  },
+  {
+    "id": "engine_aero_light",
+    "copy-from": "aero_engine",
+    "type": "vehicle_part",
+    "item": "aero_engine_light",
+    "durability": 300,
+    "epower": -200,
+    "power": 111900,
+    "energy_consumption": 373000,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 40 ] },
+      { "item": "steel_chunk", "count": [ 30, 40 ] },
+      { "item": "scrap", "count": [ 30, 40 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 50 }
   },
   {
     "id": "engine_inline4",

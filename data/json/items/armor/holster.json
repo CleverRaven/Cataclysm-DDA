@@ -19,9 +19,11 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
+        "max_item_length": "60 cm",
         "moves": 150
       }
     ],
@@ -43,7 +45,8 @@
     "color": "brown",
     "covers": [ "FOOT_EITHER" ],
     "coverage": 5,
-    "encumbrance": 4,
+    "encumbrance": 3,
+    "max_encumbrance": 4,
     "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "pocket_data": [
@@ -52,6 +55,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "20 cm",
         "moves": 150
       }
     ],
@@ -72,15 +76,18 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 5,
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "500 ml",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
+        "max_item_length": "160 cm",
         "moves": 50
       }
     ],
@@ -106,9 +113,11 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "300 ml",
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
         "moves": 50
       }
     ],
@@ -122,14 +131,17 @@
     "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
-    "encumbrance": 2,
+    "encumbrance": 1,
+    "max_encumbrance": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
-        "moves": 80
+        "max_item_length": "20 cm",
+        "moves": 30
       }
     ],
     "use_action": { "type": "holster" }
@@ -150,9 +162,11 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "16 cm",
         "moves": 210
       }
     ],
@@ -174,14 +188,17 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 20,
-    "encumbrance": 2,
+    "encumbrance": 1,
+    "max_encumbrance": 2,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "1250 ml",
-        "max_contains_volume": "3750 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
         "moves": 50
       }
     ],
@@ -208,9 +225,11 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "750 ml",
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
         "moves": 50
       }
     ],

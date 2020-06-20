@@ -40,25 +40,25 @@ static const std::array<npc_class_id, 19> legacy_ids = {{
     }
 };
 
-npc_class_id NC_NONE( "NC_NONE" );
-npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-npc_class_id NC_HACKER( "NC_HACKER" );
-npc_class_id NC_CYBORG( "NC_CYBORG" );
-npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-npc_class_id NC_TRADER( "NC_TRADER" );
-npc_class_id NC_NINJA( "NC_NINJA" );
-npc_class_id NC_COWBOY( "NC_COWBOY" );
-npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-npc_class_id NC_THUG( "NC_THUG" );
-npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-npc_class_id NC_HUNTER( "NC_HUNTER" );
-npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
-npc_class_id NC_HALLU( "NC_HALLU" );
+const npc_class_id NC_NONE( "NC_NONE" );
+const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
+const npc_class_id NC_HACKER( "NC_HACKER" );
+const npc_class_id NC_CYBORG( "NC_CYBORG" );
+const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
+const npc_class_id NC_TRADER( "NC_TRADER" );
+const npc_class_id NC_NINJA( "NC_NINJA" );
+const npc_class_id NC_COWBOY( "NC_COWBOY" );
+const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
+const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+const npc_class_id NC_THUG( "NC_THUG" );
+const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
+const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
+const npc_class_id NC_HUNTER( "NC_HUNTER" );
+const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
+const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
+const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_HALLU( "NC_HALLU" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -96,7 +96,7 @@ void apply_all_to_unassigned( T &skills )
 {
     auto iter = std::find_if( skills.begin(), skills.end(),
     []( decltype( *begin( skills ) ) &pr ) {
-        return pr.first == "ALL";
+        return pr.first.str() == "ALL";
     } );
 
     if( iter != skills.end() ) {
@@ -209,7 +209,6 @@ static distribution load_distribution( const JsonObject &jo )
     }
 
     jo.throw_error( "Invalid distribution" );
-    return distribution();
 }
 
 static distribution load_distribution( const JsonObject &jo, const std::string &name )
@@ -228,7 +227,6 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
     }
 
     jo.throw_error( "Invalid distribution type", name );
-    return distribution();
 }
 
 void npc_class::load( const JsonObject &jo, const std::string & )
@@ -399,7 +397,7 @@ distribution::distribution( const distribution &d )
     generator_function = d.generator_function;
 }
 
-distribution::distribution( std::function<float()> gen )
+distribution::distribution( const std::function<float()> &gen )
 {
     generator_function = gen;
 }

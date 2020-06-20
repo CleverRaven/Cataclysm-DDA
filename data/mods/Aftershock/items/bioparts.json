@@ -10,7 +10,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 5,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "fluid_preserved_brain"
@@ -26,7 +26,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 5,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "jabberwock_heart"
@@ -42,7 +42,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 1,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "kidney"
@@ -58,7 +58,7 @@
     "price": 100,
     "to_hit": -3,
     "bashing": 7,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "ruined_chunks"
@@ -89,7 +89,7 @@
     "weight": "5140 g",
     "volume": "1500 ml",
     "price": 400000,
-    "ammo": "acidic_bore",
+    "ammo": [ "acidic_bore" ],
     "to_hit": -1,
     "bashing": 4,
     "material": [ "alien_resin" ],
@@ -103,6 +103,7 @@
     "loudness": 4,
     "clip_size": 80,
     "ammo_effects": "ACID",
-    "flags": [ "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NO_UNLOAD", "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ]
   }
 ]

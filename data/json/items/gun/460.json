@@ -9,8 +9,16 @@
     "price": 166800,
     "price_postapoc": 3250,
     "ammo": [ "460", "45" ],
-    "magazines": [ [ "460", [ "m1911mag", "m1911bigmag" ] ], [ "45", [ "m1911mag", "m1911bigmag" ] ] ],
     "relative": { "durability": -1 },
-    "built_in_mods": [ "barrel_ported" ]
+    "built_in_mods": [ "barrel_ported" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1911mag", "m1911bigmag", "m1911mag", "m1911bigmag" ]
+      }
+    ]
   }
 ]

@@ -19,10 +19,10 @@
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
-    "difficulty": 7,
+    "skill_used": "chemistry",
+    "difficulty": 5,
     "time": "10 m",
-    "book_learn": [ [ "textbook_anarch", 5 ], [ "adv_chemistry", 6 ], [ "textbook_chemistry", 6 ] ],
+    "book_learn": [ [ "textbook_anarch", 5 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
@@ -115,16 +115,16 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 6 ],
+    "skills_required": [ "chemistry", 5 ],
     "difficulty": 6,
     "time": "40 m",
     "reversible": true,
-    "book_learn": [ [ "recipe_labchem", 7 ], [ "textbook_anarch", 7 ] ],
+    "book_learn": [ [ "recipe_labchem", 5 ], [ "textbook_anarch", 7 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "oxy_powder", 75 ] ],
       [ [ "incendiary", 50 ] ]
     ]
@@ -135,7 +135,7 @@
     "//": "Displaces older teargas recipe.  Conventional teargas grenades generally aren't trichloramine.",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "8 m",
@@ -145,7 +145,7 @@
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -154,7 +154,7 @@
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "8 m",
@@ -165,7 +165,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -174,7 +174,7 @@
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "8 m",
@@ -185,7 +185,7 @@
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "insecticide", 50 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -206,7 +206,7 @@
     "components": [
       [ [ "delay_fuze", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
@@ -226,7 +226,7 @@
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
@@ -246,7 +246,7 @@
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "nail", 30 ], [ "scrap", 2 ] ]
     ]
   },
@@ -284,7 +284,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 5 ],
+    "skills_required": [ "chemistry", 4 ],
     "difficulty": 5,
     "time": "15 m",
     "reversible": true,
@@ -326,17 +326,17 @@
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "skills_required": [ "mechanics", 1 ],
-    "difficulty": 3,
+    "difficulty": 2,
+    "book_learn": [ [ "basic_chemistry", 2 ] ],
     "time": "7 m 30 s",
-    "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "candy", 1 ], [ "cola", 1 ] ],
       [ [ "vitamins", 10 ], [ "aspirin", 8 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "clay_canister", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
@@ -376,7 +376,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "volatile_explosive", 5 ] ],
-    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
+    "components": [ [ [ "can_food", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "tool_small_bootleg_fragmentation_device",
