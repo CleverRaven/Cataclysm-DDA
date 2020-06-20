@@ -402,6 +402,8 @@
     ],
     "weapons": [
       "i_staff",
+      "kris",
+      "kris_fake",
       "shock_staff",
       "sword_crude",
       "sword_nail",
