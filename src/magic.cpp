@@ -1793,17 +1793,17 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         if( sp.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
             // TODO: Get a more user-friendly group name
             if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
-                monster_name = "random creature";
+                monster_name = _("random creature");
             } else {
                 debugmsg( "Unknown monster group: %s", sp.effect_data() );
             }
         } else if( monster_name.empty() ) {
-            monster_name = "random creature";
+            monster_name = _("random creature");
         } else {
             monster_name = mtype_id( sp.effect_data() )->nname();
         }
         damage_string = string_format( _( "Targets under: %dhp become a %s" ), sp.damage(),
-                                       _( monster_name ) );
+                                        monster_name );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }

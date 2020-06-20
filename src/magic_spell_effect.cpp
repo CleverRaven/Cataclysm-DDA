@@ -484,27 +484,27 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
 
 static void magical_polymorph( monster &victim, Creature &caster, const spell &sp )
 {
-    std::string new_id = sp.effect_data();
+    mtype_id new_id = mtype_id(sp.effect_data());
 
     if( sp.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
         const mongroup_id group_id( sp.effect_data() );
-        new_id = MonsterGroupManager::GetRandomMonsterFromGroup( group_id ).str();
+        new_id = MonsterGroupManager::GetRandomMonsterFromGroup( group_id );
     }
 
     // if effect_str is empty, we become a random monster of close difficulty
-    if( new_id.empty() ) {
+    if( new_id.is_empty() ) {
         int victim_diff = victim.type->difficulty;
         const std::vector<mtype> &mtypes = MonsterGenerator::generator().get_all_mtypes();
         for( int difficulty_variance = 1; difficulty_variance < 2048; difficulty_variance *= 2 ) {
             unsigned int random_entry = rng( 0, mtypes.size() );
             unsigned int iter = random_entry + 1;
-            while( iter != random_entry && new_id.empty() ) {
+            while( iter != random_entry && new_id.is_empty() ) {
                 if( iter >= mtypes.size() ) {
                     iter = 0;
                 }
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
-                    new_id = mtypes[iter].id.c_str();
+                    new_id = mtypes[iter].id;
                     break;
                 }
                 iter++;
@@ -512,16 +512,16 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         }
     }
 
-    if( !mtype_id( new_id ).is_valid() ) {
+    if( !new_id.is_valid() ) {
         debugmsg( "magical_polymorph called with an invalid monster id" );
         return;
     }
 
     if( g->u.sees( victim ) ) {
         add_msg( _( "The %s transforms into a %s." ), victim.type->nname(),
-                 mtype_id( new_id ).obj().nname() );
+                 new_id->nname() );
     }
-    victim.poly( mtype_id( new_id ) );
+    victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
         if( caster.as_player() ) {
