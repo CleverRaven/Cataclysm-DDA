@@ -756,7 +756,7 @@ void mdeath::jabberwock( monster &z )
 void mdeath::gameover( monster &z )
 {
     add_msg( m_bad, _( "The %s was destroyed!  GAME OVER!" ), z.name() );
-    g->u.hp_cur[hp_torso] = 0;
+    g->u.get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
 }
 
 void mdeath::kill_breathers( monster &/*z*/ )

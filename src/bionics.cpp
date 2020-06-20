@@ -1769,10 +1769,10 @@ void Character::process_bionic( int b )
 
 void Character::roll_critical_bionics_failure( body_part bp )
 {
-    const hp_part limb = bp_to_hp( bp );
+    bodypart &limb = get_part( convert_bp( bp ).id() );
 
-    if( one_in( hp_cur[limb] / 4 ) ) {
-        hp_cur[limb] -= hp_cur[limb];
+    if( one_in( limb.get_hp_cur() / 4 ) ) {
+        limb.set_hp_cur( 0 );
     }
 }
 

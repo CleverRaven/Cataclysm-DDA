@@ -2227,11 +2227,6 @@ class Character : public Creature, public visitable<Character>
 
         // used in debugging all health
         int get_lowest_hp() const;
-
-        int get_hp( hp_part bp ) const override;
-        int get_hp() const override;
-        int get_hp_max( hp_part bp ) const override;
-        int get_hp_max() const override;
         bool has_weapon() const override;
         void shift_destination( const point &shift );
         // Auto move methods

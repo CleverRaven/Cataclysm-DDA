@@ -3206,10 +3206,11 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     const int dam = get_heal_value( healer, healed );
 
     const bodypart_id bp = convert_bp( Character::hp_to_bp( healed ) ).id();
+    const int cur_hp = patient.get_part( bp ).get_hp_cur();
 
-    if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
+    if( ( cur_hp >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
         patient.heal( bp, dam );
-    } else if( ( patient.hp_cur[healed] >= 1 ) && ( dam < 0 ) ) {
+    } else if( ( cur_hp >= 1 ) && ( dam < 0 ) ) {
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 

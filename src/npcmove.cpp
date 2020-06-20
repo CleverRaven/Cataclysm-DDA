@@ -614,7 +614,7 @@ float npc::character_danger( const Character &uc ) const
     }
     ret += u_weap_val;
 
-    ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
+    ret += hp_percentage() * get_hp_max( bodypart_id( "torso" ) ) / 100.0 / my_weap_val;
 
     ret += my_gun ? u.get_dodge() / 2 : u.get_dodge();
 
@@ -4548,9 +4548,9 @@ bool npc::adjust_worn()
         return false;
     }
     const auto covers_broken = [this]( const item & it, side s ) {
-        const auto covered = it.get_covered_body_parts( s );
-        for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ) ) ) {
+        const body_part_set covered = it.get_covered_body_parts( s );
+        for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first.id() ) ) {
                 return true;
             }
         }

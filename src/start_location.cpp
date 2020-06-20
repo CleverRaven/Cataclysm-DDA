@@ -387,24 +387,25 @@ void start_location::add_map_extra( const tripoint &omtstart, const std::string 
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        const auto part = static_cast<hp_part>( i );
-        const auto bp_part = player::hp_to_bp( part );
+    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+        if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
+            continue;// Skip head + torso for balance reasons.
+        }
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
+                u.make_bleed( bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
             // Just damage
             case 5: {
-                const auto maxHp = u.get_hp_max( part );
+                const int maxHp = u.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
+                u.apply_damage( nullptr, bp, dmg );
                 break;
             }
             // No damage

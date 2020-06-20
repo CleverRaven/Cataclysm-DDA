@@ -406,8 +406,6 @@ Character::Character() :
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
 {
-    hp_cur.fill( 0 );
-    hp_max.fill( 1 );
     randomize_blood();
     str_max = 0;
     dex_max = 0;
@@ -4531,7 +4529,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
-                const int bp_hp = hp_cur[bp_to_hp( bp->token )];
+                const int bp_hp = get_part( bp ).get_hp_cur();
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
                     if( i.incapacitated_time == 0_turns ) {
@@ -5107,13 +5105,13 @@ void Character::check_needs_extremes()
                                _( "You have a sudden heart attack!" ),
                                _( "<npcname> has a sudden heart attack!" ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        hp_cur[hp_torso] = 0;
+        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing stops completely." ),
                                _( "<npcname>'s breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        hp_cur[hp_torso] = 0;
+        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
             add_msg_player_or_npc( m_bad,
@@ -5124,19 +5122,19 @@ void Character::check_needs_extremes()
                                    _( "<npcname>'s heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
-        hp_cur[hp_torso] = 0;
+        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your heart spasms and stops." ),
                                _( "<npcname>'s heart spasms and stops." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
-        hp_cur[hp_torso] = 0;
+        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing slows down to a stop." ),
                                _( "<npcname>'s breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
-        hp_cur[hp_torso] = 0;
+        get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
     }
 
     // check if we've starved
@@ -5144,7 +5142,7 @@ void Character::check_needs_extremes()
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             g->events().send<event_type::dies_of_starvation>( getID() );
-            hp_cur[hp_torso] = 0;
+            get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
         } else {
             if( calendar::once_every( 12_hours ) ) {
                 std::string category;
@@ -5184,7 +5182,7 @@ void Character::check_needs_extremes()
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
-            hp_cur[hp_torso] = 0;
+            get_part( bodypart_id( "torso" ) ).set_hp_cur( 0 );
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -8690,6 +8688,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         // Or if we're debugging and don't want to die
         return;
     }
+    bodypart &part = get_part( hurt );
     body_part enum_bp = hurt->token;
     hp_part hurtpart = bp_to_hp( enum_bp );
     if( hurtpart == num_hp_parts ) {
@@ -8699,9 +8698,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 
     mod_pain( dam / 2 );
 
-    const int dam_to_bodypart = std::min( dam, hp_cur[hurtpart] );
+    const int dam_to_bodypart = std::min( dam, part.get_hp_cur() );
 
-    hp_cur[hurtpart] -= dam_to_bodypart;
+    part.mod_hp_max( - dam_to_bodypart );
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
@@ -8754,8 +8753,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
                      direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp->token ) ) ).first, m_bad,
-                     body_part_name( bp ), m_neutral );
+                     get_hp_bar( dam, get_hp_max( bp ) ).first, m_bad, body_part_name( bp ), m_neutral );
         }
     }
 
@@ -8938,11 +8936,10 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part bp = static_cast<hp_part>( i );
+    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
-        const int dam_to_bodypart = std::min( dam, hp_cur[bp] );
-        hp_cur[bp] -= dam_to_bodypart;
+        const int dam_to_bodypart = std::min( dam, elem.second.get_hp_cur() );
+        elem.second.mod_hp_cur( - dam_to_bodypart );
         g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
     }
 
@@ -8967,7 +8964,8 @@ int Character::hitall( int dam, int vary, Creature *source )
 void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
+        ( get_part( bodypart_id( "head" ) ).get_hp_cur() < 25 ||
+          get_part( bodypart_id( "torso" ) ).get_hp_cur() < 15 ) ) {
         add_effect( effect_adrenaline, 20_minutes );
     }
 
@@ -10741,50 +10739,17 @@ bool Character::has_weapon() const
     return !unarmed_attack();
 }
 
-int Character::get_hp() const
-{
-    return get_hp( num_hp_parts );
-}
-
 int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
     int lowest_hp = 999;
-    for( int cur_hp : this->hp_cur ) {
+    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+        const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
             lowest_hp = cur_hp;
         }
     }
     return lowest_hp;
-}
-
-int Character::get_hp( hp_part bp ) const
-{
-    if( bp < num_hp_parts ) {
-        return hp_cur[bp];
-    }
-    int hp_total = 0;
-    for( int i = 0; i < num_hp_parts; ++i ) {
-        hp_total += hp_cur[i];
-    }
-    return hp_total;
-}
-
-int Character::get_hp_max() const
-{
-    return get_hp_max( num_hp_parts );
-}
-
-int Character::get_hp_max( hp_part bp ) const
-{
-    if( bp < num_hp_parts ) {
-        return hp_max[bp];
-    }
-    int hp_total = 0;
-    for( int i = 0; i < num_hp_parts; ++i ) {
-        hp_total += hp_max[i];
-    }
-    return hp_total;
 }
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const

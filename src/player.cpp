@@ -883,7 +883,8 @@ void player::search_surroundings()
 
 bool player::is_dead_state() const
 {
-    return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
+    return get_part( bodypart_id( "head" ) ).get_hp_cur() <= 0 ||
+           get_part( bodypart_id( "torso" ) ).get_hp_cur() <= 0;
 }
 
 void player::on_dodge( Creature *source, float difficulty )

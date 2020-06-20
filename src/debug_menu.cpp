@@ -623,36 +623,49 @@ void character_edit_menu()
         }
         break;
         case D_HP: {
+            const int torso_hp = p.get_part( bodypart_id( "torso" ) ).get_hp_cur();
+            const int head_hp = p.get_part( bodypart_id( "head" ) ).get_hp_cur();
+            const int arm_l_hp = p.get_part( bodypart_id( "arm_l" ) ).get_hp_cur();
+            const int arm_r_hp = p.get_part( bodypart_id( "arm_r" ) ).get_hp_cur();
+            const int leg_l_hp = p.get_part( bodypart_id( "leg_l" ) ).get_hp_cur();
+            const int leg_r_hp = p.get_part( bodypart_id( "leg_r" ) ).get_hp_cur();
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
             smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
             smenu.query();
-            int *bp_ptr = nullptr;
+            bodypart_id bp;
+            int bp_ptr = -1;
             bool all_select = false;
 
             switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.hp_cur[hp_torso];
+                    bp = bodypart_id( "torso" );
+                    bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp_ptr = &p.hp_cur[hp_head];
+                    bp = bodypart_id( "head" );
+                    bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp_ptr = &p.hp_cur[hp_arm_l];
+                    bp = bodypart_id( "arm_l" );
+                    bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp_ptr = &p.hp_cur[hp_arm_r];
+                    bp = bodypart_id( "arm_r" );
+                    bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp_ptr = &p.hp_cur[hp_leg_l];
+                    bp = bodypart_id( "leg_l" );
+                    bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp_ptr = &p.hp_cur[hp_leg_r];
+                    bp = bodypart_id( "leg_r" );
+                    bp_ptr = leg_r_hp;
                     break;
                 case 6:
                     all_select = true;
@@ -661,18 +674,18 @@ void character_edit_menu()
                     break;
             }
 
-            if( bp_ptr != nullptr ) {
+            if( !bp.id().is_empty() ) {
                 int value;
-                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
-                    *bp_ptr = value;
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+                    p.get_part( bp ).set_hp_cur( value );
                     p.reset_stats();
                 }
             } else if( all_select ) {
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    for( int &cur_hp : p.hp_cur ) {
-                        cur_hp = value;
+                    for( std::pair<const bodypart_id, bodypart> &elem : p.get_body() ) {
+                        elem.second.set_hp_cur( value );
                     }
                     p.reset_stats();
                 }
@@ -1295,7 +1308,7 @@ void debug()
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );
-                guy.hp_cur[bp_head] = 0;
+                guy.get_part( bodypart_id( "head" ) ).set_hp_cur( 0 );
             }
             break;
 
@@ -1470,13 +1483,19 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
+            const int torso_hp = u.get_part( bodypart_id( "torso" ) ).get_hp_cur();
+            const int head_hp = u.get_part( bodypart_id( "head" ) ).get_hp_cur();
+            const int arm_l_hp = u.get_part( bodypart_id( "arm_l" ) ).get_hp_cur();
+            const int arm_r_hp = u.get_part( bodypart_id( "arm_r" ) ).get_hp_cur();
+            const int leg_l_hp = u.get_part( bodypart_id( "leg_l" ) ).get_hp_cur();
+            const int leg_r_hp = u.get_part( bodypart_id( "leg_r" ) ).get_hp_cur();
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
             smenu.query();
             bodypart_id part;
             int dbg_damage;

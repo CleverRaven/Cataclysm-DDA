@@ -1159,7 +1159,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return get_hp( hp_torso ) * 100 / get_hp_max();
+    return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -2830,26 +2830,6 @@ void monster::on_hit( Creature *source, bodypart_id,
 
     check_dead_state();
     // TODO: Faction relations
-}
-
-int monster::get_hp_max( hp_part ) const
-{
-    return type->hp;
-}
-
-int monster::get_hp_max() const
-{
-    return type->hp;
-}
-
-int monster::get_hp( hp_part ) const
-{
-    return hp;
-}
-
-int monster::get_hp() const
-{
-    return hp;
 }
 
 float monster::get_mountable_weight_ratio() const

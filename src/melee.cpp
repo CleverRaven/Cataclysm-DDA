@@ -1695,11 +1695,13 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         // Check if we should actually use the right side to block
         if( bp_hit == bodypart_id( "leg_l" ) ) {
-            if( hp_cur[hp_leg_r] > hp_cur[hp_leg_l] ) {
+            if( get_part( bodypart_id( "leg_r" ) ).get_hp_cur() > get_part(
+                    bodypart_id( "leg_l" ) ).get_hp_cur() ) {
                 bp_hit = bodypart_id( "leg_r" );
             }
         } else {
-            if( hp_cur[hp_arm_r] > hp_cur[hp_arm_l] ) {
+            if( get_part( bodypart_id( "arm_r" ) ).get_hp_cur() > get_part(
+                    bodypart_id( "arm_l" ) ).get_hp_cur() ) {
                 bp_hit = bodypart_id( "arm_r" );
             }
         }

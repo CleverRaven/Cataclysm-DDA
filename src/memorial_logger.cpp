@@ -203,18 +203,18 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const hp_part bp ) {
+    [&file, &indent, &u]( const std::string & desc, const bodypart_id bp ) {
         file << indent <<
-             string_format( desc, u.get_hp( bp ), u.get_hp_max( bp ) ) << eol;
+             string_format( desc, u.get_part( bp ).get_hp_cur(), u.get_part( bp ).get_hp_max() ) << eol;
     };
 
     file << _( "Final HP:" ) << eol;
-    limb_hp( _( " Head: %d/%d" ), hp_head );
-    limb_hp( _( "Torso: %d/%d" ), hp_torso );
-    limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
-    limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
-    limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
-    limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
+    limb_hp( _( " Head: %d/%d" ), bodypart_id( "head" ) );
+    limb_hp( _( "Torso: %d/%d" ), bodypart_id( "torso" ) );
+    limb_hp( _( "L Arm: %d/%d" ), bodypart_id( "arm_l" ) );
+    limb_hp( _( "R Arm: %d/%d" ), bodypart_id( "arm_r" ) );
+    limb_hp( _( "L Leg: %d/%d" ), bodypart_id( "leg_l" ) );
+    limb_hp( _( "R Leg: %d/%d" ), bodypart_id( "leg_r" ) );
     file << eol;
 
     //Stats

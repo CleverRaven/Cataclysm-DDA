@@ -229,7 +229,10 @@ static void make_experienced_tester( avatar &test_guy )
     test_guy.reset_bonuses();
     test_guy.set_speed_base( 100 );
     test_guy.set_speed_bonus( 0 );
-    test_guy.hp_cur.fill( test_guy.get_hp_max() );
+    test_guy.set_body();
+    for( std::pair<const bodypart_id, bodypart> &elem : test_guy.get_body() ) {
+        elem.second.set_hp_to_max();
+    }
     test_guy.set_skill_level( skill_id( "bashing" ), 4 );
     test_guy.set_skill_level( skill_id( "cutting" ), 4 );
     test_guy.set_skill_level( skill_id( "stabbing" ), 4 );
