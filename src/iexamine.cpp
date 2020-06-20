@@ -4730,7 +4730,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                    _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
                                                    body_part_name( bp_healed ) );
 
-                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc                                                                                                                 
+                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
                     patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
                     effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
