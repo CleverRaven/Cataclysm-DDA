@@ -463,10 +463,15 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "nail", 50 ] ], [ [ "2x4", 5 ] ], [ [ "cordage_36", 1 ] ], [ [ "scrap", 5 ], [ "steel_chunk", 4 ] ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 30 ], [ "welder_crude", 40 ], [ "toolset", 40 ], [ "forge", 20 ], [ "oxy_torch", 5 ] ]
+    ],
+    "components": [
+      [ [ "nail", 50 ] ],
+      [ [ "2x4", 5 ] ],
+      [ [ "cordage_36", 1 ] ],
+      [ [ "scrap", 5 ], [ "steel_chunk", 4 ] ]
     ]
   },
   {
