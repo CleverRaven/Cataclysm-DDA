@@ -22,7 +22,7 @@
       "yes": {
         "u_has_var": "asked_about_kill_dinos",
         "type": "dialogue",
-        "context": "song",
+        "context": "dino",
         "value": "yes",
         "no": "You're back. I knew you were a killer.  Are you ready to take this country back?",
         "yes": "It's a good day to shoot some dinos."
