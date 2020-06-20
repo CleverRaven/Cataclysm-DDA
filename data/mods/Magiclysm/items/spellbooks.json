@@ -343,7 +343,7 @@
     "type": "BOOK",
     "name": { "str": "Runic Tablet shard" },
     "//": "1 classless spell",
-    "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes inscribed over it slowly shift into intelligible sentences when you stare at them.",
+    "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes glow over its surface, and slowly shift into intelligible sentences when you stare at them.",
     "weight": "4000 g",
     "volume": "2500 ml",
     "material": [ "stone" ],
