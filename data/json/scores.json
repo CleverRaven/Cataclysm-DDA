@@ -83,5 +83,25 @@
     "id": "score_consumed_alcohol",
     "type": "score",
     "statistic": "num_consumes_alcohol"
+  },
+  {
+    "id": "score_installs_cbm",
+    "type": "score",
+    "statistic": "num_installs_cbm"
+  },
+  {
+    "id": "score_installs_faulty_cbm",
+    "type": "score",
+    "statistic": "num_installs_faulty_cbm"
+  },
+  {
+    "id": "score_administers_mutagen",
+    "type": "score",
+    "statistic": "num_administers_mutagen"
+  },
+  {
+    "id": "score_crosses_mutation_threshold",
+    "type": "score",
+    "statistic": "num_crosses_mutation_threshold"
   }
 ]

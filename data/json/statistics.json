@@ -393,5 +393,61 @@
     "stat_type": "count",
     "event_transformation": "statistic_consumes_alcohol",
     "description": { "str": "alcohol portion consumed", "str_pl": "alcohol portions consumed" }
+  },
+  {
+    "id": "statistic_installs_cbm",
+    "type": "event_transformation",
+    "event_type": "installs_cbm",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "bionic" ]
+  },
+  {
+    "id": "statistic_installs_faulty_cbm",
+    "type": "event_transformation",
+    "event_type": "installs_faulty_cbm",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "bionic" ]
+  },
+  {
+    "id": "num_installs_cbm",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_installs_cbm",
+    "description": { "str": "bionic implant installed", "str_pl": "bionic implants installed" }
+  },
+  {
+    "id": "num_installs_faulty_cbm",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "installs_faulty_cbm",
+    "description": { "str": "faulty bionic implant installed", "str_pl": "faulty bionic implants installed" }
+  },
+  {
+    "id": "statistic_administers_mutagen",
+    "type": "event_transformation",
+    "event_type": "administers_mutagen",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "technique" ]
+  },
+  {
+    "id": "num_administers_mutagen",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_administers_mutagen",
+    "description": { "str": "mutagen administered", "str_pl": "mutagens administered" }
+  },
+  {
+    "id": "statistic_crosses_mutation_threshold",
+    "type": "event_transformation",
+    "event_type": "crosses_mutation_threshold",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "category" ]
+  },
+  {
+    "id": "num_crosses_mutation_threshold",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "statistic_crosses_mutation_threshold",
+    "description": { "str": "mutation threshold crossed", "str_pl": "mutation thresholds crossed" }
   }
 ]

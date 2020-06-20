@@ -31,5 +31,54 @@
     "type": "conduct",
     "name": "Sober For Life",
     "requirements": [ { "event_statistic": "num_consumes_alcohol", "is": "<=", "target": 0, "description": "Drink no alcohol" } ]
+  },
+  {
+    "id": "conduct_pure_human",
+    "type": "conduct",
+    "name": "Homo Sapiens",
+    "requirements": [
+      { "event_statistic": "num_installs_cbm", "is": "<=", "target": 0, "description": "Install no bionic implants" },
+      {
+        "event_statistic": "num_installs_faulty_cbm",
+        "is": "<=",
+        "target": 0,
+        "description": "Install no faulty bionic implants"
+      },
+      {
+        "event_statistic": "statistic_administers_mutagen",
+        "is": "<=",
+        "target": 0,
+        "description": "Use no mutagenic substances"
+      }
+    ]
+  },
+  {
+    "id": "conduct_no_cbm",
+    "type": "conduct",
+    "name": "Clean on X-ray",
+    "requirements": [
+      { "event_statistic": "num_installs_cbm", "is": "<=", "target": 0, "description": "Install no bionic implants" },
+      {
+        "event_statistic": "num_installs_faulty_cbm",
+        "is": "<=",
+        "target": 0,
+        "description": "Install no faulty bionic implants"
+      }
+    ],
+    "hidden_by": [ "conduct_pure_human" ]
+  },
+  {
+    "id": "conduct_no_mutagen",
+    "type": "conduct",
+    "name": "Pure Blood",
+    "requirements": [
+      {
+        "event_statistic": "statistic_administers_mutagen",
+        "is": "<=",
+        "target": 0,
+        "description": "Use no mutagenic substances"
+      }
+    ],
+    "hidden_by": [ "conduct_pure_human" ]
   }
 ]

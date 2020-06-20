@@ -245,5 +245,27 @@
     "description": "You cannot bury the whole world, can you?",
     "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 100 } ],
     "hidden_by": [ "achievement_bury_10_corpses" ]
+  },
+  {
+    "id": "achievement_install_1_cbm",
+    "type": "achievement",
+    "name": "Cyberpunk",
+    "description": "Spiritus quidem promptus; caro vero infirma.",
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_install_10_cbms",
+    "type": "achievement",
+    "name": "Clockwork Man",
+    "description": "By most mechanical and dirty hand.  I shall have such revenges on you...both.  The things I will do, what they are, yet I know not.  But they will be the terrors of the earth.",
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 10 } ],
+    "hidden_by": [ "achievement_install_1_cbm" ]
+  },
+  {
+    "id": "achievement_crosses_mutation_threshold",
+    "type": "achievement",
+    "name": "Homo Evolutis",
+    "description": "World of man has ended.  Long live the world of transhumanism.",
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 1 } ]
   }
 ]
