@@ -28,6 +28,6 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "signal_flare": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "signal_flare": 1 } } ]
   }
 ]

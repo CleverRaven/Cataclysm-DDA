@@ -38,6 +38,6 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "3006": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 1 } } ]
   }
 ]
