@@ -142,7 +142,7 @@
     "vision_day": 50,
     "vision_night": 50,
     "revert_to_itype": "e_scrap",
-    "starting_ammo": { "545": 3000, "40x53mm_buckshot_m169": 30 },
+    "starting_ammo": { "8512": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       {
