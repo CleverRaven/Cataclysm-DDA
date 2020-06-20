@@ -45,7 +45,7 @@
         "description": "Install no faulty bionic implants"
       },
       {
-        "event_statistic": "statistic_administers_mutagen",
+        "event_statistic": "num_administers_mutagen",
         "is": "<=",
         "target": 0,
         "description": "Use no mutagenic substances"
@@ -73,7 +73,7 @@
     "name": "Pure Blood",
     "requirements": [
       {
-        "event_statistic": "statistic_administers_mutagen",
+        "event_statistic": "num_administers_mutagen",
         "is": "<=",
         "target": 0,
         "description": "Use no mutagenic substances"

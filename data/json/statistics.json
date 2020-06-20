@@ -419,7 +419,7 @@
     "id": "num_installs_faulty_cbm",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "installs_faulty_cbm",
+    "event_transformation": "statistic_installs_faulty_cbm",
     "description": { "str": "faulty bionic implant installed", "str_pl": "faulty bionic implants installed" }
   },
   {

@@ -266,6 +266,6 @@
     "type": "achievement",
     "name": "Homo Evolutis",
     "description": "World of man has ended.  Long live the world of transhumanism.",
-    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 1 } ]
+    "requirements": [ { "event_statistic": "num_crosses_mutation_threshold", "is": ">=", "target": 1 } ]
   }
 ]
