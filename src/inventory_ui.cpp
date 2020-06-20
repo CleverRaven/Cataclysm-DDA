@@ -1424,7 +1424,7 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
         return entry.is_selectable();
     };
     for( inventory_column *column : columns ) {
-        if( column->visible() == false ) {
+        if( !column->visible() ) {
             continue;
         }
         std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
