@@ -1721,6 +1721,23 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
                "<color_c_white>Charges</color>: 20\n" );
     }
 
+    SECTION( "candle with feedback on burnout" ) {
+        std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
+
+        item candle( "candle" );
+        REQUIRE( candle.ammo_remaining() > 0 );
+
+        candle.charges = candle.type->maximum_charges();
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
+
+        candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: More then half has burned away.\n" );
+    }
+
     SECTION( "UPS charged tool" ) {
         std::vector<iteminfo_parts> recharge_ups = { iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED };
 

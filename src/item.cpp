@@ -193,6 +193,7 @@ static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_HOT( "HOT" );
 static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
+static const std::string flag_BURNOUT( "BURNOUT" );
 static const std::string flag_IS_ARMOR( "IS_ARMOR" );
 static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 static const std::string flag_IS_UPS( "IS_UPS" );
@@ -3074,6 +3075,24 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
+    } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
+        int percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        std::string feedback;
+        if( percent_left == 100 ) {
+            feedback = _( "It's new, and ready to burn." );
+        } else if( percent_left >= 75 ) {
+            feedback = _( "Almost new, with much material to burn." );
+        } else if( percent_left >= 50 ) {
+            feedback = _( "More then a quarter has burned away." );
+        } else if( percent_left >= 25 ) {
+            feedback = _( "More then half has burned away." );
+        } else if( percent_left >= 10 ) {
+            feedback = _( "Less then a quarter left to burn." );
+        } else {
+            feedback = _( "Almost completely burned out." );
+        }
+        feedback = _( "<bold>Fuel</bold>: " ) + feedback;
+        info.push_back( iteminfo( "DESCRIPTION", feedback ) );
     }
 }
 

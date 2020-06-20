@@ -111,7 +111,8 @@
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
-    }
+    },
+    "flags": [ "BURNOUT" ]
   },
   {
     "id": "candle_lit",
@@ -134,7 +135,7 @@
       { "type": "firestarter", "moves": 100 },
       { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" }
     ],
-    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ]
+    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "BURNOUT" ]
   },
   {
     "id": "electric_lantern",
@@ -694,7 +695,8 @@
       "need_fire": 1,
       "menu_text": "Light torch",
       "type": "transform"
-    }
+    },
+    "flags": [ "BURNOUT" ]
   },
   {
     "id": "torch_lit",
@@ -725,6 +727,6 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ]
   }
 ]
