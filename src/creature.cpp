@@ -1455,22 +1455,22 @@ void Creature::set_body()
 
 bodypart *Creature::get_part( const bodypart_id &id )
 {
-    if( body.find( id.id() ) == body.end() ) {
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
     }
-    return &body[id.id()];
+    return &found->second;
 }
 
 bodypart Creature::get_part( const bodypart_id &id ) const
 {
-    for( const std::pair<bodypart_str_id, bodypart> elem : body ) {
-        if( elem.first.id() == id ) {
-            return elem.second;
-        }
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
+        debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+        return bodypart();
     }
-    debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-    return bodypart();
+    return found->second;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const
@@ -1513,21 +1513,15 @@ bodypart_id Creature::get_random_body_part( bool main ) const
 
 std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 {
-    // TODO: Remove broken parts, parts removed by mutations etc.
-
     std::vector<bodypart_id> all_bps;
-    for( const std::pair<bodypart_id, bodypart> &elem : body ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( only_main && elem.first->main_part != elem.first ) {
+            continue;
+        }
         all_bps.push_back( elem.first );
     }
 
-    std::vector<bodypart_id> main_bps;
-
-    for( const bodypart_id bp : all_bps ) {
-        if( bp->main_part.id() == bp ) {
-            main_bps.emplace_back( bp );
-        }
-    }
-    return only_main ? main_bps : all_bps;
+    return  all_bps;
 }
 
 int Creature::get_hp( const bodypart_id &bp ) const

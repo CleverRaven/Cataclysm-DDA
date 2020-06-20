@@ -624,7 +624,7 @@ void Character::load( const JsonObject &data )
         on_item_wear( w );
     }
 
-    //legacy: remove post 0.F
+    // TEMPORARY until 0.F
     if( data.has_object( "hp_cur" ) ) {
         std::array<int, 6> hp_cur;
         data.read( "hp_cur", hp_cur );
