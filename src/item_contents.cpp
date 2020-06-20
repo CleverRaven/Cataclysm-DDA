@@ -190,6 +190,10 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
         contents.push_back( item_pocket( &data ) );
     }
 }
+bool item_contents::empty_real() const
+{   
+    return contents.empty();
+}
 
 bool item_contents::empty() const
 {
