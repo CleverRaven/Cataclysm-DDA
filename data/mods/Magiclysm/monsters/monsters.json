@@ -311,7 +311,7 @@
     "id": "mon_baleful_polymorph_frog",
     "type": "MONSTER",
     "name": { "str": "frog" },
-    "description": "A conspicuously average american bullfrog.  You better keep price charming away from it.",
+    "description": "A conspicuously average american bullfrog.  You better keep prince charming away from it.",
     "default_faction": "magical_beast",
     "species": [ "AMPHIBIAN" ],
     "volume": "750 ml",
