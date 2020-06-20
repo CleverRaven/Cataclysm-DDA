@@ -336,11 +336,7 @@
     "id": "mon_exodii_turret",
     "type": "MONSTER",
     "name": "upcycled turret",
-    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It issues a warning beep as you approach.",
-    "default_faction": "exodii",
-    "species": [ "CYBORG" ],
-    "diff": 20,
-    "volume": "50000 ml",
+    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It is equipped with a hefty looking machine gun, and something that - judging from the scorching - could only be a flamethrower.",
     "weight": 70750,
     "hp": 90,
     "speed": 100,
@@ -358,6 +354,7 @@
     "starting_ammo": { "545": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
+      [ "FLAMETHROWER", 5 ],
       {
         "type": "gun",
         "cooldown": 1,
@@ -380,13 +377,13 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "FIREBALL" ],
-    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_exodii_turret_guard",
     "type": "MONSTER",
-    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  Without warning its lenses focus on you and the barrel starts to warm up as you come into range.",
+    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It is equipped with a hefty looking machine gun, and something that - judging from the scorching - could only be a flamethrower.  Without a threatening 'beep', its lenses focus on you and the barrel starts to warm up as you come into range.",
     "copy-from": "mon_exodii_turret",
-    "aggression": 50
+    "aggression": 80
   }
 ]
