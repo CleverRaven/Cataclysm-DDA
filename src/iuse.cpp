@@ -3760,12 +3760,11 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per buff */
                         buff_stat( g->u.per_max, rng( 0, g->u.per_max / 2 ) );
                         g->u.recalc_hp();
-                        for( std::pair<const bodypart_str_id, bodypart> &elem : g->u.get_body() ) {
-                            bodypart &part = elem.second;
-                            part.set_hp_cur( part.get_hp_cur() * rng_float( 1, 1.2 ) );
-                            const int hp_max = part.get_hp_max();
-                            if( part.get_hp_cur() > hp_max ) {
-                                part.set_hp_cur( hp_max );
+                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+                            g->u.set_part_hp_cur( bp, g->u.get_part_hp_cur( bp ) * rng_float( 1, 1.2 ) );
+                            const int hp_max = g->u.get_part_hp_max( bp );
+                            if( g->u.get_part_hp_cur( bp ) > hp_max ) {
+                                g->u.set_part_hp_cur( bp, hp_max );
                             }
                         }
                     }
@@ -3801,10 +3800,10 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
                         g->u.per_max -= rng( 0, g->u.per_max / 2 );
                         g->u.recalc_hp();
-                        for( std::pair<const bodypart_str_id, bodypart> &elem : g->u.get_body() ) {
-                            const int hp_cur = elem.second.get_hp_cur();
+                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+                            const int hp_cur = g->u.get_part_hp_cur( bp );
                             if( hp_cur > 0 ) {
-                                elem.second.set_hp_cur( rng( 1, hp_cur ) );
+                                g->u.set_part_hp_cur( bp, rng( 1, hp_cur ) );
                             }
                         }
                     }

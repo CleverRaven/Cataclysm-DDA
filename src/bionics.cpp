@@ -1676,7 +1676,7 @@ void Character::process_bionic( int b )
                 }
             }
             std::vector<bodypart_id> damaged_hp_parts;
-            for( const std::pair<bodypart_str_id, bodypart> &part : get_body() ) {
+            for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
                 const int hp_cur = part.second.get_hp_cur();
                 if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
                     damaged_hp_parts.push_back( part.first.id() );

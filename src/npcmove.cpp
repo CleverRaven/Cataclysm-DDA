@@ -1723,7 +1723,7 @@ healing_options npc::patient_assessment( const Character &c )
     healing_options try_to_fix;
     try_to_fix.clear_all();
 
-    for( const std::pair<bodypart_str_id, bodypart> &elem : c.get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
         if( c.has_effect( effect_bleed, elem.first->token ) ) {
             try_to_fix.bleed = true;
@@ -4549,8 +4549,8 @@ bool npc::adjust_worn()
     }
     const auto covers_broken = [this]( const item & it, side s ) {
         const body_part_set covered = it.get_covered_body_parts( s );
-        for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
-            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first.id() ) ) {
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
                 return true;
             }
         }

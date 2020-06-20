@@ -69,9 +69,7 @@ static avatar get_sanitized_player()
     avatar ret = avatar();
     ret.set_body();
     ret.recalc_hp();
-    for( std::pair<const bodypart_id, bodypart> &elem : ret.get_body() ) {
-        elem.second.set_hp_to_max();
-    }
+
     // Set these insanely high so can_eat doesn't return TOO_FULL
     ret.set_hunger( 10000 );
     ret.set_thirst( 10000 );

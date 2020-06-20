@@ -3383,7 +3383,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // NPCs heal whatever has sustained the most damaged that they can heal but never
         // rebandage parts
         int highest_damage = 0;
-        for( const std::pair<bodypart_str_id, bodypart> &elem : patient.get_body() ) {
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
             const bodypart &part = elem.second;
             int damage = 0;
             if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||

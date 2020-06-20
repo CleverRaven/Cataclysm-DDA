@@ -599,19 +599,29 @@ class Creature
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
-        std::map<bodypart_str_id, bodypart> get_body();
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
+        void calc_all_parts_hp( const float hp_mod = 0.0, const float hp_adjust = 0.0,
+                                const int str_max = 0, const int dex_max = 0, const int per_max = 0, const int int_max = 0,
+                                const int fat_to_max_hp = 0 );
         bodypart *get_part( const bodypart_id &id );
         bodypart get_part( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
 
+        int get_part_healed_total( const bodypart_id &id ) const;
+
         void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
+        void set_part_healed_total( const bodypart_id &id, int set );
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
+        void mod_part_healed_total( const bodypart_id &id, int mod );
+
+
+        void set_all_parts_hp_cur( const int set );
+        void set_all_parts_hp_to_max();
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

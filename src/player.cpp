@@ -1344,7 +1344,7 @@ int player::hp_percentage() const
     // Head and torso HP are weighted 3x and 2x, respectively
     total_cur = get_part_hp_cur( head_id ) * 3 + get_part_hp_cur( torso_id ) * 2;
     total_max = get_part_hp_max( head_id ) * 3 + get_part_hp_max( torso_id ) * 2;
-    for( const std::pair< bodypart_str_id, bodypart> &elem : get_body() ) {
+    for( const std::pair< const bodypart_str_id, bodypart> &elem : get_body() ) {
         total_cur += elem.second.get_hp_cur();
         total_max += elem.second.get_hp_max();
     }
@@ -3992,9 +3992,7 @@ void player::environmental_revert_effect()
     addictions.clear();
     morale->clear();
 
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        elem.second.set_hp_to_max();
-    }
+    set_all_parts_hp_to_max();
     set_hunger( 0 );
     set_thirst( 0 );
     set_fatigue( 0 );

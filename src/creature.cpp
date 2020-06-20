@@ -1435,11 +1435,6 @@ void Creature::set_anatomy( const anatomy_id &anat )
     creature_anatomy = anat;
 }
 
-std::map<bodypart_str_id, bodypart> Creature::get_body()
-{
-    return body;
-}
-
 std::map<bodypart_str_id, bodypart> Creature::get_body() const
 {
     return body;
@@ -1449,6 +1444,28 @@ void Creature::set_body()
 {
     for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
         body.emplace( bp.id(), bodypart( bp.id() ) );
+    }
+}
+
+void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
+                                  int per_max,  int int_max,  int fat_to_max_hp )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
+        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
+                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
+                        part.first->hp_mods.per_mod + fat_to_max_hp + hp_adjustment ) * hp_mod;
+
+        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
+            new_max *= 0.8;
+        }
+
+        float max_hp_ratio = static_cast<float>( new_max ) /
+                             static_cast<float>( part.second.get_hp_max() );
+
+        int new_cur = ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+
+        part.second.set_hp_max( std::max( new_max, 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
     }
 }
 
@@ -1483,6 +1500,11 @@ int Creature::get_part_hp_max( const bodypart_id &id ) const
     return get_part( id ).get_hp_max();
 }
 
+int Creature::get_part_healed_total( const bodypart_id &id ) const
+{
+    return get_part( id ).get_healed_total();
+}
+
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     get_part( id )->set_hp_cur( set );
@@ -1493,6 +1515,11 @@ void Creature::set_part_hp_max( const bodypart_id &id, int set )
     get_part( id )->set_hp_max( set );
 }
 
+void Creature::set_part_healed_total( const bodypart_id &id, int set )
+{
+    get_part( id )->set_healed_total( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1501,6 +1528,25 @@ void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_max( mod );
+}
+
+void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_healed_total( mod );
+}
+
+void Creature::set_all_parts_hp_cur( const int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_hp_cur( set );
+    }
+}
+
+void Creature::set_all_parts_hp_to_max()
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_hp_to_max();
+    }
 }
 
 
@@ -1530,7 +1576,7 @@ int Creature::get_hp( const bodypart_id &bp ) const
         return get_part_hp_cur( bp );
     }
     int hp_total = 0;
-    for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         hp_total += elem.second.get_hp_cur();
     }
     return hp_total;
@@ -1547,7 +1593,7 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
         return get_part_hp_max( bp );
     }
     int hp_total = 0;
-    for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         hp_total += elem.second.get_hp_max();
     }
     return hp_total;

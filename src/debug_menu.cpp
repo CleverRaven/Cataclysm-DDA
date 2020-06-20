@@ -638,33 +638,33 @@ void character_edit_menu()
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
             smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
             smenu.query();
-            bodypart_id bp;
+            bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
             int bp_ptr = -1;
             bool all_select = false;
 
             switch( smenu.ret ) {
                 case 0:
-                    bp = bodypart_id( "torso" );
+                    bp = bodypart_str_id( "torso" );
                     bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp = bodypart_id( "head" );
+                    bp = bodypart_str_id( "head" );
                     bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp = bodypart_id( "arm_l" );
+                    bp = bodypart_str_id( "arm_l" );
                     bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp = bodypart_id( "arm_r" );
+                    bp = bodypart_str_id( "arm_r" );
                     bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp = bodypart_id( "leg_l" );
+                    bp = bodypart_str_id( "leg_l" );
                     bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp = bodypart_id( "leg_r" );
+                    bp = bodypart_str_id( "leg_r" );
                     bp_ptr = leg_r_hp;
                     break;
                 case 6:
@@ -674,19 +674,17 @@ void character_edit_menu()
                     break;
             }
 
-            if( !bp.id().is_empty() ) {
+            if( bp.is_valid() ) {
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
-                    p.set_part_hp_cur( bp, value );
+                    p.set_part_hp_cur( bp.id(), value );
                     p.reset_stats();
                 }
             } else if( all_select ) {
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    for( std::pair<const bodypart_str_id, bodypart> &elem : p.get_body() ) {
-                        elem.second.set_hp_cur( value );
-                    }
+                    p.set_all_parts_hp_cur( value );
                     p.reset_stats();
                 }
             }

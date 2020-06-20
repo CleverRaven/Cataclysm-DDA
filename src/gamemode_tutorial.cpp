@@ -121,9 +121,7 @@ bool tutorial_game::init()
     g->u.int_cur = g->u.int_max;
     g->u.dex_cur = g->u.dex_max;
 
-    for( std::pair<const bodypart_str_id, bodypart> &part : g->u.get_body() ) {
-        part.second.set_hp_to_max() ;
-    }
+    g->u.set_all_parts_hp_to_max();
 
     const oter_id rock( "rock" );
     //~ default name for the tutorial

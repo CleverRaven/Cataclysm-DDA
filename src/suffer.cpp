@@ -179,7 +179,7 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
-    for( const std::pair< bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const float wetness_percentage = static_cast<float>( body_wetness[elem.first->token] ) /
                                          drench_capacity[elem.first->token];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
@@ -1429,7 +1429,7 @@ void Character::suffer()
 {
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
-    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
             add_effect( effect_disabled, 1_turns, elem.first->token, true );
         }

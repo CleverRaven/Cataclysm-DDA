@@ -187,9 +187,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     set_body();
     recalc_hp();
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        elem.second.set_hp_to_max();
-    }
+
     for( const Skill &e : Skill::skills ) {
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
@@ -420,9 +418,7 @@ void npc::randomize( const npc_class_id &type )
 
     set_body();
     recalc_hp();
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        elem.second.set_hp_to_max();
-    }
+
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -1242,7 +1238,7 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
@@ -1309,7 +1305,7 @@ void npc::form_opinion( const player &u )
 
     // VALUE
     op_of_u.value = 0;
-    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
             op_of_u.value++;
         }

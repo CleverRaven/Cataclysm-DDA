@@ -528,10 +528,6 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     set_body();
     recalc_hp();
-    //TODO: check if this loop is necessary
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        elem.second.set_hp_to_max();
-    }
 
     if( has_trait( trait_SMELLY ) ) {
         scent = 800;

@@ -1723,23 +1723,7 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    for( std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
-                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
-                        part.first->hp_mods.per_mod + get_fat_to_hp() + hp_adjustment ) * hp_mod;
-
-        if( has_trait( trait_GLASSJAW ) && part.first.id() == bodypart_id( "head" ) ) {
-            new_max *= 0.8;
-        }
-
-        float max_hp_ratio = static_cast<float>( new_max ) /
-                             static_cast<float>( part.second.get_hp_max() );
-
-        int new_cur = ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
-
-        part.second.set_hp_max( std::max( new_max, 1 ) );
-        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
-    }
+    calc_all_parts_hp( hp_mod, hp_adjustment, str_max, dex_max, per_max, int_max, get_fat_to_hp() );
 }
 
 // This must be called when any of the following change:
@@ -4623,11 +4607,11 @@ void Character::regen( int rate_multiplier )
 
 void Character::enforce_minimum_healing()
 {
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( elem.second.get_healed_total() <= 0 ) {
-            heal( elem.first.id(), 1 );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( get_part_healed_total( bp ) <= 0 ) {
+            heal( bp, 1 );
         }
-        elem.second.set_healed_total( 0 );
+        set_part_healed_total( bp, 0 );
     }
 }
 
@@ -8694,7 +8678,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( hurt ) );
 
-    mod_part_hp_max( hurt, - dam_to_bodypart );
+    mod_part_hp_cur( hurt, - dam_to_bodypart );
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
@@ -8917,9 +8901,9 @@ void Character::heal( const bodypart_id &healed, int dam )
 
 void Character::healall( int dam )
 {
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        heal( elem.first.id(), dam );
-        elem.second.mod_healed_total( dam );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        heal( bp, dam );
+        mod_part_healed_total( bp, dam );
     }
 }
 
@@ -8929,10 +8913,10 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
-        const int dam_to_bodypart = std::min( dam, elem.second.get_hp_cur() );
-        elem.second.mod_hp_cur( - dam_to_bodypart );
+        const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
+        mod_part_hp_cur( bp, - dam_to_bodypart );
         g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
     }
 
@@ -10734,7 +10718,7 @@ int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
     int lowest_hp = 999;
-    for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
             lowest_hp = cur_hp;
