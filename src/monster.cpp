@@ -2832,6 +2832,26 @@ void monster::on_hit( Creature *source, bodypart_id,
     // TODO: Faction relations
 }
 
+int monster::get_hp_max( const bodypart_id & ) const
+{
+    return type->hp;
+}
+
+int monster::get_hp_max() const
+{
+    return type->hp;
+}
+
+int monster::get_hp( const bodypart_id & ) const
+{
+    return hp;
+}
+
+int monster::get_hp() const
+{
+    return hp;
+}
+
 float monster::get_mountable_weight_ratio() const
 {
     return type->mountable_weight_ratio;

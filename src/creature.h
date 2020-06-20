@@ -561,10 +561,10 @@ class Creature
 
         virtual int get_speed() const;
         virtual creature_size get_size() const = 0;
-        int get_hp( const bodypart_id &bp ) const;
-        int get_hp() const;
-        int get_hp_max( const bodypart_id &bp ) const;
-        int get_hp_max() const;
+        virtual int get_hp( const bodypart_id &bp ) const;
+        virtual int get_hp() const;
+        virtual int get_hp_max( const bodypart_id &bp ) const;
+        virtual int get_hp_max() const;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
