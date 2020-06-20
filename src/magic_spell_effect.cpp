@@ -426,7 +426,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.make_sound( target );
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && g->m.is_flammable( target ) ) {
-            ( g->m.add_field( target, fd_fire, 1, 10_minutes ) );
+            g->m.add_field( target, fd_fire, 1, 10_minutes );
         }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
