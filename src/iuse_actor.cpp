@@ -936,8 +936,8 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }
         newmon.friendly = -1;
-        if (is_pet) {
-        newmon.add_effect( effect_pet, 1_turns, num_bp, true );
+        if( is_pet ) {
+            newmon.add_effect( effect_pet, 1_turns, num_bp, true );
         }
     }
     return 1;
