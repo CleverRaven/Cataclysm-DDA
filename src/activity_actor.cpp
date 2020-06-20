@@ -1501,6 +1501,8 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "location", location );
     jsout.member( "stop_time", stop_time );
     jsout.member( "elapsed", elapsed );
+    jsout.member( "intensity_modifier", intensity_modifier );
+    jsout.member( "rest_mode", rest_mode );
 
     jsout.end_object();
 }
@@ -1517,6 +1519,8 @@ std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsi
     data.read( "location", actor.location );
     data.read( "stop_time", actor.stop_time );
     data.read( "elapsed", actor.elapsed );
+    data.read( "intensity_modifier", actor.intensity_modifier );
+    data.read( "rest_mode", actor.rest_mode );
 
     return actor.clone();
 }
