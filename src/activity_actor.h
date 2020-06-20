@@ -583,7 +583,7 @@ class workout_activity_actor : public activity_actor
 {
     private:
         bool disable_query = false; // disables query, continue as long as possible
-        bool rest_mode = false; // work or rest during traing session
+        bool rest_mode = false; // work or rest during training session
         time_duration duration;
         tripoint location;
         time_point stop_time; // can resume if time apart is not above

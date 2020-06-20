@@ -1313,7 +1313,7 @@ void workout_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-    // free training requires all limbe intact, but specialized workout machines
+    // free training requires all limbs intact, but specialized workout machines
     // train upper or lower parts of body only and may permit workout with
     // broken limbs as long as they are not involved by the machine
     bool hand_equipment = g->m.has_flag_furn( "WORKOUT_ARMS", location );

@@ -79,7 +79,6 @@ void player_activity::sychronize_type_with_actor()
     if( actor && type != activity_id::NULL_ID() ) {
         type = actor->get_type();
     }
-
 }
 
 bool player_activity::rooted() const
