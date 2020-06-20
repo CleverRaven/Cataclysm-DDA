@@ -1,5 +1,24 @@
 [
   {
+    "id": "exodiiminimag",
+    "looks_like": "garandclip",
+    "type": "MAGAZINE",
+    "name": { "str": "PA Md. 71 Exodii 85-12mm magazine" },
+    "description": "A small, sleek magazine based on a classic PA Md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload.",
+    "weight": "30 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "8512" ],
+    "capacity": 10,
+    "reload_time": 220,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8512": 10 } } ]
+  },
+  {
     "id": "exodiiBRmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
