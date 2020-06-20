@@ -163,7 +163,7 @@ class bodypart
 
     public:
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_max( id->base_hp ), hp_cur( id->base_hp ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
 
         bodypart_id get_id() const;
 
