@@ -192,6 +192,9 @@ TEST_CASE( "memorials" )
         m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
         g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
 
+    // Invokes achievement, so send another to clear the log for the test
+    b.send<event_type::installs_cbm>( ch, cbm );
+
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
 

@@ -257,7 +257,7 @@
     "id": "achievement_install_10_cbms",
     "type": "achievement",
     "name": "Clockwork Man",
-    "description": "By most mechanical and dirty hand.  I shall have such revenges on you...both.  The things I will do, what they are, yet I know not.  But they will be the terrors of the earth.",
+    "description": "By most mechanical and dirty hand.  I shall have such revenges on you… both.  The things I will do, what they are, yet I know not.  But they will be the terrors of the earth.",
     "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 10 } ],
     "hidden_by": [ "achievement_install_1_cbm" ]
   },
