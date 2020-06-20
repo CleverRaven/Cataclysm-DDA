@@ -3,7 +3,7 @@
     "id": "mon_feral_human_pipe",
     "type": "MONSTER",
     "name": { "str": "feral human" },
-    "description": "Pupils dilated and what remains to be seen of the iris and sclera are bloodshot.  This once person is now a blood crazed hunter.",
+    "description": "Pupils dilated and what remains to be seen of the iris and sclera are bloodshot.  It still breathes but the zombies treat it like one of them.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
