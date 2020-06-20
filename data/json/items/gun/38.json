@@ -34,7 +34,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "38": 2 } } ]
   },
   {
     "id": "cop_38",
@@ -69,7 +69,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 4, "38": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "357mag": 4, "38": 4 } } ]
   },
   {
     "id": "model_10_revolver",
@@ -92,7 +92,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid" :  true, "ammo_restriction": { "38": 6 } } ]
   },
   {
     "id": "rifle_38",
@@ -131,7 +131,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "38": 1 } } ]
   },
   {
     "id": "ruger_lcr_38",
@@ -167,7 +167,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "38": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid" :  true, "ammo_restriction": { "38": 5 } } ]
   },
   {
     "id": "sw_619",
@@ -202,6 +202,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid" :  true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
   }
 ]

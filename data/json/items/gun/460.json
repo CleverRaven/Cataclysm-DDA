@@ -13,6 +13,7 @@
     "built_in_mods": [ "barrel_ported" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",

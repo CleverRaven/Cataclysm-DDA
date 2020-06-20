@@ -16,7 +16,7 @@
     "ammo_type": [ "762" ],
     "capacity": 10,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 10 } } ]
   },
   {
     "id": "akmag10",
@@ -34,7 +34,7 @@
     "ammo_type": [ "762" ],
     "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 10 } } ]
   },
   {
     "id": "akmag20",
@@ -52,7 +52,7 @@
     "ammo_type": [ "762" ],
     "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 20 } } ]
   },
   {
     "id": "akmag30",
@@ -70,7 +70,7 @@
     "ammo_type": [ "762" ],
     "capacity": 30,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 30 } } ]
   },
   {
     "id": "akmag40",
@@ -88,7 +88,7 @@
     "ammo_type": [ "762" ],
     "capacity": 40,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 40 } } ]
   },
   {
     "id": "akdrum75",
@@ -106,6 +106,6 @@
     "ammo_type": [ "762" ],
     "capacity": 75,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 75 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 75 } } ]
   }
 ]

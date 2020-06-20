@@ -298,7 +298,7 @@
     "clip_size": 3,
     "barrel_length": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "308": 3 } } ]
   },
   {
     "id": "scar_h",
@@ -360,7 +360,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "hk417_13",

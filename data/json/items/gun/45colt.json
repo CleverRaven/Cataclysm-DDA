@@ -34,7 +34,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
   },
   {
     "id": "colt_lightning",
@@ -60,7 +60,7 @@
     "blackpowder_tolerance": 56,
     "reload_noise": "chik chik.",
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 14 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "45colt": 14 } } ]
   },
   {
     "id": "colt_saa",
@@ -82,6 +82,6 @@
     "durability": 8,
     "clip_size": 6,
     "proportional": { "reload": 1.5 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45colt": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "45colt": 6 } } ]
   }
 ]

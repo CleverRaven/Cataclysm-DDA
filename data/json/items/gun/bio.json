@@ -21,7 +21,7 @@
     "clip_size": 1,
     "reload": 200,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bio_emp_gun",

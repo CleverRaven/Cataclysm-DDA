@@ -15,7 +15,7 @@
     "ammo_type": [ "9x18" ],
     "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9x18": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9x18": 8 } } ]
   },
   {
     "id": "skorpion82mag",
@@ -33,6 +33,6 @@
     "ammo_type": [ "9x18" ],
     "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9x18": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9x18": 20 } } ]
   }
 ]

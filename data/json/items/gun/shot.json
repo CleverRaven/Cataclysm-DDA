@@ -32,7 +32,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "bigun",
@@ -99,7 +99,7 @@
     ],
     "clip_size": 6,
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "browning_a5",
@@ -120,7 +120,7 @@
     "durability": 6,
     "clip_size": 5,
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "ksg",
@@ -155,7 +155,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "ksg-25",
@@ -189,7 +189,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "m1014",
@@ -221,7 +221,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "mossberg_500",
@@ -242,7 +242,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "durability": 9,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "mossberg_500_security",
@@ -273,7 +273,7 @@
     "price": 70000,
     "barrel_length": "0 ml",
     "clip_size": 9,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 9 } } ]
   },
   {
     "id": "mossberg_930",
@@ -307,7 +307,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 8 } } ]
   },
   {
     "id": "pipe_double_shotgun",
@@ -331,7 +331,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "pipe_shotgun",
@@ -365,7 +365,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "remington_870",
@@ -386,7 +386,7 @@
     "durability": 8,
     "clip_size": 5,
     "barrel_length": "229 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "remington_870_breacher",
@@ -421,7 +421,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
     "id": "remington_870_express",
@@ -437,7 +437,7 @@
     "clip_size": 7,
     "barrel_length": "20 ml",
     "price": 33800,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "remington_1100",
@@ -473,7 +473,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 10 } } ]
   },
   {
     "id": "revolver_shotgun",
@@ -505,7 +505,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "saiga_12",
@@ -572,7 +572,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "shotgun_s",
@@ -606,7 +606,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "streetsweeper",
@@ -644,7 +644,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "SPAS_12",
@@ -679,7 +679,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 9 } } ]
   },
   {
     "id": "tavor_12",
@@ -714,7 +714,7 @@
       [ "sling", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "USAS_12",
@@ -789,7 +789,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "winchester_1897",
@@ -824,7 +824,7 @@
     ],
     "default_mods": [ "sword_bayonet" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "slam_shotgun",
@@ -847,6 +847,6 @@
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "shot": 1 } } ]
   }
 ]

@@ -15,6 +15,6 @@
     "ammo_type": [ "300" ],
     "capacity": 5,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 5 } } ]
   }
 ]

@@ -30,6 +30,6 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "blunderbuss": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "blunderbuss": 1 } } ]
   }
 ]

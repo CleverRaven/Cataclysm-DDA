@@ -28,7 +28,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m320",
@@ -50,7 +50,7 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m79",
@@ -82,7 +82,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "mgl",
@@ -113,7 +113,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 6 } } ]
   },
   {
     "id": "rm802",
@@ -146,7 +146,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 4 } } ]
   },
   {
     "id": "triple_launcher_simple",
@@ -158,7 +158,7 @@
     "price_postapoc": 1750,
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
     "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 3 } } ]
   },
   {
     "id": "pseudo_m203",
@@ -183,6 +183,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "40x46mm": 6 } } ]
   }
 ]

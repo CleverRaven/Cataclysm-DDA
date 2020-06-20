@@ -15,7 +15,7 @@
     "ammo_type": [ "57" ],
     "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "57": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 20 } } ]
   },
   {
     "id": "fnp90mag",
@@ -33,6 +33,6 @@
     "ammo_type": [ "57" ],
     "capacity": 50,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "57": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 50 } } ]
   }
 ]

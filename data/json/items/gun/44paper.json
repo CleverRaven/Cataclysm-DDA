@@ -19,7 +19,7 @@
     "durability": 7,
     "blackpowder_tolerance": 96,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44paper": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "44paper": 6 } } ]
   },
   {
     "id": "lemat_revolver",
@@ -54,6 +54,6 @@
     ],
     "built_in_mods": [ "lemat_revolver_shotgun" ],
     "extend": { "flags": [ "NO_UNLOAD" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44paper": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "44paper": 9 } } ]
   }
 ]

@@ -21,6 +21,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -151,6 +152,7 @@
     "min_cycle_recoil": 380,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -307,6 +309,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid":  true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -354,6 +357,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -385,6 +389,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -415,6 +420,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -462,7 +468,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "9mm": 1 } } ]
   },
   {
     "id": "smg_9mm",
@@ -627,6 +633,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -706,6 +713,7 @@
     "//2": "Glock 17s cannot load magazines shorter than the standard 17rd magazine.",
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -742,6 +750,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       {
+        "magazine_well": "65 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -771,6 +780,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -799,6 +809,7 @@
     "durability": 8,
     "pocket_data": [
       {
+        "magazine_well": "191 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -827,6 +838,7 @@
     "durability": 8,
     "pocket_data": [
       {
+        "magazine_well": "228 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -854,6 +866,7 @@
     "durability": 9,
     "pocket_data": [
       {
+        "magazine_well": "207 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -882,6 +895,7 @@
     "durability": 7,
     "pocket_data": [
       {
+        "magazine_well": "284 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -910,6 +924,7 @@
     "durability": 8,
     "pocket_data": [
       {
+        "magazine_well": "230 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -938,6 +953,7 @@
     "durability": 8,
     "pocket_data": [
       {
+        "magazine_well": "176 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",

@@ -36,7 +36,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "20x66mm": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 5 } } ]
   },
   {
     "id": "rm20",
@@ -73,6 +73,7 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [
       {
+        "magazine_well": "500 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -114,6 +115,7 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",

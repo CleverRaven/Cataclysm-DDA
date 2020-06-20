@@ -16,6 +16,6 @@
     "count": 25,
     "linkage": "ammolink40mm",
     "flags": [ "MAG_BELT", "MAG_DESTROY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x53mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x53mm": 50 } } ]
   }
 ]

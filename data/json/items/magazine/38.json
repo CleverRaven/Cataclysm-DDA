@@ -15,7 +15,7 @@
     "ammo_type": [ "357mag", "38" ],
     "capacity": 7,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 7, "38": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
   },
   {
     "id": "38_speedloader5",
@@ -33,7 +33,7 @@
     "ammo_type": [ "357mag", "38" ],
     "capacity": 5,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 5, "38": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 5, "38": 5 } } ]
   },
   {
     "id": "38_speedloader6",
@@ -51,6 +51,6 @@
     "ammo_type": [ "357mag", "38" ],
     "capacity": 6,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 6, "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 6, "38": 6 } } ]
   }
 ]

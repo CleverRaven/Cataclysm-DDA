@@ -122,6 +122,7 @@
     "blackpowder_tolerance": 48,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -231,7 +232,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "45": 1 } } ]
   },
   {
     "id": "smg_45",
@@ -305,7 +306,7 @@
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid" :  true, "ammo_restriction": { "45": 5 } } ]
   },
   {
     "id": "tommygun",
@@ -371,6 +372,7 @@
     "built_in_mods": [ "match_trigger" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -412,6 +414,7 @@
     "durability": 9,
     "pocket_data": [
       {
+        "magazine_well": "240 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -441,6 +444,7 @@
     "durability": 7,
     "pocket_data": [
       {
+        "magazine_well": "353 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
