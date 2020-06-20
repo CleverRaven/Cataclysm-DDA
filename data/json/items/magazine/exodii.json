@@ -1,0 +1,21 @@
+[
+  {
+    "id": "exodiiBRmag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "PA Md. 68 Exodii 85-12mm magazine" },
+    "description": "An unreasonably large magazine for the already heavy PA Md. 68 battle rifle, custom designed and manufactured by the Exodii.",
+    "weight": "600 g",
+    "volume": "1250 ml",
+    "price": 10500,
+    "price_postapoc": 450,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "8512" ],
+    "capacity": 60,
+    "reload_time": 180,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8512": 60 } } ]
+  }
+]

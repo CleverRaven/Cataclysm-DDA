@@ -1,0 +1,36 @@
+[
+  {
+    "id": "pamd68",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "PA md. 68 Battle Rifle" },
+    "description": "The most popular gun to use the 85-12mm cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.",
+    "weight": "9480 g",
+    "volume": "2800 ml",
+    "price": 350000,
+    "price_postapoc": 4000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "8512" ],
+    "skill": "rifle",
+    "dispersion": 190,
+    "durability": 9,
+    "min_cycle_recoil": 3820,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
+    "barrel_length": "1200 ml",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "exodiiBRmag" ]
+      }
+    ]
+  }
+]
