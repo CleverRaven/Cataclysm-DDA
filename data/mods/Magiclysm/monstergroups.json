@@ -47,6 +47,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_POLYMORPH_SHADOW",
+    "default": "mon_shadow",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_shadow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_shadow_snake", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_WORM",
     "default": "mon_worm",
     "is_animal": true,
