@@ -154,8 +154,8 @@ class bodypart
     private:
         bodypart_str_id id;
 
-        int hp_cur = 0;
-        int hp_max = 0;
+        int hp_cur;
+        int hp_max;
 
         int healed_total = 0;
         int damage_bandaged = 0;
