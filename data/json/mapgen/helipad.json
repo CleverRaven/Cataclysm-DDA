@@ -5,7 +5,7 @@
     "type": "mapgen",
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "FFF.......pppppppp...........................FFF",
         "FTFFWWWWWF!!!!!!!!FFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
@@ -134,7 +134,7 @@
     "type": "mapgen",
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "****RRRRR***************************************",

@@ -5,7 +5,7 @@
     "om_terrain": [ "s_jewelry" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....________________....",
         "....,____,____,____,....",
@@ -33,11 +33,11 @@
         "....|--------------|||||"
       ],
       "terrain": {
-        " ": "t_floor",
-        "#": "t_carpet_yellow",
-        ";": "t_carpet_yellow",
-        "C": "t_carpet_yellow",
-        "t": "t_carpet_yellow",
+        " ": "t_floor_roofed",
+        "#": "t_carpet_yellow_roofed",
+        ";": "t_carpet_yellow_roofed",
+        "C": "t_carpet_yellow_roofed",
+        "t": "t_carpet_yellow_roofed",
         "&": "t_door_locked",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",

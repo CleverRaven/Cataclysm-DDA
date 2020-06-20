@@ -211,7 +211,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_TO_WALL" ],
     "open": "t_screen_door_o",
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "screen_mesh", "count": 1 },
@@ -226,7 +226,7 @@
       "str_max_blocked": 15,
       "sound": "rattle!",
       "sound_fail": "thump!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "screen_mesh", "count": [ 0, 1 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
@@ -246,7 +246,7 @@
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_TO_WALL" ],
     "close": "t_screen_door_c",
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "count": 4 },
         { "item": "screen_mesh", "count": 1 },
@@ -261,7 +261,7 @@
       "str_max_blocked": 15,
       "sound": "rattle!",
       "sound_fail": "thump!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "screen_mesh", "count": [ 0, 1 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
@@ -440,7 +440,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "AUTO_WALL_SYMBOL" ],
     "examine_action": "chainfence",
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "charges": 4 } ]
     },
     "bash": {
@@ -448,7 +448,7 @@
       "str_max": 12,
       "sound": "metal rattling!",
       "sound_fail": "whack!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "screen_mesh", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 5, 10 ] },
@@ -662,7 +662,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "pipe", "count": 8 },
         { "item": "sheet_metal_small", "count": [ 16, 20 ] },
@@ -674,7 +674,7 @@
       "str_max": 18,
       "sound": "clang!",
       "sound_fail": "smash!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
@@ -697,7 +697,7 @@
     "connects_to": "WOODFENCE",
     "open": "t_gate_metal_o",
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "pipe", "count": 8 },
         { "item": "sheet_metal_small", "count": [ 16, 20 ] },
@@ -712,7 +712,7 @@
       "str_max_blocked": 30,
       "sound": "crack.",
       "sound_fail": "wham.",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
@@ -736,7 +736,7 @@
     "connects_to": "WOODFENCE",
     "close": "t_gate_metal_c",
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "pipe", "count": 8 },
         { "item": "sheet_metal_small", "count": [ 16, 20 ] },
@@ -751,7 +751,7 @@
       "str_max_blocked": 30,
       "sound": "crack.",
       "sound_fail": "wham.",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
@@ -863,7 +863,7 @@
       "str_max": 80,
       "sound": "crack!",
       "sound_fail": "whump.",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "prob": 50 },
         { "item": "nail", "charges": [ 2, 6 ] },
@@ -883,13 +883,13 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "pipe", "count": 4 } ] },
+    "deconstruct": { "ter_set": "t_rock_floor_roofed", "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
       "str_min": 10,
       "str_max": 40,
       "sound": "glass braking!",
       "sound_fail": "ker-rash!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "glass_shard", "count": [ 50, 164 ] },
         { "item": "pipe", "charges": [ 1, 2 ] },
@@ -908,13 +908,13 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
+    "deconstruct": { "ter_set": "t_rock_floor_roofed", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
       "str_min": 20,
       "str_max": 80,
       "sound": "clang!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
@@ -939,7 +939,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [
         { "item": "rock", "count": [ 5, 10 ] },
         { "item": "scrap", "count": [ 5, 8 ] },

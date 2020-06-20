@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|--------|....|--------|",
         "|llllllllg...6gllllllll|",

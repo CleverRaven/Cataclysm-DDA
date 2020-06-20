@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "place_items": [
         { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 21, "y": [ 5, 6 ] },
         { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 21, "y": 3 },
@@ -58,9 +58,9 @@
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "D": "t_door_c",
-        "T": "t_thconc_floor",
+        "T": "t_thconc_floor_roofed",
         "_": "t_grass",
         "a": "t_pavement",
         "1": "t_dirt",
@@ -174,7 +174,7 @@
         { "chance": 65, "repeat": [ 1, 8 ], "item": "magazines", "x": 12, "y": 14 },
         { "chance": 65, "repeat": [ 1, 8 ], "item": "magazines", "x": 12, "y": 12 }
       ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "___d___1sss1____d_______",
         "_||---||ttt||||||||||||_",
@@ -211,7 +211,7 @@
         "p": "t_pavement",
         "a": "t_pavement",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "|": "t_wall_w",
         "4": "t_gutter_downspout"
       },

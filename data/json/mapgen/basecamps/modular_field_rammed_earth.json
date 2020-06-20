@@ -4,7 +4,7 @@
     "id": "fbmh_rammed_earth_palette",
     "terrain": {
       ";": "t_dirt",
-      ".": "t_floor_primitive",
+      ".": "t_floor_primitive_roofed",
       "+": "t_door_makeshift_c",
       "v": "t_window_empty",
       "w": "t_wall_rammed_earth"

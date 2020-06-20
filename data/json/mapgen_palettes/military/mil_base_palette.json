@@ -11,7 +11,7 @@
       "x": [ [ "t_chainfence", 10 ], "t_chainfence_posts", "t_region_groundcover_barren" ],
       "X": "t_chainfence",
       "G": "t_chaingate_c",
-      ".": "t_thconc_floor",
+      ".": "t_thconc_floor_roofed",
       "|": "t_wall_w",
       "-": "t_wall_w",
       "/": "t_strconc_wall",

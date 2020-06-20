@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "abstorefront" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         " |-xxxxxxxxDDxxxxxxxx-| ",
@@ -56,7 +56,7 @@
         " ": "t_sidewalk",
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "D": "t_door_locked",
         "x": "t_window_boarded",
         "4": "t_gutter_downspout",
@@ -132,7 +132,7 @@
     "method": "json",
     "om_terrain": [ "abstorefront_1" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_______                 ",
         "_______                 ",
@@ -186,7 +186,7 @@
         "~": "t_pavement_y",
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "D": "t_door_locked",
         "x": "t_window_boarded",
         "F": "t_chainfence",

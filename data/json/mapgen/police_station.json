@@ -5,7 +5,7 @@
     "om_terrain": [ "police" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -35,7 +35,7 @@
       "terrain": {
         "-": "t_brick_wall",
         "|": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": "t_sidewalk",
         ",": "t_pavement",
         "*": "t_door_locked",
@@ -153,7 +153,7 @@
     "om_terrain": [ "police_1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -183,7 +183,7 @@
       "terrain": {
         "-": "t_brick_wall",
         "|": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": "t_sidewalk",
         ",": "t_pavement",
         "*": "t_door_locked",
@@ -246,7 +246,7 @@
     "om_terrain": "police_2ndfloor_1",
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -276,7 +276,7 @@
       "terrain": {
         "-": "t_brick_wall",
         "|": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         " ": "t_open_air",
         "4": "t_door_bar_locked",
         "*": "t_door_locked",
@@ -422,7 +422,7 @@
     "om_terrain": [ "police_2" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "___________________,,,,,",
         "|-----|-w--w--w-*-|,,,,,",
@@ -452,7 +452,7 @@
       "terrain": {
         "-": "t_brick_wall",
         "|": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": "t_sidewalk",
         ",": "t_pavement",
         ")": "t_pavement_y",
@@ -531,7 +531,7 @@
     "om_terrain": "police_roof_2",
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|222222222222222223     ",
         "|.................3     ",
@@ -560,7 +560,7 @@
       ],
       "terrain": {
         ".": "t_flat_roof",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         " ": "t_open_air",
         "2": "t_gutter_north",
         "-": "t_gutter_south",

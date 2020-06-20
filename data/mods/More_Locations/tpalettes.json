@@ -40,7 +40,7 @@
     "type": "palette",
     "id": "multistory_house",
     "terrain": {
-      ".": "t_floor",
+      ".": "t_floor_roofed",
       "=": "t_brick_wall",
       "-": "t_wall",
       "|": "t_wall",
@@ -112,7 +112,7 @@
   {
     "type": "palette",
     "id": "estate",
-    "terrain": { " ": "t_carpet_red", ",": "t_linoleum_white" },
+    "terrain": { " ": "t_carpet_red_roofed", ",": "t_linoleum_white_roofed" },
     "furniture": {
       "$": "f_safe_l",
       "j": "f_displaycase",
@@ -331,7 +331,7 @@
       "#": "t_rock",
       ".": "t_concrete_floor",
       " ": "t_concrete_floor",
-      ",": "t_floor",
+      ",": "t_floor_roofed",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
       "+": "t_door_c",
@@ -411,7 +411,7 @@
     "type": "palette",
     "id": "tri_tower",
     "terrain": {
-      ".": "t_floor",
+      ".": "t_floor_roofed",
       "=": "t_concrete_wall",
       "-": "t_wall",
       "|": "t_wall",

@@ -55,7 +55,7 @@
           "fg": 7
         },
         {
-          "id": ["t_floor" ],
+          "id": ["t_floor_roofed" ],
           "bg": 8
         },
         {
@@ -132,7 +132,7 @@
           "fg": [ 29, 30 ]
         },
         {
-          "id": ["t_rock_floor" ],
+          "id": ["t_rock_floor_roofed" ],
           "fg": 31
         },
         {
@@ -200,7 +200,7 @@
           "fg": 12
         },
         {
-          "id": [ "t_dirt", "t_dirtfloor", "t_searth_test" ],
+          "id": [ "t_dirt", "t_dirtfloor_roofed", "t_searth_test" ],
           "fg": 13
         },
         {
@@ -220,7 +220,7 @@
           "fg": 65
         },
         {
-          "id": ["t_concrete", "t_sidewalk", "t_sidewalk_bg_dp", "t_flat_roof", "t_strconc_floor", "t_strconc_floor_halfway", "t_thconc_floor", "t_thconc_floor_olight" ],
+          "id": ["t_concrete", "t_sidewalk", "t_sidewalk_bg_dp", "t_flat_roof", "t_strconc_floor_roofed", "t_strconc_floor_halfway", "t_thconc_floor_roofed", "t_thconc_floor_roofed_olight" ],
           "fg": 66
         },
         {
@@ -1836,19 +1836,19 @@
           "fg": 485
         },
         {
-          "id": ["t_carpet_green" ],
+          "id": ["t_carpet_green_roofed" ],
           "fg": 486
         },
         {
-          "id": ["t_carpet_purple" ],
+          "id": ["t_carpet_purple_roofed" ],
           "fg": 487
         },
         {
-          "id": ["t_carpet_red" ],
+          "id": ["t_carpet_red_roofed" ],
           "fg": 488
         },
         {
-          "id": ["t_carpet_yellow" ],
+          "id": ["t_carpet_yellow_roofed" ],
           "fg": 489
         },
         {
@@ -2159,7 +2159,7 @@
           "fg": 621
         },
         {
-          "id": ["t_floor_waxed" ],
+          "id": ["t_floor_waxed_roofed" ],
           "fg": 622
         },
         {
@@ -2285,11 +2285,11 @@
           "bg": 66
         },
         {
-          "id": ["t_linoleum_white" ],
+          "id": ["t_linoleum_white_roofed" ],
           "fg": 672
         },
         {
-          "id": ["t_linoleum_gray" ],
+          "id": ["t_linoleum_gray_roofed" ],
           "fg": 673
         },
         {

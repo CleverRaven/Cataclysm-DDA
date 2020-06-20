@@ -40,7 +40,7 @@
       ]
     ],
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "########################################################################################################################",
         "########################################################################################################################",
@@ -171,7 +171,7 @@
         "@": "t_elevator_control_off",
         "}": "t_window_bars",
         ":": "t_reinforced_glass",
-        "*": "t_thconc_floor_olight",
+        "*": "t_thconc_floor_roofed_olight",
         "e": "t_elevator",
         "m": "t_door_metal_c",
         "w": "t_gates_control_brick",

@@ -5,7 +5,7 @@
     "om_terrain": [ "s_sports" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
@@ -34,7 +34,7 @@
       ],
       "terrain": {
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "'": "t_pavement",
         "`": "t_pavement_y",
         "+": "t_door_c",

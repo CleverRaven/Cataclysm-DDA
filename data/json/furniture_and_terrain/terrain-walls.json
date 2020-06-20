@@ -84,7 +84,7 @@
       "MOUNTABLE",
       "SHORT"
     ],
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
+    "deconstruct": { "ter_set": "t_floor_roofed", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 20,
@@ -339,7 +339,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "rock", "count": [ 6, 12 ] }, { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 } ]
     }
   },
@@ -887,7 +887,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -910,7 +910,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -933,7 +933,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -956,7 +956,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -978,7 +978,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
     }
   },
@@ -1000,7 +1000,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
@@ -1027,7 +1027,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
@@ -1050,7 +1050,7 @@
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -1128,13 +1128,13 @@
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
-    "roof": "t_rock_floor",
+    "roof": "t_rock_floor_roofed",
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "ter_set_bashed_from_above": "t_rock_floor_no_roof",
       "items": [
         { "item": "rock", "count": [ 3, 7 ] },
@@ -1161,7 +1161,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "rock", "count": [ 3, 7 ] } ]
     }
   },
@@ -1180,7 +1180,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "rock", "count": [ 3, 7 ] } ]
     }
   },
@@ -1199,7 +1199,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "rock", "count": [ 3, 7 ] } ]
     }
   },

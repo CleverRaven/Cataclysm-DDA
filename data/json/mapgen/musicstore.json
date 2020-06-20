@@ -38,7 +38,7 @@
     "weight": 180,
     "//": "Real decent place for a quick morale boost, relatively rare.",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "_s______,______,______s_",
         "_s______,______,______s_",
@@ -70,7 +70,7 @@
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall_b",
-        ".": "t_linoleum_gray",
+        ".": "t_linoleum_gray_roofed",
         "1": "t_pavement",
         "2": "t_pavement",
         "5": "t_wall_glass",
@@ -82,10 +82,10 @@
         "d": "t_pavement",
         "s": "t_sidewalk",
         "z": "t_shrub",
-        "g": "t_carpet_green",
-        "h": "t_carpet_green",
-        "K": "t_carpet_green",
-        "7": "t_carpet_green",
+        "g": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "K": "t_carpet_green_roofed",
+        "7": "t_carpet_green_roofed",
         "<": "t_gutter_downspout",
         "|": "t_wall_b"
       },

@@ -32,9 +32,9 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_thconc_floor",
+        "#": "t_thconc_floor_roofed",
         "$": "t_fence_rope",
-        "&": "t_thconc_floor",
+        "&": "t_thconc_floor_roofed",
         "-": "t_railing_v",
         ".": "t_grass",
         "1": "t_tree_young",
@@ -42,7 +42,7 @@
         "C": "t_chainfence_posts",
         "S": "t_sandbox",
         "T": "t_grass",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "a": "t_shrub",
         "b": "t_grass",
         "c": "t_grass",
@@ -51,7 +51,7 @@
         "f": "t_grass",
         "m": "t_monkey_bars",
         "s": "t_sand",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "u": "t_underbrush_harvested_autumn",
         "|": "t_wall_log"
       },
@@ -142,7 +142,7 @@
         "........u..............."
       ],
       "terrain": {
-        "#": "t_thconc_floor",
+        "#": "t_thconc_floor_roofed",
         "-": "t_railing_h",
         ".": "t_grass",
         "1": "t_tree_young",
@@ -150,14 +150,14 @@
         "7": "t_tree_cherry_harvested",
         "S": "t_shrub",
         "U": "t_underbrush_harvested_autumn",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "a": "t_underbrush",
         "d": "t_dirt",
         "p": "t_pavement_y",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "u": "t_underbrush_harvested_spring",
-        "w": "t_thconc_floor",
+        "w": "t_thconc_floor_roofed",
         "|": "t_wall_log"
       },
       "furniture": { "#": "f_bench", "t": "f_table", "w": "f_woodstove" },

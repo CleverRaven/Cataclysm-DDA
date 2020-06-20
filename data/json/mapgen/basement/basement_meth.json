@@ -36,16 +36,16 @@
       "palettes": [ "basement_residential" ],
       "terrain": {
         "x": "t_door_locked_interior",
-        "I": "t_linoleum_gray",
-        "0": "t_linoleum_gray",
-        "l": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "A": "t_floor",
-        "O": "t_linoleum_gray",
-        "p": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
-        "n": "t_linoleum_gray",
-        "Y": "t_floor"
+        "I": "t_linoleum_gray_roofed",
+        "0": "t_linoleum_gray_roofed",
+        "l": "t_linoleum_gray_roofed",
+        "R": "t_linoleum_gray_roofed",
+        "A": "t_floor_roofed",
+        "O": "t_linoleum_gray_roofed",
+        "p": "t_linoleum_gray_roofed",
+        "u": "t_linoleum_gray_roofed",
+        "n": "t_linoleum_gray_roofed",
+        "Y": "t_floor_roofed"
       },
       "furniture": {
         "I": "f_sink",
@@ -146,7 +146,7 @@
         "                        "
       ],
       "palettes": [ "basement_residential" ],
-      "terrain": { "Y": "t_floor" },
+      "terrain": { "Y": "t_floor_roofed" },
       "furniture": { "Y": [ [ "f_crate_c", 2 ], [ "f_crate_o", 3 ], [ "f_null", 10 ] ] },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_loot": [
@@ -204,7 +204,7 @@
         "                        "
       ],
       "palettes": [ "basement_residential" ],
-      "terrain": { "Y": "t_floor" },
+      "terrain": { "Y": "t_floor_roofed" },
       "furniture": { "Y": [ [ "f_crate_c", 2 ], [ "f_crate_o", 3 ], [ "f_null", 10 ] ] },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_loot": [

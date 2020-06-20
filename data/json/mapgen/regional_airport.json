@@ -6,7 +6,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "QQQQQQQQ|W|++|W|QQQQQQQf",
         "QQ7QQQQQ|a.....|QQQQQ7Qf",
@@ -87,7 +87,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "////////// ss /////////f",
         "////////// ss /////////f",
@@ -196,7 +196,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "////////////////////////",
         "////////////////////////",
@@ -265,7 +265,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ssss",
         "/%fss_,___________,_ssss",
@@ -302,7 +302,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ss#Q",
         "/%fss_,___________,_ss#Q",
@@ -339,7 +339,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ss  ",
         "/%fss_,___________,_ss  ",
@@ -376,7 +376,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ssf/",
         "/%fss_,___________,_ssf/",
@@ -413,7 +413,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ssf/",
         "fffss_,___________,_ssf/",
@@ -451,7 +451,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ssff",
         "fffss_,___________,_ssss",
@@ -488,7 +488,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ssf/",
         "/%fss_,___________,_ssf/",
@@ -525,7 +525,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fsssssssssssssssssssf/",
         "/%fsssssssssssssssssssf/",
@@ -562,7 +562,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%fss_,___________,_ssf/",
         "/%fss_,___________,_ssf/",
@@ -599,7 +599,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 3, 3 ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ffffffffffffffffffffffff",
         "sssssssssssssssssssssssf",
@@ -675,7 +675,7 @@
     "weight": 250,
     "object": {
       "rotation": [ 1, 1 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -739,20 +739,20 @@
       "<": "t_stairs_up",
       "[": "t_ladder_down",
       "]": "t_ladder_up",
-      "'": "t_thconc_floor",
-      "r": "t_thconc_floor",
-      "O": "t_thconc_floor",
-      "l": "t_thconc_floor",
-      "B": "t_thconc_floor",
-      "q": "t_thconc_floor",
-      ".": "t_floor",
-      "i": "t_linoleum_white",
-      "S": "t_linoleum_white",
-      "T": "t_linoleum_white",
-      "e": "t_linoleum_white",
-      "o": "t_linoleum_white",
-      "C": "t_linoleum_white",
-      "y": "t_linoleum_white",
+      "'": "t_thconc_floor_roofed",
+      "r": "t_thconc_floor_roofed",
+      "O": "t_thconc_floor_roofed",
+      "l": "t_thconc_floor_roofed",
+      "B": "t_thconc_floor_roofed",
+      "q": "t_thconc_floor_roofed",
+      ".": "t_floor_roofed",
+      "i": "t_linoleum_white_roofed",
+      "S": "t_linoleum_white_roofed",
+      "T": "t_linoleum_white_roofed",
+      "e": "t_linoleum_white_roofed",
+      "o": "t_linoleum_white_roofed",
+      "C": "t_linoleum_white_roofed",
+      "y": "t_linoleum_white_roofed",
       " ": [ [ "t_dirt", 5 ], [ "t_grass", 15 ], [ "t_grass_long", 5 ] ],
       "x": "t_console_broken",
       ",": "t_pavement_y",

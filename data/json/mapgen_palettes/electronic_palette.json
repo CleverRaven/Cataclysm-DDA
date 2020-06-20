@@ -4,10 +4,10 @@
     "id": "electro_palette",
     "terrain": {
       " ": "t_region_groundcover_urban",
-      ",": "t_floor",
-      "_": "t_thconc_floor",
-      "^": "t_carpet_yellow",
-      "C": "t_carpet_yellow",
+      ",": "t_floor_roofed",
+      "_": "t_thconc_floor_roofed",
+      "^": "t_carpet_yellow_roofed",
+      "C": "t_carpet_yellow_roofed",
       "!": "t_pavement",
       "+": "t_door_c",
       "-": "t_brick_wall",
@@ -22,7 +22,7 @@
       "g": "t_chaingate_c",
       "<": "t_stairs_up",
       "|": "t_ladder_up",
-      "O": "t_thconc_floor",
+      "O": "t_thconc_floor_roofed",
       "(": "t_pavement"
     },
     "furniture": {

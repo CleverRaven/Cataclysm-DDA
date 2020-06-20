@@ -5,7 +5,7 @@
     "om_terrain": [ "house_porch" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".....:--p......!!!!!!!..",
         "......--.......!!!!!!!..",
@@ -34,22 +34,22 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "~": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "G": "t_thconc_floor",
-        "K": "t_thconc_floor",
+        "~": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "G": "t_thconc_floor_roofed",
+        "K": "t_thconc_floor_roofed",
         "!": "t_concrete",
         ":": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "_": "t_railing",
         "%": "t_region_groundcover_urban",
-        "9": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
-        "8": "t_linoleum_gray",
-        "(": "t_linoleum_gray",
+        "9": "t_linoleum_gray_roofed",
+        "t": "t_linoleum_gray_roofed",
+        "S": "t_linoleum_gray_roofed",
+        "8": "t_linoleum_gray_roofed",
+        "(": "t_linoleum_gray_roofed",
         "$": "t_column",
-        "f": "t_carpet_red",
-        "h": "t_carpet_red"
+        "f": "t_carpet_red_roofed",
+        "h": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_region_flower" },
       "place_loot": [
@@ -99,7 +99,7 @@
     "method": "json",
     "om_terrain": "house_porch_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

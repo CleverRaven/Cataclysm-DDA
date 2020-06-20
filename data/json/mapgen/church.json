@@ -33,7 +33,7 @@
         "      ^^    ss    ^^   s ",
         "      ^^    ss    ^^   s "
       ],
-      "terrain": { "p": "t_floor", "W": "t_floor", "<": "t_stairs_up", "y": "t_floor", "r": "t_carpet_red" },
+      "terrain": { "p": "t_floor_roofed", "W": "t_floor_roofed", "<": "t_stairs_up", "y": "t_floor_roofed", "r": "t_carpet_red_roofed" },
       "furniture": { "p": "f_piano", "W": "f_wardrobe" },
       "palettes": [ "church" ],
       "mapping": { "b": { "furniture": "f_brazier" } },
@@ -104,7 +104,7 @@
     "method": "json",
     "om_terrain": "church_steeple",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                         ",
         "                         ",
@@ -140,7 +140,7 @@
     "method": "json",
     "om_terrain": "church_steeple_end",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                         ",
         "                         ",
@@ -176,7 +176,7 @@
     "method": "json",
     "om_terrain": "church_steeple_roof",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                         ",
         "                         ",
@@ -244,28 +244,28 @@
       "palettes": [ "church" ],
       "mapping": { "b": { "furniture": "f_brazier" } },
       "terrain": {
-        "#": "t_rock_floor",
+        "#": "t_rock_floor_roofed",
         "$": "t_shrub",
-        ".": "t_rock_floor",
+        ".": "t_rock_floor_roofed",
         "B": "t_window_stained_blue",
-        "C": "t_rock_floor",
+        "C": "t_rock_floor_roofed",
         "G": "t_window_stained_green",
         "R": "t_railing_v",
-        "S": "t_floor",
-        "T": "t_floor",
+        "S": "t_floor_roofed",
+        "T": "t_floor_roofed",
         "V": "t_window_stained_red",
         "-": "t_wall_wood",
         "W": "t_rock_wall",
-        "b": "t_rock_floor",
-        "c": "t_rock_floor",
+        "b": "t_rock_floor_roofed",
+        "c": "t_rock_floor_roofed",
         "g": "t_door_glass_c",
-        "h": "t_rock_floor",
-        "l": "t_floor",
+        "h": "t_rock_floor_roofed",
+        "l": "t_floor_roofed",
         "r": "t_railing_h",
         "<": "t_stairs_up",
-        ",": "t_floor",
-        "t": "t_floor",
-        "y": "t_floor"
+        ",": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "y": "t_floor_roofed"
       },
       "items": {
         "#": { "item": "church", "chance": 40 },
@@ -291,7 +291,7 @@
     "method": "json",
     "om_terrain": "church_2ndfloor_1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "       x        x       ",
         "     xxxxxxxxxxxxxx     ",
@@ -320,7 +320,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "x": "t_rock_wall_half",
         "w": "t_rock_wall",
         "+": "t_door_locked",
@@ -355,7 +355,7 @@
     "method": "json",
     "om_terrain": "church_3rdfloor_1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -384,7 +384,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "x": "t_rock_wall_half",
         "w": "t_rock_wall",
         "+": "t_door_locked",

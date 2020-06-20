@@ -5,7 +5,7 @@
     "om_terrain": [ "s_gardening" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".ppp,____,____,____,.ppp",
         ".p.p,____,____,____,.p.p",
@@ -33,7 +33,7 @@
         "..%%%%%%%%%%%%%%%%%....."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall_g",
@@ -49,7 +49,7 @@
         "b": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "O": "t_window",
         "_": "t_pavement",
-        "r": "t_floor",
+        "r": "t_floor_roofed",
         "|": "t_wall_g",
         "?": "t_console_broken",
         "^": "t_chaingate_l",

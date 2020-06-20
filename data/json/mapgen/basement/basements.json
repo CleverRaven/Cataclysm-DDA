@@ -5,7 +5,7 @@
     "om_terrain": "house_04_basement",
     "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^######################^",
@@ -77,7 +77,7 @@
     "om_terrain": "house_05_basement",
     "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^######################^",

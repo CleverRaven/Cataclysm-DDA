@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "furniture": {
         "#": "f_table",
         "&": "f_trashcan",
@@ -55,17 +55,17 @@
         "........................"
       ],
       "terrain": {
-        "&": "t_floor",
+        "&": "t_floor_roofed",
         "+": "t_door_metal_c",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "D": "t_door_c",
-        "_": "t_thconc_floor",
-        "c": "t_floor",
+        "_": "t_thconc_floor_roofed",
+        "c": "t_floor_roofed",
         "R": "t_recycler",
-        "d": "t_floor",
-        "f": "t_floor",
+        "d": "t_floor_roofed",
+        "f": "t_floor_roofed",
         "s": "t_sidewalk",
-        "t": "t_floor",
+        "t": "t_floor_roofed",
         "w": "t_window",
         "|": "t_brick_wall",
         "4": "t_gutter_downspout"
@@ -138,7 +138,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "furniture": {
         "#": "f_table",
         "&": "f_trashcan",
@@ -201,7 +201,7 @@
         "D": "t_door_metal_c",
         "P": "t_concrete",
         "S": "t_chainfence",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "R": "t_recycler",
         "c": "t_concrete",
         "w": "t_window",
@@ -281,7 +281,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "furniture": {
         "#": "f_counter",
         "&": "f_trashcan",
@@ -346,7 +346,7 @@
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "p": "t_pavement",
         "s": "t_grass",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "w": "t_window",
         "{": "t_concrete",
         "|": "t_chainfence",

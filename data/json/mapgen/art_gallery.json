@@ -5,7 +5,7 @@
     "om_terrain": [ "art_gallery" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -35,14 +35,14 @@
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass_alarm",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "1": "t_tree_young",
         "4": "t_tree_pine",
         "D": "t_door_c",
         "U": "t_underbrush",
         "W": "t_wall_glass",
         "_": "t_sidewalk",
-        "c": "t_carpet_red",
+        "c": "t_carpet_red_roofed",
         "g": "t_grass",
         "u": "t_underbrush_harvested_spring",
         "<": "t_stairs_up",

@@ -8,7 +8,7 @@
   "weight": 75,
   "object": {
     "rotation": [ 0, 3 ],
-    "fill_ter": "t_thconc_floor",
+    "fill_ter": "t_thconc_floor_roofed",
     "rows": [
       "..cccccc.|...|,,,|..|,,,",
       "c........|...|,,,|.6|,,,",

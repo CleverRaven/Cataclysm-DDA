@@ -42,7 +42,7 @@
     ],
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,yyyyyyyyyyyyyyyysssssssssss,,,,,,,,,,,,,,,,,,,,,,______yyyyyyyyy,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,________________ssss|ss|((|,,,,,,,,,,,,,,,,,,,,,,_______________,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
@@ -118,7 +118,7 @@
     ],
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "############################################|      |############################################",
         "########|||||||||||||||||||||||||#|||||||||||||22|||############################################",
@@ -175,9 +175,9 @@
         "-": "t_wall_metal",
         "'": "t_open_air",
         "e": "t_elevator",
-        "C": "t_carpet_red",
+        "C": "t_carpet_red_roofed",
         "E": "t_elevator_control",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "#": "t_rock",
         "6": "t_console",
         "R": "t_railing",
@@ -280,9 +280,9 @@
         "-": "t_wall_metal",
         "'": "t_open_air",
         "e": "t_elevator",
-        "C": "t_carpet_red",
+        "C": "t_carpet_red_roofed",
         "E": "t_elevator_control",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "#": "t_rock",
         "6": "t_console",
         "R": "t_railing",
@@ -397,9 +397,9 @@
         "-": "t_wall_metal",
         "'": "t_open_air",
         "e": "t_elevator",
-        "C": "t_carpet_red",
+        "C": "t_carpet_red_roofed",
         "E": "t_elevator_control",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "#": "t_rock",
         "6": "t_console",
         "R": "t_railing",
@@ -439,7 +439,7 @@
     "om_terrain": [ [ "robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "#######################|                      ||||||||||||||####################################",
         "#######################|Y                    Y       (tt  ^|####################################",
@@ -483,7 +483,7 @@
     ],
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "################################################################################################",
         "################################################################################################",
@@ -539,7 +539,7 @@
         "-": "t_wall_metal",
         "e": "t_elevator",
         "E": "t_elevator_control",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "#": "t_rock",
         "6": "t_console"
       },
@@ -555,7 +555,7 @@
     ],
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "################################################################################################",
         "################################################################################################",
@@ -612,7 +612,7 @@
         "e": "t_elevator",
         "w": "t_water_pool_shallow",
         "E": "t_elevator_control",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "#": "t_rock",
         "6": "t_console"
       },

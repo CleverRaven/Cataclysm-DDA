@@ -10,7 +10,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................X.......................X.......................X.......................",
         "................................................................................................",
@@ -198,7 +198,7 @@
     "method": "json",
     "om_terrain": "horse_farm_7_hayloft",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -225,7 +225,7 @@
         "   wwwwwww.....wwwwwww  ",
         "                        "
       ],
-      "terrain": { ">": "t_ladder_down", ".": "t_floor", "*": "t_open_air_rooved", "w": "t_wall_wood", " ": "t_open_air" },
+      "terrain": { ">": "t_ladder_down", ".": "t_floor_roofed", "*": "t_open_air_rooved", "w": "t_wall_wood", " ": "t_open_air" },
       "furniture": { "6": "f_hay" }
     }
   },
@@ -341,7 +341,7 @@
     "method": "json",
     "om_terrain": "horse_farm_13_2ndfloor",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "     |-vv-|-v-v-|_____  ",
@@ -369,7 +369,7 @@
         "                        "
       ],
       "palettes": [ "farm_horse" ],
-      "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor", " ": "t_open_air", ">": "t_stairs_down" },
+      "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor_roofed", " ": "t_open_air", ">": "t_stairs_down" },
       "items": {
         "@": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
         "D": { "item": "trash_cart", "chance": 50 },

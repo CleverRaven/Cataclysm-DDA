@@ -5,7 +5,7 @@
     "om_terrain": [ "craft_shop_1" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "__________8888888888888_",
         "__________8___________8_",
@@ -45,10 +45,10 @@
         "_": "t_pavement",
         "U": "t_pavement",
         "2": "t_pavement",
-        ".": "t_strconc_floor",
+        ".": "t_strconc_floor_roofed",
         "3": "t_machinery_heavy",
         "1": "t_machinery_old",
-        "#": "t_strconc_floor",
+        "#": "t_strconc_floor_roofed",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout"
       },

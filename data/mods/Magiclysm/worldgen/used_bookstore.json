@@ -31,7 +31,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 17, "chance": 100, "fuel": 20, "status": 33, "rotation": 180 } ],
-      "fill_ter": "t_carpet_yellow",
+      "fill_ter": "t_carpet_yellow_roofed",
       "terrain": {
         ".": "t_sidewalk",
         "W": "t_window_domestic",

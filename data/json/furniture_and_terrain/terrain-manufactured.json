@@ -16,7 +16,7 @@
       "str_max": 150,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 0, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -259,7 +259,7 @@
       "explosive": 5,
       "sound": "Critical failure imminent, self destruct activated.  Have a nice day!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
     }
   },
@@ -278,7 +278,7 @@
       "str_min": 40,
       "str_max": 210,
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
     }
   },
@@ -297,7 +297,7 @@
       "str_min": 40,
       "str_max": 210,
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
     }
   },
@@ -513,7 +513,7 @@
       "str_max": 45,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
@@ -539,7 +539,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
@@ -594,7 +594,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "e_scrap", "count": [ 10, 14 ] },
         { "item": "processor", "count": [ 10, 20 ] },
@@ -661,7 +661,7 @@
       "sound_fail": "plunk.",
       "sound_vol": 16,
       "sound_fail_vol": 12,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
     }
   },
@@ -1173,7 +1173,7 @@
     "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
     "coverage": 30,
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": 1 },
         { "item": "pipe", "count": [ 1, 4 ] },
@@ -1187,7 +1187,7 @@
       "str_max": 80,
       "sound": "clang!",
       "sound_fail": "ting.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "chain", "prob": 10 }, { "item": "scrap", "count": [ 1, 5 ] } ]
     }
   },
@@ -1202,7 +1202,7 @@
     "coverage": 65,
     "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -1221,7 +1221,7 @@
       "str_max": 80,
       "sound": "clang!",
       "sound_fail": "ting.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": 1 },
         { "item": "pipe", "count": 2, "prob": 40 },
@@ -1246,7 +1246,7 @@
     "coverage": 75,
     "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -1268,7 +1268,7 @@
       "str_max": 80,
       "sound": "clang!",
       "sound_fail": "ting.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": 1 },
         { "item": "pipe", "count": 1 },
@@ -1296,7 +1296,7 @@
     "coverage": 55,
     "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": 1 },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -1318,7 +1318,7 @@
       "str_max": 80,
       "sound": "clang!",
       "sound_fail": "ting.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": 1 },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -1344,7 +1344,7 @@
     "coverage": 55,
     "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -1368,7 +1368,7 @@
       "str_max": 80,
       "sound": "clang!",
       "sound_fail": "ting.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "wire", "prob": 40 },
         { "item": "pipe", "prob": 40 },
@@ -1399,7 +1399,7 @@
     "bash": {
       "str_min": 10,
       "str_max": 50,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [
@@ -1409,7 +1409,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "scrap", "count": [ 2, 9 ] },
         { "item": "steel_chunk", "count": [ 2, 5 ] },
@@ -1431,7 +1431,7 @@
     "bash": {
       "str_min": 20,
       "str_max": 80,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [
@@ -1443,7 +1443,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "wire", "count": [ 2, 8 ] },
         { "item": "pipe", "count": [ 1, 3 ] },

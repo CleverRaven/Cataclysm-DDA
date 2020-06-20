@@ -2864,7 +2864,7 @@ void map::draw_map( mapgendata &dat )
         // load from JSON???
         debugmsg( "Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
                   terrain_type.id().c_str(), terrain_type->get_name(), function_key.c_str() );
-        fill_background( this, t_floor );
+        fill_background( this, t_floor_roofed );
     }
 
     draw_connections( dat );
@@ -2887,12 +2887,12 @@ void map::draw_office_tower( mapgendata &dat )
     const auto ter_key = mapf::ter_bind( "E > < R # X G C , _ r V H 6 x % ^ . - | "
                                          "t + = D w T S e o h c d l s", t_elevator, t_stairs_down,
                                          t_stairs_up, t_railing, t_rock, t_door_metal_locked,
-                                         t_door_glass_c, t_floor, t_pavement_y, t_pavement,
-                                         t_floor, t_wall_glass, t_wall_glass, t_console,
-                                         t_console_broken, t_shrub, t_floor, t_floor, t_wall,
-                                         t_wall, t_floor, t_door_c, t_door_locked,
-                                         t_door_locked_alarm, t_window, t_floor, t_floor, t_floor,
-                                         t_floor, t_floor, t_floor, t_floor, t_floor, t_sidewalk );
+                                         t_door_glass_c, t_floor_roofed, t_pavement_y, t_pavement,
+                                         t_floor_roofed, t_wall_glass, t_wall_glass, t_console,
+                                         t_console_broken, t_shrub, t_floor_roofed, t_floor_roofed, t_wall,
+                                         t_wall, t_floor_roofed, t_door_c, t_door_locked,
+                                         t_door_locked_alarm, t_window, t_floor_roofed, t_floor_roofed, t_floor_roofed,
+                                         t_floor_roofed, t_floor_roofed, t_floor_roofed, t_floor_roofed, t_floor_roofed, t_sidewalk );
     const auto fur_key = mapf::furn_bind( "E > < R # X G C , _ r V H 6 x % ^ . - | "
                                           "t + = D w T S e o h c d l s", f_null, f_null, f_null,
                                           f_null, f_null, f_null, f_null, f_crate_c, f_null,
@@ -2903,14 +2903,14 @@ void map::draw_office_tower( mapgendata &dat )
                                           f_null );
     const auto b_ter_key = mapf::ter_bind( "E s > < R # X G C , . r V H 6 x % ^ _ - | "
                                            "t + = D w T S e o h c d l", t_elevator, t_rock,
-                                           t_stairs_down, t_stairs_up, t_railing, t_floor,
-                                           t_door_metal_locked, t_door_glass_c, t_floor,
-                                           t_pavement_y, t_pavement, t_floor, t_wall_glass,
+                                           t_stairs_down, t_stairs_up, t_railing, t_floor_roofed,
+                                           t_door_metal_locked, t_door_glass_c, t_floor_roofed,
+                                           t_pavement_y, t_pavement, t_floor_roofed, t_wall_glass,
                                            t_wall_glass, t_console, t_console_broken, t_shrub,
-                                           t_floor, t_floor, t_wall, t_wall, t_floor, t_door_c,
-                                           t_door_locked, t_door_locked_alarm, t_window, t_floor,
-                                           t_sidewalk, t_floor, t_floor, t_floor, t_floor,
-                                           t_floor, t_floor );
+                                           t_floor_roofed, t_floor_roofed, t_wall, t_wall, t_floor_roofed, t_door_c,
+                                           t_door_locked, t_door_locked_alarm, t_window, t_floor_roofed,
+                                           t_sidewalk, t_floor_roofed, t_floor_roofed, t_floor_roofed, t_floor_roofed,
+                                           t_floor_roofed, t_floor_roofed );
     const auto b_fur_key = mapf::furn_bind( "E s > < R # X G C , . r V H 6 x % ^ _ - | "
                                             "t + = D w T S e o h c d l", f_null, f_null, f_null,
                                             f_null, f_null, f_bench, f_null, f_null, f_crate_c,
@@ -3505,14 +3505,14 @@ void map::draw_lab( mapgendata &dat )
                     } else if( j <= 1 || j >= SEEY * 2 - 2 ) {
                         ter_set( point( i, j ), t_concrete_wall );
                     } else {
-                        ter_set( point( i, j ), t_floor );
+                        ter_set( point( i, j ), t_floor_roofed );
                     }
                 }
             }
             ter_set( point( SEEX - 1, 0 ), t_door_metal_locked );
-            ter_set( point( SEEX - 1, 1 ), t_floor );
+            ter_set( point( SEEX - 1, 1 ), t_floor_roofed );
             ter_set( point( SEEX, 0 ), t_door_metal_locked );
-            ter_set( point( SEEX, 1 ), t_floor );
+            ter_set( point( SEEX, 1 ), t_floor_roofed );
             ter_set( point( SEEX - 2 + rng( 0, 1 ) * 3, 0 ), t_card_science );
             ter_set( point( SEEX - 2, SEEY ), t_door_metal_c );
             ter_set( point( SEEX + 1, SEEY ), t_door_metal_c );
@@ -3535,7 +3535,7 @@ void map::draw_lab( mapgendata &dat )
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
-                    ter_set( point( i, j ), t_thconc_floor );
+                    ter_set( point( i, j ), t_thconc_floor_roofed );
                     if( ( ( i < lw || i > EAST_EDGE - rw ) && j > SEEY - 3 && j < SEEY + 2 ) ||
                         ( ( j < tw || j > SOUTH_EDGE - bw ) && i > SEEX - 3 && i < SEEX + 2 ) ) {
                         ter_set( point( i, j ), t_sewage );
@@ -3584,7 +3584,7 @@ void map::draw_lab( mapgendata &dat )
             const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
                 if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                     const auto predicate = [this]( const tripoint & p ) {
-                        return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
+                        return ter( p ) == t_thconc_floor_roofed && furn( p ) == f_null && tr_at( p ).is_null();
                     };
                     const auto range = points_in_rectangle( { 0, 0, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
@@ -3678,7 +3678,7 @@ void map::draw_lab( mapgendata &dat )
                                                  ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), t_thconc_floor_roofed );
                                     }
                                 }
                             }
@@ -3783,7 +3783,7 @@ void map::draw_lab( mapgendata &dat )
                                                j == SEEY + 3 ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), t_thconc_floor_roofed );
                                     }
                                 }
                             }
@@ -3842,7 +3842,7 @@ void map::draw_lab( mapgendata &dat )
                                     } else if( j < tw || j >= SOUTH_EDGE - bw ) {
                                         ter_set( point( i, j ), t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), t_thconc_floor_roofed );
                                     }
                                 }
                             }
@@ -3879,7 +3879,7 @@ void map::draw_lab( mapgendata &dat )
                                 one_in( 4 ) ) {
                                 // bash and usually remove the rubble.
                                 make_rubble( { i, j, abs_sub.z } );
-                                ter_set( point( i, j ), t_rock_floor );
+                                ter_set( point( i, j ), t_rock_floor_roofed );
                                 if( !one_in( 3 ) ) {
                                     furn_set( point( i, j ), f_null );
                                 }
@@ -3890,8 +3890,8 @@ void map::draw_lab( mapgendata &dat )
                                    !has_flag_ter( "GOES_UP", p2 ) ) {
                             destroy( { i, j, abs_sub.z } );
                             // bashed squares can create dirt & floors, but we want rock floors.
-                            if( t_dirt == ter( point( i, j ) ) || t_floor == ter( point( i, j ) ) ) {
-                                ter_set( point( i, j ), t_rock_floor );
+                            if( t_dirt == ter( point( i, j ) ) || t_floor_roofed == ter( point( i, j ) ) ) {
+                                ter_set( point( i, j ), t_rock_floor_roofed );
                             }
                         }
                     }
@@ -3933,8 +3933,8 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( !( ( i * j ) % 2 || ( i + j ) % 4 ) && one_in( light_odds ) ) {
-                        if( t_thconc_floor == ter( point( i, j ) ) || t_strconc_floor == ter( point( i, j ) ) ) {
-                            ter_set( point( i, j ), t_thconc_floor_olight );
+                        if( t_thconc_floor_roofed == ter( point( i, j ) ) || t_strconc_floor_roofed == ter( point( i, j ) ) ) {
+                            ter_set( point( i, j ), t_thconc_floor_roofed_olight );
                         }
                     }
                 }
@@ -3961,9 +3961,9 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
-                            if( !one_in( 10 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
-                                                   t_strconc_floor == ter( point( i, j ) ) ||
-                                                   t_thconc_floor_olight == ter( point( i, j ) ) ) ) {
+                            if( !one_in( 10 ) && ( t_thconc_floor_roofed == ter( point( i, j ) ) ||
+                                                   t_strconc_floor_roofed == ter( point( i, j ) ) ||
+                                                   t_thconc_floor_roofed_olight == ter( point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), fluid_type );
                             } else if( has_flag_ter( "DOOR", point( i, j ) ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -3987,8 +3987,8 @@ void map::draw_lab( mapgendata &dat )
                     auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
-                            if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
-                                t_thconc_floor_olight == ter( p ) ) {
+                            if( t_thconc_floor_roofed == ter( p ) || t_strconc_floor_roofed == ter( p ) ||
+                                t_thconc_floor_roofed_olight == ter( p ) ) {
                                 ter_set( p, fluid_type );
                             } else if( has_flag_ter( "DOOR", p ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -4006,8 +4006,8 @@ void map::draw_lab( mapgendata &dat )
                     bool is_toxic = one_in( 3 );
                     for( int i = 0; i < SEEX * 2; i++ ) {
                         for( int j = 0; j < SEEY * 2; j++ ) {
-                            if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
-                                                   t_strconc_floor == ter( point( i, j ) ) ) ) {
+                            if( one_in( 200 ) && ( t_thconc_floor_roofed == ter( point( i, j ) ) ||
+                                                   t_strconc_floor_roofed == ter( point( i, j ) ) ) ) {
                                 if( is_toxic ) {
                                     add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
                                 } else {
@@ -4036,7 +4036,7 @@ void map::draw_lab( mapgendata &dat )
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z } );
-                        ter_set( p, t_thconc_floor );
+                        ter_set( p, t_thconc_floor_roofed );
                     }, center.xy(), 4 );
                     furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
@@ -4069,7 +4069,7 @@ void map::draw_lab( mapgendata &dat )
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z } );
-                        ter_set( p, t_thconc_floor );
+                        ter_set( p, t_thconc_floor_roofed );
                     }, center.xy(), 1 );
 
                     place_spawns( GROUP_HAZMATBOT, 1, center.xy() + point_west,
@@ -4210,7 +4210,7 @@ void map::draw_lab( mapgendata &dat )
                     } else if( j < tw || j > SOUTH_EDGE - bw ) {
                         ter_set( point( i, j ), t_concrete_wall );
                     } else {
-                        ter_set( point( i, j ), t_thconc_floor );
+                        ter_set( point( i, j ), t_thconc_floor_roofed );
                     }
                 }
             }
@@ -4409,7 +4409,7 @@ void map::draw_lab( mapgendata &dat )
         const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                 const auto predicate = [this]( const tripoint & p ) {
-                    return ter( p ) == t_thconc_floor && furn( p ) == f_null &&
+                    return ter( p ) == t_thconc_floor_roofed && furn( p ) == f_null &&
                            tr_at( p ).is_null();
                 };
                 const auto range = points_in_rectangle( { 0, 0, abs_sub.z },
@@ -4433,8 +4433,8 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( !( ( i * j ) % 2 || ( i + j ) % 4 ) && one_in( light_odds ) ) {
-                        if( t_thconc_floor == ter( point( i, j ) ) || t_strconc_floor == ter( point( i, j ) ) ) {
-                            ter_set( point( i, j ), t_thconc_floor_olight );
+                        if( t_thconc_floor_roofed == ter( point( i, j ) ) || t_strconc_floor_roofed == ter( point( i, j ) ) ) {
+                            ter_set( point( i, j ), t_thconc_floor_roofed_olight );
                         }
                     }
                 }
@@ -4456,7 +4456,7 @@ void map::draw_temple( mapgendata &dat )
         } else {
             // Underground!  Shit's about to get interesting!
             // Start with all rock floor
-            square( this, t_rock_floor, point_zero, point( EAST_EDGE, SOUTH_EDGE ) );
+            square( this, t_rock_floor_roofed, point_zero, point( EAST_EDGE, SOUTH_EDGE ) );
             // We always start at the south and go north.
             // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
             switch( 1 + std::abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
@@ -4493,7 +4493,7 @@ void map::draw_temple( mapgendata &dat )
                     mtrap_set( this, point( SEEX + 1, SEEY * 2 - 2 ), tr_temple_flood );
                     for( int y = 2; y < SEEY * 2 - 2; y++ ) {
                         for( int x = 2; x < SEEX * 2 - 2; x++ ) {
-                            if( ter( point( x, y ) ) == t_rock_floor && one_in( 4 ) ) {
+                            if( ter( point( x, y ) ) == t_rock_floor_roofed && one_in( 4 ) ) {
                                 mtrap_set( this, point( x, y ), tr_temple_flood );
                             }
                         }
@@ -4615,7 +4615,7 @@ void map::draw_temple( mapgendata &dat )
                             std::vector<point> next;
                             for( int nx = x - 1; nx <= x + 1; nx++ ) {
                                 for( int ny = y; ny <= y + 1; ny++ ) {
-                                    if( ter( point( nx, ny ) ) == t_rock_floor ) {
+                                    if( ter( point( nx, ny ) ) == t_rock_floor_roofed ) {
                                         next.push_back( point( nx, ny ) );
                                     }
                                 }
@@ -4655,7 +4655,7 @@ void map::draw_temple( mapgendata &dat )
                     for( int i = SEEX - 3; i <= SEEX + 4; i++ ) {
                         for( int j = 2; j <= SEEY * 2 - 2; j++ ) {
                             mtrap_set( this, point( i, j ), tr_temple_toggle );
-                            if( ter( point( i, j ) ) == t_rock_floor ) {
+                            if( ter( point( i, j ) ) == t_rock_floor_roofed ) {
                                 static const std::vector<ter_id> terrains = {
                                     t_rock_red, t_rock_green, t_rock_blue,
                                     t_floor_red, t_floor_green, t_floor_blue,
@@ -4679,8 +4679,8 @@ void map::draw_temple( mapgendata &dat )
         } // Done with underground-only stuff
     } else if( terrain_type == "temple_finale" ) {
         fill_background( this, t_rock );
-        square( this, t_rock_floor, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
-        square( this, t_rock_floor, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
+        square( this, t_rock_floor_roofed, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
+        square( this, t_rock_floor_roofed, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
         line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ) );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ) );
@@ -4760,7 +4760,7 @@ void map::draw_mine( mapgendata &dat )
                 if( i >= dat.w_fac + rng( 0, 2 ) && i <= EAST_EDGE - dat.e_fac - rng( 0, 2 ) &&
                     j >= dat.n_fac + rng( 0, 2 ) && j <= SOUTH_EDGE - dat.s_fac - rng( 0, 2 ) &&
                     i + j >= 4 && ( SEEX * 2 - i ) + ( SEEY * 2 - j ) >= 6 ) {
-                    ter_set( point( i, j ), t_rock_floor );
+                    ter_set( point( i, j ), t_rock_floor_roofed );
                 } else {
                     ter_set( point( i, j ), t_rock );
                 }
@@ -4768,7 +4768,7 @@ void map::draw_mine( mapgendata &dat )
         }
 
         if( dat.above() == "mine_shaft" ) { // We need the entrance room
-            square( this, t_floor, point( 10, 10 ), point( 15, 15 ) );
+            square( this, t_floor_roofed, point( 10, 10 ), point( 15, 15 ) );
             line( this, t_wall,  point( 9, 9 ), point( 16, 9 ) );
             line( this, t_wall,  point( 9, 16 ), point( 16, 16 ) );
             line( this, t_wall,  point( 9, 10 ),  point( 9, 15 ) );
@@ -4879,7 +4879,7 @@ void map::draw_mine( mapgendata &dat )
                                 default:
                                     break;
                             }
-                            ter_set( p, t_rock_floor );
+                            ter_set( p, t_rock_floor_roofed );
                             place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
                         }
                     }
@@ -4926,7 +4926,7 @@ void map::draw_mine( mapgendata &dat )
                     okay = true;
                     for( int i = p.x; ( i <= p.x + 5 ) && okay; i++ ) {
                         for( int j = p.y; ( j <= p.y + 5 ) && okay; j++ ) {
-                            if( ter( point( i, j ) ) != t_rock_floor ) {
+                            if( ter( point( i, j ) ) != t_rock_floor_roofed ) {
                                 okay = false;
                             }
                         }
@@ -4936,26 +4936,26 @@ void map::draw_mine( mapgendata &dat )
                     }
                 } while( !okay && tries < 10 );
                 if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
+                    square( this, t_rock_floor_roofed, p, p + point( 5, 5 ) );
                 }
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 square( this, t_slope_down, p + point( 1, 1 ), p + point( 2, 2 ) );
             } else { // We can build against a wall
                 switch( random_entry( open ) ) {
                     case direction::NORTH:
-                        square( this, t_rock_floor, point( SEEX - 3, 6 ), point( SEEX + 2, SEEY ) );
+                        square( this, t_rock_floor_roofed, point( SEEX - 3, 6 ), point( SEEX + 2, SEEY ) );
                         line( this, t_slope_down, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
                     case direction::EAST:
-                        square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
+                        square( this, t_rock_floor_roofed, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
                         line( this, t_slope_down, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
                     case direction::SOUTH:
-                        square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
+                        square( this, t_rock_floor_roofed, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
                         line( this, t_slope_down, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
                     case direction::WEST:
-                        square( this, t_rock_floor, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
+                        square( this, t_rock_floor_roofed, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
                         line( this, t_slope_down, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
                         break;
                     default:
@@ -4989,7 +4989,7 @@ void map::draw_mine( mapgendata &dat )
                     okay = true;
                     for( int i = p.x; ( i <= p.x + 5 ) && okay; i++ ) {
                         for( int j = p.y; ( j <= p.y + 5 ) && okay; j++ ) {
-                            if( ter( point( i, j ) ) != t_rock_floor ) {
+                            if( ter( point( i, j ) ) != t_rock_floor_roofed ) {
                                 okay = false;
                             }
                         }
@@ -4999,7 +4999,7 @@ void map::draw_mine( mapgendata &dat )
                     }
                 } while( !okay && tries < 10 );
                 if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
+                    square( this, t_rock_floor_roofed, p, p + point( 5, 5 ) );
                 }
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 square( this, t_slope_up, p + point( 1, 1 ), p + point( 2, 2 ) );
@@ -5029,7 +5029,7 @@ void map::draw_mine( mapgendata &dat )
             for( int j = 0; j < SEEY * 2; j++ ) {
                 if( i > rng( 1, 3 ) && i < SEEX * 2 - rng( 2, 4 ) &&
                     j > rng( 1, 3 ) && j < SEEY * 2 - rng( 2, 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
+                    ter_set( point( i, j ), t_rock_floor_roofed );
                 } else {
                     ter_set( point( i, j ), t_rock );
                 }
@@ -5038,25 +5038,25 @@ void map::draw_mine( mapgendata &dat )
         std::vector<direction> face; // Which walls are solid, and can be a facing?
         // Now draw the entrance(s)
         if( dat.north() == "mine" ) {
-            square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
+            square( this, t_rock_floor_roofed, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
         } else {
             face.push_back( direction::NORTH );
         }
 
         if( dat.east()  == "mine" ) {
-            square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
+            square( this, t_rock_floor_roofed, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
         } else {
             face.push_back( direction::EAST );
         }
 
         if( dat.south() == "mine" ) {
-            square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
+            square( this, t_rock_floor_roofed, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
         } else {
             face.push_back( direction::SOUTH );
         }
 
         if( dat.west()  == "mine" ) {
-            square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
+            square( this, t_rock_floor_roofed, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         } else {
             face.push_back( direction::WEST );
         }
@@ -5149,7 +5149,7 @@ void map::draw_spiral( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     if( terrain_type == "spiral_hub" ) {
-        fill_background( this, t_rock_floor );
+        fill_background( this, t_rock_floor_roofed );
         line( this, t_rock, point( 23, 0 ), point( 23, 23 ) );
         line( this, t_rock,  point( 2, 23 ), point( 23, 23 ) );
         line( this, t_rock,  point( 2, 4 ),  point( 2, 23 ) );
@@ -5168,7 +5168,7 @@ void map::draw_spiral( mapgendata &dat )
         square( this, t_slope_up, point( 11, 11 ), point( 12, 12 ) );
         rotate( rng( 0, 3 ) );
     } else if( terrain_type == "spiral" ) {
-        fill_background( this, t_rock_floor );
+        fill_background( this, t_rock_floor_roofed );
         const int num_spiral = rng( 1, 4 );
         std::list<point> offsets;
         const int spiral_width = 8;
@@ -5195,7 +5195,7 @@ void map::draw_spiral( mapgendata &dat )
             line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
             line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
             ter_set( point( orx + 3, ory + 3 ), t_rock );
-            ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
+            ter_set( point( orx + 2, ory + 3 ), t_rock_floor_roofed );
             place_items( "spiral", 60, point( orx + 2, ory + 3 ), point( orx + 2, ory + 3 ), false, 0 );
         }
     }
@@ -5209,7 +5209,7 @@ void map::draw_spider_pit( mapgendata &dat )
             for( int j = 0; j < SEEY * 2; j++ ) {
                 if( ( i >= 3 && i <= SEEX * 2 - 4 && j >= 3 && j <= SEEY * 2 - 4 ) ||
                     one_in( 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
+                    ter_set( point( i, j ), t_rock_floor_roofed );
                     if( !one_in( 3 ) ) {
                         add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
                     }
@@ -5252,13 +5252,13 @@ void map::draw_slimepit( mapgendata &dat )
                                        i < dat.w_fac * SEEX ||
                                        j > SEEY * 2 - dat.s_fac * SEEY ||
                                        i > SEEX * 2 - dat.e_fac * SEEX ) ) {
-                    ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor ) );
+                    ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor_roofed ) );
                 } else if( rng( 0, SEEX ) > std::abs( i - SEEX ) && rng( 0, SEEY ) > std::abs( j - SEEY ) ) {
                     ter_set( point( i, j ), t_slime );
                 } else if( dat.zlevel() == 0 ) {
                     ter_set( point( i, j ), t_dirt );
                 } else {
-                    ter_set( point( i, j ), t_rock_floor );
+                    ter_set( point( i, j ), t_rock_floor_roofed );
                 }
             }
         }
@@ -5449,8 +5449,8 @@ void map::draw_connections( mapgendata &dat )
                 }
             } else {
                 for( int j = 0; j < 3; j++ ) {
-                    ter_set( point( SEEX, j ), t_rock_floor );
-                    ter_set( point( SEEX - 1, j ), t_rock_floor );
+                    ter_set( point( SEEX, j ), t_rock_floor_roofed );
+                    ter_set( point( SEEX - 1, j ), t_rock_floor_roofed );
                 }
                 ter_set( point( SEEX, 3 ), t_door_metal_c );
                 ter_set( point( SEEX - 1, 3 ), t_door_metal_c );
@@ -5466,8 +5466,8 @@ void map::draw_connections( mapgendata &dat )
                 }
             } else {
                 for( int i = SEEX * 2 - 3; i < SEEX * 2; i++ ) {
-                    ter_set( point( i, SEEY ), t_rock_floor );
-                    ter_set( point( i, SEEY - 1 ), t_rock_floor );
+                    ter_set( point( i, SEEY ), t_rock_floor_roofed );
+                    ter_set( point( i, SEEY - 1 ), t_rock_floor_roofed );
                 }
                 ter_set( point( SEEX * 2 - 4, SEEY ), t_door_metal_c );
                 ter_set( point( SEEX * 2 - 4, SEEY - 1 ), t_door_metal_c );
@@ -5483,8 +5483,8 @@ void map::draw_connections( mapgendata &dat )
                 }
             } else {
                 for( int j = SEEY * 2 - 3; j < SEEY * 2; j++ ) {
-                    ter_set( point( SEEX, j ), t_rock_floor );
-                    ter_set( point( SEEX - 1, j ), t_rock_floor );
+                    ter_set( point( SEEX, j ), t_rock_floor_roofed );
+                    ter_set( point( SEEX - 1, j ), t_rock_floor_roofed );
                 }
                 ter_set( point( SEEX, SEEY * 2 - 4 ), t_door_metal_c );
                 ter_set( point( SEEX - 1, SEEY * 2 - 4 ), t_door_metal_c );
@@ -5500,8 +5500,8 @@ void map::draw_connections( mapgendata &dat )
                 }
             } else {
                 for( int i = 0; i < 3; i++ ) {
-                    ter_set( point( i, SEEY ), t_rock_floor );
-                    ter_set( point( i, SEEY - 1 ), t_rock_floor );
+                    ter_set( point( i, SEEY ), t_rock_floor_roofed );
+                    ter_set( point( i, SEEY - 1 ), t_rock_floor_roofed );
                 }
                 ter_set( point( 3, SEEY ), t_door_metal_c );
                 ter_set( point( 3, SEEY - 1 ), t_door_metal_c );
@@ -5514,8 +5514,8 @@ void map::draw_connections( mapgendata &dat )
         if( is_ot_match( "subway", dat.north(), ot_match_type::type ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {
-                ter_set( point( SEEX, j ), t_rock_floor );
-                ter_set( point( SEEX - 1, j ), t_rock_floor );
+                ter_set( point( SEEX, j ), t_rock_floor_roofed );
+                ter_set( point( SEEX - 1, j ), t_rock_floor_roofed );
             }
             ter_set( point( SEEX, SEEY - 3 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY - 3 ), t_door_metal_c );
@@ -5523,8 +5523,8 @@ void map::draw_connections( mapgendata &dat )
         if( is_ot_match( "subway", dat.east(), ot_match_type::type ) &&
             !connects_to( terrain_type, 1 ) ) {
             for( int i = SEEX + 3; i < SEEX * 2; i++ ) {
-                ter_set( point( i, SEEY ), t_rock_floor );
-                ter_set( point( i, SEEY - 1 ), t_rock_floor );
+                ter_set( point( i, SEEY ), t_rock_floor_roofed );
+                ter_set( point( i, SEEY - 1 ), t_rock_floor_roofed );
             }
             ter_set( point( SEEX + 2, SEEY ), t_door_metal_c );
             ter_set( point( SEEX + 2, SEEY - 1 ), t_door_metal_c );
@@ -5532,8 +5532,8 @@ void map::draw_connections( mapgendata &dat )
         if( is_ot_match( "subway", dat.south(), ot_match_type::type ) &&
             !connects_to( terrain_type, 2 ) ) {
             for( int j = SEEY + 3; j < SEEY * 2; j++ ) {
-                ter_set( point( SEEX, j ), t_rock_floor );
-                ter_set( point( SEEX - 1, j ), t_rock_floor );
+                ter_set( point( SEEX, j ), t_rock_floor_roofed );
+                ter_set( point( SEEX - 1, j ), t_rock_floor_roofed );
             }
             ter_set( point( SEEX, SEEY + 2 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY + 2 ), t_door_metal_c );
@@ -5541,8 +5541,8 @@ void map::draw_connections( mapgendata &dat )
         if( is_ot_match( "subway", dat.west(), ot_match_type::type ) &&
             !connects_to( terrain_type, 3 ) ) {
             for( int i = 0; i < SEEX - 3; i++ ) {
-                ter_set( point( i, SEEY ), t_rock_floor );
-                ter_set( point( i, SEEY - 1 ), t_rock_floor );
+                ter_set( point( i, SEEY ), t_rock_floor_roofed );
+                ter_set( point( i, SEEY - 1 ), t_rock_floor_roofed );
             }
             ter_set( point( SEEX - 3, SEEY ), t_door_metal_c );
             ter_set( point( SEEX - 3, SEEY - 1 ), t_door_metal_c );
@@ -5550,7 +5550,7 @@ void map::draw_connections( mapgendata &dat )
     } else if( is_ot_match( "ants", terrain_type, ot_match_type::type ) ) {
         if( dat.above() == "anthill" ) {
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_rock_floor;
+            return ter( n ) == t_rock_floor_roofed;
             } ) ) {
                 ter_set( *p, t_slope_up );
             }
@@ -6160,7 +6160,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
     }
     for( int i = p1.x; i <= p2.x; i++ ) {
         for( int j = p1.y; j <= p2.y; j++ ) {
-            m->ter_set( point( i, j ), t_thconc_floor );
+            m->ter_set( point( i, j ), t_thconc_floor_roofed );
         }
     }
     int area = height * width;
@@ -6569,7 +6569,7 @@ void build_mine_room( room_type type, const point &p1, const point &p2, mapgenda
         default:
             break;
     }
-    square( m, t_floor, p1, p2 );
+    square( m, t_floor_roofed, p1, p2 );
     line( m, t_wall, p1, point( p2.x, p1.y ) );
     line( m, t_wall, point( p1.x, p2.y ), p2 );
     line( m, t_wall, p1 + point_south, point( p1.x, p2.y - 1 ) );
@@ -6678,16 +6678,16 @@ void build_mine_room( room_type type, const point &p1, const point &p2, mapgenda
     if( type == room_mine_fuel ) { // Fuel stations are open on one side
         switch( door_side ) {
             case direction::NORTH:
-                line( m, t_floor, p1, point( p2.x, p1.y ) );
+                line( m, t_floor_roofed, p1, point( p2.x, p1.y ) );
                 break;
             case direction::EAST:
-                line( m, t_floor, point( p2.x, p1.y + 1 ), p2 + point_north );
+                line( m, t_floor_roofed, point( p2.x, p1.y + 1 ), p2 + point_north );
                 break;
             case direction::SOUTH:
-                line( m, t_floor, point( p1.x, p2.y ), p2 );
+                line( m, t_floor_roofed, point( p1.x, p2.y ), p2 );
                 break;
             case direction::WEST:
-                line( m, t_floor, p1 + point_south, point( p1.x, p2.y - 1 ) );
+                line( m, t_floor_roofed, p1 + point_south, point( p1.x, p2.y - 1 ) );
                 break;
             default:
                 break;

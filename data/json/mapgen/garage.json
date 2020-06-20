@@ -5,7 +5,7 @@
     "om_terrain": [ "s_garage" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
@@ -39,7 +39,7 @@
         "$": "t_door_glass_c",
         "+": "t_door_c",
         "-": "t_brick_wall",
-        ".": "t_thconc_floor",
+        ".": "t_thconc_floor_roofed",
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
@@ -130,7 +130,7 @@
     "om_terrain": [ "s_garage_1" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "   ~~~~~~       ~~~~~~  ",
         "    ~~~~~~    * ~~~~~~  ",
@@ -167,7 +167,7 @@
         "+": "t_door_c",
         "w": "t_wall_log",
         "U": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "6": "t_console_broken",
         ":": "t_window",
         "W": "t_chainfence_h",
@@ -241,7 +241,7 @@
     "om_terrain": [ "s_garage_2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "    EEEEEE      XXX     ",
         "    EEEEEE      XXX     ",
@@ -277,7 +277,7 @@
         "+": "t_door_c",
         "O": "t_door_locked",
         "-": "t_wall_b",
-        ".": "t_thconc_floor",
+        ".": "t_thconc_floor_roofed",
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
@@ -330,7 +330,7 @@
     "method": "json",
     "om_terrain": "s_garage_roof_2",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -362,7 +362,7 @@
         "%": "t_wall_b",
         "+": "t_door_locked",
         ">": "t_stairs_down",
-        "'": "t_thconc_floor",
+        "'": "t_thconc_floor_roofed",
         "W": "t_window_domestic",
         "*": "t_chainfence",
         "8": "t_chaingate_c",

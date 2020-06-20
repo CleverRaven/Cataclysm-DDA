@@ -5,7 +5,7 @@
     "om_terrain": [ [ "farm_3", "farm_2", "farm_1" ], [ "farm_6", "farm_5", "farm_4" ], [ "farm_9", "farm_8", "farm_7" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                                                 FFFFFFFFFFFFFFFFFFFFFF ",
         "                                            P    F                    F ",
@@ -103,7 +103,7 @@
     "om_terrain": [ [ "farm_2" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "P                       ",
@@ -175,7 +175,7 @@
     "//": "Grain silo copy of silo in ranch_camp_57",
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "                        ",
         "   |--|  ####W###W###   ",
@@ -220,7 +220,7 @@
     "//": "Chicken Coop",
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "                        ",
         "                        ",

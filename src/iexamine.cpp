@@ -1515,13 +1515,13 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
         if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {
-            here.ter_set( mon->pos(), t_rock_floor );
+            here.ter_set( mon->pos(), t_rock_floor_roofed );
         }
     }
     add_msg( _( "The pedestal sinks into the ground…" ) );
     sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
                    "misc", "stones_grinding" );
-    here.ter_set( examp, t_rock_floor );
+    here.ter_set( examp, t_rock_floor_roofed );
     g->timed_events.add( timed_event_type::SPAWN_WYRMS,
                          calendar::turn + rng( 30_seconds, 60_seconds ) );
 }

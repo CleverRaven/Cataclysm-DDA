@@ -1070,7 +1070,7 @@ void mapgen_subway( mapgendata &dat )
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "..^/D^^/D^....^D/^^D/^..",
                                         mapf::ter_bind( ". # ^ / D X",
-                                                t_rock_floor,
+                                                t_rock_floor_roofed,
                                                 t_rock,
                                                 t_railroad_rubble,
                                                 t_railroad_tie_d,
@@ -1112,7 +1112,7 @@ void mapgen_subway( mapgendata &dat )
                                         "........................\n"
                                         "........................",
                                         mapf::ter_bind( ". # ^ | X x / D",
-                                                t_rock_floor,
+                                                t_rock_floor_roofed,
                                                 t_rock,
                                                 t_railroad_rubble,
                                                 t_railroad_tie,
@@ -1159,7 +1159,7 @@ void mapgen_subway( mapgendata &dat )
                                             "##################......\n"
                                             "###################.....",
                                             mapf::ter_bind( ". # ^ D",
-                                                    t_rock_floor,
+                                                    t_rock_floor_roofed,
                                                     t_rock,
                                                     t_railroad_rubble,
                                                     t_railroad_track_d ),
@@ -1195,7 +1195,7 @@ void mapgen_subway( mapgendata &dat )
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...",
                                             mapf::ter_bind( ". # ^ - X x",
-                                                    t_rock_floor,
+                                                    t_rock_floor_roofed,
                                                     t_rock,
                                                     t_railroad_rubble,
                                                     t_railroad_tie,
@@ -1238,7 +1238,7 @@ void mapgen_subway( mapgendata &dat )
                                         "##....................##\n"
                                         "########################",
                                         mapf::ter_bind( ". # S ^ - / D X x",
-                                                t_rock_floor,
+                                                t_rock_floor_roofed,
                                                 t_rock,
                                                 t_buffer_stop,
                                                 t_railroad_rubble,
@@ -1919,7 +1919,7 @@ void mapgen_cavern( mapgendata &dat )
                 ( !one_in( 3 ) || j == 0 || j == SEEY * 2 - 1 || i == 0 || i == SEEX * 2 - 1 ) ) {
                 m->ter_set( point( i, j ), t_rock );
             } else {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -1938,28 +1938,28 @@ void mapgen_cavern( mapgendata &dat )
     if( connects_to( dat.north(), 2 ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
     if( connects_to( dat.east(), 3 ) ) {
         for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
     if( connects_to( dat.south(), 0 ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
     if( connects_to( dat.west(), 1 ) ) {
         for( int i = 0; i <= SEEX; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2005,7 +2005,7 @@ void mapgen_rock_partial( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( rng( 0, dat.n_fac ) > j || rng( 0, dat.s_fac ) > SEEY * 2 - 1 - j ||
                 rng( 0, dat.w_fac ) > i || rng( 0, dat.e_fac ) > SEEX * 2 - 1 - i ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2060,7 +2060,7 @@ void mapgen_rift( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( dat.n_fac < 0 && j < dat.n_fac * -1 ) || ( dat.s_fac < 0 && j >= SEEY * 2 - dat.s_fac ) ||
                 ( dat.w_fac < 0 && i < dat.w_fac * -1 ) || ( dat.e_fac < 0 && i >= SEEX * 2 - dat.e_fac ) ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             } else if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac ||
                        i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ) {
                 m->ter_set( point( i, j ), t_rock );
@@ -2087,7 +2087,7 @@ void mapgen_hellmouth( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac || i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ||
                 ( i >= 6 && i < SEEX * 2 - 6 && j >= 6 && j < SEEY * 2 - 6 ) ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             } else {
                 m->ter_set( point( i, j ), t_lava );
             }
@@ -2187,18 +2187,18 @@ void mapgen_ants_curved( mapgendata &dat )
     fill_background( m, t_rock );
 
     for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-        m->ter_set( point( i, 0 ), t_rock_floor );
-        m->ter_set( point( i, 1 ), t_rock_floor );
-        m->ter_set( point( i, 2 ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 1, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 2, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 3, i ), t_rock_floor );
+        m->ter_set( point( i, 0 ), t_rock_floor_roofed );
+        m->ter_set( point( i, 1 ), t_rock_floor_roofed );
+        m->ter_set( point( i, 2 ), t_rock_floor_roofed );
+        m->ter_set( point( SEEX * 2 - 1, i ), t_rock_floor_roofed );
+        m->ter_set( point( SEEX * 2 - 2, i ), t_rock_floor_roofed );
+        m->ter_set( point( SEEX * 2 - 3, i ), t_rock_floor_roofed );
     }
     do {
         for( int i = p.x - 2; i <= p.x + 3; i++ ) {
             for( int j = p.y - 2; j <= p.y + 3; j++ ) {
                 if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
+                    m->ter_set( point( i, j ), t_rock_floor_roofed );
                 }
             }
         }
@@ -2220,7 +2220,7 @@ void mapgen_ants_curved( mapgendata &dat )
     for( int i = p.x - 2; i <= p.x + 3; i++ ) {
         for( int j = p.y - 2; j <= p.y + 3; j++ ) {
             if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2244,7 +2244,7 @@ void mapgen_ants_four_way( mapgendata &dat )
     for( int j = 0; j < SEEY * 2; j++ ) {
         for( int i = x - 2; i <= x + 3; i++ ) {
             if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
         x += rng( -1, 1 );
@@ -2262,7 +2262,7 @@ void mapgen_ants_four_way( mapgendata &dat )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = y - 2; j <= y + 3; j++ ) {
             if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
         y += rng( -1, 1 );
@@ -2286,7 +2286,7 @@ void mapgen_ants_straight( mapgendata &dat )
     for( int j = 0; j < SEEY * 2; j++ ) {
         for( int i = x - 2; i <= x + 3; i++ ) {
             if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
         x += rng( -1, 1 );
@@ -2313,7 +2313,7 @@ void mapgen_ants_tee( mapgendata &dat )
     for( int j = 0; j < SEEY * 2; j++ ) {
         for( int i = x - 2; i <= x + 3; i++ ) {
             if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
         x += rng( -1, 1 );
@@ -2330,7 +2330,7 @@ void mapgen_ants_tee( mapgendata &dat )
     for( int i = SEEX; i < SEEX * 2; i++ ) {
         for( int j = y - 2; j <= y + 3; j++ ) {
             if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
         y += rng( -1, 1 );
@@ -2364,7 +2364,7 @@ static void mapgen_ants_generic( mapgendata &dat )
             if( i < SEEX - 4 || i > SEEX + 5 || j < SEEY - 4 || j > SEEY + 5 ) {
                 m->ter_set( point( i, j ), t_rock );
             } else {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2379,7 +2379,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         for( int i = p.x - cw; i <= p.x + cw; i++ ) {
             for( int j = p.y - cw; j <= p.y + cw; j++ ) {
                 if( trig_dist( p, point( i, j ) ) <= cw ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
+                    m->ter_set( point( i, j ), t_rock_floor_roofed );
                 }
             }
         }
@@ -2388,7 +2388,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.north(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2396,7 +2396,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.east(), ot_match_type::contains ) ) {
         for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2404,7 +2404,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.south(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2412,7 +2412,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.west(), ot_match_type::contains ) ) {
         for( int i = 0; i <= SEEX; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_rock_floor_roofed );
             }
         }
     }
@@ -2470,7 +2470,7 @@ void mapgen_tutorial( mapgendata &dat )
                     m->ter_set( point( i, j ), t_wall );
                 }
             } else {
-                m->ter_set( point( i, j ), t_floor );
+                m->ter_set( point( i, j ), t_floor_roofed );
             }
         }
     }

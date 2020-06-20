@@ -5,7 +5,7 @@
     "om_terrain": [ [ "bus_stat_0", "bus_stat_1" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...........ss________sssssssssssssssPyyyyy___sss",
         "....,,,....ss________s,;,,,;,,;,,,;,syyyyy___s,s",
@@ -33,7 +33,7 @@
         "..........ffffffffffffffffffffffffffffffffffffff"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_c",
         ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ] ],
         ",": [
@@ -55,15 +55,15 @@
         "y": "t_pavement_y",
         "s": "t_concrete",
         "G": "t_concrete",
-        "'": "t_thconc_floor",
-        "b": "t_thconc_floor",
+        "'": "t_thconc_floor_roofed",
+        "b": "t_thconc_floor_roofed",
         "4": "t_gutter_downspout",
         "|": "t_wall",
-        "S": "t_linoleum_white",
-        ":": "t_linoleum_white",
-        "T": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "l": "t_linoleum_white",
+        "S": "t_linoleum_white_roofed",
+        ":": "t_linoleum_white_roofed",
+        "T": "t_linoleum_white_roofed",
+        "F": "t_linoleum_white_roofed",
+        "l": "t_linoleum_white_roofed",
         "x": "t_console_broken",
         "i": "t_ladder_up",
         "I": "t_column",

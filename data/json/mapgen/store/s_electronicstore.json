@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_electronicstore" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": "t_linoleum_white_roofed",
       "rows": [
         "! sssssss        ss    !",
         "! sssssss       -w+-   !",
@@ -40,7 +40,7 @@
     "method": "json",
     "om_terrain": [ "s_electronicstore_2ndfloor" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~#::#~~~~",
@@ -85,19 +85,19 @@
         "u": "t_flat_roof",
         "g": "t_flat_roof",
         "~": "t_open_air",
-        "_": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "2": "t_linoleum_white",
-        "3": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "O": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white"
+        "_": "t_linoleum_white_roofed",
+        "1": "t_linoleum_white_roofed",
+        "2": "t_linoleum_white_roofed",
+        "3": "t_linoleum_white_roofed",
+        "4": "t_linoleum_white_roofed",
+        "5": "t_linoleum_white_roofed",
+        "7": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
+        "O": "t_linoleum_white_roofed",
+        "F": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed"
       },
       "furniture": { "$": [ "f_indoor_plant", "f_indoor_plant_y" ], ")": "f_TV_antenna" },
       "place_loot": [

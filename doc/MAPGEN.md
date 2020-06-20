@@ -334,32 +334,32 @@ Example:
 ```json
 "terrain": {
   " ": "t_grass",
-  "d": "t_floor",
+  "d": "t_floor_roofed",
   "5": "t_wall_glass_h",
   "%": "t_wall_glass_v",
-  "O": "t_floor",
+  "O": "t_floor_roofed",
   ",": "t_pavement_y",
   "_": "t_pavement",
-  "r": "t_floor",
+  "r": "t_floor_roofed",
   "6": "t_console",
   "x": "t_console_broken",
   "$": "t_shrub",
-  "^": "t_floor",
-  ".": "t_floor",
+  "^": "t_floor_roofed",
+  ".": "t_floor_roofed",
   "-": "t_wall_h",
   "|": "t_wall_v",
   "#": "t_shrub",
-  "t": "t_floor",
+  "t": "t_floor_roofed",
   "+": "t_door_glass_c",
   "=": "t_door_locked_alarm",
   "D": "t_door_locked",
   "w": "t_window_domestic",
-  "T": "t_floor",
-  "S": "t_floor",
-  "e": "t_floor",
-  "h": "t_floor",
-  "c": "t_floor",
-  "l": "t_floor",
+  "T": "t_floor_roofed",
+  "S": "t_floor_roofed",
+  "e": "t_floor_roofed",
+  "h": "t_floor_roofed",
+  "c": "t_floor_roofed",
+  "l": "t_floor_roofed",
   "s": "t_sidewalk"
 },
 ```
@@ -858,7 +858,7 @@ If the terrain has the value "roof" set and is in an enclosed space, it's indoor
 
 | Field | Description
 | ---   | ---
-| ter   | (required, string) type id of the terrain (e.g. `t_floor`).
+| ter   | (required, string) type id of the terrain (e.g. `t_floor_roofed`).
 
 
 ### Place rubble and smash existing terrain with "rubble"

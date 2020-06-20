@@ -33,7 +33,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM" ],
     "deconstruct": {
       "deconstruct_above": true,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [ { "item": "nail", "charges": [ 12, 20 ] }, { "item": "2x4", "count": [ 2, 6 ] } ]
     },
     "bash": {
@@ -41,7 +41,7 @@
       "str_max": 70,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
@@ -63,7 +63,7 @@
       "str_max": 110,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
@@ -83,7 +83,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
     "deconstruct": {
       "deconstruct_above": true,
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "nail", "charges": [ 12, 20 ] },
         { "item": "2x4", "count": [ 8, 12 ] },
@@ -209,7 +209,7 @@
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
@@ -231,7 +231,7 @@
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 1, 5 ] },

@@ -270,7 +270,7 @@
         " ": "t_grass",
         "_": "t_pavement",
         "S": "t_sidewalk",
-        ".": "t_thconc_floor",
+        ".": "t_thconc_floor_roofed",
         "G": "t_card_science"
       }
     }

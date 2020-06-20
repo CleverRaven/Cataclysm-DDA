@@ -441,7 +441,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 1, 9 ], "y": [ 1, 9 ] } ],
-      "terrain": { "g": "t_wall_glass", "G": "t_door_glass_lab_c", "7": "t_thconc_floor" }
+      "terrain": { "g": "t_wall_glass", "G": "t_door_glass_lab_c", "7": "t_thconc_floor_roofed" }
     }
   },
   {

@@ -13,7 +13,7 @@
       "2": "t_stump",
       "7": [ "t_region_tree_evergreen", "t_region_tree" ],
       ";": "t_door_metal_locked",
-      ".": "t_thconc_floor",
+      ".": "t_thconc_floor_roofed",
       "6": "t_gates_mech_control",
       "@": "t_machinery_heavy",
       "G": "t_generator_broken",
@@ -23,14 +23,14 @@
       "X": "t_console_broken",
       "v": "t_chainfence_v",
       "V": "t_chaingate_l",
-      "x": "t_thconc_floor",
+      "x": "t_thconc_floor_roofed",
       "z": "t_flat_roof",
       "-": "t_gutter_north",
       "|": "t_gutter_east",
       "3": "t_gutter_south",
       "4": "t_gutter_west",
       "5": "t_gutter_drop",
-      ",": "t_thconc_floor"
+      ",": "t_thconc_floor_roofed"
     },
     "furniture": {
       "B": "f_bandsaw",

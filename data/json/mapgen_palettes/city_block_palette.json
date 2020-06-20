@@ -46,7 +46,7 @@
       "-": "t_open_air",
       "p": "t_concrete",
       "X": "t_region_groundcover_urban",
-      " ": "t_floor",
+      " ": "t_floor_roofed",
       "|": "t_brick_wall",
       "%": "t_wall_w",
       "<": "t_stairs_up",

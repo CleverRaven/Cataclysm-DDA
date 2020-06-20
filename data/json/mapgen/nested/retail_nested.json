@@ -18,7 +18,7 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "L": "f_table",
         "H": "f_table",
@@ -59,7 +59,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -88,7 +88,7 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "L": "t_carpet_yellow_roofed", ".": "t_carpet_yellow_roofed", "?": "t_console_broken" },
       "furniture": {
         "L": "f_table",
         "H": "f_table",
@@ -123,7 +123,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": { "z": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 6 ] } ] }
     }
@@ -148,14 +148,14 @@
         "y VVV    "
       ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "L": "t_linoleum_white",
-        "H": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "Y": "t_linoleum_white",
+        " ": "t_linoleum_white_roofed",
+        "L": "t_linoleum_white_roofed",
+        "H": "t_linoleum_white_roofed",
+        "V": "t_linoleum_white_roofed",
+        "M": "t_linoleum_white_roofed",
+        "A": "t_linoleum_white_roofed",
+        "y": "t_linoleum_white_roofed",
+        "Y": "t_linoleum_white_roofed",
         "?": "t_console_broken"
       },
       "furniture": {
@@ -190,7 +190,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": { "z": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 6 ] } ] }
     }
@@ -215,16 +215,16 @@
         "y MMMM  y"
       ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "G": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "H": "t_carpet_green",
-        "L": "t_carpet_green",
-        ".": "t_carpet_green",
+        " ": "t_linoleum_white_roofed",
+        "G": "t_linoleum_white_roofed",
+        "V": "t_linoleum_white_roofed",
+        "M": "t_linoleum_white_roofed",
+        "A": "t_linoleum_white_roofed",
+        "y": "t_linoleum_white_roofed",
+        "Y": "t_linoleum_white_roofed",
+        "H": "t_carpet_green_roofed",
+        "L": "t_carpet_green_roofed",
+        ".": "t_carpet_green_roofed",
         "?": "t_console_broken"
       },
       "furniture": {
@@ -260,7 +260,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -290,7 +290,7 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "G": "t_carpet_red_roofed", "L": "t_carpet_red_roofed", ".": "t_carpet_red_roofed", "?": "t_console_broken" },
       "furniture": {
         "L": "f_table",
         "H": "f_table",
@@ -324,7 +324,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -355,11 +355,11 @@
         "y MMMM  Y"
       ],
       "terrain": {
-        " ": "t_floor",
-        "G": "t_carpet_yellow",
-        "L": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        ".": "t_carpet_yellow",
+        " ": "t_floor_roofed",
+        "G": "t_carpet_yellow_roofed",
+        "L": "t_carpet_yellow_roofed",
+        "B": "t_carpet_yellow_roofed",
+        ".": "t_carpet_yellow_roofed",
         "?": "t_console_broken"
       },
       "furniture": {
@@ -400,7 +400,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -433,20 +433,20 @@
         "Q   RLyLL"
       ],
       "terrain": {
-        " ": "t_linoleum_gray",
-        "L": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "B": "t_linoleum_gray",
-        "G": "t_linoleum_gray",
-        "M": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "s": "t_linoleum_gray",
-        "i": "t_linoleum_gray",
+        " ": "t_linoleum_gray_roofed",
+        "L": "t_linoleum_gray_roofed",
+        "R": "t_linoleum_gray_roofed",
+        "B": "t_linoleum_gray_roofed",
+        "G": "t_linoleum_gray_roofed",
+        "M": "t_linoleum_gray_roofed",
+        "F": "t_linoleum_gray_roofed",
+        "V": "t_linoleum_gray_roofed",
+        "Q": "t_linoleum_gray_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "y": "t_linoleum_gray_roofed",
+        "A": "t_linoleum_gray_roofed",
+        "s": "t_linoleum_gray_roofed",
+        "i": "t_linoleum_gray_roofed",
         "?": "t_console_broken"
       },
       "furniture": {
@@ -492,7 +492,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -520,7 +520,7 @@
         " C QQVV ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken", "|": "t_brick_wall" },
       "furniture": {
         "A": "f_stool",
         "B": "f_counter",
@@ -567,7 +567,7 @@
         "z z ",
         "z  z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -594,7 +594,7 @@
         "    ",
         "CC C"
       ],
-      "terrain": { " ": "t_floor" },
+      "terrain": { " ": "t_floor_roofed" },
       "furniture": { "C": "f_rack" },
       "items": {
         "C": [
@@ -623,7 +623,7 @@
         " b LLL  ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken", "|": "t_brick_wall" },
       "furniture": {
         "A": "f_stool",
         "B": "f_counter",
@@ -670,7 +670,7 @@
         "z z ",
         "z  z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -697,7 +697,7 @@
         "    ",
         "CC C"
       ],
-      "terrain": { " ": "t_floor" },
+      "terrain": { " ": "t_floor_roofed" },
       "furniture": { "C": "f_rack" },
       "items": {
         "C": [
@@ -721,7 +721,7 @@
         "    ",
         "bb C"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
       "items": {
         "C": [ { "item": "SUS_tailoring_materials", "chance": 30, "repeat": [ 1, 2 ] } ],
@@ -752,7 +752,7 @@
         " b LLL  ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken", "|": "t_brick_wall" },
       "furniture": {
         "A": "f_stool",
         "B": "f_counter",
@@ -794,7 +794,7 @@
         "z z ",
         "z  z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -819,7 +819,7 @@
         "    ",
         "CC C"
       ],
-      "terrain": { " ": "t_floor" },
+      "terrain": { " ": "t_floor_roofed" },
       "furniture": { "C": "f_rack" },
       "items": {
         "C": [
@@ -843,7 +843,7 @@
         "A   ",
         "BB C"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
       "items": {
         "C": [
@@ -881,7 +881,7 @@
         " b QQQ  ",
         "|| |||||"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken", "|": "t_brick_wall" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken", "|": "t_brick_wall" },
       "furniture": {
         "A": "f_stool",
         "B": "f_counter",
@@ -923,7 +923,7 @@
         "z z ",
         "z  z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [
@@ -948,7 +948,7 @@
         "    ",
         "CC C"
       ],
-      "terrain": { " ": "t_floor" },
+      "terrain": { " ": "t_floor_roofed" },
       "furniture": { "C": "f_rack" },
       "items": { "C": [ { "item": "fancyfurs", "chance": 30, "repeat": [ 0, 6 ] } ] }
     }
@@ -967,7 +967,7 @@
         "A   ",
         "BB C"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
       "items": {
         "C": [
@@ -997,7 +997,7 @@
         "B  zz",
         "Cyz  "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "A": "f_chair",
         "B": "f_desk",
@@ -1032,7 +1032,7 @@
         "   zz",
         "CDF  "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "A": "f_chair",
         "B": "f_desk",
@@ -1067,7 +1067,7 @@
         "G   ",
         "ybb "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "G": "f_locker",
         "b": "f_bench",
@@ -1096,7 +1096,7 @@
         "G   ",
         "y C "
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "C": "f_rack",
         "G": "f_sofa",
@@ -1126,7 +1126,7 @@
         "BA  ",
         "y GC"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "A": "f_chair",
         "B": "f_desk",
@@ -1158,7 +1158,7 @@
         "G b  ",
         "yz CC"
       ],
-      "terrain": { " ": "t_floor", "?": "t_console_broken" },
+      "terrain": { " ": "t_floor_roofed", "?": "t_console_broken" },
       "furniture": {
         "A": "f_chair",
         "B": "f_desk",
@@ -1194,7 +1194,7 @@
         "C    ",
         "yAAA "
       ],
-      "terrain": { " ": "t_floor" },
+      "terrain": { " ": "t_floor_roofed" },
       "furniture": {
         "A": "f_sofa",
         "C": "f_rack",
@@ -1225,7 +1225,7 @@
         "  z",
         "z z"
       ],
-      "terrain": { "z": "t_floor" },
+      "terrain": { "z": "t_floor_roofed" },
       "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ] },
       "items": {
         "z": [

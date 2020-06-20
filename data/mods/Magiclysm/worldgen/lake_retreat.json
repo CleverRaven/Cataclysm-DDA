@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "lake_retreat_ground",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "/%//////................",
         "//.//.////..............",
@@ -32,7 +32,7 @@
         ".9......................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
         "%": [ [ "t_grass", 5 ], "t_dirt" ],
         "/": "t_dirt",
@@ -111,7 +111,7 @@
     "method": "json",
     "om_terrain": "lake_retreat_z1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -139,7 +139,7 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         ".": "t_open_air",
         "|": "t_rock_green",
         "<": "t_wood_stairs_up",
@@ -192,7 +192,7 @@
     "method": "json",
     "om_terrain": "lake_retreat_z2",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -220,7 +220,7 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         ".": "t_open_air",
         "|": "t_rock_blue",
         "<": "t_wood_stairs_up",
@@ -395,10 +395,10 @@
       ],
       "place_loot": [ { "item": "rope_30", "x": 12, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 17, "y": 1, "chance": 100 } ],
       "terrain": {
-        " ": "t_floor",
-        "b": "t_floor",
-        "r": "t_floor",
-        "w": "t_floor",
+        " ": "t_floor_roofed",
+        "b": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "w": "t_floor_roofed",
         "*": "t_wall_log_half",
         "d": "t_dock",
         "/": "t_dirt",

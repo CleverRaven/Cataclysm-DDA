@@ -9,7 +9,7 @@
       [ "movietheater_0_2", "movietheater_1_2", "movietheater_2_2" ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "!!!!!!!!!!!!!!!!!!!!!!!!!!%%^^%%%%%^^%%%%%^^%%!!!!!!!!!!!!!!!!!!!!!!!!!!",
         "!TsTsTsTsTsTsTsTsTG....|________________________|.......-....|..TT|.XXX!",
@@ -85,7 +85,7 @@
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
       "palettes": [ "movie_theater_palette.json" ],
-      "terrain": { "#": "t_thconc_floor", "H": "t_thconc_floor", "y": "t_thconc_floor" },
+      "terrain": { "#": "t_thconc_floor_roofed", "H": "t_thconc_floor_roofed", "y": "t_thconc_floor_roofed" },
       "toilets": { "&": {  } },
       "vendingmachines": { "v": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
@@ -164,7 +164,7 @@
       [ "movietheater_roof_0_2", "movietheater_roof_1_2", "movietheater_roof_2_2" ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "222222222222222222222222222222222222222222222222222222222222222222222222",
         "|......................................................................3",
@@ -243,7 +243,7 @@
       "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "terrain": {
         ">": "t_ladder_down",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "#": "t_brick_wall",
         "+": "t_door_metal_c",
         "D": "t_chaingate_l",

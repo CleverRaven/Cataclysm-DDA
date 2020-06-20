@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 25,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|----------..----------|",
         "|         |..|         |",
@@ -35,7 +35,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "^": "f_rubble" },
-      "terrain": { "^": "t_thconc_floor" },
+      "terrain": { "^": "t_thconc_floor_roofed" },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 1, "y": 1 },
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 14, "y": 1 },
@@ -44,13 +44,13 @@
     }
   },
   {
-    "//": "library + two lab rooms (filled in with '.' in order to ensure a normal t_thconc_floor inside)",
+    "//": "library + two lab rooms (filled in with '.' in order to ensure a normal t_thconc_floor_roofed inside)",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|----------..----------|",
         "|.........|..|.........|",
@@ -127,7 +127,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "|--|--|--|-..-|--|-----|",
         "|bb|bb|bb|....|,,|l,,,b|",
@@ -219,7 +219,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "|--------|-..-|--------|",
         "|,,Ccxc,,|....|,,,,,,,,|",

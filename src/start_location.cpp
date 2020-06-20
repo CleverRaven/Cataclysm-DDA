@@ -102,7 +102,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
         // Don't need to board this up, is already occupied
         return;
     }
-    if( m.ter( p ) != t_floor ) {
+    if( m.ter( p ) != t_floor_roofed ) {
         // Other terrain (door, wall, ...), not boarded either
         return;
     }

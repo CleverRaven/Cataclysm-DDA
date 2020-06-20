@@ -409,7 +409,7 @@
         "............,...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", ",": "t_rock_floor", "W": "t_rock_floor", ">": "t_slope_up", "~": "t_water_dp" },
+      "terrain": { ".": "t_rock", ",": "t_rock_floor_roofed", "W": "t_rock_floor_roofed", ">": "t_slope_up", "~": "t_water_dp" },
       "furniture": { "W": "f_boulder_small" },
       "item": { "W": { "item": "longsword", "chance": 100 } },
       "monster": {
@@ -427,7 +427,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -455,7 +455,7 @@
         "............,...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", ",": "t_rock_floor", ">": "t_slope_up" },
+      "terrain": { ".": "t_rock", ",": "t_rock_floor_roofed", ">": "t_slope_up" },
       "furniture": {  },
       "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "trash_forest", "chance": 2 } ] }
     }
@@ -466,7 +466,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -494,7 +494,7 @@
         "............ ...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor_roofed", ">": "t_slope_up" },
       "furniture": {  },
       "monster": { "M": { "monster": "mon_nakedmolerat_giant" }, " ": { "monster": "mon_nakedmolerat_giant", "chance": 2 } }
     }
@@ -505,7 +505,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -533,7 +533,7 @@
         "...........,,,..........",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", ",": "t_rock_floor", "!": "t_rock_floor", ">": "t_slope_up" },
+      "terrain": { ".": "t_rock", ",": "t_rock_floor_roofed", "!": "t_rock_floor_roofed", ">": "t_slope_up" },
       "furniture": { "C": "f_crate_c", "S": "f_utility_shelf", "G": [ "f_grave_stone_old", "f_grave_head", "f_grave_monument" ] },
       "item": {
         "!": { "item": "material_soil", "chance": 40, "amount": [ 5, 10 ] },
@@ -548,7 +548,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -576,7 +576,7 @@
         "............ ....F.7J G.",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up", "7": "t_console_broken" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor_roofed", ">": "t_slope_up", "7": "t_console_broken" },
       "furniture": { "f": "f_firering", "c": "f_camp_chair", "C": "f_crate_o", "W": "f_crate_c", "T": "f_tourist_table" },
       "traps": {
         "F": "tr_rollmat",
@@ -611,7 +611,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -639,7 +639,7 @@
         "........... 2 ..........",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up", "2": "t_railroad_track_small" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor_roofed", ">": "t_slope_up", "2": "t_railroad_track_small" },
       "furniture": {  },
       "item": { "1": { "item": "broken_molebot", "chance": 2 } },
       "items": { "1": { "item": "cave_minerals", "chance": 40, "repeat": [ 1, 3 ] } },
@@ -651,7 +651,7 @@
     "method": "json",
     "om_terrain": [ "cave_rat_underground" ],
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "1...........2...........",
@@ -679,7 +679,7 @@
         "......................  ",
         "...................... <"
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up", "<": "t_slope_down" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor_roofed", ">": "t_slope_up", "<": "t_slope_down" },
       "furniture": {  },
       "nested": {
         "1": { "chunks": [ "cave_nw" ] },
@@ -694,7 +694,7 @@
     "method": "json",
     "om_terrain": [ "cave_rat" ],
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -723,10 +723,10 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_rock_floor",
+        " ": "t_rock_floor_roofed",
         ".": "t_rock",
-        "|": [ [ "t_rock", 20 ], [ "t_rock_floor", 80 ] ],
-        "%": [ "t_rock", "t_rock_floor" ],
+        "|": [ [ "t_rock", 20 ], [ "t_rock_floor_roofed", 80 ] ],
+        "%": [ "t_rock", "t_rock_floor_roofed" ],
         "<": "t_slope_up"
       },
       "furniture": {  },

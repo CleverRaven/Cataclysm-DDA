@@ -146,7 +146,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     for( const tripoint &p : compmap.points_on_zlevel() ) {
         if( compmap.ter( p ) == t_console_broken ) {
             broken.emplace_back( p );
-        } else if( broken.empty() && compmap.ter( p ) == t_floor && compmap.furn( p ) == f_null ) {
+        } else if( broken.empty() && compmap.ter( p ) == t_floor_roofed && compmap.furn( p ) == f_null ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
                 if( compmap.furn( p2 ) == f_bed || compmap.furn( p2 ) == f_dresser ) {
                     potential.emplace_back( p );
@@ -283,7 +283,7 @@ void mission_start::place_deposit_box( mission *miss )
     compmap.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.ter( p ) == t_floor ) {
+        if( compmap.ter( p ) == t_floor_roofed ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
                 if( compmap.ter( p2 ) == t_wall_metal ) {
                     valid.push_back( p );
@@ -449,17 +449,17 @@ void mission_start::ranch_nurse_6( mission *miss )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_window_frame, t_window_boarded_noglass );
     bay.translate( t_door_frame, t_door_c );
-    bay.draw_square_ter( t_dirtfloor, point( 3, 17 ), point( 8, 22 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 14, 17 ), point( 19, 22 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 10, 18 ), point( 12, 23 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 3, 17 ), point( 8, 22 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 14, 17 ), point( 19, 22 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 10, 18 ), point( 12, 23 ) );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_door_frame, t_door_c );
-    bay.draw_square_ter( t_dirtfloor, point( 5, 0 ), point( 8, 2 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 10, 0 ), point( 12, 4 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 14, 0 ), point( 17, 2 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 5, 0 ), point( 8, 2 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 10, 0 ), point( 12, 4 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 14, 0 ), point( 17, 2 ) );
     bay.save();
 }
 
@@ -469,13 +469,13 @@ void mission_start::ranch_nurse_7( mission *miss )
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.translate( t_dirtfloor, t_floor );
+    bay.translate( t_dirtfloor_roofed, t_floor_roofed );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.translate( t_dirtfloor, t_floor );
-    bay.draw_square_ter( t_floor, point( 10, 5 ), point( 12, 5 ) );
+    bay.translate( t_dirtfloor_roofed, t_floor_roofed );
+    bay.draw_square_ter( t_floor_roofed, point( 10, 5 ), point( 12, 5 ) );
     bay.draw_square_furn( f_rack, point( 17, 0 ), point( 17, 2 ) );
     bay.save();
 }
@@ -498,7 +498,7 @@ void mission_start::ranch_nurse_8( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.translate( t_dirtfloor, t_floor );
+    bay.translate( t_dirtfloor_roofed, t_floor_roofed );
     bay.place_items( "cleaning", 75, point( 17, 0 ), point( 17, 2 ), true,
                      calendar::start_of_cataclysm );
     bay.place_items( "surgery", 75, point( 15, 4 ), point( 18, 4 ), true,
@@ -572,7 +572,7 @@ void mission_start::ranch_scavenger_3( mission *miss )
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_door_frame, t_door_locked );
     bay.translate( t_wall_half, t_wall_wood );
-    bay.draw_square_ter( t_dirtfloor, point( 19, 20 ), point( 20, 21 ) );
+    bay.draw_square_ter( t_dirtfloor_roofed, point( 19, 20 ), point( 20, 21 ) );
     bay.spawn_item( point( 16, 21 ), "wheel_wide" );
     bay.spawn_item( point( 17, 21 ), "wheel_wide" );
     bay.spawn_item( point( 23, 18 ), "v8_combustion" );

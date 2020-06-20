@@ -305,12 +305,12 @@ static bool mx_house_spider( map &m, const tripoint &loc )
     }
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( point( i, j ) ) == t_floor ) {
+            if( m.ter( point( i, j ) ) == t_floor_roofed ) {
                 if( one_in( 15 ) ) {
                     m.add_spawn( spider_type, rng( 1, 2 ), tripoint( i, j, loc.z ) );
                     for( int x = i - 1; x <= i + 1; x++ ) {
                         for( int y = j - 1; y <= j + 1; y++ ) {
-                            if( m.ter( point( x, y ) ) == t_floor ) {
+                            if( m.ter( point( x, y ) ) == t_floor_roofed ) {
                                 madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );

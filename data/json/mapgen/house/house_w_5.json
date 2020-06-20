@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "house_w_5",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...$....ssG......ss.ss..",
         ".$...MCssssCM..$.ss.ss..",
@@ -32,7 +32,7 @@
         "..M.ssss................"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_adobe_brick_wall", "U": "t_thconc_floor", "%": "t_wall_w" },
+      "terrain": { "#": "t_adobe_brick_wall", "U": "t_thconc_floor_roofed", "%": "t_wall_w" },
       "place_vehicles": [
         { "vehicle": "showroom_small_vehicles", "x": 17, "y": 7, "rotation": 270, "chance": 20, "status": 0 },
         { "vehicle": "showroom_small_vehicles", "x": 19, "y": 7, "rotation": 270, "chance": 20, "status": 0 }
@@ -130,7 +130,7 @@
     "method": "json",
     "om_terrain": "house_w_5_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

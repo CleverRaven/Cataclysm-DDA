@@ -5,7 +5,7 @@
     "om_terrain": [ "museum" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".R...R....RssR....R...R.",
         ".|---------LL---------|.",
@@ -33,7 +33,7 @@
         ".|--------|-----------|."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_c",
         "-": "t_rock_smooth",
         "R": "t_column",

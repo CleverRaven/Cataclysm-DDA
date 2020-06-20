@@ -5,7 +5,7 @@
     "om_terrain": [ "sugar_house" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         ".--vvvv---;;-----vv---..",
@@ -44,7 +44,7 @@
         ";": "t_door_c",
         "M": "t_tree_maple_tapped",
         "v": "t_window",
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "|": "t_wall_g",
         "4": "t_gutter_downspout"
       },

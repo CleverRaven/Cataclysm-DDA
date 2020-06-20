@@ -20,7 +20,7 @@
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 48, 71 ] },
         { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 48, 71 ] }
       ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "  333333333g333333333      ,,        ,,          FFFFFFFFFFFFFFFFFFFFFF ",
         "  3        ,,       3,   ,,,          ,,         F                    F ",
@@ -98,14 +98,14 @@
       "terrain": {
         ">": "t_stairs_down",
         "<": "t_ladder_up",
-        "s": "t_dirtfloor",
-        "V": "t_dirtfloor",
-        "A": "t_dirtfloor",
-        "J": "t_dirtfloor",
-        "0": "t_dirtfloor",
-        "^": "t_dirtfloor",
-        "@": "t_dirtfloor",
-        "L": "t_floor",
+        "s": "t_dirtfloor_roofed",
+        "V": "t_dirtfloor_roofed",
+        "A": "t_dirtfloor_roofed",
+        "J": "t_dirtfloor_roofed",
+        "0": "t_dirtfloor_roofed",
+        "^": "t_dirtfloor_roofed",
+        "@": "t_dirtfloor_roofed",
+        "L": "t_floor_roofed",
         "X": "t_grass",
         "p": "t_grass",
         "U": "t_grass",
@@ -158,7 +158,7 @@
     "weight": 100,
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -212,7 +212,7 @@
     "weight": 500,
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -262,7 +262,7 @@
     "om_terrain": "farm_isherwood_2_cellar",
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -289,7 +289,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "<": "t_stairs_up", "#": "t_rock_wall", ".": "t_rock_floor", " ": "t_rock" },
+      "terrain": { "<": "t_stairs_up", "#": "t_rock_wall", ".": "t_rock_floor_roofed", " ": "t_rock" },
       "furniture": {
         "a": "f_rack",
         "r": "f_rack",
@@ -350,10 +350,10 @@
       "palettes": [ "roof_palette" ],
       "terrain": {
         ".": "t_shingle_flat_roof",
-        "6": "t_floor",
+        "6": "t_floor_roofed",
         ",": "t_metal_flat_roof",
         ">": "t_ladder_down",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "*": "t_open_air_rooved",
         "#": "t_wall_wood",
         " ": "t_open_air"

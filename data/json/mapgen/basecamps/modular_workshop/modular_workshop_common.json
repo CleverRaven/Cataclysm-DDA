@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "fbmw_common_palette",
-    "terrain": { ".": "t_dirtfloor" },
+    "terrain": { ".": "t_dirtfloor_roofed" },
     "furniture": {
       "t": "f_table",
       "L": "f_locker",

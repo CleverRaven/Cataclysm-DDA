@@ -35,15 +35,15 @@
         "                        "
       ],
       "terrain": {
-        "#": "t_rock_floor",
+        "#": "t_rock_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall",
-        ".": "t_rock_floor",
+        ".": "t_rock_floor_roofed",
         "<": "t_stairs_up",
-        "]": "t_rock_floor",
-        "h": "t_rock_floor",
-        "s": "t_rock_floor",
-        "{": "t_rock_floor",
+        "]": "t_rock_floor_roofed",
+        "h": "t_rock_floor_roofed",
+        "s": "t_rock_floor_roofed",
+        "{": "t_rock_floor_roofed",
         "|": "t_wall"
       },
       "furniture": { "#": "f_counter", "]": "f_bookcase", "h": "f_chair", "s": "f_gunsafe_ml", "{": "f_rack" },

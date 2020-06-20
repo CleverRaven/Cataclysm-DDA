@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -34,10 +34,10 @@
       ],
       "palettes": [ "multistory_house", "upper_level" ],
       "set": [
-        { "square": "terrain", "x": 3, "y": 6, "x2": 7, "y2": 7, "id": "t_linoleum_white" },
-        { "square": "terrain", "x": 3, "y": 7, "x2": 9, "y2": 10, "id": "t_carpet_yellow" },
-        { "square": "terrain", "x": 13, "y": 7, "x2": 19, "y2": 10, "id": "t_carpet_red" },
-        { "square": "terrain", "x": 3, "y": 17, "x2": 11, "y2": 20, "id": "t_carpet_green" }
+        { "square": "terrain", "x": 3, "y": 6, "x2": 7, "y2": 7, "id": "t_linoleum_white_roofed" },
+        { "square": "terrain", "x": 3, "y": 7, "x2": 9, "y2": 10, "id": "t_carpet_yellow_roofed" },
+        { "square": "terrain", "x": 13, "y": 7, "x2": 19, "y2": 10, "id": "t_carpet_red_roofed" },
+        { "square": "terrain", "x": 3, "y": 17, "x2": 11, "y2": 20, "id": "t_carpet_green_roofed" }
       ]
     }
   }

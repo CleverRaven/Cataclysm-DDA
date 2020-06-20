@@ -5,7 +5,7 @@
     "om_terrain": [ "urban_7_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "#,,,,,qq|---|-----------",
@@ -55,7 +55,7 @@
     "om_terrain": [ "urban_7_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "--|-----|#,,,,,,,,,,,,,#",
@@ -97,7 +97,7 @@
     "om_terrain": [ "urban_7_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........|-w-w-|-|---|-|-",
@@ -145,7 +145,7 @@
     "om_terrain": [ "urban_7_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "vvvvvvv-|...............",
@@ -187,7 +187,7 @@
     "om_terrain": [ "urban_7_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........RRRRRRRRRRRRRRRR",
@@ -223,7 +223,7 @@
     "om_terrain": [ "urban_7_6" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "RRRRRRRRR...............",

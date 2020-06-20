@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "s_air_parking", "s_air_term", "s_air_atc", "s_air_hangars" ] ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "ssssssssssssssssssssssssc_d____________________ssssssssss.....____111_________________________ss",
         "s______________________s##e#++##:::##:::##______________s######^.|||||....____________________..",
@@ -37,16 +37,16 @@
         "_": "t_pavement",
         "b": "t_pavement_y",
         "s": "t_sidewalk",
-        "~": "t_thconc_floor",
-        "m": "t_thconc_floor",
-        "t": "t_linoleum_white",
-        ";": "t_linoleum_white",
-        "k": "t_linoleum_white",
-        "I": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "E": "t_linoleum_white",
-        " ": "t_linoleum_gray",
+        "~": "t_thconc_floor_roofed",
+        "m": "t_thconc_floor_roofed",
+        "t": "t_linoleum_white_roofed",
+        ";": "t_linoleum_white_roofed",
+        "k": "t_linoleum_white_roofed",
+        "I": "t_linoleum_white_roofed",
+        "h": "t_linoleum_white_roofed",
+        "J": "t_linoleum_white_roofed",
+        "E": "t_linoleum_white_roofed",
+        " ": "t_linoleum_gray_roofed",
         "o": "t_window",
         ":": "t_wall_glass",
         "+": "t_door_c",
@@ -65,8 +65,8 @@
         "2": "t_water_pump",
         "3": "t_sewage_pipe",
         "a": "t_wall_metal",
-        "g": "t_thconc_floor",
-        "f": "t_thconc_floor",
+        "g": "t_thconc_floor_roofed",
+        "f": "t_thconc_floor_roofed",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_metal",
         "4": "t_generator_broken"
@@ -235,7 +235,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_brick_wall", "`": "t_linoleum_white", ";": "t_metal_flat_roof", ">": "t_stairs_down", "<": "t_stairs_up" }
+      "terrain": { "#": "t_brick_wall", "`": "t_linoleum_white_roofed", ";": "t_metal_flat_roof", ">": "t_stairs_down", "<": "t_stairs_up" }
     }
   },
   {
@@ -243,7 +243,7 @@
     "method": "json",
     "om_terrain": [ "s_air_atc_3" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": "t_linoleum_white_roofed",
       "rows": [
         "        hhhhhhhh        ",
         "        habbgbah        ",
@@ -275,7 +275,7 @@
         "b": "t_wall_glass",
         " ": "t_open_air",
         "d": "t_stairs_down",
-        ".": "t_linoleum_white",
+        ".": "t_linoleum_white_roofed",
         "f": "t_console_broken",
         "g": "t_door_glass_c",
         "h": "t_metal_floor"

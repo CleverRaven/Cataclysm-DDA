@@ -10,7 +10,7 @@
     "om_terrain": [ "urban_33_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -57,7 +57,7 @@
     "om_terrain": [ "urban_33_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%l''''''''''''''''l%%%",
         "%%%l''''''''''''''''l%%%",
@@ -101,7 +101,7 @@
     "om_terrain": [ "urban_33_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l---+---|  |  33  l===ll",
         "lu     u|  |  33   333  ",
@@ -154,7 +154,7 @@
     "om_terrain": [ "urban_33_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "llll''''''''''''''''l  l",
         "    ''''''''''''''''l  l",
@@ -197,7 +197,7 @@
     "om_terrain": [ "urban_33_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;",
@@ -245,7 +245,7 @@
     "om_terrain": [ "urban_33_6" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;''''';;;;;;;;;",
         ";;;;;;;;;;''''';;;;;;;;;",
@@ -295,7 +295,7 @@
     "om_terrain": [ "urban_33_7" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l''''w   dd6d| 33 l===ll",
         "l''''w     hd| 33  333  ",
@@ -346,7 +346,7 @@
     "om_terrain": [ "urban_33_8" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ll===l 33 v         rr l",
         "  333  33 v            l",
@@ -396,7 +396,7 @@
     "om_terrain": [ "urban_33_9" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -441,7 +441,7 @@
     "om_terrain": [ "urban_33_10" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..........RRRRR.........",
         "..........RRRRR.........",
@@ -486,7 +486,7 @@
     "om_terrain": [ "urban_33_11" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l    cck|         l===ll",
         "l       v          333  ",
@@ -514,7 +514,7 @@
         "................RRRRRRRR"
       ],
       "palettes": [ "acidia_commercial_palette" ],
-      "terrain": { " ": "t_linoleum_white", "!": "t_linoleum_white", "2": "t_linoleum_white" },
+      "terrain": { " ": "t_linoleum_white_roofed", "!": "t_linoleum_white_roofed", "2": "t_linoleum_white_roofed" },
       "furniture": { "!": "f_ergometer", "2": "f_treadmill" },
       "items": { " ": { "item": "traveler", "chance": 1 }, "3": { "item": "traveler", "chance": 1 } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 11 ], "y": [ 1, 18 ], "density": 0.4 } ]
@@ -526,7 +526,7 @@
     "om_terrain": [ "urban_33_12" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ll===l          (|S  |-l",
         "  333           (|S  +Tl",
@@ -573,7 +573,7 @@
     "om_terrain": [ "urban_33_13" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -621,7 +621,7 @@
     "om_terrain": [ "urban_33_14" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -649,7 +649,7 @@
         "|7777|r|TSB|  |ZZ klRRRR"
       ],
       "palettes": [ "acidia_commercial_palette" ],
-      "terrain": { "?": "t_linoleum_white" },
+      "terrain": { "?": "t_linoleum_white_roofed" },
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "traveler", "chance": 1 },
@@ -671,7 +671,7 @@
     "om_terrain": [ "urban_33_15" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "RRRRRRl----|  |---|===-|",
         "RRRRRRlBSCT|            ",
@@ -718,7 +718,7 @@
     "om_terrain": [ "urban_33_16" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|-===|-|---|  |----lRRRR",
         "              |TCSBlRRRR",
@@ -766,7 +766,7 @@
     "om_terrain": [ "urban_33_17" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -814,7 +814,7 @@
     "om_terrain": [ "urban_33_18" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -862,7 +862,7 @@
     "om_terrain": [ "urban_33_19" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "......w bbb +2S|  |===-|",
         "......w bbb |2T|        ",
@@ -910,7 +910,7 @@
     "om_terrain": [ "urban_33_20" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|-===|  |          w....",
         "        1          w....",
@@ -958,7 +958,7 @@
     "om_terrain": [ "urban_33_21" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1007,7 +1007,7 @@
     "om_terrain": [ "urban_33_22" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1055,7 +1055,7 @@
     "om_terrain": [ "urban_33_23" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "......w bbb +2S|  |===-|",
         "......w bbb |2T|        ",
@@ -1103,7 +1103,7 @@
     "om_terrain": [ "urban_33_24" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|-===|  |          w....",
         "        1          w....",
@@ -1151,7 +1151,7 @@
     "om_terrain": [ "urban_33_25" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1195,7 +1195,7 @@
     "om_terrain": [ "urban_33_26" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1239,7 +1239,7 @@
     "om_terrain": [ "urban_33_27" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "......l@ t        |===-|",
         "......l           133333",
@@ -1287,7 +1287,7 @@
     "om_terrain": [ "urban_33_28" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|-===|333          l....",
         "3333333333333333333l....",
@@ -1336,7 +1336,7 @@
     "om_terrain": [ "urban_33_29" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1372,7 +1372,7 @@
     "om_terrain": [ "urban_33_30" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1408,7 +1408,7 @@
     "om_terrain": [ "urban_33_31" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "......8;;;;;;lllllllv=vl",
         "......8;;;;;;lCCoCj    u",
@@ -1458,7 +1458,7 @@
     "om_terrain": [ "urban_33_32" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ll===llllll;;;;;;;;8....",
         "l     lTCSl;;;;;;;;8....",
@@ -1504,7 +1504,7 @@
     "om_terrain": [ "urban_33_34" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -1540,7 +1540,7 @@
     "om_terrain": [ "urban_33_35" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".............RRRRRRRRRRR",
         ".............RRRRRRRRRRR",
@@ -1576,7 +1576,7 @@
     "om_terrain": [ "urban_33_36" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "RRRRRRRRRRR.............",
         "RRRRRRRRRRR.............",

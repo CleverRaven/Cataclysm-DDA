@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "magic_shop",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........ss..............",
         ".....9..ss..p9pMMp9p....",
@@ -44,9 +44,9 @@
         "#": "t_wall_b",
         "+": "t_door_red_c",
         "o": "t_window_domestic",
-        "J": "t_carpet_green",
-        "W": "t_carpet_green",
-        "*": "t_carpet_green",
+        "J": "t_carpet_green_roofed",
+        "W": "t_carpet_green_roofed",
+        "*": "t_carpet_green_roofed",
         "%": "t_privacy_fence",
         "<": "t_stairs_up",
         "4": "t_gutter_downspout",
@@ -124,7 +124,7 @@
     "method": "json",
     "om_terrain": "magic_shop_2ndfloor",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -152,7 +152,7 @@
         "                        "
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         " ": "t_open_air",
         "*": "t_tile_flat_roof",
         "o": "t_window_domestic",

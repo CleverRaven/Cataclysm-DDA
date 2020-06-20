@@ -5,7 +5,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________||-+-+-||_______",
         "________|.......|_______",
@@ -36,7 +36,7 @@
         "&": "t_atm",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "6": "t_slot_machine",
         "D": "t_concrete",
         "_": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
@@ -195,7 +195,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_____sss_____d__________",
         "_d__|+-+|______________d",
@@ -225,7 +225,7 @@
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "6": "t_slot_machine",
         "D": "t_pavement",
         "P": "t_pavement",

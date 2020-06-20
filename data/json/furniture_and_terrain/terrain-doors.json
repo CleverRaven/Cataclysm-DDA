@@ -137,7 +137,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
@@ -191,7 +191,7 @@
       "sound_fail": "whack!",
       "sound_vol": 20,
       "sound_fail_vol": 14,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
         { "item": "wire", "prob": 20 },
@@ -741,7 +741,7 @@
         { "item": "nail", "charges": [ 6, 12 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_linoleum_white", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
+    "deconstruct": { "ter_set": "t_linoleum_white_roofed", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
   },
   {
     "type": "terrain",
@@ -766,7 +766,7 @@
         { "item": "nail", "charges": [ 6, 12 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_linoleum_gray", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
+    "deconstruct": { "ter_set": "t_linoleum_gray_roofed", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
   },
   {
     "type": "terrain",
@@ -791,7 +791,7 @@
         { "item": "nail", "charges": [ 6, 12 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_carpet_red", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
+    "deconstruct": { "ter_set": "t_carpet_red_roofed", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
   },
   {
     "type": "terrain",
@@ -816,7 +816,7 @@
         { "item": "nail", "charges": [ 6, 12 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_carpet_green", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
+    "deconstruct": { "ter_set": "t_carpet_green_roofed", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
   },
   {
     "type": "terrain",
@@ -1667,7 +1667,7 @@
     "name": "empty door frame",
     "description": "An empty door frame made from two by fours and nails.  A variety of doors could be constructed here.",
     "symbol": ".",
-    "looks_like": "t_floor",
+    "looks_like": "t_floor_roofed",
     "color": "brown",
     "move_cost": 2,
     "roof": "t_flat_roof",
@@ -1684,7 +1684,7 @@
         { "item": "nail", "charges": [ 6, 12 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
+    "deconstruct": { "ter_set": "t_floor_roofed", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
   },
   {
     "type": "terrain",
@@ -1709,7 +1709,7 @@
         { "item": "nail", "charges": [ 6, 12 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_thconc_floor", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
+    "deconstruct": { "ter_set": "t_thconc_floor_roofed", "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": 24 } ] }
   },
   {
     "type": "terrain",
@@ -1747,7 +1747,7 @@
       "str_max": 75,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [ { "item": "spike", "count": [ 2, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
@@ -2214,7 +2214,7 @@
       "str_max_blocked": 240,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_roofed",
       "items": [
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
@@ -2321,7 +2321,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },
@@ -2369,7 +2369,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
     }
   },

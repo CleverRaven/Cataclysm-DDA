@@ -5,7 +5,7 @@
     "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e1d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -47,7 +47,7 @@
     "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e1" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "''!:::::::,,,,:::::::'''",
         ":::::::::,,,,,,:::::::::",
@@ -93,7 +93,7 @@
     "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e1u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -137,7 +137,7 @@
     "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e2d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -183,7 +183,7 @@
     "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "''''''':::,,,,:::'!'''''",
         "''''::::::,,,,::::::''''",
@@ -227,7 +227,7 @@
     "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e2u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -268,7 +268,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t1d" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -309,7 +309,7 @@
     "om_terrain": [ "mansion_t", "mansion_t1" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X:::::::***,,***:::::::X",
         "::::::,,,,,,,,,,,,::::::",
@@ -355,7 +355,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t1u" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X*********|__|*********X",
         "**********||||**********",
@@ -392,7 +392,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
     "weight": 800,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "XKKKK..X...............X",
         "wg.K...+................",
@@ -420,7 +420,7 @@
         "########################"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "@": "t_carpet_red", "R": "t_carpet_red" },
+      "terrain": { "@": "t_carpet_red_roofed", "R": "t_carpet_red_roofed" },
       "furniture": { "$": [ "f_shackle", "f_null" ], "@": "f_mannequin" },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -443,7 +443,7 @@
     "om_terrain": [ "mansion_t", "mansion_t2" ],
     "weight": 1100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......................X",
         "........................",
@@ -496,7 +496,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X=P=XJJJjX....X..ccXN=PX",
         "J==NX====X....Xz..1XN==J",
@@ -548,7 +548,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X.sss/ssX......X.(..|..X",
         ".ddd./..[...........[...",
@@ -597,7 +597,7 @@
     "om_terrain": [ "mansion_t", "mansion_t2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......................X",
         "........................",
@@ -625,7 +625,7 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "%": "t_door_metal_locked", ",": "t_carpet_red" },
+      "terrain": { "%": "t_door_metal_locked", ",": "t_carpet_red_roofed" },
       "furniture": { "$": "f_safe_l" },
       "toilets": { "P": {  } },
       "items": {
@@ -658,7 +658,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......................X",
         "........................",
@@ -709,7 +709,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t4d" ],
     "weight": 1100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "Xrrrr..fX......X.].X..]X",
         "r...r..fX........]....].",
@@ -761,7 +761,7 @@
     "om_terrain": [ "mansion_t", "mansion_t4" ],
     "weight": 1100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "XRRCYYYCX.5...5.ccc....X",
         "R=R====CXt...........at.",
@@ -789,7 +789,7 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "F": "t_linoleum_gray" },
+      "terrain": { "F": "t_linoleum_gray_roofed" },
       "items": {
         "'": { "item": "clutter_yard" },
         ")": { "item": "trash_cart", "chance": 40 },
@@ -816,7 +816,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t4u" ],
     "weight": 1100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......................X",
         "........................",
@@ -865,7 +865,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t5d" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X=x----------XPXPXjjjXPX",
         "==x--U-U-U---X+X+X===X==",
@@ -913,7 +913,7 @@
     "om_terrain": [ "mansion_t", "mansion_t5" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X(...5.XmKX..XrrXdd&dd.X",
         "d.....cX..+..X..%.-2-..s",
@@ -963,7 +963,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t5u" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "XJJX..1...X.....(dd&XJJX",
         "P==X......X.......1.X==P",
@@ -991,7 +991,7 @@
         "************************"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "terrain": { "C": "t_carpet_red" },
+      "terrain": { "C": "t_carpet_red_roofed" },
       "furniture": { "V": "f_counter" },
       "toilets": { "P": {  } },
       "items": {
@@ -1020,7 +1020,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t6d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X=====X=========WX.1KK.X",
         "o--D-=%=========WXh.KKtt",
@@ -1048,7 +1048,7 @@
         "########################"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { ")": "t_linoleum_gray", "T": "t_linoleum_gray", "o": "t_carpet_red" },
+      "terrain": { ")": "t_linoleum_gray_roofed", "T": "t_linoleum_gray_roofed", "o": "t_carpet_red_roofed" },
       "furniture": { "o": "f_trashcan" },
       "items": {
         ")": { "item": "trash_cart", "chance": 30 },
@@ -1076,7 +1076,7 @@
     "om_terrain": [ "mansion_t", "mansion_t6" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X..............X......LX",
         "...............X.--2---.",
@@ -1132,7 +1132,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t6u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "XNYX51.zz.X..XmrXC==XJJX",
         "P==Xa.....%..X..XY==+===",
@@ -1189,7 +1189,7 @@
     "om_terrain": [ "mansion_t_dn", "mansion_t7d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X--CCCC--X----Xa(.KKdssX",
         "---------X----X...KKdsKK",
@@ -1217,7 +1217,7 @@
         "########################"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "C": "t_carpet_red", "N": "t_carpet_red" },
+      "terrain": { "C": "t_carpet_red_roofed", "N": "t_carpet_red_roofed" },
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         "-": { "item": "clutter_mansion" },
@@ -1238,7 +1238,7 @@
     "om_terrain": [ "mansion_t", "mansion_t7" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X....nnn.X....X....ddd(X",
         "..1......X....X.....1...",
@@ -1290,7 +1290,7 @@
     "om_terrain": [ "mansion_t_up", "mansion_t7u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X--2----FX....X....sst.X",
         "-2CC2---NXt...X.......a.",
@@ -1318,7 +1318,7 @@
         "************************"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "terrain": { "C": "t_carpet_red", "N": "t_carpet_red" },
+      "terrain": { "C": "t_carpet_red_roofed", "N": "t_carpet_red_roofed" },
       "furniture": { "C": "f_table" },
       "items": {
         "-": { "item": "clutter_mansion", "chance": 3 },
@@ -1339,7 +1339,7 @@
     "om_terrain": [ "mansion_+_dn", "mansion_+1d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X......................X",
         "X......................X",
@@ -1380,7 +1380,7 @@
     "om_terrain": [ "mansion_+", "mansion_+1" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X.......1t8..811.......X",
         "X......................X",
@@ -1426,7 +1426,7 @@
     "om_terrain": [ "mansion_+_up", "mansion_+1u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X....X__744__447__X....X",
         "X....+____________+....X",
@@ -1463,7 +1463,7 @@
     "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
     "weight": 900,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X...........]..XCC.....X",
         "X......]....]..XCC.....X",
@@ -1491,7 +1491,7 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "$": "t_carpet_red", "%": "t_door_metal_locked" },
+      "terrain": { "$": "t_carpet_red_roofed", "%": "t_door_metal_locked" },
       "furniture": { "$": "f_safe_l", "C": "f_table" },
       "items": {
         "$": { "item": "mansion_safe", "chance": 100 },
@@ -1520,7 +1520,7 @@
     "om_terrain": [ "mansion_+", "mansion_+2" ],
     "weight": 900,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X........111.1.........X",
         "XXX..................XXX",
@@ -1548,7 +1548,7 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "7": "t_linoleum_gray", "T": "t_linoleum_gray" },
+      "terrain": { "7": "t_linoleum_gray_roofed", "T": "t_linoleum_gray_roofed" },
       "furniture": { "c": "f_table" },
       "toilets": { "P": {  } },
       "items": {
@@ -1569,7 +1569,7 @@
     "om_terrain": [ "mansion_+_up", "mansion_+2u" ],
     "weight": 900,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X....|************|....X",
         "X....|************|....X",
@@ -1606,7 +1606,7 @@
     "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
     "weight": 800,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X.....ccccX$.X@aa}m....X",
         "X........cX..%m........X",
@@ -1661,7 +1661,7 @@
     "om_terrain": [ "mansion_+", "mansion_+3" ],
     "weight": 800,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......X=====CYCX......X",
         "X......X+X3=====Xf...u.X",
@@ -1689,7 +1689,7 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "%": "t_backboard_in", "'": "t_backboard", "-": "t_floor_waxed_y", "`": "t_floor_waxed", "o": "t_door_glass_c" },
+      "terrain": { "%": "t_backboard_in", "'": "t_backboard", "-": "t_floor_waxed_y_roofed", "`": "t_floor_waxed_roofed", "o": "t_door_glass_c" },
       "furniture": { "2": "f_bench", "3": "f_bench" },
       "toilets": { "P": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 20, 21 ], "y": [ 15, 17 ], "repeat": [ 2, 4 ] } ],
@@ -1717,7 +1717,7 @@
     "om_terrain": [ "mansion_+_up", "mansion_+3u" ],
     "weight": 800,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......................X",
         "X......................X",
@@ -1754,7 +1754,7 @@
     "om_terrain": [ "mansion_+_dn", "mansion_+4d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "X....X.KKXP=YXD--------X",
         "X....X..KX===X&2-D-----X",
@@ -1782,7 +1782,7 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "N": "t_carpet_red" },
+      "terrain": { "N": "t_carpet_red_roofed" },
       "toilets": { "P": {  } },
       "items": {
         ")": { "item": "harddrugs", "chance": 30 },
@@ -1803,7 +1803,7 @@
     "om_terrain": [ "mansion_+", "mansion_+4" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X.......5.XrmX.........X",
         "X.........X..X..-A---..X",
@@ -1853,7 +1853,7 @@
     "om_terrain": [ "mansion_+_up", "mansion_+4u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "X......X.tsssst.X......X",
         "X..--....S----S....--..X",
@@ -1896,7 +1896,7 @@
     "om_terrain": [ "mansion_c_dn", "mansion_c1d" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -1938,7 +1938,7 @@
     "om_terrain": [ "mansion_c", "mansion_c1" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "'''''':::::::::::::::'''",
         "''''::::::::::::::::::::",
@@ -1966,7 +1966,7 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "!": "t_linoleum_gray", "/": "t_linoleum_gray", "@": "t_linoleum_gray", "~": "t_water_pool" },
+      "terrain": { "!": "t_linoleum_gray_roofed", "/": "t_linoleum_gray_roofed", "@": "t_linoleum_gray_roofed", "~": "t_water_pool" },
       "furniture": { "!": "f_dive_block" },
       "toilets": { "P": {  } },
       "items": {
@@ -1985,7 +1985,7 @@
     "om_terrain": [ "mansion_c_up", "mansion_c1u" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -2032,7 +2032,7 @@
     "om_terrain": [ "mansion_c_dn", "mansion_c2d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2077,7 +2077,7 @@
     "om_terrain": [ "mansion_c", "mansion_c2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "''''''''''''''''''''''''",
         "'''::::::::::::::::'''''",
@@ -2128,7 +2128,7 @@
     "om_terrain": [ "mansion_c_up", "mansion_c2u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -2181,7 +2181,7 @@
     "om_terrain": [ "mansion_c_dn", "mansion_c3d" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2224,7 +2224,7 @@
     "om_terrain": [ "mansion_c", "mansion_c3" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''",
@@ -2272,7 +2272,7 @@
     "om_terrain": [ "mansion_c_up", "mansion_c3u" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -2318,7 +2318,7 @@
     "om_terrain": [ "mansion_c_dn", "mansion_c4d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2346,7 +2346,7 @@
         "######XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "T": "t_linoleum_gray" },
+      "terrain": { "T": "t_linoleum_gray_roofed" },
       "items": {
         ".": { "item": "clutter_basement" },
         "=": { "item": "clutter_basement" },
@@ -2368,7 +2368,7 @@
     "om_terrain": [ "mansion_c", "mansion_c4" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''",
@@ -2423,7 +2423,7 @@
     "om_terrain": [ "mansion_c_up", "mansion_c4u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -2468,7 +2468,7 @@
     "om_terrain": [ "mansion_c_dn", "mansion_c5d" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2517,7 +2517,7 @@
     "om_terrain": [ "mansion_c", "mansion_c5" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''",
@@ -2545,7 +2545,7 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { ")": "t_linoleum_gray", "F": "t_linoleum_gray" },
+      "terrain": { ")": "t_linoleum_gray_roofed", "F": "t_linoleum_gray_roofed" },
       "items": {
         "'": { "item": "clutter_yard" },
         ")": { "item": "trash_cart", "chance": 40 },
@@ -2570,7 +2570,7 @@
     "om_terrain": [ "mansion_c_up", "mansion_c5u" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",

@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "fbmh_tent_palette",
-    "terrain": { " ": "t_dirt", ".": "t_dirtfloor", "+": "t_dirtfloor", "w": "t_dirtfloor" },
+    "terrain": { " ": "t_dirt", ".": "t_dirtfloor_roofed", "+": "t_dirtfloor_roofed", "w": "t_dirtfloor_roofed" },
     "furniture": { "+": "f_canvas_door", "w": "f_canvas_wall" }
   },
   {

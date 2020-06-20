@@ -5,7 +5,7 @@
     "om_terrain": [ "s_gun_4" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "__________________sss___",
         "_,___,___,___,___,sss_%_",
@@ -37,12 +37,12 @@
         { "point": "terrain", "id": "t_tree_apple", "x": 22, "y": [ 1, 4 ], "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "terrain": {
-        "#": "t_floor",
+        "#": "t_floor_roofed",
         "%": "t_shrub",
         "+": "t_door_metal_pickable",
         ",": "t_pavement_y",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "5": "t_window_bars_alarm",
         "8": "t_window_bars_alarm",
         "D": "t_door_c",
@@ -139,10 +139,10 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": {
-        ";": "t_floor",
-        "r": "t_floor",
-        "C": "t_floor",
-        "W": "t_floor",
+        ";": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "W": "t_floor_roofed",
         "%": "t_wall_w",
         "V": "t_chainfence",
         "^": "t_chaingate_l",

@@ -6,7 +6,7 @@
     "//": "uses house_10 basement",
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "............--..........",
         "............--..........",

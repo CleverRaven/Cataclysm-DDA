@@ -5,7 +5,7 @@
     "om_terrain": [ "small_office" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": "t_linoleum_white_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -35,10 +35,10 @@
       "terrain": {
         "+": "t_door_c",
         "-": "t_wall_glass",
-        ".": "t_linoleum_white",
+        ".": "t_linoleum_white_roofed",
         "D": "t_door_glass_c",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
+        "S": "t_linoleum_gray_roofed",
+        "T": "t_linoleum_gray_roofed",
         "_": "t_sidewalk",
         "a": "t_floor_red",
         "b": "t_door_o",
@@ -46,9 +46,9 @@
         "f": "t_floor_red",
         "g": "t_grass",
         "h": "t_door_metal_c",
-        "i": "t_linoleum_gray",
+        "i": "t_linoleum_gray_roofed",
         "k": "t_grass",
-        "l": "t_linoleum_gray",
+        "l": "t_linoleum_gray_roofed",
         "|": "t_wall_g",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"

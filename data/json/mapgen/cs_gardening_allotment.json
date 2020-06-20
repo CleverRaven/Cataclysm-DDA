@@ -21,7 +21,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         ".......~~~..............",
         ".......~~~..............",
@@ -59,7 +59,7 @@
         "t": "t_dirt",
         "f": "t_dirtmound",
         "h": "t_dirtmound",
-        ",": "t_dirtfloor",
+        ",": "t_dirtfloor_roofed",
         "w": "t_wall_wood",
         "d": "t_door_o",
         "a": "t_dirtmound",

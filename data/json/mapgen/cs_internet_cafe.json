@@ -35,7 +35,7 @@
     "om_terrain": [ "cs_internet_cafe" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...ssssssssssssssssss...",
         "..gggggggggGGggggggggg..",
@@ -64,7 +64,7 @@
       ],
       "terrain": {
         ".": [ [ "t_grass", 5 ], "t_dirt" ],
-        ",": "t_floor",
+        ",": "t_floor_roofed",
         "|": "t_wall_w",
         "s": "t_sidewalk",
         "P": "t_console_broken",
@@ -100,7 +100,7 @@
     "method": "json",
     "om_terrain": "cs_internet_cafe_roof",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "  |2222222222222222223  ",
@@ -131,7 +131,7 @@
       "terrain": {
         ">": "t_stairs_down",
         "#": "t_wall_w",
-        ",": "t_thconc_floor",
+        ",": "t_thconc_floor_roofed",
         "k": "t_generator_broken",
         "P": "t_console_broken",
         "D": "t_door_locked",

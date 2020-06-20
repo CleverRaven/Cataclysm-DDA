@@ -871,7 +871,7 @@
         { "chance": 20, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "golf_carts", "x": 11, "y": 22 }
       ],
       "toilets": { "&": {  } },
-      "fill_ter": "t_carpet_purple",
+      "fill_ter": "t_carpet_purple_roofed",
       "rows": [
         "gsssssssssssssssgggggggg",
         "sssggggggggggggsgggggggg",
@@ -901,19 +901,19 @@
       "terrain": {
         "#": "t_shrub",
         "+": "t_door_c",
-        "&": "t_floor",
+        "&": "t_floor_roofed",
         ".": "t_pavement",
         "U": "t_pavement",
-        "S": "t_floor",
-        "_": "t_floor",
-        "c": "t_carpet_purple",
+        "S": "t_floor_roofed",
+        "_": "t_floor_roofed",
+        "c": "t_carpet_purple_roofed",
         "d": "t_dirt",
         "g": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "s": "t_sidewalk",
-        "t": "t_floor",
-        "v": "t_floor",
-        "r": "t_floor",
-        "y": "t_floor",
+        "t": "t_floor_roofed",
+        "v": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "y": "t_floor_roofed",
         "w": "t_window",
         "|": "t_wall_g",
         "<": "t_stairs_up"
@@ -928,7 +928,7 @@
     "method": "json",
     "om_terrain": "golfcourse_31_2ndfloor",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -956,7 +956,7 @@
         "                        "
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         " ": "t_open_air",
         "#": "t_metal_railing",
         "|": "t_wall_g",

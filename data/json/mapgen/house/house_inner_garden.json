@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "house_inner_garden",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...$..GssMMMMMMMMsssss..",
         ".$.....ssM......Msssssu.",
@@ -38,8 +38,8 @@
         "]": "t_door_glass_c",
         "%": "t_wall_w",
         "F": "t_concrete",
-        "U": "t_thconc_floor",
-        "N": "t_thconc_floor"
+        "U": "t_thconc_floor_roofed",
+        "N": "t_thconc_floor_roofed"
       },
       "furniture": { "a": "f_displaycase" },
       "place_vehicles": [

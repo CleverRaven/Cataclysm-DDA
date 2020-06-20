@@ -35,7 +35,7 @@
       "str_max": 160,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "str_min_supported": 100,
       "bash_below": false,
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
@@ -67,7 +67,7 @@
       "str_max": 100,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "str_min_supported": 100,
       "bash_below": true,
       "items": [ { "item": "rock", "count": [ 5, 11 ] } ]

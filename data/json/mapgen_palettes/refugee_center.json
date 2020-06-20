@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "evac_center",
     "terrain": {
-      " ": "t_floor",
-      "'": "t_thconc_floor",
+      " ": "t_floor_roofed",
+      "'": "t_thconc_floor_roofed",
       "#": "t_brick_wall",
       "%": "t_region_shrub_decorative",
       "+": "t_rdoor_c",

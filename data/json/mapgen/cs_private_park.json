@@ -5,7 +5,7 @@
     "om_terrain": [ "cs_private_park" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..xxxxxxxxxxxxxxxxxxxx.,",
         ".WWWWWWWWW-XX-WWWWWWWWW.",
@@ -36,7 +36,7 @@
         ",": "t_dirt",
         "-": "t_chainfence_h",
         ".": "t_grass",
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "x": "t_sidewalk",
         "w": "t_water_dp",
         "z": "t_wall_wood",

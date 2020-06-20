@@ -16,7 +16,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................................................................",
         "........................................................................",
@@ -117,7 +117,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................................................................",
         ".....................................................|-----------|-----|",
@@ -296,7 +296,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................................................................",
         "-----|.....................................|-----|----|--|----|-----|...",
@@ -442,7 +442,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...|~|~|~|~|cScScScS|.|   |nhhhn       hh|+-|...........|c @|c @|c @|c @",
         "...|       |        |-|   [              +  |...........|L @|L @|L @|L @",
@@ -573,7 +573,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|c @|c @|        |c @|c @|c @|c @|c @|c @|........................||   |",
         "|L @|L @|        |L @|L @|L @|L @|L @|L @|.................|------|     ",
@@ -658,7 +658,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|................................||  ||...........|---|.................",
         "|--------------------------------|    |-----------|EEE|.................",
@@ -742,7 +742,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".......................................|-===-|..........................",
         ".......................................|    5|..........................",
@@ -837,7 +837,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|EE+                  +EE+                                              ",
         "|EE+                  +EE+         G                                    ",
@@ -935,7 +935,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "          PPPP                                                b|........",
         "          PPPP                                                b|........",
@@ -1019,7 +1019,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|r@@L  L@@r@@L  L@@r|.|   |.|r@@L  L@@r@@L  L@@r|.|S|@@|       b|c @|c @",
         "|r        r        r|.|   |.|r        r        r|.|    [       b|- -|- -",
@@ -1104,7 +1104,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|c @|    [      [    |c @|c @|c @|b       |Lc|t|........|    |-|    cc  ",
         "|- -|t|cL|      |@@|S|- -|- -|- -|b       [    |........|    |.|c   cc  ",
@@ -1184,7 +1184,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                      cc    |-|    |.|t +  [ @|@@|@@|@@|@@|@@|@@|  + t|.",
         " ccSccc      cffffS   OO   c|.|    |.|--|  |--|--|--|--|--|--|--|  |--|.",
@@ -1268,7 +1268,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|                    [    |..............|--|                           ",
         "|r@@L  L@@r@@L  L@@r|-|   |..............|EE+                           ",
@@ -1344,7 +1344,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "      |--|...........................|  5|.|--------------------------|-",
         "      +EE|...........................|-=-|..............................",
@@ -1390,7 +1390,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "--|.|EE|    |.|   ,    ,         ,    ,   [  |.|L b L|L b L|.|  [  |....",
         "....|--|    |.|   ,    ,         ,    ,   [  |.|L b L|L b L|.|  [  |....",

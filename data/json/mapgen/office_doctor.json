@@ -5,7 +5,7 @@
     "om_terrain": [ "office_doctor" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "     ~~                 ",
         "     ~~                 ",
@@ -103,7 +103,7 @@
         "3": "t_gutter_east",
         "|": "t_gutter_west",
         "#": "t_wall_w",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "+": "t_door_locked",
         ">": "t_ladder_down",
         "5": "t_gutter_drop"
@@ -138,7 +138,7 @@
     "om_terrain": [ "office_doctor_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "           ~~           ",
         "           ~~           ",
@@ -227,7 +227,7 @@
         "3": "t_gutter_east",
         "|": "t_gutter_west",
         "#": "t_wall_w",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "+": "t_door_locked",
         ">": "t_ladder_down",
         "5": "t_gutter_drop"
@@ -295,7 +295,7 @@
         "                        "
       ],
       "palettes": [ "office_doctor" ],
-      "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
+      "terrain": { "?": "t_floor_roofed", "/": "t_floor_roofed", "Y": "t_floor_roofed", "A": "t_floor_roofed", "R": "t_floor_roofed", "'": "t_door_glass_o" },
       "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
       "computers": {
         "5": {
@@ -346,7 +346,7 @@
     "method": "json",
     "om_terrain": "office_doctor_roof_2",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -386,7 +386,7 @@
         "|": "t_gutter_west",
         ">": "t_stairs_down",
         "#": "t_wall_b",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "w": "t_wall_glass",
         "+": "t_door_glass_frosted_lab_c",
         "4": "t_gutter_downspout",

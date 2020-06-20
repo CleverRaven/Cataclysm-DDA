@@ -5,7 +5,7 @@
     "om_terrain": [ "urban_38_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -49,7 +49,7 @@
     "om_terrain": [ "urban_38_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -92,7 +92,7 @@
     "om_terrain": [ "urban_38_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;''''';;;;;;;;;;;;;",
@@ -121,12 +121,12 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
-        "R": "t_linoleum_white",
+        "R": "t_linoleum_white_roofed",
         "W": "t_window_stained_green",
-        "c": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "r": "t_linoleum_white",
-        "t": "t_linoleum_white"
+        "c": "t_linoleum_white_roofed",
+        "h": "t_linoleum_white_roofed",
+        "r": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed"
       },
       "furniture": { "R": "f_rack" },
       "toilets": { "T": {  } },
@@ -152,7 +152,7 @@
     "om_terrain": [ "urban_38_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;NnnnnnnnnnnnnnnN",
@@ -180,7 +180,7 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "Q": "t_linoleum_white", "R": "t_linoleum_white", "c": "t_linoleum_white", "r": "t_linoleum_white" },
+      "terrain": { "Q": "t_linoleum_white_roofed", "R": "t_linoleum_white_roofed", "c": "t_linoleum_white_roofed", "r": "t_linoleum_white_roofed" },
       "furniture": { "Q": "f_counter", "R": "f_rack" },
       "toilets": { "T": {  } },
       "items": {
@@ -209,7 +209,7 @@
     "om_terrain": [ "urban_38_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "......89998.............",
@@ -266,7 +266,7 @@
     "om_terrain": [ "urban_38_6" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -319,7 +319,7 @@
     "om_terrain": [ "urban_38_7" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "......89998.............",
@@ -377,7 +377,7 @@
     "om_terrain": [ "urban_38_8" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -428,7 +428,7 @@
     "om_terrain": [ "urban_38_9" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "......89998.............",
@@ -486,7 +486,7 @@
     "om_terrain": [ "urban_38_10" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -524,7 +524,7 @@
     "om_terrain": [ "urban_38_11" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "......89998.............",
@@ -562,7 +562,7 @@
     "om_terrain": [ "urban_38_12" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",

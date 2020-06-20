@@ -43,16 +43,16 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] }
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_grass",
         "2": "t_window_boarded",
         "3": "t_door_locked",
-        "9": "t_floor",
-        ">": "t_floor",
-        "G": "t_floor",
-        "W": "t_floor",
+        "9": "t_floor_roofed",
+        ">": "t_floor_roofed",
+        "G": "t_floor_roofed",
+        "W": "t_floor_roofed",
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
         "|": "t_wall_w"

@@ -37,7 +37,7 @@
     "weight": 100,
     "om_terrain": [ "shelter" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    !!!!!!!!!!!!!!!!    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -121,7 +121,7 @@
     "weight": 100,
     "om_terrain": [ "shelter_1" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    !!!!!!!!!!!!!!!!    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -205,7 +205,7 @@
     "weight": 100,
     "om_terrain": [ "shelter_2" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    `!!!!`!!!!`!!!!`    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -299,7 +299,7 @@
     "weight": 100,
     "om_terrain": [ "shelter_vandal" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    !!!!!!!!!!!!!!!!    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -336,7 +336,7 @@
     "weight": 100,
     "om_terrain": [ "shelter_1_vandal" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    !!!!!!!!!!!!!!!!    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -373,7 +373,7 @@
     "weight": 100,
     "om_terrain": [ "shelter_2_vandal" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    `!!!!`!!!!`!!!!`    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -420,7 +420,7 @@
     "weight": 100,
     "om_terrain": [ "shelter_under" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": "t_linoleum_white_roofed",
       "rows": [
         "########################",
         "########################",
@@ -457,7 +457,7 @@
     "weight": 10,
     "om_terrain": [ "shelter_under" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": "t_linoleum_white_roofed",
       "rows": [
         "########################",
         "########################",

@@ -32,10 +32,10 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "#": "t_floor",
+        "#": "t_floor_roofed",
         "*": "t_door_c",
         "+": "t_chaingate_l",
-        ",": "t_floor",
+        ",": "t_floor_roofed",
         "-": "t_chainfence_h",
         "/": "t_concrete_wall",
         "0": "t_window",
@@ -91,8 +91,8 @@
         "########################"
       ],
       "terrain": {
-        " ": "t_floor",
-        "r": "t_floor",
+        " ": "t_floor_roofed",
+        "r": "t_floor_roofed",
         "#": "t_rock",
         "+": "t_door_metal_locked",
         "6": "t_card_military",
@@ -115,7 +115,7 @@
     "om_terrain": [ "bunker_basement" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
@@ -213,7 +213,7 @@
     "om_terrain": [ "bunker_basement" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",

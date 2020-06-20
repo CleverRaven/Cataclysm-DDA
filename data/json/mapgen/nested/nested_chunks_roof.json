@@ -123,7 +123,7 @@
         "xtttx",
         "xxxxx"
       ],
-      "terrain": { "_": "t_floor_primitive", "+": "t_chickenwire_gate_c", "x": "t_chickenwire_fence", "t": "t_dirtfloor" },
+      "terrain": { "_": "t_floor_primitive_roofed", "+": "t_chickenwire_gate_c", "x": "t_chickenwire_fence", "t": "t_dirtfloor_roofed" },
       "furniture": { "t": "f_table" },
       "place_loot": [
         { "item": "straw_pile", "x": [ 1, 3 ], "y": 3, "chance": 75, "repeat": [ 1, 3 ] },

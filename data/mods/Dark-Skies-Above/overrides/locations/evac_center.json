@@ -5,7 +5,7 @@
     "weight": 100,
     "om_terrain": [ "dks_shelter" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    !!!!!!!!!!!!!!!!    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -48,7 +48,7 @@
     "weight": 100,
     "om_terrain": [ "dks_shelter_1" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    !!!!!!!!!!!!!!!!    ",
         "    `!!!!`!!!!`!!!!`    ",
@@ -91,7 +91,7 @@
     "weight": 100,
     "om_terrain": [ "dks_shelter_2" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "    `!!!!`!!!!`!!!!`    ",
         "    `!!!!`!!!!`!!!!`    ",

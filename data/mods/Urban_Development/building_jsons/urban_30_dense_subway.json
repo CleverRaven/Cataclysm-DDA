@@ -5,7 +5,7 @@
     "om_terrain": [ "urban_30_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%llll",
         "iiiiiiiilllllllllllll222",
@@ -55,7 +55,7 @@
     "om_terrain": [ "urban_30_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "llll''''''''''''''''l%%%",
         "2222''''''''''''''''l%%%",
@@ -93,7 +93,7 @@
     "om_terrain": [ "urban_30_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,qqq;;;iiii",
         "iiiiYiiiiiiiiYiii'''YSCo",
@@ -146,7 +146,7 @@
     "om_terrain": [ "urban_30_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "iiiiiiiiiiiiiiiiiiQQ;;;;",
         "f AtA dd6iBBi bbeiQQ;;;;",
@@ -197,7 +197,7 @@
     "om_terrain": [ "urban_30_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....................iiii",
         "iiiiwiiiiiiiiwiii999YSCo",
@@ -254,7 +254,7 @@
     "om_terrain": [ "urban_30_6" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "iiiiiiiiiiiiiiiiii......",
         "f     dd6iBBi bbei......",
@@ -314,7 +314,7 @@
     "om_terrain": [ "urban_30_7" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....................iiii",
         "iiiiwiiiiiiiiwiii999YSCo",
@@ -371,7 +371,7 @@
     "om_terrain": [ "urban_30_8" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "iiiiiiiiiiiiiiiiii......",
         "f  rrr   iBBiLbbei......",
@@ -432,7 +432,7 @@
     "om_terrain": [ "urban_30_9" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....................8999",
         "899999999999999999998RRR",
@@ -469,7 +469,7 @@
     "om_terrain": [ "urban_30_10" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "999999999999999998......",
         "RRRRRRRRRRRRRRRRR8......",

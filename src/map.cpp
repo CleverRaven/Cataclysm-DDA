@@ -1382,7 +1382,7 @@ std::string map::furnname( const tripoint &p )
 /*
  * Get the terrain integer id. This is -not- a number guaranteed to remain
  * the same across revisions; it is a load order, and can change when mods
- * are loaded or removed. The old t_floor style constants will still work but
+ * are loaded or removed. The old t_floor_roofed style constants will still work but
  * are -not- guaranteed; if a mod removes t_lava, t_lava will equal t_null;
  * New terrains added to the core game generally do not need this, it's
  * retained for high performance comparisons, save/load, and gradual transition
@@ -2937,7 +2937,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
 
     if( p.z <= -OVERMAP_DEPTH ) {
         // Could be magma/"void" instead
-        return t_rock_floor;
+        return t_rock_floor_roofed;
     }
 
     const auto &ter_there = ter( p ).obj();
@@ -2959,7 +2959,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
         return t_dirt;
     }
 
-    if( p.z == -1 && new_ter == t_rock_floor ) {
+    if( p.z == -1 && new_ter == t_rock_floor_roofed ) {
         // HACK: A hack to work around not having a "solid earth" tile
         new_ter = t_dirt;
     }
@@ -3562,7 +3562,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             if( dam > 0 ) {
                 if( terrain != t_laminated_glass || one_in( 40 ) ) {
                     break_glass( p, 16 );
-                    ter_set( p, t_floor );
+                    ter_set( p, t_floor_roofed );
                 }
             }
         }
@@ -3586,7 +3586,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
                 break_glass( p, 16 );
-                ter_set( p, t_floor );
+                ter_set( p, t_floor_roofed );
             }
         }
     } else if( terrain == t_paper ) {
@@ -3622,14 +3622,14 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( terrain == t_vat ) {
         if( dam >= 10 ) {
             sounds::sound( p, 20, sounds::sound_t::combat, _( "ke-rash!" ), true, "bullet_hit", "hit_metal" );
-            ter_set( p, t_floor );
+            ter_set( p, t_floor_roofed );
         } else {
             dam = 0;
         }
-    } else if( terrain == t_thconc_floor_olight ) {
+    } else if( terrain == t_thconc_floor_roofed_olight ) {
         if( one_in( 3 ) ) {
             break_glass( p, 16 );
-            ter_set( p, t_thconc_floor );
+            ter_set( p, t_thconc_floor_roofed );
             spawn_item( p, itype_glass_shard, rng( 8, 16 ) );
             dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
         }
@@ -3699,7 +3699,7 @@ bool map::hit_with_acid( const tripoint &p )
     const ter_id t = ter( p );
     if( t == t_wall_glass || t == t_wall_glass_alarm ||
         t == t_vat ) {
-        ter_set( p, t_floor );
+        ter_set( p, t_floor_roofed );
     } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_peep ||
                t == t_door_locked_alarm ) {
         if( one_in( 3 ) ) {
@@ -3707,7 +3707,7 @@ bool map::hit_with_acid( const tripoint &p )
         }
     } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ||
                t == t_reb_cage ) {
-        ter_set( p, t_floor );
+        ter_set( p, t_floor_roofed );
         add_msg( m_warning, _( "The metal bars melt!" ) );
     } else if( t == t_door_b ) {
         if( one_in( 4 ) ) {
@@ -7129,7 +7129,7 @@ void map::add_roofs( const tripoint &grid )
 
             if( !check_roof ) {
                 // Make sure we don't have open air at lowest z-level
-                sub_here->set_ter( { x, y }, t_rock_floor );
+                sub_here->set_ter( { x, y }, t_rock_floor_roofed );
                 continue;
             }
 

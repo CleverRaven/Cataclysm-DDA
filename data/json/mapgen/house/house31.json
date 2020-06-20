@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "######....``.....`````..",
         "#Tii #..[.``..X..`````..",
@@ -43,19 +43,19 @@
         ";": "t_privacy_fencegate_c",
         ")": "t_wall_glass",
         "]": "t_door_glass_c",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "t": "t_linoleum_white",
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "B": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
-        "U": "t_thconc_floor",
-        "q": "t_thconc_floor",
-        "N": "t_thconc_floor",
-        "~": "t_thconc_floor"
+        "U": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed",
+        "N": "t_thconc_floor_roofed",
+        "~": "t_thconc_floor_roofed"
       },
       "furniture": { "!": "f_region_flower" }
     }

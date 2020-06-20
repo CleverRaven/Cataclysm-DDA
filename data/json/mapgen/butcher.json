@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -33,7 +33,7 @@
       ],
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -136,10 +136,10 @@
         ">": "t_stairs_down",
         "5": "t_gutter_drop",
         "o": "t_window_domestic",
-        "_": "t_floor",
-        "s": "t_floor",
-        "t": "t_floor",
-        "R": "t_floor",
+        "_": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "R": "t_floor_roofed",
         "4": "t_gutter_downspout"
       },
       "furniture": {
@@ -208,7 +208,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher_1" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -237,7 +237,7 @@
       ],
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -334,7 +334,7 @@
         "|": "t_gutter_west",
         ">": "t_stairs_down",
         "#": "t_wall_y",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "+": "t_door_locked",
         "5": "t_gutter_drop"
       },
@@ -408,7 +408,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher_2" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -437,7 +437,7 @@
       ],
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",

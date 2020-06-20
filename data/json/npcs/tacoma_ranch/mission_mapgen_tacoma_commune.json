@@ -131,14 +131,14 @@
       ],
       "terrain": {
         "w": "t_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
+        "c": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "k": "t_floor_roofed",
+        "v": "t_floor_roofed",
         "+": "t_door_c"
       },
       "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" },
@@ -176,14 +176,14 @@
       ],
       "terrain": {
         "w": "t_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
+        "c": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "k": "t_floor_roofed",
+        "v": "t_floor_roofed",
         "+": "t_door_c",
         ",": "t_dirt",
         "q": "t_wall_half"
@@ -221,14 +221,14 @@
       ],
       "terrain": {
         "w": "t_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
+        "c": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "k": "t_floor_roofed",
+        "v": "t_floor_roofed",
         "+": "t_door_c",
         ",": "t_dirt",
         "q": "t_wall_half",
@@ -267,14 +267,14 @@
       ],
       "terrain": {
         "w": "t_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
+        "c": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "k": "t_floor_roofed",
+        "v": "t_floor_roofed",
         "+": "t_door_c",
         ",": "t_dirt",
         "q": "t_wall_half",
@@ -313,19 +313,19 @@
       ],
       "terrain": {
         "w": "t_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "]": "t_window_boarded_noglass",
-        "c": "t_floor",
-        "C": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "k": "t_floor",
-        "v": "t_floor",
+        "c": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "k": "t_floor_roofed",
+        "v": "t_floor_roofed",
         "+": "t_door_c",
         ",": "t_dirt",
         "q": "t_wall_half",
         "0": "t_window_frame",
-        "s": "t_floor"
+        "s": "t_floor_roofed"
       },
       "furniture": {
         "c": "f_counter",
@@ -428,7 +428,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "+": "t_door_c", "r": "t_dirtfloor", "c": "t_dirtfloor", "b": "t_dirtfloor" },
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor_roofed", "+": "t_door_c", "r": "t_dirtfloor_roofed", "c": "t_dirtfloor_roofed", "b": "t_dirtfloor_roofed" },
       "furniture": { "r": "f_rack", "c": "f_counter", "b": "f_makeshift_bed" },
       "place_vehicles": [ { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7 } ],
       "place_npcs": [ { "class": "ranch_scrapper_1", "x": 13, "y": 12 } ]
@@ -557,7 +557,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "+": "t_door_c", "[": "t_window_boarded_noglass", "c": "t_floor", "t": "t_floor" },
+      "terrain": { "w": "t_wall", ".": "t_floor_roofed", "+": "t_door_c", "[": "t_window_boarded_noglass", "c": "t_floor_roofed", "t": "t_floor_roofed" },
       "furniture": { "c": "f_cupboard", "t": "f_table" },
       "place_npcs": [ { "class": "ranch_nurse_1", "x": 5, "y": 6 } ]
     }
@@ -661,7 +661,7 @@
         "       wwwwwww      ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor_roofed", "0": "t_window_frame" }
     }
   },
   {
@@ -690,11 +690,11 @@
       ],
       "terrain": {
         "w": "t_wall",
-        ".": "t_dirtfloor",
+        ".": "t_dirtfloor_roofed",
         "[": "t_window_boarded_noglass",
         "+": "t_door_c",
-        "r": "t_dirtfloor",
-        "c": "t_dirtfloor"
+        "r": "t_dirtfloor_roofed",
+        "c": "t_dirtfloor_roofed"
       },
       "furniture": { "c": "f_counter", "r": "f_rack" },
       "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
@@ -743,7 +743,7 @@
         "W........W  ",
         "WWW....WWW  "
       ],
-      "terrain": { "W": "t_wall_log", ".": "t_dirtfloor" }
+      "terrain": { "W": "t_wall_log", ".": "t_dirtfloor_roofed" }
     }
   },
   {
@@ -766,7 +766,7 @@
         "W.......rW  ",
         "WWW....WWW  "
       ],
-      "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor" },
+      "terrain": { "r": "t_dirtfloor_roofed", "W": "t_wall_log", ".": "t_dirtfloor_roofed" },
       "furniture": { "r": "f_rack" },
       "place_item": [ { "item": "frame", "x": 3, "y": 6 }, { "item": "frame", "x": 3, "y": 7 }, { "item": "frame", "x": 3, "y": 8 } ]
     }
@@ -791,7 +791,7 @@
         "W.......rW  ",
         "WWW....WWW  "
       ],
-      "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "c": "t_conveyor" },
+      "terrain": { "r": "t_dirtfloor_roofed", "W": "t_wall_log", ".": "t_dirtfloor_roofed", "c": "t_conveyor" },
       "furniture": { "r": "f_rack" }
     }
   },
@@ -816,9 +816,9 @@
         "WWW....WWW  "
       ],
       "terrain": {
-        "r": "t_dirtfloor",
+        "r": "t_dirtfloor_roofed",
         "W": "t_wall_log",
-        ".": "t_dirtfloor",
+        ".": "t_dirtfloor_roofed",
         "c": "t_conveyor",
         "m": "t_machinery_old",
         "M": "t_machinery_heavy"
@@ -849,7 +849,7 @@
         "..0w ",
         "wwww "
       ],
-      "terrain": { "w": "t_wall_half", "0": "t_pit", ".": "t_dirtfloor" }
+      "terrain": { "w": "t_wall_half", "0": "t_pit", ".": "t_dirtfloor_roofed" }
     }
   },
   {
@@ -865,7 +865,7 @@
         "+.0w ",
         "wwww "
       ],
-      "terrain": { "w": "t_wall", "+": "t_door_c", ".": "t_dirtfloor", "0": "t_pit" },
+      "terrain": { "w": "t_wall", "+": "t_door_c", ".": "t_dirtfloor_roofed", "0": "t_pit" },
       "place_npcs": [ { "class": "ranch_ill_1", "x": 2, "y": 1 } ]
     }
   },
@@ -883,7 +883,7 @@
         "wwwwww",
         "      "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirtfloor" }
+      "terrain": { "w": "t_wall_half", ".": "t_dirtfloor_roofed" }
     }
   },
   {
@@ -900,7 +900,7 @@
         "wwwwww",
         "      "
       ],
-      "terrain": { "w": "t_wall", "+": "t_door_c", "W": "t_window_boarded_noglass", "c": "t_dirtfloor", ".": "t_dirtfloor" },
+      "terrain": { "w": "t_wall", "+": "t_door_c", "W": "t_window_boarded_noglass", "c": "t_dirtfloor_roofed", ".": "t_dirtfloor_roofed" },
       "furniture": { "c": "f_counter" }
     }
   }

@@ -652,7 +652,7 @@
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
@@ -671,7 +671,7 @@
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
@@ -690,7 +690,7 @@
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },

@@ -16,7 +16,7 @@ To add a lab finale instead, use the om_terrain of lab_finale_1level and put you
 
 In lab_floorplans_1side.json add a new mapgen json with om_terrain of lab_1side.
 
-Make the area facing north, keeping the 2 middle spaces of the northern border clear because that's where doors open out to.  If you want to have a locked area, set the floor to 't_strconc_floor' and stairs won't appear there (this floor is ',' in the lab_palette).  Use place_nested to place 'lab_1side_border_doors' at coords [0,0].  Do not allow rotation.
+Make the area facing north, keeping the 2 middle spaces of the northern border clear because that's where doors open out to.  If you want to have a locked area, set the floor to 't_strconc_floor_roofed' and stairs won't appear there (this floor is ',' in the lab_palette).  Use place_nested to place 'lab_1side_border_doors' at coords [0,0].  Do not allow rotation.
 
 
 ## Quick Guide for new lab rooms:

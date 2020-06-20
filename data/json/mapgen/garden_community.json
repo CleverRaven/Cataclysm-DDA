@@ -55,8 +55,8 @@
         "O": "t_dirt",
         "P": "t_fence",
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "d": "t_dirtfloor",
-        "t": "t_dirtfloor",
+        "d": "t_dirtfloor_roofed",
+        "t": "t_dirtfloor_roofed",
         "|": "t_fence"
       },
       "place_signs": [
@@ -190,7 +190,7 @@
         "P": "t_grass",
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "a": [ "t_door_c", "t_door_o" ],
-        "d": "t_dirtfloor",
+        "d": "t_dirtfloor_roofed",
         "s": "t_sidewalk",
         "t": "t_dirt",
         "w": "t_wall_wood",

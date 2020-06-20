@@ -17,7 +17,7 @@
     "om_terrain": [ "house_quiverfull" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....----p...........YYY.",
         ".####**####oo##########.",

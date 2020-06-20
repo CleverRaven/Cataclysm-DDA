@@ -9,13 +9,13 @@
     "color": "white",
     "move_cost": 0,
     "flags": [ "NOITEM", "SUPPORTS_ROOF" ],
-    "roof": "t_rock_floor",
+    "roof": "t_rock_floor_roofed",
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "rock", "count": [ 3, 7 ] },
         { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },

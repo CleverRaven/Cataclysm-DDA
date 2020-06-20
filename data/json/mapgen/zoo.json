@@ -66,7 +66,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "----------------------ss",
         "-__________________|vsss",
@@ -105,7 +105,7 @@
         "s": "t_sidewalk",
         "v": "t_sidewalk",
         "w": "t_reinforced_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "|": "t_brick_wall"
       },
       "furniture": {
@@ -152,7 +152,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "----------------------ss",
         "-__________________|vsss",
@@ -274,7 +274,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "-__|..|...r...|....|__ss",
         "-__|..|...r...|....|__ss",
@@ -306,21 +306,21 @@
         "&": "t_grass",
         "+": "t_door_metal_pickable",
         "-": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "4": "t_tree_pine",
         "7": "t_tree_maple_tapped",
         "B": "t_brick_wall_halfway",
         "D": "t_reinforced_door_glass_c",
-        "^": "t_floor",
+        "^": "t_floor_roofed",
         "_": "t_grass",
         "a": "t_door_metal_c",
-        "b": "t_floor",
-        "c": "t_floor",
+        "b": "t_floor_roofed",
+        "c": "t_floor_roofed",
         "d": "t_dirt",
-        "h": "t_floor",
+        "h": "t_floor_roofed",
         "r": "t_reinforced_glass",
         "s": "t_sidewalk",
-        "{": "t_floor",
+        "{": "t_floor_roofed",
         "|": "t_brick_wall",
         "M": "t_gutter_downspout"
       },
@@ -439,7 +439,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..----------------------",
         "...#||||||||{..|dc_ddd_|",
@@ -468,7 +468,7 @@
       ],
       "terrain": {
         "#": "t_sidewalk",
-        "&": "t_floor",
+        "&": "t_floor_roofed",
         "+": "t_chaingate_c",
         "-": "t_brick_wall",
         ".": "t_sidewalk",
@@ -482,7 +482,7 @@
         "c": "t_chainfence_v",
         "d": "t_dirt",
         "e": "t_dirt",
-        "f": "t_floor",
+        "f": "t_floor_roofed",
         "g": "t_chainfence_h",
         "h": "t_dirt",
         "s": "t_swater_sh",
@@ -543,7 +543,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..----------------------",
         "...#||||||||{..|dc_ddd_|",
@@ -585,7 +585,7 @@
         "c": "t_chainfence_v",
         "d": "t_dirt",
         "e": "t_dirt",
-        "f": "t_floor",
+        "f": "t_floor_roofed",
         "g": "t_chainfence_h",
         "h": "t_dirt",
         "s": "t_swater_sh",
@@ -686,7 +686,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -716,7 +716,7 @@
       "terrain": {
         "+": "t_reinforced_door_glass_c",
         "-": "t_reinforced_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": "t_sidewalk",
         "b": "t_brick_wall",
         "d": "t_door_c",
@@ -848,7 +848,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "------------------------",
         "|||||||||||||||||||||||-",
@@ -879,7 +879,7 @@
         "#": "t_sidewalk",
         "+": "t_reinforced_door_glass_c",
         "-": "t_brick_wall",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "4": "t_tree_pine",
         "7": "t_tree",
         "B": "t_dirt",
@@ -981,7 +981,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "___________________gggg-",
         "___________________gggg-",
@@ -1015,7 +1015,7 @@
         ".": "t_dirt",
         "_": "t_sidewalk",
         "c": "t_chainfence_v",
-        "f": "t_floor",
+        "f": "t_floor_roofed",
         "g": "t_grass",
         "r": "t_railing_v",
         "|": "t_brick_wall"

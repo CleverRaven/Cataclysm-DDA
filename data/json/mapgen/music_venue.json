@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "furniture": {
         "#": "f_chair",
         "&": "f_toilet",
@@ -85,16 +85,16 @@
       "terrain": {
         "+": "t_door_c",
         "-": "t_railing_h",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "C": "t_concrete",
         "D": "t_door_metal_c",
         "T": "t_concrete",
         "W": "t_window_no_curtains",
         "_": [ [ "t_grass", 6 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ], [ "t_underbrush", 2 ] ],
         "b": "t_concrete",
-        "c": "t_carpet_red",
+        "c": "t_carpet_red_roofed",
         "d": "t_dirt",
-        "e": "t_carpet_red",
+        "e": "t_carpet_red_roofed",
         "f": "t_shrub",
         "g": "t_door_metal_o",
         "r": "t_railing_v",
@@ -103,7 +103,7 @@
         "w": "t_wall_glass",
         "|": "t_wall_w",
         "<": "t_gutter_downspout",
-        "7": "t_carpet_red"
+        "7": "t_carpet_red_roofed"
       }
     },
     "om_terrain": "music_venue",
@@ -166,7 +166,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "furniture": {
         "#": "f_chair",
         "&": "f_toilet",
@@ -245,14 +245,14 @@
       ],
       "terrain": {
         "+": "t_door_c",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "-": "t_wall_glass",
         ".": [ [ "t_grass", 20 ], [ "t_dirt", 2 ], [ "t_underbrush", 1 ] ],
         "D": "t_door_metal_c",
-        "T": "t_thconc_floor",
+        "T": "t_thconc_floor_roofed",
         "a": "t_door_glass_c",
-        "b": "t_carpet_green",
-        "c": "t_carpet_green",
+        "b": "t_carpet_green_roofed",
+        "c": "t_carpet_green_roofed",
         "d": "t_dirt",
         "e": "t_pavement",
         "f": "t_door_metal_o",
@@ -262,7 +262,7 @@
         "|": "t_wall_w",
         "<": "t_stairs_up",
         "!": "t_gutter_downspout",
-        "7": "t_carpet_green"
+        "7": "t_carpet_green_roofed"
       }
     },
     "om_terrain": "music_venue_1",

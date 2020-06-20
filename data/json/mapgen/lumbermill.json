@@ -10,7 +10,7 @@
     ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "vvvvvvvvvvvvvvvvvvv  ______  vvvvvvvvvvvvvvvvvvv",
         "v  *         *      *______ *      2      *    v",

@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "......[.......p.........",
         "...........[...`........",
@@ -40,12 +40,12 @@
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "#": "t_rock_wall",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "B": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
         "$": "t_screened_porch_wall",
         "=": "t_screen_door_c"
       },
@@ -108,12 +108,12 @@
       "terrain": {
         "#": "t_wall_half",
         ".": "t_grass",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "O": "t_window_frame",
         "P": "t_grass",
         "s": "t_sidewalk",
         "d": "t_dirt",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "|": "t_rock_wall"
       },
       "furniture": { "P": "f_mailbox" },
@@ -145,7 +145,7 @@
     "type": "mapgen",
     "weight": 40,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".............P.s........",
         "...............s..d..d..",
@@ -178,11 +178,11 @@
         ".": "t_grass",
         "D": "t_door_o",
         "P": "t_grass",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "a": "t_door_c",
         "d": "t_dirt",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "w": "t_window",
         "|": "t_rock_wall",
         "#": "t_wall_w"

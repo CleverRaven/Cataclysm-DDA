@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "furniture": {
         "&": "f_trashcan",
         "B": "f_bench",
@@ -66,13 +66,13 @@
         "-": "t_wall_r",
         ".": "t_dirt",
         "7": "t_tree",
-        "F": "t_floor",
+        "F": "t_floor_roofed",
         "B": "t_concrete",
         "X": "t_dirt",
         "_": "t_grass",
         "b": "t_brick_wall",
         "c": "t_concrete",
-        "d": "t_dirtfloor",
+        "d": "t_dirtfloor_roofed",
         "f": "t_fence_h",
         "s": "t_shrub",
         "{": "t_dirt",
@@ -122,7 +122,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "place_item": [
         { "item": "log", "repeat": 1, "x": 3, "y": 10 },
         { "item": "log", "repeat": 1, "x": 19, "y": 17 },
@@ -193,14 +193,14 @@
         ".": "t_dirt",
         "4": "t_tree_pine",
         "7": "t_tree",
-        "F": "t_floor",
+        "F": "t_floor_roofed",
         "^": "t_dirt",
         "_": "t_grass",
         "b": "t_sidewalk",
-        "d": "t_dirtfloor",
+        "d": "t_dirtfloor_roofed",
         "f": "t_fence_h",
         "s": "t_sidewalk",
-        "t": "t_dirtfloor",
+        "t": "t_dirtfloor_roofed",
         "|": "t_wall_y"
       }
     },

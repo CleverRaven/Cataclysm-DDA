@@ -47,7 +47,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................................................................",
         ".....................C..................................................",
@@ -99,7 +99,7 @@
         "..........................ss_______,,_______ss..|-www-[[-www-|777777778."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -124,7 +124,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..................................................ss_______,,_______ss..",
         "..................................................ss_______,,_______ss.|",
@@ -176,7 +176,7 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -204,7 +204,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................................................................",
         "-w--w--w-|-w--w--w-|-w--w--w--w--w--|...................................",
@@ -256,7 +256,7 @@
         "..|P           : | hhhhh |ss________________,________,________8........."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -309,7 +309,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".....sssssssssssssssssssssss_______,,_______ss..........................",
         "....ssssssssssssssssssssssss_______,,_______sss.........................",
@@ -361,7 +361,7 @@
         "...........ss|r {{  {{{{sMsssssMsMMsMMMMMMMMMMMMMMMNNNMNNMNNNNNNMss....."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -419,7 +419,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".{...{{.{..ss.....MM.MMMMMmm]]]]]]]]]]]]]]]mmMMMMMss___M___,,_______ssss",
         "...{.......ss..M..M.ssMMMMMmm]]]]]]]]]]]]]mmMMMMMsMs_______,,_______ssss",
@@ -471,7 +471,7 @@
         "..ss________________sss..........|c      |---------|      h    @@ |--|.."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "building_rubble", "x": [ 0, 9 ], "y": [ 0, 4 ], "chance": 70 },
@@ -527,7 +527,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..|------------|-|-------|9799999997999999977777777777777777778.........",
         "ssssssssssssssssssssssssssss_______s_______s............................",
@@ -579,7 +579,7 @@
         "......|-{{{{ssMsMssMssMMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..M..MM......"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -621,7 +621,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...........ss|r   {{{{{{sssssssssMssMMMMMMMMMMMMMMMNNMNNNMMNNNN..ss.....",
         "...........ss|--{{--{{--ss.sssMMsMsMMMMMmmmmmmmMMMMM.M..M...M.M.ssss....",
@@ -673,7 +673,7 @@
         "........|BB|d@@d@@ n|sss________________________sss|   jjjjjj D|l    |ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "home_hw", "x": [ 12, 15 ], "y": [ 20, 21 ], "chance": 75 },
@@ -738,7 +738,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..ss_______,,_______sss..........|c    oo|.........|d          @@d|.....",
         ".sss_______,,_______ssss.........|-------|.........|--------------|.....",
@@ -790,7 +790,7 @@
         "ss________________________ss_______,,______________,,,,_________________"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 17, 17 ], "y": [ 23, 23 ], "chance": 80 },
@@ -836,7 +836,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...........###ss#MMM.M..MMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM...M..M........",
         "............#.ss.MM.M..MMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..MM.........",
@@ -888,7 +888,7 @@
         "___________________________________,,_______ss......C..................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "building_rubble", "x": [ 15, 23 ], "y": [ 0, 18 ], "chance": 70 },
@@ -945,7 +945,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........|t | @@ @@ hwss__________________________ss|           |l   f|ss",
         "..#.....|S |        wss__________________________ss|KKKK   KKKK|D    |ss",
@@ -997,7 +997,7 @@
         ".............###.s______,______,______,______s##s___,,___s|hnnh  hnnh|ss"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 13, 18 ], "y": [ 4, 4 ], "chance": 70 },
@@ -1063,7 +1063,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "s_________________________ss_______,,______________,__,_________________",
         "s_________________________ss_______,,________sssssssssssssssssssssssssss",
@@ -1115,7 +1115,7 @@
         "____________,,____________ss_______,,_______ss__________________________"
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "z": "t_floor_roofed" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1149,7 +1149,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "___________________________________,,_______ss..........................",
         "sssssssssssssssssssssssssss________,,_______ss..............#.........#.",
@@ -1201,7 +1201,7 @@
         "_____________________________s.......#.................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1246,7 +1246,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....#.........#..s______,______,______,______s..s________sV          Vss",
         ".................s______,______,______,______s..s________sV          Vss",
@@ -1274,7 +1274,7 @@
         "........................................................#..............."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 18, 19 ], "y": [ 13, 16 ], "chance": 70 },
@@ -1308,7 +1308,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "__________________________ss_______,,_______ss__________________________",
         "__________________________ss_______,,_______ss__________________________",
@@ -1336,7 +1336,7 @@
         "............................________________ss.........................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "gaspumps": { "&": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1361,7 +1361,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_____________________________s..........................................",
         "_____________________________s..........................................",
@@ -1389,7 +1389,7 @@
         "..............#........................................................."
       ],
       "palettes": [ "necropolis_a" ],
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "terrain": { "&": "t_gas_pump", "D": "t_floor_roofed", "Z": "t_floor_roofed", "l": "t_floor_roofed", "u": "t_floor_roofed", "z": "t_floor_roofed" },
       "toilets": { "t": {  } },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
       "place_items": [

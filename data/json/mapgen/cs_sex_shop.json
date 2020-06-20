@@ -5,7 +5,7 @@
     "om_terrain": [ "cs_sex_shop" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..y''''yoooy''''y''''y..",
         "..y''''yoooy''''y''''y..",
@@ -34,9 +34,9 @@
       ],
       "terrain": {
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        ",": "t_floor",
-        "_": "t_carpet_green",
-        "t": "t_carpet_green",
+        ",": "t_floor_roofed",
+        "_": "t_carpet_green_roofed",
+        "t": "t_carpet_green_roofed",
         "|": "t_wall_r",
         "-": "t_wall_r",
         "X": "t_door_metal_pickable",

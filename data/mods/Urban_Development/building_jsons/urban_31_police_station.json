@@ -22,7 +22,7 @@
     "om_terrain": [ "urban_31_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -51,11 +51,11 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
-        "K": "t_strconc_floor",
-        "T": "t_strconc_floor",
-        "b": "t_strconc_floor",
-        "c": "t_strconc_floor",
-        "r": "t_strconc_floor"
+        "K": "t_strconc_floor_roofed",
+        "T": "t_strconc_floor_roofed",
+        "b": "t_strconc_floor_roofed",
+        "c": "t_strconc_floor_roofed",
+        "r": "t_strconc_floor_roofed"
       },
       "toilets": { "T": {  } },
       "items": {
@@ -73,7 +73,7 @@
     "om_terrain": [ "urban_31_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%:zz:%%%%%%%%%%",
         "%%%%%%%%%%:zz:%%%%%%%%%%",
@@ -101,7 +101,7 @@
         "%%%%%%%%%%%%%%l''''''l%%"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "K": "t_strconc_floor", "c": "t_strconc_floor", "r": "t_strconc_floor" },
+      "terrain": { "K": "t_strconc_floor_roofed", "c": "t_strconc_floor_roofed", "r": "t_strconc_floor_roofed" },
       "items": {
         "'": { "item": "trash_cart", "chance": 3 },
         ":": { "item": "sewer", "chance": 1 },
@@ -116,7 +116,7 @@
     "om_terrain": [ "urban_31_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l55lllllllll55llllllllll",
         "l'''''''''''''''''''''''",
@@ -145,11 +145,11 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
-        "(": "t_strconc_floor",
-        "L": "t_strconc_floor",
-        "d": "t_strconc_floor",
-        "t": "t_strconc_floor",
-        "u": "t_strconc_floor"
+        "(": "t_strconc_floor_roofed",
+        "L": "t_strconc_floor_roofed",
+        "d": "t_strconc_floor_roofed",
+        "t": "t_strconc_floor_roofed",
+        "u": "t_strconc_floor_roofed"
       },
       "items": {
         "'": { "item": "trash_cart", "chance": 3 },
@@ -171,7 +171,7 @@
     "om_terrain": [ "urban_31_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "lllllllllllllllll==lllll",
         "'''''''''''''''''''''''l",
@@ -200,13 +200,13 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
-        "(": "t_strconc_floor",
-        "L": "t_strconc_floor",
-        "c": "t_strconc_floor",
-        "f": "t_strconc_floor",
-        "o": "t_strconc_floor",
-        "r": "t_strconc_floor",
-        "t": "t_strconc_floor"
+        "(": "t_strconc_floor_roofed",
+        "L": "t_strconc_floor_roofed",
+        "c": "t_strconc_floor_roofed",
+        "f": "t_strconc_floor_roofed",
+        "o": "t_strconc_floor_roofed",
+        "r": "t_strconc_floor_roofed",
+        "t": "t_strconc_floor_roofed"
       },
       "items": {
         "'": { "item": "trash_cart", "chance": 3 },
@@ -226,7 +226,7 @@
     "om_terrain": [ "urban_31_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         "llllllllllllllllllllllll",
@@ -254,7 +254,7 @@
         "l''$''TlT''$''l;;;;;;;;;"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "S": "t_strconc_floor", "T": "t_strconc_floor", "b": "t_strconc_floor", "r": "t_strconc_floor" },
+      "terrain": { "S": "t_strconc_floor_roofed", "T": "t_strconc_floor_roofed", "b": "t_strconc_floor_roofed", "r": "t_strconc_floor_roofed" },
       "toilets": { "T": {  } },
       "items": {
         "'": { "item": "trash_cart", "chance": 1 },
@@ -280,7 +280,7 @@
     "om_terrain": [ "urban_31_6" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;________________;;;;",
         "llllnnnnnnnnnnnnnnnnllll",
@@ -319,7 +319,7 @@
     "om_terrain": [ "urban_31_7" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l55lllllllll55ll==lllVVl",
         "l'''''''''''''''''l6d'''",
@@ -348,11 +348,11 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
-        "(": "t_strconc_floor",
-        "L": "t_strconc_floor",
-        "d": "t_strconc_floor",
-        "h": "t_strconc_floor",
-        "r": "t_strconc_floor"
+        "(": "t_strconc_floor_roofed",
+        "L": "t_strconc_floor_roofed",
+        "d": "t_strconc_floor_roofed",
+        "h": "t_strconc_floor_roofed",
+        "r": "t_strconc_floor_roofed"
       },
       "toilets": { "T": {  } },
       "items": {
@@ -371,7 +371,7 @@
     "om_terrain": [ "urban_31_8" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "lllVVlllllllllVVVll=llll",
         "rr''dd6lrlSl'''''''''''l",
@@ -400,15 +400,15 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": {
-        "(": "t_strconc_floor",
-        "L": "t_strconc_floor",
-        "O": "t_strconc_floor",
-        "S": "t_strconc_floor",
-        "T": "t_strconc_floor",
-        "d": "t_strconc_floor",
-        "h": "t_strconc_floor",
-        "r": "t_strconc_floor",
-        "t": "t_strconc_floor"
+        "(": "t_strconc_floor_roofed",
+        "L": "t_strconc_floor_roofed",
+        "O": "t_strconc_floor_roofed",
+        "S": "t_strconc_floor_roofed",
+        "T": "t_strconc_floor_roofed",
+        "d": "t_strconc_floor_roofed",
+        "h": "t_strconc_floor_roofed",
+        "r": "t_strconc_floor_roofed",
+        "t": "t_strconc_floor_roofed"
       },
       "toilets": { "T": {  } },
       "items": {
@@ -428,7 +428,7 @@
     "om_terrain": [ "urban_31_9" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "lllllllllllllllRRRRRRRRR",
@@ -472,7 +472,7 @@
     "om_terrain": [ "urban_31_10" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "RRRR................RRRR",
@@ -508,7 +508,7 @@
     "om_terrain": [ "urban_31_11" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l  lvvvvlvvvvlllllllllll",
         "l             kl      c ",
@@ -536,7 +536,7 @@
         "........................"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "(": "t_floor", "3": "t_linoleum_white", "L": "t_linoleum_white" },
+      "terrain": { "(": "t_floor_roofed", "3": "t_linoleum_white_roofed", "L": "t_linoleum_white_roofed" },
       "furniture": { "3": "f_bench" },
       "toilets": { "T": {  } },
       "items": {
@@ -553,7 +553,7 @@
     "om_terrain": [ "urban_31_12" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "llllllllllllllVVVlVVVlll",
         "        l  l    h d   Ll",
@@ -581,7 +581,7 @@
         "........................"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "(": "t_floor" },
+      "terrain": { "(": "t_floor_roofed" },
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "office", "chance": 1 },
@@ -600,7 +600,7 @@
     "om_terrain": [ "urban_31_13" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "lllllllllllllll.........",
@@ -644,7 +644,7 @@
     "om_terrain": [ "urban_31_15" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "l            kllllll9999",
         "l(                 lRRRR",
@@ -672,7 +672,7 @@
         "........................"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "(": "t_floor" },
+      "terrain": { "(": "t_floor_roofed" },
       "items": {
         " ": { "item": "office", "chance": 1 },
         "4": { "item": "office_breakroom", "chance": 30 },
@@ -688,7 +688,7 @@
     "om_terrain": [ "urban_31_16" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "999999999999999999999998",
         "RRRRRRRRRRRRRRRRRRRRRRR8",
@@ -725,7 +725,7 @@
     "om_terrain": [ "urban_31_17" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "899999999999998.........",
@@ -762,7 +762,7 @@
     "om_terrain": [ "urban_31_19" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "8RRRRRRRRRRRRR899998....",
         "8RRRRRRRRRRRRR)))RR8....",

@@ -7,7 +7,7 @@
     "weight": 25,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "..cccccc.|...|,,,|..|,,,",
         "c........|...|,,,|.6|,,,",
@@ -91,7 +91,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "CCC..................CCC",
         "C..........YY..........C",
@@ -126,7 +126,7 @@
         "?": "t_nanofab",
         "r": "t_metal_floor",
         "/": "t_nanofab_body",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "p": "t_metal_floor"
       },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
@@ -146,7 +146,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ".....,...g.....xxxxxxxxx",
         "-r..r,..ig.YY...........",
@@ -176,7 +176,7 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
-      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
+      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_roofed_olight", "p": "t_metal_floor" },
       "mapping": {
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "D": {
@@ -203,7 +203,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -394,7 +394,7 @@
     "om_terrain": [ "lab_finale_1level" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                       |",
         "                       |",

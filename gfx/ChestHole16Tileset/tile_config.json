@@ -39663,7 +39663,7 @@
           "rotates": false
         },
         {
-          "id": "t_dirtfloor",
+          "id": "t_dirtfloor_roofed",
           "fg": 640,
           "rotates": false
         },
@@ -42068,7 +42068,7 @@
           "rotates": false
         },
        {
-          "id": "t_scrap_floor",
+          "id": "t_scrap_floor_roofed",
           "fg": 3622,
           "bg": 632,
           "rotates": false
@@ -42805,12 +42805,12 @@
           "rotates": false
         },
         {
-          "id": "t_rock_floor",
+          "id": "t_rock_floor_roofed",
           "bg": 659,
           "rotates": false
         },
         {
-          "id": "t_strconc_floor",
+          "id": "t_strconc_floor_roofed",
           "bg": 659,
           "rotates": false
         },
@@ -42820,13 +42820,13 @@
           "rotates": false
         },
         {
-          "id": "t_thconc_floor_olight",
+          "id": "t_thconc_floor_roofed_olight",
           "fg": 658,
           "bg": 659,
           "rotates": false
         },
         {
-          "id": "t_thconc_floor",
+          "id": "t_thconc_floor_roofed",
           "bg": 659,
           "rotates": false
         },
@@ -43911,7 +43911,7 @@
           "rotates": true
         },
         {
-          "id": "t_floor",
+          "id": "t_floor_roofed",
           "bg": 661,
           "rotates": false
         },
@@ -49020,22 +49020,22 @@
           "rotates": false
         },
         {
-          "id": "t_carpet_green",
+          "id": "t_carpet_green_roofed",
           "fg": 1960,
           "rotates": false
         },
         {
-          "id": "t_carpet_purple",
+          "id": "t_carpet_purple_roofed",
           "fg": 1961,
           "rotates": false
         },
         {
-          "id": "t_carpet_red",
+          "id": "t_carpet_red_roofed",
           "fg": 1962,
           "rotates": false
         },
         {
-          "id": "t_carpet_yellow",
+          "id": "t_carpet_yellow_roofed",
           "fg": 1963,
           "rotates": false
         },
@@ -49176,7 +49176,7 @@
           "rotates": false
         },
         {
-          "id": "t_floor_waxed",
+          "id": "t_floor_waxed_roofed",
           "fg": 3007,
           "rotates": false
         },
@@ -49330,12 +49330,12 @@
           "rotates": false
         },
         {
-          "id": "t_linoleum_gray",
+          "id": "t_linoleum_gray_roofed",
           "fg": 2058,
           "rotates": false
         },
         {
-          "id": "t_linoleum_white",
+          "id": "t_linoleum_white_roofed",
           "fg": 2059,
           "rotates": false
         },

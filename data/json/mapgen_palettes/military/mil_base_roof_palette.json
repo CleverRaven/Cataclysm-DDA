@@ -10,7 +10,7 @@
       "A": "t_flat_roof",
       " ": "t_open_air",
       "o": "t_glass_roof",
-      ",": "t_thconc_floor",
+      ",": "t_thconc_floor_roofed",
       ":": "t_concrete",
       "'": "t_metal_floor_no_roof",
       "x": "t_metal_floor_no_roof",

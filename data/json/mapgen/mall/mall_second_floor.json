@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "mall_b_3", "mall_b_4", "mall_b_5" ] ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                                                                        ",
         "                                                                        ",
@@ -85,7 +85,7 @@
     "om_terrain": "mall_b_10",
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -113,7 +113,7 @@
         "                |^^|_666"
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "Y": "t_thconc_floor", "y": "t_thconc_floor" },
+      "terrain": { "Y": "t_thconc_floor_roofed", "y": "t_thconc_floor_roofed" },
       "items": {
         "y": { "item": "trash_cart", "chance": 10, "repeat": [ 1, 2 ] },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
@@ -127,7 +127,7 @@
     "om_terrain": "mall_b_11",
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -155,7 +155,7 @@
         "B6B6B6B6B6B6B666=^^^|^^P"
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "B": "t_carpet_red" },
+      "terrain": { "B": "t_carpet_red_roofed" },
       "items": {
         "y": { "item": "trash_cart", "chance": 10, "repeat": [ 1, 2 ] },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
@@ -172,7 +172,7 @@
     "om_terrain": "mall_b_12",
     "weight": 200,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "     |P__P|jt|_||||_____",
         "     |P__P||||_+0|______",
@@ -201,18 +201,18 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "K": "t_carpet_green",
-        "J": "t_carpet_green",
-        "A": "t_carpet_green",
-        "d": "t_floor",
-        "M": "t_floor",
-        "Q": "t_floor",
-        "%": "t_floor",
-        "j": "t_thconc_floor",
-        "0": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "t": "t_thconc_floor"
+        "K": "t_carpet_green_roofed",
+        "J": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "d": "t_floor_roofed",
+        "M": "t_floor_roofed",
+        "Q": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "0": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_bench", "0": "f_shower" },
       "items": {
@@ -249,7 +249,7 @@
     "om_terrain": "mall_b_13",
     "weight": 200,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "____________z___=___I__S",
         "__zzz____z______H_C_IB_w",
@@ -278,16 +278,16 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "P": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "C": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "w": "t_thconc_floor",
-        "0": "t_carpet_red",
-        "%": "t_carpet_purple",
-        "d": "t_carpet_purple"
+        "P": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "C": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "w": "t_thconc_floor_roofed",
+        "0": "t_carpet_red_roofed",
+        "%": "t_carpet_purple_roofed",
+        "d": "t_carpet_purple_roofed"
       },
       "furniture": { "0": "f_piano", "%": [ "f_indoor_plant_y", "f_indoor_plant" ] },
       "items": {
@@ -309,7 +309,7 @@
     "om_terrain": "mall_b_14",
     "weight": 200,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "|....|^__+_t|__|        ",
         "|.,,.|^__||||__|H|      ",
@@ -339,15 +339,15 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 13 ], "density": 0.4 } ],
       "terrain": {
-        "%": "t_carpet_purple",
-        "T": "t_carpet_purple",
-        "K": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "z": "t_thconc_floor",
-        "^": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "J": "t_linoleum_white"
+        "%": "t_carpet_purple_roofed",
+        "T": "t_carpet_purple_roofed",
+        "K": "t_carpet_purple_roofed",
+        "!": "t_carpet_purple_roofed",
+        "A": "t_carpet_purple_roofed",
+        "z": "t_thconc_floor_roofed",
+        "^": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "J": "t_linoleum_white_roofed"
       },
       "furniture": { "%": [ "f_indoor_plant_y", "f_indoor_plant" ], "^": "f_sink", "!": "f_counter" },
       "items": {
@@ -387,7 +387,7 @@
     "method": "json",
     "om_terrain": "mall_b_19",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                |^^|_666",
         "                |^^|_666",
@@ -416,7 +416,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 17, 23 ], "y": [ 1, 12 ], "density": 0.2 } ],
-      "terrain": { "Y": "t_thconc_floor" },
+      "terrain": { "Y": "t_thconc_floor_roofed" },
       "items": {
         "y": { "item": "trash_cart", "chance": 10, "repeat": [ 1, 2 ] },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
@@ -428,7 +428,7 @@
     "method": "json",
     "om_terrain": "mall_b_20",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "B6B6B6B6B6B6B666=^^^|^zz",
         "B6B6B6B6B6B6B666|y^^||||",
@@ -458,14 +458,14 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 12 ], "density": 0.4 } ],
       "terrain": {
-        "t": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "F": "t_linoleum_gray",
-        "}": "t_linoleum_white",
-        "B": "t_carpet_red",
+        "t": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "F": "t_linoleum_gray_roofed",
+        "}": "t_linoleum_white_roofed",
+        "B": "t_carpet_red_roofed",
         "$": "t_ladder_up",
-        "%": "t_carpet_green",
-        "K": "t_carpet_green"
+        "%": "t_carpet_green_roofed",
+        "K": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_chair", "}": "f_bench" },
       "items": {
@@ -481,7 +481,7 @@
     "method": "json",
     "om_terrain": "mall_b_21",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "|z___|V,,000,,,,,,,,.|.,",
         "|____|V,,,,,,,000,,,.H.,",
@@ -511,21 +511,21 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "terrain": {
-        "A": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "K": "t_carpet_yellow",
-        "J": "t_carpet_yellow",
-        "i": "t_carpet_green",
-        "j": "t_carpet_green",
-        "m": "t_carpet_green",
-        "~": "t_carpet_green",
-        "7": "t_carpet_green",
-        "^": "t_linoleum_gray",
-        "U": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "*": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "0": "t_linoleum_white",
+        "A": "t_carpet_yellow_roofed",
+        "B": "t_carpet_yellow_roofed",
+        "K": "t_carpet_yellow_roofed",
+        "J": "t_carpet_yellow_roofed",
+        "i": "t_carpet_green_roofed",
+        "j": "t_carpet_green_roofed",
+        "m": "t_carpet_green_roofed",
+        "~": "t_carpet_green_roofed",
+        "7": "t_carpet_green_roofed",
+        "^": "t_linoleum_gray_roofed",
+        "U": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "*": "t_linoleum_white_roofed",
+        "M": "t_linoleum_white_roofed",
+        "0": "t_linoleum_white_roofed",
         "$": "t_conveyor"
       },
       "furniture": { "%": "f_counter", "^": "f_sink", "*": "f_stool", "&": "f_stool", "!": "f_oven", "0": "f_table" },
@@ -596,7 +596,7 @@
     "method": "json",
     "om_terrain": "mall_b_22",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         ",,,.#       #.,,,,,,,,..",
         ",,,.#       #.,,,M,M,,.|",
@@ -624,7 +624,7 @@
         ",,,.##         ##.,,,..."
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "K": "t_linoleum_white", "M": "t_linoleum_white", "A": "t_linoleum_white" },
+      "terrain": { "K": "t_linoleum_white_roofed", "M": "t_linoleum_white_roofed", "A": "t_linoleum_white_roofed" },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "items": {
         "K": { "item": "cell_shop", "chance": 50 },
@@ -638,7 +638,7 @@
     "method": "json",
     "om_terrain": "mall_b_23",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...........|            ",
         "|HH||+H|||||||||||||||||",
@@ -667,13 +667,13 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "0": "t_carpet_yellow",
-        "B": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "%": "t_thconc_floor"
+        "0": "t_carpet_yellow_roofed",
+        "B": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "%": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_sink", "0": "f_table" },
       "items": {
@@ -694,7 +694,7 @@
     "method": "json",
     "om_terrain": "mall_b_24",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "||||||||||||||||||||||||",
@@ -722,7 +722,7 @@
         ",,,,,,,,,,,,,,,,,,,,.^^^"
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "%": "t_thconc_floor", "t": "t_thconc_floor", "Y": "t_thconc_floor", "z": "t_thconc_floor", "K": "t_carpet_green" },
+      "terrain": { "%": "t_thconc_floor_roofed", "t": "t_thconc_floor_roofed", "Y": "t_thconc_floor_roofed", "z": "t_thconc_floor_roofed", "K": "t_carpet_green_roofed" },
       "furniture": { "%": "f_sink" },
       "items": {
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
@@ -742,7 +742,7 @@
     "method": "json",
     "om_terrain": "mall_b_25",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "||||||||||||||||||||||||",
@@ -771,13 +771,13 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        ".": "t_floor",
-        "K": "t_carpet_yellow",
+        ".": "t_floor_roofed",
+        "K": "t_carpet_yellow_roofed",
         ">": "t_stairs_down",
-        "S": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "C": "t_thconc_floor"
+        "S": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "C": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_beaded_door" },
       "items": {
@@ -798,7 +798,7 @@
     "method": "json",
     "om_terrain": "mall_b_26",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "|||||||||||             ",
@@ -826,7 +826,7 @@
         "Q.Q.Q.|___|             "
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { ".": "t_floor", "z": "t_thconc_floor" },
+      "terrain": { ".": "t_floor_roofed", "z": "t_thconc_floor_roofed" },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 9 ], "density": 0.4 } ],
       "items": {
         "Q": { "item": "allclothes", "chance": 20, "repeat": [ 1, 2 ] },
@@ -840,7 +840,7 @@
     "method": "json",
     "om_terrain": "mall_b_29",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                 H.,.#  ",
         "                 H,.,#  ",
@@ -869,7 +869,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 18, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
-      "terrain": { "!": "t_carpet_red" },
+      "terrain": { "!": "t_carpet_red_roofed" },
       "furniture": { "%": "f_pool_table", "!": "f_counter" },
       "items": {
         "V": { "item": "alcohol", "chance": 50 },
@@ -888,7 +888,7 @@
     "method": "json",
     "om_terrain": "mall_b_30",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "                     #..",
         "                     #,.",
@@ -917,18 +917,18 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "Q": "t_floor",
-        "}": "t_linoleum_white",
-        "S": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "%": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "R": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "C": "t_thconc_floor"
+        "Q": "t_floor_roofed",
+        "}": "t_linoleum_white_roofed",
+        "S": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "%": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "R": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "C": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_crate_c", "}": "f_bench" },
       "items": {
@@ -952,7 +952,7 @@
     "method": "json",
     "om_terrain": "mall_b_31",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,.#           #.,,,,,,",
         ",,,.#           #.,,,,,,",
@@ -981,19 +981,19 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "*": "t_carpet_green",
-        "'": "t_carpet_green",
-        "r": "t_carpet_green",
-        "b": "t_carpet_green",
-        "]": "t_carpet_green",
-        "%": "t_carpet_green",
-        "F": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
-        "P": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "U": "t_thconc_floor"
+        "*": "t_carpet_green_roofed",
+        "'": "t_carpet_green_roofed",
+        "r": "t_carpet_green_roofed",
+        "b": "t_carpet_green_roofed",
+        "]": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "F": "t_linoleum_gray_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "y": "t_linoleum_gray_roofed",
+        "P": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed"
       },
       "furniture": {
         "*": "f_canvas_wall",
@@ -1019,7 +1019,7 @@
     "method": "json",
     "om_terrain": "mall_b_32",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,.....................",
@@ -1048,23 +1048,23 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "V": "t_carpet_red",
-        "!": "t_floor",
-        "T": "t_floor",
-        "d": "t_floor",
-        "@": "t_floor",
-        "I": "t_thconc_floor",
-        "A": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "B": "t_thconc_floor",
-        "N": "t_thconc_floor",
-        "Z": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "}": "t_thconc_floor",
-        "*": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "U": "t_thconc_floor"
+        "V": "t_carpet_red_roofed",
+        "!": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "d": "t_floor_roofed",
+        "@": "t_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "A": "t_linoleum_white_roofed",
+        "J": "t_linoleum_white_roofed",
+        "B": "t_thconc_floor_roofed",
+        "N": "t_thconc_floor_roofed",
+        "Z": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "}": "t_thconc_floor_roofed",
+        "*": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_counter", "*": "f_crate_c", "!": "f_beaded_door", "p": "f_desk", "&": "f_stool", "}": "f_stool" },
       "items": {
@@ -1103,7 +1103,7 @@
     "method": "json",
     "om_terrain": "mall_b_33",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,,,,,,.....,,,,,,,.||^",
         ".........HHH...,,,,,.H^^",
@@ -1132,17 +1132,17 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "V": "t_carpet_red",
-        "J": "t_carpet_red",
-        "d": "t_carpet_red",
-        "A": "t_carpet_red",
-        "%": "t_carpet_red",
-        "0": "t_linoleum_white",
-        "]": "t_linoleum_white",
-        "F": "t_linoleum_gray",
-        "B": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "I": "t_thconc_floor"
+        "V": "t_carpet_red_roofed",
+        "J": "t_carpet_red_roofed",
+        "d": "t_carpet_red_roofed",
+        "A": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "0": "t_linoleum_white_roofed",
+        "]": "t_linoleum_white_roofed",
+        "F": "t_linoleum_gray_roofed",
+        "B": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_counter", "*": "f_crate_c", "!": "f_beaded_door", "p": "f_desk", "]": "f_ergometer", "0": "f_exercise" },
       "items": {
@@ -1166,7 +1166,7 @@
     "method": "json",
     "om_terrain": "mall_b_34",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^^^^C0C^^^^^C0C^^^^^C0C^",
@@ -1195,29 +1195,29 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "C": "t_floor",
-        "0": "t_floor",
-        ")": "t_floor",
-        "A": "t_carpet_green",
-        "J": "t_carpet_green",
-        "K": "t_carpet_green",
-        "!": "t_linoleum_white",
-        "]": "t_linoleum_white",
-        "*": "t_linoleum_white",
-        "F": "t_linoleum_gray",
-        "B": "t_thconc_floor",
-        "&": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "W": "t_thconc_floor",
-        "@": "t_thconc_floor",
-        "a": "t_thconc_floor",
-        "%": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "}": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "I": "t_thconc_floor"
+        "C": "t_floor_roofed",
+        "0": "t_floor_roofed",
+        ")": "t_floor_roofed",
+        "A": "t_carpet_green_roofed",
+        "J": "t_carpet_green_roofed",
+        "K": "t_carpet_green_roofed",
+        "!": "t_linoleum_white_roofed",
+        "]": "t_linoleum_white_roofed",
+        "*": "t_linoleum_white_roofed",
+        "F": "t_linoleum_gray_roofed",
+        "B": "t_thconc_floor_roofed",
+        "&": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "W": "t_thconc_floor_roofed",
+        "@": "t_thconc_floor_roofed",
+        "a": "t_thconc_floor_roofed",
+        "%": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "}": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed"
       },
       "furniture": {
         "*": "f_treadmill",
@@ -1251,7 +1251,7 @@
     "method": "json",
     "om_terrain": "mall_b_35",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "^^^^^^|__z|             ",
         "^^C^^y|z__|             ",
@@ -1280,7 +1280,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 1, 9 ], "y": [ 1, 23 ], "density": 0.2 } ],
-      "terrain": { "<": "t_stairs_up", "t": "t_thconc_floor", "Y": "t_thconc_floor", "z": "t_thconc_floor" },
+      "terrain": { "<": "t_stairs_up", "t": "t_thconc_floor_roofed", "Y": "t_thconc_floor_roofed", "z": "t_thconc_floor_roofed" },
       "items": {
         "Y": { "item": "trash", "chance": 30, "repeat": [ 2, 4 ] },
         "d": [
@@ -1297,7 +1297,7 @@
     "method": "json",
     "om_terrain": "mall_b_38",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "           |J^^^^^^^^^^J",
         "           |J^^^%%^^%%^^",
@@ -1328,22 +1328,22 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 12, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "terrain": {
-        "F": "t_linoleum_gray",
-        "y": "t_linoleum_white",
-        "}": "t_linoleum_white",
-        "t": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "b": "t_carpet_red",
-        "M": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
-        "I": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "S": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "w": "t_carpet_yellow",
-        "d": "t_carpet_yellow"
+        "F": "t_linoleum_gray_roofed",
+        "y": "t_linoleum_white_roofed",
+        "}": "t_linoleum_white_roofed",
+        "t": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "b": "t_carpet_red_roofed",
+        "M": "t_carpet_yellow_roofed",
+        "V": "t_carpet_yellow_roofed",
+        "I": "t_carpet_yellow_roofed",
+        "B": "t_carpet_yellow_roofed",
+        "S": "t_carpet_yellow_roofed",
+        "@": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "w": "t_carpet_yellow_roofed",
+        "d": "t_carpet_yellow_roofed"
       },
       "furniture": { "%": "f_pool_table", "}": "f_bench", "!": [ "f_indoor_plant_y", "f_indoor_plant" ] },
       "items": {
@@ -1366,7 +1366,7 @@
     "method": "json",
     "om_terrain": "mall_b_39",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "2|||||_|z___zz|__Z|W__|_",
         "2J__n|_|||=|||||=|||=|||",
@@ -1395,31 +1395,31 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "b": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "K": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "F": "t_linoleum_white",
-        "*": "t_linoleum_white",
-        "Ŧ": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        ":": "t_linoleum_white",
-        "Z": "t_thconc_floor",
-        "W": "t_thconc_floor",
-        "J": "t_thconc_floor",
-        "l": "t_thconc_floor",
-        "i": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "n": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "z": "t_thconc_floor"
+        "b": "t_carpet_yellow_roofed",
+        "M": "t_carpet_yellow_roofed",
+        "@": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "d": "t_carpet_yellow_roofed",
+        "K": "t_carpet_purple_roofed",
+        "%": "t_carpet_purple_roofed",
+        "A": "t_carpet_purple_roofed",
+        "F": "t_linoleum_white_roofed",
+        "*": "t_linoleum_white_roofed",
+        "Ŧ": "t_linoleum_white_roofed",
+        "y": "t_linoleum_white_roofed",
+        "&": "t_linoleum_white_roofed",
+        "V": "t_linoleum_white_roofed",
+        ":": "t_linoleum_white_roofed",
+        "Z": "t_thconc_floor_roofed",
+        "W": "t_thconc_floor_roofed",
+        "J": "t_thconc_floor_roofed",
+        "l": "t_thconc_floor_roofed",
+        "i": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "n": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed"
       },
       "furniture": {
         "!": [ "f_indoor_plant_y", "f_indoor_plant" ],
@@ -1457,7 +1457,7 @@
     "method": "json",
     "om_terrain": "mall_b_40",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "___|R^7***D77D^|.,,y#  #",
         "|=||R^7*']77%7^H.,,F#  #",
@@ -1486,20 +1486,20 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "*": "t_carpet_green",
-        "'": "t_carpet_green",
-        "L": "t_carpet_green",
-        "D": "t_carpet_green",
-        "]": "t_carpet_green",
-        "%": "t_carpet_green",
-        "Ŧ": "t_linoleum_white",
-        "K": "t_linoleum_white",
-        "Q": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "J": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "ƃ": "t_linoleum_gray"
+        "*": "t_carpet_green_roofed",
+        "'": "t_carpet_green_roofed",
+        "L": "t_carpet_green_roofed",
+        "D": "t_carpet_green_roofed",
+        "]": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "Ŧ": "t_linoleum_white_roofed",
+        "K": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_gray_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "J": "t_linoleum_gray_roofed",
+        "y": "t_linoleum_gray_roofed",
+        "F": "t_linoleum_gray_roofed",
+        "ƃ": "t_linoleum_gray_roofed"
       },
       "furniture": {
         "*": "f_canvas_wall",
@@ -1531,7 +1531,7 @@
     "method": "json",
     "om_terrain": "mall_b_41",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "Y,.||^^^^^^^^^^^^^^^^^^^",
         "F,..|^^^KK^^KK^^J^^A^^^^",
@@ -1560,7 +1560,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
-      "terrain": { "F": "t_linoleum_gray", "Y": "t_linoleum_gray", "%": "t_linoleum_white" },
+      "terrain": { "F": "t_linoleum_gray_roofed", "Y": "t_linoleum_gray_roofed", "%": "t_linoleum_white_roofed" },
       "furniture": { "%": "f_table" },
       "items": {
         "S": { "item": "office_paper", "chance": 20 },
@@ -1582,7 +1582,7 @@
     "method": "json",
     "om_terrain": "mall_b_42",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "|^^^^^^^^^^^^|.,,,,,,,.+",
         "|^^^^^^^^^^^^|.,,,,,...H",
@@ -1610,7 +1610,7 @@
         "F,.,.,H...,,,,,,,,,,,..y"
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "V": "t_carpet_red", "y": "t_linoleum_gray", "Y": "t_linoleum_gray", "F": "t_linoleum_gray" },
+      "terrain": { "V": "t_carpet_red_roofed", "y": "t_linoleum_gray_roofed", "Y": "t_linoleum_gray_roofed", "F": "t_linoleum_gray_roofed" },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": { "%": "f_counter", "*": "f_crate_c", "!": "f_beaded_door", "p": "f_desk" },
       "items": {
@@ -1634,7 +1634,7 @@
     "method": "json",
     "om_terrain": "mall_b_43",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "^7K7K7K77J7)|z_z|j_Y_=_t",
         "^7K7K7K77J7)|P_z||||||||",
@@ -1663,20 +1663,20 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "K": "t_carpet_green",
-        "J": "t_carpet_green",
-        "z": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        ")": "t_floor",
-        "*": "t_carpet_yellow",
-        "A": "t_linoleum_white",
-        "%": "t_linoleum_white",
-        ":": "t_linoleum_white",
-        "ƃ": "t_linoleum_white",
-        "!": "t_linoleum_white"
+        "K": "t_carpet_green_roofed",
+        "J": "t_carpet_green_roofed",
+        "z": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        ")": "t_floor_roofed",
+        "*": "t_carpet_yellow_roofed",
+        "A": "t_linoleum_white_roofed",
+        "%": "t_linoleum_white_roofed",
+        ":": "t_linoleum_white_roofed",
+        "ƃ": "t_linoleum_white_roofed",
+        "!": "t_linoleum_white_roofed"
       },
       "furniture": { "%": "f_counter", "!": "f_table", "*": "f_table", ":": "f_rack" },
       "items": {
@@ -1702,7 +1702,7 @@
     "method": "json",
     "om_terrain": "mall_b_44",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|t_=_Y|___|             ",
         "|||||||___|             ",
@@ -1731,7 +1731,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 8 ], "y": [ 1, 23 ], "density": 0.4 } ],
-      "terrain": { "d": "t_floor", "K": "t_carpet_yellow", "V": "t_linoleum_gray" },
+      "terrain": { "d": "t_floor_roofed", "K": "t_carpet_yellow_roofed", "V": "t_linoleum_gray_roofed" },
       "items": {
         "Y": { "item": "trash", "chance": 30, "repeat": [ 2, 4 ] },
         "d": [
@@ -1756,7 +1756,7 @@
     "method": "json",
     "om_terrain": "mall_b_47",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "           |,.,|V99MMMM9",
         "         |||.,.|V9999999",
@@ -1786,16 +1786,16 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 11, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "terrain": {
-        "I": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
-        "C": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
-        "Y": "t_linoleum_gray",
-        "z": "t_thconc_floor",
-        "d": "t_carpet_yellow",
-        "A": "t_carpet_purple",
-        "J": "t_carpet_purple"
+        "I": "t_carpet_yellow_roofed",
+        "M": "t_carpet_yellow_roofed",
+        "C": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "V": "t_carpet_yellow_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "z": "t_thconc_floor_roofed",
+        "d": "t_carpet_yellow_roofed",
+        "A": "t_carpet_purple_roofed",
+        "J": "t_carpet_purple_roofed"
       },
       "furniture": { "%": "f_mannequin", "0": "f_glass_cabinet", "!": [ "f_indoor_plant_y", "f_indoor_plant" ] },
       "items": {
@@ -1818,7 +1818,7 @@
     "method": "json",
     "om_terrain": "mall_b_48",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "MMMM99dH.,,,F,,.||||||||",
         "999999dH.,,,,,,.|QQQQY__",
@@ -1847,21 +1847,21 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "V": "t_carpet_yellow",
-        "M": "t_carpet_yellow",
-        "C": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "d": "t_carpet_yellow",
-        "%": "t_floor",
-        "y": "t_floor",
-        "K": "t_floor",
-        "B": "t_floor",
-        "0": "t_carpet_purple",
-        "3": "t_floor",
-        "F": "t_linoleum_white",
-        "l": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "Y": "t_thconc_floor"
+        "V": "t_carpet_yellow_roofed",
+        "M": "t_carpet_yellow_roofed",
+        "C": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "d": "t_carpet_yellow_roofed",
+        "%": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "K": "t_floor_roofed",
+        "B": "t_floor_roofed",
+        "0": "t_carpet_purple_roofed",
+        "3": "t_floor_roofed",
+        "F": "t_linoleum_white_roofed",
+        "l": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed"
       },
       "furniture": { "!": [ "f_indoor_plant_y", "f_indoor_plant" ], "%": "f_glass_cabinet", "0": "f_glass_cabinet", "3": "f_displaycase" },
       "items": {
@@ -1885,7 +1885,7 @@
     "method": "json",
     "om_terrain": "mall_b_49",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "?&&&?&&&?&&&?&&.Y|||,.}{",
         "_________________|P|.,.,",
@@ -1914,25 +1914,25 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "t": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "u": "t_thconc_floor",
-        "l": "t_thconc_floor",
-        "J": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "i": "t_thconc_floor",
-        "}": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "[": "t_linoleum_white",
-        "n": "t_thconc_floor",
-        "F": "t_thconc_floor",
-        "A": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "K": "t_thconc_floor"
+        "t": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "u": "t_thconc_floor_roofed",
+        "l": "t_thconc_floor_roofed",
+        "J": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "i": "t_thconc_floor_roofed",
+        "}": "t_linoleum_white_roofed",
+        "M": "t_linoleum_white_roofed",
+        "V": "t_linoleum_white_roofed",
+        "[": "t_linoleum_white_roofed",
+        "n": "t_thconc_floor_roofed",
+        "F": "t_thconc_floor_roofed",
+        "A": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "K": "t_thconc_floor_roofed"
       },
       "furniture": { "&": "f_counter", "}": "f_bench", "]": "f_bench", "{": "f_table", "[": "f_table" },
       "items": {
@@ -1956,7 +1956,7 @@
     "method": "json",
     "om_terrain": "mall_b_50",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         ":.:K:.:K:.:K:.:K:.:K:.:K",
         ".,.,.,.,.,.,.,.,.,.,.,.,",
@@ -1988,13 +1988,13 @@
         ">": "t_stairs_down",
         "E": "t_elevator",
         "<": "t_stairs_up",
-        "B": "t_carpet_red",
-        ":": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "I": "t_carpet_red",
-        "S": "t_carpet_red",
-        "C": "t_carpet_red",
-        "@": "t_carpet_red"
+        "B": "t_carpet_red_roofed",
+        ":": "t_linoleum_white_roofed",
+        "&": "t_linoleum_white_roofed",
+        "I": "t_carpet_red_roofed",
+        "S": "t_carpet_red_roofed",
+        "C": "t_carpet_red_roofed",
+        "@": "t_carpet_red_roofed"
       },
       "furniture": { "&": "f_table", ":": "f_bench" },
       "items": {
@@ -2009,7 +2009,7 @@
     "method": "json",
     "om_terrain": "mall_b_51",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         ":.,Y|||.AAA,AAAAAAA,,,,.",
         ".,.,|JJJ************?*,.",
@@ -2039,15 +2039,15 @@
       "palettes": [ "mall_palette_2" ],
       "terrain": {
         "<": "t_stairs_up",
-        "S": "t_carpet_red",
-        "B": "t_carpet_red",
-        "I": "t_carpet_red",
-        "z": "t_thconc_floor",
-        ":": "t_linoleum_white",
-        "*": "t_linoleum_white",
-        "ƃ": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "&": "t_linoleum_white"
+        "S": "t_carpet_red_roofed",
+        "B": "t_carpet_red_roofed",
+        "I": "t_carpet_red_roofed",
+        "z": "t_thconc_floor_roofed",
+        ":": "t_linoleum_white_roofed",
+        "*": "t_linoleum_white_roofed",
+        "ƃ": "t_linoleum_white_roofed",
+        "A": "t_linoleum_white_roofed",
+        "&": "t_linoleum_white_roofed"
       },
       "furniture": { "3": "f_table", "&": "f_table", ":": "f_bench", "*": "f_counter" },
       "items": {
@@ -2070,7 +2070,7 @@
     "method": "json",
     "om_terrain": "mall_b_52",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "HHH........HV99K9K9K99K9",
         ".yH.,.,.,.,H.99K9K9K99K9",
@@ -2099,12 +2099,12 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "K": "t_carpet_yellow",
-        "4": "t_floor",
-        "P": "t_thconc_floor",
-        "R": "t_carpet_yellow",
-        "J": "t_floor",
-        "A": "t_floor"
+        "K": "t_carpet_yellow_roofed",
+        "4": "t_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "R": "t_carpet_yellow_roofed",
+        "J": "t_floor_roofed",
+        "A": "t_floor_roofed"
       },
       "furniture": { "3": "f_table", "4": "f_table" },
       "items": {
@@ -2125,7 +2125,7 @@
     "method": "json",
     "om_terrain": "mall_b_53",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "K9.|||||__|             ",
         "K9..ƃ..||_|             ",
@@ -2154,7 +2154,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 9 ], "y": [ 1, 23 ], "density": 0.4 } ],
-      "terrain": { "K": "t_carpet_yellow", "4": "t_floor", "R": "t_carpet_yellow", "A": "t_floor", ":": "t_floor" },
+      "terrain": { "K": "t_carpet_yellow_roofed", "4": "t_floor_roofed", "R": "t_carpet_yellow_roofed", "A": "t_floor_roofed", ":": "t_floor_roofed" },
       "furniture": { "4": "f_table", ":": "f_bookcase" },
       "items": {
         "J": { "item": "office", "chance": 5 },
@@ -2170,7 +2170,7 @@
     "method": "json",
     "om_terrain": "mall_b_56",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "           |__|||=||8JJ8",
         "           |__|I__|^8888",
@@ -2200,15 +2200,15 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 11, 23 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "terrain": {
-        "S": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "d": "t_thconc_floor",
-        "J": "t_carpet_purple",
-        "M": "t_carpet_purple",
-        "K": "t_carpet_green"
+        "S": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "d": "t_thconc_floor_roofed",
+        "J": "t_carpet_purple_roofed",
+        "M": "t_carpet_purple_roofed",
+        "K": "t_carpet_green_roofed"
       },
       "furniture": { "3": "f_wardrobe", "4": "f_table", "%": "f_beaded_door" },
       "items": {
@@ -2240,7 +2240,7 @@
     "method": "json",
     "om_terrain": "mall_b_57",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "888888^+.,11,.+^^^B4B^^^",
         "8MMM88^H.,11,.H^^^B4B^^^",
@@ -2269,14 +2269,14 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "J": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "F": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "M": "t_carpet_purple",
+        "J": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "F": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "M": "t_carpet_purple_roofed",
         ">": "t_stairs_down",
-        "1": "t_linoleum_white",
-        "K": "t_carpet_green"
+        "1": "t_linoleum_white_roofed",
+        "K": "t_carpet_green_roofed"
       },
       "furniture": { "3": "f_wardrobe", "4": "f_table", "&": "f_counter" },
       "items": {
@@ -2304,7 +2304,7 @@
     "method": "json",
     "om_terrain": "mall_b_58",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "^^0^^Q|m,V,V,,,M,.|S___|",
         "^^0^^Q|m,V,V,,,M,.=__B_|",
@@ -2333,22 +2333,22 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "Q": "t_floor",
-        "0": "t_floor",
-        "%": "t_floor",
-        "3": "t_floor",
-        "*": "t_floor",
-        "4": "t_floor",
-        "j": "t_thconc_floor",
-        "J": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "a": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "A": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "V": "t_linoleum_white"
+        "Q": "t_floor_roofed",
+        "0": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "3": "t_floor_roofed",
+        "*": "t_floor_roofed",
+        "4": "t_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "J": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "a": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "A": "t_linoleum_white_roofed",
+        "M": "t_linoleum_white_roofed",
+        "V": "t_linoleum_white_roofed"
       },
       "furniture": { "0": "f_displaycase", "%": "f_stool", "4": "f_displaycase", "3": "f_table", "*": "f_glass_cabinet" },
       "items": {
@@ -2373,7 +2373,7 @@
     "method": "json",
     "om_terrain": "mall_b_59",
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": "t_carpet_green_roofed",
       "rows": [
         "6BIIIB6H666666IB6BI6I666",
         "6BIIIB6|6666666666666666",
@@ -2401,7 +2401,7 @@
         "^^4H.,,,,,,,,,,,,,,.||||"
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "B": "t_carpet_red", "I": "t_carpet_red", "S": "t_carpet_red", "4": "t_floor", "3": "t_floor" },
+      "terrain": { "B": "t_carpet_red_roofed", "I": "t_carpet_red_roofed", "S": "t_carpet_red_roofed", "4": "t_floor_roofed", "3": "t_floor_roofed" },
       "furniture": { "4": "f_displaycase", "3": "f_table" },
       "items": {
         "V": { "item": "consumer_electronics", "chance": 30 },
@@ -2418,7 +2418,7 @@
     "method": "json",
     "om_terrain": "mall_b_60",
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": "t_carpet_green_roofed",
       "rows": [
         "I6I66|3,,,,A,,,,,,,,,,,,",
         "66666|3,,,JJJJ?JJJJJ,,,,",
@@ -2447,11 +2447,11 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "I": "t_carpet_red",
-        "Q": "t_linoleum_white",
-        "3": "t_linoleum_gray",
-        "J": "t_linoleum_white",
-        "A": "t_linoleum_white"
+        "I": "t_carpet_red_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "3": "t_linoleum_gray_roofed",
+        "J": "t_linoleum_white_roofed",
+        "A": "t_linoleum_white_roofed"
       },
       "furniture": { "3": "f_table", "4": "f_counter", "%": "f_stool" },
       "items": {
@@ -2471,7 +2471,7 @@
     "method": "json",
     "om_terrain": "mall_b_61",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",3|,.,.,.,.H^^9999999999",
         ",3|.,.,.,.,|^^9R9RR9RR9R",
@@ -2499,7 +2499,7 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "palettes": [ "mall_palette_2" ],
-      "terrain": { "3": "t_linoleum_gray", ":": "t_linoleum_gray", "R": "t_carpet_yellow", "Q": "t_linoleum_white" },
+      "terrain": { "3": "t_linoleum_gray_roofed", ":": "t_linoleum_gray_roofed", "R": "t_carpet_yellow_roofed", "Q": "t_linoleum_white_roofed" },
       "furniture": { "3": "f_table", "4": "f_table", ":": "f_rack" },
       "items": {
         "4": { "item": "book_school", "chance": 30 },
@@ -2523,7 +2523,7 @@
     "method": "json",
     "om_terrain": "mall_b_62",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "99999^^θ__|             ",
         "R9RR9^^|__|             ",
@@ -2553,23 +2553,23 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 9 ], "y": [ 1, 23 ], "density": 0.4 } ],
       "terrain": {
-        "!": "t_floor",
-        "Y": "t_thconc_floor",
-        "l": "t_thconc_floor",
-        "n": "t_thconc_floor",
-        "3": "t_thconc_floor",
-        "i": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "j": "t_thconc_floor",
-        "R": "t_carpet_yellow",
+        "!": "t_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "l": "t_thconc_floor_roofed",
+        "n": "t_thconc_floor_roofed",
+        "3": "t_thconc_floor_roofed",
+        "i": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "j": "t_thconc_floor_roofed",
+        "R": "t_carpet_yellow_roofed",
         ">": "t_stairs_down",
-        "J": "t_linoleum_white",
-        "A": "t_linoleum_white"
+        "J": "t_linoleum_white_roofed",
+        "A": "t_linoleum_white_roofed"
       },
       "furniture": { "4": "f_table", "3": "f_counter", "!": "f_bookcase" },
       "items": {
@@ -2594,7 +2594,7 @@
     "method": "json",
     "om_terrain": "mall_b_65",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "         |||||^^33^^RR^^",
         "         |tYj|T^33^^RR^^",
@@ -2624,18 +2624,18 @@
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 10, 23 ], "y": [ 1, 11 ], "density": 0.4 } ],
       "terrain": {
-        "K": "t_carpet_green",
-        "j": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "y": "t_thconc_floor",
-        "!": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "a": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "C": "t_thconc_floor",
-        "B": "t_thconc_floor"
+        "K": "t_carpet_green_roofed",
+        "j": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "y": "t_thconc_floor_roofed",
+        "!": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "a": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "C": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed"
       },
       "furniture": { "3": "f_table", "!": "f_bench" },
       "items": {
@@ -2656,7 +2656,7 @@
     "method": "json",
     "om_terrain": "mall_b_66",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "RR^^RR^^^^^^^^^^^^^^^T|j",
         "RR^^RR^^^333^^^CyCyC^T|_",
@@ -2685,15 +2685,15 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "K": "t_carpet_green",
-        "j": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "z": "t_thconc_floor"
+        "K": "t_carpet_green_roofed",
+        "j": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed"
       },
       "furniture": { "%": "f_beaded_door", "3": "f_table" },
       "items": {
@@ -2717,7 +2717,7 @@
     "method": "json",
     "om_terrain": "mall_b_67",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "JJjJJ|.,,.|V^^^^^KKKK^^^",
         "____Y|.,,.|V^^^^^^^^^^^^",
@@ -2746,14 +2746,14 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "j": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "F": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "z": "t_thconc_floor"
+        "j": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "F": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed"
       },
       "items": {
         "I": { "item": "office", "chance": 5 },
@@ -2769,7 +2769,7 @@
     "method": "json",
     "om_terrain": "mall_b_68",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "^^^|.,,,,,,,,,,,,,,.|^^^",
         "^^y|.,,,,######,,,,.|^^^",
@@ -2798,7 +2798,7 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 10 ], "density": 0.4 } ],
-      "terrain": { "A": "t_linoleum_white", "Y": "t_linoleum_gray", "F": "t_linoleum_gray" },
+      "terrain": { "A": "t_linoleum_white_roofed", "Y": "t_linoleum_gray_roofed", "F": "t_linoleum_gray_roofed" },
       "items": {
         "K": [
           { "item": "dollar_clothes", "chance": 20, "repeat": [ 1, 2 ] },
@@ -2814,7 +2814,7 @@
     "method": "json",
     "om_terrain": "mall_b_69",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "^^KKKK^^^QQQ^QQQ^QQQ^Q|!",
         "^^^^^^^^^^^^^^^^^^^^^Q|!",
@@ -2843,13 +2843,13 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
-        "j": "t_thconc_floor",
-        "t": "t_thconc_floor",
-        "F": "t_thconc_floor",
-        "P": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "I": "t_thconc_floor",
-        "z": "t_thconc_floor"
+        "j": "t_thconc_floor_roofed",
+        "t": "t_thconc_floor_roofed",
+        "F": "t_thconc_floor_roofed",
+        "P": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "I": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed"
       },
       "furniture": { "!": "f_chair" },
       "items": {
@@ -2879,7 +2879,7 @@
     "method": "json",
     "om_terrain": "mall_b_70",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "KB^^BKB^^BKB^^BKB^^BKB^^",
         "KB^^BKB^^BKB^^BKB^^BKB^^",
@@ -2916,7 +2916,7 @@
     "method": "json",
     "om_terrain": "mall_b_71",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "=___J_l|__|             ",
         "|J__J_J|__|             ",

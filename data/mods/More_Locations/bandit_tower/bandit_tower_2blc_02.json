@@ -6,7 +6,7 @@
     "weight": 150,
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -38,7 +38,7 @@
       "terrain": {
         "5": "t_pavement",
         "8": "t_bridge",
-        ",": [ "t_carpet_red", "t_carpet_yellow", "t_carpet_purple", "t_carpet_green", "t_linoleum_white" ]
+        ",": [ "t_carpet_red_roofed", "t_carpet_yellow_roofed", "t_carpet_purple_roofed", "t_carpet_green_roofed", "t_linoleum_white_roofed" ]
       },
       "furniture": { "z": "f_pinball_machine" },
       "items": { "l": { "item": "cleaning", "chance": 85 }, "x": { "item": "chem_home", "chance": 45 } }

@@ -51,7 +51,7 @@
       "Z": "f_crate_c"
     },
     "terrain": {
-      " ": "t_floor",
+      " ": "t_floor_roofed",
       ".": "t_region_groundcover_urban",
       "F": "t_privacy_fence",
       "W": "t_wall_w",
@@ -62,12 +62,12 @@
       "w": "t_window_domestic",
       "%": "t_gates_control_concrete",
       "|": "t_door_metal_c",
-      ",": "t_scrap_floor",
+      ",": "t_scrap_floor_roofed",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "r": "t_carpet_red",
+      "r": "t_carpet_red_roofed",
       "+": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ] ],
-      "H": "t_floor_waxed",
+      "H": "t_floor_waxed_roofed",
       "I": "t_little_column",
       "P": "t_concrete",
       "U": "t_water_pool",
@@ -75,7 +75,7 @@
       "&": "t_console_broken",
       "p": "t_door_c_peep",
       "8": "t_door_curtain_c",
-      "n": "t_carpet_green",
+      "n": "t_carpet_green_roofed",
       "E": "t_floor_red",
       "q": "t_window_bars",
       "Q": "t_window_stained_red",
@@ -120,7 +120,7 @@
       "Z": "f_crate_c"
     },
     "terrain": {
-      " ": "t_floor",
+      " ": "t_floor_roofed",
       ".": "t_region_groundcover_urban",
       "F": "t_privacy_fence",
       "W": "t_wall_w",
@@ -128,12 +128,12 @@
       "m": "t_metal_floor",
       "|": "t_door_metal_c",
       "<": "t_stairs_up",
-      "r": "t_carpet_red",
-      "#": "t_carpet_red",
-      "T": "t_carpet_red",
-      "c": "t_carpet_red",
-      ";": "t_carpet_red",
-      "s": "t_carpet_red",
+      "r": "t_carpet_red_roofed",
+      "#": "t_carpet_red_roofed",
+      "T": "t_carpet_red_roofed",
+      "c": "t_carpet_red_roofed",
+      ";": "t_carpet_red_roofed",
+      "s": "t_carpet_red_roofed",
       "+": "t_door_c"
     }
   },
@@ -179,7 +179,7 @@
       "r": "t_guardrail",
       "R": "t_floor_red",
       "_": "t_flat_roof",
-      "-": "t_floor",
+      "-": "t_floor_roofed",
       "?": "t_wall_glass",
       "|": "t_door_metal_c",
       "X": "t_door_locked_interior"
@@ -200,9 +200,9 @@
       "K": "f_bookcase"
     },
     "terrain": {
-      " ": "t_rock_floor",
+      " ": "t_rock_floor_roofed",
       "*": "t_rock",
-      ".": "t_thconc_floor",
+      ".": "t_thconc_floor_roofed",
       "W": "t_sconc_wall",
       "|": "t_door_metal_c",
       "+": "t_door_c",

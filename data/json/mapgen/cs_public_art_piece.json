@@ -36,7 +36,7 @@
         "......,,.....,..,.......",
         "....,,....,..........,.."
       ],
-      "terrain": { ".": "t_grass", ",": "t_dirt", "+": "t_floor", "X": "t_pavement", "O": "t_sidewalk", "b": "t_dirt", "c": "t_dirt" },
+      "terrain": { ".": "t_grass", ",": "t_dirt", "+": "t_floor_roofed", "X": "t_pavement", "O": "t_sidewalk", "b": "t_dirt", "c": "t_dirt" },
       "furniture": { "b": "f_bench", "c": "f_trashcan" },
       "items": {
         "c": { "item": "oa_custom_trash", "chance": 30 },

@@ -28,7 +28,7 @@
     "//": "uses house_08_basement",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".!%%....p.---...........",
         ".%###o####o*o##########.",

@@ -5,7 +5,7 @@
     "om_terrain": [ "s_pharm" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -37,8 +37,8 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "_": "t_pavement",
-        ".": "t_floor",
-        " ": "t_floor",
+        ".": "t_floor_roofed",
+        " ": "t_floor_roofed",
         "!": "t_reinforced_glass",
         "O": "t_reinforced_glass_shutter_open",
         "g": "t_reinforced_glass",
@@ -148,7 +148,7 @@
     "om_terrain": [ "s_pharm_1" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -176,10 +176,10 @@
         "________________________"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "*": "t_door_locked",
         "+": "t_door_c",
-        "#": "t_floor",
+        "#": "t_floor_roofed",
         "%": "t_door_metal_locked",
         "-": "t_wall_w",
         "L": "t_door_locked_alarm",

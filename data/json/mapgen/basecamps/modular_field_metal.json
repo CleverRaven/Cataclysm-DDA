@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "fbmh_metal_palette",
-    "terrain": { ";": "t_dirt", ".": "t_scrap_floor", "+": "t_door_metal_c", "v": "t_window_no_curtains", "w": "t_scrap_wall" },
+    "terrain": { ";": "t_dirt", ".": "t_scrap_floor_roofed", "+": "t_door_metal_c", "v": "t_window_no_curtains", "w": "t_scrap_wall" },
     "furniture": {  }
   },
   {

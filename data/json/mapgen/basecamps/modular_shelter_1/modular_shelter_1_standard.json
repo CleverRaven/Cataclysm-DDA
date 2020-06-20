@@ -71,7 +71,7 @@
         "  d"
       ],
       "palettes": [ "fbmc_shelter_1_palette" ],
-      "terrain": { "X": "t_floor" }
+      "terrain": { "X": "t_floor_roofed" }
     }
   },
   {

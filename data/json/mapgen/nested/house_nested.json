@@ -1580,11 +1580,11 @@
       "terrain": {
         "|": "t_wall_metal",
         "+": "t_door_metal_pickable",
-        " ": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "O": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "O": "t_thconc_floor_roofed"
       },
       "place_items": [
         { "item": "home_hw", "x": 4, "y": [ 1, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
@@ -1614,14 +1614,14 @@
         "|": "t_wall_wood",
         "+": "t_door_locked",
         "o": "t_curtains",
-        " ": "t_thconc_floor",
-        "A": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "C": "t_thconc_floor",
-        "D": "t_thconc_floor",
-        "E": "t_thconc_floor",
-        "F": "t_thconc_floor",
-        "G": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "A": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "C": "t_thconc_floor_roofed",
+        "D": "t_thconc_floor_roofed",
+        "E": "t_thconc_floor_roofed",
+        "F": "t_thconc_floor_roofed",
+        "G": "t_thconc_floor_roofed"
       },
       "furniture": {
         "A": [ "f_drill_press", "f_planer" ],
@@ -1657,9 +1657,9 @@
       "terrain": {
         "|": "t_scrap_wall",
         "+": "t_door_metal_pickable",
-        " ": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "B": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed"
       },
       "furniture": { "T": "f_trashcan", "S": "f_utility_shelf", "B": "f_workbench" },
       "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 270, "chance": 50 } ],

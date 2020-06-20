@@ -48,7 +48,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         " s_____,_____,_____,_____,_____________________,_____,_____,_____,_____s",
         " s_____,_____,_____,_____,_____________________,_____,_____,_____,_____s",
@@ -102,7 +102,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************************************",
         "************************************************************************",
@@ -152,7 +152,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************************************",
         "************************************************************************",
@@ -202,7 +202,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************************************",
         "************************************************************************",
@@ -288,7 +288,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         " s''''%o....|c....|c....|c....|t.........t|d...c|....c|....c|....c%''''s",
         " s''''%....h|...Lh|....h|....h|h.........h|BB..c|h...L|h....|h....%''''s",
@@ -339,7 +339,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "******%o....|c....|c....|c....|t.........t|d...c|....c|....c|....c%*****",
         "******%....h|...Lh|....h|....h|h.........h|BB..c|h...L|h....|h....%*****",
@@ -390,7 +390,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "******%o....|c....|c....|c....|t.........t|d...c|....c|....c|....c%*****",
         "******%....h|...Lh|....h|....h|h.........h|BB..c|h...L|h....|h....%*****",
@@ -441,7 +441,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "******%o....|c....|c....|c....|t.........t|d...c|....c|....c|....c%*****",
         "******%....h|...Lh|....h|....h|h.........h|BB..c|h...L|h....|h....%*****",
@@ -523,7 +523,7 @@
       "terrain": {
         ">": [ "t_stairs_down" ],
         "#": "t_adobe_brick_wall",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "+": "t_door_metal_c",
         "D": "t_chaingate_l",
         "%": "t_chainfence",
@@ -544,7 +544,7 @@
     "type": "mapgen",
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################|-----|-----------|-----|#######################",
         "########################|&+...|.rrr...l..l|...+&|#######################",
@@ -577,7 +577,7 @@
         { "point": "trap", "id": "tr_rollmat", "x": [ 56, 61 ], "y": 18, "repeat": [ 2, 4 ] },
         { "point": "trap", "id": "tr_rollmat", "x": [ 56, 61 ], "y": 19, "repeat": [ 2, 4 ] }
       ],
-      "terrain": { "=": "t_door_locked_interior", ".": "t_thconc_floor", "|": "t_concrete_wall", "-": "t_concrete_wall" },
+      "terrain": { "=": "t_door_locked_interior", ".": "t_thconc_floor_roofed", "|": "t_concrete_wall", "-": "t_concrete_wall" },
       "vendingmachines": { "U": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": { "l": { "item": "cleaning", "chance": 60 } },
       "item": { "r": { "item": "towel", "chance": 2, "amount": [ 1, 2 ] } },
@@ -594,7 +594,7 @@
     "om_terrain": [ "hotel_tower_1_5B" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_,_____________________,",
         "_,_____________________,",
@@ -640,7 +640,7 @@
     "om_terrain": [ "hotel_tower_flr2_1_5B" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -686,7 +686,7 @@
     "om_terrain": [ "hotel_tower_1_5C" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -739,7 +739,7 @@
     "om_terrain": [ "hotel_tower_flr2_1_5C" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",

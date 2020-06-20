@@ -5,7 +5,7 @@
     "om_terrain": [ "warehouse" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "....S.SSSSSSSSSSSS......",
         "zzzzSzSSSSSSSSSSSSzzzzzz",
@@ -42,7 +42,7 @@
         { "point": "terrain", "id": "t_tree_pine", "x": 23, "y": [ 2, 19 ], "repeat": [ 0, 2 ] }
       ],
       "terrain": {
-        " ": "t_thconc_floor",
+        " ": "t_thconc_floor_roofed",
         "-": "t_brick_wall",
         ".": "t_grass",
         "3": "t_door_locked",

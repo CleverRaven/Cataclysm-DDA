@@ -5,7 +5,7 @@
     "om_terrain": [ [ "mall_a_3_roof", "mall_a_4_roof", "mall_a_5_roof" ] ],
     "//": "mall_a_4_roof has freight elevators",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                                                                        ",
         "                                                                        ",
@@ -62,7 +62,7 @@
     "method": "json",
     "om_terrain": [ [ "mall_a_10_roof", "mall_a_11_roof", "mall_a_12_roof", "mall_a_13_roof", "mall_a_14_roof" ] ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                                                     #...........|_____________________________|...............4        ",
         "                                                     #...........|_____z_______________zz_____3|3..............424      ",
@@ -217,7 +217,7 @@
         "E": "t_elevator",
         "+": "t_door_c",
         ">": "t_stairs_down",
-        "_": "t_thconc_floor"
+        "_": "t_thconc_floor_roofed"
       },
       "place_items": [ { "item": "roof_trash", "x": [ 19, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
@@ -283,7 +283,7 @@
       ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "           !..............................................................................................................................................%             ",
         "         !2!..............................................................................................).....*....*....................................%             ",

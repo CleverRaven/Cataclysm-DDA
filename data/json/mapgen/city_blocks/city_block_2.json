@@ -5,7 +5,7 @@
     "om_terrain": [ [ "city_block2_1", "city_block2_2", "city_block2_3", "city_block2_4" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..MMMsssMMMss|ooooo|+||~~$M|o+o|...sss...|o+o|M.M.X.s|oo|+|oo|s.X.M$~~$ss|ooooooooo|MMMsssMMMsss",
         ".|ooo|+|ooo|s|y  JE  F|~~|||   |o|<sss<|o|y y|o|MGGGs|y  <  y|sGGGM|~~~ss+  JA FFFy|ooo|+|ooo|ss",
@@ -73,7 +73,7 @@
     "om_terrain": [ [ "city_block2_flr2_1", "city_block2_flr2_2", "city_block2_flr2_3", "city_block2_flr2_4" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "-------------|o|ooo|o||----|ooo|-,,,,,,,-|ooo|-||oo||oo||,||oo||oo||--sss||oo|||oo||------------",
         "-||oo|||oo||,|4    5  |--|o|y y|o|>sss>|o| yH|o|2      R|>|R  2    |--sssoRHy 2    |ooo|||ooo|--",

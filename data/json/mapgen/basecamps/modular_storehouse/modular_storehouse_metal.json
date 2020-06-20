@@ -3,15 +3,15 @@
     "type": "palette",
     "id": "fbms_metal_palette",
     "terrain": {
-      ".": "t_scrap_floor",
+      ".": "t_scrap_floor_roofed",
       "b": "t_grass",
-      "t": "t_scrap_floor",
-      "l": "t_scrap_floor",
-      "B": "t_scrap_floor",
+      "t": "t_scrap_floor_roofed",
+      "l": "t_scrap_floor_roofed",
+      "B": "t_scrap_floor_roofed",
       "d": "t_door_metal_c",
       "o": "t_window_no_curtains",
       "w": "t_scrap_wall",
-      ";": "t_floor_primitive"
+      ";": "t_floor_primitive_roofed"
     },
     "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
   },

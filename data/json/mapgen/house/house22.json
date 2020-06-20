@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..........p.`...........",
         "............`...........",
@@ -40,14 +40,14 @@
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "]": "t_wall_glass",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "b": "t_linoleum_white",
-        "t": "t_linoleum_white"
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "B": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
+        "b": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed"
       },
       "furniture": { "!": "f_region_flower" }
     }
@@ -58,7 +58,7 @@
     "type": "mapgen",
     "weight": 20,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_________________d______",
         "_d______________________",
@@ -89,7 +89,7 @@
         "#": "t_wall_half",
         "+": "t_door_metal_c_peep",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "7": "t_tree",
         "_": "t_grass",
         "d": "t_dirt",
@@ -114,7 +114,7 @@
     "type": "mapgen",
     "weight": 40,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "__________P______d______",
         "_d______________________",
@@ -143,16 +143,16 @@
       ],
       "terrain": {
         "#": "t_shrub",
-        "&": "t_floor",
+        "&": "t_floor_roofed",
         "+": "t_door_metal_c_peep",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "7": "t_tree",
         "D": "t_door_o",
         "P": "t_grass",
-        "S": "t_floor",
+        "S": "t_floor_roofed",
         "_": "t_grass",
-        "c": "t_floor",
+        "c": "t_floor_roofed",
         "d": "t_dirt",
         "s": "t_sidewalk",
         "w": "t_window_domestic",
@@ -221,7 +221,7 @@
     "method": "json",
     "om_terrain": "house_22_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

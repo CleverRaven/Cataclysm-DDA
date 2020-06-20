@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "cabin_isherwood",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "............//..........",
         "...........//...........",
@@ -33,7 +33,7 @@
       ],
       "terrain": {
         ">": "t_stairs_down",
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "B": "t_grass",
         "x": "t_grass",
         "/": "t_dirt",
@@ -101,12 +101,12 @@
         "u": { "item": { "item": "seed_beans" }, "furniture": "f_planter_harvest" }
       },
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "B": "t_grass",
         "x": "t_grass",
         "/": "t_dirt",
         "7": "t_dirt",
-        ";": "t_dirtfloor",
+        ";": "t_dirtfloor_roofed",
         "e": "t_dirt",
         "F": "t_dirt",
         "2": "t_dirt",

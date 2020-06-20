@@ -1343,7 +1343,7 @@ void construct::done_mine_upstair( const tripoint &p )
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
+        here.ter_set( p.xy(), t_rock_floor_roofed ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
@@ -1351,7 +1351,7 @@ void construct::done_mine_upstair( const tripoint &p )
 
     if( tmpmap.has_flag_ter( TFLAG_SHALLOW_WATER, local_tmp ) ||
         tmpmap.has_flag_ter( TFLAG_DEEP_WATER, local_tmp ) ) {
-        here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
+        here.ter_set( p.xy(), t_rock_floor_roofed ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;

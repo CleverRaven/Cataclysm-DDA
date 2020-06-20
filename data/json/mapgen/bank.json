@@ -5,7 +5,7 @@
     "om_terrain": [ "bank" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "         S              ",
         " #gggggggGgggggggggggg# ",
@@ -40,7 +40,7 @@
         "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
         "+": "t_door_c",
         "-": "t_window",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
@@ -140,7 +140,7 @@
     "om_terrain": [ "bank_1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "   SS                   ",
         " ggGGgggggggggg#######  ",
@@ -179,7 +179,7 @@
         "+": "t_door_c",
         "-": "t_window",
         "x": "t_console_broken",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",

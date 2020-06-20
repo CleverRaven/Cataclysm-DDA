@@ -6,7 +6,7 @@
       ".": "t_flat_roof",
       " ": "t_open_air",
       "o": "t_glass_roof",
-      "_": "t_floor",
+      "_": "t_floor_roofed",
       "2": "t_gutter_north",
       "-": "t_gutter_south",
       "3": "t_gutter_east",

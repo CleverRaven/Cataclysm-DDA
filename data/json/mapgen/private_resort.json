@@ -170,7 +170,7 @@
     "om_terrain": [ "p_resort_1sw" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".F..W  WTSTW^^W^^WTSTW  ",
         ".F..W  W   W $W$ W   W  ",
@@ -226,7 +226,7 @@
     "om_terrain": [ "p_resort_pw" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".F.____________________x",
         ".F.____________________x",
@@ -270,7 +270,7 @@
     "om_terrain": [ "p_resort_1nn" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor_waxed",
+      "fill_ter": "t_floor_waxed_roofed",
       "rows": [
         "........................",
         "FFFFFFFFFFFFFFFFFFFFFFFF",
@@ -319,7 +319,7 @@
     "om_terrain": [ "p_resort_1mm" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "W..PP..............PP..W",
         "W..PP..............PP..W",
@@ -367,7 +367,7 @@
     "om_terrain": [ "p_resort_1ss" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "Wh hW  Weeeeee !W  Wh hW",
         "Wh hW  W&c  c& !W  Wh hW",
@@ -417,7 +417,7 @@
     "om_terrain": [ "p_resort_pm" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".....xx__________xx.....",
         ".....xx__________xx.....",
@@ -459,7 +459,7 @@
     "om_terrain": [ "p_resort_1ne" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "FFFFFFFFFFFFFFFFFFFFFFF.",
@@ -521,7 +521,7 @@
     "om_terrain": [ "p_resort_1ee" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "     ; ########]]] W..F.",
         "     #             W..F.",
@@ -579,7 +579,7 @@
     "om_terrain": [ "p_resort_1se" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "  |     +  +  cTW  W..F.",
         "  WcTcLLW>>W &&&WLLW..F.",
@@ -645,7 +645,7 @@
     "om_terrain": [ "p_resort_pe" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "x____________________.F.",
         "x____________________.F.",
@@ -689,7 +689,7 @@
     "om_terrain": [ "p_resort_2nw" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -757,7 +757,7 @@
     "om_terrain": [ "p_resort_2ww" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "****Wd-TTc-^WRRWS-dW---w",
         "****WW+WWW+WWRRWh-$WbbdW",
@@ -808,7 +808,7 @@
     "om_terrain": [ "p_resort_2sw" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "****wcTT---------W^-----",
         "**rrw-TT-[WWWWWWWWW[--cT",
@@ -859,7 +859,7 @@
     "om_terrain": [ "p_resort_2nn" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -913,7 +913,7 @@
     "om_terrain": [ "p_resort_2mm" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_**********************_",
         "rr*********************_",
@@ -949,7 +949,7 @@
     "om_terrain": [ "p_resort_2ss" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "W____________________W<W",
         "W____________________+_W",
@@ -986,7 +986,7 @@
     "om_terrain": [ "p_resort_2ne" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -1044,7 +1044,7 @@
     "om_terrain": [ "p_resort_2ee" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "Wdbb^WBBWRRWB-$Wbb-+-r**",
         "W-bb-+-SWRRWB-SWbb-W-r**",
@@ -1095,7 +1095,7 @@
     "om_terrain": [ "p_resort_2se" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "#c------+--+-------w****",
         "##SO]]WWW--WWWdbTdbw****",
@@ -1141,7 +1141,7 @@
     "om_terrain": [ "p_resort_0nw" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "************************",
         "************************",
@@ -1207,7 +1207,7 @@
     "om_terrain": [ "p_resort_0se" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "********WWWW************",
         "********W<<WWWWWWWWW****",

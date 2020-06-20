@@ -20,10 +20,10 @@
       ],
       "~": [ "t_lava" ],
       " ": [ [ "t_grass_dead", 2 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 3 ], [ "t_rock_floor_no_roof", 8 ] ],
-      ".": [ "t_dirtfloor" ],
-      "$": [ "t_dirtfloor" ],
+      ".": [ "t_dirtfloor_roofed" ],
+      "$": [ "t_dirtfloor_roofed" ],
       "S": [ "t_lava" ],
-      "s": [ [ "t_dirtfloor", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ],
+      "s": [ [ "t_dirtfloor_roofed", 6 ], [ "t_dirt", 15 ], [ "t_sand", 10 ], [ "t_dirtmound", 4 ], [ "t_rock_floor_no_roof", 3 ] ],
       "#": [ [ "t_demon_web_wall", 10 ], "t_tree_burnt" ]
     },
     "fields": {

@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "fbmh_wood_palette",
-    "terrain": { ";": "t_dirt", ".": "t_floor", "+": "t_door_c", "v": "t_window_no_curtains", "w": "t_wall_wood" },
+    "terrain": { ";": "t_dirt", ".": "t_floor_roofed", "+": "t_door_c", "v": "t_window_no_curtains", "w": "t_wall_wood" },
     "furniture": {  }
   },
   {

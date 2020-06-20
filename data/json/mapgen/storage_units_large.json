@@ -5,7 +5,7 @@
     "om_terrain": "large_storage_units_1",
     "weight": 500,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "66666666666666666-------",
         ".................| M MC|",
@@ -33,7 +33,7 @@
         "------------------------"
       ],
       "terrain": {
-        " ": "t_thconc_floor",
+        " ": "t_thconc_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_pavement",
@@ -45,8 +45,8 @@
         "6": "t_chainfence_h",
         "7": "t_door_metal_locked",
         "8": "t_gates_mech_control",
-        "E": "t_dirtfloor",
-        "G": "t_dirtfloor",
+        "E": "t_dirtfloor_roofed",
+        "G": "t_dirtfloor_roofed",
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w"
@@ -160,7 +160,7 @@
     "om_terrain": "large_storage_units_2",
     "weight": 500,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "6622rrrrrrrrrrrrrrrrr226",
         "..22yrrryrrryrrryrrry22.",
@@ -188,7 +188,7 @@
         "------------------------"
       ],
       "terrain": {
-        " ": "t_thconc_floor",
+        " ": "t_thconc_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_pavement",
@@ -201,8 +201,8 @@
         "6": "t_chainfence_h",
         "7": "t_door_metal_locked",
         "8": "t_gates_mech_control",
-        "E": "t_dirtfloor",
-        "G": "t_dirtfloor",
+        "E": "t_dirtfloor_roofed",
+        "G": "t_dirtfloor_roofed",
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w"
@@ -281,7 +281,7 @@
     "om_terrain": "large_storage_units_3",
     "weight": 500,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "-------66666666666666666",
         "|AAAAA|.................",
@@ -309,7 +309,7 @@
         "------------------------"
       ],
       "terrain": {
-        " ": "t_thconc_floor",
+        " ": "t_thconc_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_pavement",
@@ -321,7 +321,7 @@
         "6": "t_chainfence_h",
         "7": "t_door_metal_locked",
         "8": "t_gates_mech_control",
-        "E": "t_dirtfloor",
+        "E": "t_dirtfloor_roofed",
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w"

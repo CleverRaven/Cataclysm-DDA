@@ -6,7 +6,7 @@
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "  sssssssssssssssssssss ",
         " sssssssFffffffffffffFss",
@@ -42,7 +42,7 @@
         "-": "t_wall_w",
         "w": "t_window_alarm",
         "W": "t_window",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
@@ -149,7 +149,7 @@
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ss                ##w###",
         "ss       #ffffffff#xxxP#",
@@ -185,7 +185,7 @@
         "-": "t_wall_w",
         "w": "t_window_alarm",
         "W": "t_window",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": "t_pavement",
         "R": "t_pavement",
         "&": "t_radio_tower",

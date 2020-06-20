@@ -87,15 +87,15 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     }
 }
 
-// Ground-destroying explosions on t_floor with a t_rock_floor basement
+// Ground-destroying explosions on t_floor_roofed with a t_rock_floor_roofed basement
 // below should create some t_open_air, not just t_flat_roof (which is
 // the defined roof of a t_rock-floor).
 // Behavior depends on ZLEVELS being set.
 TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 {
     ter_id flat_roof_id = ter_id( "t_flat_roof" );
-    ter_id floor_id = ter_id( "t_floor" );
-    ter_id rock_floor_id = ter_id( "t_rock_floor" );
+    ter_id floor_id = ter_id( "t_floor_roofed" );
+    ter_id rock_floor_id = ter_id( "t_rock_floor_roofed" );
     ter_id open_air_id = ter_id( "t_open_air" );
 
     REQUIRE( flat_roof_id != t_null );
@@ -153,7 +153,7 @@ TEST_CASE( "collapse_checks", "[.]" )
 {
     constexpr int wall_size = 5;
 
-    const ter_id floor_id = ter_id( "t_floor" );
+    const ter_id floor_id = ter_id( "t_floor_roofed" );
     const ter_id dirt_id = ter_id( "t_dirt" );
     const ter_id wall_id = ter_id( "t_wall" );
     const ter_id open_air_id = ter_id( "t_open_air" );

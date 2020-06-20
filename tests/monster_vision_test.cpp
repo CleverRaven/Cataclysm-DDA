@@ -14,7 +14,7 @@ struct tripoint;
 static monster &spawn_and_clear( const tripoint &pos, bool set_floor )
 {
     if( set_floor ) {
-        get_map().set( pos, t_floor, f_null );
+        get_map().set( pos, t_floor_roofed, f_null );
     }
     return spawn_test_monster( "mon_zombie", pos );
 }

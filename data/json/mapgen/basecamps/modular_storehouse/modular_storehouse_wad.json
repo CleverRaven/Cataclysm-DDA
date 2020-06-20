@@ -3,15 +3,15 @@
     "type": "palette",
     "id": "fbms_wad_palette",
     "terrain": {
-      ".": "t_floor_primitive",
+      ".": "t_floor_primitive_roofed",
       "b": "t_grass",
-      "t": "t_floor_primitive",
-      "l": "t_floor_primitive",
-      "B": "t_floor_primitive",
+      "t": "t_floor_primitive_roofed",
+      "l": "t_floor_primitive_roofed",
+      "B": "t_floor_primitive_roofed",
       "d": "t_door_makeshift_c",
       "o": "t_wall_wattle_half",
       "w": "t_wall_wattle",
-      ";": "t_floor_primitive"
+      ";": "t_floor_primitive_roofed"
     },
     "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
   },

@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "          |..|         |",
         "          |..|         |",
@@ -72,7 +72,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "          |..|         |",
         "          |..|         |",
@@ -138,7 +138,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "        |l.....|       |",
         "        |......|       |",
@@ -169,10 +169,10 @@
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "!": [
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
+          "t_thconc_floor_roofed",
+          "t_thconc_floor_roofed",
+          "t_thconc_floor_roofed",
+          "t_thconc_floor_roofed",
           "t_console_broken",
           "t_generator_broken",
           "t_centrifuge"
@@ -214,7 +214,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ".......................|",
         "...............hhhhhhh.|",
@@ -599,7 +599,7 @@
     "type": "palette",
     "id": "lab_loot_bionic_vault",
     "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] } },
-    "terrain": { "r": "t_thconc_floor" },
+    "terrain": { "r": "t_thconc_floor_roofed" },
     "computers": {
       "6": {
         "name": "Bionic Vault",
@@ -617,7 +617,7 @@
     "type": "palette",
     "id": "lab_loot_serum_vault",
     "mapping": { "r": { "items": [ { "item": "mut_iv", "chance": 50 } ] } },
-    "terrain": { "r": "t_thconc_floor" },
+    "terrain": { "r": "t_thconc_floor_roofed" },
     "computers": {
       "6": {
         "name": "Advanced PE012 Samples",

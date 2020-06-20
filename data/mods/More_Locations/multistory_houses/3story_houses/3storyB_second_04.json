@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -35,7 +35,7 @@
       "palettes": [ "multistory_house", "upper_level" ],
       "terrain": { "G": "t_wall_r", "E": "t_wall_g" },
       "set": [
-        { "square": "terrain", "x": 15, "y": 3, "x2": 19, "y2": 5, "id": "t_linoleum_white" },
+        { "square": "terrain", "x": 15, "y": 3, "x2": 19, "y2": 5, "id": "t_linoleum_white_roofed" },
         { "square": "terrain", "x": 3, "y": 13, "x2": 11, "y2": 15, "id": "t_floor_red" }
       ]
     }
