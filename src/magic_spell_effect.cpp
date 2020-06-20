@@ -484,7 +484,7 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
 
 static void magical_polymorph( monster &victim, Creature &caster, const spell &sp )
 {
-    mtype_id new_id = mtype_id(sp.effect_data());
+    mtype_id new_id = mtype_id( sp.effect_data() );
 
     if( sp.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
         const mongroup_id group_id( sp.effect_data() );

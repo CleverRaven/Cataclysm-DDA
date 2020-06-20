@@ -95,10 +95,10 @@ class monster : public Creature
         bool is_monster() const override {
             return true;
         }
-        monster* as_monster() override {
+        monster *as_monster() override {
             return this;
         }
-        const monster* as_monster() const override {
+        const monster *as_monster() const override {
             return this;
         }
 
