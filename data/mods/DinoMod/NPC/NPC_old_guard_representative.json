@@ -8,7 +8,7 @@
     "mission": 7,
     "chat": "TALK_OLD_GUARD_REP",
     "faction": "old_guard",
-    "mission_offered": [ "MISSION_OLD_GUARD_REP_1", "MISSION_OLD_GUARD_REP_DINO_1" ]
+    "mission_offered": [ "MISSION_OLD_GUARD_REP_1", "MISSION_OLD_GUARD_DINO_1" ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_NEW_DOING",
@@ -28,7 +28,7 @@
     "responses": [ { "text": "Kill all dinosaurs, got it…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
-    "id": "MISSION_OLD_GUARD_REP_DINO_1",
+    "id": "MISSION_OLD_GUARD_DINO_1",
     "type": "mission_definition",
     "name": { "str": "Secure Area" },
     "description": "We lost another trade caravan.  Whatever did the damage is still out there.  Investigate the trade route and eliminate the threat.",
@@ -43,7 +43,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_DINO_2",
+    "followup": "MISSION_OLD_GUARD_DINO_2",
     "dialogue": {
       "describe": "We need help…",
       "offer": "There is another monster troubling the merchants but this time it isn't human… at least I don't think.  Lost a grain shipment, you're welcome to it if you can haul it back.  Check out the area and report anything you find.",
@@ -57,7 +57,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_REP_DINO_2",
+    "id": "MISSION_OLD_GUARD_DINO_2",
     "type": "mission_definition",
     "name": { "str": "Lost in the Woods" },
     "description": "We lost a scout searching the woods for a lost family.  Find the scout or take out what got them.",
@@ -65,14 +65,14 @@
     "difficulty": 7,
     "value": 100000,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 5, "random": true, "search_range": 40 },
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 5, "random": true, "search_range": 40 },
       "update_mapgen": {
         "place_monster": [ { "group": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "target": true } ],
         "place_item": [ { "item": "spider", "x": [ 9, 15 ], "y": [ 9, 15 ], "chance": 80 } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_DINO_3",
+    "followup": "MISSION_OLD_GUARD_DINO_3",
     "dialogue": {
       "describe": "We need help…",
       "offer": "Seems like the only news we get here is bad.  A weirdo family was staying outside the center, I don't know why.  They said something about germs.  Anyway, they're gone, vanished in the night.  We sent a scout out to find them but now they're gone too.  We have a pretty good idea of where in the woods the scout was searching.  Bring back anyone you can alive and end whatever is keeping them.",
@@ -86,7 +86,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_REP_DINO_3",
+    "id": "MISSION_OLD_GUARD_DINO_3",
     "type": "mission_definition",
     "name": { "str": "Protect the Cattle" },
     "description": "Someone or something in the swamps is stealing cattle.  Stop it.",
