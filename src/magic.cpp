@@ -1800,7 +1800,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         } else if( monster_name.empty() ) {
             monster_name = "random creature";
         } else {
-            monster_name = monster( mtype_id( sp.effect_data() ) ).get_name();
+            monster_name = mtype_id( sp.effect_data() )->nname();
         }
         damage_string = string_format( _( "Targets under: %dhp become a %s" ), sp.damage(),
                                        _( monster_name ) );
