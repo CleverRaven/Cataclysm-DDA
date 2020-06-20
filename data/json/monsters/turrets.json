@@ -366,7 +366,7 @@
         "ammo_type": "8512",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 14, "DEFAULT" ] ],
+        "ranges": [ [ 0, 41, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
