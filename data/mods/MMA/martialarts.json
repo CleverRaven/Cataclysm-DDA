@@ -400,7 +400,18 @@
       "mma_tec_setting_sun_throw",
       "mma_tec_setting_sun_throw_crit"
     ],
-    "weapons": [ "i_staff", "shock_staff", "sword_crude", "sword_nail", "sword_wood", "q_staff" ]
+    "weapons": [
+      "i_staff",
+      "shock_staff",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "sword_xiphos",
+      "q_staff",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
   },
   {
     "type": "martial_art",
