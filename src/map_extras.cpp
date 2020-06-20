@@ -994,7 +994,8 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
 
 static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
-    const bool intact = x_in_y( 40, std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 50 );
+    const bool intact = x_in_y( 40,
+                                std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 50 );
 
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
@@ -1037,7 +1038,7 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
             }
             if( m.i_at( *p ).empty() ) {
                 m.destroy( *p, true );
-            } 
+            }
         } else {
             m.furn_set( p->xy(), f_crate_o );
         }
