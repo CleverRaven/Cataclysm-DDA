@@ -187,7 +187,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     set_body();
     recalc_hp();
-    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         elem.second.set_hp_to_max();
     }
     for( const Skill &e : Skill::skills ) {
@@ -420,7 +420,7 @@ void npc::randomize( const npc_class_id &type )
 
     set_body();
     recalc_hp();
-    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         elem.second.set_hp_to_max();
     }
     starting_weapon( myclass );

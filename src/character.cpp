@@ -1724,12 +1724,12 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    for( std::pair<const bodypart_id, bodypart> &part : get_body() ) {
+    for( std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
         int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
                         part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
                         part.first->hp_mods.per_mod + get_fat_to_hp() + hp_adjustment ) * hp_mod;
 
-        if( has_trait( trait_GLASSJAW ) && part.first == bodypart_id( "head" ) ) {
+        if( has_trait( trait_GLASSJAW ) && part.first.id() == bodypart_id( "head" ) ) {
             new_max *= 0.8;
         }
 
@@ -8936,7 +8936,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( std::pair<const bodypart_id, bodypart> &elem : get_body() ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, elem.second.get_hp_cur() );
         elem.second.mod_hp_cur( - dam_to_bodypart );
@@ -10743,7 +10743,7 @@ int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
     int lowest_hp = 999;
-    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
         const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
             lowest_hp = cur_hp;

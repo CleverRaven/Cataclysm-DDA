@@ -561,10 +561,10 @@ class Creature
 
         virtual int get_speed() const;
         virtual creature_size get_size() const = 0;
-         int get_hp( const bodypart_id &bp ) const;
-         int get_hp() const;
-         int get_hp_max( const bodypart_id& bp ) const;
-         int get_hp_max() const;
+        int get_hp( const bodypart_id &bp ) const;
+        int get_hp() const;
+        int get_hp_max( const bodypart_id &bp ) const;
+        int get_hp_max() const;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
@@ -587,7 +587,7 @@ class Creature
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
-        std::map<bodypart_id, bodypart> body;
+        std::map<bodypart_str_id, bodypart> body;
     public:
         anatomy_id get_anatomy() const;
         void set_anatomy( const anatomy_id &anat );
@@ -599,8 +599,8 @@ class Creature
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
-        std::map<bodypart_id, bodypart> get_body();
-        std::map<bodypart_id, bodypart> get_body() const;
+        std::map<bodypart_str_id, bodypart> get_body();
+        std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
         bodypart get_part( const bodypart_id &id );
         bodypart get_part( const bodypart_id &id ) const;

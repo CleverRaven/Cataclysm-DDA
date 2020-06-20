@@ -684,7 +684,7 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    for( std::pair<const bodypart_id, bodypart> &elem : p.get_body() ) {
+                    for( std::pair<const bodypart_str_id, bodypart> &elem : p.get_body() ) {
                         elem.second.set_hp_cur( value );
                     }
                     p.reset_stats();

@@ -1676,12 +1676,12 @@ void Character::process_bionic( int b )
                 }
             }
             std::vector<bodypart_id> damaged_hp_parts;
-            for( const std::pair<bodypart_id, bodypart> &part : get_body() ) {
+            for( const std::pair<bodypart_str_id, bodypart> &part : get_body() ) {
                 const int hp_cur = part.second.get_hp_cur();
                 if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                    damaged_hp_parts.push_back( part.first );
+                    damaged_hp_parts.push_back( part.first.id() );
                     // only healed and non-hp parts will have a chance of bleeding removal
-                    bleeding_bp_parts.remove( part.first );
+                    bleeding_bp_parts.remove( part.first.id() );
                 }
             }
             if( calendar::once_every( 60_turns ) ) {

@@ -1723,7 +1723,7 @@ healing_options npc::patient_assessment( const Character &c )
     healing_options try_to_fix;
     try_to_fix.clear_all();
 
-    for( const std::pair<bodypart_id, bodypart> &elem : c.get_body() ) {
+    for( const std::pair<bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
         if( c.has_effect( effect_bleed, elem.first->token ) ) {
             try_to_fix.bleed = true;
@@ -1737,9 +1737,9 @@ healing_options npc::patient_assessment( const Character &c )
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
-        if( elem.first == bodypart_id( "head" ) ) {
+        if( elem.first == bodypart_str_id( "head" ) ) {
             part_threshold += 20;
-        } else if( elem.first == bodypart_id( "torso" ) ) {
+        } else if( elem.first == bodypart_str_id( "torso" ) ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );

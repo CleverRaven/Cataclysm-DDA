@@ -1435,12 +1435,12 @@ void Creature::set_anatomy( const anatomy_id &anat )
     creature_anatomy = anat;
 }
 
-std::map<bodypart_id, bodypart> Creature::get_body()
+std::map<bodypart_str_id, bodypart> Creature::get_body()
 {
     return body;
 }
 
-std::map<bodypart_id, bodypart> Creature::get_body() const
+std::map<bodypart_str_id, bodypart> Creature::get_body() const
 {
     return body;
 }
@@ -1448,20 +1448,20 @@ std::map<bodypart_id, bodypart> Creature::get_body() const
 void Creature::set_body()
 {
     for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
-        body.emplace( bp, bodypart( bp.id() ) );
+        body.emplace( bp.id(), bodypart( bp.id() ) );
     }
 }
 
 
 bodypart Creature::get_part( const bodypart_id &id )
 {
-    return body[id];
+    return body[id.id()];
 }
 
 bodypart Creature::get_part( const bodypart_id &id ) const
 {
-    for( const std::pair<bodypart_id, bodypart> elem : body ) {
-        if( elem.first == id ) {
+    for( const std::pair<bodypart_str_id, bodypart> elem : body ) {
+        if( elem.first.id() == id ) {
             return elem.second;
         }
     }
@@ -1502,7 +1502,7 @@ int Creature::get_hp( const bodypart_id &bp ) const
         return get_part( bp ).get_hp_cur();
     }
     int hp_total = 0;
-    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
         hp_total += elem.second.get_hp_cur();
     }
     return hp_total;
@@ -1519,7 +1519,7 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
         return get_part( bp ).get_hp_max();
     }
     int hp_total = 0;
-    for( const std::pair<bodypart_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<bodypart_str_id, bodypart> &elem : get_body() ) {
         hp_total += elem.second.get_hp_max();
     }
     return hp_total;

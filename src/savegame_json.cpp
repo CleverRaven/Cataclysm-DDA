@@ -624,13 +624,28 @@ void Character::load( const JsonObject &data )
         on_item_wear( w );
     }
 
-    if( !data.read( "hp_cur", hp_cur ) ) {
-        debugmsg( "Error, incompatible hp_cur in save file '%s'", parray.str() );
-    }
+    //legacy: remove post 0.F
+    std::array<int, 6> hp_cur;
+    data.read( "hp_cur", hp_cur );
+    std::array<int, 6> hp_max;
+    data.read( "hp_max", hp_max );
+    get_part( bodypart_id( "head" ) ).set_hp_cur( hp_cur[0] );
+    get_part( bodypart_id( "head" ) ).set_hp_max( hp_max[0] );
+    get_part( bodypart_id( "eyes" ) ).set_hp_cur( hp_cur[0] );
+    get_part( bodypart_id( "eyes" ) ).set_hp_max( hp_max[0] );
+    get_part( bodypart_id( "mouth" ) ).set_hp_cur( hp_cur[0] );
+    get_part( bodypart_id( "mouth" ) ).set_hp_max( hp_max[0] );
+    get_part( bodypart_id( "torso" ) ).set_hp_cur( hp_cur[1] );
+    get_part( bodypart_id( "torso" ) ).set_hp_max( hp_max[1] );
+    get_part( bodypart_id( "arm_l" ) ).set_hp_cur( hp_cur[2] );
+    get_part( bodypart_id( "arm_r" ) ).set_hp_max( hp_max[2] );
+    get_part( bodypart_id( "hand_l" ) ).set_hp_cur( hp_cur[2] );
+    get_part( bodypart_id( "hand_r" ) ).set_hp_max( hp_max[2] );
+    get_part( bodypart_id( "leg_l" ) ).set_hp_cur( hp_cur[3] );
+    get_part( bodypart_id( "leg_r" ) ).set_hp_max( hp_max[3] );
+    get_part( bodypart_id( "foot_l" ) ).set_hp_cur( hp_cur[3] );
+    get_part( bodypart_id( "foot_r" ) ).set_hp_max( hp_max[3] );
 
-    if( !data.read( "hp_max", hp_max ) ) {
-        debugmsg( "Error, incompatible hp_max in save file '%s'", parray.str() );
-    }
 
     inv.clear();
     if( data.has_member( "inv" ) ) {
@@ -887,9 +902,6 @@ void player::store( JsonOut &json ) const
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
-    // TODO: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
-    json.member( "hp_cur", hp_cur );
-    json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
@@ -3070,6 +3082,8 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "grab_resist", grab_resist );
     jsout.member( "throw_resist", throw_resist );
 
+    jsout.member( "body", body );
+
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
@@ -3137,6 +3151,8 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "throw_resist", throw_resist );
 
     jsin.read( "underwater", underwater );
+
+    jsin.read( "body", body );
 
     fake = false; // see Creature::load
 
