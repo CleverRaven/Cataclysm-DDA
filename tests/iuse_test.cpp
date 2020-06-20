@@ -319,6 +319,7 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
+    dummy.set_body();
     item towel( "towel", 0, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {

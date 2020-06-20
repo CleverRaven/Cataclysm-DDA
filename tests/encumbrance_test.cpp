@@ -25,6 +25,7 @@ static void test_encumbrance_on(
 )
 {
     CAPTURE( body_part );
+    p.set_body();
     p.clear_mutations();
     p.worn.clear();
     if( tweak_player ) {
