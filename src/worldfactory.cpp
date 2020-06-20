@@ -848,7 +848,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     point filter_pos;
     int filter_view_len = 0;
-    std::string current_filter;
+    std::string current_filter = "init me!";
     std::unique_ptr<string_input_popup> fpopup;
 
     catacurses::window w_header1;
@@ -957,6 +957,9 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     // Helper function for applying filter to mod tabs
     const auto apply_filter = [&]( const std::string & filter_str ) {
+        if( filter_str == current_filter ) {
+            return;
+        }
         const MOD_INFORMATION *selected_mod = nullptr;
         if( active_header == 0 ) {
             selected_mod = get_selected_mod();
