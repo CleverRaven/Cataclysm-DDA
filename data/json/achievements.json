@@ -187,7 +187,7 @@
     "type": "achievement",
     "name": "Timber",
     "description": "If a tree falls in a forest and no one is around to hear it, does it make a sound?",
-    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 1 } ],
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ],
     "hidden_by": [ "achievement_cut_1_tree" ]
   },
   {
@@ -211,7 +211,7 @@
     "type": "achievement",
     "name": "Grave Digger",
     "description": "That's exactly what we need: more dead bodies.",
-    "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 1 } ],
+    "requirements": [ { "event_statistic": "num_exhumed_graves", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ],
     "hidden_by": [ "achievement_exhume_1_grave" ]
   },
   {
@@ -227,7 +227,7 @@
     "type": "achievement",
     "name": "Funeral",
     "description": "It's a privilege to be buried when billions will not be.",
-    "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 1 } ],
+    "requirements": [ { "event_statistic": "num_buried_corpses", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ],
     "hidden_by": [ "achievement_bury_1_corpse" ]
   },
   {
@@ -251,7 +251,7 @@
     "type": "achievement",
     "name": "Cyberpunk",
     "description": "Spiritus quidem promptus; caro vero infirma.",
-    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 1 } ]
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
     "id": "achievement_install_10_cbms",
@@ -266,6 +266,13 @@
     "type": "achievement",
     "name": "Homo Evolutis",
     "description": "World of man has ended.  Long live the world of transhumanism.",
-    "requirements": [ { "event_statistic": "num_crosses_mutation_threshold", "is": ">=", "target": 1 } ]
+    "requirements": [
+      {
+        "event_statistic": "num_crosses_mutation_threshold",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed"
+      }
+    ]
   }
 ]

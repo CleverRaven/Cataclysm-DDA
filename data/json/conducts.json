@@ -72,12 +72,7 @@
     "type": "conduct",
     "name": "Pure Blood",
     "requirements": [
-      {
-        "event_statistic": "num_administers_mutagen",
-        "is": "<=",
-        "target": 0,
-        "description": "Use no mutagenic substances"
-      }
+      { "event_statistic": "num_administers_mutagen", "is": "<=", "target": 0, "description": "Use no mutagenic substances" }
     ],
     "hidden_by": [ "conduct_pure_human" ]
   }
