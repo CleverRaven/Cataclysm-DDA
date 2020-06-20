@@ -1802,7 +1802,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         } else {
             monster_name = monster( mtype_id( sp.effect_data() ) ).get_name();
         }
-        damage_string = string_format( "%s %dhp become a %s", _( "Targets under:" ), sp.damage(),
+        damage_string = string_format( _( "Targets under: %dhp become a %s" ), sp.damage(),
                                        _( monster_name ) );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
