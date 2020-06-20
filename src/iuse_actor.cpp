@@ -859,6 +859,7 @@ void place_monster_iuse::load( const JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
+    obj.read( "is_pet", is_pet );
     if( obj.has_array( "skills" ) ) {
         JsonArray skills_ja = obj.get_array( "skills" );
         for( JsonValue s : skills_ja ) {
@@ -935,6 +936,9 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }
         newmon.friendly = -1;
+        if (is_pet) {
+        newmon.add_effect( effect_pet, 1_turns, num_bp, true );
+        }
     }
     return 1;
 }
