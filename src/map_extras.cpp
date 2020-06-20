@@ -2243,13 +2243,13 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
         return false;
     };
 
+    weighted_int_list<furn_id> vegetation;
+    vegetation.add( f_cattails, 15 );
+    vegetation.add( f_lotus, 5 );
+    vegetation.add( f_lilypad, 1 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint loc( i, j, abs_sub.z );
-            weighted_int_list<furn_id> vegetation;
-            vegetation.add( f_cattails, 15 );
-            vegetation.add( f_lotus, 5 );
-            vegetation.add( f_lilypad, 1 );
             if( ( m.ter( loc ) == t_water_sh || m.ter( loc ) == t_water_moving_sh ) &&
                 one_in( intensity ) ) {
                 m.furn_set( loc, vegetation.pick()->id() );
