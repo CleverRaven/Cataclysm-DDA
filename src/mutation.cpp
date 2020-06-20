@@ -182,9 +182,18 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     my_mutations[target].powered = start_powered;
 }
 
+bool Character::can_power_mutation( const trait_id &mut )
+{
+    bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
+    bool thirst = mut->thirst && get_thirst() >= 260;
+    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+
+    return !hunger && !fatigue && !thirst;
+}
+
 void Character::mutation_reflex_trigger( const trait_id &mut )
 {
-    if( mut->triger_list.empty() ) {
+    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -559,9 +568,7 @@ void Character::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= 260 ) ||
-        ( mdata.fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED ) ) {
+    if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                            mdata.name() );

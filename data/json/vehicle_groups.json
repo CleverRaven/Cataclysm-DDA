@@ -712,7 +712,6 @@
       [ "car", 500 ],
       [ "electric_car", 100 ],
       [ "car_sports", 300 ],
-      [ "car_sports_atomic", 100 ],
       [ "car_sports_electric", 300 ],
       [ "suv", 500 ],
       [ "suv_electric", 500 ],

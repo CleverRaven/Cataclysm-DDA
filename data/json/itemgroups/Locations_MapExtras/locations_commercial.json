@@ -716,6 +716,7 @@
       { "group": "salty_snacks", "prob": 121 },
       [ "sandwich_t", 22 ],
       [ "tea_raw", 50 ],
+      [ "tea_green_raw", 25 ],
       [ "cookies", 25 ],
       [ "brownie", 25 ],
       [ "coffee_raw", 90 ],

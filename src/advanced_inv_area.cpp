@@ -213,7 +213,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     item *it = nullptr;
     switch( id ) {
         case AIM_CONTAINER:
-            if( advitem != nullptr && advitem->is_item_entry() ) {
+            if( advitem != nullptr ) {
                 it = advitem->items.front();
                 from_vehicle = advitem->from_vehicle;
             }
@@ -419,8 +419,6 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
 {
     //create a new container for our stacked items
     advanced_inv_area::itemstack stacks;
-    //    // make a list of the items first, so we can add non stacked items back on
-    //    std::list<item> items(things.begin(), things.end());
     // used to recall indices we stored `itype_id' item at in itemstack
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
