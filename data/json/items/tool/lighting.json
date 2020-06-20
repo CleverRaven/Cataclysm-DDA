@@ -685,8 +685,8 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "initial_charges": 25,
-    "max_charges": 25,
+    "initial_charges": 20,
+    "max_charges": 20,
     "charges_per_use": 1,
     "use_action": {
       "target": "torch_lit",
@@ -712,9 +712,9 @@
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "initial_charges": 75,
-    "max_charges": 75,
-    "turns_per_charge": 40,
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 60,
     "revert_to": "torch_done",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
