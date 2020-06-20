@@ -4714,29 +4714,29 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-                if( patient.has_effect( effect_bleed, bp_healed ) ) {
-                    patient.remove_effect( effect_bleed, bp_healed );
+            for( const bodypart_id &bp_healed : patient.get_all_body_parts( true ) ) {
+                if( patient.has_effect( effect_bleed, bp_healed->token ) ) {
+                    patient.remove_effect( effect_bleed, bp_healed->token );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
                                                    _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
-                if( patient.has_effect( effect_bite, bp_healed ) ) {
-                    patient.remove_effect( effect_bite, bp_healed );
+                if( patient.has_effect( effect_bite, bp_healed->token ) ) {
+                    patient.remove_effect( effect_bite, bp_healed->token );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
                                                    _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
                                                    body_part_name( bp_healed ) );
 
-                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc
+                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc                                                                                                                 
                     const int disinfectant_intensity = 14;
-                    patient.add_effect( effect_disinfected, 1_turns, bp_healed );
-                    effect &e = patient.get_effect( effect_disinfected, bp_healed );
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-                    patient.damage_disinfected[i] = patient.hp_max[i] - patient.hp_cur[i];
+                    hp_part target_part = patient.bp_to_hp( bp_healed->token );
+                    patient.damage_disinfected[target_part] = patient.hp_max[target_part] - patient.hp_cur[target_part];
                 }
             }
             patient.moves -= 500;
