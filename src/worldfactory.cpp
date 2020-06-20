@@ -1042,7 +1042,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             mvwprintz( win, filter_pos, c_cyan, "< " );
             mvwprintz( win, filter_pos + point( filter_view_len + 2, 0 ), c_cyan, " >" );
             // This call makes popup draw its string at position specified on popup initialization
-            std::string rendered_string = fpopup->query_string( /*loop=*/false, /*draw_only=*/true );
+            fpopup->query_string( /*loop=*/false, /*draw_only=*/true );
         } else {
             mvwprintz( win, filter_pos, c_light_gray, "< " );
             const char *help = current_filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " );
