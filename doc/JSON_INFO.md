@@ -2410,7 +2410,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
     "skills": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
-    "moves": 60 // how many move points the action takes.
+    "moves": 60, // how many move points the action takes.
+    "is_pet": false // specifies if the spawned monster is a pet. The monster will only spawn as a pet if it is spawned as friendly, hostile monsters will never be pets. In order to be a pet that can be played with, the monster additionally needs to have the CANPLAY flag, however.
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
