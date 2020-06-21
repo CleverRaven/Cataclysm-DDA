@@ -1735,7 +1735,7 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
         candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"
-               "<color_c_white>Fuel</color>: More then half has burned away.\n" );
+               "<color_c_white>Fuel</color>: More than half has burned away.\n" );
     }
 
     SECTION( "UPS charged tool" ) {
