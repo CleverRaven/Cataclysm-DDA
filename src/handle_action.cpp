@@ -659,6 +659,8 @@ static void smash()
 {
     player &u = g->u;
     map &here = get_map();
+    item *w = &u.weapon;
+
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -669,10 +671,10 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
+
     ///\EFFECT_STR increases smashing capability
     if( u.is_mounted() ) {
         auto mon = u.mounted_creature.get();
@@ -680,7 +682,7 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+        smashskill = u.str_cur + w->damage_melee( DT_BASH );
     }
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -748,24 +750,108 @@ static void smash()
 
     const int bash_furn = here.furn( smashp )->bash.str_min;
     const int bash_ter = here.ter( smashp )->bash.str_min;
+    bool w_bash = true;
+    bool use_hands = true;
 
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
             u.increase_activity_level( MODERATE_EXERCISE );
-            u.handle_melee_wear( u.weapon );
 
-            const int mod_sta = 2 * u.get_standard_stamina_cost();
+            // Do damage to hands/feet if target is hard and we used hands/feet
+            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
+
+            if( hard_target ) {
+                int glove_coverage = 0;
+                int shoe_coverage = 0;
+
+                for( const item &i : u.worn ) {
+                    int temp_coverage = i.get_coverage();
+
+                    // Feet coverage
+                    if( ( i.covers( bodypart_id( "foot_l" ) ) || i.covers( bodypart_id( "foot_r" ) ) ) ) {
+                        if( shoe_coverage < temp_coverage ) {
+                            shoe_coverage = temp_coverage;
+                        }
+                    }
+                    // Hand coverage
+                    if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
+                        if( glove_coverage < temp_coverage ) {
+                            glove_coverage = temp_coverage;
+                        }
+                    }
+                }
+
+                // If the player has no weapon or has a weapon with 0 bash.
+                // the second case acts like an automatic force unarmed.
+                if( !w->damage_melee( DT_BASH ) ) {
+                    w_bash = false;
+
+                    // Determine hand/foot damage. 90% coverage is the maximum damage reduction.
+                    const int dam_hand = roll_remainder( 5.0 * std::max( 0.0, 1 - glove_coverage / 90.0 ) );
+                    const int dam_foot = roll_remainder( 5.0 * std::max( 0.0, 1 - shoe_coverage / 90.0 ) );
+
+                    // Determine hand/foot with highest hp
+                    bodypart_id  bp_hand_id = ( u.hp_cur[hp_arm_r] > u.hp_cur[hp_arm_l] ) ? bodypart_id( "hand_r" ) :
+                                              bodypart_id( "hand_l" );
+                    bodypart_id bp_foot_id = ( u.hp_cur[hp_leg_r] > u.hp_cur[hp_leg_l] ) ? bodypart_id( "foot_r" ) :
+                                             bodypart_id( "foot_l" );
+
+                    // Pre-determine limb hp after damage is applied.
+                    const int foot_hp_calc = u.hp_cur[u.bp_to_hp( bp_foot_id.obj().token )] - dam_foot;
+                    const int hand_hp_calc = u.hp_cur[u.bp_to_hp( bp_hand_id.obj().token )] - dam_hand;
+
+                    // If we have a 2 handed weapon with 0 bash, use feet.
+                    // Otherwise, use the highest resultant limb hp to smash with.
+                    use_hands = w->is_two_handed( u ) ? false : hand_hp_calc > foot_hp_calc;
+
+                    // If the player has a weapon, do not smash with our hands/feet
+                    // if our best option will break our limb. Use weapon instead.
+                    if( !w->is_null() ) {
+                        w_bash = use_hands ? ( !hand_hp_calc > 0 ) : ( !foot_hp_calc > 0 );
+                    }
+
+                    if( !w_bash && dam_hand && dam_foot ) {
+                        u.apply_damage( nullptr, use_hands ? bp_hand_id : bp_foot_id, use_hands ? dam_hand : dam_foot );
+
+                        bool smashed_furn = ( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 );
+                        add_msg( m_bad, _( "You hurt your %s trying to smash the %s." ),
+                                 use_hands ? _( "hand" ) : _( "foot" ),
+                                 smashed_furn ? here.furnname( smashp ) : here.tername( smashp ) );
+                    }
+                }
+            }
+
+            if( !w_bash ) {
+                // Get gloves/shoes we are bashing with if available.
+                for( item &worn_item : u.worn ) {
+                    if( use_hands && worn_item.covers( bodypart_id( bp_hand_l ) ) &&
+                        worn_item.covers( bodypart_id( bp_hand_r ) ) ) {
+                        if( w->is_null() || ( worn_item.get_layer() >= w->get_layer() ) ) {
+                            w = &worn_item;
+                        }
+                    } else if( !use_hands && worn_item.covers( bodypart_id( bp_foot_l ) ) &&
+                               worn_item.covers( bodypart_id( bp_foot_r ) ) ) {
+                        if( w->is_null() || ( worn_item.get_layer() >= w->get_layer() ) ) {
+                            w = &worn_item;
+                        }
+                    }
+                }
+            }
+
+            u.handle_melee_wear( *w );
+
+            const int mod_sta = 2 * u.get_standard_stamina_cost( w );
             u.mod_stamina( mod_sta );
 
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_id( "glass" ) ) &&
+            const int vol = w->volume() / units::legacy_volume_factor;
+            if( w->made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
-                add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                u.weapon.spill_contents( u.pos() );
+                add_msg( m_bad, _( "Your %s shatters!" ), w->tname() );
+                w->spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
@@ -776,32 +862,10 @@ static void smash()
                 u.remove_weapon();
                 u.check_dead_state();
             }
-
-            // It hurts if you smash things with your hands.
-            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
-
-            int glove_coverage = 0;
-            for( const item &i : u.worn ) {
-                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
-                    int temp_coverage = i.get_coverage();
-                    if( glove_coverage < temp_coverage ) {
-                        glove_coverage = temp_coverage;
-                    }
-                }
-            }
-
-            if( !u.has_weapon() && hard_target ) {
-                int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
-                if( u.hp_cur[hp_arm_r] > u.hp_cur[hp_arm_l] ) {
-                    u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_BASH, dam ) );
-                } else {
-                    u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_BASH, dam ) );
-                }
-                if( dam > 0 ) {
-                    add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), here.furnname( smashp ) );
-                }
-            }
         }
+
+        // Calculate move cost based on what we bash with.
+        const int move_cost = w_bash ? w->attack_time() * 0.8 : 80;
         u.moves -= move_cost;
 
         if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
