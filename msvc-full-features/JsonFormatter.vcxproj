@@ -121,12 +121,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\messages.h" />
-    <ClInclude Include="..\tools\format\getpost.h" />
+    <ClInclude Include="..\tools\format\*.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\tools\format\*.cpp" />
     <ClCompile Include="..\src\messages.cpp" />
-    <ClCompile Include="..\tools\format\format.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
