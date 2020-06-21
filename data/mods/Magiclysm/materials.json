@@ -88,5 +88,25 @@
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap_bronze", 1 ] ],
     "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
+  },
+  {
+    "type": "material",
+    "ident": "glassteel",
+    "name": "Glassteel",
+    "density": 40,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "bash_resist": 10,
+    "cut_resist": 6,
+    "bullet_resist": 19,
+    "acid_resist": 6,
+    "fire_resist": 0,
+    "elec_resist": 10,
+    "chip_resist": 30,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched"
   }
 ]
