@@ -393,7 +393,7 @@
     "color": "red",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_floor",
@@ -414,7 +414,7 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "description": "Soft red carpet.",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ] }
   },
   {
@@ -426,7 +426,7 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "y_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_floor" }
   },
   {
@@ -438,7 +438,7 @@
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "g_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_floor" }
   },
   {
@@ -450,7 +450,7 @@
     "symbol": ".",
     "color": "magenta",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "p_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_floor" }
   },
   {
@@ -462,7 +462,7 @@
     "move_cost": 2,
     "copy_from": "t_carpet_base",
     "description": "Base concrete carpet!",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_thconc_floor",
@@ -482,7 +482,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "description": "Firm, low-pile, high-durability carpet in a red color, for laying down on bare concrete."
   },
   {
@@ -495,7 +495,7 @@
     "color": "yellow",
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "y_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
@@ -508,7 +508,7 @@
     "color": "green",
     "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "g_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
@@ -521,7 +521,7 @@
     "color": "magenta",
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "p_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_thconc_floor" }
   },
   {
@@ -533,7 +533,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_metal_floor",
@@ -553,7 +553,7 @@
     "color": "red",
     "move_cost": 2,
     "description": "Firm, low-pile, totally non-flammable carpet in a red color, with an insulation layer beneath.",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
@@ -567,7 +567,7 @@
     "color": "yellow",
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "y_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
@@ -580,7 +580,7 @@
     "color": "green",
     "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "g_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
@@ -593,7 +593,7 @@
     "color": "magenta",
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "p_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_metal_floor" }
   },
   {
