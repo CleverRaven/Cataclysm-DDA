@@ -1548,6 +1548,10 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
+            if( result.count_by_charges() ) {
+                result.charges = amount;
+                amount = 1;
+            }
             add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
@@ -1557,7 +1561,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
+                    g->m.spawn_an_item( pos.xy(), result, 0, 0 );
                 }
             }
         } else {
