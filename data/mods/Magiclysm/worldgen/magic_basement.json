@@ -5,7 +5,7 @@
     "om_terrain": [ "magic_basement" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": "t_carpet_green_roofed",
       "rows": [
         "                        ",
         "        ||||||||||||||| ",
@@ -44,17 +44,17 @@
         { "item": "candle", "x": 3, "y": 7, "chance": 100 }
       ],
       "terrain": {
-        "~": "t_thconc_floor",
-        "g": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "8": "t_thconc_floor",
-        "Y": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "S": "t_thconc_floor",
+        "~": "t_thconc_floor_roofed",
+        "g": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "8": "t_thconc_floor_roofed",
+        "Y": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
         "_": "t_water_pool_shallow",
         " ": "t_rock",
         "/": "t_door_green_c",
-        ".": "t_carpet_green",
+        ".": "t_carpet_green_roofed",
         "-": "t_wall_w",
         "|": "t_wall_metal",
         "<": "t_wood_stairs_up",
@@ -86,7 +86,7 @@
     "update_mapgen_id": "magic_door_appear",
     "method": "json",
     "object": {
-      "place_terrain": [ { "ter": "t_carpet_green", "x": 12, "y": 6 } ],
+      "place_terrain": [ { "ter": "t_carpet_green_roofed", "x": 12, "y": 6 } ],
       "place_furniture": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
     }
   },

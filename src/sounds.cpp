@@ -1348,7 +1348,7 @@ void sfx::do_footstep()
             ter_str_id( "t_dirtmoundfloor" ),
             ter_str_id( "t_sand" ),
             ter_str_id( "t_clay" ),
-            ter_str_id( "t_dirtfloor" ),
+            ter_str_id( "t_dirtfloor_roofed" ),
             ter_str_id( "t_palisade_gate_o" ),
             ter_str_id( "t_sandbox" ),
             ter_str_id( "t_claymound" ),

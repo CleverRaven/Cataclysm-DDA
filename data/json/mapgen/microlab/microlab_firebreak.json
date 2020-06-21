@@ -5,7 +5,7 @@
     "method": "json",
     "weight": 500,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "||||||            ||||||",
         "|####|            |####|",
@@ -33,7 +33,7 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" },
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -50,7 +50,7 @@
     "method": "json",
     "weight": 500,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "||||||            ||||||",
         "|####|            |####|",
@@ -78,7 +78,7 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" },
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -95,7 +95,7 @@
     "method": "json",
     "weight": 75,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "||||||            ||||||",
         "|####|            |####|",
@@ -124,7 +124,7 @@
       ],
       "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" },
       "monster": { "M": { "monster": "mon_mutant_experimental" }, "ü": { "monster": "mon_mutant_evolved" } },
       "computers": {
         "6": {
@@ -142,7 +142,7 @@
     "method": "json",
     "weight": 75,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "||||||            ||||||",
         "|####|            |####|",
@@ -171,7 +171,7 @@
       ],
       "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" },
       "monster": { "M": { "monster": "mon_hunting_horror" }, "ü": { "monster": "mon_breather_hub" } },
       "computers": {
         "6": {

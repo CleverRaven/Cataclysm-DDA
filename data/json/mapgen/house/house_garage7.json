@@ -5,7 +5,7 @@
     "om_terrain": [ "house_garage7" ],
     "weight": 150,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".!``````!......p.```....",
         ".!``````!.....[.%```%...",
@@ -42,12 +42,12 @@
         "?": "t_fencegate_c",
         "#": "t_rock_wall",
         "$": "t_fence",
-        "_": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
+        "_": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "B": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
         ")": "t_wall_glass",
         "]": "t_door_glass_c"
       },
@@ -101,7 +101,7 @@
     "method": "json",
     "om_terrain": "house_garage7_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

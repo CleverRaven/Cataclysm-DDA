@@ -5,7 +5,7 @@
     "om_terrain": [ "house_toolshed" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".%%%.........-----p..^..",
         ".%#####o###o###*#######.",
@@ -41,8 +41,8 @@
         "G": "t_concrete",
         "K": "t_concrete",
         "~": "t_concrete",
-        "q": "t_thconc_floor",
-        "!": "t_thconc_floor"
+        "q": "t_thconc_floor_roofed",
+        "!": "t_thconc_floor_roofed"
       },
       "set": [
         { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "repeat": [ 1, 2 ] },
@@ -101,7 +101,7 @@
     "method": "json",
     "om_terrain": "house_toolshed_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         " |||||||||||||||||||||| ",

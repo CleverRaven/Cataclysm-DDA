@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "lighthouse_ground",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "********~./////.....~***",
         "***ddddddd/////.....~~**",
@@ -37,7 +37,7 @@
       ],
       "place_loot": [ { "item": "rope_30", "x": 4, "y": 1, "chance": 100 }, { "item": "rope_30", "x": 7, "y": 2, "chance": 100 } ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "/": "t_sand",
         "~": "t_water_sh",
         "*": "t_water_dp",
@@ -96,7 +96,7 @@
     "method": "json",
     "om_terrain": "lighthouse_z1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -124,7 +124,7 @@
         "                        "
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "|": "t_rock_red",
         " ": "t_open_air",
         "<": "t_wood_stairs_up",
@@ -180,7 +180,7 @@
     "method": "json",
     "om_terrain": "lighthouse_z2",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -209,7 +209,7 @@
       ],
       "toilets": { "&": {  } },
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "|": "t_rock_wall",
         " ": "t_open_air",
         "<": "t_wood_stairs_up",
@@ -253,7 +253,7 @@
     "method": "json",
     "om_terrain": "lighthouse_z3",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -282,7 +282,7 @@
       ],
       "terrain": {
         "Q": "t_open_air_rooved",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "|": "t_rock_red",
         " ": "t_open_air",
         "<": "t_wood_stairs_up",
@@ -302,7 +302,7 @@
     "method": "json",
     "om_terrain": "lighthouse_z4",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -330,7 +330,7 @@
         "                        "
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "|": "t_rock_wall",
         " ": "t_open_air",
         "<": "t_wood_stairs_up",
@@ -359,7 +359,7 @@
     "method": "json",
     "om_terrain": "lighthouse_z5",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -387,7 +387,7 @@
         "                        "
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "|": "t_rock_red",
         " ": "t_open_air",
         "<": "t_wood_stairs_up",

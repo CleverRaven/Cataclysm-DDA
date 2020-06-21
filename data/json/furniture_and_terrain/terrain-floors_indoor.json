@@ -1,7 +1,7 @@
 [
   {
     "type": "terrain",
-    "id": "t_thconc_floor",
+    "id": "t_thconc_floor_roofed",
     "name": "concrete floor",
     "description": "A bare and cold concrete floor with matching roof, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
     "symbol": ".",
@@ -24,7 +24,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_thconc_y",
+    "id": "t_thconc_y_roofed",
     "name": "concrete floor",
     "description": "A bare and cold concrete floor with a streak of yellow paint, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
     "symbol": ".",
@@ -48,7 +48,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_thconc_floor_olight",
+    "id": "t_thconc_floor_roofed_olight",
     "name": "concrete floor, overhead light",
     "description": "A bare and cold concrete floor with a still-functioning light attached to the ceiling above.",
     "symbol": ".",
@@ -64,7 +64,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_thconc_floor",
+      "ter_set": "t_thconc_floor_roofed",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
     }
   },
@@ -89,7 +89,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_strconc_floor",
+    "id": "t_strconc_floor_roofed",
     "name": "reinforced concrete floor",
     "description": "Extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
     "symbol": ".",
@@ -152,7 +152,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_rock_floor",
+    "id": "t_rock_floor_roofed",
     "name": "rock floor",
     "description": "A relatively flat area of rock and stone.  Looks stable enough to be mined with the proper mining gear.",
     "symbol": ".",
@@ -187,7 +187,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_floor",
+    "id": "t_floor_roofed",
     "name": "floor",
     "description": "Interlocking wooden tiles that are more than likely treated against fire, with wooden posts and beams supporting a roof.",
     "symbol": ".",
@@ -206,7 +206,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_floor_primitive",
+    "id": "t_floor_primitive_roofed",
     "name": "primitive floor",
     "description": "Timber floor and supports, holding up a sod roof.",
     "symbol": ".",
@@ -229,7 +229,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_scrap_floor",
+    "id": "t_scrap_floor_roofed",
     "name": "simple metal floor",
     "description": "A crudely welded together floor of metal with steel trusses and supporting girders.",
     "symbol": ".",
@@ -248,7 +248,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_floor_waxed",
+    "id": "t_floor_waxed_roofed",
     "name": "waxed floor",
     "description": "Hardwood flooring that has been treated with chemicals to improve slip resistance and sliding, commonly for recreational sports.",
     "symbol": ".",
@@ -267,7 +267,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_dirtfloor",
+    "id": "t_dirtfloor_roofed",
     "name": "dirt floor",
     "description": "Floor consisting of finely mixed earth that has been tamped down, with a wooden ceiling above it.",
     "symbol": ".",
@@ -386,12 +386,12 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_concrete",
+    "id": "t_carpet_concrete_roofed",
     "name": "industrial carpet",
     "description": "Firm, low-pile, high-durability carpet in a neutral gray color, for laying down on bare concrete.",
     "symbol": ".",
     "color": "light_gray",
-    "looks_like": "t_carpet_red",
+    "looks_like": "t_carpet_red_roofed",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
@@ -409,12 +409,12 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_metal",
+    "id": "t_carpet_metal_roofed",
     "name": "bunker carpet",
     "description": "Firm, low-pile, totally non-flammable carpet in a neutral cream color, with an insulation layer beneath.",
     "symbol": ".",
     "color": "white",
-    "looks_like": "t_carpet_yellow",
+    "looks_like": "t_carpet_yellow_roofed",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
@@ -432,7 +432,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_red",
+    "id": "t_carpet_red_roofed",
     "name": "red carpet",
     "description": "Soft red carpet.",
     "symbol": ".",
@@ -451,7 +451,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_yellow",
+    "id": "t_carpet_yellow_roofed",
     "name": "yellow carpet",
     "description": "Soft yellow carpet.",
     "symbol": ".",
@@ -470,7 +470,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_green",
+    "id": "t_carpet_green_roofed",
     "name": "green carpet",
     "description": "Soft green carpet.",
     "symbol": ".",
@@ -489,7 +489,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_purple",
+    "id": "t_carpet_purple_roofed",
     "name": "purple carpet",
     "description": "Soft purple carpet.",
     "symbol": ".",
@@ -508,7 +508,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_linoleum_white",
+    "id": "t_linoleum_white_roofed",
     "name": "linoleum tile",
     "description": "A section of flooring made out of a tough, rubbery material.  Colored a simple white.",
     "symbol": ".",
@@ -527,7 +527,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_linoleum_gray",
+    "id": "t_linoleum_gray_roofed",
     "name": "linoleum tile",
     "roof": "t_flat_roof",
     "description": "A section of flooring made out of a tough, gray, rubbery material.",
@@ -545,7 +545,7 @@
     }
   },
   {
-    "id": "t_floor_waxed_y",
+    "id": "t_floor_waxed_y_roofed",
     "type": "terrain",
     "name": "painted waxed floor",
     "description": "This section of wax flooring has been painted.",
@@ -599,9 +599,9 @@
   },
   {
     "type": "terrain",
-    "id": "t_junk_floor",
+    "id": "t_junk_floor_roofed",
     "name": "junk metal floor",
-    "looks_like": "t_scrap_floor",
+    "looks_like": "t_scrap_floor_roofed",
     "description": "A simple roof and floor of rusty scrap metal bolted and wire-tied to a makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope you like the sound of rain on corrugated metal.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
@@ -707,7 +707,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_floor_paper",
+    "id": "t_floor_paper_roofed",
     "name": "paper floor",
     "description": "Floor made of pulpy mass, covered in sticky wasp saliva.",
     "symbol": ".",

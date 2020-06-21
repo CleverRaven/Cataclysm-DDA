@@ -12,7 +12,7 @@
       "D": [ [ "t_region_groundcover_barren", 12 ], [ "t_railroad_rubble", 8 ], "t_region_groundcover" ],
       "R": [ [ "t_region_groundcover_barren", 12 ], [ "t_railroad_rubble", 8 ], "t_region_groundcover" ],
       "|": "t_wall_log",
-      ".": "t_floor",
+      ".": "t_floor_roofed",
       "i": "t_pit_shallow",
       "v": "t_window_domestic",
       "+": "t_door_c",

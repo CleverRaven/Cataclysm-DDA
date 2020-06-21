@@ -210,7 +210,7 @@
         ">": "t_stairs_down",
         "5": "t_gutter_drop",
         "#": "t_wall_b",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         ";": "t_door_locked"
       },
       "furniture": { "&": "f_roof_turbine_vent", "X": "f_small_satelitte_dish", "=": "f_vent_pipe" },

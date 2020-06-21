@@ -5,7 +5,7 @@
     "om_terrain": [ "house_garage" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...!!.---.!!.p________..",
         ".##oo##*##oo##=======##.",
@@ -41,8 +41,8 @@
         "&": "t_gates_control_brick",
         "G": "t_sidewalk",
         "K": "t_sidewalk",
-        "~": "t_thconc_floor",
-        "q": "t_thconc_floor"
+        "~": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed"
       },
       "furniture": { "!": "f_region_flower" },
       "place_loot": [
@@ -94,7 +94,7 @@
     "method": "json",
     "om_terrain": "house_garage_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         " |||||||||||||||||||||| ",

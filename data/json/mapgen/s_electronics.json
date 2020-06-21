@@ -6,7 +6,7 @@
     "weight": 150,
     "//": "It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": "t_linoleum_gray_roofed",
       "rows": [
         "zs______,______,______sz",
         "zs______,______,______sz",
@@ -38,7 +38,7 @@
         "+": "t_door_metal_pickable",
         ",": "t_pavement_y",
         "-": "t_wall_w",
-        ".": "t_linoleum_gray",
+        ".": "t_linoleum_gray_roofed",
         "1": "t_column",
         "5": "t_window_bars_alarm",
         "8": "t_window_bars_alarm",
@@ -162,7 +162,7 @@
     "om_terrain": [ "s_electronics_1" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "          xxxxxxx     9 ",
         "    9    xxxpJpxxx  9   ",
@@ -191,7 +191,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "p": "t_grass",
         "J": "t_grass",
         "+": "t_door_c",

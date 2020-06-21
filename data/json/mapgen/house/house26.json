@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "......p`................",
         "....%%```%%....%%%......",
@@ -40,13 +40,13 @@
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "]": "t_wall_glass",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "t": "t_linoleum_white"
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "B": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed"
       },
       "furniture": { "!": "f_region_flower" }
     }

@@ -5,7 +5,7 @@
     "om_terrain": [ "gym_fitness" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".........,,,,,,.........",
         ".U.....,,,,,,,,,,U......",
@@ -33,7 +33,7 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_c",
         ",": "t_sidewalk",
         "-": "t_wall_w",
@@ -130,7 +130,7 @@
     "om_terrain": [ "gym_fitness_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..............|55===55|.",
         "..............|c     c|.",
@@ -158,20 +158,20 @@
         ".........|||5555555|||.."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "~": "t_water_pool",
-        ":": "t_linoleum_white",
-        "*": "t_linoleum_white",
+        ":": "t_linoleum_white_roofed",
+        "*": "t_linoleum_white_roofed",
         "+": "t_door_c",
         ",": "t_sidewalk",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
         "5": "t_wall_glass",
         "=": "t_door_glass_c",
-        "O": "t_linoleum_white",
-        "C": "t_linoleum_white",
+        "O": "t_linoleum_white_roofed",
+        "C": "t_linoleum_white_roofed",
         "|": "t_brick_wall",
-        "T": "t_linoleum_white",
-        "t": "t_linoleum_white",
+        "T": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
         "4": "t_gutter_downspout",
         "<": "t_stairs_up"
       },
@@ -200,7 +200,7 @@
     "method": "json",
     "om_terrain": "gym_fitness_2ndFloor_1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "              ||55555|| ",
         "              |I..y..F| ",
@@ -235,7 +235,7 @@
         { "point": "trap", "id": "tr_rollmat", "x": [ 16, 20 ], "y": 13, "repeat": [ 2, 4 ] }
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "5": "t_wall_glass",
         "|": "t_brick_wall",
         "+": "t_door_c",

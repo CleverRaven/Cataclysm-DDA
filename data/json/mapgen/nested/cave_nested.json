@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "cave_palette",
-    "terrain": { ".": "t_rock", " ": "t_rock_floor" },
+    "terrain": { ".": "t_rock", " ": "t_rock_floor_roofed" },
     "monster": { " ": { "monster": "mon_sewer_rat", "chance": 20 } }
   },
   {

@@ -6,7 +6,7 @@
     "//": "Compy Coop",
     "weight": 500,
     "object": {
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "                        ",
         "                        ",

@@ -14,7 +14,7 @@
       ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "           |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||#####||||||#####|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||             ",
         "           |................................................................#<6<#......#<6<#..............................................................|             ",
@@ -44,16 +44,16 @@
       "palettes": [ "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
-        "*": "t_linoleum_gray",
-        ",": "t_linoleum_white",
-        "6": "t_carpet_red",
+        "*": "t_linoleum_gray_roofed",
+        ",": "t_linoleum_white_roofed",
+        "6": "t_carpet_red_roofed",
         ".": "t_rock",
-        "{": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "}": "t_linoleum_white",
-        "(": "t_linoleum_gray",
-        ")": "t_linoleum_gray",
-        "F": "t_linoleum_gray"
+        "{": "t_linoleum_gray_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "}": "t_linoleum_white_roofed",
+        "(": "t_linoleum_gray_roofed",
+        ")": "t_linoleum_gray_roofed",
+        "F": "t_linoleum_gray_roofed"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink" }, ")": { "item_group": "vending_food" } },
@@ -75,7 +75,7 @@
       ]
     ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "         |.........................................................#{*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,{#.....................................................|             ",
         "         |.........................................................#{,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*{#.....................................................|             ",
@@ -105,12 +105,12 @@
       "palettes": [ "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
-        "*": "t_linoleum_gray",
-        ",": "t_linoleum_white",
+        "*": "t_linoleum_gray_roofed",
+        ",": "t_linoleum_white_roofed",
         ".": "t_rock",
-        "{": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "}": "t_linoleum_white"
+        "{": "t_linoleum_gray_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "}": "t_linoleum_white_roofed"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "place_vehicles": [
@@ -125,7 +125,7 @@
     "method": "json",
     "om_terrain": [ [ "mall_a_67_sub_basement", "mall_a_68_sub_basement", "mall_a_69_sub_basement" ] ],
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                                                                        ",
         "                                                                        ",
@@ -158,14 +158,14 @@
         " ": "t_rock",
         "#": "t_brick_wall",
         "%": "t_railroad_track_on_tie",
-        ";": "t_rock_floor",
+        ";": "t_rock_floor_roofed",
         "4": "t_railroad_rubble",
         "-": "t_railroad_tie_h",
-        "{": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "}": "t_linoleum_white",
-        "(": "t_linoleum_gray",
-        ")": "t_linoleum_gray"
+        "{": "t_linoleum_gray_roofed",
+        "Y": "t_linoleum_gray_roofed",
+        "}": "t_linoleum_white_roofed",
+        "(": "t_linoleum_gray_roofed",
+        ")": "t_linoleum_gray_roofed"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink" }, ")": { "item_group": "vending_food" } },

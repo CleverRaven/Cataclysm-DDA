@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........%`%.............",
         ".......p.`..............",
@@ -40,13 +40,13 @@
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "j": "t_concrete",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "~": "t_thconc_floor"
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "B": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
+        "~": "t_thconc_floor_roofed"
       },
       "furniture": { "!": "f_region_flower" },
       "place_item": [ { "item": "stereo", "x": 4, "y": 11, "chance": 100 } ],
@@ -66,7 +66,7 @@
     "type": "mapgen",
     "weight": 20,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "g........s..........c.gg",
         "g..gg.cg.s.P.g.c.....g..",
@@ -100,13 +100,13 @@
         "C": "t_concrete",
         "D": "t_dirt",
         "P": "t_grass",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "c": "t_grass",
         "d": "t_door_frame",
         "g": "t_grass",
         "m": "t_mdoor_frame",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "{": "t_dirt",
         "|": "t_brick_wall"
       },
@@ -179,7 +179,7 @@
     "type": "mapgen",
     "weight": 40,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_._._..._s......._..c.__",
         "_____.cP.s.c._.c.{..._..",
@@ -215,9 +215,9 @@
         "_": "t_grass",
         "c": "t_clay",
         "d": "t_door_o",
-        "f": "t_floor",
+        "f": "t_floor_roofed",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "w": "t_window",
         "{": "t_dirt",
         "|": "t_brick_wall",

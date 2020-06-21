@@ -5,7 +5,7 @@
     "om_terrain": [ "urban_41_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -57,7 +57,7 @@
     "om_terrain": [ "urban_41_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -100,7 +100,7 @@
     "om_terrain": [ "urban_41_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,,,,|OOOOO|           ",
         ",,,,,,w             OOOO",
@@ -148,7 +148,7 @@
     "om_terrain": [ "urban_41_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "            -----|,,,,,,",
         "OOOOOOOOO    A  tw,,,,,,",

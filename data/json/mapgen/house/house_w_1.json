@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "house_w_1",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..........Gss...........",
         ".##oooo##CsssssC........",
@@ -135,7 +135,7 @@
     "method": "json",
     "om_terrain": "house_w_1_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         " ||||||||               ",

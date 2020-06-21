@@ -5,7 +5,7 @@
     "om_terrain": [ [ "garage_gas_1", "garage_gas_2", "garage_gas_3" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "ss_______________________________________________________s..............",
         "ss_______________________________________________________s..............",
@@ -43,7 +43,7 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         ".": [ [ "t_grass", 3 ], [ "t_dirt", 3 ], "t_grass_long" ],
-        " ": "t_thconc_floor",
+        " ": "t_thconc_floor_roofed",
         "6": "t_console_broken",
         "=": "t_door_metal_locked",
         "I": "t_column",

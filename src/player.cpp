@@ -3501,7 +3501,7 @@ void player::try_to_sleep( const time_duration &dur )
                          vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
     } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
-        if( !vp && ter_at_pos != t_floor ) {
+        if( !vp && ter_at_pos != t_floor_roofed ) {
             add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                                _( "It's a little hard to get to sleep on this %s." ) :
                                _( "It's hard to get to sleep on this %s." ),

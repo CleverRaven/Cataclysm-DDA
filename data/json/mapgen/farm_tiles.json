@@ -1262,7 +1262,7 @@
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rotation": [ 3, 3 ],
       "rows": [
         "........................",
@@ -1314,7 +1314,7 @@
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rotation": [ 3, 3 ],
       "rows": [
         "........................",
@@ -1366,7 +1366,7 @@
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rotation": [ 3, 3 ],
       "rows": [
         "........................",
@@ -1418,7 +1418,7 @@
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rotation": [ 3, 3 ],
       "rows": [
         "........................",
@@ -1470,7 +1470,7 @@
     "om_terrain": [ "house_farm" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rotation": [ 3, 3 ],
       "rows": [
         "........................",
@@ -1524,7 +1524,7 @@
     "method": "json",
     "om_terrain": "house_farm_roof",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rotation": [ 3, 3 ],
       "rows": [
         "                        ",

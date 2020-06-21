@@ -2445,7 +2445,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
             here.ter_set( pos, t_sewage );
             here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
         } else {
-            here.ter_set( pos, t_floor );
+            here.ter_set( pos, t_floor_roofed );
             here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
         }
     } else if( ter == t_window_bars_alarm ) {
@@ -3797,7 +3797,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
             here.ter_set( pos, t_sewage );
             here.spawn_item( p->pos(), itype_pipe, 3 );
         } else {
-            here.ter_set( pos, t_floor );
+            here.ter_set( pos, t_floor_roofed );
             here.spawn_item( p->pos(), itype_pipe, 3 );
         }
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {

@@ -5,7 +5,7 @@
     "om_terrain": [ "house_04" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".%%%..%%%%%%%%p-%%..%%%.",
         ".###oo####o####*##ooo##.",
@@ -33,7 +33,7 @@
         "............^---........"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "$": "t_carpet_green", "%": "t_shrub" },
+      "terrain": { "$": "t_carpet_green_roofed", "%": "t_shrub" },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
         { "point": "terrain", "id": "t_tree_young", "x": [ 0, 14 ], "y": 0, "chance": 5 },

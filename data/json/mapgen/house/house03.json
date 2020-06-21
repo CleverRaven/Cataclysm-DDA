@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "....[.[.[.%``%p.[.......",
         "..........%``%........[.",
@@ -41,14 +41,14 @@
         "`": "t_concrete",
         "K": "t_concrete",
         "G": "t_concrete",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "k": "t_thconc_floor",
-        "~": "t_thconc_floor"
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
+        "k": "t_thconc_floor_roofed",
+        "~": "t_thconc_floor_roofed"
       },
       "furniture": { "!": "f_region_flower" },
       "place_items": [ { "item": "stash_wood", "x": 12, "y": 11, "chance": 100, "repeat": [ 2, 6 ] } ],
@@ -67,7 +67,7 @@
     "type": "mapgen",
     "weight": 20,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...gc.c.c...s...c......g",
         "gg..........sP.g....g.cg",
@@ -101,7 +101,7 @@
         "0": "t_window_frame",
         "D": "t_grass",
         "P": "t_dirt",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "b": "t_brick_wall_halfway",
         "c": "t_grass",
         "d": "t_door_frame",
@@ -160,7 +160,7 @@
     "type": "mapgen",
     "weight": 40,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "d.d.cdcdcd.ds.Pdcd..d.d.",
         "..d.^^.dd.d.s.....dd.dc.",
@@ -188,7 +188,7 @@
         "c......d.d.....d.....d.."
       ],
       "terrain": {
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "+": "t_reinforced_door_glass_c",
         "-": "t_wall_wood",
         ".": "t_grass",

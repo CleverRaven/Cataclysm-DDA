@@ -5,7 +5,7 @@
     "om_terrain": [ "office_cubical" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ssssssssssssssssssssssss",
         "s|-wwww-|  ss  |-wwww-|s",
@@ -135,7 +135,7 @@
     "om_terrain": [ "office_cubical_1" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         " $$$$$$##$ssss$##$$$$$$ ",
         " ##WWWW##$ssss$##WWWW## ",
@@ -175,7 +175,7 @@
         "|": "t_wall_w",
         "#": "t_brick_wall",
         "R": "t_sidewalk",
-        "U": "t_carpet_red",
+        "U": "t_carpet_red_roofed",
         "4": "t_gutter_downspout"
       },
       "furniture": {

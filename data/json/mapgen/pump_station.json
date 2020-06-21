@@ -5,7 +5,7 @@
     "om_terrain": [ "pump_station_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "sss___________sss.......",
         ".ss___________ss|-w-w-|.",
@@ -146,7 +146,7 @@
     "om_terrain": [ "pump_station_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "...|rr|  |ssssszz|  11|.",
         "...|  *  |sszzssz|  11|.",
@@ -265,7 +265,7 @@
     "om_terrain": [ "pump_station_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "RRRRRRRRRRRRRRRRRRRRRRRR",
         "RRRRRRRRRRRRRRRRRRRRRRRR",
@@ -310,7 +310,7 @@
     "om_terrain": [ "pump_station_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "RRRR~x2RRRRRRRRRRRRRRRRR",
         "RRRR~x2RRRRRRRRRRRRRRRRR",
@@ -347,7 +347,7 @@
     "om_terrain": [ "pump_station_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "RRRR~x2RRRRRRRRRRRRRRRRR",
         "RRRR~x2RRRRRRRRRRRRRRRRR",
@@ -379,11 +379,11 @@
         "*": "t_door_bar_locked",
         "2": "t_sewage_pipe",
         "A": "t_railing_h",
-        "L": "t_rock_floor",
+        "L": "t_rock_floor_roofed",
         "R": "t_rock",
         "^": "t_ladder_up",
         "a": "t_railing_v",
-        "c": "t_rock_floor",
+        "c": "t_rock_floor_roofed",
         "x": "t_bridge",
         "~": "t_sewage"
       },

@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                                                ",
         "   |------|-|-|ww---|      |---ww|-|-|------|   ",
@@ -54,7 +54,7 @@
         "                      ssss                      "
       ],
       "palettes": [ "apartment_palette" ],
-      "terrain": { ".": "t_floor" },
+      "terrain": { ".": "t_floor_roofed" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
         { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
@@ -72,7 +72,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "***|------|-|-|ww---|******|---ww|-|-|------|***",
@@ -141,7 +141,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "***|------|-|-|ww---|******|---ww|-|-|------|***",
@@ -210,7 +210,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "***|------|-|-|ww---|******|---ww|-|-|------|***",
@@ -279,7 +279,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "***|------|-|-|ww---|******|---ww|-|-|------|***",
@@ -348,7 +348,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "***|------|-|-|ww---|******|---ww|-|-|------|***",
@@ -417,7 +417,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************************************",
         "***788888888888888887******788888888888888887***",
@@ -481,7 +481,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "************************",
         "************************",

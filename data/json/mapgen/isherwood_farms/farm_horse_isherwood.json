@@ -21,7 +21,7 @@
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 48, 71 ] },
         { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 48, 71 ] }
       ],
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................X.......................X.......................X.......................",
         "................................................................................................",
@@ -131,10 +131,10 @@
         "p": "t_grass",
         "0": "t_grass",
         "6": "t_grass",
-        "F": "t_dirtfloor",
-        "M": "t_dirtfloor",
-        "J": "t_dirtfloor",
-        "2": "t_dirtfloor"
+        "F": "t_dirtfloor_roofed",
+        "M": "t_dirtfloor_roofed",
+        "J": "t_dirtfloor_roofed",
+        "2": "t_dirtfloor_roofed"
       },
       "furniture": { "J": "f_kiln_empty", "F": "f_forge_rock", "M": "f_workbench", "2": "f_locker" },
       "sealed_item": {
@@ -231,7 +231,7 @@
     "method": "json",
     "om_terrain": "horse_farm_isherwood_7_hayloft",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -258,7 +258,7 @@
         "   wwwwwww.....wwwwwww  ",
         "                        "
       ],
-      "terrain": { ">": "t_ladder_down", ".": "t_floor", "*": "t_open_air_rooved", "w": "t_wall_wood", " ": "t_open_air" },
+      "terrain": { ">": "t_ladder_down", ".": "t_floor_roofed", "*": "t_open_air_rooved", "w": "t_wall_wood", " ": "t_open_air" },
       "furniture": { "6": "f_hay" }
     }
   },
@@ -374,7 +374,7 @@
     "method": "json",
     "om_terrain": "horse_farm_isherwood_13_2ndfloor",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "     |-vv-|-v-v-|_____  ",
@@ -402,7 +402,7 @@
         "                        "
       ],
       "palettes": [ "farm_horse" ],
-      "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor", " ": "t_open_air", ">": "t_stairs_down" },
+      "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor_roofed", " ": "t_open_air", ">": "t_stairs_down" },
       "items": {
         "@": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
         "D": { "item": "trash_cart", "chance": 50 },

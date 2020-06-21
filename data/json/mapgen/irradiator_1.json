@@ -92,7 +92,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",
         "'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'",
@@ -186,8 +186,8 @@
         "X": [ "t_strconc_wall" ],
         "+": [ "t_door_c" ],
         "-": [ "t_strconc_wall" ],
-        ",": [ "t_strconc_floor" ],
-        "Q": [ "t_strconc_floor" ],
+        ",": [ "t_strconc_floor_roofed" ],
+        "Q": [ "t_strconc_floor_roofed" ],
         "=": [ "t_door_locked_alarm" ],
         "D": [ "t_reinforced_door_glass_c" ],
         "G": [ "t_chaingate_l" ],
@@ -214,7 +214,7 @@
         "/": [ "t_plut_generator" ],
         "}": [ "t_ladder_up" ],
         ")": [ "t_reinforced_glass" ],
-        "!": [ "t_thconc_floor" ],
+        "!": [ "t_thconc_floor_roofed" ],
         "0": [ "t_console" ],
         "1": [ "t_floor_red" ],
         "2": [ "t_floor_green" ],

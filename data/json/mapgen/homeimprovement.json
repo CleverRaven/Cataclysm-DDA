@@ -5,7 +5,7 @@
     "om_terrain": [ "home_improvement" ],
     "weight": 10000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -36,9 +36,9 @@
         "+": "t_door_c",
         ",": "t_pavement",
         "-": "t_wall_r",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "O": "t_window",
-        "r": "t_carpet_red",
+        "r": "t_carpet_red_roofed",
         "|": "t_wall_r",
         "%": "t_console_broken",
         "4": "t_gutter_downspout",

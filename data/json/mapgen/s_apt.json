@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_apt" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "##o####o##&*&##o####o##.",
         "#d@@I|fhF|===|7  |d  y#.",
@@ -35,18 +35,18 @@
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "!": "t_region_groundcover_urban",
-        "=": "t_carpet_green",
+        "=": "t_carpet_green_roofed",
         "#": "t_adobe_brick_wall",
         "<": "t_stairs_up",
         "&": "t_window",
-        "~": "t_thconc_floor",
-        "_": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "Z": "t_linoleum_white",
-        "W": "t_linoleum_white",
-        "9": "t_linoleum_white",
+        "~": "t_thconc_floor_roofed",
+        "_": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
+        "Z": "t_linoleum_white_roofed",
+        "W": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
         "$": "t_chainfence",
         "/": "t_chaingate_c"
       },
@@ -65,7 +65,7 @@
     "method": "json",
     "om_terrain": [ "s_apt_2ndfloor" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "##o####o##&*&##o####o##.",
         "#d@@I|fhF|===|7 F|d  y#.",
@@ -94,17 +94,17 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "=": "t_carpet_green",
+        "=": "t_carpet_green_roofed",
         "#": "t_adobe_brick_wall",
         ".": "t_open_air",
         "<": "t_stairs_up",
         ">": "t_stairs_down",
         "&": "t_window",
-        "_": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "9": "t_linoleum_white"
+        "_": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed"
       }
     }
   },

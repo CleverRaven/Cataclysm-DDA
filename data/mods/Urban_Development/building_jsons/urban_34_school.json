@@ -5,7 +5,7 @@
     "om_terrain": [ "urban_34_1" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -48,7 +48,7 @@
     "om_terrain": [ "urban_34_2" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -92,7 +92,7 @@
     "om_terrain": [ "urban_34_3" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "%%%ic                   ",
         "%%%ic                  h",
@@ -120,7 +120,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "palettes": [ "acidia_commercial_palette" ],
-      "terrain": { ")": "t_linoleum_white" },
+      "terrain": { ")": "t_linoleum_white_roofed" },
       "items": {
         " ": { "item": "school", "chance": 1 },
         "L": { "item": "home_hw", "chance": 50 },
@@ -136,7 +136,7 @@
     "om_terrain": [ "urban_34_4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "       tv   LiC22|--i%%%",
         "tth   h6v   LiS22+2Ti%%%",
@@ -181,7 +181,7 @@
     "om_terrain": [ "urban_34_5" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         "ii$$$$$ii;;;;;;ii$$$$$i$",
@@ -230,7 +230,7 @@
     "om_terrain": [ "urban_34_6" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         "$$$$i$$$$$i$$$$$i$$$$$ii",
@@ -274,7 +274,7 @@
     "om_terrain": [ "urban_34_7" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "$;;i222222222222222iL   ",
         "$;;i2(44(22222(44(2iL   ",
@@ -319,7 +319,7 @@
     "om_terrain": [ "urban_34_8" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "it6t   t6ti h h h h w,,$",
         "i         i d d d d w,,$",
@@ -363,7 +363,7 @@
     "om_terrain": [ "urban_34_9" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -407,7 +407,7 @@
     "om_terrain": [ "urban_34_10" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -449,7 +449,7 @@
     "om_terrain": [ "urban_34_11" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...w ttt ttt ttt iL   i ",
         "...w hhh hhh hhh iL   i ",
@@ -494,7 +494,7 @@
     "om_terrain": [ "urban_34_12" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         " hhhhhhh   hhhhhhh  i...",
         "                    i...",
@@ -532,7 +532,7 @@
     "om_terrain": [ "urban_34_13" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -577,7 +577,7 @@
     "om_terrain": [ "urban_34_14" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -616,7 +616,7 @@
     "om_terrain": [ "urban_34_15" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...w6Scc     ccS6iL    i",
         "...wch h     h hciL    i",
@@ -661,7 +661,7 @@
     "om_terrain": [ "urban_34_16" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ";;;;;;;;;;;;;;;;;(N;8...",
         ";;;;;;;;;;;;;;;;;(N;8...",
@@ -700,7 +700,7 @@
     "om_terrain": [ "urban_34_17" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -737,7 +737,7 @@
     "om_terrain": [ "urban_34_19" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...8RRRRRRRRRRRRRRRRRRR8",
         "...8RRRRRRRRRRRRRRRRRRR8",

@@ -58,7 +58,7 @@
     "om_terrain": [ "s_gas_1" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "____:]:____:____:]:____]",
         "____]]]____:____]]]____]",
@@ -163,7 +163,7 @@
     "//": "Rural Gas Station",
     "weight": 333,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -197,12 +197,12 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "#": "t_wall_log",
         ".": "t_grass",
         "0": "t_curtains",
         "3": "t_door_locked",
-        "=": "t_rock_floor",
+        "=": "t_rock_floor_roofed",
         "O": "t_dirt",
         "[": "t_fence_v",
         "_": "t_pavement",

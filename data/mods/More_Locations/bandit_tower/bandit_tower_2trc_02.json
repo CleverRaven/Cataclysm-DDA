@@ -6,7 +6,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "################88######",
         "################88######",
@@ -35,7 +35,7 @@
       ],
       "rotation": 1,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
-      "terrain": { "5": "t_pavement", "8": "t_bridge", ",": "t_carpet_red" },
+      "terrain": { "5": "t_pavement", "8": "t_bridge", ",": "t_carpet_red_roofed" },
       "items": { "L": { "item": "alcohol", "chance": 65 }, "R": { "item": "alcohol", "chance": 85 } },
       "npcs": { "@": { "class": "thug" } }
     }

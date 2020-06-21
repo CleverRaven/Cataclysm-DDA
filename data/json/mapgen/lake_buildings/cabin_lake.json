@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "cabin_lake",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "............//..........",
         "...........//...........",
@@ -32,7 +32,7 @@
         "...//..................."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "B": "t_grass",
         "x": "t_grass",
         "/": "t_dirt",
@@ -174,9 +174,9 @@
       ],
       "place_loot": [ { "item": "rope_30", "x": 12, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 17, "y": 1, "chance": 100 } ],
       "terrain": {
-        " ": "t_floor",
-        "b": "t_floor",
-        "r": "t_floor",
+        " ": "t_floor_roofed",
+        "b": "t_floor_roofed",
+        "r": "t_floor_roofed",
         "*": "t_wall_log_half",
         "d": "t_dock",
         "/": "t_dirt",

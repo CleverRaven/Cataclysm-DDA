@@ -156,7 +156,7 @@
         "...................."
       ],
       "palettes": [ "FEMA_camp" ],
-      "terrain": { " ": "t_floor", "1": "t_floor", "W": "t_floor" },
+      "terrain": { " ": "t_floor_roofed", "1": "t_floor_roofed", "W": "t_floor_roofed" },
       "furniture": { "L": [ "f_rack", "f_utility_shelf" ], "1": "f_rack_coat" },
       "items": { "L": { "item": "tools_general", "chance": 50, "repeat": [ 1, 3 ] } }
     }
@@ -190,7 +190,7 @@
         "-------++-----------"
       ],
       "palettes": [ "FEMA_camp" ],
-      "terrain": { " ": "t_floor", "T": "t_floor", "n": "t_floor" },
+      "terrain": { " ": "t_floor_roofed", "T": "t_floor_roofed", "n": "t_floor_roofed" },
       "items": {
         "L": { "item": "surgery", "chance": 30, "repeat": [ 1, 3 ] },
         "r": { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 3 ] },
@@ -335,7 +335,7 @@
         "...................."
       ],
       "palettes": [ "FEMA_camp" ],
-      "terrain": { "C": "t_floor", "o": "t_floor", "R": "t_floor", "s": "t_floor", "U": "t_floor" },
+      "terrain": { "C": "t_floor_roofed", "o": "t_floor_roofed", "R": "t_floor_roofed", "s": "t_floor_roofed", "U": "t_floor_roofed" },
       "monster": { ",": { "monster": "mon_zombie_fat", "chance": 2 } },
       "items": {
         "C": { "item": "kitchen", "chance": 30 },
@@ -376,12 +376,12 @@
       "terrain": {
         "9": "t_card_military",
         "[": "t_door_metal_locked",
-        "l": "t_floor",
-        "C": "t_floor",
-        ",": "t_floor",
-        "X": "t_floor",
-        "Y": "t_floor",
-        "Z": "t_floor"
+        "l": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        ",": "t_floor_roofed",
+        "X": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "Z": "t_floor_roofed"
       },
       "furniture": { ",": "f_null", "d": "f_desk", "Y": "f_crate_c", "Z": "f_crate_c" },
       "items": {
@@ -425,11 +425,11 @@
       "terrain": {
         "9": "t_card_military",
         "[": "t_door_metal_locked",
-        "T": "t_floor",
-        "l": "t_floor",
-        "X": "t_floor",
-        "Y": "t_floor",
-        "Z": "t_floor"
+        "T": "t_floor_roofed",
+        "l": "t_floor_roofed",
+        "X": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "Z": "t_floor_roofed"
       },
       "furniture": { "d": "f_desk", "Y": "f_crate_c", "Z": "f_crate_c" },
       "items": {
@@ -474,15 +474,15 @@
         "9": "t_card_science",
         "8": "t_grate",
         "*": "t_grate",
-        "~": "t_floor",
+        "~": "t_floor_roofed",
         "[": "t_door_metal_locked",
         "+": "t_door_metal_c",
         "-": "t_concrete_wall",
         "|": "t_concrete_wall",
-        ",": "t_floor",
-        "d": "t_floor",
-        "r": "t_floor",
-        "C": "t_floor"
+        ",": "t_floor_roofed",
+        "d": "t_floor_roofed",
+        "r": "t_floor_roofed",
+        "C": "t_floor_roofed"
       },
       "furniture": { "*": "f_table", ",": "f_null", "d": "f_desk" },
       "items": {

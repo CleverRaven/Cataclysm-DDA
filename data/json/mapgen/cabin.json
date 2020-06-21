@@ -5,7 +5,7 @@
     "om_terrain": [ "cabin" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "------------------------",
         "-**********************-",
@@ -78,7 +78,7 @@
     "om_terrain": [ "cabin_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -166,7 +166,7 @@
     "om_terrain": [ "cabin_2" ],
     "weight": 333,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".*********.~~.*********.",
         ".*********.~~.*********.",
@@ -241,7 +241,7 @@
     "type": "mapgen",
     "weight": 350,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -328,7 +328,7 @@
     "type": "mapgen",
     "weight": 350,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -415,7 +415,7 @@
     "type": "mapgen",
     "weight": 350,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -500,7 +500,7 @@
     "type": "mapgen",
     "weight": 350,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -585,7 +585,7 @@
     "type": "mapgen",
     "weight": 350,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "place_vehicles": [ { "chance": 60, "fuel": 30, "rotation": 90, "status": -1, "vehicle": "forgotten_vehicles", "x": 8, "y": 7 } ],
       "rows": [
         "________________________",
@@ -674,7 +674,7 @@
     "//": "Strange Cabin",
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "^  FfffffffffffGfffffF  ",
@@ -750,7 +750,7 @@
     "//": "Strange Cabin",
     "weight": 300,
     "object": {
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "########################",
         "################...h...#",
@@ -846,7 +846,7 @@
     "type": "mapgen",
     "weight": 150,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",

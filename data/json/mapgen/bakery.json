@@ -5,7 +5,7 @@
     "om_terrain": [ "bakery" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "_||w||sss||www||1|ww|1||",
         "_|^.&|sss|^#t#.|w|Ht|w||",
@@ -35,7 +35,7 @@
       "terrain": {
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "1": "t_tree_young",
         "D": "t_door_glass_c",
         "W": "t_window_domestic",

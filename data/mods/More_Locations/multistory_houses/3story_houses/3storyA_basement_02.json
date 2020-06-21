@@ -34,8 +34,8 @@
       ],
       "palettes": [ "multistory_house", "lower_level" ],
       "set": [
-        { "square": "terrain", "x": 9, "y": 13, "x2": 14, "y2": 15, "id": "t_linoleum_white" },
-        { "square": "terrain", "x": 3, "y": 8, "x2": 10, "y2": 11, "id": "t_carpet_purple" }
+        { "square": "terrain", "x": 9, "y": 13, "x2": 14, "y2": 15, "id": "t_linoleum_white_roofed" },
+        { "square": "terrain", "x": 3, "y": 8, "x2": 10, "y2": 11, "id": "t_carpet_purple_roofed" }
       ]
     }
   }

@@ -65,7 +65,7 @@
         "_____d|||||||||||||ww||d",
         "_______d_____d__d__d_d__"
       ],
-      "terrain": { "#": "t_floor", "W": "t_concrete", "b": "t_floor", "{": "t_grass" },
+      "terrain": { "#": "t_floor_roofed", "W": "t_concrete", "b": "t_floor_roofed", "{": "t_grass" },
       "palettes": [ "trailer_park" ]
     },
     "om_terrain": "trailerparksmall0",
@@ -159,7 +159,7 @@
         "_____d|||||||||||||WW||d",
         "_______d_____d__d__d_d__"
       ],
-      "terrain": { "D": "t_door_o", "g": "t_floor" },
+      "terrain": { "D": "t_door_o", "g": "t_floor_roofed" },
       "palettes": [ "trailer_park" ]
     },
     "om_terrain": "trailerparksmall1",
@@ -268,7 +268,7 @@
         "_____d|||||||||||||WW||d",
         "_______d_____d__d__d_d__"
       ],
-      "terrain": { "#": "t_floor", "b": "t_floor", "g": "t_sidewalk", "{": "t_grass" },
+      "terrain": { "#": "t_floor_roofed", "b": "t_floor_roofed", "g": "t_sidewalk", "{": "t_grass" },
       "palettes": [ "trailer_park" ]
     },
     "om_terrain": "trailerparksmall2",

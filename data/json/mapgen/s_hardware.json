@@ -5,7 +5,7 @@
     "om_terrain": [ "s_hardware" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",
@@ -37,7 +37,7 @@
         "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         ";": "t_door_locked",
         "O": "t_window",
         "_": "t_pavement",
@@ -130,7 +130,7 @@
     "om_terrain": [ "s_hardware_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ppppp~~~~~~~~~~~~~~~~~~~",
         "ppppp###---##++##---###~",
@@ -162,7 +162,7 @@
         "'": [ "t_grass", "t_grass", "t_dirt" ],
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "D": "t_dirt",
         "=": "t_door_c",
         "H": "t_pavement",
@@ -173,7 +173,7 @@
         "2": "t_pavement",
         "3": "t_pavement",
         "W": "t_chainfence_h",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "p": "t_pavement",
         "r": "t_console_broken",
         "w": "t_chainfence_v",
@@ -280,7 +280,7 @@
     "om_terrain": [ "s_hardware_2" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "*W^^^WW|-=--:---:---:-|*",
@@ -312,7 +312,7 @@
         "*": "t_grass",
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         "W": "t_chainfence_h",
@@ -414,7 +414,7 @@
     "om_terrain": [ "s_hardware_3" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~WWWWWWWWW^^WWWWWWW~~~",
@@ -446,7 +446,7 @@
         "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "=": "t_wall_glass",
         "W": "t_chainfence_h",
         "^": "t_chaingate_c",

@@ -5,7 +5,7 @@
     "om_terrain": [ "s_reststop_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "rrrrrrrrrrrrrrrrrrrrrrrr",
         "yrrryrrryrrryrrrrrrryrrr",
@@ -33,7 +33,7 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -44,8 +44,8 @@
         "5": "t_wall_wood",
         "6": "t_wall_glass_h",
         "7": "t_wall_glass_v",
-        "E": "t_dirtfloor",
-        "G": "t_dirtfloor",
+        "E": "t_dirtfloor_roofed",
+        "G": "t_dirtfloor_roofed",
         "g": "t_door_glass_c",
         "r": "t_pavement",
         "y": "t_pavement_y",
@@ -120,7 +120,7 @@
     "om_terrain": [ "s_reststop_2" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "rrrrrrrrrrrrrrrrrrrrrrrr",
         "yrrryrrryrrryrrryrrryrrr",
@@ -148,7 +148,7 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -164,7 +164,7 @@
         "5": "t_wall_wood",
         "6": "t_wall_glass_h",
         "7": "t_wall_glass_v",
-        "G": "t_dirtfloor",
+        "G": "t_dirtfloor_roofed",
         "g": "t_door_glass_c",
         "r": "t_pavement",
         "y": "t_pavement_y",

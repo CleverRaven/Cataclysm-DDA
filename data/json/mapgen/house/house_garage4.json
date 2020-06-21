@@ -5,7 +5,7 @@
     "om_terrain": [ "house_garage4" ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".%.[p`````%!!%`````.[.%.",
         ".%...`````%!!%`````...%.",
@@ -38,8 +38,8 @@
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
         "&": "t_column",
-        "K": "t_thconc_floor",
-        "~": "t_thconc_floor",
+        "K": "t_thconc_floor_roofed",
+        "~": "t_thconc_floor_roofed",
         "`": "t_concrete",
         "$": "t_screened_porch_wall",
         "]": "t_screen_door_c"
@@ -91,7 +91,7 @@
     "method": "json",
     "om_terrain": "house_garage4_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

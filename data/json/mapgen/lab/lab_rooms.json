@@ -130,7 +130,7 @@
         "......."
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
-      "terrain": { "c": [ "t_thconc_floor" ] },
+      "terrain": { "c": [ "t_thconc_floor_roofed" ] },
       "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 1, 6 ], "chance": 3 } ]
     }
   },
@@ -153,7 +153,7 @@
         "........."
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
-      "terrain": { "c": [ "t_thconc_floor" ] },
+      "terrain": { "c": [ "t_thconc_floor_roofed" ] },
       "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 1, 6 ], "chance": 3 } ]
     }
   },
@@ -985,7 +985,7 @@
         "```......"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "%": "t_thconc_floor" },
+      "terrain": { "%": "t_thconc_floor_roofed" },
       "furniture": { "%": "f_treadmill", "5": [ "f_ergometer", "f_exercise" ], "`": "f_canvas_floor" },
       "items": {
         ".": { "item": "clutter_gym", "chance": 3 },
@@ -1041,7 +1041,7 @@
         "aaaaaaa",
         "aaaaaaa"
       ],
-      "terrain": { "a": "t_thconc_floor" },
+      "terrain": { "a": "t_thconc_floor_roofed" },
       "item": { "a": { "item": "ash", "chance": 90 } },
       "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 2, 4 ] } ]
     }
@@ -1064,7 +1064,7 @@
         "aaaaaaaaa",
         "aaaaaaaaa"
       ],
-      "terrain": { "a": "t_thconc_floor" },
+      "terrain": { "a": "t_thconc_floor_roofed" },
       "item": { "a": { "item": "ash", "chance": 90 } },
       "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": [ 4, 6 ] } ]
     }
@@ -1077,7 +1077,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
-      "terrain": { "a": "t_thconc_floor" },
+      "terrain": { "a": "t_thconc_floor_roofed" },
       "furniture": { "a": "f_ash" },
       "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
       "items": { "a": { "item": "science", "chance": 10 } }

@@ -19,7 +19,7 @@
     ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "....ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
         "....s........................................sssssssssssssssssssssssssss",
@@ -104,7 +104,7 @@
     ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################################################################",
         "#################################################|||||||||##############",
@@ -171,7 +171,7 @@
         "?": "t_nanofab",
         "r": "t_metal_floor",
         "/": "t_nanofab_body",
-        "Y": "t_thconc_floor_olight",
+        "Y": "t_thconc_floor_roofed_olight",
         "p": "t_metal_floor"
       },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },

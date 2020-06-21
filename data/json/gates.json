@@ -4,7 +4,7 @@
     "id": "t_gates_mech_control",
     "alias": [ "t_gates_control_concrete", "t_gates_control_brick" ],
     "door": "t_door_metal_locked",
-    "floor": "t_floor",
+    "floor": "t_floor_roofed",
     "walls": [
       "t_wall",
       "t_wall_r",
@@ -31,7 +31,7 @@
     "id": "t_gates_mech_control_lab",
     "alias": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
     "door": "t_door_metal_locked",
-    "floor": "t_thconc_floor",
+    "floor": "t_thconc_floor_roofed",
     "walls": [
       "t_wall",
       "t_wall_r",
@@ -57,7 +57,7 @@
     "type": "gate",
     "id": "t_barndoor",
     "door": "t_door_metal_locked",
-    "floor": "t_dirtfloor",
+    "floor": "t_dirtfloor_roofed",
     "walls": "t_wall_wood",
     "messages": {
       "pull": "You pull the rope…",

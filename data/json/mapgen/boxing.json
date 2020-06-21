@@ -5,7 +5,7 @@
     "om_terrain": [ "gym" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "  --ss----------------  ",
         "  --ss--,-----,-----,-  ",
@@ -34,13 +34,13 @@
       ],
       "terrain": {
         " ": "t_grass",
-        "#": "t_floor",
+        "#": "t_floor_roofed",
         "$": "t_fence_rope",
         "'": "t_door_c",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_pavement",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "?": "t_chainfence_posts",
         "g": "t_window",
         "p": "t_window_domestic",
@@ -120,10 +120,10 @@
         "|": "t_gutter_west",
         ">": "t_stairs_down",
         "5": "t_gutter_drop",
-        "_": "t_floor",
-        "s": "t_floor",
-        "t": "t_floor",
-        "0": "t_floor",
+        "_": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "t": "t_floor_roofed",
+        "0": "t_floor_roofed",
         "4": "t_gutter_downspout"
       },
       "furniture": {

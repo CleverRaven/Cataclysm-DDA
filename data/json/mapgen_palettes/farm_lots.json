@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "farm_lots",
     "terrain": {
-      ",": "t_dirtfloor",
+      ",": "t_dirtfloor_roofed",
       ":": "t_metal_floor",
       "#": [ [ "t_dirtmound", 98 ], [ "t_region_soil", 2 ] ],
       "%": "t_fence_wire",
@@ -59,7 +59,7 @@
     "type": "palette",
     "id": "farm_house",
     "terrain": {
-      " ": "t_floor",
+      " ": "t_floor_roofed",
       "#": "t_railing",
       "%": "t_splitrail_fence",
       "P": "t_privacy_fence",

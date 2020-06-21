@@ -5,7 +5,7 @@
     "om_terrain": [ "s_liquor" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -35,13 +35,13 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "-": "t_wall_g",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         ":": "t_window",
         "_": "t_pavement",
         "{": "t_pavement",
         "|": "t_wall_g",
-        "=": "t_thconc_floor",
-        "K": "t_thconc_floor",
+        "=": "t_thconc_floor_roofed",
+        "K": "t_thconc_floor_roofed",
         "<": "t_ladder_up",
         "^": "t_door_metal_locked",
         "*": "t_gates_mech_control",

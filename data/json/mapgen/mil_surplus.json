@@ -5,7 +5,7 @@
     "om_terrain": [ "mil_surplus" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...........~~...........",
         "...........~~...........",
@@ -102,7 +102,7 @@
     "om_terrain": [ "mil_surplus_1" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...........~~...........",
         "...........~~...........",
@@ -196,7 +196,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "___d___ud___________ss__",
         "__||||||||||||------ssr_",
@@ -226,7 +226,7 @@
       "terrain": {
         "+": "t_door_c",
         "-": "t_railing_h",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "D": "t_door_glass_c",
         "S": "t_shrub",
         "_": "t_grass",

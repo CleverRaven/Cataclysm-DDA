@@ -7,10 +7,10 @@
       "B": "t_grass",
       "o": "t_wall_wattle_half",
       "w": "t_wall_wattle",
-      ".": "t_dirtfloor",
-      ",": "t_dirtfloor",
-      "S": "t_dirtfloor",
-      "a": "t_dirtfloor",
+      ".": "t_dirtfloor_roofed",
+      ",": "t_dirtfloor_roofed",
+      "S": "t_dirtfloor_roofed",
+      "a": "t_dirtfloor_roofed",
       "U": "t_rootcellar"
     },
     "furniture": {

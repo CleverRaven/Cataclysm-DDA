@@ -11,13 +11,13 @@
       "p": "t_pavement",
       "R": "t_region_groundcover_barren",
       "o": "t_little_column",
-      "!": "t_floor",
+      "!": "t_floor_roofed",
       "+": "t_door_c",
       "-": "t_wall",
-      ";": "t_floor",
-      "C": "t_floor",
-      "F": "t_floor",
-      "I": "t_floor",
+      ";": "t_floor_roofed",
+      "C": "t_floor_roofed",
+      "F": "t_floor_roofed",
+      "I": "t_floor_roofed",
       "W": "t_window_open",
       "|": "t_wall"
     }

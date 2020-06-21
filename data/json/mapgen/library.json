@@ -5,7 +5,7 @@
     "om_terrain": [ "s_library" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "------------------------",
         "..pp----pp##o#######o##.",
@@ -96,7 +96,7 @@
     "om_terrain": [ "s_library_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "------------------------",
         "------------------------",
@@ -191,7 +191,7 @@
     "om_terrain": [ "s_library_2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "........................",
         "........................",

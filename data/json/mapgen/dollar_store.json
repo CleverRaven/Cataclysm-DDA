@@ -5,7 +5,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..d....d.ss.........d...",
         ".........ss..dd.........",
@@ -37,7 +37,7 @@
         "-": "t_wall_glass",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "P": "t_wall_glass",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "d": "t_dirt",
         "p": "t_grass",
         "|": "t_wall_wood",
@@ -154,7 +154,7 @@
     "type": "mapgen",
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "sssssssssssssssssssssss_",
         "ssssssssssssssssssssssss",
@@ -184,7 +184,7 @@
       "terrain": {
         "+": "t_reinforced_door_glass_c",
         "-": "t_wall_glass_alarm",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "_": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "p": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "d": "t_dirt",

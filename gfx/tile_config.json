@@ -176,7 +176,7 @@
             "rotates":false
         },
         {
-            "id":"t_rock_floor",
+            "id":"t_rock_floor_roofed",
             "bg":3,
             "rotates":false
         },
@@ -221,12 +221,12 @@
             "rotates":false
         },
         {
-            "id":"t_floor",
+            "id":"t_floor_roofed",
             "bg":11,
             "rotates":false
         },
         {
-            "id":"t_dirtfloor",
+            "id":"t_dirtfloor_roofed",
             "fg":2,
             "rotates":false
         },

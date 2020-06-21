@@ -5,7 +5,7 @@
     "om_terrain": [ "post_office" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "ssssssssssssssssssssssss",
         "g__________s||-------||g",
@@ -35,7 +35,7 @@
       "terrain": {
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "D": "t_door_locked",
         "_": "t_pavement",
         "a": "t_door_locked_interior",
@@ -166,7 +166,7 @@
     "om_terrain": [ "post_office_1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..........ss............",
         "..........ss............",
@@ -197,7 +197,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_w",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "4": "t_tree_pine",
         "7": "t_tree_apple",
         "D": "t_door_c",

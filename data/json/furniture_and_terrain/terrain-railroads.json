@@ -38,7 +38,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -46,7 +46,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -69,7 +69,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -77,7 +77,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -100,7 +100,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -108,7 +108,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -131,7 +131,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -139,7 +139,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -162,7 +162,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -170,7 +170,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -193,7 +193,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -201,7 +201,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -224,11 +224,11 @@
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
@@ -247,11 +247,11 @@
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
@@ -270,11 +270,11 @@
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
@@ -293,11 +293,11 @@
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
@@ -316,7 +316,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -325,7 +325,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -350,7 +350,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -359,7 +359,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -384,7 +384,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -393,7 +393,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -418,7 +418,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -427,7 +427,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -470,11 +470,11 @@
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",
@@ -493,11 +493,11 @@
       "str_max": 120,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_rock_floor_roofed",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
     "connects_to": "RAIL",

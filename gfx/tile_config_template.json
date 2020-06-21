@@ -270,7 +270,7 @@
             "multitile":false
         },
         {
-            "id": "t_rock_floor",
+            "id": "t_rock_floor_roofed",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -347,14 +347,14 @@
             "multitile":false
         },
         {
-            "id": "t_floor",
+            "id": "t_floor_roofed",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "t_dirtfloor",
+            "id": "t_dirtfloor_roofed",
             "fg":-1,
             "bg":-1,
             "rotates":false,

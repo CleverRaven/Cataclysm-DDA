@@ -5,7 +5,7 @@
     "om_terrain": [ "house_11" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "$$$$$$$$$$$--$$______$$$",
         "$..........--.p______..$",
@@ -42,8 +42,8 @@
         "$": "t_fence",
         "G": "t_sidewalk",
         "K": "t_sidewalk",
-        "~": "t_thconc_floor",
-        "q": "t_thconc_floor"
+        "~": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed"
       },
       "furniture": { "?": "f_rack" },
       "place_loot": [
@@ -95,7 +95,7 @@
     "method": "json",
     "om_terrain": "house_11_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

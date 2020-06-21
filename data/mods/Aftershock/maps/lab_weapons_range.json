@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_1side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|--------|....|--------|",
         "|x]]]]]]x|....|x]]]]]]x|",
@@ -35,7 +35,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "S": "f_sofa", "s": "f_sandbag_half", "&": "f_trashcan" },
-      "terrain": { "7": "t_console", "*": "t_thconc_floor" },
+      "terrain": { "7": "t_console", "*": "t_thconc_floor_roofed" },
       "mapping": {
         "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
         "]": { "items": [ { "item": "book_military", "chance": 20 } ] },

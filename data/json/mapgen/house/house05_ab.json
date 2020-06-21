@@ -5,7 +5,7 @@
     "om_terrain": [ "house_05ab" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".DDD...P................",
         ".##########oo####**####.",
@@ -74,7 +74,7 @@
     "om_terrain": "house_05ab_basement",
     "//": "mostly empty basement.",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
         "^######################^",

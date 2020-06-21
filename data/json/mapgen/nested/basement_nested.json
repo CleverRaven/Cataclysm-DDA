@@ -105,7 +105,7 @@
   {
     "type": "palette",
     "id": "basement_utility_nest_palette",
-    "terrain": { " ": "t_null", ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
+    "terrain": { " ": "t_null", ".": "t_thconc_floor_roofed", "g": "t_thconc_floor_roofed", "f": "t_thconc_floor_roofed" },
     "furniture": { "g": "f_water_heater", "f": "f_home_furnace", "a": [ "f_air_conditioner", "f_null", "f_counter" ] },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
   },
@@ -197,18 +197,18 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "terrain": {
-        ".": "t_carpet_purple",
-        "e": "t_carpet_purple",
-        "R": "t_carpet_purple",
-        "E": "t_carpet_purple",
-        "l": "t_carpet_purple",
-        "H": "t_carpet_purple",
-        "T": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "C": "t_carpet_purple",
-        "S": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "$": "t_carpet_purple"
+        ".": "t_carpet_purple_roofed",
+        "e": "t_carpet_purple_roofed",
+        "R": "t_carpet_purple_roofed",
+        "E": "t_carpet_purple_roofed",
+        "l": "t_carpet_purple_roofed",
+        "H": "t_carpet_purple_roofed",
+        "T": "t_carpet_purple_roofed",
+        "A": "t_carpet_purple_roofed",
+        "C": "t_carpet_purple_roofed",
+        "S": "t_carpet_purple_roofed",
+        "!": "t_carpet_purple_roofed",
+        "$": "t_carpet_purple_roofed"
       },
       "furniture": { "!": "f_fridge", "$": "f_rack_wood" },
       "items": {
@@ -244,14 +244,14 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "terrain": {
-        ".": "t_carpet_yellow",
-        ",": "t_carpet_yellow",
-        "H": "t_carpet_yellow",
-        "l": "t_carpet_yellow",
-        "T": "t_carpet_yellow",
-        "E": "t_carpet_yellow",
-        "$": "t_carpet_yellow",
-        "!": "t_carpet_yellow"
+        ".": "t_carpet_yellow_roofed",
+        ",": "t_carpet_yellow_roofed",
+        "H": "t_carpet_yellow_roofed",
+        "l": "t_carpet_yellow_roofed",
+        "T": "t_carpet_yellow_roofed",
+        "E": "t_carpet_yellow_roofed",
+        "$": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed"
       },
       "furniture": { "!": "f_rack_wood", "$": "f_rack_wood" },
       "items": {
@@ -290,16 +290,16 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "terrain": {
-        ".": "t_carpet_red",
-        "A": "t_carpet_red",
-        "C": "t_carpet_red",
-        "S": "t_carpet_red",
-        "!": "t_carpet_red",
-        "$": "t_carpet_red",
-        ",": "t_linoleum_white",
-        "c": "t_linoleum_white",
-        "u": "t_linoleum_white",
-        "X": "t_linoleum_white"
+        ".": "t_carpet_red_roofed",
+        "A": "t_carpet_red_roofed",
+        "C": "t_carpet_red_roofed",
+        "S": "t_carpet_red_roofed",
+        "!": "t_carpet_red_roofed",
+        "$": "t_carpet_red_roofed",
+        ",": "t_linoleum_white_roofed",
+        "c": "t_linoleum_white_roofed",
+        "u": "t_linoleum_white_roofed",
+        "X": "t_linoleum_white_roofed"
       },
       "furniture": { "!": "f_fridge", "$": "f_rack_wood" },
       "items": { "!": { "item": "produce", "chance": 80, "repeat": [ 2, 8 ] }, "$": { "item": "a_television", "chance": 100 } }
@@ -324,14 +324,14 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_locked",
-        " ": "t_thconc_floor",
-        "A": "t_thconc_floor",
-        "B": "t_thconc_floor",
-        "C": "t_thconc_floor",
-        "D": "t_thconc_floor",
-        "E": "t_thconc_floor",
-        "F": "t_thconc_floor",
-        "G": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "A": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed",
+        "C": "t_thconc_floor_roofed",
+        "D": "t_thconc_floor_roofed",
+        "E": "t_thconc_floor_roofed",
+        "F": "t_thconc_floor_roofed",
+        "G": "t_thconc_floor_roofed"
       },
       "furniture": {
         "A": [ "f_drill_press", "f_planer" ],
@@ -367,10 +367,10 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_thconc_floor",
-        "T": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "B": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "T": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "B": "t_thconc_floor_roofed"
       },
       "furniture": { "T": "f_trashcan", "S": "f_utility_shelf", "B": "f_workbench" },
       "place_vehicles": [ { "vehicle": "bikeshop", "x": 1, "y": 2, "rotation": 270, "chance": 50 } ],
@@ -397,11 +397,11 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_thconc_floor",
-        "S": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "O": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "S": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "O": "t_thconc_floor_roofed"
       },
       "place_items": [
         { "item": "home_hw", "x": 4, "y": [ 1, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
@@ -429,12 +429,12 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "6": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "q": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "6": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed"
       }
     }
   },
@@ -456,12 +456,12 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "6": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "q": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "6": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed"
       }
     }
   },
@@ -483,12 +483,12 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "Q": "t_thconc_floor",
-        "6": "t_thconc_floor",
-        "z": "t_thconc_floor",
-        "q": "t_thconc_floor"
+        " ": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "Q": "t_thconc_floor_roofed",
+        "6": "t_thconc_floor_roofed",
+        "z": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed"
       }
     }
   },
@@ -514,17 +514,17 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": "t_linoleum_gray_roofed",
+        "C": "t_linoleum_gray_roofed",
+        "X": "t_linoleum_gray_roofed",
+        "W": "t_linoleum_gray_roofed",
+        "R": "t_linoleum_gray_roofed",
+        "H": "t_linoleum_gray_roofed",
+        "h": "t_linoleum_gray_roofed",
+        "U": "t_linoleum_gray_roofed",
+        "A": "t_linoleum_gray_roofed",
+        "Q": "t_linoleum_gray_roofed",
+        "T": "t_linoleum_gray_roofed"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
@@ -573,17 +573,17 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": "t_linoleum_gray_roofed",
+        "C": "t_linoleum_gray_roofed",
+        "X": "t_linoleum_gray_roofed",
+        "W": "t_linoleum_gray_roofed",
+        "R": "t_linoleum_gray_roofed",
+        "H": "t_linoleum_gray_roofed",
+        "h": "t_linoleum_gray_roofed",
+        "U": "t_linoleum_gray_roofed",
+        "A": "t_linoleum_gray_roofed",
+        "Q": "t_linoleum_gray_roofed",
+        "T": "t_linoleum_gray_roofed"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
@@ -632,17 +632,17 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": "t_linoleum_gray_roofed",
+        "C": "t_linoleum_gray_roofed",
+        "X": "t_linoleum_gray_roofed",
+        "W": "t_linoleum_gray_roofed",
+        "R": "t_linoleum_gray_roofed",
+        "H": "t_linoleum_gray_roofed",
+        "h": "t_linoleum_gray_roofed",
+        "U": "t_linoleum_gray_roofed",
+        "A": "t_linoleum_gray_roofed",
+        "Q": "t_linoleum_gray_roofed",
+        "T": "t_linoleum_gray_roofed"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
@@ -691,17 +691,17 @@
       "terrain": {
         "|": "t_wall_w",
         "+": "t_door_c",
-        " ": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "U": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "T": "t_linoleum_gray"
+        " ": "t_linoleum_gray_roofed",
+        "C": "t_linoleum_gray_roofed",
+        "X": "t_linoleum_gray_roofed",
+        "W": "t_linoleum_gray_roofed",
+        "R": "t_linoleum_gray_roofed",
+        "H": "t_linoleum_gray_roofed",
+        "h": "t_linoleum_gray_roofed",
+        "U": "t_linoleum_gray_roofed",
+        "A": "t_linoleum_gray_roofed",
+        "Q": "t_linoleum_gray_roofed",
+        "T": "t_linoleum_gray_roofed"
       },
       "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
@@ -749,14 +749,14 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -783,19 +783,19 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "E": "t_carpet_green",
-        "T": "t_carpet_green",
-        "y": "t_carpet_green",
-        "s": "t_carpet_green",
-        "e": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "E": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "s": "t_carpet_green_roofed",
+        "e": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -822,14 +822,14 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -856,19 +856,19 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_floor",
-        "H": "t_floor",
-        "l": "t_floor",
-        "A": "t_floor",
-        "=": "t_floor",
-        "x": "t_floor",
-        "%": "t_floor",
-        "E": "t_floor",
-        "T": "t_floor",
-        "y": "t_floor",
-        "s": "t_floor",
-        "e": "t_floor",
-        "&": "t_floor"
+        ".": "t_floor_roofed",
+        "H": "t_floor_roofed",
+        "l": "t_floor_roofed",
+        "A": "t_floor_roofed",
+        "=": "t_floor_roofed",
+        "x": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "E": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "e": "t_floor_roofed",
+        "&": "t_floor_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -895,14 +895,14 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -929,19 +929,19 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_red",
-        "H": "t_carpet_red",
-        "l": "t_carpet_red",
-        "A": "t_carpet_red",
-        "=": "t_carpet_red",
-        "x": "t_carpet_red",
-        "%": "t_carpet_red",
-        "E": "t_carpet_red",
-        "T": "t_carpet_red",
-        "y": "t_carpet_red",
-        "s": "t_carpet_red",
-        "e": "t_carpet_red",
-        "&": "t_carpet_red"
+        ".": "t_carpet_red_roofed",
+        "H": "t_carpet_red_roofed",
+        "l": "t_carpet_red_roofed",
+        "A": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed",
+        "x": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "E": "t_carpet_red_roofed",
+        "T": "t_carpet_red_roofed",
+        "y": "t_carpet_red_roofed",
+        "s": "t_carpet_red_roofed",
+        "e": "t_carpet_red_roofed",
+        "&": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -968,14 +968,14 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -1002,19 +1002,19 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        ".": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "A": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "%": "t_carpet_green",
-        "E": "t_carpet_green",
-        "T": "t_carpet_green",
-        "y": "t_carpet_green",
-        "s": "t_carpet_green",
-        "e": "t_carpet_green",
-        "&": "t_carpet_green"
+        ".": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "E": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "s": "t_carpet_green_roofed",
+        "e": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
@@ -1039,7 +1039,7 @@
         "#eeerrrr#",
         "#########"
       ],
-      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor_roofed" },
       "furniture": {
         "a": "f_rack_wood",
         "A": "f_stool",
@@ -1086,7 +1086,7 @@
         "#eeerrrr#",
         "#########"
       ],
-      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor_roofed" },
       "furniture": {
         "a": "f_rack_wood",
         "A": "f_stool",
@@ -1133,7 +1133,7 @@
         "#eee.rrr#",
         "####+####"
       ],
-      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor_roofed" },
       "furniture": {
         "a": "f_rack_wood",
         "A": "f_stool",
@@ -1181,7 +1181,7 @@
         "#eefffrr#",
         "#########"
       ],
-      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor_roofed" },
       "furniture": {
         "a": "f_rack_wood",
         "A": "f_stool",
@@ -1417,16 +1417,16 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "|": "t_wall_b",
-        " ": "t_carpet_green",
-        "%": "t_carpet_green",
-        "$": "t_carpet_green",
-        "=": "t_carpet_green",
-        ",": "t_carpet_green",
-        "~": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "h": "t_carpet_green",
-        "P": "t_carpet_green",
-        "!": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "$": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        ",": "t_carpet_green_roofed",
+        "~": "t_carpet_green_roofed",
+        "Y": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "P": "t_carpet_green_roofed",
+        "!": "t_carpet_green_roofed"
       },
       "furniture": {
         "%": "f_locker",
@@ -1500,16 +1500,16 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "|": "t_wall_wood",
-        " ": "t_carpet_red",
-        "%": "t_carpet_red",
-        "$": "t_carpet_red",
-        "=": "t_carpet_red",
-        ",": "t_carpet_red",
-        "~": "t_carpet_red",
-        "Y": "t_carpet_red",
-        "h": "t_carpet_red",
-        "P": "t_carpet_red",
-        "!": "t_carpet_red"
+        " ": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "$": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed",
+        ",": "t_carpet_red_roofed",
+        "~": "t_carpet_red_roofed",
+        "Y": "t_carpet_red_roofed",
+        "h": "t_carpet_red_roofed",
+        "P": "t_carpet_red_roofed",
+        "!": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
@@ -1575,16 +1575,16 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "|": "t_wall_b",
-        " ": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
-        "$": "t_carpet_yellow",
-        "=": "t_carpet_yellow",
-        ",": "t_carpet_yellow",
-        "~": "t_carpet_yellow",
-        "Y": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "P": "t_carpet_yellow",
-        "!": "t_carpet_yellow"
+        " ": "t_carpet_yellow_roofed",
+        "%": "t_carpet_yellow_roofed",
+        "$": "t_carpet_yellow_roofed",
+        "=": "t_carpet_yellow_roofed",
+        ",": "t_carpet_yellow_roofed",
+        "~": "t_carpet_yellow_roofed",
+        "Y": "t_carpet_yellow_roofed",
+        "h": "t_carpet_yellow_roofed",
+        "P": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed"
       },
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
@@ -1649,16 +1649,16 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_floor",
-        "%": "t_floor",
-        "$": "t_floor",
-        "=": "t_floor",
-        ",": "t_floor",
-        "~": "t_floor",
-        "Y": "t_floor",
-        "h": "t_floor",
-        "P": "t_floor",
-        "!": "t_floor"
+        " ": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "$": "t_floor_roofed",
+        "=": "t_floor_roofed",
+        ",": "t_floor_roofed",
+        "~": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "h": "t_floor_roofed",
+        "P": "t_floor_roofed",
+        "!": "t_floor_roofed"
       },
       "furniture": { "%": "f_locker", "$": "f_locker", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
       "items": {
@@ -1724,13 +1724,13 @@
       "palettes": [ "standard_domestic_palette" ],
       "traps": { "=": "tr_rollmat" },
       "terrain": {
-        " ": "t_carpet_green",
-        "K": "t_carpet_green",
-        "G": "t_carpet_green",
-        "%": "t_carpet_green",
-        "=": "t_carpet_green",
-        "&": "t_carpet_green",
-        "0": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "K": "t_carpet_green_roofed",
+        "G": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed",
+        "0": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_canvas_wall", "=": "f_groundsheet", "&": "f_canvas_door" },
       "place_items": [
@@ -1760,13 +1760,13 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "~": "t_carpet_green",
-        "h": "t_carpet_green",
-        "!": "t_carpet_green",
-        "=": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green",
-        "0": "t_carpet_green"
+        "~": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "!": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed",
+        "0": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ [ "f_piano", 5 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
@@ -1808,14 +1808,14 @@
       "terrain": {
         "|": "t_wall_r",
         "+": "t_door_c",
-        ".": "t_floor",
-        "!": "t_floor",
-        "0": "t_floor",
-        "%": "t_floor",
-        "m": "t_floor",
-        "t": "t_carpet_red",
-        " ": "t_carpet_red",
-        "E": "t_carpet_red"
+        ".": "t_floor_roofed",
+        "!": "t_floor_roofed",
+        "0": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "m": "t_floor_roofed",
+        "t": "t_carpet_red_roofed",
+        " ": "t_carpet_red_roofed",
+        "E": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
@@ -1849,14 +1849,14 @@
       "terrain": {
         "|": "t_wall_r",
         "+": "t_door_c",
-        ".": "t_floor",
-        "!": "t_floor",
-        "0": "t_floor",
-        "%": "t_floor",
-        "m": "t_floor",
-        "t": "t_carpet_red",
-        " ": "t_carpet_red",
-        "E": "t_carpet_red"
+        ".": "t_floor_roofed",
+        "!": "t_floor_roofed",
+        "0": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "m": "t_floor_roofed",
+        "t": "t_carpet_red_roofed",
+        " ": "t_carpet_red_roofed",
+        "E": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
@@ -1890,14 +1890,14 @@
       "terrain": {
         "|": "t_wall_r",
         "+": "t_door_c",
-        ".": "t_floor",
-        "!": "t_floor",
-        "0": "t_floor",
-        "%": "t_floor",
-        "m": "t_floor",
-        "t": "t_carpet_red",
-        " ": "t_carpet_red",
-        "E": "t_carpet_red"
+        ".": "t_floor_roofed",
+        "!": "t_floor_roofed",
+        "0": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "m": "t_floor_roofed",
+        "t": "t_carpet_red_roofed",
+        " ": "t_carpet_red_roofed",
+        "E": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
@@ -1931,14 +1931,14 @@
       "terrain": {
         "|": "t_wall_r",
         "+": "t_door_c",
-        ".": "t_floor",
-        "!": "t_floor",
-        "0": "t_floor",
-        "%": "t_floor",
-        "m": "t_floor",
-        "t": "t_carpet_red",
-        " ": "t_carpet_red",
-        "E": "t_carpet_red"
+        ".": "t_floor_roofed",
+        "!": "t_floor_roofed",
+        "0": "t_floor_roofed",
+        "%": "t_floor_roofed",
+        "m": "t_floor_roofed",
+        "t": "t_carpet_red_roofed",
+        " ": "t_carpet_red_roofed",
+        "E": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_rack_wood", "0": "f_wood_keg", "!": "f_wood_keg", "t": "f_table", "E": "f_armchair", "m": "f_glass_fridge" },
       "liquids": {
@@ -1972,16 +1972,16 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "%": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "r": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "R": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
       "place_loot": [
@@ -2091,15 +2091,15 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_purple",
-        "y": "t_carpet_purple",
-        "&": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "Y": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "T": "t_carpet_purple",
-        "=": "t_carpet_purple",
-        "x": "t_carpet_purple"
+        " ": "t_carpet_purple_roofed",
+        "y": "t_carpet_purple_roofed",
+        "&": "t_carpet_purple_roofed",
+        "A": "t_carpet_purple_roofed",
+        "Y": "t_carpet_purple_roofed",
+        "%": "t_carpet_purple_roofed",
+        "T": "t_carpet_purple_roofed",
+        "=": "t_carpet_purple_roofed",
+        "x": "t_carpet_purple_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 5, "y": 2, "chance": 100 } ]
@@ -2124,16 +2124,16 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "%": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "r": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "R": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
       "place_loot": [
@@ -2163,15 +2163,15 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "&": "t_carpet_green",
-        "A": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "%": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "x": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "Y": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 5, "y": 2, "chance": 100 } ]
@@ -2196,18 +2196,18 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "Y": "t_carpet_green",
-        "%": "t_carpet_green",
-        "l": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "r": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "Y": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "R": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
       "place_loot": [
@@ -2237,15 +2237,15 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_red",
-        "y": "t_carpet_red",
-        "&": "t_carpet_red",
-        "A": "t_carpet_red",
-        "Y": "t_carpet_red",
-        "%": "t_carpet_red",
-        "T": "t_carpet_red",
-        "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        " ": "t_carpet_red_roofed",
+        "y": "t_carpet_red_roofed",
+        "&": "t_carpet_red_roofed",
+        "A": "t_carpet_red_roofed",
+        "Y": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "T": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed",
+        "x": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 3, "y": 5, "chance": 100 } ]
@@ -2270,17 +2270,17 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        " ": "t_carpet_green",
-        "y": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "T": "t_carpet_green",
-        "=": "t_carpet_green",
-        "h": "t_carpet_green",
-        "r": "t_carpet_green",
-        "%": "t_carpet_green",
-        "R": "t_carpet_green",
-        "x": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "r": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "R": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
       "place_loot": [
@@ -2310,15 +2310,15 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "!": "t_door_glass_c",
-        " ": "t_carpet_red",
-        "y": "t_carpet_red",
-        "&": "t_carpet_red",
-        "A": "t_carpet_red",
-        "Y": "t_carpet_red",
-        "%": "t_carpet_red",
-        "T": "t_carpet_red",
-        "=": "t_carpet_red",
-        "x": "t_carpet_red"
+        " ": "t_carpet_red_roofed",
+        "y": "t_carpet_red_roofed",
+        "&": "t_carpet_red_roofed",
+        "A": "t_carpet_red_roofed",
+        "Y": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "T": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed",
+        "x": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
       "place_loot": [ { "item": "stereo", "x": 3, "y": 5, "chance": 100 } ]
@@ -2434,7 +2434,7 @@
         "%%%%%"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor_roofed", " ": "t_floor_roofed", "0": "t_floor_roofed" },
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
@@ -2458,7 +2458,7 @@
         "%%&:%"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor_roofed", " ": "t_floor_roofed", "0": "t_floor_roofed" },
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
@@ -2482,7 +2482,7 @@
         "%%%%%"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor_roofed", " ": "t_floor_roofed", "0": "t_floor_roofed" },
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
@@ -2506,7 +2506,7 @@
         "%%%%%"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor_roofed", " ": "t_floor_roofed", "0": "t_floor_roofed" },
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 3, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
@@ -2549,15 +2549,15 @@
         "B  B "
       ],
       "terrain": {
-        " ": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "V": "t_carpet_purple",
-        "B": "t_carpet_purple",
-        "c": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "O": "t_carpet_purple",
-        "=": "t_carpet_purple"
+        " ": "t_carpet_purple_roofed",
+        "!": "t_carpet_purple_roofed",
+        "@": "t_carpet_purple_roofed",
+        "V": "t_carpet_purple_roofed",
+        "B": "t_carpet_purple_roofed",
+        "c": "t_carpet_purple_roofed",
+        "%": "t_carpet_purple_roofed",
+        "O": "t_carpet_purple_roofed",
+        "=": "t_carpet_purple_roofed"
       },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" }
@@ -2577,15 +2577,15 @@
         "ccc %"
       ],
       "terrain": {
-        " ": "t_carpet_green",
-        "!": "t_carpet_green",
-        "@": "t_carpet_green",
-        "V": "t_carpet_green",
-        "B": "t_carpet_green",
-        "c": "t_carpet_green",
-        "O": "t_carpet_green",
-        "%": "t_carpet_green",
-        "=": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "!": "t_carpet_green_roofed",
+        "@": "t_carpet_green_roofed",
+        "V": "t_carpet_green_roofed",
+        "B": "t_carpet_green_roofed",
+        "c": "t_carpet_green_roofed",
+        "O": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed"
       },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" }
@@ -2605,15 +2605,15 @@
         "B  B "
       ],
       "terrain": {
-        " ": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "c": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
-        "O": "t_carpet_yellow",
-        "=": "t_carpet_yellow"
+        " ": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "@": "t_carpet_yellow_roofed",
+        "V": "t_carpet_yellow_roofed",
+        "B": "t_carpet_yellow_roofed",
+        "c": "t_carpet_yellow_roofed",
+        "%": "t_carpet_yellow_roofed",
+        "O": "t_carpet_yellow_roofed",
+        "=": "t_carpet_yellow_roofed"
       },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" }
@@ -2633,15 +2633,15 @@
         "cc  %"
       ],
       "terrain": {
-        " ": "t_carpet_red",
-        "!": "t_carpet_red",
-        "@": "t_carpet_red",
-        "V": "t_carpet_red",
-        "B": "t_carpet_red",
-        "c": "t_carpet_red",
-        "O": "t_carpet_red",
-        "%": "t_carpet_red",
-        "=": "t_carpet_red"
+        " ": "t_carpet_red_roofed",
+        "!": "t_carpet_red_roofed",
+        "@": "t_carpet_red_roofed",
+        "V": "t_carpet_red_roofed",
+        "B": "t_carpet_red_roofed",
+        "c": "t_carpet_red_roofed",
+        "O": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed"
       },
       "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" }
@@ -2751,14 +2751,14 @@
         "      B "
       ],
       "terrain": {
-        " ": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "V": "t_carpet_purple",
-        "B": "t_carpet_purple",
-        "c": "t_carpet_purple",
-        "O": "t_carpet_purple",
-        "=": "t_carpet_purple"
+        " ": "t_carpet_purple_roofed",
+        "!": "t_carpet_purple_roofed",
+        "@": "t_carpet_purple_roofed",
+        "V": "t_carpet_purple_roofed",
+        "B": "t_carpet_purple_roofed",
+        "c": "t_carpet_purple_roofed",
+        "O": "t_carpet_purple_roofed",
+        "=": "t_carpet_purple_roofed"
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
@@ -2782,14 +2782,14 @@
         "        "
       ],
       "terrain": {
-        " ": "t_carpet_green",
-        "!": "t_carpet_green",
-        "@": "t_carpet_green",
-        "V": "t_carpet_green",
-        "B": "t_carpet_green",
-        "c": "t_carpet_green",
-        "O": "t_carpet_green",
-        "=": "t_carpet_green"
+        " ": "t_carpet_green_roofed",
+        "!": "t_carpet_green_roofed",
+        "@": "t_carpet_green_roofed",
+        "V": "t_carpet_green_roofed",
+        "B": "t_carpet_green_roofed",
+        "c": "t_carpet_green_roofed",
+        "O": "t_carpet_green_roofed",
+        "=": "t_carpet_green_roofed"
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
@@ -2813,14 +2813,14 @@
         "      B "
       ],
       "terrain": {
-        " ": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "@": "t_carpet_yellow",
-        "V": "t_carpet_yellow",
-        "B": "t_carpet_yellow",
-        "c": "t_carpet_yellow",
-        "O": "t_carpet_yellow",
-        "=": "t_carpet_yellow"
+        " ": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "@": "t_carpet_yellow_roofed",
+        "V": "t_carpet_yellow_roofed",
+        "B": "t_carpet_yellow_roofed",
+        "c": "t_carpet_yellow_roofed",
+        "O": "t_carpet_yellow_roofed",
+        "=": "t_carpet_yellow_roofed"
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
@@ -2844,14 +2844,14 @@
         "       c"
       ],
       "terrain": {
-        " ": "t_carpet_red",
-        "!": "t_carpet_red",
-        "@": "t_carpet_red",
-        "V": "t_carpet_red",
-        "B": "t_carpet_red",
-        "c": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        " ": "t_carpet_red_roofed",
+        "!": "t_carpet_red_roofed",
+        "@": "t_carpet_red_roofed",
+        "V": "t_carpet_red_roofed",
+        "B": "t_carpet_red_roofed",
+        "c": "t_carpet_red_roofed",
+        "O": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed"
       },
       "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
       "traps": { "=": "tr_rollmat" },
@@ -2873,16 +2873,16 @@
         "BBB..f"
       ],
       "terrain": {
-        ".": "t_floor",
-        "B": "t_floor",
-        "C": "t_floor",
-        "y": "t_floor",
-        "T": "t_floor",
-        "f": "t_floor",
-        "E": "t_carpet_green",
-        " ": "t_carpet_green",
-        "h": "t_carpet_green",
-        "A": "t_carpet_green"
+        ".": "t_floor_roofed",
+        "B": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "f": "t_floor_roofed",
+        "E": "t_carpet_green_roofed",
+        " ": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed"
       },
       "furniture": {
         "A": "f_stool",
@@ -2932,19 +2932,19 @@
         "yE...C"
       ],
       "terrain": {
-        ".": "t_floor",
-        "B": "t_floor",
-        "C": "t_floor",
-        "y": "t_floor",
-        "T": "t_floor",
-        "E": "t_floor",
-        " ": "t_carpet_red",
-        "h": "t_carpet_red",
-        "A": "t_carpet_red",
-        "d": "t_carpet_red",
-        "f": "t_carpet_red",
-        "O": "t_carpet_red",
-        "=": "t_carpet_red"
+        ".": "t_floor_roofed",
+        "B": "t_floor_roofed",
+        "C": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "E": "t_floor_roofed",
+        " ": "t_carpet_red_roofed",
+        "h": "t_carpet_red_roofed",
+        "A": "t_carpet_red_roofed",
+        "d": "t_carpet_red_roofed",
+        "f": "t_carpet_red_roofed",
+        "O": "t_carpet_red_roofed",
+        "=": "t_carpet_red_roofed"
       },
       "furniture": {
         "A": "f_stool",
@@ -3279,11 +3279,11 @@
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_b",
-        "~": "t_carpet_green",
-        "h": "t_carpet_green",
-        "!": "t_carpet_green",
-        "%": "t_carpet_green",
-        "&": "t_carpet_green"
+        "~": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "!": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "&": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
@@ -3334,11 +3334,11 @@
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_b",
-        "~": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "!": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
-        "&": "t_carpet_yellow"
+        "~": "t_carpet_yellow_roofed",
+        "h": "t_carpet_yellow_roofed",
+        "!": "t_carpet_yellow_roofed",
+        "%": "t_carpet_yellow_roofed",
+        "&": "t_carpet_yellow_roofed"
       },
       "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
@@ -3390,11 +3390,11 @@
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_b",
-        "~": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "&": "t_carpet_purple"
+        "~": "t_carpet_purple_roofed",
+        "h": "t_carpet_purple_roofed",
+        "!": "t_carpet_purple_roofed",
+        "%": "t_carpet_purple_roofed",
+        "&": "t_carpet_purple_roofed"
       },
       "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
@@ -3446,11 +3446,11 @@
       "terrain": {
         ")": "t_door_glass_c",
         "|": "t_wall_y",
-        "~": "t_carpet_red",
-        "h": "t_carpet_red",
-        "!": "t_carpet_red",
-        "%": "t_carpet_red",
-        "&": "t_carpet_red"
+        "~": "t_carpet_red_roofed",
+        "h": "t_carpet_red_roofed",
+        "!": "t_carpet_red_roofed",
+        "%": "t_carpet_red_roofed",
+        "&": "t_carpet_red_roofed"
       },
       "furniture": { "%": [ [ "f_piano", 10 ], "f_null" ], "=": "f_speaker_cabinet", "&": "f_chair", "!": "f_table" },
       "place_loot": [
@@ -3665,18 +3665,18 @@
         "|": "t_wall_w",
         ")": "t_wall_metal",
         "]": "t_door_metal_pickable",
-        ";": "t_thconc_floor",
-        " ": "t_floor",
-        "y": "t_floor",
-        "Y": "t_floor",
-        "h": "t_floor",
-        "T": "t_floor",
-        "~": "t_floor",
-        "I": "t_floor",
-        "H": "t_floor",
-        "E": "t_floor",
-        "s": "t_floor",
-        "!": "t_floor"
+        ";": "t_thconc_floor_roofed",
+        " ": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "h": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "~": "t_floor_roofed",
+        "I": "t_floor_roofed",
+        "H": "t_floor_roofed",
+        "E": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "!": "t_floor_roofed"
       },
       "furniture": {
         "%": "f_locker",
@@ -3755,18 +3755,18 @@
         "|": "t_wall_w",
         ")": "t_wall_metal",
         "]": "t_door_metal_pickable",
-        ";": "t_thconc_floor",
-        " ": "t_floor",
-        "y": "t_floor",
-        "Y": "t_floor",
-        "h": "t_floor",
-        "T": "t_floor",
-        "~": "t_floor",
-        "I": "t_floor",
-        "H": "t_floor",
-        "E": "t_floor",
-        "s": "t_floor",
-        "!": "t_floor"
+        ";": "t_thconc_floor_roofed",
+        " ": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "h": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "~": "t_floor_roofed",
+        "I": "t_floor_roofed",
+        "H": "t_floor_roofed",
+        "E": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "!": "t_floor_roofed"
       },
       "furniture": {
         "%": "f_locker",
@@ -3845,18 +3845,18 @@
         "|": "t_wall_w",
         ")": "t_wall_metal",
         "]": "t_door_metal_pickable",
-        ";": "t_thconc_floor",
-        " ": "t_floor",
-        "y": "t_floor",
-        "Y": "t_floor",
-        "h": "t_floor",
-        "T": "t_floor",
-        "~": "t_floor",
-        "I": "t_floor",
-        "H": "t_floor",
-        "E": "t_floor",
-        "s": "t_floor",
-        "!": "t_floor"
+        ";": "t_thconc_floor_roofed",
+        " ": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "h": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "~": "t_floor_roofed",
+        "I": "t_floor_roofed",
+        "H": "t_floor_roofed",
+        "E": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "!": "t_floor_roofed"
       },
       "furniture": {
         "%": "f_locker",
@@ -3935,18 +3935,18 @@
         "|": "t_wall_w",
         ")": "t_wall_metal",
         "]": "t_door_metal_pickable",
-        ";": "t_thconc_floor",
-        " ": "t_floor",
-        "y": "t_floor",
-        "Y": "t_floor",
-        "h": "t_floor",
-        "T": "t_floor",
-        "~": "t_floor",
-        "I": "t_floor",
-        "H": "t_floor",
-        "E": "t_floor",
-        "s": "t_floor",
-        "!": "t_floor"
+        ";": "t_thconc_floor_roofed",
+        " ": "t_floor_roofed",
+        "y": "t_floor_roofed",
+        "Y": "t_floor_roofed",
+        "h": "t_floor_roofed",
+        "T": "t_floor_roofed",
+        "~": "t_floor_roofed",
+        "I": "t_floor_roofed",
+        "H": "t_floor_roofed",
+        "E": "t_floor_roofed",
+        "s": "t_floor_roofed",
+        "!": "t_floor_roofed"
       },
       "furniture": {
         "%": "f_locker",
@@ -4020,7 +4020,7 @@
         "           "
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "=": "t_carpet_green", "%": "t_carpet_green" },
+      "terrain": { "=": "t_carpet_green_roofed", "%": "t_carpet_green_roofed" },
       "furniture": { "&": "f_barricade_road", "%": "f_floor_canvas", "!": "f_sandbag_wall", "$": "f_sandbag_half" },
       "place_loot": [
         { "item": "towel", "x": 5, "y": [ 3, 5 ], "chance": 100, "repeat": [ 1, 2 ] },
@@ -4055,17 +4055,17 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "=": "t_carpet_green",
-        "x": "t_carpet_green",
-        "!": "t_carpet_green",
-        "h": "t_carpet_green",
-        "s": "t_carpet_green",
-        "y": "t_carpet_green",
-        "A": "t_carpet_green",
-        "%": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
-        "T": "t_carpet_green"
+        "=": "t_carpet_green_roofed",
+        "x": "t_carpet_green_roofed",
+        "!": "t_carpet_green_roofed",
+        "h": "t_carpet_green_roofed",
+        "s": "t_carpet_green_roofed",
+        "y": "t_carpet_green_roofed",
+        "A": "t_carpet_green_roofed",
+        "%": "t_carpet_green_roofed",
+        "H": "t_carpet_green_roofed",
+        "l": "t_carpet_green_roofed",
+        "T": "t_carpet_green_roofed"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 1, "y": 3, "chance": 100 }, { "item": "deck_of_cards", "x": 5, "y": 4, "chance": 100 } ]
@@ -4092,17 +4092,17 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "=": "t_carpet_purple",
-        "x": "t_carpet_purple",
-        "!": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "s": "t_carpet_purple",
-        "y": "t_carpet_purple",
-        "H": "t_carpet_purple",
-        "A": "t_carpet_purple",
-        "%": "t_carpet_purple",
-        "l": "t_carpet_purple",
-        "T": "t_carpet_purple"
+        "=": "t_carpet_purple_roofed",
+        "x": "t_carpet_purple_roofed",
+        "!": "t_carpet_purple_roofed",
+        "h": "t_carpet_purple_roofed",
+        "s": "t_carpet_purple_roofed",
+        "y": "t_carpet_purple_roofed",
+        "H": "t_carpet_purple_roofed",
+        "A": "t_carpet_purple_roofed",
+        "%": "t_carpet_purple_roofed",
+        "l": "t_carpet_purple_roofed",
+        "T": "t_carpet_purple_roofed"
       },
       "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "!": "f_speaker_cabinet" },
       "place_loot": [

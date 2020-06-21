@@ -677,7 +677,7 @@ void emp_blast( const tripoint &p )
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
                     if( here.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
-                        here.ter_set( p2 + point( i, j ), t_floor );
+                        here.ter_set( p2 + point( i, j ), t_floor_roofed );
                     }
                 }
             }

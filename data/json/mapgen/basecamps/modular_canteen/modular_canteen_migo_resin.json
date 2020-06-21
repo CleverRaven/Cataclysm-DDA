@@ -8,9 +8,9 @@
       "o": "t_wall_resin_cage",
       "w": "t_wall_resin",
       ".": "t_floor_resin",
-      ",": "t_dirtfloor",
-      "S": "t_dirtfloor",
-      "a": "t_dirtfloor",
+      ",": "t_dirtfloor_roofed",
+      "S": "t_dirtfloor_roofed",
+      "a": "t_dirtfloor_roofed",
       "U": "t_rootcellar"
     },
     "furniture": {

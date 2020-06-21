@@ -77,7 +77,7 @@ void timed_event::actualize()
             int num_wyrms = rng( 1, 4 );
             for( int i = 0; i < num_wyrms; i++ ) {
                 if( monster *const mon = g->place_critter_around( mon_dark_wyrm, g->u.pos(), 2 ) ) {
-                    g->m.ter_set( mon->pos(), t_rock_floor );
+                    g->m.ter_set( mon->pos(), t_rock_floor_roofed );
                 }
             }
             // You could drop the flag, you know.
@@ -115,7 +115,7 @@ void timed_event::actualize()
                     if( horizontal ) {
                         monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                            if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor_roofed ) {
                                 monp.y = fault_point->y + n;
                             }
                         }
@@ -123,7 +123,7 @@ void timed_event::actualize()
                         // Vertical fault
                         monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                            if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor_roofed ) {
                                 monp.x = fault_point->x + n;
                             }
                         }
@@ -182,7 +182,7 @@ void timed_event::actualize()
                         flood_buf[p.x][p.y] = t_water_dp;
                         flooded = true;
                     }
-                } else if( g->m.ter( p ) == t_rock_floor ) {
+                } else if( g->m.ter( p ) == t_rock_floor_roofed ) {
                     bool flood = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
                         if( g->m.ter( w ) == t_water_dp || g->m.ter( w ) == t_water_sh ) {

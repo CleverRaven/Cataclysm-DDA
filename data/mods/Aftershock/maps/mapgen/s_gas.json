@@ -5,7 +5,7 @@
     "om_terrain": [ "s_gas" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "________________________",
         "________________________",

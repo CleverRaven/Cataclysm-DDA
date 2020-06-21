@@ -51,7 +51,7 @@ static void full_map_test( const std::vector<std::string> &setup,
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
-    const ter_id t_floor( "t_floor" );
+    const ter_id t_floor_roofed( "t_floor_roofed" );
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
     const ter_id t_flat_roof( "t_flat_roof" );
@@ -142,7 +142,7 @@ static void full_map_test( const std::vector<std::string> &setup,
                     break;
                 case '-':
                 case 'u':
-                    g->m.ter_set( p, t_floor );
+                    g->m.ter_set( p, t_floor_roofed );
                     g->m.ter_set( above, t_flat_roof );
                     break;
                 case 'U':

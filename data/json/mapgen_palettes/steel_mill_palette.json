@@ -19,7 +19,7 @@
       "e": "t_elevator",
       "@": "t_elevator_control_off",
       "O": "t_wall_metal",
-      "o": "t_scrap_floor",
+      "o": "t_scrap_floor_roofed",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "/": "t_ladder_up",
@@ -47,7 +47,7 @@
       "G": "t_grate",
       "2": "t_sai_box",
       "5": "t_switchgear_l",
-      "`": "t_thconc_y"
+      "`": "t_thconc_y_roofed"
     },
     "furniture": {
       "h": "f_chair",

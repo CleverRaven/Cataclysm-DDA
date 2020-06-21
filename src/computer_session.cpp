@@ -323,7 +323,7 @@ void computer_session::action_open_disarm()
 
 void computer_session::action_open()
 {
-    get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
+    get_map().translate_radius( t_door_metal_locked, t_floor_roofed, 25.0, g->u.pos(), true );
     query_any( _( "Doors opened.  Press any key…" ) );
 }
 
@@ -396,7 +396,7 @@ void computer_session::action_release()
     g->events().send<event_type::releases_subspace_specimens>();
     sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
+    get_map().translate_radius( t_reinforced_glass, t_thconc_floor_roofed, 25.0, g->u.pos(), true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 
@@ -410,7 +410,7 @@ void computer_session::action_release_bionics()
 {
     sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
+    get_map().translate_radius( t_reinforced_glass, t_thconc_floor_roofed, 3.0, g->u.pos(), true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 

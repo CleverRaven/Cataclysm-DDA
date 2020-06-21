@@ -5,7 +5,7 @@
     "om_terrain": [ "s_bookstore" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -33,13 +33,13 @@
         "************************"
       ],
       "terrain": {
-        "#": "t_floor",
+        "#": "t_floor_roofed",
         "%": "t_console_broken",
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "^": [ "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree", "t_tree_hazelnut" ],
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         ":": "t_door_glass_c",
         "O": "t_window",
         "|": "t_wall_w",
@@ -130,8 +130,8 @@
         ".": "t_flat_roof",
         " ": "t_open_air",
         "#": "t_wall_r",
-        "_": "t_floor",
-        "C": "t_floor",
+        "_": "t_floor_roofed",
+        "C": "t_floor_roofed",
         "^": "t_door_locked",
         "2": "t_gutter_north",
         "-": "t_gutter_south",
@@ -224,7 +224,7 @@
     "om_terrain": [ "s_bookstore_1" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -252,12 +252,12 @@
         "************************"
       ],
       "terrain": {
-        "#": "t_floor",
+        "#": "t_floor_roofed",
         "%": "t_console_broken",
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         ">": "t_stairs_up",
@@ -306,7 +306,7 @@
     "om_terrain": "s_bookstore_roof_1",
     "weight": 200,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -340,7 +340,7 @@
         "T": "t_tile_flat_roof",
         "P": "t_tile_flat_roof",
         "&": "t_tile_flat_roof",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         ">": "t_stairs_down",
         "-": "t_glass_railing",
         "O": "t_window_domestic",
@@ -431,7 +431,7 @@
     "om_terrain": [ "s_bookstore_2" ],
     "weight": 3000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~qSq~~~~~~~~~~qqq~~~~~",
@@ -463,7 +463,7 @@
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "+": [ "t_door_c", "t_door_locked" ],
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "O": "t_window",
         "S": "t_sidewalk",
         "^": [ "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree", "t_tree_hazelnut" ],

@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "house_w_6",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..........GssM..........",
         "...$..MMMMMssMMMMM......",
@@ -32,7 +32,7 @@
         "........................"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_brick_wall", "F": "t_thconc_floor" },
+      "terrain": { "#": "t_brick_wall", "F": "t_thconc_floor_roofed" },
       "nested": {
         "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
         "3": {
@@ -79,7 +79,7 @@
     "method": "json",
     "om_terrain": "house_w_6_2ndfloor",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "------------------------",
         "------------------------",
@@ -189,7 +189,7 @@
     "method": "json",
     "om_terrain": "house_w_6_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",

@@ -52,7 +52,7 @@
         ",": [ "t_sewage", "t_sewage", "t_sewage", "t_dirt" ],
         "+": "t_door_metal_pickable",
         "-": "t_wall",
-        ".": "t_thconc_floor",
+        ".": "t_thconc_floor_roofed",
         "c": "t_chaingate_c",
         "|": "t_chainfence"
       },

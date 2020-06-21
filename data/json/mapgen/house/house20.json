@@ -6,7 +6,7 @@
     "type": "mapgen",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "...______.p.............",
         "...______``````.........",
@@ -43,17 +43,17 @@
         "K": "t_concrete",
         "G": "t_concrete",
         "_": "t_pavement",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "6": "t_thconc_floor",
-        "U": "t_thconc_floor",
-        "q": "t_thconc_floor",
-        "N": "t_thconc_floor",
-        "~": "t_thconc_floor"
+        "-": "t_linoleum_white_roofed",
+        "Q": "t_linoleum_white_roofed",
+        "8": "t_linoleum_white_roofed",
+        "9": "t_linoleum_white_roofed",
+        "S": "t_linoleum_white_roofed",
+        "t": "t_linoleum_white_roofed",
+        "6": "t_thconc_floor_roofed",
+        "U": "t_thconc_floor_roofed",
+        "q": "t_thconc_floor_roofed",
+        "N": "t_thconc_floor_roofed",
+        "~": "t_thconc_floor_roofed"
       },
       "furniture": { "!": "f_region_flower" }
     }
@@ -64,7 +64,7 @@
     "type": "mapgen",
     "weight": 80,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".g.pppppp.Acg...cg...cg.",
         "g..pppp^^ssssss..gc.g..g",
@@ -98,14 +98,14 @@
         "A": "t_grass",
         "P": "t_palisade_gate_o",
         "^": "t_pavement",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "c": "t_grass",
         "d": "t_door_frame",
         "g": "t_grass",
         "m": "t_mdoor_frame",
         "p": "t_pavement",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "{": "t_pavement",
         "|": "t_wall_wood"
       },
@@ -209,7 +209,7 @@
     "type": "mapgen",
     "weight": 80,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "d.dppppppddA.dddC.dddC.d",
         "..dpppp{psss...d...d.dd.",
@@ -244,9 +244,9 @@
         "C": "t_grass",
         "D": "t_door_o",
         "F": "t_shrub",
-        "H": "t_thconc_floor",
+        "H": "t_thconc_floor_roofed",
         "P": "t_palisade_gate_o",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "b": "t_door_c",
         "c": "t_concrete",
         "d": "t_dirt",
@@ -254,7 +254,7 @@
         "f": "t_shrub",
         "p": "t_pavement",
         "s": "t_sidewalk",
-        "t": "t_thconc_floor",
+        "t": "t_thconc_floor_roofed",
         "w": "t_window",
         "{": "t_pavement",
         "|": "t_wall_wood"

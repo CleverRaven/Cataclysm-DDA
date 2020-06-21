@@ -6,7 +6,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -35,7 +35,7 @@
       ],
       "rotation": 1,
       "palettes": [ "tri_tower", "upper_level" ],
-      "terrain": { ",": "t_carpet_green" },
+      "terrain": { ",": "t_carpet_green_roofed" },
       "furniture": { "y": "f_arcade_machine" },
       "npcs": { "@": { "class": "thug" } }
     }

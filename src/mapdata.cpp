@@ -498,15 +498,15 @@ ter_id t_null,
        // Ground
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
-       t_rock_floor,
+       t_rock_floor_roofed,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-       t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
-       t_floor, t_floor_waxed,
-       t_dirtfloor,//Dirt floor(Has roof)
-       t_carpet_red, t_carpet_yellow, t_carpet_purple, t_carpet_green,
-       t_linoleum_white, t_linoleum_gray,
+       t_thconc_floor_roofed, t_thconc_floor_roofed_olight, t_strconc_floor_roofed,
+       t_floor_roofed, t_floor_waxed_roofed,
+       t_dirtfloor_roofed,//Dirt floor(Has roof)
+       t_carpet_red_roofed, t_carpet_yellow_roofed, t_carpet_purple_roofed, t_carpet_green_roofed,
+       t_linoleum_white_roofed, t_linoleum_gray_roofed,
        t_grate,
        t_slime,
        t_bridge,
@@ -630,7 +630,7 @@ void set_ter_ids()
     t_pit_spiked_covered = ter_id( "t_pit_spiked_covered" );
     t_pit_glass = ter_id( "t_pit_glass" );
     t_pit_glass_covered = ter_id( "t_pit_glass_covered" );
-    t_rock_floor = ter_id( "t_rock_floor" );
+    t_rock_floor_roofed = ter_id( "t_rock_floor_roofed" );
     t_grass = ter_id( "t_grass" );
     t_grass_long = ter_id( "t_grass_long" );
     t_grass_tall = ter_id( "t_grass_tall" );
@@ -640,18 +640,18 @@ void set_ter_ids()
     t_pavement_y = ter_id( "t_pavement_y" );
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
-    t_thconc_floor = ter_id( "t_thconc_floor" );
-    t_thconc_floor_olight = ter_id( "t_thconc_floor_olight" );
-    t_strconc_floor = ter_id( "t_strconc_floor" );
-    t_floor = ter_id( "t_floor" );
-    t_floor_waxed = ter_id( "t_floor_waxed" );
-    t_dirtfloor = ter_id( "t_dirtfloor" );
-    t_carpet_red = ter_id( "t_carpet_red" );
-    t_carpet_yellow = ter_id( "t_carpet_yellow" );
-    t_carpet_purple = ter_id( "t_carpet_purple" );
-    t_carpet_green = ter_id( "t_carpet_green" );
-    t_linoleum_white = ter_id( "t_linoleum_white" );
-    t_linoleum_gray = ter_id( "t_linoleum_gray" );
+    t_thconc_floor_roofed = ter_id( "t_thconc_floor_roofed" );
+    t_thconc_floor_roofed_olight = ter_id( "t_thconc_floor_roofed_olight" );
+    t_strconc_floor_roofed = ter_id( "t_strconc_floor_roofed" );
+    t_floor_roofed = ter_id( "t_floor_roofed" );
+    t_floor_waxed_roofed = ter_id( "t_floor_waxed_roofed" );
+    t_dirtfloor_roofed = ter_id( "t_dirtfloor_roofed" );
+    t_carpet_red_roofed = ter_id( "t_carpet_red_roofed" );
+    t_carpet_yellow_roofed = ter_id( "t_carpet_yellow_roofed" );
+    t_carpet_purple_roofed = ter_id( "t_carpet_purple_roofed" );
+    t_carpet_green_roofed = ter_id( "t_carpet_green_roofed" );
+    t_linoleum_white_roofed = ter_id( "t_linoleum_white_roofed" );
+    t_linoleum_gray_roofed = ter_id( "t_linoleum_gray_roofed" );
     t_grate = ter_id( "t_grate" );
     t_slime = ter_id( "t_slime" );
     t_bridge = ter_id( "t_bridge" );

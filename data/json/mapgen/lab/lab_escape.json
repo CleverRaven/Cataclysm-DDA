@@ -6,7 +6,7 @@
     "om_terrain": [ "lab_escape_cells" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -34,7 +34,7 @@
         "-ggg|ggg|g!g|ggg|ggg-L-|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "^": [ "t_thconc_floor_olight" ] },
+      "terrain": { "^": [ "t_thconc_floor_roofed_olight" ] },
       "monster": { "z": { "monster": "mon_zombie" } },
       "mapping": {
         "b": { "items": [ { "item": "bed", "chance": 66 } ] },
@@ -56,7 +56,7 @@
     "om_terrain": [ "lab_escape_entrance" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|......................|",
         "x.....................Z|",
@@ -108,7 +108,7 @@
     "om_terrain": [ "lab_escape_entrance" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|......................|",
         "xZ.....................|",
@@ -160,7 +160,7 @@
     "om_terrain": [ "lab_escape_entrance" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "|......................|",
         ".......................|",

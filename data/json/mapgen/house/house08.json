@@ -5,7 +5,7 @@
     "om_terrain": [ "house_08" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".%%%.....p.-....%%%.....",
         ".%###o####o*o##########.",
@@ -109,7 +109,7 @@
     "method": "json",
     "om_terrain": "house_08_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "  ||||||||||||||||||||| ",

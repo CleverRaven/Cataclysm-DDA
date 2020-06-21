@@ -5,7 +5,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..........==========...,",
         ".,........=...======....",
@@ -35,8 +35,8 @@
       "terrain": {
         ".": "t_grass",
         ",": "t_dirt",
-        " ": "t_floor",
-        "'": "t_thconc_floor",
+        " ": "t_floor_roofed",
+        "'": "t_thconc_floor_roofed",
         "=": "t_sidewalk",
         "b": "t_shrub",
         "o": "t_wall_p",
@@ -92,7 +92,7 @@
     "method": "json",
     "om_terrain": "cs_car_showroom_2ndfloor",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -120,7 +120,7 @@
         "     ogggo              "
       ],
       "terrain": {
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         " ": "t_open_air",
         ",": "t_tile_flat_roof",
         "b": "t_tile_flat_roof",

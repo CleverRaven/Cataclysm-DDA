@@ -10,7 +10,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                                       ffffff  ffffffff     ffffffff   x    ________________    ",
         "                      ffffff ffff    fff    ffff      fffffff      fff x    _______yy_______    ",
@@ -165,7 +165,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "x                                                                                               ",
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                      ",
@@ -317,7 +317,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "x ,, b,,,,              ,|T+.+T|K[KlKlK[KlKlKlKlKlccoc|,  ,,,            sss________________sss ",
         "x ,, b ,,               ,|--.--|K.K.K.K.K.K.K.K.K.....|,  ,,             sss_______yy_______sss ",
@@ -571,7 +571,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                                                                                      ,,,,b ,, x",
         "                                                                                       ,,,b,,,,x",
@@ -837,7 +837,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "x,,, b,,,,                   ss///////////////////////////////////ssssssssss________________ssss",
         "x ,,,b ,,,                   sssssssssssssssssssssssssssssssssssssssssssssss_______yy_______ssss",
@@ -987,7 +987,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "-------w+----w--w--w--w--w--~s  ______________________________________________________,,,,b ,, x",
         "|T|T|T|..h|r[.r[.r[.r[Wr[.r|ss  ______________________________________________________,,, b,,, x",

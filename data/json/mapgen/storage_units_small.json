@@ -5,7 +5,7 @@
     "om_terrain": [ "small_storage_units" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "sssssss..........sssssss",
         "sssssss..........sssssss",
@@ -38,7 +38,7 @@
         ".": "t_pavement",
         "6": "t_gates_mech_control",
         "R": "t_pavement_y",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "c": "t_column",
         "p": "t_pavement_y",
         "r": "t_pavement",
@@ -138,7 +138,7 @@
     "om_terrain": [ "small_storage_units_1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "||||||...||||||...||||||",
         "|bb#6|6..|____|..6|6__M|",
@@ -172,7 +172,7 @@
         "-": "t_chainfence_v",
         ".": "t_pavement",
         "6": "t_gates_mech_control",
-        "_": "t_thconc_floor",
+        "_": "t_thconc_floor_roofed",
         "p": "t_pavement_y",
         "r": "t_pavement",
         "s": "t_sidewalk",

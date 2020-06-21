@@ -303,7 +303,7 @@ static void check_npc_movement( const tripoint &origin )
 TEST_CASE( "npc-movement" )
 {
     const ter_id t_reinforced_glass( "t_reinforced_glass" );
-    const ter_id t_floor( "t_floor" );
+    const ter_id t_floor_roofed( "t_floor_roofed" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
     const vpart_id vpart_frame_vertical( "frame_vertical" );
@@ -321,7 +321,7 @@ TEST_CASE( "npc-movement" )
             if( type == '#' ) {
                 g->m.ter_set( p, t_reinforced_glass );
             } else {
-                g->m.ter_set( p, t_floor );
+                g->m.ter_set( p, t_floor_roofed );
             }
             // spawn acid
             // a copy is needed because we will remove elements from it

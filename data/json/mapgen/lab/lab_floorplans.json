@@ -5,7 +5,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "       |       |       |",
         "       |       |       |",
@@ -56,7 +56,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
@@ -111,7 +111,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 50,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
@@ -174,7 +174,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
@@ -225,7 +225,7 @@
     "om_terrain": [ "lab_4side" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rotation": [ 0, 3 ],
       "rows": [
         "...!....!......!.....rrr",
@@ -257,7 +257,7 @@
       "furniture": { "f": "f_null" },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ],
+        "!": [ "t_thconc_floor_roofed", "t_thconc_floor_roofed", "t_console_broken", "t_generator_broken" ],
         "C": "t_centrifuge"
       },
       "mapping": {
@@ -340,7 +340,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 3, 4 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         "l.......................",
@@ -386,7 +386,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 3, 4 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         "l.......................",
@@ -432,7 +432,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ".......L...............l",
         ".......L...............l",
@@ -505,7 +505,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "..cccccc.|...|,,,|..|,,,",
         "c........|...|,,,|.6|,,,",
@@ -584,7 +584,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 1 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "....l|.......|---------|",
         "....l|.......|         |",
@@ -615,8 +615,8 @@
       "terrain": {
         "C": "t_centrifuge",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "7": "t_floor",
-        "8": "t_floor"
+        "7": "t_floor_roofed",
+        "8": "t_floor_roofed"
       },
       "furniture": { "7": "f_autodoc", "8": "f_autodoc_couch" },
       "items": {
@@ -655,7 +655,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,|..|.....|.........",
         ",,,,,|7.|.....|..cxcC...",
@@ -721,7 +721,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ".....|...........f.rrrrr",
         ".lll.|...........f......",
@@ -784,7 +784,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_thconc_floor" },
+      "terrain": { "X": "t_thconc_floor_roofed" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
       "mapping": {
         "X": {
@@ -801,7 +801,7 @@
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "#########|....|#########",
         "#|-|-|###|....|###|-|---",
@@ -856,7 +856,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -909,7 +909,7 @@
     "weight": 100,
     "object": {
       "rotation": [ 0, 1 ],
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "BB|FFFt |`````| tFFF|BB|",
         "  +   F w`````w F   +  |",

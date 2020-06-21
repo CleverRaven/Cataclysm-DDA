@@ -5,7 +5,7 @@
     "om_terrain": [ [ "dairy_farm_isherwood_SW", "dairy_farm_isherwood_SE" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "faction_owner": [
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
@@ -49,8 +49,8 @@
         "X": [ [ "t_grass", 2 ], [ "t_dirt", 3 ] ],
         "O": "t_bulk_tank",
         "H": "t_dirt",
-        "Y": "t_floor",
-        "_": "t_floor",
+        "Y": "t_floor_roofed",
+        "_": "t_floor_roofed",
         "a": [ [ "t_grass", 2 ], [ "t_dirt", 3 ] ],
         "f": "t_splitrail_fencegate_c",
         "|": "t_wall_r",
@@ -222,7 +222,7 @@
     "//": "for Isherwood farm future update mapgen via mission",
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "........................",
         "........................",
@@ -259,7 +259,7 @@
         "U": "t_dirt",
         "w": "t_window_domestic",
         "+": "t_door_c",
-        "-": "t_dirtfloor",
+        "-": "t_dirtfloor_roofed",
         "9": [
           "t_tree_blackjack",
           "t_tree_walnut",
@@ -368,7 +368,7 @@
         "U": "t_dirt",
         "w": "t_window_domestic",
         "+": "t_door_c",
-        "-": "t_dirtfloor",
+        "-": "t_dirtfloor_roofed",
         "9": [
           "t_tree_blackjack",
           "t_tree_walnut",
@@ -415,7 +415,7 @@
     "om_terrain": "smokehouse",
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_dirtfloor",
+      "fill_ter": "t_dirtfloor_roofed",
       "rows": [
         "............,,,.........",
         "..........,,,,,,........",
@@ -451,7 +451,7 @@
         "U": "t_dirt",
         ",": "t_woodchips",
         "+": "t_door_c",
-        "-": "t_dirtfloor",
+        "-": "t_dirtfloor_roofed",
         "9": [
           "t_tree_blackjack",
           "t_tree_walnut",

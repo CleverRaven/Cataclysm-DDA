@@ -5,7 +5,7 @@
     "om_terrain": [ "candy_shop" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".............dssd.......",
         "....fD..f.D..dssd....fD.",
@@ -39,7 +39,7 @@
         "7": "t_tree_apple_harvested",
         "D": "t_dirt",
         "R": "t_railing_v",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "a": "t_door_glass_c",
         "b": "t_sidewalk",
         "d": "t_dirt",
@@ -166,7 +166,7 @@
     "om_terrain": [ "candy_shop_1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "............ss..........",
         "............ss..........",
@@ -200,7 +200,7 @@
         "4": "t_tree_pine",
         "7": "t_tree_birch_harvested",
         "D": "t_dirt",
-        "_": "t_floor",
+        "_": "t_floor_roofed",
         "a": "t_door_c",
         "b": "t_sidewalk",
         "c": "t_pavement",

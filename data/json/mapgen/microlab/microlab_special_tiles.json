@@ -4,7 +4,7 @@
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc  |   c|  |c  c|r    ",
         " cc  |   c|  |c  c|r  c ",
@@ -43,7 +43,7 @@
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "     | cc |  | cc |     ",
         "     2    2  2    | c c ",
@@ -83,7 +83,7 @@
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "     | cc 2  2 cc |     ",
         "     |    |^^|    |cccc ",
@@ -123,7 +123,7 @@
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc  |   c|  |c  c|r    ",
         " cc  |   c| u|c  c|r  c ",
@@ -166,7 +166,7 @@
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "^|FFF|c  c|  |c  c|     ",
         " ||||||||||  |||||||||| ",

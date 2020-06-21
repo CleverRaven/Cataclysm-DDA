@@ -5,7 +5,7 @@
     "om_terrain": [ [ "public_works_NW", "public_works_NE" ], [ "public_works_SW", "public_works_SE" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                                                ",
         " |---------------|FFFFFFFFFFFFFFF|------------| ",
@@ -62,7 +62,7 @@
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall_w",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "6": "t_console",
         "=": "t_door_locked",
         "D": "t_door_locked_alarm",

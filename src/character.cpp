@@ -5974,9 +5974,9 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
         } else if( ter_at_pos == t_improvised_shelter ) {
             comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( ter_at_pos == t_floor || ter_at_pos == t_floor_waxed ||
-                   ter_at_pos == t_carpet_red || ter_at_pos == t_carpet_yellow ||
-                   ter_at_pos == t_carpet_green || ter_at_pos == t_carpet_purple ) {
+        } else if( ter_at_pos == t_floor_roofed || ter_at_pos == t_floor_waxed_roofed ||
+                   ter_at_pos == t_carpet_red_roofed || ter_at_pos == t_carpet_yellow_roofed ||
+                   ter_at_pos == t_carpet_green_roofed || ter_at_pos == t_carpet_purple_roofed ) {
             comfort += 1 + static_cast<int>( comfort_level::neutral );
         } else if( !trap_at_pos.is_null() ) {
             comfort += 0 + trap_at_pos.comfort;

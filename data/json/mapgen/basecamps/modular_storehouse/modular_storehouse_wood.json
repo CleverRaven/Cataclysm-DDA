@@ -3,13 +3,13 @@
     "type": "palette",
     "id": "fbms_wood_palette",
     "terrain": {
-      ".": "t_floor",
+      ".": "t_floor_roofed",
       "b": "t_grass",
-      "p": "t_floor",
+      "p": "t_floor_roofed",
       "d": "t_door_c",
       "o": "t_window_no_curtains",
       "w": "t_wall_wood",
-      ";": "t_floor_primitive"
+      ";": "t_floor_primitive_roofed"
     },
     "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
   },

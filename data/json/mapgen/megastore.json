@@ -6,7 +6,7 @@
       "#": "t_open_air",
       " ": "t_open_air_rooved",
       "~": "t_flat_roof",
-      ".": "t_thconc_floor",
+      ".": "t_thconc_floor_roofed",
       "^": "t_glass_roof",
       "1": "t_metal_railing",
       "%": "t_grate",
@@ -216,7 +216,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -259,7 +259,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -302,7 +302,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -345,7 +345,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -388,7 +388,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -431,7 +431,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -469,7 +469,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -507,7 +507,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -545,7 +545,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -583,7 +583,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -621,7 +621,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,PPPPPPPPPPPP,,,,,,,",
         ",,,,,PPPPPPPPPPPP,,,,,,,",
@@ -661,7 +661,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,PPPPPPPPPPPP,,,,,,,",
         ",,,,,PPPPPPPPPPPP,,,,,,,",
@@ -701,7 +701,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,PPPPPPPPPPPP,,,,,,,",
         ",,,,,PPPPPPPPPPPP,,,,,,,",
@@ -741,7 +741,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,PPPPPPPPPPPP,,,,,,,",
         ",,,,,PPPPPPPPPPPP,,,,,,,",
@@ -781,7 +781,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,PPPPPPPPPPPP,,,,,,,",
         ",,,,,PPPPPPPPPPPP,,,,,,,",
@@ -821,7 +821,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -860,7 +860,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -901,7 +901,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -940,7 +940,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -979,7 +979,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1018,7 +1018,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         ".KKKKKKKKKKKKKK..RR..RR.",
@@ -1057,7 +1057,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         ".....r...rr.............",
@@ -1096,7 +1096,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ".....rr..........rr.....",
         ".....rr....rr....rr.....",
@@ -1135,7 +1135,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ".RR..RR..RR.............",
         ".RR..RR..RR....FFFFFFF..",
@@ -1174,7 +1174,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "........................",
         "rrrrrrrrrr..............",
@@ -1213,7 +1213,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1252,7 +1252,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1291,7 +1291,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1330,7 +1330,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1370,7 +1370,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1409,7 +1409,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1448,7 +1448,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1487,7 +1487,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1527,7 +1527,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1566,7 +1566,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1606,7 +1606,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "WWWWWWWWWWWWWWWWWWWWWWWW",
         "WWWWWWWWWWWWWWWWWWWWWWWW",
@@ -1647,7 +1647,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "WWWWWWWWWWWWWWWWWWWWWWWW",
         "WWWWWWWWWWWWWWWWWWWWWWWW",
@@ -1687,7 +1687,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1727,7 +1727,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1766,7 +1766,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1806,7 +1806,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1845,7 +1845,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1884,7 +1884,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -1922,7 +1922,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -1960,7 +1960,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -1999,7 +1999,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2037,7 +2037,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -2075,7 +2075,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2151,7 +2151,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -2189,7 +2189,7 @@
     "weight": 10,
     "method": "json",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",

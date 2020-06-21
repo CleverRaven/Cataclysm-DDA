@@ -623,7 +623,7 @@
     "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 2 } ] ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "sheet_metal", 2 ] ] ],
-    "pre_terrain": "t_floor",
+    "pre_terrain": "t_floor_roofed",
     "post_terrain": "t_bars"
   },
   {
@@ -991,7 +991,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "t_floor_noroof"
+    "post_terrain": "t_floor_no_roof"
   },
   {
     "type": "construction",
@@ -1115,7 +1115,7 @@
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "t_scrap_floor"
+    "post_terrain": "t_scrap_floor_roofed"
   },
   {
     "type": "construction",
@@ -1142,7 +1142,7 @@
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 4 ] ], [ [ "water", 4 ] ] ],
     "pre_terrain": "t_ov_smreb_cage",
-    "post_terrain": "t_thconc_floor"
+    "post_terrain": "t_thconc_floor_roofed"
   },
   {
     "type": "construction",
@@ -1183,7 +1183,7 @@
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
     "components": [ [ [ "concrete", 6 ] ], [ [ "water", 3 ] ] ],
     "pre_terrain": "t_strconc_floor_halfway",
-    "post_terrain": "t_strconc_floor"
+    "post_terrain": "t_strconc_floor_roofed"
   },
   {
     "type": "construction",
@@ -1283,7 +1283,7 @@
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "t_floor"
+    "post_terrain": "t_floor_roofed"
   },
   {
     "type": "construction",
@@ -1313,7 +1313,7 @@
     ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "t_floor_primitive"
+    "post_terrain": "t_floor_primitive_roofed"
   },
   {
     "type": "construction",
@@ -1326,7 +1326,7 @@
     "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
-    "post_terrain": "t_dirtfloor"
+    "post_terrain": "t_dirtfloor_roofed"
   },
   {
     "type": "construction",
@@ -2326,7 +2326,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ], [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ],
-    "pre_terrain": "t_floor",
+    "pre_terrain": "t_floor_roofed",
     "post_terrain": "t_railing"
   },
   {
@@ -2348,8 +2348,8 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "tools": [ [ "chipper" ] ],
-    "pre_terrain": "t_floor_waxed_y",
-    "post_terrain": "t_floor"
+    "pre_terrain": "t_floor_waxed_y_roofed",
+    "post_terrain": "t_floor_roofed"
   },
   {
     "type": "construction",
@@ -2444,7 +2444,7 @@
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "pre_flags": "RUG",
-    "post_terrain": "t_floor"
+    "post_terrain": "t_floor_roofed"
   },
   {
     "type": "construction",
@@ -2455,8 +2455,8 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
-    "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_red"
+    "pre_terrain": "t_floor_roofed",
+    "post_terrain": "t_carpet_red_roofed"
   },
   {
     "type": "construction",
@@ -2467,8 +2467,8 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
-    "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_purple"
+    "pre_terrain": "t_floor_roofed",
+    "post_terrain": "t_carpet_purple_roofed"
   },
   {
     "type": "construction",
@@ -2479,8 +2479,8 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
-    "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_yellow"
+    "pre_terrain": "t_floor_roofed",
+    "post_terrain": "t_carpet_yellow_roofed"
   },
   {
     "type": "construction",
@@ -2491,8 +2491,8 @@
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
-    "pre_terrain": "t_floor",
-    "post_terrain": "t_carpet_green"
+    "pre_terrain": "t_floor_roofed",
+    "post_terrain": "t_carpet_green_roofed"
   },
   {
     "type": "construction",
@@ -2503,8 +2503,8 @@
     "time": "10 m",
     "tools": [ [ [ "mop", -1 ], [ "paint_brush", -1 ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "wax", 5 ] ] ],
-    "pre_terrain": "t_floor",
-    "post_terrain": "t_floor_waxed"
+    "pre_terrain": "t_floor_roofed",
+    "post_terrain": "t_floor_waxed_roofed"
   },
   {
     "type": "construction",
@@ -2514,8 +2514,8 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "tools": [ [ "chipper" ] ],
-    "pre_terrain": "t_floor_waxed",
-    "post_terrain": "t_floor"
+    "pre_terrain": "t_floor_waxed_roofed",
+    "post_terrain": "t_floor_roofed"
   },
   {
     "type": "construction",
@@ -2550,7 +2550,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_down_OK",
-    "pre_terrain": "t_rock_floor",
+    "pre_terrain": "t_rock_floor_roofed",
     "post_special": "done_mine_downstair"
   },
   {
@@ -3172,7 +3172,7 @@
       ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "t_junk_floor"
+    "post_terrain": "t_junk_floor_roofed"
   },
   {
     "type": "construction",
@@ -3186,7 +3186,7 @@
       [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
-    "pre_terrain": "t_floor",
+    "pre_terrain": "t_floor_roofed",
     "post_terrain": "f_pillow_fort"
   },
   {

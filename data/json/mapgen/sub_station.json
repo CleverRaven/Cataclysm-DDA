@@ -5,7 +5,7 @@
     "om_terrain": [ "sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "SSSSSSSSSSSSSSSSSSSSSSSS",
         "SSSSSSSSSSSSSSSSSSSSSSSS",
@@ -77,7 +77,7 @@
     "om_terrain": [ "sewer_sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -116,7 +116,7 @@
     "om_terrain": [ "underground_sub_station" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "#^^^X^^^X^^^^^^X^^^X^^^#",
         "#^^-x---x-^^^^-x---x-^^#",

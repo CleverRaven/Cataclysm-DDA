@@ -5,7 +5,7 @@
     "method": "json",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ",--==================--.",
         ",|''''''''''''''''''''|,",
@@ -37,7 +37,7 @@
         ",": "t_dirt",
         "'": "t_pavement",
         "y": "t_pavement_y",
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "w": "t_wall_wood",
         "l": "t_door_locked_interior",
         "D": "t_door_c",

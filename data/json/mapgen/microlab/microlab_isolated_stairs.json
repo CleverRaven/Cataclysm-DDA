@@ -4,7 +4,7 @@
     "om_terrain": [ [ "microlab_generic_stairs_down" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "#####|            |#####",
         "#####|====    ====|#####",
@@ -32,7 +32,7 @@
         "########################"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -40,7 +40,7 @@
     "om_terrain": [ [ "microlab_generic_isolated_stairs_odd" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -68,7 +68,7 @@
         "########################"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -76,7 +76,7 @@
     "om_terrain": [ [ "microlab_generic_isolated_stairs_even" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -104,7 +104,7 @@
         "########################"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -112,7 +112,7 @@
     "om_terrain": [ [ "microlab_generic_isolated_stairs_up" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         "#####|            |#####",
         "#####|====    ====|#####",
@@ -140,7 +140,7 @@
         "########################"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "ó": "t_concrete", "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "ó": "t_concrete", "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {

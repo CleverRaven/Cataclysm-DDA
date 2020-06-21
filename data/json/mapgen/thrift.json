@@ -5,7 +5,7 @@
     "om_terrain": [ "s_thrift" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "rrrrrrrrrrrrrrrrrrrrrrrr",
         "yrrryrrryrrryrrryrrryrrr",
@@ -33,7 +33,7 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "+": "t_door_locked",
         "-": "t_wall_w",
         ".": "t_grass",
@@ -45,10 +45,10 @@
         "5": "t_wall_wood",
         "6": "t_wall_glass_h",
         "7": "t_wall_glass_v",
-        "E": "t_dirtfloor",
-        "G": "t_dirtfloor",
+        "E": "t_dirtfloor_roofed",
+        "G": "t_dirtfloor_roofed",
         "g": "t_door_glass_c",
-        "o": "t_carpet_purple",
+        "o": "t_carpet_purple_roofed",
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w",

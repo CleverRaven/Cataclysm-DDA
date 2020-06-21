@@ -31,7 +31,7 @@
     "om_terrain": [ "hunter_shack" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -75,7 +75,7 @@
         "+": "t_door_c",
         ",": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
         "-": "t_wall_wood",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         "=": "t_dirt",
         "V": "t_dirt",
         "X": "t_dirt",
@@ -196,7 +196,7 @@
     "om_terrain": [ "hunter_shack_1" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         "                        ",
@@ -245,7 +245,7 @@
         "+": "t_door_c",
         ",": "t_dirt",
         "-": "t_wall_wood",
-        ".": "t_floor",
+        ".": "t_floor_roofed",
         ";": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
         "R": "t_dirt",
         "1": "t_dirt",

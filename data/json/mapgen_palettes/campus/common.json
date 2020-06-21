@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "campus_common",
     "terrain": {
-      ",": "t_floor",
+      ",": "t_floor_roofed",
       "|": "t_brick_wall",
       "R": "t_flat_roof",
       ".": "t_region_groundcover_urban",

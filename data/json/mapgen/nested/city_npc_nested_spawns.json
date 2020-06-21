@@ -56,7 +56,7 @@
         "_L....._________________",
         "_LLLLLL.________________"
       ],
-      "terrain": { "_": "t_null", "-": "t_wall", ".": "t_floor" },
+      "terrain": { "_": "t_null", "-": "t_wall", ".": "t_floor_roofed" },
       "furniture": { "t": "f_table", "b": "f_brazier", "m": "f_makeshift_bed", "7": "f_safe_o", "L": "f_locker" },
       "place_npcs": [ { "class": "survivor_cop", "x": 5, "y": 8 } ],
       "items": {
@@ -89,7 +89,7 @@
         ",,,M@,,,W",
         ",,,,,,,aW"
       ],
-      "terrain": { "W": "t_wall_p", "D": "t_door_c", ",": "t_floor" },
+      "terrain": { "W": "t_wall_p", "D": "t_door_c", ",": "t_floor_roofed" },
       "toilets": { "T": {  } },
       "furniture": {
         "l": "f_locker",
@@ -118,7 +118,7 @@
         "Wl,,bW",
         "WWWXWW"
       ],
-      "terrain": { "W": "t_wall_p", "D": "t_door_c", "X": "t_rdoor_boarded", ",": "t_floor" },
+      "terrain": { "W": "t_wall_p", "D": "t_door_c", "X": "t_rdoor_boarded", ",": "t_floor_roofed" },
       "toilets": { "T": {  } },
       "furniture": { "l": "f_locker", "b": "f_bench", "h": "f_shower", "s": "f_sink" },
       "place_loot": [

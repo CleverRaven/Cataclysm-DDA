@@ -33,7 +33,7 @@
         "      ^^    ss    ^^   s ",
         "      ^^    ss    ^^   s "
       ],
-      "terrain": { "p": "t_floor", "W": "t_floor", "<": "t_stairs_up", "y": "t_floor", "r": "t_carpet_red" },
+      "terrain": { "p": "t_floor_roofed", "W": "t_floor_roofed", "<": "t_stairs_up", "y": "t_floor_roofed", "r": "t_carpet_red_roofed" },
       "furniture": { "p": "f_piano", "W": "f_wardrobe" },
       "palettes": [ "church" ],
       "mapping": { "b": { "furniture": "f_brazier" } },
@@ -105,7 +105,7 @@
     "method": "json",
     "om_terrain": "church_steeple",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                         ",
         "                         ",
@@ -141,7 +141,7 @@
     "method": "json",
     "om_terrain": "church_steeple_end",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                         ",
         "                         ",
@@ -177,7 +177,7 @@
     "method": "json",
     "om_terrain": "church_steeple_roof",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                         ",
         "                         ",

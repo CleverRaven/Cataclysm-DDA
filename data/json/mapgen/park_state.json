@@ -172,10 +172,10 @@
         "D": "t_door_o",
         "S": "t_shrub_strawberry",
         "_": "t_grass",
-        "a": "t_floor",
-        "c": "t_floor",
+        "a": "t_floor_roofed",
+        "c": "t_floor_roofed",
         "d": "t_dirt",
-        "f": "t_floor",
+        "f": "t_floor_roofed",
         "p": "t_pavement_y",
         "s": "t_sidewalk",
         "|": "t_chainfence_v"

@@ -6,7 +6,7 @@
     "weight": 0,
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         ".....|....|  |....|.....",
         ".....|--+-|  |....|.....",

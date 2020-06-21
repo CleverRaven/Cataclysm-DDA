@@ -5,7 +5,7 @@
     "om_terrain": [ "mil_base_tunnels_a" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@@@@@@@@@@@@@@@@@@@",
         "@@@@@@@@@@@@@@@@@@@@@@@@",
@@ -41,7 +41,7 @@
     "om_terrain": [ "mil_base_tunnels_b" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@/../@@@@@@@@@@@@@@",
         "@@@@@@/../@@@@@@@@@@@@@@",
@@ -77,7 +77,7 @@
     "om_terrain": [ "mil_base_tunnels_c" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@/../@@@@@@@@@@@@@@",
         "///////../@@@@@@@@@@@@@@",
@@ -121,7 +121,7 @@
     "om_terrain": [ "mil_base_tunnels_d" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@//////../@@@@@@@@@@@@@@",
         "@/<.D..../@@@@@@@@@@@@@@",
@@ -157,7 +157,7 @@
     "om_terrain": [ "mil_base_tunnels_e" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@@@@@@@@@@@@@@@@@@@",
         "////////////////////////",
@@ -202,7 +202,7 @@
     "om_terrain": [ "mil_base_tunnels_f" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "/OAAAY/../[.hhhhhh.[/@@@",
         "/.....+../[.''''''.[/@@@",
@@ -251,7 +251,7 @@
     "om_terrain": [ "mil_base_tunnels_g" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@@@@@@@@@@@@@@@@@@@",
         "////////////////////////",
@@ -287,7 +287,7 @@
     "om_terrain": [ "mil_base_tunnels_h" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@@@@@@@@@@@///@@@@@",
         "@@@@@@@@@@@@@@@@/<//////",
@@ -323,7 +323,7 @@
     "om_terrain": [ "mil_base_tunnels_i" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_thconc_floor_roofed",
       "rows": [
         "@@@@@@@@@@@@@@@@@@@@@@@@",
         "@@@@@@@@@@@@@@@@@@@@@@@@",
@@ -352,7 +352,7 @@
       ],
       "palettes": [ "mil_base_palette" ],
       "furniture": { "B": "f_bench" },
-      "terrain": { "B": "t_thconc_floor" },
+      "terrain": { "B": "t_thconc_floor_roofed" },
       "place_loot": [
         { "item": "detergent", "x": [ 12, 13 ], "y": 7, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "bleach", "x": [ 14, 15 ], "y": 7, "chance": 75, "repeat": [ 25, 50 ] },

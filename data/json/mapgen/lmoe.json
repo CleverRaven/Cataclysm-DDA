@@ -117,7 +117,7 @@
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_rock_floor_roofed",
       "rows": [
         "########################",
         "########################",
@@ -156,7 +156,7 @@
     "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",
     "weight": 100,
     "object": {
-      "fill_ter": "t_carpet_metal",
+      "fill_ter": "t_carpet_metal_roofed",
       "rows": [
         "##|||||#################",
         "##|,,<|||||||###########",

@@ -5,7 +5,7 @@
     "om_terrain": [ "mortuary" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "..,,,,,...uuuu...,,,,,..",
         "..,,,,,..uaaaau..,,,,,..",
@@ -33,22 +33,22 @@
         ".........u.,,.u........."
       ],
       "terrain": {
-        " ": "t_floor",
+        " ": "t_floor_roofed",
         "*": "t_door_locked_interior",
         "+": "t_door_c",
         ",": "t_pavement",
         "-": "t_wall_w",
         ".": "t_grass",
-        "L": "t_linoleum_white",
-        "T": "t_linoleum_white",
+        "L": "t_linoleum_white_roofed",
+        "T": "t_linoleum_white_roofed",
         "a": "t_dirt",
-        "d": "t_linoleum_white",
+        "d": "t_linoleum_white_roofed",
         "f": "t_dirt",
-        "i": "t_linoleum_white",
+        "i": "t_linoleum_white_roofed",
         "o": [ "t_window_domestic", "t_window_open", "t_curtains" ],
         "u": "t_shrub",
         "|": "t_wall_w",
-        "~": "t_linoleum_white",
+        "~": "t_linoleum_white_roofed",
         "4": "t_gutter_downspout"
       },
       "toilets": { "&": {  } },

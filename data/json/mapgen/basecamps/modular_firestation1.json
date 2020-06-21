@@ -29,7 +29,7 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "terrain", "id": "t_floor", "x": 6, "y": 12 },
+        { "point": "terrain", "id": "t_floor_roofed", "x": 6, "y": 12 },
         { "point": "furniture", "id": "f_bulletin", "x": 6, "y": 12 }
       ]
     }

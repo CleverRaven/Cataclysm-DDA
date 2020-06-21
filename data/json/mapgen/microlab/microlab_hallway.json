@@ -4,7 +4,7 @@
     "om_terrain": [ [ "microlab_generic_hallway" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc  | PP  PP  PP |     ",
         " cc  | PP  PP  PP |     ",
@@ -32,7 +32,7 @@
         "     | PP  PP  PP |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -40,7 +40,7 @@
     "om_terrain": [ [ "microlab_generic_hallway" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc  | PP  PP  PP |     ",
         " cc  | PP      PP |     ",
@@ -68,7 +68,7 @@
         "    F| PP  PP  PP |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -76,7 +76,7 @@
     "om_terrain": [ [ "microlab_generic_hallway" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc  | PP  PP  PP |     ",
         " cc  | PP      PP |     ",
@@ -104,7 +104,7 @@
         "    F| PP  PP  PP |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -112,7 +112,7 @@
     "om_terrain": [ [ "microlab_generic_hallway" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc c| PP  PP  PP |c c  ",
         " cc c| PP  PP  PP |c    ",
@@ -140,7 +140,7 @@
         "     | PP  PP  PP |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   },
   {
@@ -148,7 +148,7 @@
     "om_terrain": [ [ "microlab_generic_hallway" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor",
+      "fill_ter": "t_strconc_floor_roofed",
       "rows": [
         " cc c| PP  PP  PP |c c  ",
         " cc c| PP  PP  PP |c    ",
@@ -176,7 +176,7 @@
         "     | PP  PP  PP |     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red_roofed" }
     }
   }
 ]

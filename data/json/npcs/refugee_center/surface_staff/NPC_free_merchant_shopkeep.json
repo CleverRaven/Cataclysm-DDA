@@ -422,7 +422,7 @@
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "set": [ { "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
+        "set": [ { "square": "terrain", "id": "t_floor_roofed", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

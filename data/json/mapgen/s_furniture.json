@@ -5,7 +5,7 @@
     "om_terrain": [ "furniture" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_floor_roofed",
       "rows": [
         "                        ",
         " |ggggggggg++ggggggggg| ",
@@ -111,7 +111,7 @@
         " |--------######-3      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "p": "t_floor", "v": "t_floor", ">": "t_ladder_down", "D": "t_door_locked" },
+      "terrain": { "#": "t_wall_w", "p": "t_floor_roofed", "v": "t_floor_roofed", ">": "t_ladder_down", "D": "t_door_locked" },
       "furniture": { "v": "f_floor_lamp", "p": "f_rack_coat" },
       "place_nested": [
         {

@@ -145,7 +145,7 @@
             "rotates":false
         },
         {
-            "id": [ "t_thconc_floor", "t_strconc_floor" ],
+            "id": [ "t_thconc_floor_roofed", "t_strconc_floor_roofed" ],
             "bg": 82,
             "rotates":false
         },
@@ -180,7 +180,7 @@
             "rotates":false
         },
         {
-            "id":"t_rock_floor",
+            "id":"t_rock_floor_roofed",
             "bg":3,
             "rotates":false
         },
@@ -311,17 +311,17 @@
         "rotates":false
     },
      {
-        "id": "t_strconc_floor",
+        "id": "t_strconc_floor_roofed",
         "fg":82,
         "rotates":false
     },
        {
-            "id":"t_floor",
+            "id":"t_floor_roofed",
             "bg":11,
             "rotates":false
         },
         {
-            "id":"t_dirtfloor",
+            "id":"t_dirtfloor_roofed",
             "fg":2,
             "rotates":false
         },
@@ -1697,17 +1697,17 @@
             "rotates":false
         },
         {
-            "id":"t_carpet_red",
+            "id":"t_carpet_red_roofed",
             "bg":429,
             "rotates":false
         },
         {
-            "id":"t_carpet_green",
+            "id":"t_carpet_green_roofed",
             "bg":430,
             "rotates":false
         },
         {
-            "id": [ "t_linoleum_gray", "t_linoleum_white" ],
+            "id": [ "t_linoleum_gray_roofed", "t_linoleum_white_roofed" ],
             "bg":53,
             "rotates":false
         },
@@ -1780,13 +1780,13 @@
             "rotates":false
         },
         {
-            "id":"t_carpet_red",
+            "id":"t_carpet_red_roofed",
             "bg":52,
             "fg":429,
             "rotates":false
         },
         {
-            "id":"t_carpet_green",
+            "id":"t_carpet_green_roofed",
             "bg":52,
             "fg":430,
             "rotates":false
@@ -10767,13 +10767,13 @@
          "multitile" : false
       },
 	{
-          "id": "t_linoleum_gray",
+          "id": "t_linoleum_gray_roofed",
           "fg": 1373,
           "rotates": false,
          "multitile" : false
         },
         {
-          "id": "t_linoleum_white",
+          "id": "t_linoleum_white_roofed",
           "fg": 1374,
           "rotates": false,
          "multitile" : false
