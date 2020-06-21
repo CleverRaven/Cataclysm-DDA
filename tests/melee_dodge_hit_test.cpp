@@ -352,3 +352,52 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     }
 }
 
+TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]" )
+{
+    avatar &dummy = g->u;
+    clear_character( dummy );
+
+    SECTION( "8/8/8/8, no skills, unencumbered" ) {
+        const int stamina_max = dummy.get_stamina_max();
+
+        SECTION( "100% stamina" ) {
+            CHECK( dummy.get_dodge() == 4.0f );
+        }
+
+        SECTION( "75% stamina" ) {
+            dummy.set_stamina( .75 * stamina_max );
+            CHECK( dummy.get_dodge() == 4.0f );
+        }
+
+        SECTION( "50% stamina" ) {
+            dummy.set_stamina( .5 * stamina_max );
+            CHECK( dummy.get_dodge() == 4.0f );
+        }
+
+        SECTION( "40% stamina" ) {
+            dummy.set_stamina( .4 * stamina_max );
+            CHECK( dummy.get_dodge() == 3.2f );
+        }
+
+        SECTION( "30% stamina" ) {
+            dummy.set_stamina( .3 * stamina_max );
+            CHECK( dummy.get_dodge() == 2.4f );
+        }
+
+        SECTION( "20% stamina" ) {
+            dummy.set_stamina( .2 * stamina_max );
+            CHECK( dummy.get_dodge() == 1.6f );
+        }
+
+        SECTION( "10% stamina" ) {
+            dummy.set_stamina( .1 * stamina_max );
+            CHECK( dummy.get_dodge() == 0.8f );
+        }
+
+        SECTION( "0% stamina" ) {
+            dummy.set_stamina( 0 );
+            CHECK( dummy.get_dodge() == 0.0f );
+        }
+    }
+}
+
