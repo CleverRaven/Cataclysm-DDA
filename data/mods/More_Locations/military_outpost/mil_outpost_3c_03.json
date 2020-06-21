@@ -35,7 +35,6 @@
       ],
       "palettes": [ "mil_outpost_bandit" ],
       "terrain": {
-        ".": [ "t_carpet_red", "t_carpet_yellow", "t_carpet_green", "t_carpet_purple", "t_linoleum_white" ],
         ".": [
           "t_carpet_red_roofed",
           "t_carpet_yellow_roofed",

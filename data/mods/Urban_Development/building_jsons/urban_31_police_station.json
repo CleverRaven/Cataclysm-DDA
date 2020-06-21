@@ -254,16 +254,12 @@
         "l''$''TlT''$''l;;;;;;;;;"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-<<<<<<< Updated upstream
-      "terrain": { "S": "t_strconc_floor", "T": "t_strconc_floor", "b": "t_strconc_floor", "r": "t_strconc_floor" },
-=======
       "terrain": {
         "S": "t_strconc_floor_roofed",
         "T": "t_strconc_floor_roofed",
         "b": "t_strconc_floor_roofed",
         "r": "t_strconc_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "T": {  } },
       "items": {
         "'": { "item": "trash_cart", "chance": 1 },

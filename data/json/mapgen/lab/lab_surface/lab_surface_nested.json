@@ -442,9 +442,6 @@
         "dc   ",
         "dx   "
       ],
-<<<<<<< Updated upstream
-      "terrain": { " ": "t_floor", "f": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
-=======
       "terrain": {
         " ": "t_floor_roofed",
         "f": "t_floor_roofed",
@@ -454,7 +451,6 @@
         "c": "t_floor_roofed",
         "B": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -524,9 +520,6 @@
         "dc   ",
         "ddBB "
       ],
-<<<<<<< Updated upstream
-      "terrain": { " ": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
-=======
       "terrain": {
         " ": "t_floor_roofed",
         "r": "t_floor_roofed",
@@ -535,7 +528,6 @@
         "c": "t_floor_roofed",
         "B": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -1146,9 +1138,6 @@
         " cccc cccc ",
         "           "
       ],
-<<<<<<< Updated upstream
-      "terrain": { " ": "t_carpet_red", "c": "t_carpet_red", "%": "t_floor", "r": "t_floor", "s": "t_floor", "C": "t_floor" },
-=======
       "terrain": {
         " ": "t_carpet_red_roofed",
         "c": "t_carpet_red_roofed",
@@ -1157,7 +1146,6 @@
         "s": "t_floor_roofed",
         "C": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "items": { "c": { "item": "office", "chance": 10 }, "C": { "item": "office", "chance": 45 } },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -1900,31 +1888,23 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-<<<<<<< Updated upstream
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_strconc_floor" }, "furniture": { "X": "f_IV_pole" } }
-=======
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "terrain": { "X": "t_strconc_floor_roofed" },
       "furniture": { "X": "f_IV_pole" }
     }
->>>>>>> Stashed changes
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-<<<<<<< Updated upstream
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_strconc_floor" }, "furniture": { "X": "f_autoclave" } }
-=======
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "terrain": { "X": "t_strconc_floor_roofed" },
       "furniture": { "X": "f_autoclave" }
     }
->>>>>>> Stashed changes
   },
   {
     "type": "mapgen",

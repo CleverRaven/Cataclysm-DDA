@@ -2,9 +2,6 @@
   {
     "type": "palette",
     "id": "fbmsw_wad_palette",
-<<<<<<< Updated upstream
-    "terrain": { ".": "t_dirtfloor", "~": "t_swater_sh", "o": "t_wall_wattle_half", "w": "t_wall_wattle", "+": "t_door_makeshift_c" },
-=======
     "terrain": {
       ".": "t_dirtfloor_roofed",
       "~": "t_swater_sh",
@@ -12,7 +9,6 @@
       "w": "t_wall_wattle",
       "+": "t_door_makeshift_c"
     },
->>>>>>> Stashed changes
     "furniture": {
       "b": "f_bench",
       "r": "f_rack",

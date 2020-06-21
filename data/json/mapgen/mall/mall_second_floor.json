@@ -722,9 +722,6 @@
         ",,,,,,,,,,,,,,,,,,,,.^^^"
       ],
       "palettes": [ "mall_palette_2" ],
-<<<<<<< Updated upstream
-      "terrain": { "%": "t_thconc_floor", "t": "t_thconc_floor", "Y": "t_thconc_floor", "z": "t_thconc_floor", "K": "t_carpet_green" },
-=======
       "terrain": {
         "%": "t_thconc_floor_roofed",
         "t": "t_thconc_floor_roofed",
@@ -732,7 +729,6 @@
         "z": "t_thconc_floor_roofed",
         "K": "t_carpet_green_roofed"
       },
->>>>>>> Stashed changes
       "furniture": { "%": "f_sink" },
       "items": {
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
@@ -1620,16 +1616,12 @@
         "F,.,.,H...,,,,,,,,,,,..y"
       ],
       "palettes": [ "mall_palette_2" ],
-<<<<<<< Updated upstream
-      "terrain": { "V": "t_carpet_red", "y": "t_linoleum_gray", "Y": "t_linoleum_gray", "F": "t_linoleum_gray" },
-=======
       "terrain": {
         "V": "t_carpet_red_roofed",
         "y": "t_linoleum_gray_roofed",
         "Y": "t_linoleum_gray_roofed",
         "F": "t_linoleum_gray_roofed"
       },
->>>>>>> Stashed changes
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": { "%": "f_counter", "*": "f_crate_c", "!": "f_beaded_door", "p": "f_desk" },
       "items": {
@@ -2173,9 +2165,6 @@
       ],
       "palettes": [ "mall_palette_2" ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 9 ], "y": [ 1, 23 ], "density": 0.4 } ],
-<<<<<<< Updated upstream
-      "terrain": { "K": "t_carpet_yellow", "4": "t_floor", "R": "t_carpet_yellow", "A": "t_floor", ":": "t_floor" },
-=======
       "terrain": {
         "K": "t_carpet_yellow_roofed",
         "4": "t_floor_roofed",
@@ -2183,7 +2172,6 @@
         "A": "t_floor_roofed",
         ":": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "furniture": { "4": "f_table", ":": "f_bookcase" },
       "items": {
         "J": { "item": "office", "chance": 5 },
@@ -2430,9 +2418,6 @@
         "^^4H.,,,,,,,,,,,,,,.||||"
       ],
       "palettes": [ "mall_palette_2" ],
-<<<<<<< Updated upstream
-      "terrain": { "B": "t_carpet_red", "I": "t_carpet_red", "S": "t_carpet_red", "4": "t_floor", "3": "t_floor" },
-=======
       "terrain": {
         "B": "t_carpet_red_roofed",
         "I": "t_carpet_red_roofed",
@@ -2440,7 +2425,6 @@
         "4": "t_floor_roofed",
         "3": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "furniture": { "4": "f_displaycase", "3": "f_table" },
       "items": {
         "V": { "item": "consumer_electronics", "chance": 30 },
@@ -2538,16 +2522,12 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "palettes": [ "mall_palette_2" ],
-<<<<<<< Updated upstream
-      "terrain": { "3": "t_linoleum_gray", ":": "t_linoleum_gray", "R": "t_carpet_yellow", "Q": "t_linoleum_white" },
-=======
       "terrain": {
         "3": "t_linoleum_gray_roofed",
         ":": "t_linoleum_gray_roofed",
         "R": "t_carpet_yellow_roofed",
         "Q": "t_linoleum_white_roofed"
       },
->>>>>>> Stashed changes
       "furniture": { "3": "f_table", "4": "f_table", ":": "f_rack" },
       "items": {
         "4": { "item": "book_school", "chance": 30 },

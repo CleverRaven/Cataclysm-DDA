@@ -176,9 +176,6 @@
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -187,7 +184,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -267,9 +263,6 @@
         "..|P           : | hhhhh |ss________________,________,________8........."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -278,7 +271,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -383,9 +375,6 @@
         "...........ss|r {{  {{{{sMsssssMsMMsMMMMMMMMMMMMMMMNNNMNNMNNNNNNMss....."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -394,7 +383,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -504,9 +492,6 @@
         "..ss________________sss..........|c      |---------|      h    @@ |--|.."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -515,7 +500,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "building_rubble", "x": [ 0, 9 ], "y": [ 0, 4 ], "chance": 70 },
@@ -623,9 +607,6 @@
         "......|-{{{{ssMsMssMssMMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..M..MM......"
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -634,7 +615,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -728,9 +708,6 @@
         "........|BB|d@@d@@ n|sss________________________sss|   jjjjjj D|l    |ss"
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -739,7 +716,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "home_hw", "x": [ 12, 15 ], "y": [ 20, 21 ], "chance": 75 },
@@ -856,9 +832,6 @@
         "ss________________________ss_______,,______________,,,,_________________"
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -867,7 +840,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 17, 17 ], "y": [ 23, 23 ], "chance": 80 },
@@ -965,9 +937,6 @@
         "___________________________________,,_______ss......C..................."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -976,7 +945,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "building_rubble", "x": [ 15, 23 ], "y": [ 0, 18 ], "chance": 70 },
@@ -1085,9 +1053,6 @@
         ".............###.s______,______,______,______s##s___,,___s|hnnh  hnnh|ss"
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -1096,7 +1061,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "traveler", "x": [ 13, 18 ], "y": [ 4, 4 ], "chance": 70 },
@@ -1300,9 +1264,6 @@
         "_____________________________s.......#.................................."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -1311,7 +1272,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1384,9 +1344,6 @@
         "........................................................#..............."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -1395,7 +1352,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 18, 19 ], "y": [ 13, 16 ], "chance": 70 },
@@ -1510,9 +1466,6 @@
         "..............#........................................................."
       ],
       "palettes": [ "necropolis_a" ],
-<<<<<<< Updated upstream
-      "terrain": { "&": "t_gas_pump", "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-=======
       "terrain": {
         "&": "t_gas_pump",
         "D": "t_floor_roofed",
@@ -1521,7 +1474,6 @@
         "u": "t_floor_roofed",
         "z": "t_floor_roofed"
       },
->>>>>>> Stashed changes
       "toilets": { "t": {  } },
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
       "place_items": [

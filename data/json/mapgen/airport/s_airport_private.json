@@ -235,9 +235,6 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-<<<<<<< Updated upstream
-      "terrain": { "#": "t_brick_wall", "`": "t_linoleum_white", ";": "t_metal_flat_roof", ">": "t_stairs_down", "<": "t_stairs_up" }
-=======
       "terrain": {
         "#": "t_brick_wall",
         "`": "t_linoleum_white_roofed",
@@ -245,7 +242,6 @@
         ">": "t_stairs_down",
         "<": "t_stairs_up"
       }
->>>>>>> Stashed changes
     }
   },
   {
