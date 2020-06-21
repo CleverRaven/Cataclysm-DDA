@@ -107,6 +107,7 @@
     "ammo_type": [ "8x40mm" ],
     "capacity": 50,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 50 } } ]
   }
 ]
