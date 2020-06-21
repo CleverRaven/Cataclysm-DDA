@@ -3083,11 +3083,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         } else if( percent_left >= 75 ) {
             feedback = _( "Almost new, with much material to burn." );
         } else if( percent_left >= 50 ) {
-            feedback = _( "More then a quarter has burned away." );
+            feedback = _( "More than a quarter has burned away." );
         } else if( percent_left >= 25 ) {
-            feedback = _( "More then half has burned away." );
+            feedback = _( "More than half has burned away." );
         } else if( percent_left >= 10 ) {
-            feedback = _( "Less then a quarter left to burn." );
+            feedback = _( "Less than a quarter left to burn." );
         } else {
             feedback = _( "Almost completely burned out." );
         }
