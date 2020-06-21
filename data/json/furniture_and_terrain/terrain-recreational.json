@@ -117,7 +117,14 @@
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
     },
+<<<<<<< Updated upstream
     "deconstruct": { "ter_set": "t_floor_waxed", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+=======
+    "deconstruct": {
+      "ter_set": "t_floor_waxed_roofed",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
+>>>>>>> Stashed changes
     "flags": [ "TRANSPARENT", "WALL", "PERMEABLE", "INDOORS" ]
   }
 ]

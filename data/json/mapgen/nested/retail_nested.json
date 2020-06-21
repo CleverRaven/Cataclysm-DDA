@@ -290,7 +290,17 @@
         "    A    ",
         "y MMMM  Y"
       ],
+<<<<<<< Updated upstream
       "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red", "?": "t_console_broken" },
+=======
+      "terrain": {
+        " ": "t_floor_roofed",
+        "G": "t_carpet_red_roofed",
+        "L": "t_carpet_red_roofed",
+        ".": "t_carpet_red_roofed",
+        "?": "t_console_broken"
+      },
+>>>>>>> Stashed changes
       "furniture": {
         "L": "f_table",
         "H": "f_table",

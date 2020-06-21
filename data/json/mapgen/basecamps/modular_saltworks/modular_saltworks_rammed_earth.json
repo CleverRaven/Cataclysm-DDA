@@ -2,7 +2,17 @@
   {
     "type": "palette",
     "id": "fbmsw_rammed_earth_palette",
+<<<<<<< Updated upstream
     "terrain": { ".": "t_dirtfloor", "~": "t_swater_sh", "o": "t_window_empty", "w": "t_wall_rammed_earth", "+": "t_door_makeshift_c" },
+=======
+    "terrain": {
+      ".": "t_dirtfloor_roofed",
+      "~": "t_swater_sh",
+      "o": "t_window_empty",
+      "w": "t_wall_rammed_earth",
+      "+": "t_door_makeshift_c"
+    },
+>>>>>>> Stashed changes
     "furniture": {
       "b": "f_bench",
       "r": "f_rack",

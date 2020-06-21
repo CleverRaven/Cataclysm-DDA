@@ -35,7 +35,17 @@
       ],
       "palettes": [ "mil_outpost_bandit" ],
       "terrain": {
+<<<<<<< Updated upstream
         ".": [ "t_carpet_red", "t_carpet_yellow", "t_carpet_green", "t_carpet_purple", "t_linoleum_white" ],
+=======
+        ".": [
+          "t_carpet_red_roofed",
+          "t_carpet_yellow_roofed",
+          "t_carpet_green_roofed",
+          "t_carpet_purple_roofed",
+          "t_linoleum_white_roofed"
+        ],
+>>>>>>> Stashed changes
         " ": "t_flat_roof",
         "w": [ "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p" ]
       },

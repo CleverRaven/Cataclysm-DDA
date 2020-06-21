@@ -90,7 +90,17 @@
         "                        ",
         "                        "
       ],
+<<<<<<< Updated upstream
       "terrain": { ".": "t_thconc_floor", ">": "t_stairs_down", "<": "t_stairs_up", "|": "t_concrete_wall", "-": "t_concrete_wall" }
+=======
+      "terrain": {
+        ".": "t_thconc_floor_roofed",
+        ">": "t_stairs_down",
+        "<": "t_stairs_up",
+        "|": "t_concrete_wall",
+        "-": "t_concrete_wall"
+      }
+>>>>>>> Stashed changes
     }
   },
   {

@@ -1689,7 +1689,17 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+<<<<<<< Updated upstream
       "terrain": { "%": "t_backboard_in", "'": "t_backboard", "-": "t_floor_waxed_y", "`": "t_floor_waxed", "o": "t_door_glass_c" },
+=======
+      "terrain": {
+        "%": "t_backboard_in",
+        "'": "t_backboard",
+        "-": "t_floor_waxed_y_roofed",
+        "`": "t_floor_waxed_roofed",
+        "o": "t_door_glass_c"
+      },
+>>>>>>> Stashed changes
       "furniture": { "2": "f_bench", "3": "f_bench" },
       "toilets": { "P": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 20, 21 ], "y": [ 15, 17 ], "repeat": [ 2, 4 ] } ],

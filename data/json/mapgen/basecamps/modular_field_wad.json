@@ -2,7 +2,17 @@
   {
     "type": "palette",
     "id": "fbmh_wad_palette",
+<<<<<<< Updated upstream
     "terrain": { ";": "t_dirt", ".": "t_floor_primitive", "+": "t_door_makeshift_c", "v": "t_wall_wattle_half", "w": "t_wall_wattle" },
+=======
+    "terrain": {
+      ";": "t_dirt",
+      ".": "t_floor_primitive_roofed",
+      "+": "t_door_makeshift_c",
+      "v": "t_wall_wattle_half",
+      "w": "t_wall_wattle"
+    },
+>>>>>>> Stashed changes
     "furniture": {  }
   },
   {
