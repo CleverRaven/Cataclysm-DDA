@@ -862,6 +862,12 @@ float player::get_dodge() const
         ret *= speed_stat / 100.0f;
     }
 
+    //Dodge decreases linearly to 0 when below 50% stamina.
+    const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
+    if( stamina_ratio <= .5 ) {
+        ret *= 2 * stamina_ratio;
+    }
+
     return std::max( 0.0f, ret );
 }
 
