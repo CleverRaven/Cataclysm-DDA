@@ -1379,7 +1379,7 @@
       [ [ "quad_rotors", 2 ] ],
       [ [ "omnicamera", 1 ] ],
       [ [ "betavoltaic", 5 ] ],
-	  [ [ "plastic_sheet", 8 ] ],
+      [ [ "plastic_sheet", 8 ] ],
       [ [ "solder_wire", 3 ] ]
     ]
   },
