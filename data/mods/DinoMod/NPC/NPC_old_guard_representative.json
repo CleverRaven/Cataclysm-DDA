@@ -1,9 +1,9 @@
 [
   {
-    "id": "TALK_OLD_GUARD_REP_NEW_DOING",
+    "id": "TALK_OLD_GUARD_REP",
     "type": "talk_topic",
     "responses": [
-      { "text": "What about dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" }
+      { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" }
     ]
   },
   {
