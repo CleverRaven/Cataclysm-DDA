@@ -86,7 +86,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CAPTURE( dummy.age() );
     CAPTURE( dummy.bmr() );
 
-    constexpr int expected_day = 8;
+    constexpr int expected_day = 7;
     int day = 0;
     std::vector<std::string> results;
 
@@ -99,7 +99,8 @@ TEST_CASE( "starve_test", "[starve][slow]" )
         day++;
     } while( dummy.get_stored_kcal() > 0 && day < expected_day * 2 );
     CAPTURE( results );
-    CHECK( day == expected_day );
+    CHECK( day >= expected_day );
+    CHECK( day <= expected_day + 1 );
 }
 
 // how long does it take to starve to death with extreme metabolism
