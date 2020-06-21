@@ -1123,7 +1123,14 @@
         " cccc cccc ",
         "           "
       ],
-      "terrain": { " ": "t_carpet_concrete_red", "c": "t_carpet_concrete_red", "%": "t_floor", "r": "t_floor", "s": "t_floor", "C": "t_floor" },
+      "terrain": {
+        " ": "t_carpet_concrete_red",
+        "c": "t_carpet_concrete_red",
+        "%": "t_floor",
+        "r": "t_floor",
+        "s": "t_floor",
+        "C": "t_floor"
+      },
       "items": { "c": { "item": "office", "chance": 10 }, "C": { "item": "office", "chance": 45 } },
       "palettes": [ "lab_surface_palette" ]
     }

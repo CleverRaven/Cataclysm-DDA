@@ -68,7 +68,12 @@
         "########################"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "terrain": {
+        "`": "t_open_air",
+        "=": "t_metal_ventilation_shutter",
+        "X": "t_region_shrub_decorative",
+        "P": "t_carpet_concrete_red"
+      }
     }
   },
   {
@@ -104,7 +109,12 @@
         "########################"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "terrain": {
+        "`": "t_open_air",
+        "=": "t_metal_ventilation_shutter",
+        "X": "t_region_shrub_decorative",
+        "P": "t_carpet_concrete_red"
+      }
     }
   },
   {
