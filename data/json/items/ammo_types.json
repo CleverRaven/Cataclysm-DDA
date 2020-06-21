@@ -652,5 +652,11 @@
     "id": "300blk",
     "name": ".300 AAC Blackout",
     "default": "300blk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "8512",
+    "name": "85-12mm cartridge",
+    "default": "8512"
   }
 ]
