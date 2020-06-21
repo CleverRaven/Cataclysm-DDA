@@ -63,14 +63,14 @@ jobs:
     - stage: "Deployable 32 bit"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
       env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=win32-tiles
-      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      name: "Mingw-w64 Make cross-compile to Windows 32 bit with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=lin32-tiles
-      name: "GCC 8 Make build with Tiles and Sound"
+      name: "GCC 8 32 bit Make build with Tiles and Sound"
       dist: bionic
       compiler: gcc
       addons: &gcc8
@@ -79,7 +79,7 @@ jobs:
           sources: *apt_sources
 
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 DEPLOY=1 BUILD_NAME=lin32-curses
-      name: "GCC 8 Make build with Curses"
+      name: "GCC 8 32 bit Make build with Curses"
       dist: bionic
       compiler: gcc
       addons: &gcc8
@@ -88,27 +88,27 @@ jobs:
           sources: *apt_sources
 
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 SOUND=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-tiles
-      name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
+      name: "Xcode 10.1 Make build with Tiles and sound (macOS 32 bit)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-curses
-      name: "Xcode 10.1 Make build with Curses (macOS)"
+      name: "Xcode 10.1 Make build with Curses (macOS 32 bit)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
     # 64 bit builds
     - env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="x86_64-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=win64-tiles
-      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      name: "Mingw-w64 Make cross-compile to Windows 64 bit with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-tiles
-      name: "GCC 8 Make build with Tiles and Sound"
+      name: "GCC 8 64 bit Make build with Tiles and Sound"
       dist: bionic
       compiler: gcc
       addons: &gcc8
@@ -117,7 +117,7 @@ jobs:
           sources: *apt_sources
 
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-curses
-      name: "GCC 8 Make build with Curses"
+      name: "GCC 8 64 bit Make build with Curses"
       dist: bionic
       compiler: gcc
       addons: &gcc8
