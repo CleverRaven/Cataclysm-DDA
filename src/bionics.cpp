@@ -1665,7 +1665,7 @@ void Character::process_bionic( int b )
         if( get_power_level() >= 40_J ) {
             std::vector<bodypart_id> bleeding_bp_parts;
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp ) ) {
+                if( has_effect( effect_bleed, bp->token ) ) {
                     bleeding_bp_parts.push_back( bp );
                 }
             }
@@ -1678,7 +1678,7 @@ void Character::process_bionic( int b )
             for( const bodypart_id &i : bleeding_bp_parts ) {
                 // effectively reduces by 1 intensity level
                 if( get_stored_kcal() >= 15 ) {
-                    get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
+                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed, i->token ).get_int_dur_factor() );
                     mod_stored_kcal( -15 );
                 } else {
                     bleeding_bp_parts.clear();

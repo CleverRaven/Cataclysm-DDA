@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "first aid kit" },
-    "description": "A typical universal first aid kit, one you'd see in a car or in a household. It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
+    "description": "A typical universal first aid kit, one you'd see in a car or in a household.  It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
     "weight": "1750 g",
     "volume": "1250 ml",
     "price": 3000,

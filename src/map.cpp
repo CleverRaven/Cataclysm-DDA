@@ -940,7 +940,7 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
 
 optional_vpart_position map::veh_at( const tripoint &p ) const
 {
-    if( !const_cast<map *>( this )->get_cache( p.z ).veh_in_active_range || !inbounds( p ) ) {
+    if( !inbounds( p ) || !const_cast<map *>( this )->get_cache( p.z ).veh_in_active_range  ) {
         return optional_vpart_position( cata::nullopt );
     }
 

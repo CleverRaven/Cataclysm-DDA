@@ -146,7 +146,7 @@ TEST_CASE( "memorials" )
         m, b, "Died of hypovolemic shock.", ch );
 
     check_memorial<event_type::dies_from_redcells_loss>(
-        m, b, "Died of hypovolemic shock.", ch );
+        m, b, "Died from loss of red blood cells.", ch );
 
     check_memorial<event_type::dies_of_infection>(
         m, b, "Succumbed to the infection.", ch );

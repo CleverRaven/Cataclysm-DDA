@@ -1522,8 +1522,8 @@ void debug()
             smenu.addentry( 5, true, 'x', _( "Right leg" ) );
             smenu.query();
             bodypart_id part;
-            int intensity;
-            int duration;
+            int intensity = 0;
+            int duration = 0;
             switch( smenu.ret ) {
                 case 0:
                     part = bodypart_id( "torso" );
