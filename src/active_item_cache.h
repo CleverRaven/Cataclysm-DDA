@@ -43,14 +43,12 @@ class active_item_cache
     public:
         /**
          * Removes the item if it is in the cache. Does nothing if the item is not in the cache.
-         * Relies on the fact that item::processing_speed() is a constant.
-         * Also removes any items that have been destroyed in the list containing it
+         * Also removes any items that have been destroyed.
          */
         void remove( const item *it );
 
         /**
          * Adds the reference to the cache. Does nothing if the reference is already in the cache.
-         * Relies on the fact that item::processing_speed() is a constant.
          */
         void add( item &it, point location );
 
