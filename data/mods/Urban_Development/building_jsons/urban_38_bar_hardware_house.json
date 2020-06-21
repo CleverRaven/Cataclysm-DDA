@@ -180,16 +180,13 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-<<<<<<< Updated upstream
       "terrain": { "Q": "t_linoleum_white", "R": "t_linoleum_white", "c": "t_linoleum_white", "r": "t_linoleum_white" },
-=======
       "terrain": {
         "Q": "t_linoleum_white_roofed",
         "R": "t_linoleum_white_roofed",
         "c": "t_linoleum_white_roofed",
         "r": "t_linoleum_white_roofed"
       },
->>>>>>> Stashed changes
       "furniture": { "Q": "f_counter", "R": "f_rack" },
       "toilets": { "T": {  } },
       "items": {
