@@ -3084,7 +3084,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                 continue;
             }
             effect e = get_effect( effect_bleed, bp->token );
-            if( !e.is_null() && e.get_intensity() > e.get_max_intensity() / 4 && !worn_with_flag( flag_TOURNIQUET, bp ) ) {
+            if( !e.is_null() && e.get_intensity() > e.get_max_intensity() / 4 &&
+                !worn_with_flag( flag_TOURNIQUET, bp ) ) {
                 need_tourniquet = true;
                 break;
             }

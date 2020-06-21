@@ -821,23 +821,24 @@ void player::pause()
         }
         effect &e = get_effect( effect_bleed, bp_id->token );
         time_duration penalty = 1_turns * ( encumb( bp_hand_l ) + encumb( bp_hand_r ) );
-        time_duration benefit = 5_turns + 10 * time_duration::from_turns( get_skill_level( skill_firstaid ) );
+        time_duration benefit = 5_turns + 10 * time_duration::from_turns( get_skill_level(
+                                    skill_firstaid ) );
 
         if( is_limb_broken( bp_to_hp( bp_arm_l ) ) || is_limb_broken( bp_to_hp( bp_arm_r ) ) ) {
             add_msg_player_or_npc( m_warning,
-                                _( "Your broken limb significantly hampers your efforts to puting pressure on the bleeding wound!" ),
-                                _( "<npcname>'s broken limb significantly hampers efforts of putting pressure on the bleeding wound!" ) );
+                                   _( "Your broken limb significantly hampers your efforts to puting pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s broken limb significantly hampers efforts of putting pressure on the bleeding wound!" ) );
             e.mod_duration( -1_turns );
         } else if( benefit <= penalty ) {
             add_msg_player_or_npc( m_warning,
-                                _( "Your hands are too encumbred to effectivly put pressure on the bleeding wound!" ),
-                                _( "<npcname>'s hands are too encumbred to effectivly put pressure on the bleeding wound!" ) );
+                                   _( "Your hands are too encumbred to effectivly put pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s hands are too encumbred to effectivly put pressure on the bleeding wound!" ) );
             e.mod_duration( -1_turns );
         } else {
             e.mod_duration( - ( benefit - penalty ) );
             add_msg_player_or_npc( m_warning,
-                                _( "You attempt to put pressure on the bleeding wound!" ),
-                                _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
+                                   _( "You attempt to put pressure on the bleeding wound!" ),
+                                   _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
             practice( skill_firstaid, 1 );
         }
     }

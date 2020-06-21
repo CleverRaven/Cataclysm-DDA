@@ -62,10 +62,7 @@
     "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "medical_gauze", 5 ] ],
-      [ [ "duct_tape", 20 ], [ "medical_tape", 10 ] ]
-    ]
+    "components": [ [ [ "medical_gauze", 5 ] ], [ [ "duct_tape", 20 ], [ "medical_tape", 10 ] ] ]
   },
   {
     "result": "tourniquet_upper",
@@ -78,7 +75,20 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "leather_belt", 1 ], [ "hose", 1], [ "rope_6", 1 ], [ "cordage_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "towel", 1 ], [ "blanket", 1 ], [ "bandana", 1 ], [ "cable", 1 ], [ "wire", 1 ], [ "tie_skinny", 1 ] ],
+      [
+        [ "leather_belt", 1 ],
+        [ "hose", 1 ],
+        [ "rope_6", 1 ],
+        [ "cordage_6", 1 ],
+        [ "vine_6", 1 ],
+        [ "rope_makeshift_6", 1 ],
+        [ "towel", 1 ],
+        [ "blanket", 1 ],
+        [ "bandana", 1 ],
+        [ "cable", 1 ],
+        [ "wire", 1 ],
+        [ "tie_skinny", 1 ]
+      ],
       [ [ "stick", 1 ], [ "cu_pipe", 1 ] ]
     ]
   },

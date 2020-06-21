@@ -740,7 +740,12 @@
         "prob": 75
       },
       {
-        "distribution": [ { "item": "adhesive_bandages", "prob": 40 }, { "item": "bandages", "prob": 20 }, { "item": "medical_gauze", "prob": 20 }, { "item": "1st_aid", "prob": 10 } ],
+        "distribution": [
+          { "item": "adhesive_bandages", "prob": 40 },
+          { "item": "bandages", "prob": 20 },
+          { "item": "medical_gauze", "prob": 20 },
+          { "item": "1st_aid", "prob": 10 }
+        ],
         "prob": 20
       },
       { "item": "disinfectant", "prob": 40, "charges-min": 1 },

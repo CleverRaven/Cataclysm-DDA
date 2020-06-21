@@ -563,17 +563,7 @@
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zougar",
     "harvest": "mammal_fur",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "KEENNOSE"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
     "id": "mon_cow_calf",
@@ -1968,17 +1958,7 @@
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "WARM",
-      "KEENNOSE"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_pig",

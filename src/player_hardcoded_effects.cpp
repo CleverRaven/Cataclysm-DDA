@@ -907,7 +907,8 @@ void player::hardcoded_effects( effect &it )
                                        _( "You bleed to death!" ),
                                        _( "<npcname> bleeds to death!" ) );
                 g->events().send<event_type::dies_from_bleeding>( getID() );
-            } else {
+            } else
+            {
                 add_msg_player_or_npc( m_bad,
                                        _( "Your heart can't keep up the pace and fails!" ),
                                        _( "<npcname> has a sudden heart attack!" ) );

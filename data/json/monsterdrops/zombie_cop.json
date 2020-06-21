@@ -114,7 +114,10 @@
     "id": "swat_zombie_gear",
     "subtype": "collection",
     "entries": [
-      { "collection": [ { "item": "adhesive_bandages", "prob": 30 }, { "item": "bandages", "prob": 30 }, { "item": "1st_aid", "prob": 20 } ], "prob": 25 },
+      {
+        "collection": [ { "item": "adhesive_bandages", "prob": 30 }, { "item": "bandages", "prob": 30 }, { "item": "1st_aid", "prob": 20 } ],
+        "prob": 25
+      },
       {
         "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
         "prob": 75

@@ -68,19 +68,7 @@
     "death_drops": "mon_zombie_cop_death_drops",
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "PUSH_MON",
-      "FILTHY",
-      "REVIVES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "PUSH_MON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_soldier",
@@ -205,19 +193,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_eater" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "BASHES",
-      "GROUP_BASH",
-      "PUSH_MON",
-      "STUMBLES",
-      "WARM",
-      "POISON",
-      "FILTHY",
-      "REVIVES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "STUMBLES", "WARM", "POISON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_eater",
@@ -766,19 +742,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 50, "into": "dks_mon_stray_wretch" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "BASHES",
-      "GROUP_BASH",
-      "STUMBLES",
-      "WARM",
-      "GUILT",
-      "POISON",
-      "FILTHY",
-      "REVIVES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "WARM", "GUILT", "POISON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_wretch_burnt",

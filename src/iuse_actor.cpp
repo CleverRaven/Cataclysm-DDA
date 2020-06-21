@@ -3250,7 +3250,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         int pwr = 3 * get_stopbleed_level( healer );
         if( patient.worn_with_flag( "TOURNIQUET", convert_bp( bp_healed ) ) ) {
             pwr *= 2;
-         }
+        }
         if( pwr > patient.get_effect_int( effect_bleed, bp_healed ) ) {
             effect &wound = patient.get_effect( effect_bleed, bp_healed );
             time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *

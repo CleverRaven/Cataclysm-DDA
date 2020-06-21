@@ -231,19 +231,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "CLIMBS",
-      "FILTHY",
-      "SWARMS"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY", "SWARMS" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {

@@ -51,12 +51,7 @@
     "encumbrance": 70,
     "warmth": 0,
     "material_thickness": 1,
-    "use_action": {
-      "target": "tourniquet_upper_XL",
-      "msg": "You adjust the tourniquet.",
-      "menu_text": "Adjust",
-      "type": "transform"
-    },
+    "use_action": { "target": "tourniquet_upper_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
   },
   {
@@ -67,12 +62,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "covers": [ "ARM_EITHER" ],
-    "use_action": {
-      "target": "tourniquet_lower",
-      "msg": "You adjust the tourniquet.",
-      "menu_text": "Adjust",
-      "type": "transform"
-    },
+    "use_action": { "target": "tourniquet_lower", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
   },
   {
@@ -83,15 +73,10 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "covers": [ "LEG_EITHER" ],
-    "use_action": {
-      "target": "tourniquet_lower_XL",
-      "msg": "You adjust the tourniquet.",
-      "menu_text": "Adjust",
-      "type": "transform"
-    },
+    "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
   },
-    {
+  {
     "id": "tourniquet_lower_XL",
     "type": "ARMOR",
     "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
@@ -99,12 +84,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "covers": [ "LEG_EITHER" ],
-    "use_action": {
-      "target": "tourniquet_upper",
-      "msg": "You adjust the tourniquet.",
-      "menu_text": "Adjust",
-      "type": "transform"
-    },
+    "use_action": { "target": "tourniquet_upper", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
   },
   {

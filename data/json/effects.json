@@ -1680,10 +1680,7 @@
     "desc": [ "A lack of iron in your diet results in progressively worsening anemia." ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You no longer feel anemic.",
-    "decay_messages": [
-      [ "Your anemia is nearly resolved.", "good" ],
-      [ "Your feel stronger as your anemia starts to improve.", "good" ]
-    ],
+    "decay_messages": [ [ "Your anemia is nearly resolved.", "good" ], [ "Your feel stronger as your anemia starts to improve.", "good" ] ],
     "max_intensity": 3,
     "rating": "bad",
     "base_mods": {
@@ -1716,10 +1713,7 @@
     "desc": [ "Loss of red blood cells from hemorrhage results in progressively worsening anemia." ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You no longer feel anemic.",
-    "decay_messages": [
-      [ "Your anemia is nearly resolved.", "good" ],
-      [ "Your feel stronger as your anemia starts to improve.", "good" ]
-    ],
+    "decay_messages": [ [ "Your anemia is nearly resolved.", "good" ], [ "Your feel stronger as your anemia starts to improve.", "good" ] ],
     "max_intensity": 3,
     "rating": "bad",
     "base_mods": {
@@ -1831,7 +1825,7 @@
       "You've lost large amount of blood, and you're not feeling well.",
       "You've lost an awful lot of blood, and your condition is severe. Seek medical attention.",
       "You've lost tremendous amount of blood, and you're standing on death's door. Transfusion might save you."
-     ],
+    ],
     "apply_message": "You have lost lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
     "decay_messages": [
@@ -1840,13 +1834,7 @@
       [ "You're not dying from lack of blood, but you're not out of the woods yet.", "good" ]
     ],
     "max_intensity": 4,
-    "scaling_mods": {
-      "str_mod": [ -1 ],
-      "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "int_mod": [ -1 ],
-      "speed_mod": [ -10 ]
-    },
+    "scaling_mods": { "str_mod": [ -1 ], "per_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "speed_mod": [ -10 ] },
     "rating": "bad"
   },
   {

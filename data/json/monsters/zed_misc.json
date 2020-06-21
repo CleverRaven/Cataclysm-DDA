@@ -898,17 +898,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shrieker",
