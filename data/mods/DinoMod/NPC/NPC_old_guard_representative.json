@@ -2,9 +2,7 @@
   {
     "id": "TALK_OLD_GUARD_REP",
     "type": "talk_topic",
-    "responses": [
-      { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" }
-    ]
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_DINOSAURS",
