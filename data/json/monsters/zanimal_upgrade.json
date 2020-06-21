@@ -44,7 +44,7 @@
     "vision_day": 10,
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zougar_shady",
@@ -166,7 +166,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
