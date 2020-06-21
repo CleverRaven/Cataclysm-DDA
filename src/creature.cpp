@@ -1448,12 +1448,13 @@ void Creature::set_body()
 }
 
 void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
-                                  int per_max,  int int_max,  int fat_to_max_hp )
+                                  int per_max,  int int_max, int healthy_mod,  int fat_to_max_hp )
 {
     for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
         int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
                         part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
-                        part.first->hp_mods.per_mod + fat_to_max_hp + hp_adjustment ) * hp_mod;
+                        part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
+                        hp_adjustment ) * hp_mod;
 
         if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
             new_max *= 0.8;

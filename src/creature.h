@@ -603,6 +603,7 @@ class Creature
         void set_body();
         void calc_all_parts_hp( const float hp_mod = 0.0, const float hp_adjust = 0.0,
                                 const int str_max = 0, const int dex_max = 0, const int per_max = 0, const int int_max = 0,
+                                const int healthy_mod = 0,
                                 const int fat_to_max_hp = 0 );
         bodypart *get_part( const bodypart_id &id );
         bodypart get_part( const bodypart_id &id ) const;
