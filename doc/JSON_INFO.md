@@ -1992,6 +1992,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
     "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume and weight to use the given ammo type instead.  A pocket can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
+    "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
@@ -2410,7 +2411,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
     "skills": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
-    "moves": 60 // how many move points the action takes.
+    "moves": 60, // how many move points the action takes.
+    "is_pet": false // specifies if the spawned monster is a pet. The monster will only spawn as a pet if it is spawned as friendly, hostile monsters will never be pets.
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
