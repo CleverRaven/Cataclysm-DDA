@@ -1060,9 +1060,6 @@ class map
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
         item &spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel );
-        void spawn_an_item( const point &p, item new_item, int charges, int damlevel ) {
-            spawn_an_item( tripoint( p, abs_sub.z ), new_item, charges, damlevel );
-        }
 
         /**
          * Update an item's active status, for example when adding
