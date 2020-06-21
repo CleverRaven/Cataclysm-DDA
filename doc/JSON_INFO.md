@@ -423,22 +423,24 @@ This section describes each json file and their contents. Each json has their ow
 
 | Identifier        | Description
 |---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| name              | In-game name displayed.
-| accusative        | Accusative form for this bodypart.
-| heading           | How it's displayed in headings.
-| heading_multiple  | Plural form of heading.
-| hp_bar_ui_text    | How it's displayed next to the hp bar in the panel.
-| main_part         | What is the main part this one is attached to. (If this is a main part it's attached to itself)
-| opposite_part     | What is the opposite part ot this one in case of a pair.
-| hit_size          | Size of the body part when doing an unweighted selection.
-| hit_size_relative | Hit sizes for attackers who are smaller, equal in size, and bigger.
-| hit_difficulty    | How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| stylish_bonus     | Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
-| hot_morale_mod    | Mood effect of being too hot on this part. (default: `0`)
-| cold_morale_mod   | Mood effect of being too cold on this part. (default: `0`)
-| squeamish_penalty | Mood effect of wearing filthy clothing on this part. (default: `0`)
-| bionic_slots      | How many bionic slots does this part have.
+| id                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| name              | (_mandatory_) In-game name displayed.
+| accusative        | (_mandatory_) Accusative form for this bodypart.
+| heading           | (_mandatory_) How it's displayed in headings.
+| heading_multiple  | (_mandatory_) Plural form of heading.
+| hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
+| main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| base_hp           | (_mandatory_) The amount of hp this part has before any modification.
+| opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
+| hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
+| hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
+| hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
+| cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
+| squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
+| bionic_slots      | (_optional_) How many bionic slots does this part have.
 
 ```C++
   {
@@ -461,6 +463,8 @@ This section describes each json file and their contents. Each json has their ow
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "squeamish_penalty": 6,
+    "base_hp": 60,
+    "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
     "bionic_slots": 80
   }
 ```
