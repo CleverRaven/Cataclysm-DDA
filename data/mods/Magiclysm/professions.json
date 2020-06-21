@@ -45,7 +45,7 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner" ],
+        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner", "mbag" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -62,7 +62,7 @@
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki", "priest_beginner" ],
+        "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki", "priest_beginner", "mbag" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -80,7 +80,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner" ],
+        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner", "mbag" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -108,7 +108,8 @@
           "holy_symbol",
           "holybook_talmud",
           "holybook_tanakh",
-          "priest_beginner"
+          "priest_beginner",
+          "mbag"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
