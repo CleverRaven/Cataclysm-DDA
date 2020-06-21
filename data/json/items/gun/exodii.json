@@ -32,5 +32,34 @@
         "item_restriction": [ "exodiiBRmag" ]
       }
     ]
+  },
+  {
+    "id": "pamd71z",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "PA md. 71 zombie hunting rifle" },
+    "description": "This extremely popular Romanian assault rifle, made famous in the third Carpachian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to rapid precision shots against high-priority targets; it is less suited to taking on a horde, as the clip size and firing rate has been reduced.",
+    "weight": "3910 g",
+    "volume": "3 L",
+    "price": 80000,
+    "price_postapoc": 3250,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "aluminum" ],
+    "color": "light_grey",
+    "ammo": [ "8512" ],
+    "dispersion": 100,
+    "durability": 8,
+    "barrel_length": "250 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "exodiiminimag" ]
+      }
+    ]
   }
 ]

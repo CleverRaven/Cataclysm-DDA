@@ -337,6 +337,7 @@
     "type": "MONSTER",
     "name": "upcycled turret",
     "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It is equipped with a hefty looking machine gun, and something that - judging from the scorching - could only be a flamethrower.",
+    "default_faction": "exodii",
     "weight": 70750,
     "hp": 90,
     "speed": 100,
@@ -350,8 +351,7 @@
     "vision_day": 50,
     "vision_night": 50,
     "luminance": 1,
-    "revert_to_itype": "e_scrap",
-    "starting_ammo": { "545": 3000 },
+    "starting_ammo": { "8512": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       [ "FLAMETHROWER", 5 ],
@@ -359,7 +359,7 @@
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
-        "gun_type": "pamd86",
+        "gun_type": "pamd68",
         "ammo_type": "8512",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
@@ -375,9 +375,19 @@
       }
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
-    "death_drops": {  },
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": [ "FIREBALL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "ELECTRONIC",
+      "INTERIOR_AMMO"
+    ]
   },
   {
     "id": "mon_exodii_turret_guard",
