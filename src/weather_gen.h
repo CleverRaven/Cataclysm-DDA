@@ -5,11 +5,35 @@
 #include <string>
 
 #include "calendar.h"
+#include "color.h"
 
 struct tripoint;
 class JsonObject;
 
 enum weather_type : int;
+
+enum class precip_class : int {
+    NONE,
+    VERY_LIGHT,
+    LIGHT,
+    HEAVY
+};
+
+struct weather_datum {
+    std::string name;             //!< UI name of weather type.
+    nc_color color;               //!< UI color of weather type.
+    nc_color map_color;           //!< Map color of weather type.
+    char glyph;                   //!< Map glyph of weather type.
+    int ranged_penalty;           //!< Penalty to ranged attacks.
+    float sight_penalty;          //!< Penalty to per-square visibility, applied in transparency map.
+    int light_modifier;           //!< Modification to ambient light.
+    int sound_attn;               //!< Sound attenuation of a given weather type.
+    bool dangerous;               //!< If true, our activity gets interrupted.
+    precip_class precip;          //!< Amount of associated precipitation.
+    bool rains;                   //!< Whether said precipitation falls as rain.
+    bool acidic;                  //!< Whether said precipitation is acidic.
+    std::vector<std::pair<std::string, int>> effects;     //!< Function pointer for weather effects.
+};
 
 struct w_point {
     double temperature = 0;

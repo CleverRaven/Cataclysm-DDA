@@ -66,15 +66,12 @@ static bool is_player_outside()
     return get_map().is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
 }
 
-static constexpr int THUNDER_CHANCE = 50;
-static constexpr int LIGHTNING_CHANCE = 600;
-
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  * @param intensity Level of sun brighthess
  */
-void weather_effect::glare( sun_intensity intensity )
+void weather_effect::glare( int intensity )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
@@ -91,7 +88,7 @@ void weather_effect::glare( sun_intensity intensity )
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
         dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
-    } else if( intensity == sun_intensity::high ) {
+    } else if( static_cast<sun_intensity>( intensity ) == sun_intensity::high ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
         dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
@@ -382,7 +379,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-static void wet_player( int amount )
+void weather_effect::wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
@@ -412,66 +409,13 @@ static void wet_player( int amount )
     g->u.drench( amount, drenched_parts, false );
 }
 
-double precip_mm_per_hour( precip_class const p )
-// Precipitation rate expressed as the rainfall equivalent if all
-// the precipitation were rain (rather than snow).
-{
-    return
-        p == precip_class::VERY_LIGHT ? 0.5 :
-        p == precip_class::LIGHT ? 1.5 :
-        p == precip_class::HEAVY ? 3   :
-        0;
-}
-
-void do_rain( weather_type const w )
-{
-    if( !weather::rains( w ) || weather::precip( w ) == precip_class::NONE ) {
-        return;
-    }
-    fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
-    int wetness = 0;
-    time_duration decay_time = 60_turns;
-    if( weather::precip( w ) == precip_class::VERY_LIGHT ) {
-        wetness = 5;
-        decay_time = 5_turns;
-    } else if( weather::precip( w ) == precip_class::LIGHT ) {
-        wetness = 30;
-        decay_time = 15_turns;
-    } else if( weather::precip( w ) == precip_class::HEAVY ) {
-        decay_time = 45_turns;
-        wetness = 60;
-    }
-    get_map().decay_fields_and_scent( decay_time );
-    wet_player( wetness );
-}
-
-void weather_effect::none()
-{
-    glare( sun_intensity::normal );
-}
-void weather_effect::flurry()    {}
-
-void weather_effect::sunny()
-{
-    glare( sun_intensity::high );
-}
-
-void weather_effect::snow()
-{
-    wet_player( 10 );
-}
-
-void weather_effect::snowstorm()
-{
-    wet_player( 40 );
-}
 /**
  * Thunder.
  * Flavor messages. Very wet.
  */
-void weather_effect::thunder()
+void weather_effect::thunder( int intensity )
 {
-    if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( THUNDER_CHANCE ) ) {
+    if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( intensity ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 80, rng( 0, 359 ) );
@@ -492,10 +436,9 @@ void weather_effect::thunder()
  * only manifest properly near the player due to the "reality bubble", this was causing undesired metagame tactics
  * such as players leaving their shelter for a more "expendable" area during lightning storms.
  */
-void weather_effect::lightning()
+void weather_effect::lightning( int intensity )
 {
-    thunder();
-    if( one_in( LIGHTNING_CHANCE ) ) {
+    if( one_in( intensity ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "A flash of lightning illuminates your surroundings!" ) );
             sfx::play_variant_sound( "environment", "thunder_near", 100, rng( 0, 359 ) );
@@ -505,14 +448,13 @@ void weather_effect::lightning()
         g->weather.lightning_active = false;
     }
 }
-
 /**
  * Acid drizzle.
  * Causes minor pain only.
  */
-void weather_effect::light_acid()
+void weather_effect::light_acid( int intensity )
 {
-    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
+    if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
         } else {
@@ -537,9 +479,9 @@ void weather_effect::light_acid()
  * Acid rain.
  * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
  */
-void weather_effect::acid()
+void weather_effect::acid( int intensity )
 {
-    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
+    if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
             add_msg( _( "Your umbrella protects you from the acid rain." ) );
         } else {
@@ -556,6 +498,58 @@ void weather_effect::acid()
                     }
                 }
             }
+        }
+    }
+}
+
+double precip_mm_per_hour( precip_class const p )
+// Precipitation rate expressed as the rainfall equivalent if all
+// the precipitation were rain (rather than snow).
+{
+    return
+        p == precip_class::VERY_LIGHT ? 0.5 :
+        p == precip_class::LIGHT ? 1.5 :
+        p == precip_class::HEAVY ? 3   :
+        0;
+}
+
+void handle_weather_effects( weather_type const w )
+{
+    if( weather::rains( w ) && weather::precip( w ) != precip_class::NONE ) {
+        fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
+        int wetness = 0;
+        time_duration decay_time = 60_turns;
+        if( weather::precip( w ) == precip_class::VERY_LIGHT ) {
+            wetness = 5;
+            decay_time = 5_turns;
+        } else if( weather::precip( w ) == precip_class::LIGHT ) {
+            wetness = 30;
+            decay_time = 15_turns;
+        } else if( weather::precip( w ) == precip_class::HEAVY ) {
+            decay_time = 45_turns;
+            wetness = 60;
+        }
+        g->m.decay_fields_and_scent( decay_time );
+        weather_effect::wet_player( wetness );
+    }
+    std::vector<std::pair<std::string, int>> weather_effects = weather::effects( w );
+    if( weather_effects.size() == 0 ) {
+        weather_effects.push_back( std::make_pair( "glare", 1 ) );
+    }
+    std::map<std::string, weather_effect_fn> all_weather_effects = {
+        { "glare", &weather_effect::glare },
+        { "wet", &weather_effect::wet_player },
+        { "thunder", &weather_effect::thunder },
+        { "lightning", &weather_effect::lightning },
+        { "light_acid", &weather_effect::light_acid },
+        { "acid", &weather_effect::acid }
+    };
+
+    for each( std::pair<std::string, int> effect in weather_effects ) {
+        if( all_weather_effects.count( effect.first ) > 0 ) {
+            all_weather_effects[effect.first]( effect.second );
+        } else {
+            debugmsg( "Invalid weather effect %s", effect.first );
         }
     }
 }

@@ -39,6 +39,9 @@ struct weather_result {
     weather_datum datum;
     bool is_valid;
 };
+
+static std::vector<weather_datum> weather_datums;
+
 static weather_result weather_data_internal( weather_type const type )
 {
     /**
@@ -47,73 +50,14 @@ static weather_result weather_data_internal( weather_type const type )
      * light modifier, sound attenuation, warn player?
      * Note light modifier assumes baseline of default_daylight_level() at 60
      */
-    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value
-    static const std::array<weather_datum, NUM_WEATHER_TYPES> data {{
-            weather_datum {
-                "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta, c_magenta_red,
-                '0', 0, 0.0f, 0, 0, false,
-                precip_class::NONE, false, false, &weather_effect::none
-            },
-            weather_datum {
-                translate_marker( "Clear" ), c_cyan, c_yellow_white, ' ', 0, 1.0f, 0, 0, false,
-                precip_class::NONE, false, false, &weather_effect::none
-            },
-            weather_datum {
-                translate_marker( "Sunny" ), c_light_cyan, c_yellow_white, '*', 0, 1.0f, 2, 0, false,
-                precip_class::NONE, false, false, &weather_effect::sunny
-            },
-            weather_datum {
-                translate_marker( "Cloudy" ), c_light_gray, c_dark_gray_white, '~', 0, 1.0f, -20, 0, false,
-                precip_class::NONE, false, false, &weather_effect::none
-            },
-            weather_datum {
-                translate_marker( "Light Drizzle" ), c_light_blue, h_light_blue, '.', 0, 1.01f, -10, 0, false,
-                precip_class::VERY_LIGHT, true, false, &weather_effect::none
-            },
-            weather_datum {
-                translate_marker( "Drizzle" ), c_light_blue, h_light_blue, '.', 1, 1.03f, -20, 1, false,
-                precip_class::LIGHT, true, false, &weather_effect::none
-            },
-            weather_datum {
-                translate_marker( "Rain" ), c_blue, h_blue, 'o', 3, 1.1f, -30, 4, false,
-                precip_class::HEAVY, true, false, &weather_effect::none
-            },
-            weather_datum {
-                translate_marker( "Thunder Storm" ), c_dark_gray, i_blue, '%', 4, 1.2f, -40, 8, false,
-                precip_class::HEAVY, true, false, &weather_effect::thunder
-            },
-            weather_datum {
-                translate_marker( "Lightning Storm" ), c_yellow, h_yellow, '%', 4, 1.25f, -45, 8, false,
-                precip_class::HEAVY, true, false, &weather_effect::lightning
-            },
-            weather_datum {
-                translate_marker( "Acidic Drizzle" ), c_light_green, c_yellow_green, '.', 2, 1.03f, -20, 1, true,
-                precip_class::LIGHT, true, true, &weather_effect::light_acid
-            },
-            weather_datum {
-                translate_marker( "Acid Rain" ), c_green, c_yellow_green, 'o', 4, 1.1f, -30, 4, true,
-                precip_class::HEAVY, true, true, &weather_effect::acid
-            },
-            weather_datum {
-                translate_marker( "Flurries" ), c_white, c_dark_gray_cyan, '.', 2, 1.12f, -15, 2, false,
-                precip_class::LIGHT, false, false, &weather_effect::flurry
-            },
-            weather_datum {
-                translate_marker( "Snowing" ), c_white, c_dark_gray_cyan, '*', 4, 1.13f, -20, 4, false,
-                precip_class::HEAVY, false, false, &weather_effect::snow
-            },
-            weather_datum {
-                translate_marker( "Snowstorm" ), c_white, c_white_cyan, '%', 6, 1.2f, -30, 6, false,
-                precip_class::HEAVY, false, false, &weather_effect::snowstorm
-            }
-        }};
+    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value    
 
     const size_t i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {
-        return { data[i], i > 0 };
+        return { weather_datums[i], i > 0 };
     }
 
-    return { data[0], false };
+    return { weather_datums[0], false };
 }
 
 static weather_datum weather_data_interal_localized( weather_type const type )
@@ -132,6 +76,10 @@ weather_datum weather_data( weather_type const type )
 
 namespace weather
 {
+void add_weather_datum( weather_datum new_weather )
+{
+    weather_datums.push_back( new_weather );
+}
 std::string name( weather_type const type )
 {
     return weather_data_interal_localized( type ).name;
@@ -180,9 +128,9 @@ bool acidic( weather_type const type )
 {
     return weather_data_internal( type ).datum.acidic;
 }
-weather_effect_fn effect( weather_type const type )
+std::vector<std::pair<std::string, int>> effects( weather_type const type )
 {
-    return weather_data_internal( type ).datum.effect;
+    return weather_data_internal( type ).datum.effects;
 }
 } // namespace weather
 

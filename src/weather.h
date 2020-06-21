@@ -65,15 +65,8 @@ enum weather_type : int {
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
-enum class precip_class : int {
-    NONE,
-    VERY_LIGHT,
-    LIGHT,
-    HEAVY
-};
-
 double precip_mm_per_hour( precip_class p );
-void do_rain( weather_type w );
+void handle_weather_effects( weather_type w );
 
 /**
  * Weather animation class.
@@ -118,36 +111,14 @@ enum class sun_intensity : int {
 };
 
 //!< Fallback weather.
-void none();
-void glare( sun_intensity );
-void thunder();
-void lightning();
-void light_acid();
-void acid();
-//!< Currently flurries have no additional effects.
-void flurry();
-void snow();
-void sunny();
-void snowstorm();
-} //namespace weather_effect
-
-using weather_effect_fn = void ( * )();
-
-struct weather_datum {
-    std::string name;             //!< UI name of weather type.
-    nc_color color;               //!< UI color of weather type.
-    nc_color map_color;           //!< Map color of weather type.
-    char glyph;                   //!< Map glyph of weather type.
-    int ranged_penalty;           //!< Penalty to ranged attacks.
-    float sight_penalty;          //!< Penalty to per-square visibility, applied in transparency map.
-    int light_modifier;           //!< Modification to ambient light.
-    int sound_attn;               //!< Sound attenuation of a given weather type.
-    bool dangerous;               //!< If true, our activity gets interrupted.
-    precip_class precip;          //!< Amount of associated precipitation.
-    bool rains;                   //!< Whether said precipitation falls as rain.
-    bool acidic;                  //!< Whether said precipitation is acidic.
-    weather_effect_fn effect;     //!< Function pointer for weather effects.
-};
+void glare( int intensity );
+void thunder( int intensity );
+void lightning( int intensity );
+void light_acid( int intensity );
+void acid( int intensity );
+void wet_player( int amount );
+}
+using weather_effect_fn = void ( * )( int intensity );
 
 struct weather_sum {
     int rain_amount = 0;
@@ -159,6 +130,7 @@ struct weather_sum {
 weather_datum weather_data( weather_type type );
 namespace weather
 {
+void add_weather_datum( weather_datum new_weather );
 std::string name( weather_type type );
 nc_color color( weather_type type );
 nc_color map_color( weather_type type );
@@ -171,7 +143,7 @@ bool dangerous( weather_type type );
 precip_class precip( weather_type type );
 bool rains( weather_type type );
 bool acidic( weather_type type );
-weather_effect_fn effect( weather_type type );
+std::vector<std::pair<std::string, int>> effects( weather_type type );
 } // namespace weather
 
 std::string get_shortdirstring( int angle );

@@ -7,6 +7,7 @@
 #include <random>
 #include <string>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "json.h"
@@ -336,5 +337,29 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
     ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
+    for( const JsonObject weather_type : jo.get_array( "weather_types" ) ) {
+        weather_datum weather_data;
+        weather_data.name = weather_type.get_string( "name" );
+        if( !assign( weather_type, "color", weather_data.color ) ) {
+            weather_type.throw_error( "missing mandatory member \"color\"" );
+        }
+        if( !assign( weather_type, "map_color", weather_data.map_color ) ) {
+            weather_type.throw_error( "missing mandatory member \"map_color\"" );
+        }
+        weather_data.glyph = weather_type.get_string( "glyph" )[0];
+        weather_data.ranged_penalty = weather_type.get_int( "ranged_penalty" );
+        weather_data.sight_penalty = weather_type.get_float( "sight_penalty" );
+        weather_data.light_modifier = weather_type.get_int( "light_modifier" );
+        weather_data.sound_attn = weather_type.get_int( "sound_attn" );
+        weather_data.dangerous = weather_type.get_bool( "dangerous" );
+        weather_data.precip = static_cast<precip_class>( weather_type.get_int( "precip" ) );
+        weather_data.rains = weather_type.get_bool( "rains" );
+        weather_data.acidic = weather_type.get_bool( "acidic" );
+        for( const JsonObject weather_effect : weather_type.get_array( "effects" ) ) {
+            weather_data.effects.push_back( std::make_pair( weather_effect.get_string( "name" ),
+                                            weather_effect.get_int( "intensity" ) ) );
+        }
+        weather::add_weather_datum( weather_data );
+    }
     return ret;
 }

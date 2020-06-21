@@ -1573,8 +1573,7 @@ bool game::do_turn()
     }
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        do_rain( weather.weather );
-        weather::effect( weather.weather )();
+        handle_weather_effects( weather.weather );
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );

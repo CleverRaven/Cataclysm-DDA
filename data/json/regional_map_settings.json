@@ -918,7 +918,249 @@
       "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        {
+          "name": "NULL Weather - BUG (weather_data.cpp:weather_data)",
+          "color": "c_magenta",
+          "map_color": "c_magenta_red",
+          "glyph": "0",
+          "ranged_penalty": 0,
+          "sight_penalty": 0.0,
+          "light_modifier": 0,
+          "sound_attn": 0,
+          "dangerous": false,
+          "precip": 0,
+          "rains": false,
+          "acidic": false
+        },
+        {
+          "name": "Clear",
+          "color": "c_cyan",
+          "map_color": "c_yellow_white",
+          "glyph": " ",
+          "ranged_penalty": 0,
+          "sight_penalty": 1.0,
+          "light_modifier": 0,
+          "sound_attn": 0,
+          "dangerous": false,
+          "precip": 10,
+          "rains": false,
+          "acidic": false
+        },
+        {
+          "name": "Sunny",
+          "color": "c_light_cyan",
+          "map_color": "c_yellow_white",
+          "glyph": "*",
+          "ranged_penalty": 0,
+          "sight_penalty": 1.0,
+          "light_modifier": 2,
+          "sound_attn": 0,
+          "dangerous": false,
+          "precip": 0,
+          "rains": false,
+          "acidic": false,
+          "effects":[
+            {
+              "name": "glare",
+              "intensity": 2
+            }
+          ]
+        },
+        {
+          "name": "Cloudy",
+          "color": "c_light_gray",
+          "map_color": "c_dark_gray_white",
+          "glyph": "~",
+          "ranged_penalty": 0,
+          "sight_penalty": 1.0,
+          "light_modifier": -20,
+          "sound_attn": 0,
+          "dangerous": false,
+          "precip": 0,
+          "rains": false,
+          "acidic": false
+        },
+        {
+          "name": "Light Drizzle",
+          "color": "c_light_blue",
+          "map_color": "h_light_blue",
+          "glyph": ".",
+          "ranged_penalty": 0,
+          "sight_penalty": 1.01,
+          "light_modifier": -10,
+          "sound_attn": 0,
+          "dangerous": false,
+          "precip": 1,
+          "rains": true,
+          "acidic": false
+        },
+        {
+          "name": "Drizzle",
+          "color": "c_light_blue",
+          "map_color": "h_light_blue",
+          "glyph": ".",
+          "ranged_penalty": 1,
+          "sight_penalty": 1.03,
+          "light_modifier": -20,
+          "sound_attn": 1,
+          "dangerous": false,
+          "precip": 2,
+          "rains": true,
+          "acidic": false
+        },
+        {
+          "name": "Rain",
+          "color": "c_blue",
+          "map_color": "h_blue",
+          "glyph": "o",
+          "ranged_penalty": 3,
+          "sight_penalty": 1.1,
+          "light_modifier": -30,
+          "sound_attn": 4,
+          "dangerous": false,
+          "precip": 3,
+          "rains": true,
+          "acidic": false
+        },
+        {
+          "name": "Thunder Storm",
+          "color": "c_dark_gray",
+          "map_color": "i_blue",
+          "glyph": "%",
+          "ranged_penalty": 4,
+          "sight_penalty": 1.2,
+          "light_modifier": -40,
+          "sound_attn": 8,
+          "dangerous": false,
+          "precip": 3,
+          "rains": true,
+          "acidic": false,
+          "effects":[
+            {
+              "name": "thunder",
+              "intensity": 50
+            }
+          ]
+        },
+        {
+          "name": "Lightning Storm",
+          "color": "c_yellow",
+          "map_color": "h_yellow",
+          "glyph": "%",
+          "ranged_penalty": 4,
+          "sight_penalty": 1.25,
+          "light_modifier": -45,
+          "sound_attn": 8,
+          "dangerous": false,
+          "precip": 3,
+          "rains": true,
+          "acidic": false,
+          "effects":[
+            {
+              "name": "thunder",
+              "intensity": 50
+            },
+            {
+              "name": "lightning",
+              "intensity": 600
+            }
+          ]
+        },
+        {
+          "name": "Acidic Drizzle",
+          "color": "c_light_green",
+          "map_color": "c_yellow_green",
+          "glyph": ".",
+          "ranged_penalty": 2,
+          "sight_penalty": 1.03,
+          "light_modifier": -20,
+          "sound_attn": 1,
+          "dangerous": true,
+          "precip": 2,
+          "rains": true,
+          "acidic": true,
+          "effects":[
+            {
+              "name": "light_acid",
+              "intensity": 180
+            }
+          ]
+        },
+        {
+          "name": "Acid Rain",
+          "color": "c_green",
+          "map_color": "c_yellow_green",
+          "glyph": "o",
+          "ranged_penalty": 4,
+          "sight_penalty": 1.1,
+          "light_modifier": -30,
+          "sound_attn": 4,
+          "dangerous": true,
+          "precip": 3,
+          "rains": true,
+          "acidic": true,
+          "effects":[
+            {
+              "name": "acid",
+              "intensity": 2
+            }
+          ]
+        },
+        {
+          "name": "Flurries",
+          "color": "c_white",
+          "map_color": "c_dark_gray_cyan",
+          "glyph": ".",
+          "ranged_penalty": 2,
+          "sight_penalty": 1.12,
+          "light_modifier": -15,
+          "sound_attn": 2,
+          "dangerous": false,
+          "precip": 2,
+          "rains": false,
+          "acidic": false
+        },
+        {
+          "name": "Snowing",
+          "color": "c_white",
+          "map_color": "c_dark_gray_cyan",
+          "glyph": "*",
+          "ranged_penalty": 4,
+          "sight_penalty": 1.3,
+          "light_modifier": -20,
+          "sound_attn": 4,
+          "dangerous": false,
+          "precip": 3,
+          "rains": false,
+          "acidic": false,
+          "effects":[
+            {
+              "name": "wet",
+              "intensity": 10
+            }]
+        },
+        {
+          "name": "Snowstorm",
+          "color": "c_white",
+          "map_color": "c_white_cyan",
+          "glyph": "%",
+          "ranged_penalty": 6,
+          "sight_penalty": 1.2,
+          "light_modifier": -30,
+          "sound_attn": 6,
+          "dangerous": false,
+          "precip": 3,
+          "rains": false,
+          "acidic": false,
+          "effects":[
+            {
+              "name": "wet",
+              "intensity": 40
+            }]
+        }
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }
