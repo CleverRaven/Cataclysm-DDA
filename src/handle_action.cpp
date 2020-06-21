@@ -1488,7 +1488,8 @@ bool bionic::activate_spell( Character &caster )
         // the return value tells us if the spell fails. if it has no spell it can't fail
         return true;
     }
-    return assign_spellcasting( *caster.as_avatar(), id->spell_on_activate->get_spell(), true );
+    spell &sp = id->spell_on_activate->get_spell();
+    return assign_spellcasting( *caster.as_avatar(), sp, true );
 }
 
 void game::open_consume_item_menu()
