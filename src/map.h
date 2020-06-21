@@ -1059,7 +1059,6 @@ class map
         void add_item( const point &p, item new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
-        item &spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel );
 
         /**
          * Update an item's active status, for example when adding
@@ -1132,7 +1131,7 @@ class map
         std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
-        // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
+        // Places a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
         void spawn_items( const point &p, const std::vector<item> &new_items ) {
             spawn_items( tripoint( p, abs_sub.z ), new_items );
