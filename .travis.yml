@@ -240,7 +240,7 @@ after_success:
 
 before_deploy:
   - export TRAVIS_TAG=${TRAVIS_BUILD_NUMBER}
-  - git tag $TRAVIS_TAG
+  - git tag --force $TRAVIS_TAG
   - export RELEASE_PKG_FILES=$(ls cataclysm*.zip cataclysm*.tar.gz)
 
 deploy:
