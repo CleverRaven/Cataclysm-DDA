@@ -2333,7 +2333,6 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         return false;
     }
 
-
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
 
