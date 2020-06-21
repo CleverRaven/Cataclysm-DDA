@@ -357,7 +357,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
-	last_processed = bday;
+    last_processed = bday;
 
     if( qty >= 0 ) {
         charges = qty;
@@ -9505,11 +9505,11 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     if( !active ) {
         return false;
     }
-	
-	if( to_turns<int>(calendar::turn - last_processed) < processing_speed() ){
-		// It is not yet time to process this item.
-		return false;
-	}
+
+    if( to_turns<int>( calendar::turn - last_processed ) < processing_speed() ) {
+        // It is not yet time to process this item.
+        return false;
+    }
 
     if( !is_food() && item_counter > 0 ) {
         item_counter--;
@@ -9537,7 +9537,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     }
     if( has_flag( flag_WET ) && process_wet( carrier, pos ) ) {
         // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
-		last_processed = calendar::turn;
+        last_processed = calendar::turn;
         return false;
     }
     if( has_flag( flag_LITCIG ) && process_litcig( carrier, pos ) ) {
@@ -9545,21 +9545,21 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     }
     if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
         process_extinguish( carrier, pos ) ) {
-		last_processed = calendar::turn;
+        last_processed = calendar::turn;
         return false;
     }
     if( has_flag( flag_CABLE_SPOOL ) ) {
         // DO NOT process this as a tool! It really isn't!
-		last_processed = calendar::turn;
+        last_processed = calendar::turn;
         return process_cable( carrier, pos );
     }
     if( has_flag( flag_IS_UPS ) ) {
         // DO NOT process this as a tool! It really isn't!
-		last_processed = calendar::turn;
+        last_processed = calendar::turn;
         return process_UPS( carrier, pos );
     }
     if( is_tool() ) {
-		last_processed = calendar::turn;
+        last_processed = calendar::turn;
         return process_tool( carrier, pos );
     }
     // All foods that go bad have temperature
@@ -9570,8 +9570,8 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         }
         return true;
     }
-	
-	last_processed = calendar::turn;
+
+    last_processed = calendar::turn;
     return false;
 }
 
