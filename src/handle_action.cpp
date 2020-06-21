@@ -808,7 +808,7 @@ static void smash()
                     // If the player has a weapon, do not smash with our hands/feet
                     // if our best option will break our limb. Use weapon instead.
                     if( !w->is_null() ) {
-                        w_bash = use_hands ? ( !hand_hp_calc > 0 ) : ( !foot_hp_calc > 0 );
+                        w_bash = use_hands ? ( hand_hp_calc > 0 ) : ( foot_hp_calc > 0 );
                     }
 
                     if( !w_bash && dam_hand && dam_foot ) {
