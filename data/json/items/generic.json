@@ -2370,7 +2370,7 @@
     "volume": "1 ml",
     "price": 5,
     "price_postapoc": 100,
-    "use_action": "PACK_CBM",
+    "use_action": [ "PACK_CBM" ],
     "to_hit": -1,
     "material": [ "plastic", "paper" ],
     "symbol": "]",
@@ -2855,7 +2855,7 @@
     "price_postapoc": 0,
     "weight": "1 g",
     "volume": "250 ml",
-    "use_action": "CRAFT",
+    "use_action": [ "CRAFT" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {
@@ -3021,7 +3021,7 @@
     "material": [ "aluminum" ],
     "symbol": "!",
     "color": "green",
-    "use_action": "DISASSEMBLE",
+    "use_action": [ "DISASSEMBLE" ],
     "flags": [ "NO_REPAIR" ]
   },
   {

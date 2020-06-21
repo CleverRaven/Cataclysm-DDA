@@ -584,7 +584,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // Cache NPCs since time to draw them is linear (per seen tile) with their count
     struct npc_coloring {
         nc_color color;
-        size_t count;
+        size_t count = 0;
     };
     std::vector<tripoint> path_route;
     std::vector<tripoint> player_path_route;

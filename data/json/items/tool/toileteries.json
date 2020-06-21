@@ -30,7 +30,7 @@
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "WASH_HARD_ITEMS"
+    "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
     "id": "elec_hairtrimmer",
@@ -48,7 +48,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": "HAIRKIT",
+    "use_action": [ "HAIRKIT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -74,7 +74,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "MOP"
+    "use_action": [ "MOP" ]
   },
   {
     "id": "rag",
@@ -122,7 +122,7 @@
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": [ "SHAVEKIT" ]
   },
   {
     "id": "sponge",
@@ -136,7 +136,7 @@
     "material": [ "plastic" ],
     "symbol": "s",
     "color": "yellow",
-    "use_action": "WASH_HARD_ITEMS",
+    "use_action": [ "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -153,7 +153,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": "HAIRKIT"
+    "use_action": [ "HAIRKIT" ]
   },
   {
     "id": "survivor_shavingkit",
@@ -172,7 +172,7 @@
     "ammo": [ "soap" ],
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SHAVEKIT"
+    "use_action": [ "SHAVEKIT" ]
   },
   {
     "id": "washboard",
@@ -187,7 +187,7 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "white",
-    "use_action": "WASH_SOFT_ITEMS",
+    "use_action": [ "WASH_SOFT_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -202,7 +202,7 @@
     "material": [ "wood", "plastic" ],
     "symbol": "%",
     "color": "yellow",
-    "use_action": "WASH_ALL_ITEMS",
+    "use_action": [ "WASH_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
   }
 ]

@@ -36,7 +36,7 @@ class Creature_tracker;
 class item;
 class spell_events;
 
-#define DEFAULT_TILESET_ZOOM 16
+static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 static const std::string SAVE_MASTER( "master.gsav" );
 static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
@@ -264,11 +264,16 @@ class game
         cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
-        /** Moves the player vertically. If force == true then they are falling. */
-        void vertical_move( int z, bool force );
+        /**
+         * Moves the player vertically.
+         * If force == true then they are falling.
+         * If peeking == true, forbids some exotic movement options
+         */
+        void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
-        cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder );
+        cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
+                bool peeking );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
         void vertical_shift( int z_after );
         /** Add goes up/down auto_notes (if turned on) */
@@ -1043,7 +1048,7 @@ class game
         std::chrono::seconds time_played_at_last_load;
         std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0;
-        time_t last_save_timestamp;
+        time_t last_save_timestamp = 0;
 
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache

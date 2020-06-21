@@ -247,6 +247,7 @@
         "prob": 80
       },
       { "item": "tea_raw", "count": [ 1, 10 ], "prob": 80 },
+      { "item": "tea_green_raw", "count": [ 1, 10 ], "prob": 40 },
       { "item": "teapot", "prob": 70 },
       { "item": "kettle", "prob": 50 },
       { "item": "sugar", "charges": [ 10, 120 ], "container-item": "jar_glass", "prob": 90 },

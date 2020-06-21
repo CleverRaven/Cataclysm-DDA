@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
@@ -201,7 +202,6 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
     const auto index = pane.index;
-    const int page = index / itemsPerPage;
     bool compact = TERMX <= 100;
 
     int columns = getmaxx( window );
@@ -245,7 +245,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
-                maxvolume = g->m.max_volume( s.pos );
+                maxvolume = get_map().max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( s.weight ),
@@ -283,20 +283,38 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         mvwprintz( window, point( lastcol - table_hdr_len1 + 1, 5 ), c_light_gray, _( "amt weight vol" ) );
     }
 
-    for( int i = page * itemsPerPage, x = 0 ; i < static_cast<int>( items.size() ) &&
-         x < itemsPerPage ; i++, x++ ) {
-        const auto &sitem = items[i];
-        if( sitem.is_category_header() ) {
-            mvwprintz( window, point( ( columns - utf8_width( sitem.name ) - 6 ) / 2, 6 + x ), c_cyan, "[%s]",
-                       sitem.name );
-            continue;
+    int pageStart = 0; // index of first item on current page
+
+    advanced_inventory_pagination pagination( linesPerPage, pane );
+    if( !items.empty() ) {
+        // paginate up to the current item (to count pages)
+        for( int i = 0; i <= index; i++ ) {
+            const bool pagebreak = pagination.step( i );
+            if( pagebreak ) {
+                pageStart = i;
+            }
         }
-        if( !sitem.is_item_entry() ) {
-            // Empty entry at the bottom of a page.
-            continue;
+    }
+
+    pagination.reset_page();
+    for( size_t i = pageStart; i < items.size(); i++ ) {
+        const advanced_inv_listitem &sitem = items[i];
+        const int line = pagination.line;
+        int item_line = line;
+        if( pane.sortby == SORTBY_CATEGORY && pagination.new_category( sitem.cat ) ) {
+            // don't put category header at bottom of page
+            if( line == linesPerPage - 1 ) {
+                break;
+            }
+            // insert category header
+            mvwprintz( window, point( ( columns - utf8_width( sitem.cat->name() ) - 6 ) / 2, 6 + line ), c_cyan,
+                       "[%s]",
+                       sitem.cat->name() );
+            item_line = line + 1;
         }
+
         const auto &it = *sitem.items.front();
-        const bool selected = active && index == i;
+        const bool selected = active && index == static_cast<int>( i );
 
         nc_color thiscolor = active ? it.color_in_inventory() : norm;
         nc_color thiscolordark = c_dark_gray;
@@ -306,9 +324,9 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
             thiscolordark = hilite( thiscolordark );
             if( compact ) {
-                mvwprintz( window, point( 1, 6 + x ), thiscolor, "  %s", spaces );
+                mvwprintz( window, point( 1, 6 + item_line ), thiscolor, "  %s", spaces );
             } else {
-                mvwprintz( window, point( 1, 6 + x ), thiscolor, ">>%s", spaces );
+                mvwprintz( window, point( 1, 6 + item_line ), thiscolor, ">>%s", spaces );
             }
         }
 
@@ -344,12 +362,13 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         }
 
         //print item name
-        trim_and_print( window, point( compact ? 1 : 4, 6 + x ), max_name_length, thiscolor, item_name );
+        trim_and_print( window, point( compact ? 1 : 4, 6 + item_line ), max_name_length, thiscolor,
+                        item_name );
 
         //print src column
         // TODO: specify this is coming from a vehicle!
         if( pane.get_area() == AIM_ALL && !compact ) {
-            mvwprintz( window, point( src_startpos, 6 + x ), thiscolor, squares[sitem.area].shortname );
+            mvwprintz( window, point( src_startpos, 6 + item_line ), thiscolor, squares[sitem.area].shortname );
         }
 
         //print "amount" column
@@ -360,7 +379,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
                 it_amt = 9999;
                 print_color = selected ? hilite( c_red ) : c_red;
             }
-            mvwprintz( window, point( amt_startpos, 6 + x ), print_color, "%4d", it_amt );
+            mvwprintz( window, point( amt_startpos, 6 + item_line ), print_color, "%4d", it_amt );
         }
 
         //print weight column
@@ -379,7 +398,8 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         } else {
             w_precision = 2;
         }
-        mvwprintz( window, point( weight_startpos, 6 + x ), print_color, "%5.*f", w_precision, it_weight );
+        mvwprintz( window, point( weight_startpos, 6 + item_line ), print_color, "%5.*f", w_precision,
+                   it_weight );
 
         //print volume column
         bool it_vol_truncated = false;
@@ -390,11 +410,15 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         } else {
             print_color = sitem.volume.value() > 0 ? thiscolor : thiscolordark;
         }
-        mvwprintz( window, point( vol_startpos, 6 + x ), print_color, it_vol );
+        mvwprintz( window, point( vol_startpos, 6 + item_line ), print_color, it_vol );
 
         if( active && sitem.autopickup ) {
-            mvwprintz( window, point( 1, 6 + x ), magenta_background( it.color_in_inventory() ),
+            mvwprintz( window, point( 1, 6 + item_line ), magenta_background( it.color_in_inventory() ),
                        compact ? it.tname().substr( 0, 1 ) : ">" );
+        }
+
+        if( pagination.step( i ) ) { // page end
+            break;
         }
     }
 }
@@ -431,14 +455,8 @@ struct advanced_inv_sorter {
                 }
                 break;
             case SORTBY_CATEGORY:
-                assert( d1.cat != nullptr );
-                assert( d2.cat != nullptr );
                 if( d1.cat != d2.cat ) {
-                    return *d1.cat < *d2.cat;
-                } else if( d1.is_category_header() ) {
-                    return true;
-                } else if( d2.is_category_header() ) {
-                    return false;
+                    return d1.cat < d2.cat;
                 }
                 break;
             case SORTBY_DAMAGE:
@@ -588,19 +606,8 @@ void advanced_inventory::recalc_pane( side p )
     } else {
         pane.add_items_from_area( squares[pane.get_area()] );
     }
-    // Insert category headers (only expected when sorting by category)
-    if( pane.sortby == SORTBY_CATEGORY ) {
-        std::set<const item_category *> categories;
-        for( auto &it : pane.items ) {
-            categories.insert( it.cat );
-        }
-        for( auto &cat : categories ) {
-            pane.items.push_back( advanced_inv_listitem( cat ) );
-        }
-    }
-    // Finally sort all items (category headers will now be moved to their proper position)
+    // Sort all items
     std::stable_sort( pane.items.begin(), pane.items.end(), advanced_inv_sorter( pane.sortby ) );
-    pane.paginate( itemsPerPage );
 }
 
 void advanced_inventory::redraw_pane( side p )
@@ -642,10 +649,18 @@ void advanced_inventory::redraw_pane( side p )
     mvwprintz( w, point( 2, 2 ), active ? c_light_blue : c_dark_gray, desc );
     trim_and_print( w, point( 2, 3 ), width, active ? c_cyan : c_dark_gray, square.flags );
 
-    const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
-    if( active && max_page > 1 ) {
-        const int page = pane.index / itemsPerPage;
-        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %1$d of %2$d [>]" ), page + 1, max_page );
+    if( active ) {
+        advanced_inventory_pagination pagination( linesPerPage, pane );
+        int cur_page = 0;
+        for( int i = 0; i < static_cast<int>( pane.items.size() ); i++ ) {
+            pagination.step( i );
+            if( i == pane.index ) {
+                cur_page = pagination.page;
+            }
+        }
+        const int max_page = pagination.page;
+        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %1$d of %2$d [>]" ), cur_page + 1,
+                   max_page + 1 );
     }
 
     if( active ) {
@@ -817,6 +832,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         do_return_entry();
     }
 
+    map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
@@ -877,7 +893,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -934,7 +950,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             } else {
-                map_stack targets = g->m.i_at( sarea.pos );
+                map_stack targets = here.i_at( sarea.pos );
                 stack_begin = targets.begin();
                 stack_end = targets.end();
             }
@@ -1107,7 +1123,7 @@ void advanced_inventory::change_square( const aim_location changeSquare,
             } else {
                 // check item stacks in vehicle and map at said square
                 auto sq = squares[changeSquare];
-                auto map_stack = g->m.i_at( sq.pos );
+                map_stack map_stack = get_map().i_at( sq.pos );
                 auto veh_stack = sq.veh->get_items( sq.vstor );
                 // auto switch to vehicle storage if vehicle items are there, or neither are there
                 if( !veh_stack.empty() || map_stack.empty() ) {
@@ -1145,7 +1161,7 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
             }
             g->u.activity.values.push_back( amount_to_move );
         } else {
-            for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+            for( std::vector<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
                 if( from_vehicle ) {
                     g->u.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
@@ -1170,7 +1186,7 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
             }
             quantities.push_back( amount_to_move );
         } else {
-            for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+            for( std::vector<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
                 if( from_vehicle ) {
                     target_items.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
@@ -1208,7 +1224,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         const std::string &action )
 {
     bool exit = false;
-    if( sitem == nullptr || !sitem->is_item_entry() ) {
+    if( sitem == nullptr ) {
         return false;
     }
     aim_location destarea = dpane.get_area();
@@ -1405,7 +1421,7 @@ void advanced_inventory::display()
                                   headstart + head_height ) );
 
             // 2 for the borders, 5 for the header stuff
-            itemsPerPage = w_height - 2 - 5;
+            linesPerPage = w_height - 2 - 5;
 
             if( filter_edit && spopup ) {
                 spopup->window( panes[src].window, point( 4, w_height - 1 ), w_width / 2 - 4 );
@@ -1472,7 +1488,7 @@ void advanced_inventory::display()
         } else if( get_square( action, changeSquare ) ) {
             change_square( changeSquare, dpane, spane );
         } else if( action == "TOGGLE_FAVORITE" ) {
-            if( sitem == nullptr || !sitem->is_item_entry() ) {
+            if( sitem == nullptr ) {
                 continue;
             }
             for( auto *item : sitem->items ) {
@@ -1519,7 +1535,7 @@ void advanced_inventory::display()
         } else if( action == "RESET_FILTER" ) {
             spane.set_filter( "" );
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {
-            if( sitem == nullptr || !sitem->is_item_entry() ) {
+            if( sitem == nullptr ) {
                 continue;
             }
             if( sitem->autopickup ) {
@@ -1531,16 +1547,16 @@ void advanced_inventory::display()
             }
             recalc = true;
         } else if( action == "EXAMINE" ) {
-            if( sitem == nullptr || !sitem->is_item_entry() ) {
+            if( sitem == nullptr ) {
                 continue;
             }
             action_examine( sitem, spane );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
-            spane.scroll_by( +itemsPerPage );
+            spane.scroll_page( linesPerPage, +1 );
         } else if( action == "PAGE_UP" ) {
-            spane.scroll_by( -itemsPerPage );
+            spane.scroll_page( linesPerPage, -1 );
         } else if( action == "DOWN" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( +1 );
@@ -1748,7 +1764,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         // For items counted by charges, adding it adds 0 items if something there stacks with it.
         const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),
         [&it]( const advanced_inv_listitem & li ) {
-            return li.is_item_entry() && li.items.front()->stacks_with( it );
+            return li.items.front()->stacks_with( it );
         } );
         if( cntmax <= 0 && !adds0 ) {
             popup( _( "Destination area has too many items.  Remove some first." ) );
@@ -1843,7 +1859,7 @@ void advanced_inventory::draw_minimap()
     // get the center of the window
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     // draw the 3x3 tiles centered around player
-    g->m.draw( minimap, g->u.pos() );
+    get_map().draw( minimap, g->u.pos() );
     for( auto s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {

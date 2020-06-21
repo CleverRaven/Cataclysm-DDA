@@ -167,6 +167,7 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
@@ -347,7 +348,7 @@ bool mattack::eat_food( monster *z )
         if( g->m.has_flag( "PLANT", p ) ) {
             continue;
         }
-        auto items = g->m.i_at( p );
+        map_stack items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
             if( !item.is_food() || item.get_comestible_fun() < -20 ) {
@@ -387,7 +388,7 @@ bool mattack::antqueen( monster *z )
         }
 
         if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
-            for( auto &i : g->m.i_at( dest ) ) {
+            for( item &i : g->m.i_at( dest ) ) {
                 if( i.typeId() == itype_ant_egg ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
@@ -969,7 +970,7 @@ bool mattack::resurrect( monster *z )
             continue;
         }
 
-        for( auto &i : g->m.i_at( p ) ) {
+        for( item &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
@@ -2721,8 +2722,12 @@ bool mattack::grab( monster *z )
 
     item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed
+    int reflex_mod = pl->has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
+    const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
+                             z->type->melee_sides + z->type->melee_dice );
+
     if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 &&
-        rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
+        dodged_grab ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
@@ -3275,7 +3280,7 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
-    g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
+    g->timed_events.add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                          g->u.global_sm_location() );
 
     return true;
@@ -4261,7 +4266,7 @@ bool mattack::absorb_meat( monster *z )
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        auto items = g->m.i_at( p );
+        map_stack items = g->m.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
             if( current_item_material == material_id( "flesh" ) ||

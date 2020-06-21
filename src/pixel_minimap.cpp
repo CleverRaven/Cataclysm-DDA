@@ -163,16 +163,16 @@ struct pixel_minimap::submap_cache {
     //the color stored for each submap tile
     std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
     //checks if the submap has been looked at by the minimap routine
-    bool touched;
+    bool touched = false;
     //the texture updates are drawn to
     SDL_Texture_Ptr chunk_tex;
     //the submap being handled
-    size_t texture_index;
+    size_t texture_index = 0;
     //the list of updates to apply to the texture
     //reduces render target switching to once per submap
     std::vector<point> update_list;
     //flag used to indicate that the texture needs to be cleared before first use
-    bool ready;
+    bool ready = false;
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles

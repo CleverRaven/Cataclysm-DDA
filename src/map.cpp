@@ -124,6 +124,11 @@ static cata::colony<item> nulitems;          // Returned when &i_at() is asked f
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
 static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
 
+map &get_map()
+{
+    return g->m;
+}
+
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it )
 {
@@ -241,16 +246,13 @@ void map::add_vehicle_to_cache( vehicle *veh )
     auto &ch = get_cache( veh->sm_pos.z );
     ch.veh_in_active_range = true;
     // Get parts
-    std::vector<vehicle_part> &parts = veh->parts;
-    int partid = 0;
-    for( std::vector<vehicle_part>::iterator it = parts.begin(),
-         end = parts.end(); it != end; ++it, ++partid ) {
-        if( it->removed ) {
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        if( vpr.part().removed ) {
             continue;
         }
-        const tripoint p = veh->global_part_pos3( *it );
+        const tripoint p = veh->global_part_pos3( vpr.part() );
         ch.veh_cached_parts.insert( std::make_pair( p,
-                                    std::make_pair( veh, partid ) ) );
+                                    std::make_pair( veh, static_cast<int>( vpr.part_index() ) ) ) );
         if( inbounds( p ) ) {
             ch.veh_exists_at[p.x][p.y] = true;
         }
@@ -544,12 +546,12 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( static_cast<size_t>( coll.part ) > veh.parts.size() ||
-                veh.parts[coll.part].removed ) {
+            if( coll.part > veh.part_count() ||
+                veh.part( coll.part ).removed ) {
                 continue;
             }
 
-            const point &collision_point = veh.parts[coll.part].mount;
+            const point &collision_point = veh.part( coll.part ).mount;
             const int coll_dmg = coll.imp;
             // Shock damage, if the target part is a rotor treat as an aimed hit.
             if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
@@ -658,7 +660,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
-                const float wheel_area =  veh.parts[ w ].wheel_area();
+                const float wheel_area =  veh.part( w ).wheel_area();
 
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
@@ -829,10 +831,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             parm2 = veh_veh_coll.target_part;
         }
 
-        epicenter1 += veh.parts[parm1].mount;
+        epicenter1 += veh.part( parm1 ).mount;
         veh.damage( parm1, dmg1_part, DT_BASH );
 
-        epicenter2 += veh2.parts[parm2].mount;
+        epicenter2 += veh2.part( parm2 ).mount;
         veh2.damage( parm2, dmg2_part, DT_BASH );
     }
 
@@ -1120,7 +1122,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x, part_pos.y, part_pos.z,
                           g->u.posx(), g->u.posy(), g->u.posz() );
-                veh.parts[prt].remove_flag( vehicle_part::passenger_flag );
+                veh.part( prt ).remove_flag( vehicle_part::passenger_flag );
                 r.moved = true;
                 continue;
             }
@@ -1132,7 +1134,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
             }
 
             // Place passenger on the new part location
-            const vehicle_part &veh_part = veh.parts[prt];
+            const vehicle_part &veh_part = veh.part( prt );
             tripoint psgp( dp + part_pos.xy() - veh_part.precalc[0] + veh_part.precalc[1] + tripoint( 0, 0,
                            psg->posz() ) );
             // someone is in the way so try again
@@ -1151,16 +1153,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
     }
 
     veh.shed_loose_parts();
-    for( auto &prt : veh.parts ) {
-        prt.precalc[0] = prt.precalc[1];
-    }
-    veh.pivot_anchor[0] = veh.pivot_anchor[1];
-    veh.pivot_rotation[0] = veh.pivot_rotation[1];
+    veh.advance_precalc_mounts( dst_offset, p2.z );
 
-    veh.pos = dst_offset;
-    veh.sm_pos.z = p2.z;
-    // Invalidate vehicle's point cache
-    veh.occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
         veh.set_submap_moved( point( p2.x / SEEX, p2.y / SEEY ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
@@ -2004,8 +1998,8 @@ void map::drop_furniture( const tripoint &p )
     // If it's sealed, we need to drop items with it
     const auto &frn_obj = frn.obj();
     if( frn_obj.has_flag( TFLAG_SEALED ) && has_items( p ) ) {
-        auto old_items = i_at( p );
-        auto new_items = i_at( current );
+        map_stack old_items = i_at( p );
+        map_stack new_items = i_at( current );
         for( const auto &it : old_items ) {
             new_items.insert( it );
         }
@@ -2082,7 +2076,7 @@ void map::drop_items( const tripoint &p )
         return;
     }
 
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     // TODO: Make items check the volume tile below can accept
     // rather than disappearing if it would be overloaded
 
@@ -2490,7 +2484,7 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
 
 bool map::tinder_at( const tripoint &p )
 {
-    for( const auto &i : i_at( p ) ) {
+    for( const item &i : i_at( p ) ) {
         if( i.has_flag( "TINDER" ) ) {
             return true;
         }
@@ -2506,7 +2500,7 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
         return false;
     }
 
-    for( const auto &i : i_at( p ) ) {
+    for( const item &i : i_at( p ) ) {
         if( i.flammable( threshold ) ) {
             return true;
         }
@@ -2672,7 +2666,7 @@ bool map::mop_spills( const tripoint &p )
     bool retval = false;
 
     if( !has_flag( "LIQUIDCONT", p ) ) {
-        auto items = i_at( p );
+        map_stack items = i_at( p );
         auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
             return it.made_of( phase_id::LIQUID );
         } );
@@ -2704,8 +2698,8 @@ bool map::mop_spills( const tripoint &p )
         vehicle *const veh = &vp->vehicle();
         std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
         for( auto &elem : parts_here ) {
-            if( veh->parts[elem].blood > 0 ) {
-                veh->parts[elem].blood = 0;
+            if( veh->part( elem ).blood > 0 ) {
+                veh->part( elem ).blood = 0;
                 retval = true;
             }
             //remove any liquids that somehow didn't fall through to the ground
@@ -3037,14 +3031,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // TODO: what if silent is true?
-    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( timed_event_type::WANTED ) ) {
         sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                        false, "environment", "alarm" );
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->events().send<event_type::triggers_alarm>( g->u.getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
-            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+            g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );
         }
     }
@@ -3310,7 +3304,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     }
 
     std::vector<item> smashed_contents;
-    auto bashed_items = i_at( p );
+    map_stack bashed_items = i_at( p );
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
@@ -3456,11 +3450,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
-    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( timed_event_type::WANTED ) ) {
         sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
-        g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
+        g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
     const bool inc = ammo_effects.count( "INCENDIARY" );
@@ -4012,24 +4006,6 @@ void map::i_clear( const tripoint &p )
     current_submap->get_items( l ).clear();
 }
 
-item &map::spawn_an_item( const tripoint &p, item new_item,
-                          const int charges, const int damlevel )
-{
-    if( charges && new_item.charges > 0 ) {
-        //let's fail silently if we specify charges for an item that doesn't support it
-        new_item.charges = charges;
-    }
-    new_item = new_item.in_its_container();
-    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
-        has_flag( "DESTROY_ITEM", p ) ) {
-        return null_item_reference();
-    }
-
-    new_item.set_damage( damlevel );
-
-    return add_item_or_charges( p, new_item );
-}
-
 std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item> &new_items )
 {
     std::vector<item *> ret;
@@ -4082,7 +4058,19 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
         new_item.item_tags.insert( "FIT" );
     }
 
-    spawn_an_item( p, new_item, charges, damlevel );
+    if( charges && new_item.charges > 0 ) {
+        //let's fail silently if we specify charges for an item that doesn't support it
+        new_item.charges = charges;
+    }
+    new_item = new_item.in_its_container();
+    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
+        has_flag( "DESTROY_ITEM", p ) ) {
+        return;
+    }
+
+    new_item.set_damage( damlevel );
+
+    add_item_or_charges( p, new_item );
 }
 
 units::volume map::max_volume( const tripoint &p )
@@ -4133,7 +4121,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     auto place_item = [&]( const tripoint & tile ) -> item& {
         if( obj.count_by_charges() )
         {
-            for( auto &e : i_at( tile ) ) {
+            for( item &e : i_at( tile ) ) {
                 if( e.merge_charges( obj ) ) {
                     return e;
                 }
@@ -4368,7 +4356,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             if( time_left <= 0_turns ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
-                cur_veh.parts[part].enabled = false;
+                cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 add_msg( _( "It should take %d minutes to finish washing items in the %s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
@@ -4397,7 +4385,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     n.item_tags.erase( no_sterile );
                 }
                 autoclave_finished = true;
-                cur_veh.parts[part].enabled = false;
+                cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
                 add_msg( _( "It should take %d minutes to finish sterilising items in the %s." ),
                          to_minutes<int>( time_left ) + 1, cur_veh.name );
@@ -4411,7 +4399,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     vehicle_part recharge_part;
-    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
+    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.part( recharge_part_idx ) ) &&
         !recharge_part.removed && !recharge_part.is_broken() &&
         ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
@@ -4508,6 +4496,13 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
+        const furn_t &furn = this->furn( map_location ).obj();
+
+        if( furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
+            // plants contain a seed item which must not be removed under any circumstances.
+            // Lets not process it at all.
+            continue;
+        }
         // root cellars are special
         temperature_flag flag = temperature_flag::NORMAL;
         if( ter( map_location ) == t_rootcellar ) {
@@ -4734,7 +4729,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                                    map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
-        auto item_list = m->i_at( p );
+        map_stack item_list = m->i_at( p );
         auto current_item = item_list.begin();
         for( ; current_item != item_list.end(); ++current_item ) {
             // looking for a liquid that matches
@@ -4763,7 +4758,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
-        auto stack = m->i_at( p );
+        map_stack stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
         [ammo]( const item & i ) {
             return i.typeId() == ammo;
@@ -4995,7 +4990,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
             if( p.y != -1 && p.y != pos.y ) {
                 continue;
             }
-            auto items = i_at( pos );
+            map_stack items = i_at( pos );
             for( auto &elem : items ) {
                 if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
                     rc_pairs.push_back( std::make_pair( pos, &elem ) );
@@ -5364,7 +5359,7 @@ void map::add_splatter( const field_type_id &type, const tripoint &where, int in
             // Might be -1 if all the vehicle's parts at where are marked for removal
             const int part = veh->part_displayed_at( vp->mount() );
             if( part != -1 ) {
-                veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
+                veh->part( part ).blood += 200 * std::min( intensity, 3 ) / 3;
                 return;
             }
         }
@@ -6002,7 +5997,10 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     const tripoint &min = F < T ? F : T;
     const tripoint &max = !( F < T ) ? F : T;
     // A little gross, just pack the values into a point.
-    const point key( min.x << 16 | min.y << 8 | min.z, max.x << 16 | max.y << 8 | max.z );
+    const point key(
+        min.x << 16 | min.y << 8 | ( min.z + OVERMAP_DEPTH ),
+        max.x << 16 | max.y << 8 | ( max.z + OVERMAP_DEPTH )
+    );
     char cached = skew_vision_cache.get( key, -1 );
     if( cached >= 0 ) {
         return cached > 0;
@@ -6705,7 +6703,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
         vehicle *veh = iter->get();
-        if( !veh->parts.empty() ) {
+        if( veh->part_count() > 0 ) {
             // Always fix submap coordinates for easier Z-level-related operations
             veh->sm_pos = grid;
             iter++;
@@ -6737,21 +6735,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     actualize( grid );
 
     abs_sub.z = old_abs_z;
-}
-
-template <typename Container>
-void map::remove_rotten_items( Container &items, const tripoint &pnt )
-{
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( pnt ) ) {
-            if( it->is_comestible() ) {
-                rotten_item_spawn( *it, pnt );
-            }
-            it = i_rem( pnt, it );
-        } else {
-            ++it;
-        }
-    }
 }
 
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
@@ -6789,7 +6772,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
     if( has_flag_ter_or_furn( TFLAG_INDOORS, p ) ) {
         return;
     }
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     units::volume maxvolume = 0_ml;
     auto biggest_container = items.end();
     for( auto candidate = items.begin(); candidate != items.end(); ++candidate ) {
@@ -6971,7 +6954,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
 
     // Is there a proper container?
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     for( auto &it : items ) {
         if( it.will_spill() || it.is_watertight_container() ) {
             const int capacity = it.get_remaining_capacity_for_liquid( sap, true );
@@ -7067,6 +7050,7 @@ void map::actualize( const tripoint &grid )
     const bool do_funnels = ( grid.z >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
+    process_items_in_submap( *tmpsub, grid );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
@@ -7074,10 +7058,6 @@ void map::actualize( const tripoint &grid )
             const auto &furn = this->furn( pnt ).obj();
             if( furn.has_flag( "EMITTER" ) ) {
                 field_furn_locs.push_back( pnt );
-            }
-            // plants contain a seed item which must not be removed under any circumstances
-            if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
-                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
             }
 
             const auto trap_here = tmpsub->get_trap( p );
@@ -7735,7 +7715,7 @@ void map::do_vehicle_caching( int z )
 
             if( vehicle_is_opaque ) {
                 int dpart = v->part_with_feature( part, VPFLAG_OPENABLE, true );
-                if( dpart < 0 || !v->parts[dpart].open ) {
+                if( dpart < 0 || !v->part( dpart ).open ) {
                     transparency_cache[p2.x][p2.y] = LIGHT_TRANSPARENCY_SOLID;
                 } else {
                     vehicle_is_opaque = false;

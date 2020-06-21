@@ -491,7 +491,7 @@ class item : public visitable<item>
         /**
          * Reload item using ammo from location returning true if successful
          * @param u Player doing the reloading
-         * @param loc Location of ammo to be reloaded
+         * @param ammo Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
         bool reload( player &u, item_location ammo, int qty );
@@ -774,7 +774,8 @@ class item : public visitable<item>
          * used for rot calculation.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f );
+        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f,
+                              temperature_flag flag = temperature_flag::NORMAL );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -797,7 +798,6 @@ class item : public visitable<item>
          * Update rot for things that perish
          * All items that rot also have temperature
          * @param insulation Amount of insulation item has from surroundings
-         * @param seals Wether the item is in sealed  container
          * @param pos The current position
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
@@ -2204,8 +2204,8 @@ class item : public visitable<item>
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
     public:
-        int charges;
-        units::energy energy;      // Amount of energy currently stored in a battery
+        int charges = 0;
+        units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
         int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt
@@ -2289,6 +2289,14 @@ enum class hint_rating {
     /** Item does not permit this action */
     cant
 };
+
+// Weight per level of LIFT/JACK tool quality
+static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
+
+inline units::mass lifting_quality_to_mass( int quality_level )
+{
+    return TOOL_LIFT_FACTOR * quality_level;
+}
 
 /**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid

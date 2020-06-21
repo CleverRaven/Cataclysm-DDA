@@ -82,9 +82,9 @@ struct defense_game : public special_game {
         int current_wave = 0;
 
         // What type of game is it?
-        defense_style style;
+        defense_style style = defense_style::DEFENSE_EASY;
         // Where are we?
-        defense_location location;
+        defense_location location = defense_location::DEFLOC_NULL;
 
         // Total "level" of monsters in first wave
         int initial_difficulty = 0;

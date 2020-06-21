@@ -994,6 +994,9 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
 
 static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
+    const bool intact = x_in_y( 40,
+                                std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 50 );
+
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
         const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -1002,37 +1005,42 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         if( !p ) {
             break;
         }
-        m.furn_set( p->xy(), f_crate_c );
-        std::string item_group;
-        switch( rng( 1, 10 ) ) {
-            case 1:
-                item_group = "mil_bulk";
-                break;
-            case 2:
-            case 3:
-            case 4:
-                item_group = "mil_food";
-                break;
-            case 5:
-            case 6:
-            case 7:
-                item_group = "grenades";
-                break;
-            case 8:
-            case 9:
-                item_group = "mil_armor";
-                break;
-            case 10:
-                item_group = "guns_rifle_milspec";
-                break;
-        }
-        int items_created = 0;
-        for( int i = 0; i < 10 && items_created < 2; i++ ) {
-            items_created += m.place_items( item_group, 80, *p, *p, true, calendar::start_of_cataclysm,
-                                            100 ).size();
-        }
-        if( m.i_at( *p ).empty() ) {
-            m.destroy( *p, true );
+
+        if( intact ) {
+            m.furn_set( p->xy(), f_crate_c );
+            std::string item_group;
+            switch( rng( 1, 10 ) ) {
+                case 1:
+                    item_group = "mil_bulk";
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    item_group = "mil_food";
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    item_group = "grenades";
+                    break;
+                case 8:
+                case 9:
+                    item_group = "mil_armor";
+                    break;
+                case 10:
+                    item_group = "guns_rifle_milspec";
+                    break;
+            }
+            int items_created = 0;
+            for( int i = 0; i < 10 && items_created < 2; i++ ) {
+                items_created += m.place_items( item_group, 80, *p, *p, true, calendar::start_of_cataclysm,
+                                                100 ).size();
+            }
+            if( m.i_at( *p ).empty() ) {
+                m.destroy( *p, true );
+            }
+        } else {
+            m.furn_set( p->xy(), f_crate_o );
         }
     }
 
@@ -2219,6 +2227,52 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     return true;
 }
 
+static bool mx_reed( map &m, const tripoint &abs_sub )
+{
+    // This map extra is for populating river banks, lake shores, etc. with
+    // water vegetation
+
+    // intensity consistent for whole overmap terrain bit
+    // so vegetation is placed from one_in(1) = full overgrowth
+    // to one_in(4) = 1/4 of terrain;
+    int intensity = rng( 1, 4 );
+
+    const auto near_water = [ &m ]( tripoint loc ) {
+
+        for( const tripoint &p : m.points_in_radius( loc, 1 ) ) {
+            if( p == loc ) {
+                continue;
+            }
+            if( m.ter( p ) == t_water_moving_sh || m.ter( p ) == t_water_sh ||
+                m.ter( p ) == t_water_moving_dp || m.ter( p ) == t_water_dp ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    weighted_int_list<furn_id> vegetation;
+    vegetation.add( f_cattails, 15 );
+    vegetation.add( f_lotus, 5 );
+    vegetation.add( f_lilypad, 1 );
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint loc( i, j, abs_sub.z );
+            if( ( m.ter( loc ) == t_water_sh || m.ter( loc ) == t_water_moving_sh ) &&
+                one_in( intensity ) ) {
+                m.furn_set( loc, vegetation.pick()->id() );
+            }
+            // tall grass imitates reed
+            if( ( m.ter( loc ) == t_dirt || m.ter( loc ) == t_grass ) &&
+                one_in( near_water( loc ) ? intensity : 7 ) ) {
+                m.ter_set( loc, t_grass_tall );
+            }
+        }
+    }
+
+    return true;
+}
+
 static bool mx_roadworks( map &m, const tripoint &abs_sub )
 {
     // This map extra creates road works on NS & EW roads, including barricades (as barrier poles),
@@ -3010,7 +3064,8 @@ FunctionMap builtin_functions = {
     { "mx_looters", mx_looters },
     { "mx_corpses", mx_corpses },
     { "mx_grave", mx_grave },
-    { "mx_city_trap", mx_city_trap }
+    { "mx_city_trap", mx_city_trap },
+    { "mx_reed", mx_reed }
 };
 
 map_extra_pointer get_function( const std::string &name )
