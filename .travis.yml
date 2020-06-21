@@ -60,16 +60,16 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
-    - stage: "Deployable"
+    - stage: "Deployable 32 bit"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
-      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=win32-tiles
+      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=win32-tiles
       name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=lin32-tiles
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=lin32-tiles
       name: "GCC 8 Make build with Tiles and Sound"
       dist: bionic
       compiler: gcc
@@ -78,7 +78,7 @@ jobs:
           packages: ["g++-8", "g++-8-multilib", "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" DEPLOY=1 BUILD_NAME=lin32-curses
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 DEPLOY=1 BUILD_NAME=lin32-curses
       name: "GCC 8 Make build with Curses"
       dist: bionic
       compiler: gcc
@@ -87,17 +87,43 @@ jobs:
           packages: ["g++-8", "g++-8-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-tiles
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 SOUND=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-tiles
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-curses
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-curses
       name: "Xcode 10.1 Make build with Curses (macOS)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
+
+    # 64 bit builds
+    - env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="x86_64-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=win64-tiles
+      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-tiles
+      name: "GCC 8 Make build with Tiles and Sound"
+      dist: bionic
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8", "g++-8-multilib", "libc6-dbg", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
+
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-curses
+      name: "GCC 8 Make build with Curses"
+      dist: bionic
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8", "g++-8-multilib", "libc6-dbg"]
+          sources: *apt_sources
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
