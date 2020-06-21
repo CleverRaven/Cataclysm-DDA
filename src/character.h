@@ -1707,7 +1707,7 @@ class Character : public Creature, public visitable<Character>
         bool male = false;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
+        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
