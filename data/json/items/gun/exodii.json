@@ -47,7 +47,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "aluminum" ],
-    "color": "light_grey",
+    "color": "light_gray",
     "ammo": [ "8512" ],
     "dispersion": 100,
     "durability": 8,

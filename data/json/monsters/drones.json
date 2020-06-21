@@ -137,7 +137,7 @@
     "description": "This unusual contraption looks like a combination of a weather balloon and a quadcopter. Beneath the crude box containing its components hangs a small articulated rig wielding an integrated rifle.  Its propellers flicker to life briefly, then shut down again, keeping it mostly stationary despite the air currents.  It looks capable of hanging in the air for quite a long time before running out of power.",
     "default_faction": "exodii",
     "species": [ "ROBOT" ],
-    "volume": "5000 l",
+    "volume": "5000 L",
     "weight": "150 kg",
     "//": "weight and dimensions based on the approx. size of a Griff 350, which is a commercial cargo-hauling quadcopter. Then I added a large balloon on top.",
     "hp": 20,
