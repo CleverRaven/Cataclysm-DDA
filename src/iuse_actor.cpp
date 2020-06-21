@@ -1561,7 +1561,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos, result, 0, 0 );
+                    g->m.add_item_or_charges( pos, result );
                 }
             }
         } else {
