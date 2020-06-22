@@ -192,17 +192,22 @@ maptile map::maptile_at_internal( const tripoint &p )
 
 VehicleList map::get_vehicles()
 {
-    if( !zlevels ) {
-        return get_vehicles( tripoint( 0, 0, abs_sub.z ),
-                             tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, abs_sub.z ) );
+    if( last_full_vehicle_list_dirty ) {
+        if( !zlevels ) {
+            last_full_vehicle_list = get_vehicles( tripoint( 0, 0, abs_sub.z ),
+                                                   tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, abs_sub.z ) );
+        } else {
+            last_full_vehicle_list = get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
+                                                   tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
+        }
     }
 
-    return get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
-                         tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
+    return last_full_vehicle_list;
 }
 
 void map::reset_vehicle_cache( const int zlev )
 {
+    last_full_vehicle_list_dirty = true;
     clear_vehicle_cache( zlev );
     // Cache all vehicles
     auto &ch = get_cache( zlev );
@@ -236,6 +241,8 @@ void map::add_vehicle_to_cache( vehicle *veh )
             ch.veh_exists_at[p.x][p.y] = true;
         }
     }
+
+    last_full_vehicle_list_dirty = true;
 }
 
 void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
@@ -296,6 +303,8 @@ void map::update_vehicle_list( const submap *const to, const int zlev )
             ch.zone_vehicles.insert( elem.get() );
         }
     }
+
+    last_full_vehicle_list_dirty = true;
 }
 
 std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )

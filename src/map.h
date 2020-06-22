@@ -1749,6 +1749,12 @@ class map
          */
         mutable lru_cache<point, char> skew_vision_cache;
 
+        /**
+         * Vehicle list doesn't change often, but is pretty expensive.
+         */
+        VehicleList last_full_vehicle_list;
+        bool last_full_vehicle_list_dirty = true;
+
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
