@@ -577,7 +577,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid":  true,
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "525 ml",
         "max_contains_weight": "1 kg",
