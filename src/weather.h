@@ -101,10 +101,6 @@ struct weather_printable {
 namespace weather_effect
 {
 
-enum class sun_intensity : int {
-    normal = 1,
-    high
-};
 
 //!< Fallback weather.
 void glare( int intensity );
@@ -140,11 +136,10 @@ precip_class precip( weather_type type );
 bool rains( weather_type type );
 bool acidic( weather_type type );
 std::vector<std::pair<std::string, int>> effects( weather_type type );
-bool feed_plants( weather_type type );
 std::string tiles_animation( weather_type type );
 weather_animation_t get_weather_animation( weather_type type );
 int sound_category( weather_type const type );
-bool sunny( weather_type type );
+sun_intensity_type sun_intensity( weather_type type );
 weather_type get_bad_weather();
 } // namespace weather
 

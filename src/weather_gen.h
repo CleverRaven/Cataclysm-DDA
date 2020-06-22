@@ -19,6 +19,13 @@ enum class precip_class : int {
     HEAVY
 };
 
+enum class sun_intensity_type : int {
+    none,
+    light,
+    normal,
+    high,
+};
+
 /**
  * Weather animation class.
  */
@@ -42,11 +49,10 @@ struct weather_datum {
     bool rains;                   //!< Whether said precipitation falls as rain.
     bool acidic;                  //!< Whether said precipitation is acidic.
     std::vector<std::pair<std::string, int>> effects;     //!< vector for weather effects.
-    bool feed_plants;             //!< can chloromorph mutants feed on it
     std::string tiles_animation;  //!< string for tiles animation
     weather_animation_t weather_animation;
     int sound_category;
-    bool sunny;
+    sun_intensity_type sun_intensity;
 };
 
 struct w_point {

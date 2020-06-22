@@ -28,7 +28,7 @@ static weather_result weather_data_internal( weather_type const type )
      * light modifier, sound attenuation, warn player?
      * Note light modifier assumes baseline of default_daylight_level() at 60
      */
-    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value    
+    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value
 
     const size_t i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {
@@ -110,10 +110,6 @@ std::vector<std::pair<std::string, int>> effects( weather_type const type )
 {
     return weather_data_internal( type ).datum.effects;
 }
-bool feed_plants( weather_type const type )
-{
-    return weather_data_internal( type ).datum.feed_plants;
-}
 std::string tiles_animation( weather_type const type )
 {
     return weather_data_internal( type ).datum.tiles_animation;
@@ -126,9 +122,9 @@ int sound_category( weather_type const type )
 {
     return weather_data_internal( type ).datum.sound_category;
 }
-bool sunny( weather_type const type )
+sun_intensity_type sun_intensity( weather_type type )
 {
-    return weather_data_internal( type ).datum.sunny;
+    return weather_data_internal( type ).datum.sun_intensity;
 }
 weather_type get_bad_weather()
 {

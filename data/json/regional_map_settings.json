@@ -933,9 +933,8 @@
           "precip": 0,
           "rains": false,
           "acidic": false,
-          "feed_plants" : false,
           "sound_category": 0,
-          "sunny": false
+          "sun_intensity": 2
         },
         {
           "name": "Clear",
@@ -950,9 +949,8 @@
           "precip": 0,
           "rains": false,
           "acidic": false,
-          "feed_plants" : true,
           "sound_category": 0,
-          "sunny": true
+          "sun_intensity": 2
         },
         {
           "name": "Sunny",
@@ -967,15 +965,8 @@
           "precip": 0,
           "rains": false,
           "acidic": false,
-          "effects":[
-            {
-              "name": "glare",
-              "intensity": 2
-            }
-          ],
-          "feed_plants" : true,
           "sound_category": 5,
-          "sunny": true
+          "sun_intensity": 3
         },
         {
           "name": "Cloudy",
@@ -990,9 +981,8 @@
           "precip": 0,
           "rains": false,
           "acidic": false,
-          "feed_plants" : true,
           "sound_category": 5,
-          "sunny": false
+          "sun_intensity": 1
         },
         {
           "name": "Light Drizzle",
@@ -1007,7 +997,6 @@
           "precip": 1,
           "rains": true,
           "acidic": false,
-          "feed_plants" : true,
           "tiles_animation":"weather_rain_drop",
           "weather_animation": {
             "factor": 0.01,
@@ -1015,7 +1004,7 @@
             "glyph": ","
           },
           "sound_category": 1,
-          "sunny": false
+          "sun_intensity": 1
         },
         {
           "name": "Drizzle",
@@ -1030,7 +1019,6 @@
           "precip": 2,
           "rains": true,
           "acidic": false,
-          "feed_plants" : true,
           "tiles_animation":"weather_rain_drop",
           "weather_animation": {
             "factor": 0.01,
@@ -1038,7 +1026,7 @@
             "glyph": "."
           },
           "sound_category": 1,
-          "sunny": false
+          "sun_intensity": 1
         },
         {
           "name": "Rain",
@@ -1053,7 +1041,6 @@
           "precip": 3,
           "rains": true,
           "acidic": false,
-          "feed_plants" : true,
           "tiles_animation":"weather_rain_drop",
           "weather_animation": {
             "factor": 0.02,
@@ -1061,7 +1048,7 @@
             "glyph": ","
           },
           "sound_category": 2,
-          "sunny": false
+          "sun_intensity": 1
         },
         {
           "name": "Thunder Storm",
@@ -1082,7 +1069,6 @@
               "intensity": 50
             }
           ],
-          "feed_plants" : false,
           "tiles_animation":"weather_rain_drop",
           "weather_animation": {
             "factor": 0.02,
@@ -1090,7 +1076,7 @@
             "glyph": "."
           },
           "sound_category": 3,
-          "sunny": false
+          "sun_intensity": 0
         },
         {
           "name": "Lightning Storm",
@@ -1115,7 +1101,6 @@
               "intensity": 600
             }
           ],
-          "feed_plants" : false,
           "tiles_animation":"weather_rain_drop",
           "weather_animation": {
             "factor": 0.04,
@@ -1123,7 +1108,7 @@
             "glyph": ","
           },
           "sound_category": 3,
-          "sunny": false
+          "sun_intensity": 0
         },
         {
           "name": "Acidic Drizzle",
@@ -1144,7 +1129,6 @@
               "intensity": 180
             }
           ],
-          "feed_plants" : false,
           "tiles_animation":"weather_acid_drop",
           "weather_animation": {
             "factor": 0.01,
@@ -1152,7 +1136,7 @@
             "glyph": "."
           },
           "sound_category": 1,
-          "sunny": false
+          "sun_intensity": 2
         },
         {
           "name": "Acid Rain",
@@ -1173,7 +1157,6 @@
               "intensity": 2
             }
           ],
-          "feed_plants" : false,
           "tiles_animation":"weather_acid_drop",
           "weather_animation": {
             "factor": 0.02,
@@ -1181,7 +1164,7 @@
             "glyph": ","
           },
           "sound_category": 3,
-          "sunny": false
+          "sun_intensity": 0
         },
         {
           "name": "Flurries",
@@ -1196,7 +1179,6 @@
           "precip": 2,
           "rains": false,
           "acidic": false,
-          "feed_plants" : true,
           "tiles_animation":"weather_snowflake",
           "weather_animation": {
             "factor": 0.01,
@@ -1204,7 +1186,7 @@
             "glyph": "."
           },
           "sound_category": 4,
-          "sunny": false
+          "sun_intensity": 1
         },
         {
           "name": "Snowing",
@@ -1225,7 +1207,6 @@
               "intensity": 10
             }
           ],
-          "feed_plants" : true,
           "tiles_animation":"weather_snowflake",
           "weather_animation": {
             "factor": 0.02,
@@ -1233,7 +1214,7 @@
             "glyph": ","
           },
           "sound_category": 6,
-          "sunny": false
+          "sun_intensity": 1
         },
         {
           "name": "Snowstorm",
@@ -1254,7 +1235,6 @@
               "intensity": 40
             }
           ],
-          "feed_plants" : false,
           "tiles_animation":"weather_snowflake",
           "weather_animation": {
             "factor": 0.04,
@@ -1262,7 +1242,7 @@
             "glyph": "*"
           },
           "sound_category": 5,
-          "sunny": false
+          "sun_intensity": 0
         }
       ]
     },

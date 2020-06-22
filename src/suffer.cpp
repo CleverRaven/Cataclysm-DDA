@@ -720,7 +720,8 @@ void Character::suffer_in_sunlight()
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( weather::sunny( g->weather.weather ) ) ? 1.0 : 0.5;
+        const float weather_factor = ( weather::sun_intensity( g->weather.weather ) >=
+                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
         const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {

@@ -71,7 +71,7 @@ static bool is_player_outside()
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  * @param intensity Level of sun brighthess
  */
-void weather_effect::glare( int intensity )
+void glare( weather_type w )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
@@ -88,7 +88,7 @@ void weather_effect::glare( int intensity )
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
         dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
-    } else if( static_cast<sun_intensity>( intensity ) == sun_intensity::high ) {
+    } else if( weather::sun_intensity( w ) == sun_intensity_type::high ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
         dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
@@ -533,12 +533,10 @@ void handle_weather_effects( weather_type const w )
         g->m.decay_fields_and_scent( decay_time );
         weather_effect::wet_player( wetness );
     }
+    glare( w );
     std::vector<std::pair<std::string, int>> weather_effects = weather::effects( w );
-    if( weather_effects.size() == 0 ) {
-        weather_effects.push_back( std::make_pair( "glare", 1 ) );
-    }
+
     std::map<std::string, weather_effect_fn> all_weather_effects = {
-        { "glare", &weather_effect::glare },
         { "wet", &weather_effect::wet_player },
         { "thunder", &weather_effect::thunder },
         { "lightning", &weather_effect::lightning },
