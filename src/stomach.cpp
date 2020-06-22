@@ -245,14 +245,14 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
         rates.min_vitamin = 1;
         rates.percent_vitamin = 1.0f / 6.0f;
         rates.min_kcal = 5;
-        rates.percent_kcal = 1.0f / 6.0f;
+        rates.percent_kcal = 0.5f;
     } else {
         // The guts are focused on absorption into the body, we don't care about passing rates.
         // Solids rate doesn't do anything impactful here so just make it big enough to avoid overflow.
-        rates.solids = 250_ml;
+        rates.solids = 1000_ml;
         rates.water = 250_ml;
         rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
-        rates.percent_kcal = 0.05f * metabolic_rates.hunger;
+        rates.percent_kcal = 0.5f * metabolic_rates.hunger;
         rates.min_vitamin = std::round( 100.0 / 24.0 * metabolic_rates.hunger );
         rates.percent_vitamin = 0.05f * metabolic_rates.hunger;
     }

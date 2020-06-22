@@ -200,3 +200,55 @@ TEST_CASE( "tape_worm_halves_nutrients" )
 
     CHECK( tapeworm_kcal == regular_kcal / 2 );
 }
+
+TEST_CASE( "One day of waiting at full calories eats up about bmr of stored calories", "[stomach]" )
+{
+    const bool print_tests = true;
+    player &dummy = g->u;
+    reset_time();
+    clear_stomach( dummy );
+    int kcal_before = dummy.get_stored_kcal();
+    dummy.update_body( calendar::turn, calendar::turn + 1_days );
+    int kcal_after = dummy.get_stored_kcal();
+    CHECK( kcal_before == kcal_after + dummy.bmr() );
+}
+
+TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[stomach]" )
+{
+    const bool print_tests = true;
+    const time_duration test_time = 1_days;
+    player &dummy = g->u;
+    reset_time();
+    clear_stomach( dummy );
+    int kcal_before = dummy.max_stored_calories() - dummy.bmr();
+    dummy.set_stored_kcal( kcal_before );
+    dummy.stomach.mod_calories( 1000 );
+
+    const time_point start = calendar::turn;
+    for( time_point now = start; now < start + test_time; now += 30_minutes ) {
+        dummy.update_body( now, now + 30_minutes );
+    }
+
+    int kcal_after = dummy.get_stored_kcal();
+    int kcal_expected = kcal_before + 1000 - static_cast<float>( dummy.bmr() ) * test_time / 1_days;
+    CAPTURE( dummy.stomach.get_calories() );
+    CAPTURE( dummy.guts.get_calories() );
+    CHECK( kcal_after >= kcal_expected * 0.95f );
+    CHECK( kcal_after <= kcal_expected * 1.05f );
+}
+
+TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
+{
+    player &dummy = g->u;
+    reset_time();
+    clear_stomach( dummy );
+    item food( "protein_drink", 0, 10 );
+    REQUIRE( dummy.compute_effective_nutrients( food ).kcal == 100 );
+    int attempts = 10;
+    do {
+    } while( dummy.eat( food, true ) && --attempts > 0 );
+    CAPTURE( dummy.stomach.get_calories() );
+    CAPTURE( dummy.guts.get_calories() );
+    CHECK( dummy.stomach.get_calories() == 1000 );
+    CHECK( dummy.guts.get_calories() == 0 );
+}

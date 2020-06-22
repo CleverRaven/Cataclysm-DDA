@@ -4132,8 +4132,7 @@ int Character::get_thirst() const
 
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
-    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( stomach.get_water() ) / 10,
-                                            0 ) );
+    int thirst = get_thirst() - units::to_milliliter( stomach.get_water() + guts.get_water() ) / 10;
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -4163,7 +4162,7 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    int total_kcal = stored_calories + stomach.get_calories();
+    int total_kcal = stored_calories + stomach.get_calories() + guts.get_calories();
     int max_kcal = max_stored_calories();
     float days_left = static_cast<float>( total_kcal ) / bmr();
     float days_max = static_cast<float>( max_kcal ) / bmr();
@@ -4187,6 +4186,10 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
     } else {
         hunger_string = _( "Starving" );
         hunger_color = c_red;
+    }
+
+    if( has_trait( trait_SELFAWARE ) ) {
+        hunger_string = string_format( "%d kcal", total_kcal );
     }
 
     return std::make_pair( hunger_string, hunger_color );
@@ -4844,8 +4847,8 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( is_player() && get_thirst() >= 600 && ( stomach.get_water() == 0_ml ||
-            guts.get_water() == 0_ml ) ) {
+    if( is_player() && get_thirst() >= 600 && stomach.get_water() == 0_ml &&
+        guts.get_water() == 0_ml ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
