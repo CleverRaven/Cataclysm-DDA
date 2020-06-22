@@ -2352,18 +2352,16 @@ void inventory_drop_selector::process_selected( int &count,
 
 void inventory_drop_selector::deselect_contained_items()
 {
-    std::vector<item_location> container;
-    std::vector<item_location> contained;
+    std::vector<item_location> inventory_items;
     for( std::pair<item_location, int> &drop : dropping ) {
         item_location loc_front = drop.first;
-        if( loc_front.where() != item_location::type::container ) {
-            container.push_back( loc_front );
-        } else {
-            contained.push_back( loc_front );
-        }
+        inventory_items.push_back( loc_front );
     }
-    for( item_location loc_contained : contained ) {
-        for( item_location loc_container : container ) {
+    for( item_location loc_contained : inventory_items ) {
+        for( item_location loc_container : inventory_items ) {
+            if( loc_container == loc_contained ) {
+                continue;
+            }
             if( loc_container->has_item( *loc_contained ) ) {
                 for( inventory_column *col : get_all_columns() ) {
                     for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
@@ -2373,8 +2371,10 @@ void inventory_drop_selector::deselect_contained_items()
                         if( !selected->is_item() ) {
                             continue;
                         }
-                        if( selected->locations.front() == loc_contained ) {
-                            set_chosen_count( *selected, 0 );
+                        for( item_location selected_loc : selected->locations ) {
+                            if( selected_loc == loc_contained ) {
+                                set_chosen_count( *selected, 0 );
+                            }
                         }
                     }
                 }
