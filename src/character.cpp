@@ -3722,29 +3722,30 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
                         std::array<layer_level, num_bp> &highest_layer_so_far,
                         bool power_armor, const Character &c )
 {
-    const auto item_layer = it.get_layer();
-    int encumber_val = it.get_encumber( c );
-    // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
-    int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
-
-    /*
-     * Setting layering_encumbrance to 0 at this point makes the item cease to exist
-     * for the purposes of the layer penalty system. (normally an item has a minimum
-     * layering_encumbrance of 2 )
-     */
-    if( it.has_flag( "SEMITANGIBLE" ) ) {
-        encumber_val = 0;
-        layering_encumbrance = 0;
-    }
-
-    const int armorenc = !power_armor || !it.is_power_armor() ?
-                         encumber_val : std::max( 0, encumber_val - 40 );
-
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
         if( !covered_parts.test( bp.id() ) ) {
             continue;
         }
+
+        const auto item_layer = it.get_layer();
+        int encumber_val = it.get_encumber(c, item::encumber_flags::none, bp.id());
+        // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
+        int layering_encumbrance = std::min(10, std::max(2, encumber_val));
+
+        /*
+         * Setting layering_encumbrance to 0 at this point makes the item cease to exist
+         * for the purposes of the layer penalty system. (normally an item has a minimum
+         * layering_encumbrance of 2 )
+         */
+        if (it.has_flag("SEMITANGIBLE")) {
+            encumber_val = 0;
+            layering_encumbrance = 0;
+        }
+
+        const int armorenc = !power_armor || !it.is_power_armor() ?
+            encumber_val : std::max(0, encumber_val - 40);
+
         highest_layer_so_far[bp->token] =
             std::max( highest_layer_so_far[bp->token], item_layer );
 
