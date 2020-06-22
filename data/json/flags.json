@@ -246,6 +246,12 @@
     "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "BURNOUT",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "//": "You can visually inspect how much it is burned out (candle, torch)."
+  },
+  {
     "id": "IRREMOVABLE",
     "type": "json_flag",
     "context": [ "GUNMOD" ],
