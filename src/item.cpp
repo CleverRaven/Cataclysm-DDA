@@ -2608,7 +2608,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         int encumbrance = get_encumber( g->u );
 
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Average Encumbrance</bold>: " ), format,
                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                   encumbrance ) );
 
@@ -2616,7 +2616,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             if( t->max_encumber != t->encumber ) {
                 const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full );
 
-                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
                                           iteminfo::no_newline | iteminfo::lower_is_better,
                                           encumbrance_when_full ) );
             }
