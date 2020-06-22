@@ -203,7 +203,6 @@ TEST_CASE( "tape_worm_halves_nutrients" )
 
 TEST_CASE( "One day of waiting at full calories eats up about bmr of stored calories", "[stomach]" )
 {
-    const bool print_tests = true;
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
@@ -215,7 +214,6 @@ TEST_CASE( "One day of waiting at full calories eats up about bmr of stored calo
 
 TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[stomach]" )
 {
-    const bool print_tests = true;
     const time_duration test_time = 1_days;
     player &dummy = g->u;
     reset_time();
