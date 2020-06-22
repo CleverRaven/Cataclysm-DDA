@@ -119,7 +119,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "soap" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 5 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
