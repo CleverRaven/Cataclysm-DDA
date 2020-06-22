@@ -8668,11 +8668,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         return;
     }
 
-    body_part enum_bp = hurt->token;
-    hp_part hurtpart = bp_to_hp( enum_bp );
-    if( hurtpart == num_hp_parts ) {
+    if( hurt == bodypart_id( "num_bp" ) ) {
         debugmsg( "Wacky body part hurt!" );
-        hurtpart = hp_torso;
+        hurt = bodypart_id( "torso" );
     }
 
     mod_pain( dam / 2 );
@@ -8689,9 +8687,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, enum_bp ) && ( source == nullptr ||
+    if( has_effect( effect_mending, hurt->token ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
-        effect &e = get_effect( effect_mending, enum_bp );
+        effect &e = get_effect( effect_mending, hurt->token );
         float remove_mend = dam / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );
     }
@@ -8703,10 +8701,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, enum_bp ) ) {
+        if( remove_med > 0 && has_effect( effect_bandaged, hurt->token ) ) {
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
-        if( remove_med > 0 && has_effect( effect_disinfected, enum_bp ) ) {
+        if( remove_med > 0 && has_effect( effect_disinfected, hurt->token ) ) {
             reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }

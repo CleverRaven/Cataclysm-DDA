@@ -496,14 +496,14 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "damage_disinfected", damage_disinfected, true );
 }
 
-void stat_hp_mods::load( const JsonObject &jo )
+void stat_hp_mods::load( const JsonObject &jsobj )
 {
-    optional( jo, was_loaded, "str_mod", str_mod, 3.0f );
-    optional( jo, was_loaded, "dex_mod", dex_mod, 0.0f );
-    optional( jo, was_loaded, "int_mod", int_mod, 0.0f );
-    optional( jo, was_loaded, "per_mod", str_mod, 0.0f );
+    optional( jsobj, was_loaded, "str_mod", str_mod, 3.0f );
+    optional( jsobj, was_loaded, "dex_mod", dex_mod, 0.0f );
+    optional( jsobj, was_loaded, "int_mod", int_mod, 0.0f );
+    optional( jsobj, was_loaded, "per_mod", str_mod, 0.0f );
 
-    optional( jo, was_loaded, "health_mod", health_mod, 0.0f );
+    optional( jsobj, was_loaded, "health_mod", health_mod, 0.0f );
 }
 
 void stat_hp_mods::deserialize( JsonIn &jsin )
