@@ -1798,7 +1798,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         mvwprintz( w_inv, point( 2, getmaxy( w_inv ) - 1 ), c_cyan, "< " );
         mvwprintz( w_inv, point( ( getmaxx( w_inv ) / 2 ) - 4, getmaxy( w_inv ) - 1 ), c_cyan, " >" );
 
-        std::string new_filter = spopup->query_string( /*loop=*/false, /*draw_only=*/true );
+        spopup->query_string( /*loop=*/false, /*draw_only=*/true );
     } else {
         int filter_offset = 0;
         if( has_available_choices() || !filter.empty() ) {
