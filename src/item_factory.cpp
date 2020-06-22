@@ -2066,10 +2066,16 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
 }
 
-void Item_factory::load( islot_brewable &slot, const JsonObject &jo, const std::string & )
+void islot_brewable::load( const JsonObject &jo )
 {
-    assign( jo, "time", slot.time, false, 1_turns );
-    jo.read( "results", slot.results, true );
+    optional( jo, was_loaded, "time", time, 1_turns );
+    mandatory( jo, was_loaded, "results", results );
+}
+
+void islot_brewable::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
@@ -2594,7 +2600,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
-    load_slot_optional( def.brewable, jo, "brewable", src );
+    assign( jo, "brewable", def.brewable, src == "dda" );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );

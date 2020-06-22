@@ -200,6 +200,11 @@ struct islot_brewable {
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
