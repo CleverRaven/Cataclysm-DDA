@@ -149,7 +149,7 @@
   {
     "id": "f_char_smoker",
     "type": "TOOL",
-    "name": { "str": "pseudo charcoal smoker" },
+    "name": { "str": "smoking rack" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "0 g",
     "volume": "0 L",
