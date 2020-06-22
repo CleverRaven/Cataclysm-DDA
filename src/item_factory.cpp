@@ -1775,7 +1775,6 @@ void islot_pet_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "pet_bodytype", bodytype );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
-    optional( jo, was_loaded, "storage", storage, volume_reader{}, 0_ml );
     optional( jo, was_loaded, "power_armor", power_armor, false );
 }
 

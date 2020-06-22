@@ -124,7 +124,6 @@ enum class iteminfo_parts : size_t {
     ARMOR_COVERAGE,
     ARMOR_WARMTH,
     ARMOR_ENCUMBRANCE,
-    ARMOR_STORAGE,
     ARMOR_PROTECTION,
 
     BOOK_SUMMARY,
