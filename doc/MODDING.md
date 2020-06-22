@@ -199,6 +199,23 @@ The format is as follows:
 Valid values for `subtype` are `whitelist` and `blacklist`.
 `scenarios` is an array of the scenario ids that you want to blacklist or whitelist.
 
+### Adding dialogue to existing NPCs
+
+You can't edit existing dialog, but you can add new dialogue by adding a new response that can kick off new dialogue and missions. Here is a working example from DinoMod:
+
+```json
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_WEARING",
+    "responses": [
+      {
+        "text": "Yes.  I ask because I noticed there are dinosaurs around.  Do you know anything about that?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINO2"
+      }
+    ]
+  }
+```
+
 ## Important note on json files
 
 The following characters: `[ { , } ] : "` are *very* important when adding or modifying JSON files. This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
