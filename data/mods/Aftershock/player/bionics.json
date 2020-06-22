@@ -60,10 +60,11 @@
   },
   {
     "type": "bionic",
+    "id": "afs_bio_skullgun",
     "name": { "str": "Skullgun CBM" },
     "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
     "occupied_bodyparts": [ [ "head", 5 ] ],
-    "encumbrance": [ [ "HEAD", 5 ] ],
+    "encumbrance": [ [ "head", 5 ] ],
     "act_cost": "35 J",
     "fake_item": "bio_skullgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
