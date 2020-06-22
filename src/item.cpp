@@ -9506,7 +9506,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return false;
     }
 
-    if( to_turns<int>( calendar::turn - last_processed ) < processing_speed() ) {
+    if( to_turns<int>( calendar::turn - last_processed ) < processing_speed() && specific_energy > 0 ) {
         // It is not yet time to process this item.
         return false;
     }
