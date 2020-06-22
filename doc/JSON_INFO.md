@@ -1769,7 +1769,6 @@ Armor can be defined like this:
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
 "covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
-"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -1787,7 +1786,6 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
     "covers" : ["FEET"],
-    "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,
     "encumbrance" : 0,
@@ -1804,7 +1802,6 @@ Pet armor can be defined like this:
 "type" : "PET_ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "pet_bodytype":        // the body type of the pet that this monster will fit.  See MONSTERS.md
@@ -1817,7 +1814,6 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "pet_armor_data" : {      // additionally the same armor data like above
-    "storage" : 0,
     "environmental_protection" : 0,
     "pet_bodytype": "dog",
     "max_pet_vol": "35000 ml",
@@ -3050,7 +3046,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
 "mod_value": [            // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "bullet", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
+        "type": "bash",   // "bash", "cut", "bullet", "fire", "acid", "warmth", and "encumbrance" is available.
         "value": 1,       // value of effect.
         "round_up": false // (optional) round up value of effect. defaults to false.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.

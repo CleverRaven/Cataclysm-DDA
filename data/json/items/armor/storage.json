@@ -291,6 +291,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 50,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "3500 ml", "max_contains_weight": "8 kg", "moves": 80 } ],
     "material_thickness": 5,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },

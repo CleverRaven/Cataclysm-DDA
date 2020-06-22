@@ -279,10 +279,6 @@ struct islot_pet_armor {
      */
     int env_resist_w_filter = 0;
     /**
-     * How much storage this items provides when worn.
-     */
-    units::volume storage = 0_ml;
-    /**
      * The maximum volume a pet can be and wear this armor
      */
     units::volume max_vol = 0_ml;
