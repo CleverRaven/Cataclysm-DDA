@@ -8,7 +8,7 @@
     "weight": "100 g",
     "volume": "250 ml",
     "price": 5,
-    "price_postapoc": 10, 
+    "price_postapoc": 10,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown"
