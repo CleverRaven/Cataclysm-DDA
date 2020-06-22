@@ -1746,24 +1746,19 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 
 void islot_armor::load( const JsonObject &jo )
 {
-    int tempEncum = 0;
     if( jo.has_array( "encumbrance" ) ) {
         encumber.clear();
         for( JsonArray ja : jo.get_array( "encumbrance" ) ) {
-            tempEncum = ja.get_int( 1 );
-            encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), tempEncum );
+            encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
         }
-        //encumber.emplace( bodypart_str_id( "all" ), tempEncum );
     } else {
         optional( jo, was_loaded, "encumbrance", encumber[bodypart_str_id( "all" )], 0 );
     }
     if( jo.has_array( "max_encumbrance" ) ) {
         max_encumber.clear();
         for( JsonArray ja : jo.get_array( "max_encumbrance" ) ) {
-            tempEncum = ja.get_int( 1 );
-            max_encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), tempEncum );
+            max_encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
         }
-        //max_encumber.emplace( bodypart_str_id( "all" ), tempEncum );
     } else {
         // Default max_encumbrance will be set to a reasonable value in
         // finalize_post
