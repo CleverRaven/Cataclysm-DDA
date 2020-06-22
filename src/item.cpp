@@ -5512,14 +5512,14 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber( const Character &p, encumber_flags flags ) const
+int item::get_encumber( const Character &p, encumber_flags flags, const bodypart_str_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
-    int encumber = t->encumber;
+    int encumber = t->encumber.at(bodypart);
 
     // Additional encumbrance from non-rigid pockets
     float relative_encumbrance = 1;
@@ -5527,7 +5527,7 @@ int item::get_encumber( const Character &p, encumber_flags flags ) const
         relative_encumbrance = contents.relative_encumbrance();
     }
 
-    encumber += std::ceil( relative_encumbrance * ( t->max_encumber - t->encumber ) );
+    encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at(bodypart) - t->encumber.at(bodypart)) );
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {

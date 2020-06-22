@@ -240,8 +240,8 @@ struct artifact_armor_form_datum {
     material_id material;
     units::volume volume;
     units::mass weight;
-    int encumb;
-    int max_encumb;
+    std::unordered_map<bodypart_str_id, int> encumb;
+    std::unordered_map<bodypart_str_id, int> max_encumb;
     int coverage;
     int thickness;
     int env_resist;
@@ -456,7 +456,7 @@ static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_dat
 static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_armor_form_data = { {
         // Name    color  Material         Vol Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+            translate_marker("Robe"),   def_c_red, material_id("wool"),    1500_ml, 700_gram,  {},  {},  90,  3,  0,  2,  0_ml, -8,  0, -3,
             { { bodypart_str_id( "torso" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -466,7 +466,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1_liter, -6,  0, -3,
+            translate_marker("Coat"),   def_c_brown, material_id("leather"),   3500_ml, 1600_gram,  {},  {},  80, 2,  1,  4,  1_liter, -6,  0, -3,
             { bodypart_str_id( "torso" ) }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -476,7 +476,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1_liter, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            translate_marker("Mask"),   def_c_white, material_id("wood"),      1_liter, 100_gram,  {},  {},  50, 2,  1,  2,  0_ml,  2,  0, -2,
             { { bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ) } }, false,
             {{
                     ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -487,7 +487,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
         // Name    color  Materials             Vol  Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            translate_marker( "Helm" ),   def_c_dark_gray, material_id( "silver" ),    1500_ml, 700_gram,  2,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+            translate_marker("Helm"),   def_c_dark_gray, material_id("silver"),    1500_ml, 700_gram,  {},  {},  85, 3,  0,  1,  0_ml,  8,  0, -2,
             { bodypart_str_id( "head" ) }, false,
             {{
                     ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -497,7 +497,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Gloves" ), def_c_light_blue, material_id( "leather" ), 500_ml, 100_gram,  1,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+            translate_marker("Gloves"), def_c_light_blue, material_id("leather"), 500_ml, 100_gram,  {},  {},  90,  3,  1,  2,  0_ml, -4,  0, -2,
             { { bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ) } }, true,
             {{
                     ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -508,7 +508,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
         // Name    color  Materials            Vol  Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+            translate_marker("Boots"), def_c_blue, material_id("leather"),     1500_ml, 250_gram,  {},  {},  75,  3,  1,  3,  0_ml,  4,  0, -1,
             { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ) } }, true,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -518,7 +518,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            translate_marker("Ring"), def_c_light_green, material_id("silver"),   0_ml,  4_gram,  {},  {},  0,  0,  0,  0,  0_ml,  0,  0,  0,
             {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         }
@@ -531,45 +531,45 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
  */
 static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor_mod_data = { {
         {
-            "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, {}, false,
+            "", def_c_white, material_id("null"), 0_ml,  0_gram,  {},  {},  0,  0,  0,  0,  0_ml,  0, 0, 0, {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
         // Description; "It is ..." or "They are ..."
         {
             translate_marker( "very thin and light." ), def_c_white, material_id( "null" ),
             // Vol   Wgt Enc MaxEnc Cov Thk Env Wrm Sto
-            -1_liter, -950_gram, -2, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
+            -1_liter, -950_gram, {}, {}, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "extremely bulky." ), def_c_white, material_id( "null" ),
-            2_liter, 1150_gram,  2,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
+            2_liter, 1150_gram,  {},  {},  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "covered in pockets." ), def_c_white, material_id( "null" ),
-            250_ml, 150_gram,  1,  1,  0,  0,  0,  0, 4_liter, 0, 0, 0, {},  false,
+            250_ml, 150_gram,  {},  {},  0,  0,  0,  0, 4_liter, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "disgustingly furry." ), def_c_white, material_id( "wool" ),
             // Vol  Wgt Enc MaxEnc Dmg Cut Env Wrm Sto
-            1_liter, 250_gram,  1,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
+            1_liter, 250_gram,  {},  {},  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "leather-padded." ), def_c_white, material_id( "leather" ),
-            1_liter, 450_gram,  1,  1,  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
+            1_liter, 450_gram,  {},  {},  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "plated in iron." ), def_c_white, material_id( "iron" ),
-            1_liter, 1400_gram,  3,  3,  2,  2,  0,  1, -1_liter, 0, 0, 0, {}, false,
+            1_liter, 1400_gram,  {},  {},  2,  2,  0,  1, -1_liter, 0, 0, 0, {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
     }
@@ -861,7 +861,10 @@ itype_id new_artifact()
                     def.weight = 1_gram;
                 }
 
-                def.armor->encumber += modinfo.encumb;
+                for (auto& bodypart : modinfo.encumb)
+                {
+                    def.armor->encumber.at(bodypart.first) += bodypart.second;
+                }
 
                 if( modinfo.coverage > 0 || def.armor->coverage > std::abs( modinfo.coverage ) ) {
                     def.armor->coverage += modinfo.coverage;
@@ -1279,9 +1282,27 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     item_tags = jo.get_tags( "item_flags" );
 
     jo.read( "covers", armor->covers );
-    armor->encumber = jo.get_int( "encumber" );
+
+    // Old saves dont have encumbrance arrays
+    armor->encumber[bodypart_str_id("covers")] = jo.get_int("encumber");
+
     // Old saves don't have max_encumber, so set it to base encumbrance value
-    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
+    armor->max_encumber[bodypart_str_id("covers")] = jo.get_int("max_encumber", armor->encumber[bodypart_str_id("covers")]);
+
+    if (jo.has_array("encumbrance")) {
+        armor->encumber.clear();
+        for (JsonArray ja : jo.get_array("encumbrance")) {
+            armor->encumber.emplace(bodypart_str_id(ja.get_string(0)), ja.get_int(1));
+        }
+
+    }
+    if (jo.has_array("max_encumbrance")) {
+        armor->max_encumber.clear();
+        for (JsonArray ja : jo.get_array("max_encumbrance")) {
+            armor->max_encumber.emplace(bodypart_str_id(ja.get_string(0)), ja.get_int(1));
+        }
+    }
+
     armor->coverage = jo.get_int( "coverage" );
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );

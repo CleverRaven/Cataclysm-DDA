@@ -510,14 +510,16 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        if( obj.armor->max_encumber < 0 ) {
-            units::volume total_nonrigid_volume = 0_ml;
-            for( const pocket_data &pocket : obj.pockets ) {
-                if( !pocket.rigid ) {
-                    total_nonrigid_volume += pocket.max_contains_volume();
+        for(auto & bodypart : obj.armor->max_encumber) {
+            if (bodypart.second < 0) {
+                units::volume total_nonrigid_volume = 0_ml;
+                for (const pocket_data& pocket : obj.pockets) {
+                    if (!pocket.rigid) {
+                        total_nonrigid_volume += pocket.max_contains_volume();
+                    }
                 }
+                bodypart.second = obj.armor->encumber.at(bodypart.first) + total_nonrigid_volume / 250_ml;
             }
-            obj.armor->max_encumber = obj.armor->encumber + total_nonrigid_volume / 250_ml;
         }
     }
 
@@ -1744,10 +1746,25 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 
 void islot_armor::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "encumbrance", encumber, 0 );
+    optional(jo, was_loaded, "encumbrance", encumber[bodypart_str_id("covers")], 0);
     // Default max_encumbrance will be set to a reasonable value in
     // finalize_post
-    optional( jo, was_loaded, "max_encumbrance", max_encumber, -1 );
+    optional( jo, was_loaded, "max_encumbrance", max_encumber[bodypart_str_id("covers")], -1 );
+
+    if (jo.has_array("encumbrance")) {
+        encumber.clear();
+        for (JsonArray ja : jo.get_array("encumbrance")) {
+            encumber.emplace(bodypart_str_id(ja.get_string(0)), ja.get_int(1));
+        }
+    
+    }
+    if (jo.has_array("max_encumbrance")) {
+        max_encumber.clear();
+        for (JsonArray ja : jo.get_array("max_encumbrance")) {
+            max_encumber.emplace(bodypart_str_id(ja.get_string(0)), ja.get_int(1));
+        }
+    }
+
     optional( jo, was_loaded, "coverage", coverage, 0 );
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );

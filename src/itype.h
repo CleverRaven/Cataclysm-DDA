@@ -215,11 +215,11 @@ struct islot_armor {
     /**
      * How much this item encumbers the player.
      */
-    int encumber = 0;
+    std::unordered_map<bodypart_str_id, int> encumber;
     /**
     * When storage is full, how much it encumbers the player.
     */
-    int max_encumber = 0;
+    std::unordered_map<bodypart_str_id, int> max_encumber;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
