@@ -2588,57 +2588,54 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     insert_separation_line( info );
 
-    if (parts->test(iteminfo_parts::ARMOR_ENCUMBRANCE) && covers_anything) {
+    if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
-        if (has_flag(flag_FIT)) {
-            format = _("<num> <info>(fits)</info>");
-        }
-        else if (has_flag(flag_VARSIZE) && encumbrance) {
-            format = _("<num> <bad>(poor fit)</bad>");
+        if( has_flag( flag_FIT ) ) {
+            format = _( "<num> <info>(fits)</info>" );
+        } else if( has_flag( flag_VARSIZE ) && encumbrance ) {
+            format = _( "<num> <bad>(poor fit)</bad>" );
         }
 
         //If we have the wrong size, we do not fit so alert the player
-        if (sizing_level == sizing::human_sized_small_char) {
-            format = _("<num> <bad>(too big)</bad>");
-        }
-        else if (sizing_level == sizing::big_sized_small_char) {
-            format = _("<num> <bad>(huge!)</bad>");
-        }
-        else if (sizing_level == sizing::small_sized_human_char ||
-            sizing_level == sizing::human_sized_big_char) {
-            format = _("<num> <bad>(too small)</bad>");
-        }
-        else if (sizing_level == sizing::small_sized_big_char) {
-            format = _("<num> <bad>(tiny!)</bad>");
+        if( sizing_level == sizing::human_sized_small_char ) {
+            format = _( "<num> <bad>(too big)</bad>" );
+        } else if( sizing_level == sizing::big_sized_small_char ) {
+            format = _( "<num> <bad>(huge!)</bad>" );
+        } else if( sizing_level == sizing::small_sized_human_char ||
+                   sizing_level == sizing::human_sized_big_char ) {
+            format = _( "<num> <bad>(too small)</bad>" );
+        } else if( sizing_level == sizing::small_sized_big_char ) {
+            format = _( "<num> <bad>(tiny!)</bad>" );
         }
 
-        info.push_back(iteminfo("ARMOR", _("<bold>Encumbrance</bold>: "), format,
-            iteminfo::no_newline | iteminfo::lower_is_better,
-            encumbrance));
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
+                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                  encumbrance ) );
 
-        if (const islot_armor* t = find_armor_data()) {
-            if (t->max_encumber != t->encumber) {
-                const int encumbrance_when_full = get_encumber(g->u, encumber_flags::assume_full);
+        if( const islot_armor *t = find_armor_data() ) {
+            if( t->max_encumber != t->encumber ) {
+                const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full );
 
-                info.push_back(iteminfo("ARMOR", space + _("Encumbrance when full: "), "",
-                    iteminfo::no_newline | iteminfo::lower_is_better,
-                    encumbrance_when_full));
+                info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
+                                          iteminfo::no_newline | iteminfo::lower_is_better,
+                                          encumbrance_when_full ) );
             }
 
             info.back().bNewLine = true;
 
-            for (const auto &encumpair : t->encumber) {
-                encumbrance = get_encumber(g->u, item::encumber_flags::none, encumpair.first);
-                if (encumpair.first != bodypart_str_id("all")) {
-                    info.push_back(iteminfo("ARMOR", _(encumpair.first.c_str() + space), format,
-                        iteminfo::no_newline | iteminfo::lower_is_better,
-                        encumbrance));
+            for( const auto &encumpair : t->encumber ) {
+                encumbrance = get_encumber( g->u, item::encumber_flags::none, encumpair.first );
+                if( encumpair.first != bodypart_str_id( "all" ) ) {
+                    info.push_back( iteminfo( "ARMOR", _( encumpair.first.c_str() + space ), format,
+                                              iteminfo::no_newline | iteminfo::lower_is_better,
+                                              encumbrance ) );
 
-                    const int encumbrance_when_full = get_encumber(g->u, encumber_flags::assume_full, encumpair.first);
+                    const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full,
+                                                      encumpair.first );
 
-                    info.push_back(iteminfo("ARMOR", space + _("When full: "), "",
-                        iteminfo::lower_is_better,
-                        encumbrance_when_full));
+                    info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
+                                              iteminfo::lower_is_better,
+                                              encumbrance_when_full ) );
                 }
             }
             info.back().bNewLine = true;
@@ -5535,7 +5532,8 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
-int item::get_encumber( const Character &p, encumber_flags flags, const bodypart_str_id &bodypart ) const
+int item::get_encumber( const Character &p, encumber_flags flags,
+                        const bodypart_str_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5547,17 +5545,19 @@ int item::get_encumber( const Character &p, encumber_flags flags, const bodypart
 
     // Additional encumbrance from non-rigid pockets
     float relative_encumbrance = 1;
-    if (!(flags & encumber_flags::assume_full)) {
+    if( !( flags & encumber_flags::assume_full ) ) {
         relative_encumbrance = contents.relative_encumbrance();
     }
 
-    auto& found = t->encumber.find(bodypart);
-    if (found != t->encumber.end()) {
-        encumber = t->encumber.at(bodypart);
-        encumber += std::ceil(relative_encumbrance * (t->max_encumber.at(bodypart) - t->encumber.at(bodypart)));
+    auto &found = t->encumber.find( bodypart );
+    if( found != t->encumber.end() ) {
+        encumber = t->encumber.at( bodypart );
+        encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart ) - t->encumber.at(
+                                   bodypart ) ) );
     } else {
-        encumber = t->encumber.at(bodypart_str_id("all"));
-        encumber += std::ceil(relative_encumbrance * (t->max_encumber.at(bodypart_str_id("all")) - t->encumber.at(bodypart_str_id("all"))));
+        encumber = t->encumber.at( bodypart_str_id( "all" ) );
+        encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart_str_id( "all" ) ) -
+                               t->encumber.at( bodypart_str_id( "all" ) ) ) );
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.

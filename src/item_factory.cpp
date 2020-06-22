@@ -510,15 +510,15 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        for(auto & bodypart : obj.armor->max_encumber) {
-            if (bodypart.second < 0) {
+        for( auto &bodypart : obj.armor->max_encumber ) {
+            if( bodypart.second < 0 ) {
                 units::volume total_nonrigid_volume = 0_ml;
-                for (const pocket_data& pocket : obj.pockets) {
-                    if (!pocket.rigid) {
+                for( const pocket_data &pocket : obj.pockets ) {
+                    if( !pocket.rigid ) {
                         total_nonrigid_volume += pocket.max_contains_volume();
                     }
                 }
-                bodypart.second = obj.armor->encumber.at(bodypart.first) + total_nonrigid_volume / 250_ml;
+                bodypart.second = obj.armor->encumber.at( bodypart.first ) + total_nonrigid_volume / 250_ml;
             }
         }
     }
@@ -1747,27 +1747,27 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 void islot_armor::load( const JsonObject &jo )
 {
     int tempEncum = 0;
-    if (jo.has_array("encumbrance")) {
+    if( jo.has_array( "encumbrance" ) ) {
         encumber.clear();
-        for (JsonArray ja : jo.get_array("encumbrance")) {
-            tempEncum = ja.get_int(1);
-            encumber.emplace(bodypart_str_id(ja.get_string(0)), tempEncum);
+        for( JsonArray ja : jo.get_array( "encumbrance" ) ) {
+            tempEncum = ja.get_int( 1 );
+            encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), tempEncum );
         }
-        encumber.emplace(bodypart_str_id("all"), tempEncum);
+        encumber.emplace( bodypart_str_id( "all" ), tempEncum );
     } else {
-        optional(jo, was_loaded, "encumbrance", encumber[bodypart_str_id("all")], 0);
+        optional( jo, was_loaded, "encumbrance", encumber[bodypart_str_id( "all" )], 0 );
     }
-    if (jo.has_array("max_encumbrance")) {
+    if( jo.has_array( "max_encumbrance" ) ) {
         max_encumber.clear();
-        for (JsonArray ja : jo.get_array("max_encumbrance")) {
-            tempEncum = ja.get_int(1);
-            max_encumber.emplace(bodypart_str_id(ja.get_string(0)), tempEncum);
+        for( JsonArray ja : jo.get_array( "max_encumbrance" ) ) {
+            tempEncum = ja.get_int( 1 );
+            max_encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), tempEncum );
         }
-        max_encumber.emplace(bodypart_str_id("all"), tempEncum);
+        max_encumber.emplace( bodypart_str_id( "all" ), tempEncum );
     } else {
         // Default max_encumbrance will be set to a reasonable value in
         // finalize_post
-        optional(jo, was_loaded, "max_encumbrance", max_encumber[bodypart_str_id("all")], -1);
+        optional( jo, was_loaded, "max_encumbrance", max_encumber[bodypart_str_id( "all" )], -1 );
     }
 
     optional( jo, was_loaded, "coverage", coverage, 0 );
