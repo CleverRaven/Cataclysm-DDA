@@ -157,8 +157,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 1000 } } ],
-    "max_charges": 1000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
+    "max_charges": 2000,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
