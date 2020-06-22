@@ -2212,17 +2212,32 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string & )
+void islot_battery::load( const JsonObject &jo )
 {
-    slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
-                        units::energy_units );
+    mandatory( jo, was_loaded, "max_capacity", max_capacity );
+}
+
+void islot_battery::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.battery, jo, src );
+        if( def.was_loaded ) {
+            if( def.battery ) {
+                def.battery->was_loaded = true;
+            } else {
+                def.battery = cata::make_value<islot_battery>();
+                def.battery->was_loaded = true;
+            }
+        } else {
+            def.battery = cata::make_value<islot_battery>();
+        }
+        def.battery->load( jo );
         load_basic_info( jo, def, src );
     }
 }

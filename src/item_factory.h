@@ -303,7 +303,6 @@ class Item_factory
         void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_battery &slot, const JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, const std::string &src );

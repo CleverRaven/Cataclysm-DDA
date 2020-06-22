@@ -663,6 +663,11 @@ struct islot_magazine {
 struct islot_battery {
     /** Maximum energy the battery can store */
     units::energy max_capacity;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_ammo : common_ranged_data {
