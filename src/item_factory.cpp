@@ -1631,17 +1631,33 @@ void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_wheel &slot, const JsonObject &jo, const std::string & )
+void islot_wheel::load( const JsonObject &jo )
 {
-    assign( jo, "diameter", slot.diameter );
-    assign( jo, "width", slot.width );
+    optional( jo, was_loaded, "diameter", diameter );
+    optional( jo, was_loaded, "width", width );
+}
+
+void islot_wheel::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.wheel, jo, src );
+        if( def.was_loaded ) {
+            if( def.wheel ) {
+                def.wheel->was_loaded = true;
+            } else {
+                def.wheel = cata::make_value<islot_wheel>();
+                def.wheel->was_loaded = true;
+            }
+        } else {
+            def.wheel = cata::make_value<islot_wheel>();
+        }
+        def.wheel->load( jo );
         load_basic_info( jo, def, src );
     }
 }

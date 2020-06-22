@@ -437,6 +437,11 @@ struct islot_wheel {
 
         /** width of wheel (inches) */
         int width = 0;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct fuel_explosion {

@@ -299,7 +299,6 @@ class Item_factory
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_wheel &slot, const JsonObject &jo, const std::string &src );
         void load( islot_fuel &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
