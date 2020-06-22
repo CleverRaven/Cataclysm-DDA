@@ -221,7 +221,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        const auto weather_info = get_weather_animation( weather.weather );
+        const auto weather_info = weather::get_weather_animation( weather.weather );
         point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 

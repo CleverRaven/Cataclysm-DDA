@@ -113,27 +113,28 @@ int incident_sunlight( weather_type wtype, const time_point &t )
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
-    switch( wtype ) {
-        case WEATHER_LIGHT_DRIZZLE:
-            data.rain_amount += 1 * to_turns<int>( tick_size );
-            break;
-        case WEATHER_DRIZZLE:
-            data.rain_amount += 4 * to_turns<int>( tick_size );
-            break;
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            data.rain_amount += 8 * to_turns<int>( tick_size );
-            break;
-        case WEATHER_ACID_DRIZZLE:
-            data.acid_amount += 4 * to_turns<int>( tick_size );
-            break;
-        case WEATHER_ACID_RAIN:
-            data.acid_amount += 8 * to_turns<int>( tick_size );
-            break;
-        default:
-            break;
+    int amount = 0;
+    if( weather::rains( wtype ) ) {
+        switch( weather::precip( wtype ) ) {
+            case precip_class::VERY_LIGHT:
+                amount = 1 * to_turns<int>( tick_size );
+                break;
+            case precip_class::LIGHT:
+                amount = 4 * to_turns<int>( tick_size );
+                break;
+            case precip_class::HEAVY:
+                amount = 8 * to_turns<int>( tick_size );
+                break;
+            default:
+                break;
+        }
     }
+    if( weather::acidic( wtype ) ) {
+        data.acid_amount += amount;
+    } else {
+        data.rain_amount += amount;
+    }
+
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
@@ -863,8 +864,7 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
     if( sheltered ) {
         // Norm for a house?
         tmphumidity = humidity * ( 100 - humidity ) / 100 + humidity;
-    } else if( weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
-               weather == WEATHER_LIGHTNING ) {
+    } else if( weather::rains( weather ) && weather::precip( weather ) >= precip_class::LIGHT ) {
         tmphumidity = 100;
     }
 

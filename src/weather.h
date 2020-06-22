@@ -65,22 +65,18 @@ enum weather_type : int {
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
-double precip_mm_per_hour( precip_class p );
-void handle_weather_effects( weather_type w );
-
-/**
- * Weather animation class.
- */
-struct weather_animation_t {
-    float    factor;
-    nc_color color;
-    char     glyph;
+enum weather_sound_category : int {
+    NONE,
+    DRIZZLE,
+    RAINY,
+    THUNDER,
+    FLURRIES,
+    SNOWSTORM,
+    SNOW
 };
 
-/**
- * Weather animation settings for the given type.
- */
-weather_animation_t get_weather_animation( weather_type type );
+double precip_mm_per_hour( precip_class p );
+void handle_weather_effects( weather_type w );
 
 /**
  * Weather drawing tracking.
@@ -144,6 +140,12 @@ precip_class precip( weather_type type );
 bool rains( weather_type type );
 bool acidic( weather_type type );
 std::vector<std::pair<std::string, int>> effects( weather_type type );
+bool feed_plants( weather_type type );
+std::string tiles_animation( weather_type type );
+weather_animation_t get_weather_animation( weather_type type );
+int sound_category( weather_type const type );
+bool sunny( weather_type type );
+weather_type get_bad_weather();
 } // namespace weather
 
 std::string get_shortdirstring( int angle );

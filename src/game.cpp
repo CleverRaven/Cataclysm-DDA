@@ -5237,8 +5237,7 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
+    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && weather::sunny( weather.weather ) );
 }
 
 bool game::is_sheltered( const tripoint &p )

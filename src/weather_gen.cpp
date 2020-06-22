@@ -359,6 +359,22 @@ weather_generator weather_generator::load( const JsonObject &jo )
             weather_data.effects.push_back( std::make_pair( weather_effect.get_string( "name" ),
                                             weather_effect.get_int( "intensity" ) ) );
         }
+        weather_data.feed_plants = weather_type.get_bool( "feed_plants" );
+        weather_data.tiles_animation = weather_type.get_string( "tiles_animation", "" );
+        if( weather_type.has_member( "weather_animation" ) ) {
+            JsonObject weather_animation = weather_type.get_object( "weather_animation" );
+            weather_animation_t animation;
+            animation.factor = weather_animation.get_float( "factor" );
+            if( !assign( weather_animation, "color", animation.color ) ) {
+                weather_type.throw_error( "missing mandatory member \"color\"" );
+            }
+            animation.glyph = weather_animation.get_string( "glyph" )[0];
+            weather_data.weather_animation = animation;
+        } else {
+            weather_data.weather_animation = { 0.0f, c_white, '?' };
+        }
+        weather_data.sound_category = weather_type.get_int( "sound_category", 0 );
+        weather_data.sunny = weather_type.get_bool( "sunny" );
         weather::add_weather_datum( weather_data );
     }
     return ret;

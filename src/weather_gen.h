@@ -19,6 +19,15 @@ enum class precip_class : int {
     HEAVY
 };
 
+/**
+ * Weather animation class.
+ */
+struct weather_animation_t {
+    float    factor;
+    nc_color color;
+    char     glyph;
+};
+
 struct weather_datum {
     std::string name;             //!< UI name of weather type.
     nc_color color;               //!< UI color of weather type.
@@ -32,7 +41,12 @@ struct weather_datum {
     precip_class precip;          //!< Amount of associated precipitation.
     bool rains;                   //!< Whether said precipitation falls as rain.
     bool acidic;                  //!< Whether said precipitation is acidic.
-    std::vector<std::pair<std::string, int>> effects;     //!< Function pointer for weather effects.
+    std::vector<std::pair<std::string, int>> effects;     //!< vector for weather effects.
+    bool feed_plants;             //!< can chloromorph mutants feed on it
+    std::string tiles_animation;  //!< string for tiles animation
+    weather_animation_t weather_animation;
+    int sound_category;
+    bool sunny;
 };
 
 struct w_point {

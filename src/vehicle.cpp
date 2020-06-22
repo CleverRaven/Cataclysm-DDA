@@ -3723,7 +3723,8 @@ bool vehicle::do_environmental_effects()
         if( vp.part().blood > 0 && here.is_outside( vp.pos() ) ) {
             needed = true;
             weather_manager &weather = get_weather();
-            if( weather.weather >= WEATHER_LIGHT_DRIZZLE && weather.weather <= WEATHER_ACID_RAIN ) {
+            if( weather::rains( weather ) &&
+                weather::precip( weather ) != precip_class::VERY_LIGHT ) {
                 vp.part().blood--;
             }
         }

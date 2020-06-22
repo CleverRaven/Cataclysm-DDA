@@ -902,13 +902,14 @@ void sfx::do_ambient()
 
     weather_type current_weather = get_weather().weather;
     // We are indoors and it is also raining
-    if( current_weather >= WEATHER_DRIZZLE && current_weather <= WEATHER_ACID_RAIN &&
-        !is_underground
-        && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
+    if( weather::rains( g->weather.weather ) &&
+        weather::precip( g->weather.weather ) != precip_class::VERY_LIGHT &&
+        !is_underground && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
                                     1000 );
     }
-    if( ( !is_sheltered && current_weather != WEATHER_CLEAR && !is_deaf &&
+    if( ( !is_sheltered &&
+          weather::sound_category( g->weather.weather ) != weather_sound_category::NONE && !is_deaf &&
           !is_channel_playing( channel::outdoors_snow_env ) &&
           !is_channel_playing( channel::outdoors_flurry_env ) &&
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
@@ -919,46 +920,37 @@ void sfx::do_ambient()
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
-        switch( current_weather ) {
-            case WEATHER_ACID_DRIZZLE:
-            case WEATHER_DRIZZLE:
-            case WEATHER_LIGHT_DRIZZLE:
+        switch( weather::sound_category( g->weather.weather ) ) {
+            case weather_sound_category::DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
                                             1000 );
                 break;
-            case WEATHER_RAINY:
+            case weather_sound_category::RAINY:
                 play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
                                             channel::outdoors_rain_env,
                                             1000 );
                 break;
-            case WEATHER_ACID_RAIN:
-            case WEATHER_THUNDER:
-            case WEATHER_LIGHTNING:
+            case weather_sound_category::THUNDER:
                 play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
                                             channel::outdoors_thunderstorm_env,
                                             1000 );
                 break;
-            case WEATHER_FLURRIES:
+            case weather_sound_category::FLURRIES:
                 play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
                                             channel::outdoors_flurry_env,
                                             1000 );
                 break;
-            case WEATHER_CLEAR:
-            case WEATHER_SUNNY:
-            case WEATHER_CLOUDY:
-            case WEATHER_SNOWSTORM:
+            case weather_sound_category::SNOWSTORM:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume,
                                             channel::outdoor_blizzard,
                                             1000 );
                 break;
-            case WEATHER_SNOW:
+            case weather_sound_category::SNOW:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
                                             1000 );
                 break;
-            case WEATHER_NULL:
-            case NUM_WEATHER_TYPES:
-                // nothing here, those are pseudo-types, they should not be active at all.
+            case weather_sound_category::NONE:
                 break;
         }
     }

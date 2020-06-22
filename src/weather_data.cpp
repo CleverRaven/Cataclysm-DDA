@@ -13,28 +13,6 @@
  * @{
  */
 
-weather_animation_t get_weather_animation( weather_type const type )
-{
-    static const std::map<weather_type, weather_animation_t> map {
-        {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_light_green, '.'}},
-        {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_light_green, ','}},
-        {WEATHER_LIGHT_DRIZZLE, weather_animation_t{0.01f, c_light_blue, ','}},
-        {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_light_blue,  '.'}},
-        {WEATHER_RAINY,        weather_animation_t {0.02f, c_light_blue,  ','}},
-        {WEATHER_THUNDER,      weather_animation_t {0.02f, c_light_blue,  '.'}},
-        {WEATHER_LIGHTNING,    weather_animation_t {0.04f, c_light_blue,  ','}},
-        {WEATHER_FLURRIES,     weather_animation_t {0.01f, c_white,   '.'}},
-        {WEATHER_SNOW,         weather_animation_t {0.02f, c_white,   ','}},
-        {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}}
-    };
-
-    const auto it = map.find( type );
-    if( it != std::end( map ) ) {
-        return it->second;
-    }
-
-    return {0.0f, c_white, '?'};
-}
 struct weather_result {
     weather_datum datum;
     bool is_valid;
@@ -131,6 +109,38 @@ bool acidic( weather_type const type )
 std::vector<std::pair<std::string, int>> effects( weather_type const type )
 {
     return weather_data_internal( type ).datum.effects;
+}
+bool feed_plants( weather_type const type )
+{
+    return weather_data_internal( type ).datum.feed_plants;
+}
+std::string tiles_animation( weather_type const type )
+{
+    return weather_data_internal( type ).datum.tiles_animation;
+}
+weather_animation_t get_weather_animation( weather_type const type )
+{
+    return weather_data_internal( type ).datum.weather_animation;
+}
+int sound_category( weather_type const type )
+{
+    return weather_data_internal( type ).datum.sound_category;
+}
+bool sunny( weather_type const type )
+{
+    return weather_data_internal( type ).datum.sunny;
+}
+weather_type get_bad_weather()
+{
+    weather_type bad_weather = weather_type::WEATHER_NULL;
+    int current_weather = 0;
+    for each( weather_datum weather in weather_datums ) {
+        current_weather++;
+        if( weather.precip == precip_class::HEAVY ) {
+            bad_weather = static_cast<weather_type>( current_weather );
+        }
+    }
+    return bad_weather;
 }
 } // namespace weather
 

@@ -1071,18 +1071,12 @@ void player::hardcoded_effects( effect &it )
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
-                                        g->weather.weather == WEATHER_SUNNY
-                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
-                                        g->weather.weather == WEATHER_FLURRIES
-                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
-
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
                 has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
             here.is_outside( pos() ) ) {
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
-                if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
+                if( g->natural_light_level( posz() ) >= 12 && weather::feed_plants( g->weather.weather ) ) {
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
                         // photosynthesis warrants absorbing kcal directly
