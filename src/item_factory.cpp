@@ -1544,10 +1544,16 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_milling &slot, const JsonObject &jo, const std::string & )
+void islot_milling::load( const JsonObject &jo )
 {
-    assign( jo, "into", slot.into_ );
-    assign( jo, "conversion_rate", slot.conversion_rate_ );
+    optional( jo, was_loaded, "into", into_ );
+    optional( jo, was_loaded, "conversion_rate", conversion_rate_ );
+}
+
+void islot_milling::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void islot_ammo::load( const JsonObject &jo )
@@ -2591,7 +2597,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
-    load_slot_optional( def.milling_data, jo, "milling", src );
+    assign( jo, "milling", def.milling_data, src == "dda" );
 
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {

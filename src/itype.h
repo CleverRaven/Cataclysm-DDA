@@ -809,6 +809,11 @@ class islot_milling
     public:
         itype_id into_;
         double conversion_rate_;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct itype {
