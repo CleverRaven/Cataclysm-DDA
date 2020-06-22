@@ -118,6 +118,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
         case spell_flag::SPAWN_GROUP: return "SPAWN_GROUP";
+        case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -770,6 +771,9 @@ std::string spell::message() const
 
 float spell::spell_fail( const Character &guy ) const
 {
+    if( has_flag( spell_flag::NO_FAIL ) ) {
+        return 0.0f;
+    }
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure

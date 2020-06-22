@@ -4427,9 +4427,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
-        while( spell_being_cast.get_level() < level_override && !spell_being_cast.is_max_level() ) {
-            spell_being_cast.gain_level();
-        }
+        spell_being_cast.set_level( level_override );
     }
 
     const bool no_fail = act->get_value( 1 ) == 1;
