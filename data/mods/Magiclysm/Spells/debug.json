@@ -93,7 +93,7 @@
     "id": "debug_polymorph",
     "type": "SPELL",
     "name": "Debug polymorph",
-    "description": "Well you wanted to loose weight, right?",
+    "description": "Well you wanted to lose weight, right?",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
     "effect": "targeted_polymorph",
