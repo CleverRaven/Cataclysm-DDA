@@ -2143,11 +2143,10 @@ class item : public visitable<item>
             small_sized_big_char,
             small_sized_small_char,
             human_sized_small_char,
-            big_sized_small_char,
-            not_wearable
+            big_sized_small_char
         };
 
-        sizing get_sizing( const Character &, bool ) const;
+        sizing get_sizing( const Character & ) const;
 
     protected:
         // Sub-functions of @ref process, they handle the processing for different

@@ -1210,49 +1210,46 @@ static std::string get_freshness_description( const item &food_item )
     }
 }
 
-item::sizing item::get_sizing( const Character &p, bool wearable ) const
+item::sizing item::get_sizing( const Character &p ) const
 {
-    if( wearable ) {
-        const bool small = p.has_trait( trait_SMALL2 ) ||
-                           p.has_trait( trait_SMALL_OK );
+    const bool small = p.has_trait( trait_SMALL2 ) ||
+                       p.has_trait( trait_SMALL_OK );
 
-        const bool big = p.has_trait( trait_HUGE ) ||
-                         p.has_trait( trait_HUGE_OK );
+    const bool big = p.has_trait( trait_HUGE ) ||
+                     p.has_trait( trait_HUGE_OK );
 
-        // due to the iterative nature of these features, something can fit and be undersized/oversized
-        // but that is fine because we have separate logic to adjust encumberance per each. One day we
-        // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
-        // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
-        const bool undersize = has_flag( flag_UNDERSIZE );
-        const bool oversize = has_flag( flag_OVERSIZE );
+    // due to the iterative nature of these features, something can fit and be undersized/oversized
+    // but that is fine because we have separate logic to adjust encumberance per each. One day we
+    // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
+    // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
+    const bool undersize = has_flag( flag_UNDERSIZE );
+    const bool oversize = has_flag( flag_OVERSIZE );
 
-        if( undersize ) {
-            if( small ) {
-                return sizing::small_sized_small_char;
-            } else if( big ) {
-                return sizing::small_sized_big_char;
-            } else {
-                return sizing::small_sized_human_char;
-            }
-        } else if( oversize ) {
-            if( big ) {
-                return sizing::big_sized_big_char;
-            } else if( small ) {
-                return sizing::big_sized_small_char;
-            } else {
-                return sizing::big_sized_human_char;
-            }
+    if( undersize ) {
+        if( small ) {
+            return sizing::small_sized_small_char;
+        } else if( big ) {
+            return sizing::small_sized_big_char;
         } else {
-            if( big ) {
-                return sizing::human_sized_big_char;
-            } else if( small ) {
-                return sizing::human_sized_small_char;
-            } else {
-                return sizing::human_sized_human_char;
-            }
+            return sizing::small_sized_human_char;
+        }
+    } else if( oversize ) {
+        if( big ) {
+            return sizing::big_sized_big_char;
+        } else if( small ) {
+            return sizing::big_sized_small_char;
+        } else {
+            return sizing::big_sized_human_char;
+        }
+    } else {
+        if( big ) {
+            return sizing::human_sized_big_char;
+        } else if( small ) {
+            return sizing::human_sized_small_char;
+        } else {
+            return sizing::human_sized_human_char;
         }
     }
-    return sizing::not_wearable;
 
 }
 
@@ -2488,8 +2485,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         return;
     }
 
-    int encumbrance = get_encumber( g->u );
-    const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
+    const sizing sizing_level = get_sizing( g->u );
     const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
     bool covers_anything = covered_parts.any();
@@ -2588,11 +2584,13 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     insert_separation_line( info );
 
+
+
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
         if( has_flag( flag_FIT ) ) {
             format = _( "<num> <info>(fits)</info>" );
-        } else if( has_flag( flag_VARSIZE ) && encumbrance ) {
+        } else if( has_flag( flag_VARSIZE ) ) {
             format = _( "<num> <bad>(poor fit)</bad>" );
         }
 
@@ -2607,6 +2605,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( sizing_level == sizing::small_sized_big_char ) {
             format = _( "<num> <bad>(tiny!)</bad>" );
         }
+
+        int encumbrance = get_encumber( g->u );
 
         info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
                                   iteminfo::no_newline | iteminfo::lower_is_better,
@@ -2707,7 +2707,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
 
     int encumbrance = get_encumber( g->u );
-    const sizing sizing_level = get_sizing( g->u, encumbrance != 0 );
+    const sizing sizing_level = get_sizing( g->u );
 
     if( has_flag( flag_HELMET_COMPAT ) &&
         parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
@@ -4469,7 +4469,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
+    const sizing sizing_level = get_sizing( g->u );
 
     if( sizing_level == sizing::human_sized_small_char ) {
         tagtext += _( " (too big)" );
@@ -5555,9 +5555,12 @@ int item::get_encumber( const Character &p, encumber_flags flags,
         encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart ) - t->encumber.at(
                                    bodypart ) ) );
     } else {
-        encumber = t->encumber.at( bodypart_str_id( "all" ) );
-        encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart_str_id( "all" ) ) -
-                               t->encumber.at( bodypart_str_id( "all" ) ) ) );
+        for( const auto &bodypart : t->encumber ) {
+            encumber += bodypart.second;
+            encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart.first ) -
+                                   t->encumber.at( bodypart.first ) ) );
+        }
+        encumber /= t->encumber.size();
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -5566,7 +5569,7 @@ int item::get_encumber( const Character &p, encumber_flags flags,
     }
 
     // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p, encumber != 0 );
+    const sizing sizing_level = get_sizing( p );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
