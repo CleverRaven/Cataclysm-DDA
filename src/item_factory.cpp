@@ -1601,16 +1601,32 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_engine &slot, const JsonObject &jo, const std::string & )
+void islot_engine::load( const JsonObject &jo )
 {
-    assign( jo, "displacement", slot.displacement );
+    optional( jo, was_loaded, "displacement", displacement );
+}
+
+void islot_engine::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.engine, jo, src );
+        if( def.was_loaded ) {
+            if( def.engine ) {
+                def.engine->was_loaded = true;
+            } else {
+                def.engine = cata::make_value<islot_engine>();
+                def.engine->was_loaded = true;
+            }
+        } else {
+            def.engine = cata::make_value<islot_engine>();
+        }
+        def.engine->load( jo );
         load_basic_info( jo, def, src );
     }
 }
