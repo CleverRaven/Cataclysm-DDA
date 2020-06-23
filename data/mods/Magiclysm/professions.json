@@ -6,7 +6,7 @@
     "description": "You found a pamphlet with bright colors claiming you can be a Wizard, oddly serene with the world falling down around you.",
     "points": 1,
     "items": {
-      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "wizard_beginner" ],
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "wizard_beginner", "mbag" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -18,7 +18,7 @@
     "description": "You have loved fire all of your life.  You have now discovered your inner fire, and want to exercise that upon the world.",
     "points": 2,
     "items": {
-      "both": [ "lighter", "sneakers", "pants", "tshirt", "jacket_light", "pyro" ],
+      "both": [ "lighter", "sneakers", "pants", "tshirt", "jacket_light", "pyro", "mbag" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -188,7 +188,7 @@
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
-      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "primitive_knife" ],
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "primitive_knife", "mbag" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -274,7 +274,8 @@
           "priest_beginner",
           "whiskey",
           "whiskey",
-          "45colt_jhp"
+          "45colt_jhp",
+          "mbag"
         ],
         "entries": [ { "group": "charged_cell_phone" }, { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6 } ]
       },
@@ -302,7 +303,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "hat_boonie", "longshirt", "socks", "jeans", "gloves_light", "boots", "trenchcoat" ],
+        "items": [ "hat_boonie", "longshirt", "socks", "jeans", "gloves_light", "boots", "trenchcoat", "mbag" ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m47a1", "ammo-item": "38_special", "charges": 6, "container-item": "holster" },
@@ -396,7 +397,8 @@
           "boots",
           "gloves_fingerless",
           "guitar_electric",
-          "switchblade"
+          "switchblade",
+          "mbag"
         ],
         "entries": [ { "item": "pepto", "charges": 10, "container-item": "bottle_plastic_small" } ]
       },
@@ -420,7 +422,7 @@
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 4, "name": "spellcraft" } ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "whistle", "wristwatch", "mbag" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
