@@ -2608,7 +2608,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         int encumbrance = get_encumber( g->u );
 
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Average Encumbrance</bold>: " ), format,
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                   encumbrance ) );
 
@@ -2618,7 +2618,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     if( piece.encumber != piece.max_encumber ) {
                         const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full );
 
-                        info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
+                        info.push_back( iteminfo( "ARMOR", space + _( "When Full: " ), "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   encumbrance_when_full ) );
 
@@ -2638,9 +2638,13 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full,
                                                               piece.bodypart.value() );
 
-                            info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
-                                                      iteminfo::lower_is_better,
+                            info.push_back( iteminfo( "ARMOR", space + _( "When Full: " ), "",
+                                                      iteminfo::no_newline | iteminfo::lower_is_better,
                                                       encumbrance_when_full ) );
+
+                            info.push_back( iteminfo( "ARMOR", space + _( "Coverage: " ), "",
+                                                      iteminfo::lower_is_better,
+                                                      piece.coverage ) );
                         }
                     }
                 }
