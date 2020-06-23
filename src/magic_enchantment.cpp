@@ -366,6 +366,27 @@ void enchantment::force_add( const enchantment &rhs )
     }
 }
 
+
+void enchantment::add_value_add( enchant_vals::mod value, int add_value )
+{
+    values_add[value] = add_value;
+}
+
+void enchantment::add_value_mult( enchant_vals::mod value, float mult_value )
+{
+    values_multiply[value] = mult_value;
+}
+
+void enchantment::add_hit_me( const fake_spell &sp )
+{
+    hit_me_effect.push_back( sp );
+}
+
+void enchantment::add_hit_you( const fake_spell &sp )
+{
+    hit_you_effect.push_back( sp );
+}
+
 int enchantment::get_value_add( const enchant_vals::mod value ) const
 {
     const auto found = values_add.find( value );

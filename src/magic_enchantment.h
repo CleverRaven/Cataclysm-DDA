@@ -196,6 +196,12 @@ class enchantment
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs );
 
+        void add_value_add( enchant_vals::mod value, int add_value );
+        void add_value_mult( enchant_vals::mod value, float mult_value );
+
+        void add_hit_me( const fake_spell &sp );
+        void add_hit_you( const fake_spell &sp );
+
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
 
