@@ -69,7 +69,8 @@
       [ "spell_scroll_earthshaper_stoneskin", 30 ],
       [ "spell_scroll_earthshaper_pillar", 35 ],
       [ "spell_scroll_biomancer_coagulant_weave", 30 ],
-      [ "spell_scroll_repelling_arc", 30 ]
+      [ "spell_scroll_repelling_arc", 30 ],
+      [ "spell_scroll_knock", 35 ]
     ]
   },
   {
@@ -105,7 +106,8 @@
       [ "spell_scroll_holographic_transposition", 15 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
-      [ "spell_scroll_stormshaper_ionization", 40 ]
+      [ "spell_scroll_stormshaper_ionization", 40 ],
+      [ "spell_scroll_improved_knock", 35 ]
     ]
   },
   {

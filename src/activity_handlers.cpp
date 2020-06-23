@@ -1947,7 +1947,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     map_stack corpse_pile = here.i_at( pos );
     for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
-        if( !corpse.is_corpse() || !corpse_mtype->has_flag( MF_REVIVES ) ||
+        if( !corpse.is_corpse() || !corpse.can_revive() ||
             ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
               act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
             // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
@@ -4427,9 +4427,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
-        while( spell_being_cast.get_level() < level_override && !spell_being_cast.is_max_level() ) {
-            spell_being_cast.gain_level();
-        }
+        spell_being_cast.set_level( level_override );
     }
 
     const bool no_fail = act->get_value( 1 ) == 1;

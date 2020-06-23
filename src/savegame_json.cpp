@@ -202,6 +202,7 @@ void item_pocket::serialize( JsonOut &json ) const
         json.member( "pocket_type", data->type );
         json.member( "contents", contents );
         json.member( "_sealed", _sealed );
+        json.member( "favorite_settings", this->settings );
         json.end_object();
     }
 }
@@ -215,6 +216,28 @@ void item_pocket::deserialize( JsonIn &jsin )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
+    data.read( "favorite_settings", this->settings );
+}
+
+void item_pocket::favorite_settings::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "priority", priority_rating );
+    json.member( "item_whitelist", item_whitelist );
+    json.member( "item_blacklist", item_blacklist );
+    json.member( "category_whitelist", category_whitelist );
+    json.member( "category_blacklist", category_blacklist );
+    json.end_object();
+}
+
+void item_pocket::favorite_settings::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "priority", priority_rating );
+    data.read( "item_whitelist", item_whitelist );
+    data.read( "item_blacklist", item_blacklist );
+    data.read( "category_whitelist", category_whitelist );
+    data.read( "category_blacklist", category_blacklist );
 }
 
 void pocket_data::deserialize( JsonIn &jsin )

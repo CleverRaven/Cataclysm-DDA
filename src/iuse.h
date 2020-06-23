@@ -163,7 +163,7 @@ int pheromone( player *, item *, bool, const tripoint & );
 int pick_lock( player *p, item *it, bool, const tripoint &pos );
 int pickaxe( player *, item *, bool, const tripoint & );
 int play_game( player *, item *, bool, const tripoint & );
-int portable_game( player *, item *, bool, const tripoint & );
+int portable_game( player *, item *, bool active, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int radglove( player *, item *, bool, const tripoint & );
 int radio_mod( player *, item *, bool, const tripoint & );

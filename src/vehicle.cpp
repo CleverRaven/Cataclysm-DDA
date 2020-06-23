@@ -371,7 +371,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines are by default turned off
     for( auto &pt : parts ) {
-        pt.enabled = pt.base.is_engine();
+        pt.enabled = pt.is_engine();
     }
 
     bool destroySeats = false;

@@ -781,7 +781,7 @@
     "name": { "str": "Whistle of Tindalos", "str_pl": "Whistles of Tindalos" },
     "description": "Who is this Tindalos guy?",
     "weight": "22 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 1000,
     "material": [ "superalloy" ],

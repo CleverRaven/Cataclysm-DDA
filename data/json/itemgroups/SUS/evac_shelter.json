@@ -45,7 +45,7 @@
       { "item": "box_small", "prob": 5 },
       { "item": "bag_plastic", "prob": 5 },
       { "item": "bowl_plastic", "prob": 5 },
-      { "item": "can_food_unsealed", "prob": 5 },
+      { "item": "can_food", "prob": 5 },
       { "item": "can_opener", "prob": 3 },
       { "item": "bottle_plastic", "count": [ 1, 2 ], "prob": 50 },
       { "item": "protein_bar_evac", "count": [ 2, 3 ], "prob": 70 },
@@ -169,7 +169,7 @@
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
               { "item": "vitamins", "prob": 5 },
-              { "item": "can_food_unsealed", "count": [ 1, 30 ], "prob": 90 },
+              { "item": "can_food", "count": [ 1, 30 ], "prob": 90 },
               { "item": "can_opener", "prob": 90 }
             ],
             "prob": 5

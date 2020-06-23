@@ -60,6 +60,11 @@ ignore_files = {os.path.normpath(i) for i in {
     "data/raw/color_templates/no_bright_background.json"
 }}
 
+# ignore these directories and their subdirectories
+ignore_directories = {os.path.normpath(dir) for dir in {
+    "data/mods/TEST_DATA",
+}}
+
 # these objects have no translatable strings
 ignorable = {
     "ascii_art",
@@ -261,7 +266,7 @@ def extract_material(item):
         writestr(outfile, item["dmg_adj"][3])
         wrote = True
     if not wrote and not "copy-from" in item :
-        print("WARNING: {}: no mandatory field in item: {}".format("/data/json/materials.json", item))        
+        print("WARNING: {}: no mandatory field in item: {}".format("/data/json/materials.json", item))
 
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
@@ -287,7 +292,7 @@ def extract_martial_art(item):
     onmiss_buffs = item.get("onmiss_buffs", list())
     oncrit_buffs = item.get("oncrit_buffs", list())
     onkill_buffs = item.get("onkill_buffs", list())
-        
+
     buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs + onattack_buffs + onpause_buffs + onblock_buffs + ongethit_buffs + onmiss_buffs + oncrit_buffs + onkill_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
@@ -799,7 +804,7 @@ def extract_field_type(item):
     for fd in item.get("intensity_levels"):
        if "name" in fd:
            writestr(outfile,fd.get("name"))
-            
+
 def extract_ter_furn_transform_messages(item):
 	outfile = get_outfile("ter_furn_transform_messages")
 	writestr(outfile,item.get("fail_message"))
@@ -1186,6 +1191,8 @@ def extract_all_from_dir(json_dir):
             dirs.append(f)
         elif f in skiplist or full_name in ignore_files:
             continue
+        elif any(full_name.startswith(dir) for dir in ignore_directories):
+            continue
         elif f.endswith(".json"):
             if full_name in git_files_list:
                 extract_all_from_file(full_name)
@@ -1248,5 +1255,7 @@ if len(known_types - found_types) != 0:
     print("WARNING: type {} not found in any JSON objects".format(known_types - found_types))
 if len(needs_plural - found_types) != 0:
     print("WARNING: type {} from needs_plural not found in any JSON objects".format(needs_plural - found_types))
+
+print("Output files in %s" % to_dir)
 
 # done.

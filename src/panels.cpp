@@ -1401,12 +1401,11 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
 static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color color = c_light_gray;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     wnoutrefresh( w );
 }
@@ -1490,8 +1489,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     // style
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     // location
@@ -1881,8 +1879,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
+    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data.selected_style_name( u );

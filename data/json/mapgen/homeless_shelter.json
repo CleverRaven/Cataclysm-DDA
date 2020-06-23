@@ -189,7 +189,7 @@
         { "item": "knife_butter", "repeat": [ 5, 10 ], "x": [ 18, 18 ], "y": 32 },
         { "item": "tin_plate", "repeat": [ 7, 15 ], "x": [ 15, 17 ], "y": 32 },
         { "item": "glass_bowl", "repeat": [ 7, 15 ], "x": [ 12, 14 ], "y": 32 },
-        { "item": "cup_plastic_unsealed", "repeat": [ 5, 10 ], "x": [ 11, 11 ], "y": 32 }
+        { "item": "cup_plastic", "repeat": [ 5, 10 ], "x": [ 11, 11 ], "y": 32 }
       ]
     }
   },

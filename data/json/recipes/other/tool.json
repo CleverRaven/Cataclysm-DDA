@@ -455,7 +455,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
+    "components": [ [ [ "can_food", 2 ], [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -495,7 +495,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ] ]
+    "components": [ [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
   },
   {
     "type": "recipe",

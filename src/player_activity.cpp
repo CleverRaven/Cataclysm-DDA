@@ -34,6 +34,8 @@ static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 
+static const efftype_id effect_nausea( "nausea" );
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -190,14 +192,22 @@ void player_activity::do_turn( player &p )
         no_food_nearby_for_auto_consume = false;
         no_drink_nearby_for_auto_consume = false;
     }
-    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+    // Only do once every two minutes to loosely simulate consume times,
+    // the exact amount of time is added correctly below, here we just want to prevent eating something every second
+    if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
+        !no_food_nearby_for_auto_consume &&
+        !p.has_effect( effect_nausea ) ) {
         if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
-            if( !find_auto_consume( p, true ) ) {
+            int consume_moves = get_auto_consume_moves( p, true );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
         if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            if( !find_auto_consume( p, false ) ) {
+            int consume_moves = get_auto_consume_moves( p, false );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }
