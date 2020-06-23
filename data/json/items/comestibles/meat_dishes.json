@@ -95,7 +95,8 @@
     "description": "A type of German sausage made of finely chopped meat and meant to be pan fried or roasted.  Better eat it hot and fresh.",
     "price": 1800,
     "material": "flesh",
-    "volume": "500 ml",
+    "volume": "1500 ml",
+    "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
     "charges": 10,
     "flags": [ "EATEN_HOT" ],
     "fun": 5
@@ -135,7 +136,8 @@
     "description": "A thick slab of salty cured bacon.  Shelf stable, precooked and ready-to-eat, it tastes better when reheated.",
     "price": 1900,
     "material": "flesh",
-    "volume": "250 ml",
+    "volume": "100 ml",
+    "//": "I am not sure how much a 'charge' is meant to be, but a slice is around 10mL displacement volume, with a weight of 8g and about 40kcal.  Based this on that.",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
@@ -181,7 +183,7 @@
     "description": "Also known as pork rinds or chicharrones, these are bits of edible fat and skin that have been fried until they are crispy and delicious.",
     "price": 170,
     "material": "flesh",
-    "volume": "250 ml",
+    "volume": "100 ml",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 4
@@ -977,7 +979,7 @@
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chump %s", "str_pl": "chump %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "chilling %s", "str_pl": "chilling %s" } }
     ],
-    "weight": "133 g",
+    "weight": "333 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
     "container": "wrapper",
@@ -988,7 +990,7 @@
     "price": 1000,
     "material": [ "flesh", "wheat", "milk" ],
     "primary_material": "processed_food",
-    "volume": "500 ml",
+    "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 9 ], [ "iron", 14 ] ]
@@ -1001,7 +1003,7 @@
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "bobburger" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "horrible %s", "str_pl": "horrible %s" } }
     ],
-    "weight": "99 g",
+    "weight": "300 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
     "container": "wrapper",
@@ -1011,7 +1013,7 @@
     "description": "A sandwich of minced meat with condiments.",
     "price": 900,
     "material": [ "flesh", "wheat" ],
-    "volume": "500 ml",
+    "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 16 ] ]
@@ -1024,7 +1026,7 @@
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "manwich", "str_pl": "manwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "suspicious %s", "str_pl": "suspicious %s" } }
     ],
-    "weight": "113 g",
+    "weight": "313 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
     "container": "wrapper",
@@ -1034,7 +1036,7 @@
     "description": "A sandwich, consisting of ground meat and tomato sauce served on a hamburger bun.",
     "price": 900,
     "material": [ "flesh", "tomato", "wheat" ],
-    "volume": "500 ml",
+    "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
