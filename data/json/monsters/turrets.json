@@ -345,7 +345,7 @@
     "material": [ "steel" ],
     "symbol": "2",
     "color": "light_gray",
-    "aggression": -20,
+    "aggression": -10,
     "morale": 100,
     "armor_bash": 24,
     "armor_cut": 26,
